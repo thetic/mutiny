@@ -10,7 +10,11 @@ EXTRA_PROGRAMS = CppUTestExtTests
 lib_LIBRARIES = lib/libCppUTest.a
 check_PROGRAMS = $(CPPUTEST_TESTS)
 
-# Change autoconf's hard-coded (and collision susceptible) HAVE_CONFIG_H macro.
+# HACK: Replace the HAVE_CONFIG_H macro with CPPUTEST_HAVE_GENERATED_CONFIG_H.
+# The name HAVE_CONFIG_H is a hard-coded in autoconf and cannot be changed in
+# any "normal" ways. This isn't typically a problem, but CppUTest exposes the
+# macro in its public headers. This leads to collisions with any other projects
+# built with autoconf.
 DEFS = $(filter-out -DHAVE_CONFIG_H,@DEFS@) -DCPPUTEST_HAVE_GENERATED_CONFIG_H
 
 if INCLUDE_CPPUTEST_EXT
