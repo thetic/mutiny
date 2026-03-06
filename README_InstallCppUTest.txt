@@ -16,11 +16,3 @@
 
  > cmake --install build
 
-4. To set up the support scripts (unix/cygwin)
-
- > cd <someDirectory>/CppUTest
- > sudo ./scripts/InstallScripts.sh
-
-This command adds some symbolic links to /usr/local/bin.
-
-CYGWIN - http://www.cygwin.com/
