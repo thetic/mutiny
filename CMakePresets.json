@@ -3,7 +3,7 @@
   "configurePresets": [
     {
       "name": "defaults",
-      "binaryDir": "cpputest_build",
+      "binaryDir": "build",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_CXX_EXTENSIONS": false

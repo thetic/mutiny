@@ -8,13 +8,13 @@
 2. Build CppUTest
 
  > cd <someDirectory>/CppUTest
- > cmake -B cpputest_build
- > cmake --build cpputest_build
- > ctest --test-dir cpputest_build   # Run the CppUTest unit tests
+ > cmake -B build
+ > cmake --build build
+ > ctest --test-dir build   # Run the CppUTest unit tests
 
 3. Install (optional)
 
- > cmake --install cpputest_build
+ > cmake --install build
 
 4. To set up the support scripts (unix/cygwin)
 

@@ -216,16 +216,16 @@ jobs:
       - name: Configure
         run: cmake --preset ${{ matrix.preset }} ${{ matrix.cmake_args }}
       - name: Build
-        run: cmake --build cpputest_build --verbose -j
+        run: cmake --build build --verbose -j
       - name: Save map files
         uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.name }} map files"
-          path: cpputest_build/**/*.map
+          path: build/**/*.map
       - name: Test
         run: >
           ctest
-          --test-dir cpputest_build
+          --test-dir build
           ${{ matrix.ctest_args }}
           --output-on-failure
 
@@ -233,17 +233,17 @@ jobs:
 
       - name: Install (*nix)
         run: |
-          sudo cmake --install cpputest_build/
+          sudo cmake --install build/
           pkg-config --print-provides cpputest
         if: ${{ matrix.install && !startswith(matrix.os, 'windows')}}
       - name: Install (Windows)
-        run: cmake --install cpputest_build/ --config=Debug
+        run: cmake --install build/ --config=Debug
         if: ${{ matrix.install && startswith(matrix.os, 'windows')}}
       - name: Use install
         run: |
-          cmake -B build -S examples
-          cmake --build build -j
-          ctest --test-dir build
+          cmake -B examples_build -S examples
+          cmake --build examples_build -j
+          ctest --test-dir examples_build
         if: ${{ matrix.install }}
 
       - name: Coverage
@@ -264,13 +264,13 @@ jobs:
     steps:
       - uses: actions/checkout@main
       - run: cmake --preset=defaults -DCPPUTEST_JUNIT_REPORT=TRUE
-      - run: cmake --build cpputest_build -j
-      - run: ctest --test-dir cpputest_build
+      - run: cmake --build build -j
+      - run: ctest --test-dir build
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: test-results
-          path: "cpputest_build/**/cpputest_*.xml"
+          path: "build/**/cpputest_*.xml"
 
   cmake_msys:
     name: CMake MSYS
@@ -295,9 +295,9 @@ jobs:
       - name: Configure
         run: cmake --preset=GNU
       - name: Build
-        run: cmake --build cpputest_build -j
+        run: cmake --build build -j
       - name: Test
-        run: ctest --test-dir cpputest_build --output-on-failure
+        run: ctest --test-dir build --output-on-failure
 
   Docker:
     strategy:

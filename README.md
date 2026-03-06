@@ -20,11 +20,11 @@ Building from source:
 ```bash
 git clone https://github.com/cpputest/cpputest.git
 cd cpputest
-cmake -B cpputest_build
-cmake --build cpputest_build
+cmake -B build
+cmake --build build
 ```
 
-You can use `cmake --install cpputest_build` if you want to install CppUTest system-wide.
+You can use `cmake --install build` if you want to install CppUTest system-wide.
 
 Then to get started, you'll need to do the following:
 
