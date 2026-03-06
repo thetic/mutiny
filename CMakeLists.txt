@@ -43,8 +43,6 @@ cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTe
   ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_SPLIT_TESTS "Split tests into small executables"
   OFF "CPPUTEST_BUILD_TESTING" OFF)
-cmake_dependent_option(CPPUTEST_TEST_GTEST "Test GoogleTest integration"
-  OFF "CPPUTEST_BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"
   ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_EXTENSIONS;NOT CPPUTEST_STD_CPP_LIB_DISABLED" OFF)
 

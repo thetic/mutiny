@@ -147,15 +147,6 @@
       }
     },
     {
-      "name": "gtest",
-      "inherits": ["defaults"],
-      "generator": "Ninja Multi-Config",
-      "cacheVariables": {
-        "CPPUTEST_TEST_GTEST": true,
-        "gtest_build_tests": true
-      }
-    },
-    {
       "name": "IAR",
       "inherits": ["defaults"],
       "cacheVariables": {
