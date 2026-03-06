@@ -52,17 +52,5 @@ _build
 cpputest_*.xml
 lcov.info
 
-#IAR automatically generated files
-*.dep
-*.ewt
-
-# Watcom
-*.LIB
-*.LST
-*.EXE
-*.LOG
-/console_output
-/exit
-
 # Builds
 /build/
