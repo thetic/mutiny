@@ -15,33 +15,7 @@ target_link_libraries(CppUTestTests_main
 
 include(CppUTest)
 
-if(NOT CPPUTEST_SPLIT_TESTS)
-    add_executable(CppUTestTests)
-
-    add_mapfile(CppUTestTests)
-
-    cpputest_discover_tests(CppUTestTests)
-endif()
-
-function(add_cpputest_test number)
-    set(name CppUTestTests)
-    
-    if(CPPUTEST_SPLIT_TESTS)
-        string(APPEND name ${number})
-        add_executable(${name})
-        add_mapfile(${name})
-        cpputest_discover_tests(${name})
-    endif()
-
-    target_sources(${name}
-        PRIVATE ${ARGN}
-    )
-    target_link_libraries(${name}
-        PRIVATE CppUTestTests_main
-    )
-endfunction()
-
-add_cpputest_test(1
+add_executable(CppUTestTests
     AllocLetTestFree.c
     AllocLetTestFreeTest.cpp
     CheatSheetTest.cpp
@@ -49,9 +23,6 @@ add_cpputest_test(1
     CommandLineArgumentsTest.cpp
     CommandLineTestRunnerTest.cpp
     JUnitOutputTest.cpp
-)
-
-add_cpputest_test(2
     DummyMemoryLeakDetector.cpp
     MemoryLeakWarningTest.cpp
     PluginTest.cpp
@@ -62,40 +33,29 @@ add_cpputest_test(2
     TestFailureNaNTest.cpp
     TestFailureTest.cpp
     TestResultTest.cpp
-)
-
-add_cpputest_test(3
     MemoryLeakDetectorTest.cpp
     SimpleStringTest.cpp
     SimpleStringCacheTest.cpp
-)
-
-add_cpputest_test(4
     TestOutputTest.cpp
     TestRegistryTest.cpp
-)
-
-add_cpputest_test(5
     AllocationInCFile.c
     AllocationInCppFile.cpp
     MemoryOperatorOverloadTest.cpp
-    TeamCityOutputTest.cpp
-)
-
-add_cpputest_test(6
     TestFilterTest.cpp
     TestHarness_cTest.cpp
     TestHarness_cTestCFile.c
     TestInstallerTest.cpp
-)
-
-add_cpputest_test(7
     TestMemoryAllocatorTest.cpp
     TestUTestMacro.cpp
-)
-
-add_cpputest_test(8
     UtestPlatformTest.cpp
     UtestTest.cpp
     TestUTestStringMacro.cpp
+)
+
+add_mapfile(CppUTestTests)
+
+cpputest_discover_tests(CppUTestTests)
+
+target_link_libraries(CppUTestTests
+    PRIVATE CppUTestTests_main
 )
