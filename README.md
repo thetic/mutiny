@@ -246,3 +246,39 @@ target_link_libraries(example_test PRIVATE
 ```
 
 [conan-center]: https://conan.io/center/cpputest
+
+## Testing C Code
+
+CppUTest can be used to test C code. A few things to keep in mind:
+
+### Using `extern "C"`
+
+Wrap C headers and declarations in `extern "C"` in your `.cpp` test files:
+
+```cpp
+extern "C" {
+    #include "hello.h"
+
+    extern HelloWorldApi theRealHelloWorldApi;
+}
+```
+
+### Memory leak detection with C
+
+Use `cpputest_malloc`/`cpputest_free` instead of `malloc`/`free`, or pass
+`-Dmalloc=cpputest_malloc` as a compiler flag. Use `TestHarness_c.h` (not
+`TestHarness.h`) when writing tests in C — it provides C-compatible versions
+of the `CHECK` macros.
+
+### C++ keywords in C code
+
+If a C file uses a C++ keyword (e.g. `bool`) as an identifier, `#define` it
+away inside the `extern "C"` block:
+
+```cpp
+extern "C" {
+#define bool helloBool
+#include "hello.h"
+#undef bool
+}
+```
