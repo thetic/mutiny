@@ -30,9 +30,6 @@ Then to get started, you'll need to do the following:
 
 * Add the include path to the Makefile. Something like:
     * `CPPFLAGS += -I$(CPPUTEST_HOME)/include`
-* Add the memory leak macros to your Makefile (needed for additional debug info!). Something like:
-    * `CXXFLAGS += -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorNewMacros.h`
-    * `CFLAGS += -include $(CPPUTEST_HOME)/include/CppUTest/MemoryLeakDetectorMallocMacros.h`
 * Add the library linking to your Makefile. Something like:
     * `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt`
 
@@ -59,7 +56,7 @@ $ vcpkg install cpputest (More information: https://github.com/microsoft/vcpkg)
 
 * `-h` help, shows the latest help, including the parameters we've implemented after updating this README page.
 * `-v` verbose, print each test name as it runs
-* `-r#` repeat the tests some number of times, default is one, default if # is not specified is 2. This is handy if you are experiencing memory leaks related to statics and caches.
+* `-r#` repeat the tests some number of times, default is one, default if # is not specified is 2.
 * `-s#` random shuffle the test execution order. # is an integer used for seeding the random number generator. # is optional, and if omitted, the seed value is chosen automatically, which results in a different order every time. The seed value is printed to console to make it possible to reproduce a previously generated execution order. Handy for detecting problems related to dependencies between tests.
 * `-ri` run ignored tests as if they are not ignored.
 * `-g` group only run test whose group contains the substring group
@@ -110,7 +107,6 @@ The Extensions directory has a few of these.
 * CppUTest can support extra checking functionality by inserting TestPlugins
 * TestPlugin is derived from the TestPlugin class and can be inserted in the TestRegistry via the installPlugin method.
 * TestPlugins can be used for, for example, system stability and resource handling like files, memory or network connection clean-up.
-* In CppUTest, the memory leak detection is done via a default enabled TestPlugin
 
 Example of a main with a TestPlugin:
 
@@ -122,31 +118,6 @@ int main(int ac, char** av)
    int result = CommandLineTestRunner::RunAllTests(ac, av);
    TestRegistry::getCurrentRegistry()->resetPlugins();
    return result;
-}
-```
-
-Memory leak detection
-
-* A platform specific memory leak detection mechanism is provided.
-* If a test fails and has allocated memory prior to the fail and that memory is not cleaned up by TearDown, a memory leak is reported.
-  It is best to only chase memory leaks when other errors have been eliminated.
-* Some code uses lazy initialization and appears to leak when it really does not (for example: gcc stringstream used to in an earlier release). One cause is that some standard library calls allocate something and do not free it until after `main` (or never).
-  To find out if a memory leak is due to lazy initialization set the `-r` switch to run tests twice. The signature of this situation is that the first run shows leaks and the second run shows no leaks. When both runs show leaks, you have a leak to find.
-
-## How is memory leak detection implemented?
-
-* Before `setup()` a memory usage checkpoint is recorded
-* After `teardown()` another checkpoint is taken and compared to the original checkpoint
-* In Visual Studio the MS debug heap capabilities are used
-* For GCC a simple new/delete count is used in overridden operators `new`, `new[]`, `delete` and `delete[]`
-
-If you use some leaky code that you can't or won't fix you can tell a TEST to ignore a certain number of leaks as in this example:
-
-```cpp
-TEST(MemoryLeakWarningTest, Ignore1)
-{
-    EXPECT_N_LEAKS(1);
-    char* arrayToLeak1 = new char[100];
 }
 ```
 
@@ -306,12 +277,8 @@ extern "C" {
 }
 ```
 
-### Memory leak detection with C
-
-Use `cpputest_malloc`/`cpputest_free` instead of `malloc`/`free`, or pass
-`-Dmalloc=cpputest_malloc` as a compiler flag. Use `TestHarness_c.h` (not
-`TestHarness.h`) when writing tests in C — it provides C-compatible versions
-of the `CHECK` macros.
+Use `TestHarness_c.h` (not `TestHarness.h`) when writing tests in C — it
+provides C-compatible versions of the `CHECK` macros.
 
 ### C++ keywords in C code
 

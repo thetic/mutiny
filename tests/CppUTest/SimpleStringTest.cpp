@@ -29,7 +29,6 @@
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestMemoryAllocator.h"
-#include "CppUTest/MemoryLeakDetector.h"
 #include "CppUTest/TestTestingFixture.h"
 
 class JustUseNewStringAllocator : public TestMemoryAllocator
@@ -39,11 +38,11 @@ public:
 
     char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE
     {
-        return MemoryLeakWarningPlugin::getGlobalDetector()->allocMemory(getCurrentNewArrayAllocator(), size, file, line);
+        return getCurrentNewArrayAllocator()->alloc_memory(size, file, line);
     }
-    void free_memory(char* str, size_t, const char* file, size_t line) CPPUTEST_OVERRIDE
+    void free_memory(char* str, size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE
     {
-        MemoryLeakWarningPlugin::getGlobalDetector()->deallocMemory(getCurrentNewArrayAllocator(), str, file, line);
+        getCurrentNewArrayAllocator()->free_memory(str, size, file, line);
     }
 };
 

@@ -217,26 +217,6 @@ extern void FAIL_TEXT_C_LOCATION(const char* text, const char* fileName, size_t 
 extern void FAIL_C_LOCATION(const char* fileName, size_t lineNumber);
 extern void CHECK_C_LOCATION(int condition, const char* conditionString, const char* text, const char* fileName, size_t lineNumber);
 
-extern void* cpputest_malloc(size_t size);
-extern char* cpputest_strdup(const char* str);
-extern char* cpputest_strndup(const char* str, size_t n);
-extern void* cpputest_calloc(size_t num, size_t size);
-extern void* cpputest_realloc(void* ptr, size_t size);
-extern void  cpputest_free(void* buffer);
-
-extern void* cpputest_malloc_location(size_t size, const char* file, size_t line);
-extern char* cpputest_strdup_location(const char* str, const char* file, size_t line);
-extern char* cpputest_strndup_location(const char* str, size_t n, const char* file, size_t line);
-extern void* cpputest_calloc_location(size_t num, size_t size, const char* file, size_t line);
-extern void* cpputest_realloc_location(void* memory, size_t size, const char* file, size_t line);
-extern void cpputest_free_location(void* buffer, const char* file, size_t line);
-
-void cpputest_malloc_set_out_of_memory(void);
-void cpputest_malloc_set_not_out_of_memory(void);
-void cpputest_malloc_set_out_of_memory_countdown(int);
-void cpputest_malloc_count_reset(void);
-int cpputest_malloc_get_count(void);
-
 #ifdef __cplusplus
 }
 #endif

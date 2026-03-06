@@ -116,7 +116,6 @@ void SimpleString::setStringAllocator(TestMemoryAllocator* allocator)
     stringAllocator_ = allocator;
 }
 
-/* Avoid using the memory leak detector INSIDE SimpleString as its used inside the detector */
 char* SimpleString::allocStringBuffer(size_t _size, const char* file, size_t line)
 {
     return getStringAllocator()->alloc_memory(_size, file, line);

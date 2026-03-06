@@ -28,7 +28,6 @@
 #ifndef D_TestMemoryAllocator_h
 #define D_TestMemoryAllocator_h
 
-struct MemoryLeakNode;
 class TestMemoryAllocator;
 
 extern void setCurrentNewAllocator(TestMemoryAllocator* allocator);
@@ -75,9 +74,6 @@ public:
 
     virtual bool isOfEqualType(TestMemoryAllocator* allocator);
 
-    virtual char* allocMemoryLeakNode(size_t size);
-    virtual void freeMemoryLeakNode(char* memory);
-
     virtual TestMemoryAllocator* actualAllocator();
 
 protected:
@@ -88,37 +84,6 @@ protected:
 
     bool hasBeenDestroyed_;
 };
-
-class MemoryLeakAllocator : public TestMemoryAllocator
-{
-public:
-    MemoryLeakAllocator(TestMemoryAllocator* originalAllocator);
-    virtual ~MemoryLeakAllocator() CPPUTEST_DESTRUCTOR_OVERRIDE;
-
-    virtual char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
-    virtual void free_memory(char* memory, size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
-
-    virtual const char* name() const CPPUTEST_OVERRIDE;
-    virtual const char* alloc_name() const CPPUTEST_OVERRIDE;
-    virtual const char* free_name() const CPPUTEST_OVERRIDE;
-
-    virtual TestMemoryAllocator* actualAllocator() CPPUTEST_OVERRIDE;
-private:
-    TestMemoryAllocator* originalAllocator_;
-};
-
-class CrashOnAllocationAllocator : public TestMemoryAllocator
-{
-    unsigned allocationToCrashOn_;
-public:
-    CrashOnAllocationAllocator();
-    virtual ~CrashOnAllocationAllocator() CPPUTEST_DESTRUCTOR_OVERRIDE;
-
-    virtual void setNumberToCrashOn(unsigned allocationToCrashOn);
-
-    virtual char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
-};
-
 
 class NullUnknownAllocator: public TestMemoryAllocator
 {
@@ -141,7 +106,6 @@ public:
     virtual ~FailableMemoryAllocator() CPPUTEST_DESTRUCTOR_OVERRIDE;
 
     virtual char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
-    virtual char* allocMemoryLeakNode(size_t size) CPPUTEST_OVERRIDE;
 
     virtual void failAllocNumber(int number);
     virtual void failNthAllocAt(int allocationNumber, const char* file, size_t line);

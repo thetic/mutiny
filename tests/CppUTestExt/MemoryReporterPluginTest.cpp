@@ -119,7 +119,7 @@ TEST_GROUP(MemoryReporterPlugin)
 {
     MemoryReporterPluginUnderTest* reporter;
     StringBufferTestOutput output;
-    TestMemoryAllocatorComparator memLeakAllocatorComparator;
+    TestMemoryAllocatorComparator memAllocatorComparator;
 
     TestResult* result;
     UtestShell* test;
@@ -131,7 +131,7 @@ TEST_GROUP(MemoryReporterPlugin)
         test = new UtestShell("groupname", "testname", "filename", 1);
         reporter = new MemoryReporterPluginUnderTest;
 
-        mock("formatter").installComparator("TestMemoryAllocator", memLeakAllocatorComparator);
+        mock("formatter").installComparator("TestMemoryAllocator", memAllocatorComparator);
 
         mock("reporter").disable();
         const char *cmd_line[] = {"-pmemoryreport=normal"};
@@ -193,7 +193,7 @@ TEST(MemoryReporterPlugin, newAllocationsAreReportedTest)
     mock("formatter").ignoreOtherCalls();
 
     reporter->preTestAction(*test, *result);
-    char *memory = getCurrentNewAllocator()->allocMemoryLeakNode(100);
+    char *memory = getCurrentNewAllocator()->alloc_memory(100, "unknown", 1);
     getCurrentNewAllocator()->free_memory(memory, 100, "unknown", 1);
 }
 
@@ -205,7 +205,7 @@ TEST(MemoryReporterPlugin, whenUsingOnlyMallocAllocatorNoOtherOfTheAllocatorsAre
     mock("formatter").ignoreOtherCalls();
 
     reporter->preTestAction(*test, *result);
-    char *memory = getCurrentMallocAllocator()->allocMemoryLeakNode(100);
+    char *memory = getCurrentMallocAllocator()->alloc_memory(100, "unknown", 1);
     getCurrentMallocAllocator()->free_memory(memory, 100, "unknown", 1);
 }
 
@@ -216,7 +216,7 @@ TEST(MemoryReporterPlugin, newArrayAllocationsAreReportedTest)
     mock("formatter").ignoreOtherCalls();
 
     reporter->preTestAction(*test, *result);
-    char *memory = getCurrentNewArrayAllocator()->allocMemoryLeakNode(100);
+    char *memory = getCurrentNewArrayAllocator()->alloc_memory(100, "unknown", 1);
     getCurrentNewArrayAllocator()->free_memory(memory, 100, "unknown", 1);
 }
 
@@ -227,7 +227,7 @@ TEST(MemoryReporterPlugin, mallocAllocationsAreReportedTest)
     mock("formatter").ignoreOtherCalls();
 
     reporter->preTestAction(*test, *result);
-    char *memory = getCurrentMallocAllocator()->allocMemoryLeakNode(100);
+    char *memory = getCurrentMallocAllocator()->alloc_memory(100, "unknown", 1);
     getCurrentMallocAllocator()->free_memory(memory, 100, "unknown", 1);
 }
 

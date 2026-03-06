@@ -30,17 +30,10 @@
 
 #include "CppUTestConfig.h"
 
-/* original value was 9973 which works well with large programs. Now set to smaller since it takes
- * a lot of memory in embedded apps. Change it if you experience the memory leak detector to be slow.
- */
-
-#define MEMORY_LEAK_HASH_TABLE_SIZE 73
-
 #include "Utest.h"
 #include "UtestMacros.h"
 #include "SimpleString.h"
 #include "TestResult.h"
 #include "TestFailure.h"
 #include "TestPlugin.h"
-#include "MemoryLeakWarningPlugin.h"
 #endif

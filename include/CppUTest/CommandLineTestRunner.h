@@ -35,7 +35,6 @@
 
 class TestRegistry;
 
-#define DEF_PLUGIN_MEM_LEAK "MemoryLeakPlugin"
 #define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
 
 class CommandLineTestRunner

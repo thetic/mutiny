@@ -39,23 +39,8 @@ int CommandLineTestRunner::RunAllTests(int ac, char** av)
 
 int CommandLineTestRunner::RunAllTests(int ac, const char *const *av)
 {
-    int result = 0;
-    ConsoleTestOutput backupOutput;
-
-    MemoryLeakWarningPlugin memLeakWarn(DEF_PLUGIN_MEM_LEAK);
-    memLeakWarn.destroyGlobalDetectorAndTurnOffMemoryLeakDetectionInDestructor(true);
-    TestRegistry::getCurrentRegistry()->installPlugin(&memLeakWarn);
-
-    {
-        CommandLineTestRunner runner(ac, av, TestRegistry::getCurrentRegistry());
-        result = runner.runAllTestsMain();
-    }
-
-    if (result == 0) {
-        backupOutput << memLeakWarn.FinalReport(0);
-    }
-    TestRegistry::getCurrentRegistry()->removePluginByName(DEF_PLUGIN_MEM_LEAK);
-    return result;
+    CommandLineTestRunner runner(ac, av, TestRegistry::getCurrentRegistry());
+    return runner.runAllTestsMain();
 }
 
 CommandLineTestRunner::CommandLineTestRunner(int ac, const char *const *av, TestRegistry* registry) :

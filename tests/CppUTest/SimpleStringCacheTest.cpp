@@ -46,7 +46,7 @@ TEST_GROUP(SimpleStringInternalCache)
 {
     SimpleStringInternalCache cache;
     MemoryAccountant accountant;
-    MemoryLeakAllocator* defaultAllocator;
+    TestMemoryAllocator* defaultAllocator;
     AccountingTestMemoryAllocator* allocator;
 
     TestFunctionWithCache testFunction;
@@ -57,7 +57,7 @@ TEST_GROUP(SimpleStringInternalCache)
         fixture.setTestFunction(&testFunction);
         testFunction.parameter = &cache;
 
-        defaultAllocator = new MemoryLeakAllocator(defaultMallocAllocator());
+        defaultAllocator = new TestMemoryAllocator();
         allocator = new AccountingTestMemoryAllocator(accountant, defaultAllocator);
         cache.setAllocator(defaultAllocator);
     }

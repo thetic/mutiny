@@ -25,5 +25,3 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <list>
-#include "CppUTest/MemoryLeakDetectorNewMacros.h"

@@ -81,19 +81,6 @@
  #endif
 #endif
 
-/* Is memory leak detection enabled?
- *   Controls the override of the global operator new/deleted and malloc/free.
- *   Without this, there will be no memory leak detection in C/C++.
-*/
-
-#ifndef CPPUTEST_USE_MEM_LEAK_DETECTION
- #ifdef CPPUTEST_MEM_LEAK_DETECTION_DISABLED
-  #define CPPUTEST_USE_MEM_LEAK_DETECTION 0
- #else
-  #define CPPUTEST_USE_MEM_LEAK_DETECTION 1
- #endif
-#endif
-
 /* Should be the only #include here. Standard C library wrappers */
 #include "StandardCLibrary.h"
 
@@ -151,9 +138,6 @@
 #endif
 
 #if CPPUTEST_SANITIZE_ADDRESS
-  #if defined(__linux__) && defined(__clang__) && CPPUTEST_USE_STD_CPP_LIB && CPPUTEST_USE_MEM_LEAK_DETECTION
-    #warning Compiling with Address Sanitizer with clang on linux may cause duplicate symbols for operator new. Turning off memory leak detection. Compile with -DCPPUTEST_MEM_LEAK_DETECTION_DISABLED to get rid of this warning.
-  #endif
   #define CPPUTEST_DO_NOT_SANITIZE_ADDRESS __attribute__((no_sanitize_address))
 #else
   #define CPPUTEST_DO_NOT_SANITIZE_ADDRESS

@@ -166,7 +166,6 @@
         "CMAKE_SYSTEM_NAME": "DOS",
         "CMAKE_BUILD_TYPE": "MinRelSize",
         "CMAKE_CXX_STANDARD": "98",
-        "CPPUTEST_MEM_LEAK_DETECTION_DISABLED": true,
         "CPPUTEST_STD_CPP_LIB_DISABLED": true
       }
     }

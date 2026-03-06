@@ -1,6 +1,5 @@
 add_library(CppUTest
         CommandLineArguments.cpp
-        MemoryLeakWarningPlugin.cpp
         TestHarness_c.cpp
         TestRegistry.cpp
         CommandLineTestRunner.cpp
@@ -12,7 +11,6 @@ add_library(CppUTest
         TeamCityTestOutput.cpp
         TestFailure.cpp
         TestOutput.cpp
-        MemoryLeakDetector.cpp
         TestFilter.cpp
         TestPlugin.cpp
         TestTestingFixture.cpp
@@ -32,17 +30,12 @@ add_library(CppUTest
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TeamCityTestOutput.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/StandardCLibrary.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestRegistry.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/MemoryLeakDetector.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestFailure.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestResult.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/MemoryLeakDetectorMallocMacros.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestFilter.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestTestingFixture.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/MemoryLeakDetectorNewMacros.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/MemoryLeakDetectorForceInclude.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestHarness.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/Utest.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/MemoryLeakWarningPlugin.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestHarness_c.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/UtestMacros.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/SimpleMutex.h
@@ -77,7 +70,6 @@ target_include_directories(CppUTest
 
 target_compile_definitions(CppUTest
     PUBLIC
-        CPPUTEST_USE_MEM_LEAK_DETECTION=$<NOT:$<BOOL:${CPPUTEST_MEM_LEAK_DETECTION_DISABLED}>>
         CPPUTEST_USE_LONG_LONG=$<BOOL:${CPPUTEST_USE_LONG_LONG}>
         CPPUTEST_USE_STD_C_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_C_LIB_DISABLED}>>
         CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>
@@ -102,20 +94,6 @@ target_link_libraries(CppUTest
 )
 
 add_library(CppUTest::CppUTest ALIAS CppUTest)
-
-if(NOT CPPUTEST_MEM_LEAK_DETECTION_DISABLED)
-    if(MSVC)
-        set(force_include "/FI")
-    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
-        set(force_include "--preinclude=")
-    else()
-        set(force_include "-include")
-    endif()
-    target_compile_options(CppUTest
-        PUBLIC
-            $<$<COMPILE_LANGUAGE:C,CXX>:${force_include}CppUTest/MemoryLeakDetectorForceInclude.h>
-    )
-endif()
 
 # Installation
 if(PROJECT_IS_TOP_LEVEL)

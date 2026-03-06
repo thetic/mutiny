@@ -109,7 +109,6 @@ IGNORE_TEST(UtestShell, IgnoreTestAccessingFixture)
 
 TEST(UtestShell, MacrosUsedInSetup)
 {
-    IGNORE_ALL_LEAKS_IN_TEST();
     fixture.setSetup(failMethod_);
     fixture.setTestFunction(passingTestMethod_);
     fixture.runAllTests();
@@ -118,7 +117,6 @@ TEST(UtestShell, MacrosUsedInSetup)
 
 TEST(UtestShell, MacrosUsedInTearDown)
 {
-    IGNORE_ALL_LEAKS_IN_TEST();
     fixture.setTeardown(failMethod_);
     fixture.setTestFunction(passingTestMethod_);
     fixture.runAllTests();
@@ -180,7 +178,6 @@ static void teardownMethod_()
 TEST(UtestShell, TeardownCalledAfterTestFailure)
 {
     teardownCalled = 0;
-    IGNORE_ALL_LEAKS_IN_TEST();
     fixture.setTeardown(teardownMethod_);
     fixture.setTestFunction(failMethod_);
     fixture.runAllTests();
@@ -197,7 +194,6 @@ static void stopAfterFailureMethod_()
 
 TEST(UtestShell, TestStopsAfterTestFailure)
 {
-    IGNORE_ALL_LEAKS_IN_TEST();
     stopAfterFailure = 0;
     fixture.setTestFunction(stopAfterFailureMethod_);
     fixture.runAllTests();

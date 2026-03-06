@@ -16,15 +16,11 @@ target_link_libraries(CppUTestTests_main
 include(CppUTest)
 
 add_executable(CppUTestTests
-    AllocLetTestFree.c
-    AllocLetTestFreeTest.cpp
     CheatSheetTest.cpp
     CompatabilityTests.cpp
     CommandLineArgumentsTest.cpp
     CommandLineTestRunnerTest.cpp
     JUnitOutputTest.cpp
-    DummyMemoryLeakDetector.cpp
-    MemoryLeakWarningTest.cpp
     PluginTest.cpp
     PreprocessorTest.cpp
     SetPluginTest.cpp
@@ -33,14 +29,10 @@ add_executable(CppUTestTests
     TestFailureNaNTest.cpp
     TestFailureTest.cpp
     TestResultTest.cpp
-    MemoryLeakDetectorTest.cpp
     SimpleStringTest.cpp
     SimpleStringCacheTest.cpp
     TestOutputTest.cpp
     TestRegistryTest.cpp
-    AllocationInCFile.c
-    AllocationInCppFile.cpp
-    MemoryOperatorOverloadTest.cpp
     TestFilterTest.cpp
     TestHarness_cTest.cpp
     TestHarness_cTestCFile.c
