@@ -267,57 +267,8 @@
 #define CPPUTEST_16BIT_INTS
 #endif
 
-/*
- * Support for "long long" type.
- *
- * Not supported when CPPUTEST_LONG_LONG_DISABLED is set.
- * Can be overridden by using CPPUTEST_USE_LONG_LONG
- *
- * CPPUTEST_HAVE_LONG_LONG_INT is set by configure or CMake.
- * LLONG_MAX is set in limits.h. This is a crude attempt to detect long long support when no configure is used
- *
- */
-#ifndef CPPUTEST_USE_LONG_LONG
-#if !defined(CPPUTEST_LONG_LONG_DISABLED) && (defined(CPPUTEST_HAVE_LONG_LONG_INT) || defined(LLONG_MAX))
-#define CPPUTEST_USE_LONG_LONG 1
-#else
-#define CPPUTEST_USE_LONG_LONG 0
-#endif
-#endif
-
-#if CPPUTEST_USE_LONG_LONG
 typedef long long cpputest_longlong;
 typedef unsigned long long cpputest_ulonglong;
-#else
-/* Define some placeholders to disable the overloaded methods.
- * It's not required to have these match the size of the "real" type, but it's occasionally convenient.
- */
-
-#if defined(CPPUTEST_64BIT) && !defined(CPPUTEST_64BIT_32BIT_LONGS)
-#define CPPUTEST_SIZE_OF_FAKE_LONG_LONG_TYPE 16
-#else
-#define CPPUTEST_SIZE_OF_FAKE_LONG_LONG_TYPE 8
-#endif
-
-#if defined(__cplusplus)
-extern "C" {
-#endif
-
-typedef struct
-{
-  char dummy[CPPUTEST_SIZE_OF_FAKE_LONG_LONG_TYPE];
-} cpputest_longlong;
-
-typedef struct
-{
-  char dummy[CPPUTEST_SIZE_OF_FAKE_LONG_LONG_TYPE];
-} cpputest_ulonglong;
-
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif
-
-#endif
 
 #ifdef __cplusplus
   /* Visual C++ 10.0+ (2010+) supports the override keyword, but doesn't define the C++ version as C++11 */

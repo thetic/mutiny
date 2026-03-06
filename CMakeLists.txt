@@ -32,11 +32,6 @@ option(CPPUTEST_STD_C_LIB_DISABLED "Disable the standard C library")
 cmake_dependent_option(CPPUTEST_STD_CPP_LIB_DISABLED "Use the standard C++ library"
   OFF "NOT CPPUTEST_STD_C_LIB_DISABLED" ON)
 option(CPPUTEST_EXTENSIONS "Use the CppUTest extension library" ON)
-include(CheckTypeSize)
-check_type_size("long long" SIZEOF_LONGLONG)
-cmake_dependent_option(CPPUTEST_USE_LONG_LONG "Support long long"
-  YES "HAVE_SIZEOF_LONGLONG" OFF)
-
 cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
   ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"

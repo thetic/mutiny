@@ -164,12 +164,10 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
     CHECK(1l == actual.returnLongIntValueOrDefault(1l));
     CHECK(0 == actual.returnUnsignedIntValue());
     CHECK(1u == actual.returnUnsignedIntValueOrDefault(1u));
-#if CPPUTEST_USE_LONG_LONG
     CHECK(0 == actual.returnLongLongIntValue());
     CHECK(1ll == actual.returnLongLongIntValueOrDefault(1ll));
     CHECK(0 == actual.returnUnsignedLongLongIntValue());
     CHECK(1ull == actual.returnUnsignedLongLongIntValueOrDefault(1ull));
-#endif
     DOUBLES_EQUAL(0.0, actual.returnDoubleValue(), 0.0);
     DOUBLES_EQUAL(1.5, actual.returnDoubleValueOrDefault(1.5), 0.0);
     STRCMP_EQUAL("bla", actual.returnStringValueOrDefault("bla"));
@@ -199,10 +197,8 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
     actual.withUnsignedIntParameter("unsigned_int", (unsigned int) 1);
     actual.withUnsignedLongIntParameter("unsigned_long", (unsigned long)1);
     actual.withLongIntParameter("long_int", (long int) 1);
-#if CPPUTEST_USE_LONG_LONG
     actual.withLongLongIntParameter("long_long_int", (long long int) 1);
     actual.withUnsignedLongLongIntParameter("unsigned_long_long_int", (unsigned long long int) 1);
-#endif
     actual.withPointerParameter("pointer", &value);
     actual.withConstPointerParameter("const_pointer", &const_value);
     actual.withFunctionPointerParameter("function_pointer", function_value);
@@ -217,10 +213,8 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
     expectedString += " unsigned_int:1 (0x1)";
     expectedString += " unsigned_long:1 (0x1)";
     expectedString += " long_int:1 (0x1)";
-#if CPPUTEST_USE_LONG_LONG
     expectedString += " long_long_int:1 (0x1)";
     expectedString += " unsigned_long_long_int:1 (0x1)";
-#endif
     expectedString += " pointer:0x";
     expectedString += HexStringFrom(&value);
     expectedString += " const_pointer:0x";
@@ -243,12 +237,10 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
     CHECK(0 == actual.returnIntValueOrDefault(1));
     CHECK(0 == actual.returnLongIntValue());
     CHECK(0 == actual.returnLongIntValueOrDefault(1l));
-#if CPPUTEST_USE_LONG_LONG
     CHECK(0 == actual.returnLongLongIntValue());
     CHECK(0 == actual.returnLongLongIntValueOrDefault(1ll));
     CHECK(0 == actual.returnUnsignedLongLongIntValue());
     CHECK(0 == actual.returnUnsignedLongLongIntValueOrDefault(1ull));
-#endif
     CHECK(0 == actual.returnUnsignedIntValue());
     CHECK(0 == actual.returnUnsignedIntValueOrDefault(1u));
     DOUBLES_EQUAL(0.0, actual.returnDoubleValue(), 0.0);

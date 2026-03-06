@@ -62,12 +62,8 @@ typedef struct SMockValue_c
         unsigned int unsignedIntValue;
         long int longIntValue;
         unsigned long int unsignedLongIntValue;
-#if CPPUTEST_USE_LONG_LONG
         cpputest_longlong longLongIntValue;
         cpputest_ulonglong unsignedLongLongIntValue;
-#else
-        char longLongPlaceholder[CPPUTEST_SIZE_OF_FAKE_LONG_LONG_TYPE];
-#endif
         double doubleValue;
         const char* stringValue;
         void* pointerValue;

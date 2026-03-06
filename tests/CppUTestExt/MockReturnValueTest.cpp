@@ -106,8 +106,6 @@ TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongInt)
     UNSIGNED_LONGS_EQUAL(expected_value, mock().actualCall("foo").returnValue().getUnsignedLongIntValue());
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
     int expected_value = 7;
@@ -184,8 +182,6 @@ TEST(MockReturnValueTest, LongLongIntReturnValueCanBeRetrieved)
     mock().expectOneCall("foo").andReturnValue(expected_value);
     LONGLONGS_EQUAL(expected_value, mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
-
-#endif
 
 TEST(MockReturnValueTest, UnsignedIntegerReturnValueSetsDifferentValues)
 {
@@ -284,8 +280,6 @@ TEST(MockReturnValueTest, WhenNoLongIntegerReturnValueIsExpectedButThereIsADefau
     LONGS_EQUAL(default_return_value, mock().returnLongIntValueOrDefault(default_return_value));
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockReturnValueTest, WhenAUnsignedLongLongIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
     unsigned long long int default_return_value = 2ULL;
@@ -319,8 +313,6 @@ TEST(MockReturnValueTest, WhenNoLongLongIntegerReturnValueIsExpectedButThereIsAD
     LONGS_EQUAL(default_return_value, mock().actualCall("foo").returnLongLongIntValueOrDefault(default_return_value));
     LONGS_EQUAL(default_return_value, mock().returnLongLongIntValueOrDefault(default_return_value));
 }
-
-#endif
 
 TEST(MockReturnValueTest, WhenABooleanReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
@@ -518,8 +510,6 @@ TEST(MockReturnValueTest, UnsignedLongIntegerReturnValueSetsDifferentValuesWhile
     LONGS_EQUAL(another_ret_value, mock().returnValue().getUnsignedLongIntValue());
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockReturnValueTest, LongLongIntegerReturnValue)
 {
     long long int expected_value = 7;
@@ -599,8 +589,6 @@ TEST(MockReturnValueTest, UnsignedLongLongIntegerReturnValueSetsDifferentValuesW
     UNSIGNED_LONGLONGS_EQUAL(another_ret_value, mock().actualCall("foo").withParameter("p1", 1).returnValue().getUnsignedLongLongIntValue());
     UNSIGNED_LONGLONGS_EQUAL(another_ret_value, mock().returnValue().getUnsignedLongLongIntValue());
 }
-
-#endif
 
 TEST(MockReturnValueTest, MatchingReturnValueOnWhileSignature)
 {

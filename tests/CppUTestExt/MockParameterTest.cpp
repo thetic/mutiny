@@ -63,8 +63,6 @@ TEST(MockParameterTest, expectOneIntegerParameterAndValue)
     mock().checkExpectations();
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockParameterTest, expectOneUnsignedLongLongIntegerParameterAndValue)
 {
     unsigned long long value = 0xFFFFAAAAFFFFAAAAULL;
@@ -83,8 +81,6 @@ TEST(MockParameterTest, expectOneLongLongIntegerParameterAndValue)
 
     mock().checkExpectations();
 }
-
-#endif
 
 TEST(MockParameterTest, mismatchedIntegerTypesIntAndLongAreAllowed)
 {
@@ -151,8 +147,6 @@ TEST(MockParameterTest, mismatchedIntegerTypesLongAndUnsignedLongAreAllowed)
 
     mock().checkExpectations();
 }
-
-#if CPPUTEST_USE_LONG_LONG
 
 TEST(MockParameterTest, mismatchedIntegerTypesIntAndLongLongAreAllowed)
 {
@@ -252,8 +246,6 @@ TEST(MockParameterTest, mismatchedIntegerTypesLongLongAndUnsignedLongLongAreAllo
 
     mock().checkExpectations();
 }
-
-#endif
 
 TEST(MockParameterTest, longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreatedAsEqual)
 {
@@ -889,10 +881,8 @@ TEST(MockParameterTest, ignoreOtherCallsIgnoresWithAllKindsOfParameters)
            .withParameter("bar", 1u)
            .withParameter("foo", 1l)
            .withParameter("hey", 1ul)
-#if CPPUTEST_USE_LONG_LONG
            .withParameter("ick", 1ll)
            .withParameter("grr", 1ull)
-#endif
            .withParameter("duh", 1.0)
            .withParameter("yoo", (const void*) NULLPTR)
            .withParameter("func", (void(*)()) NULLPTR)

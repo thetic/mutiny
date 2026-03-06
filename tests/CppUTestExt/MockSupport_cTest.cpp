@@ -164,8 +164,6 @@ TEST(MockSupport_c, doubleParameterWithTolerance)
     mock_c( )->actualCall("foo")->withDoubleParameters("p", 1.9);
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockSupport_c, longLongIntParameter)
 {
     mock_c()->expectOneCall("foo")->withLongLongIntParameters("p", 1);
@@ -177,8 +175,6 @@ TEST(MockSupport_c, unsignedLongLongIntParameter)
     mock_c()->expectOneCall("foo")->withUnsignedLongLongIntParameters("p", 1);
     mock_c()->actualCall("foo")->withUnsignedLongLongIntParameters("p", 1);
 }
-
-#endif
 
 TEST(MockSupport_c, memoryBufferParameter)
 {
@@ -369,8 +365,6 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnUnsignedLongIntValueOrDefaultS
     LONGS_EQUAL(defaultValue, mock_c()->returnUnsignedLongIntValueOrDefault(defaultValue));
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 TEST(MockSupport_c, returnLongLongIntValue)
 {
     long long int expected_value = -10L;
@@ -422,8 +416,6 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnUnsignedLongLongIntValueOrDefa
     UNSIGNED_LONGLONGS_EQUAL(defaultValue, mock_c()->actualCall("foo")->returnUnsignedLongLongIntValueOrDefault(defaultValue));
     UNSIGNED_LONGLONGS_EQUAL(defaultValue, mock_c()->returnUnsignedLongLongIntValueOrDefault(defaultValue));
 }
-
-#endif
 
 TEST(MockSupport_c, returnStringValue)
 {

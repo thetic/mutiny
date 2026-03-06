@@ -271,24 +271,14 @@ public:
 
     virtual cpputest_ulonglong returnUnsignedLongLongIntValue() CPPUTEST_OVERRIDE
     {
-#if CPPUTEST_USE_LONG_LONG
         return 0;
-#else
-        cpputest_ulonglong ret = {};
-        return ret;
-#endif
     }
 
     virtual cpputest_ulonglong returnUnsignedLongLongIntValueOrDefault(cpputest_ulonglong value) CPPUTEST_OVERRIDE { return value; }
 
     virtual cpputest_longlong returnLongLongIntValue() CPPUTEST_OVERRIDE
     {
-#if CPPUTEST_USE_LONG_LONG
         return 0;
-#else
-        cpputest_longlong ret = {};
-        return ret;
-#endif
     }
 
     virtual cpputest_longlong returnLongLongIntValueOrDefault(cpputest_longlong value) CPPUTEST_OVERRIDE { return value; }

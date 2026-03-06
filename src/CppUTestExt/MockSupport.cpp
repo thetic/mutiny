@@ -568,8 +568,6 @@ unsigned long int MockSupport::unsignedLongIntReturnValue()
     return returnValue().getUnsignedLongIntValue();
 }
 
-#if CPPUTEST_USE_LONG_LONG
-
 cpputest_longlong MockSupport::longLongIntReturnValue()
 {
     return returnValue().getLongLongIntValue();
@@ -595,36 +593,6 @@ cpputest_ulonglong MockSupport::returnUnsignedLongLongIntValueOrDefault(cpputest
     }
     return defaultValue;
 }
-
-#else
-
-cpputest_longlong MockSupport::longLongIntReturnValue()
-{
-    FAIL("Long Long type is not supported");
-    cpputest_longlong ret = {};
-    return ret;
-}
-
-cpputest_ulonglong MockSupport::unsignedLongLongIntReturnValue()
-{
-    FAIL("Unsigned Long Long type is not supported");
-    cpputest_ulonglong ret = {};
-    return ret;
-}
-
-cpputest_longlong MockSupport::returnLongLongIntValueOrDefault(cpputest_longlong defaultValue)
-{
-    FAIL("Long Long type is not supported");
-    return defaultValue;
-}
-
-cpputest_ulonglong MockSupport::returnUnsignedLongLongIntValueOrDefault(cpputest_ulonglong defaultValue)
-{
-    FAIL("Unsigned Long Long type is not supported");
-    return defaultValue;
-}
-
-#endif
 
 const char* MockSupport::stringReturnValue()
 {
