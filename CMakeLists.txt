@@ -27,10 +27,7 @@ endif()
 include(CTest)
 
 include(CMakeDependentOption)
-option(CPPUTEST_STD_C_LIB_DISABLED "Disable the standard C library")
-
-cmake_dependent_option(CPPUTEST_STD_CPP_LIB_DISABLED "Use the standard C++ library"
-  OFF "NOT CPPUTEST_STD_C_LIB_DISABLED" ON)
+option(CPPUTEST_STD_CPP_LIB_DISABLED "Disable the standard C++ library")
 option(CPPUTEST_EXTENSIONS "Use the CppUTest extension library" ON)
 cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
   ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
@@ -45,9 +42,7 @@ if(NOT DEFINED CPPUTEST_PLATFORM)
     )
     set(CPPUTEST_PLATFORM ${CPP_PLATFORM})
   else()
-    if(CPPUTEST_STD_C_LIB_DISABLED)
-      set(CPPUTEST_PLATFORM OFF)
-    elseif(MSVC)
+    if(MSVC)
       set(CPPUTEST_PLATFORM VisualCpp)
     elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
       set(CPPUTEST_PLATFORM Iar)

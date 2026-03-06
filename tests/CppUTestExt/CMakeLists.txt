@@ -2,13 +2,6 @@ add_library(CppUTestExtTests_main OBJECT
     AllTests.cpp
 )
 
-if(CPPUTEST_STD_C_LIB_DISABLED)
-    target_sources(CppUTestExtTests_main
-        PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/../DummyUTestPlatform/DummyUTestPlatform.cpp
-    )
-endif()
-
 target_link_libraries(CppUTestExtTests_main
     PUBLIC
         CppUTest

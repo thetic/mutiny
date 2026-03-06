@@ -110,17 +110,6 @@
       }
     },
     {
-      "name": "no-std-c",
-      "inherits": ["GNU"],
-      "environment": {
-        "CXXFLAGS": "-DCPPUTEST_CHAR_BIT=8 -Werror -nostdinc",
-        "CFLAGS": "-DCPPUTEST_CHAR_BIT=8 -Werror -nostdinc"
-      },
-      "cacheVariables": {
-        "CPPUTEST_STD_C_LIB_DISABLED": true
-      }
-    },
-    {
       "name": "asan",
       "inherits": ["Clang"],
       "cacheVariables": {
