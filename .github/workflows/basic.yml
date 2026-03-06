@@ -36,58 +36,6 @@ jobs:
       - name: CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
-  autotools:
-    strategy:
-      matrix:
-        include:
-          - name: Mac GNU
-            os: macos-latest
-            cc: gcc
-            cxx: g++
-            make_args: tdd
-          - name: Mac Clang
-            os: macos-latest
-            cc: clang
-            cxx: clang++
-            make_args: tdd
-          - name: Linux GNU
-            os: ubuntu-latest
-            cc: gcc
-            cxx: g++
-            make_args: tdd
-          - name: Linux Clang
-            os: ubuntu-latest
-            cc: clang
-            cxx: clang++
-            make_args: tdd
-          - name: Disable long long
-            os: ubuntu-latest
-            configure_args: --disable-longlong
-            make_args: tdd
-          - name: Distribution
-            os: ubuntu-latest
-            make_args: dist dist-zip VERSION=latest
-          - name: Install
-            os: ubuntu-latest
-            make_args: DESTDIR=install_autotools install
-    runs-on: ${{ matrix.os }}
-    name: Autotools ${{ matrix.name }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - run: brew install automake libtool
-        if: ${{ startswith(matrix.os, 'macos') }}
-      - if: ${{ matrix.cxx }}
-        run: echo "CXX=${{ matrix.cxx }}" >> $GITHUB_ENV
-      - if: ${{ matrix.cc }}
-        run: echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
-      - name: Configure
-        run: |
-          autoreconf -i .
-          ./configure ${{ matrix.configure_args }}
-      - name: Build and test
-        run: make ${{ matrix.make_args }}
-
   cmake:
     strategy:
       matrix:
@@ -324,60 +272,6 @@ jobs:
           name: test-results
           path: "cpputest_build/**/cpputest_*.xml"
 
-  make:
-    strategy:
-      matrix:
-        include:
-          - name: Defaults
-            make_target: test_defaults
-          - name: STDC++ disabled
-            make_target: test_disable_std_cpp
-          - name: Memory Leak Detection disabled
-            make_target: test_disable_memory_leak_detection
-          - name: Disable Leak Detection and STD C++
-            make_target: test_disable_std_cpp_and_leak_detection
-          - name: debug disabled
-            make_target: test_disable_debug
-          - name: overridden CXXFLAGS and CFLAGS and CPPFLAGS
-            make_target: test_override_flags
-          - name: without Standard C library includes
-            make_target: test_disable_std_c
-          - name: different TARGET_PLATFORM
-            make_target: test_target_platform
-          - name: override flags and disable memory leak and STDC++
-            make_target: test_override_and_disable
-          - name: Examples
-            make_target: test_examples
-          - name: JUnit Output
-            make_target: test_junit_output
-          # - name: gcov
-          #   make_target: test_gcov
-          - name: VPATH usage
-            make_target: test_vpath
-          - name: VPATH Install
-            make_target: test_vpath_install
-    name: Make ${{ matrix.name }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - name: Build
-        run: make -f Makefile_using_MakefileWorker ${{ matrix.make_target }}
-
-  make_dos:
-    name: Make OpenWatcom DOS
-    runs-on: ubuntu-latest
-    env:
-      TERM: linux
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: Install tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y dosbox
-      - name: Build & Test
-        run: ./scripts/dos_build_test.sh
-
   cmake_msys:
     name: CMake MSYS
     runs-on: windows-latest
@@ -405,36 +299,10 @@ jobs:
       - name: Test
         run: ctest --test-dir cpputest_build --output-on-failure
 
-  autotools_msys:
-    name: Autotools MSYS
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-    env:
-      LDFLAGS: -static
-    steps:
-      - uses: actions/checkout@v3
-      - uses: msys2/setup-msys2@v2
-        with:
-          msystem: MINGW64
-          update: true
-          install: >
-            git
-            mingw-w64-x86_64-autotools
-            mingw-w64-x86_64-cc
-            mingw-w64-x86_64-make
-      - name: Configure
-        run: |
-          autoreconf -i .
-          ./configure
-      - name: Build and test
-        run: make tdd
-
   Docker:
     strategy:
       matrix:
-        image: ["ubuntu", "dos"]
+        image: ["ubuntu"]
     runs-on: ubuntu-latest
     name: Docker ${{ matrix.image }}
     steps:

@@ -1,7 +1,6 @@
 # CppUTest
 
 [![GitHub Actions](https://github.com/cpputest/cpputest/actions/workflows/basic.yml/badge.svg)](https://github.com/cpputest/cpputest/actions/workflows/basic.yml)
-[![AppveyorBuild status](https://ci.appveyor.com/api/projects/status/irh38i4wblsb5tew?svg=true)](https://ci.appveyor.com/project/basvodde/cpputest)
 [![Coverage Status](https://coveralls.io/repos/cpputest/cpputest/badge.svg?branch=master&service=github)](https://coveralls.io/github/cpputest/cpputest?branch=master)
 [![ConanCenter package](https://repology.org/badge/version-for-repo/conancenter/cpputest.svg)](https://conan.io/center/cpputest)
 
@@ -16,29 +15,16 @@ Slack channel:
 
 You'll need to do the following to get started:
 
-Building from source (Unix-based, Cygwin, MacOS):
+Building from source:
 
 ```bash
 git clone https://github.com/cpputest/cpputest.git
 cd cpputest
-mkdir cpputest_build
-cd cpputest_build
-autoreconf .. -i
-../configure
-make
-```
-
-You can use `make install` if you want to install CppUTest system-wide.
-
-You can also use CMake, which also works for Windows Visual Studio.
-
-```bash
-git clone https://github.com/cpputest/cpputest.git
-cd cpputest
-mkdir cpputest_build
 cmake -B cpputest_build
 cmake --build cpputest_build
 ```
+
+You can use `cmake --install cpputest_build` if you want to install CppUTest system-wide.
 
 Then to get started, you'll need to do the following:
 

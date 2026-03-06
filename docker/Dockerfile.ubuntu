@@ -1,10 +1,10 @@
 FROM ubuntu
 
 RUN apt-get update && \
-    apt-get install -y -q --no-install-recommends file git gcc g++ make automake autoconf libtool
+    apt-get install -y -q --no-install-recommends cmake git gcc g++ make
 
 WORKDIR /cpputest_build
 
 COPY ../ /cpputest
 
-CMD ["bash", "-c", "autoreconf -i /cpputest && /cpputest/configure && make tdd"]
+CMD ["bash", "-c", "cmake --preset GNU /cpputest && cmake --build . && ctest --output-on-failure"]
