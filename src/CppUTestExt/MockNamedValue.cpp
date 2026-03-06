@@ -82,13 +82,13 @@ void MockNamedValue::setValue(unsigned long int value)
     value_.unsignedLongIntValue_ = value;
 }
 
-void MockNamedValue::setValue(cpputest_longlong value)
+void MockNamedValue::setValue(long long value)
 {
     type_ = "long long int";
     value_.longLongIntValue_ = value;
 }
 
-void MockNamedValue::setValue(cpputest_ulonglong value)
+void MockNamedValue::setValue(unsigned long long value)
 {
     type_ = "unsigned long long int";
     value_.unsignedLongLongIntValue_ = value;
@@ -232,7 +232,7 @@ unsigned long int MockNamedValue::getUnsignedLongIntValue() const
     }
 }
 
-cpputest_longlong MockNamedValue::getLongLongIntValue() const
+long long MockNamedValue::getLongLongIntValue() const
 {
     if(type_ == "int")
         return value_.intValue_;
@@ -249,7 +249,7 @@ cpputest_longlong MockNamedValue::getLongLongIntValue() const
     }
 }
 
-cpputest_ulonglong MockNamedValue::getUnsignedLongLongIntValue() const
+unsigned long long MockNamedValue::getUnsignedLongLongIntValue() const
 {
     if(type_ == "unsigned int")
         return value_.unsignedIntValue_;

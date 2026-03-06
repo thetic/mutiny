@@ -568,17 +568,17 @@ unsigned long int MockSupport::unsignedLongIntReturnValue()
     return returnValue().getUnsignedLongIntValue();
 }
 
-cpputest_longlong MockSupport::longLongIntReturnValue()
+long long MockSupport::longLongIntReturnValue()
 {
     return returnValue().getLongLongIntValue();
 }
 
-cpputest_ulonglong MockSupport::unsignedLongLongIntReturnValue()
+unsigned long long MockSupport::unsignedLongLongIntReturnValue()
 {
     return returnValue().getUnsignedLongLongIntValue();
 }
 
-cpputest_longlong MockSupport::returnLongLongIntValueOrDefault(cpputest_longlong defaultValue)
+long long MockSupport::returnLongLongIntValueOrDefault(long long defaultValue)
 {
     if (hasReturnValue()) {
         return longLongIntReturnValue();
@@ -586,7 +586,7 @@ cpputest_longlong MockSupport::returnLongLongIntValueOrDefault(cpputest_longlong
     return defaultValue;
 }
 
-cpputest_ulonglong MockSupport::returnUnsignedLongLongIntValueOrDefault(cpputest_ulonglong defaultValue)
+unsigned long long MockSupport::returnUnsignedLongLongIntValueOrDefault(unsigned long long defaultValue)
 {
     if (hasReturnValue()) {
         return unsignedLongLongIntReturnValue();

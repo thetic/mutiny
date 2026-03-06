@@ -780,43 +780,43 @@ SimpleString StringFrom(const std::nullptr_t value)
 }
 #endif
 
-SimpleString StringFrom(cpputest_longlong value)
+SimpleString StringFrom(long long value)
 {
     return StringFromFormat("%lld", value);
 }
 
-SimpleString StringFrom(cpputest_ulonglong value)
+SimpleString StringFrom(unsigned long long value)
 {
     return StringFromFormat("%llu", value);
 }
 
-SimpleString HexStringFrom(cpputest_longlong value)
+SimpleString HexStringFrom(long long value)
 {
-    return HexStringFrom((cpputest_ulonglong)value);
+    return HexStringFrom((unsigned long long)value);
 }
 
-SimpleString HexStringFrom(cpputest_ulonglong value)
+SimpleString HexStringFrom(unsigned long long value)
 {
     return StringFromFormat("%llx", value);
 }
 
 SimpleString HexStringFrom(const void* value)
 {
-    return HexStringFrom((cpputest_ulonglong) value);
+    return HexStringFrom((unsigned long long) value);
 }
 
 SimpleString HexStringFrom(void (*value)())
 {
-    return HexStringFrom((cpputest_ulonglong) value);
+    return HexStringFrom((unsigned long long) value);
 }
 
-SimpleString BracketsFormattedHexStringFrom(cpputest_longlong value)
+SimpleString BracketsFormattedHexStringFrom(long long value)
 {
     return BracketsFormattedHexString(HexStringFrom(value));
 }
 
 
-SimpleString BracketsFormattedHexStringFrom(cpputest_ulonglong value)
+SimpleString BracketsFormattedHexStringFrom(unsigned long long value)
 {
     return BracketsFormattedHexString(HexStringFrom(value));
 }

@@ -203,8 +203,8 @@ extern void CHECK_EQUAL_C_INT_LOCATION(int expected, int actual, const char* tex
 extern void CHECK_EQUAL_C_UINT_LOCATION(unsigned int expected, unsigned int actual, const char* text, const char* fileName, size_t lineNumber);
 extern void CHECK_EQUAL_C_LONG_LOCATION(long expected, long actual, const char* text, const char* fileName, size_t lineNumber);
 extern void CHECK_EQUAL_C_ULONG_LOCATION(unsigned long expected, unsigned long actual, const char* text, const char* fileName, size_t lineNumber);
-extern void CHECK_EQUAL_C_LONGLONG_LOCATION(cpputest_longlong expected, cpputest_longlong actual, const char* text, const char* fileName, size_t lineNumber);
-extern void CHECK_EQUAL_C_ULONGLONG_LOCATION(cpputest_ulonglong expected, cpputest_ulonglong actual, const char* text, const char* fileName, size_t lineNumber);
+extern void CHECK_EQUAL_C_LONGLONG_LOCATION(long long expected, long long actual, const char* text, const char* fileName, size_t lineNumber);
+extern void CHECK_EQUAL_C_ULONGLONG_LOCATION(unsigned long long expected, unsigned long long actual, const char* text, const char* fileName, size_t lineNumber);
 extern void CHECK_EQUAL_C_REAL_LOCATION(double expected, double actual, double threshold, const char* text, const char* fileName, size_t lineNumber);
 extern void CHECK_EQUAL_C_CHAR_LOCATION(char expected, char actual, const char* text, const char* fileName, size_t lineNumber);
 extern void CHECK_EQUAL_C_UBYTE_LOCATION(unsigned char expected, unsigned char actual, const char* text, const char* fileName, size_t lineNumber);

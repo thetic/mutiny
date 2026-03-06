@@ -136,8 +136,8 @@ public:
     virtual void assertCstrNoCaseContains(const char *expected, const char *actual, const char* text, const char *fileName, size_t lineNumber);
     virtual void assertLongsEqual(long expected, long actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertUnsignedLongsEqual(unsigned long expected, unsigned long actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
-    virtual void assertLongLongsEqual(cpputest_longlong expected, cpputest_longlong actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
-    virtual void assertUnsignedLongLongsEqual(cpputest_ulonglong expected, cpputest_ulonglong actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
+    virtual void assertLongLongsEqual(long long expected, long long actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
+    virtual void assertUnsignedLongLongsEqual(unsigned long long expected, unsigned long long actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertSignedBytesEqual(signed char expected, signed char actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertPointersEqual(const void *expected, const void *actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertFunctionPointersEqual(void (*expected)(), void (*actual)(), const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());

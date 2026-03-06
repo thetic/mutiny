@@ -141,13 +141,13 @@ public:
 class LongLongsEqualFailure : public TestFailure
 {
 public:
-    LongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, cpputest_longlong expected, cpputest_longlong actual, const SimpleString& text);
+    LongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, long long expected, long long actual, const SimpleString& text);
 };
 
 class UnsignedLongLongsEqualFailure : public TestFailure
 {
 public:
-    UnsignedLongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, cpputest_ulonglong expected, cpputest_ulonglong actual, const SimpleString& text);
+    UnsignedLongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, unsigned long long expected, unsigned long long actual, const SimpleString& text);
 };
 
 class SignedBytesEqualFailure : public TestFailure

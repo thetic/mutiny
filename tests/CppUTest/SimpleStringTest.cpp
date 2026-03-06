@@ -1241,13 +1241,13 @@ TEST(SimpleString, BracketsFormattedHexStringFromForLong)
 }
 TEST(SimpleString, BracketsFormattedHexStringFromForLongLong)
 {
-	cpputest_longlong value = 1;
+	long long value = 1;
 
 	STRCMP_EQUAL("(0x1)", BracketsFormattedHexStringFrom(value).asCharString());
 }
 TEST(SimpleString, BracketsFormattedHexStringFromForULongLong)
 {
-	cpputest_ulonglong value = 1;
+	unsigned long long value = 1;
 
 	STRCMP_EQUAL("(0x1)", BracketsFormattedHexStringFrom(value).asCharString());
 }

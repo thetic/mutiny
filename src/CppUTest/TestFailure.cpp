@@ -262,7 +262,7 @@ UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(UtestShell* test, const cha
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-LongLongsEqualFailure::LongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, cpputest_longlong expected, cpputest_longlong actual, const SimpleString& text)
+LongLongsEqualFailure::LongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, long long expected, long long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -277,7 +277,7 @@ LongLongsEqualFailure::LongLongsEqualFailure(UtestShell* test, const char* fileN
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, cpputest_ulonglong expected, cpputest_ulonglong actual, const SimpleString& text)
+UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, unsigned long long expected, unsigned long long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);

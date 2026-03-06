@@ -109,8 +109,8 @@ public:
     virtual void setValue(unsigned int value);
     virtual void setValue(long int value);
     virtual void setValue(unsigned long int value);
-    virtual void setValue(cpputest_longlong value);
-    virtual void setValue(cpputest_ulonglong value);
+    virtual void setValue(long long value);
+    virtual void setValue(unsigned long long value);
     virtual void setValue(double value);
     virtual void setValue(double value, double tolerance);
     virtual void setValue(void* value);
@@ -137,8 +137,8 @@ public:
     virtual unsigned int getUnsignedIntValue() const;
     virtual long int getLongIntValue() const;
     virtual unsigned long int getUnsignedLongIntValue() const;
-    virtual cpputest_longlong getLongLongIntValue() const;
-    virtual cpputest_ulonglong getUnsignedLongLongIntValue() const;
+    virtual long long getLongLongIntValue() const;
+    virtual unsigned long long getUnsignedLongLongIntValue() const;
     virtual double getDoubleValue() const;
     virtual double getDoubleTolerance() const;
     virtual const char* getStringValue() const;
@@ -169,8 +169,8 @@ private:
         unsigned int unsignedIntValue_;
         long int longIntValue_;
         unsigned long int unsignedLongIntValue_;
-        cpputest_longlong longLongIntValue_;
-        cpputest_ulonglong unsignedLongLongIntValue_;
+        long long longLongIntValue_;
+        unsigned long long unsignedLongLongIntValue_;
         struct {
             double value;
             double tolerance;

@@ -150,8 +150,8 @@ MockExpectedCall_c* withIntParameters_c(const char* name, int value);
 MockExpectedCall_c* withUnsignedIntParameters_c(const char* name, unsigned int value);
 MockExpectedCall_c* withLongIntParameters_c(const char* name, long int value);
 MockExpectedCall_c* withUnsignedLongIntParameters_c(const char* name, unsigned long int value);
-MockExpectedCall_c* withLongLongIntParameters_c(const char* name, cpputest_longlong value);
-MockExpectedCall_c* withUnsignedLongLongIntParameters_c(const char* name, cpputest_ulonglong value);
+MockExpectedCall_c* withLongLongIntParameters_c(const char* name, long long value);
+MockExpectedCall_c* withUnsignedLongLongIntParameters_c(const char* name, unsigned long long value);
 MockExpectedCall_c* withDoubleParameters_c(const char* name, double value);
 MockExpectedCall_c* withDoubleParametersAndTolerance_c(const char* name, double value, double tolerance);
 MockExpectedCall_c* withStringParameters_c(const char* name, const char* value);
@@ -169,8 +169,8 @@ MockExpectedCall_c* andReturnIntValue_c(int value);
 MockExpectedCall_c* andReturnUnsignedIntValue_c(unsigned int value);
 MockExpectedCall_c* andReturnLongIntValue_c(long int value);
 MockExpectedCall_c* andReturnUnsignedLongIntValue_c(unsigned long int value);
-MockExpectedCall_c* andReturnLongLongIntValue_c(cpputest_longlong value);
-MockExpectedCall_c* andReturnUnsignedLongLongIntValue_c(cpputest_ulonglong value);
+MockExpectedCall_c* andReturnLongLongIntValue_c(long long value);
+MockExpectedCall_c* andReturnUnsignedLongLongIntValue_c(unsigned long long value);
 MockExpectedCall_c* andReturnDoubleValue_c(double value);
 MockExpectedCall_c* andReturnStringValue_c(const char* value);
 MockExpectedCall_c* andReturnPointerValue_c(void* value);
@@ -182,8 +182,8 @@ MockActualCall_c* withActualIntParameters_c(const char* name, int value);
 MockActualCall_c* withActualUnsignedIntParameters_c(const char* name, unsigned int value);
 MockActualCall_c* withActualLongIntParameters_c(const char* name, long int value);
 MockActualCall_c* withActualUnsignedLongIntParameters_c(const char* name, unsigned long int value);
-MockActualCall_c* withActualLongLongIntParameters_c(const char* name, cpputest_longlong value);
-MockActualCall_c* withActualUnsignedLongLongIntParameters_c(const char* name, cpputest_ulonglong value);
+MockActualCall_c* withActualLongLongIntParameters_c(const char* name, long long value);
+MockActualCall_c* withActualUnsignedLongLongIntParameters_c(const char* name, unsigned long long value);
 MockActualCall_c* withActualDoubleParameters_c(const char* name, double value);
 MockActualCall_c* withActualStringParameters_c(const char* name, const char* value);
 MockActualCall_c* withActualPointerParameters_c(const char* name, void* value);
@@ -204,10 +204,10 @@ long int longIntReturnValue_c();
 long int returnLongIntValueOrDefault_c(long int defaultValue);
 unsigned long int unsignedLongIntReturnValue_c();
 unsigned long int returnUnsignedLongIntValueOrDefault_c(unsigned long int defaultValue);
-cpputest_longlong longLongIntReturnValue_c();
-cpputest_longlong returnLongLongIntValueOrDefault_c(cpputest_longlong defaultValue);
-cpputest_ulonglong unsignedLongLongIntReturnValue_c();
-cpputest_ulonglong returnUnsignedLongLongIntValueOrDefault_c(cpputest_ulonglong defaultValue);
+long long longLongIntReturnValue_c();
+long long returnLongLongIntValueOrDefault_c(long long defaultValue);
+unsigned long long unsignedLongLongIntReturnValue_c();
+unsigned long long returnUnsignedLongLongIntValueOrDefault_c(unsigned long long defaultValue);
 const char* stringReturnValue_c();
 const char* returnStringValueOrDefault_c(const char * defaultValue);
 double doubleReturnValue_c();
@@ -412,13 +412,13 @@ MockExpectedCall_c* withUnsignedLongIntParameters_c(const char* name, unsigned l
     return &gExpectedCall;
 }
 
-MockExpectedCall_c* withLongLongIntParameters_c(const char* name, cpputest_longlong value)
+MockExpectedCall_c* withLongLongIntParameters_c(const char* name, long long value)
 {
     expectedCall = &expectedCall->withParameter(name, value);
     return &gExpectedCall;
 }
 
-MockExpectedCall_c* withUnsignedLongLongIntParameters_c(const char* name, cpputest_ulonglong value)
+MockExpectedCall_c* withUnsignedLongLongIntParameters_c(const char* name, unsigned long long value)
 {
     expectedCall = &expectedCall->withParameter(name, value);
     return &gExpectedCall;
@@ -526,13 +526,13 @@ MockExpectedCall_c* andReturnUnsignedLongIntValue_c(unsigned long int value)
     return &gExpectedCall;
 }
 
-MockExpectedCall_c* andReturnLongLongIntValue_c(cpputest_longlong value)
+MockExpectedCall_c* andReturnLongLongIntValue_c(long long value)
 {
     expectedCall = &expectedCall->andReturnValue(value);
     return &gExpectedCall;
 }
 
-MockExpectedCall_c* andReturnUnsignedLongLongIntValue_c(cpputest_ulonglong value)
+MockExpectedCall_c* andReturnUnsignedLongLongIntValue_c(unsigned long long value)
 {
     expectedCall = &expectedCall->andReturnValue(value);
     return &gExpectedCall;
@@ -692,13 +692,13 @@ MockActualCall_c* withActualUnsignedLongIntParameters_c(const char* name, unsign
     return &gActualCall;
 }
 
-MockActualCall_c* withActualLongLongIntParameters_c(const char* name, cpputest_longlong value)
+MockActualCall_c* withActualLongLongIntParameters_c(const char* name, long long value)
 {
     actualCall = &actualCall->withParameter(name, value);
     return &gActualCall;
 }
 
-MockActualCall_c* withActualUnsignedLongLongIntParameters_c(const char* name, cpputest_ulonglong value)
+MockActualCall_c* withActualUnsignedLongLongIntParameters_c(const char* name, unsigned long long value)
 {
     actualCall = &actualCall->withParameter(name, value);
     return &gActualCall;
@@ -828,12 +828,12 @@ unsigned long int returnUnsignedLongIntValueOrDefault_c(unsigned long int defaul
     return unsignedLongIntReturnValue_c();
 }
 
-cpputest_longlong longLongIntReturnValue_c()
+long long longLongIntReturnValue_c()
 {
     return actualCall->returnLongLongIntValue();
 }
 
-cpputest_longlong returnLongLongIntValueOrDefault_c(cpputest_longlong defaultValue)
+long long returnLongLongIntValueOrDefault_c(long long defaultValue)
 {
     if (!hasReturnValue_c()) {
         return defaultValue;
@@ -841,12 +841,12 @@ cpputest_longlong returnLongLongIntValueOrDefault_c(cpputest_longlong defaultVal
     return longLongIntReturnValue_c();
 }
 
-cpputest_ulonglong unsignedLongLongIntReturnValue_c()
+unsigned long long unsignedLongLongIntReturnValue_c()
 {
     return actualCall->returnUnsignedLongLongIntValue();
 }
 
-cpputest_ulonglong returnUnsignedLongLongIntValueOrDefault_c(cpputest_ulonglong defaultValue)
+unsigned long long returnUnsignedLongLongIntValueOrDefault_c(unsigned long long defaultValue)
 {
     if (!hasReturnValue_c()) {
         return defaultValue;

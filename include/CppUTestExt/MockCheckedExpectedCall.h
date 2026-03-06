@@ -47,8 +47,8 @@ public:
     virtual MockExpectedCall& withUnsignedIntParameter(const SimpleString& name, unsigned int value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& withLongIntParameter(const SimpleString& name, long int value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& withUnsignedLongIntParameter(const SimpleString& name, unsigned long int value) CPPUTEST_OVERRIDE;
-    virtual MockExpectedCall& withLongLongIntParameter(const SimpleString& name, cpputest_longlong value) CPPUTEST_OVERRIDE;
-    virtual MockExpectedCall& withUnsignedLongLongIntParameter(const SimpleString& name, cpputest_ulonglong value) CPPUTEST_OVERRIDE;
+    virtual MockExpectedCall& withLongLongIntParameter(const SimpleString& name, long long value) CPPUTEST_OVERRIDE;
+    virtual MockExpectedCall& withUnsignedLongLongIntParameter(const SimpleString& name, unsigned long long value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& withDoubleParameter(const SimpleString& name, double value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& withDoubleParameter(const SimpleString& name, double value, double tolerance) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& withStringParameter(const SimpleString& name, const char* value) CPPUTEST_OVERRIDE;
@@ -67,8 +67,8 @@ public:
     virtual MockExpectedCall& andReturnValue(unsigned int value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& andReturnValue(long int value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& andReturnValue(unsigned long int value) CPPUTEST_OVERRIDE;
-    virtual MockExpectedCall& andReturnValue(cpputest_longlong value) CPPUTEST_OVERRIDE;
-    virtual MockExpectedCall& andReturnValue(cpputest_ulonglong value) CPPUTEST_OVERRIDE;
+    virtual MockExpectedCall& andReturnValue(long long value) CPPUTEST_OVERRIDE;
+    virtual MockExpectedCall& andReturnValue(unsigned long long value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& andReturnValue(double value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& andReturnValue(const char* value) CPPUTEST_OVERRIDE;
     virtual MockExpectedCall& andReturnValue(void* value) CPPUTEST_OVERRIDE;
@@ -159,8 +159,8 @@ public:
     virtual MockExpectedCall& withUnsignedIntParameter(const SimpleString&, unsigned int) CPPUTEST_OVERRIDE{ return *this; }
     virtual MockExpectedCall& withLongIntParameter(const SimpleString&, long int) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& withUnsignedLongIntParameter(const SimpleString&, unsigned long int) CPPUTEST_OVERRIDE { return *this; }
-    virtual MockExpectedCall& withLongLongIntParameter(const SimpleString&, cpputest_longlong) CPPUTEST_OVERRIDE { return *this; }
-    virtual MockExpectedCall& withUnsignedLongLongIntParameter(const SimpleString&, cpputest_ulonglong) CPPUTEST_OVERRIDE { return *this; }
+    virtual MockExpectedCall& withLongLongIntParameter(const SimpleString&, long long) CPPUTEST_OVERRIDE { return *this; }
+    virtual MockExpectedCall& withUnsignedLongLongIntParameter(const SimpleString&, unsigned long long) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& withDoubleParameter(const SimpleString&, double) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& withDoubleParameter(const SimpleString&, double, double) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& withStringParameter(const SimpleString&, const char*) CPPUTEST_OVERRIDE { return *this; }
@@ -179,8 +179,8 @@ public:
     virtual MockExpectedCall& andReturnValue(unsigned int) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& andReturnValue(long int) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& andReturnValue(unsigned long int) CPPUTEST_OVERRIDE { return *this; }
-    virtual MockExpectedCall& andReturnValue(cpputest_longlong) CPPUTEST_OVERRIDE { return *this; }
-    virtual MockExpectedCall& andReturnValue(cpputest_ulonglong) CPPUTEST_OVERRIDE { return *this; }
+    virtual MockExpectedCall& andReturnValue(long long) CPPUTEST_OVERRIDE { return *this; }
+    virtual MockExpectedCall& andReturnValue(unsigned long long) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& andReturnValue(double) CPPUTEST_OVERRIDE { return *this;}
     virtual MockExpectedCall& andReturnValue(const char*) CPPUTEST_OVERRIDE { return *this; }
     virtual MockExpectedCall& andReturnValue(void*) CPPUTEST_OVERRIDE { return *this; }
