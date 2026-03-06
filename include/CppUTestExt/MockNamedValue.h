@@ -148,6 +148,7 @@ public:
     virtual const unsigned char* getMemoryBuffer() const;
     virtual const void* getConstObjectPointer() const;
     virtual void* getObjectPointer() const;
+    virtual bool isConstObject() const;
     virtual size_t getSize() const;
 
 
@@ -161,6 +162,7 @@ public:
 private:
     SimpleString name_;
     SimpleString type_;
+    bool isConstObject_;
     union {
         bool boolValue_;
         int intValue_;

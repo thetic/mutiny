@@ -661,6 +661,10 @@ static MockValue_c getMockValueCFromNamedValue(const MockNamedValue& namedValue)
         returnValue.type = MOCKVALUETYPE_MEMORYBUFFER;
         returnValue.value.memoryBufferValue = namedValue.getMemoryBuffer();
     }
+    else if (namedValue.isConstObject()) {
+        returnValue.type = MOCKVALUETYPE_CONST_OBJECT;
+        returnValue.value.constObjectValue = namedValue.getConstObjectPointer();
+    }
     else {
         returnValue.type = MOCKVALUETYPE_OBJECT;
         returnValue.value.objectValue = namedValue.getObjectPointer();

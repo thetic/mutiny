@@ -622,12 +622,14 @@ TEST(MockSupport_c, MockSupportSetDataObject)
 {
     mock_c()->setDataObject("name", "type", (void*) 1);
     POINTERS_EQUAL((void*) 1, mock_c()->getData("name").value.objectValue);
+    LONGS_EQUAL(MOCKVALUETYPE_OBJECT, mock_c()->getData("name").type);
 }
 
 TEST(MockSupport_c, MockSupportSetDataConstObject)
 {
     mock_c()->setDataConstObject("name", "type", (const void*) 5);
     POINTERS_EQUAL((void*) 5, mock_c()->getData("name").value.constObjectValue);
+    LONGS_EQUAL(MOCKVALUETYPE_CONST_OBJECT, mock_c()->getData("name").type);
 }
 
 TEST(MockSupport_c, WorksInCFile)

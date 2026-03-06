@@ -43,7 +43,7 @@ MockNamedValueComparatorsAndCopiersRepository* MockNamedValue::getDefaultCompara
     return defaultRepository_;
 }
 
-MockNamedValue::MockNamedValue(const SimpleString& name) : name_(name), type_("int"), size_(0), comparator_(NULLPTR), copier_(NULLPTR)
+MockNamedValue::MockNamedValue(const SimpleString& name) : name_(name), type_("int"), isConstObject_(false), size_(0), comparator_(NULLPTR), copier_(NULLPTR)
 {
     value_.intValue_ = 0;
 }
@@ -156,6 +156,7 @@ void MockNamedValue::setMemoryBuffer(const unsigned char* value, size_t size)
 void MockNamedValue::setConstObjectPointer(const SimpleString& type, const void* objectPtr)
 {
     type_ = type;
+    isConstObject_ = true;
     value_.constObjectPointerValue_ = objectPtr;
     if (defaultRepository_)
     {
@@ -167,6 +168,7 @@ void MockNamedValue::setConstObjectPointer(const SimpleString& type, const void*
 void MockNamedValue::setObjectPointer(const SimpleString& type, void* objectPtr)
 {
     type_ = type;
+    isConstObject_ = false;
     value_.objectPointerValue_ = objectPtr;
     if (defaultRepository_)
     {
@@ -352,6 +354,11 @@ const void* MockNamedValue::getConstObjectPointer() const
 void* MockNamedValue::getObjectPointer() const
 {
     return value_.objectPointerValue_;
+}
+
+bool MockNamedValue::isConstObject() const
+{
+    return isConstObject_;
 }
 
 size_t MockNamedValue::getSize() const
