@@ -220,12 +220,18 @@ target_link_libraries(example_test PRIVATE
     CppUTest::CppUTestExt)
 ```
 
-## Integration as external CMake project
+## CMake Integration
 
-Sometimes you want to use CppUTest in your project without installing it to your system or for having control over the version you are using. This little snippet get the wanted version from GitHub and builds it as a library.
+### FetchContent
+
+CMake can automatically download and integrate CppUTest with
+[`FetchContent`](https://cmake.org/cmake/help/latest/module/FetchContent.html).
+This is the recommended strategy for CMake integration.
 
 ```cmake
-# CppUTest
+cmake_minimum_required(VERSION 3.11)
+project(trying_CppUtest)
+
 include(FetchContent)
 FetchContent_Declare(
     CppUTest
@@ -233,16 +239,53 @@ FetchContent_Declare(
     GIT_TAG        master # or use release tag, eg. v4.0
 )
 FetchContent_MakeAvailable(CppUTest)
+
+add_executable(trying_CppUtest main.cpp)
+target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+
+include(CTest)
+include(CppUTest)
+cpputest_discover_tests(trying_CppUtest)
 ```
 
-It can be used then like so:
+### System install
+
+If CppUTest is installed on the system, use
+[`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html):
 
 ```cmake
-add_executable(example_test UnitTest1.cpp UnitTest2.cpp)
+cmake_minimum_required(VERSION 3.10)
+project(trying_CppUtest)
 
-target_link_libraries(example_test PRIVATE
-    CppUTest::CppUTest
-    CppUTest::CppUTestExt)
+find_package(CppUTest REQUIRED)
+
+add_executable(trying_CppUtest main.cpp)
+target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+
+include(CTest)
+include(CppUTest)
+cpputest_discover_tests(trying_CppUtest)
+```
+
+### Subdirectory
+
+To integrate CppUTest from a local directory (e.g. when building for a
+different target platform):
+
+```cmake
+cmake_minimum_required(VERSION 3.10)
+project(trying_CppUtest)
+
+set(CPPUTEST_PLATFORM OFF CACHE BOOL "Platform implementation")
+add_subdirectory(/path/to/cpputest CppUTest)
+target_sources(CppUTest PRIVATE ${PROJECT_SOURCE_DIR}/UtestPlatform.cpp)
+
+add_executable(trying_CppUtest main.cpp)
+target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+
+include(CTest)
+include(CppUTest)
+cpputest_discover_tests(trying_CppUtest)
 ```
 
 [conan-center]: https://conan.io/center/cpputest
