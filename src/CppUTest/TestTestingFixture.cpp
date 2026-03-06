@@ -104,11 +104,6 @@ void TestTestingFixture::installPlugin(TestPlugin* plugin)
     registry_->installPlugin(plugin);
 }
 
-void TestTestingFixture::setRunTestsInSeperateProcess()
-{
-    registry_->setRunTestsInSeperateProcess();
-}
-
 void TestTestingFixture::setOutputVerbose()
 {
     output_->verbose(TestOutput::level_verbose);

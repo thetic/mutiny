@@ -35,10 +35,6 @@
 
 #include "CppUTest/PlatformSpecificFunctions.h"
 
-void (*PlatformSpecificRunTestInASeperateProcess)(UtestShell*, TestPlugin*, TestResult*) = NULLPTR;
-int (*PlatformSpecificFork)() = NULLPTR;
-int (*PlatformSpecificWaitPid)(int, int*, int) = NULLPTR;
-
 TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
 {
     return TestOutput::eclipse;

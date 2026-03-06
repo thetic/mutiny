@@ -64,14 +64,6 @@ TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
     return TestOutput::eclipse;
 }
 
-static void C2000RunTestInASeperateProcess(UtestShell* shell, TestPlugin* plugin, TestResult* result)
-{
-    result->addFailure(TestFailure(shell, "-p doesn't work on this platform, as it is lacking fork.\b"));
-}
-
-void (*PlatformSpecificRunTestInASeperateProcess)(UtestShell*, TestPlugin*, TestResult*) =
-    C2000RunTestInASeperateProcess;
-
 extern "C" {
 
 static int C2000SetJmp(void (*function) (void* data), void* data)

@@ -121,16 +121,6 @@ extern "C" {
         shell->runOneTestInCurrentProcess(plugin, *result);
     }
 
-    static void helperDoRunOneTestSeperateProcess(void* data)
-    {
-        HelperTestRunInfo* runInfo = (HelperTestRunInfo*) data;
-
-        UtestShell* shell = runInfo->shell_;
-        TestPlugin* plugin = runInfo->plugin_;
-        TestResult* result = runInfo->result_;
-        PlatformSpecificRunTestInASeperateProcess(shell, plugin, result);
-    }
-
 }
 
 /******************************** */
@@ -148,17 +138,17 @@ bool UtestShell::rethrowExceptions_ = false;
 /******************************** */
 
 UtestShell::UtestShell() :
-    group_("UndefinedTestGroup"), name_("UndefinedTest"), file_("UndefinedFile"), lineNumber_(0), next_(NULLPTR), isRunAsSeperateProcess_(false), hasFailed_(false)
+    group_("UndefinedTestGroup"), name_("UndefinedTest"), file_("UndefinedFile"), lineNumber_(0), next_(NULLPTR), hasFailed_(false)
 {
 }
 
 UtestShell::UtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber) :
-    group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(NULLPTR), isRunAsSeperateProcess_(false), hasFailed_(false)
+    group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(NULLPTR), hasFailed_(false)
 {
 }
 
 UtestShell::UtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber, UtestShell* nextTest) :
-    group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(nextTest), isRunAsSeperateProcess_(false), hasFailed_(false)
+    group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(nextTest), hasFailed_(false)
 {
 }
 
@@ -188,10 +178,7 @@ void UtestShell::runOneTest(TestPlugin* plugin, TestResult& result)
     hasFailed_ = false;
     result.countRun();
     HelperTestRunInfo runInfo(this, plugin, &result);
-    if (isRunInSeperateProcess())
-        PlatformSpecificSetJmp(helperDoRunOneTestSeperateProcess, &runInfo);
-    else
-        PlatformSpecificSetJmp(helperDoRunOneTestInCurrentProcess, &runInfo);
+    PlatformSpecificSetJmp(helperDoRunOneTestInCurrentProcess, &runInfo);
 }
 
 Utest* UtestShell::createTest()
@@ -308,17 +295,6 @@ bool UtestShell::willRun() const
 {
     return true;
 }
-
-bool UtestShell::isRunInSeperateProcess() const
-{
-    return isRunAsSeperateProcess_;
-}
-
-void UtestShell::setRunInSeperateProcess()
-{
-    isRunAsSeperateProcess_ = true;
-}
-
 
 void UtestShell::setRunIgnored()
 {

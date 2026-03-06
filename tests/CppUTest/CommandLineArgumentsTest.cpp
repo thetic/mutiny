@@ -184,14 +184,6 @@ TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
     CHECK_TRUE(args->isShuffling());
 }
 
-TEST(CommandLineArguments, runningTestsInSeperateProcesses)
-{
-    int argc = 2;
-    const char* argv[] = { "tests.exe", "-p" };
-    CHECK(newArgumentParser(argc, argv));
-    CHECK(args->runTestsInSeperateProcess());
-}
-
 TEST(CommandLineArguments, setGroupFilter)
 {
     int argc = 3;
@@ -528,7 +520,7 @@ TEST(CommandLineArguments, printUsage)
 {
     STRCMP_EQUAL(
             "use -h for more extensive help\n"
-            "usage [-h] [-v] [-vv] [-c] [-p] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] [-ci]\n"
+            "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] [-ci]\n"
             "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... [-t|st|xt|xst <groupName>.<testName>]...\n"
             "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, <testName>)\"]...\n"
             "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n",

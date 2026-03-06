@@ -370,35 +370,6 @@ TEST(UtestShell, this_test_covers_the_UtestShell_createTest_and_Utest_testBody_m
 }
 
 
-static void StubPlatformSpecificRunTestInASeperateProcess(UtestShell* shell, TestPlugin*, TestResult* result)
-{
-    result->addFailure(TestFailure(shell, "Failed in separate process"));
-}
-
-TEST(UtestShell, RunInSeparateProcessTest)
-{
-    UT_PTR_SET(PlatformSpecificRunTestInASeperateProcess, StubPlatformSpecificRunTestInASeperateProcess);
-    fixture.getRegistry()->setRunTestsInSeperateProcess();
-    fixture.runAllTests();
-    fixture.assertPrintContains("Failed in separate process");
-}
-
-// There is a possibility that a compiler provides fork but not waitpid.
-#if !defined(CPPUTEST_HAVE_FORK) || !defined(CPPUTEST_HAVE_WAITPID) || !defined(CPPUTEST_HAVE_KILL)
-
-IGNORE_TEST(UtestShell, TestDefaultCrashMethodInSeparateProcessTest) {}
-
-#else
-
-TEST(UtestShell, TestDefaultCrashMethodInSeparateProcessTest)
-{
-    fixture.setTestFunction(UtestShell::crash);
-    fixture.setRunTestsInSeperateProcess();
-    fixture.runAllTests();
-    fixture.assertPrintContains("Failed in separate process - killed by signal");
-}
-
-#endif
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 

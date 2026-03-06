@@ -37,13 +37,6 @@
 #ifdef CPPUTEST_HAVE_GETTIMEOFDAY
 #include <sys/time.h>
 #endif
-#if defined(CPPUTEST_HAVE_FORK) && defined(CPPUTEST_HAVE_WAITPID) && defined(CPPUTEST_HAVE_KILL)
-#include <unistd.h>
-#include <sys/wait.h>
-#include <errno.h>
-#include <signal.h>
-#endif
-
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -61,103 +54,10 @@
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
 
-// There is a possibility that a compiler provides fork but not waitpid.
-#if !defined(CPPUTEST_HAVE_FORK) || !defined(CPPUTEST_HAVE_WAITPID) || !defined(CPPUTEST_HAVE_KILL)
-
-static void GccPlatformSpecificRunTestInASeperateProcess(UtestShell* shell, TestPlugin*, TestResult* result)
-{
-    result->addFailure(TestFailure(shell, "-p doesn't work on this platform, as it is lacking fork.\b"));
-}
-
-static int PlatformSpecificForkImplementation(void)
-{
-    return 0;
-}
-
-static int PlatformSpecificWaitPidImplementation(int, int*, int)
-{
-    return 0;
-}
-
-#else
-
-static void SetTestFailureByStatusCode(UtestShell* shell, TestResult* result, int status)
-{
-    if (WIFEXITED(status) && WEXITSTATUS(status) != 0) {
-        result->addFailure(TestFailure(shell, "Failed in separate process"));
-    } else if (WIFSIGNALED(status)) {
-        SimpleString message("Failed in separate process - killed by signal ");
-        message += StringFrom(WTERMSIG(status));
-        result->addFailure(TestFailure(shell, message));
-    } else if (WIFSTOPPED(status)) {
-        result->addFailure(TestFailure(shell, "Stopped in separate process - continuing"));
-    }
-}
-
-static void GccPlatformSpecificRunTestInASeperateProcess(UtestShell* shell, TestPlugin* plugin, TestResult* result)
-{
-    const pid_t syscallError = -1;
-    pid_t cpid;
-    pid_t w;
-    int status = 0;
-
-    cpid = PlatformSpecificFork();
-
-    if (cpid == syscallError) {
-        result->addFailure(TestFailure(shell, "Call to fork() failed"));
-        return;
-    }
-
-    if (cpid == 0) {            /* Code executed by child */
-        const size_t initialFailureCount = result->getFailureCount(); // LCOV_EXCL_LINE
-        shell->runOneTestInCurrentProcess(plugin, *result);        // LCOV_EXCL_LINE
-        _exit(initialFailureCount < result->getFailureCount());    // LCOV_EXCL_LINE
-    } else {                    /* Code executed by parent */
-        size_t amountOfRetries = 0;
-        do {
-            w = PlatformSpecificWaitPid(cpid, &status, WUNTRACED);
-            if (w == syscallError) {
-                // OS X debugger causes EINTR
-                if (EINTR == errno) {
-                  if (amountOfRetries > 30) {
-                    result->addFailure(TestFailure(shell, "Call to waitpid() failed with EINTR. Tried 30 times and giving up! Sometimes happens in debugger"));
-                    return;
-                  }
-                  amountOfRetries++;
-                }
-                else {
-                    result->addFailure(TestFailure(shell, "Call to waitpid() failed"));
-                    return;
-                }
-            } else {
-                SetTestFailureByStatusCode(shell, result, status);
-                if (WIFSTOPPED(status)) kill(w, SIGCONT);
-            }
-        } while ((w == syscallError) || (!WIFEXITED(status) && !WIFSIGNALED(status)));
-    }
-}
-
-static pid_t PlatformSpecificForkImplementation(void)
-{
-    return fork();
-}
-
-static pid_t PlatformSpecificWaitPidImplementation(int pid, int* status, int options)
-{
-    return waitpid(pid, status, options);
-}
-
-#endif
-
 TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
 {
     return TestOutput::eclipse;
 }
-
-void (*PlatformSpecificRunTestInASeperateProcess)(UtestShell* shell, TestPlugin* plugin, TestResult* result) =
-        GccPlatformSpecificRunTestInASeperateProcess;
-int (*PlatformSpecificFork)(void) = PlatformSpecificForkImplementation;
-int (*PlatformSpecificWaitPid)(int, int*, int) = PlatformSpecificWaitPidImplementation;
 
 extern "C" {
 

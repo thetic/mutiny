@@ -30,7 +30,7 @@
 #include "CppUTest/PlatformSpecificFunctions.h"
 
 TestRegistry::TestRegistry() :
-    tests_(NULLPTR), nameFilters_(NULLPTR), groupFilters_(NULLPTR), firstPlugin_(NullTestPlugin::instance()), runInSeperateProcess_(false), currentRepetition_(0), runIgnored_(false)
+    tests_(NULLPTR), nameFilters_(NULLPTR), groupFilters_(NULLPTR), firstPlugin_(NullTestPlugin::instance()), currentRepetition_(0), runIgnored_(false)
 {
 }
 
@@ -49,7 +49,6 @@ void TestRegistry::runAllTests(TestResult& result)
 
     result.testsStarted();
     for (UtestShell *test = tests_; test != NULLPTR; test = test->getNext()) {
-        if (runInSeperateProcess_) test->setRunInSeperateProcess();
         if (runIgnored_) test->setRunIgnored();
 
         if (groupStart) {
@@ -185,11 +184,6 @@ void TestRegistry::setGroupFilters(const TestFilter* filters)
 void TestRegistry::setRunIgnored()
 {
     runIgnored_ = true;
-}
-
-void TestRegistry::setRunTestsInSeperateProcess()
-{
-    runInSeperateProcess_ = true;
 }
 
 int TestRegistry::getCurrentRepetition()

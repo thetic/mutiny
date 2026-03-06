@@ -162,9 +162,6 @@ public:
     static void setCrashMethod(void (*crashme)());
     static void resetCrashMethod();
 
-    virtual bool isRunInSeperateProcess() const;
-    virtual void setRunInSeperateProcess();
-
     virtual void setRunIgnored();
 
     virtual Utest* createTest();
@@ -190,7 +187,6 @@ private:
     const char *file_;
     size_t lineNumber_;
     UtestShell *next_;
-    bool isRunAsSeperateProcess_;
     bool hasFailed_;
 
     void setTestResult(TestResult* result);

@@ -39,7 +39,6 @@ add_executable(CppUTestTests
     TestInstallerTest.cpp
     TestMemoryAllocatorTest.cpp
     TestUTestMacro.cpp
-    UtestPlatformTest.cpp
     UtestTest.cpp
     TestUTestStringMacro.cpp
 )

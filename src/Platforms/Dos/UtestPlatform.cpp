@@ -57,25 +57,6 @@ TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
     return TestOutput::eclipse;
 }
 
-static void DummyRunTestInASeperateProcess(UtestShell* shell, TestPlugin* plugin, TestResult* result)
-{
-    result->addFailure(TestFailure(shell, "-p doesn't work on this platform, as it is lacking fork.\b"));
-}
-
-static int DummyPlatformSpecificFork(void)
-{
-    return 0;
-}
-
-static int DummyPlatformSpecificWaitPid(int, int*, int)
-{
-    return 0;
-}
-
-void (*PlatformSpecificRunTestInASeperateProcess)(UtestShell*, TestPlugin*, TestResult*) = DummyRunTestInASeperateProcess;
-int (*PlatformSpecificFork)() = DummyPlatformSpecificFork;
-int (*PlatformSpecificWaitPid)(int, int*, int) = DummyPlatformSpecificWaitPid;
-
 extern "C" {
 
 static int DosSetJmp(void (*function) (void* data), void* data)

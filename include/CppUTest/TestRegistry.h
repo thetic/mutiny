@@ -74,7 +74,6 @@ public:
     static TestRegistry* getCurrentRegistry();
     virtual void setCurrentRegistry(TestRegistry* registry);
 
-    virtual void setRunTestsInSeperateProcess();
     int getCurrentRepetition();
     void setRunIgnored();
 
@@ -88,7 +87,6 @@ private:
     const TestFilter* groupFilters_;
     TestPlugin* firstPlugin_;
     static TestRegistry* currentRegistry_;
-    bool runInSeperateProcess_;
     int currentRepetition_;
     bool runIgnored_;
 };

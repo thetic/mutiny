@@ -285,14 +285,6 @@ TEST(TestRegistry, groupFilterWorks)
     CHECK(!test2->hasRun_);
 }
 
-TEST(TestRegistry, runTestInSeperateProcess)
-{
-    myRegistry->setRunTestsInSeperateProcess();
-    myRegistry->addTest(test1);
-    myRegistry->runAllTests(*result);
-    CHECK(test1->isRunInSeperateProcess());
-}
-
 TEST(TestRegistry, CurrentRepetitionIsCorrectNone)
 {
     CHECK(0 == myRegistry->getCurrentRepetition());

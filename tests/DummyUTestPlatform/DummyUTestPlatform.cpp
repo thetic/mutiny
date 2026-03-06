@@ -7,10 +7,6 @@ TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
     return TestOutput::eclipse;
 }
 
-void (*PlatformSpecificRunTestInASeperateProcess)(UtestShell* shell, TestPlugin* plugin, TestResult* result) = NULLPTR;
-int (*PlatformSpecificFork)(void) = NULLPTR;
-int (*PlatformSpecificWaitPid)(int pid, int* status, int options) = NULLPTR;
-
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
 

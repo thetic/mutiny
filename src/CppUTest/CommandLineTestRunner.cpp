@@ -77,7 +77,6 @@ void CommandLineTestRunner::initializeTestRun()
     if (arguments_->isVerbose()) output_->verbose(TestOutput::level_verbose);
     if (arguments_->isVeryVerbose()) output_->verbose(TestOutput::level_veryVerbose);
     if (arguments_->isColor()) output_->color();
-    if (arguments_->runTestsInSeperateProcess()) registry_->setRunTestsInSeperateProcess();
     if (arguments_->isRunIgnored()) registry_->setRunIgnored();
     if (arguments_->isCrashingOnFail()) UtestShell::setCrashOnFail();
 

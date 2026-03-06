@@ -48,7 +48,6 @@ public:
     void setTeardown(void(*teardownFunction)());
 
     void setOutputVerbose();
-    void setRunTestsInSeperateProcess();
 
     void runTestWithMethod(void(*method)());
     void runAllTests();

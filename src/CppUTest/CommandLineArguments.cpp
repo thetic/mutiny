@@ -30,7 +30,7 @@
 #include "CppUTest/PlatformSpecificFunctions.h"
 
 CommandLineArguments::CommandLineArguments(int ac, const char *const *av) :
-    ac_(ac), av_(av), needHelp_(false), verbose_(false), veryVerbose_(false), color_(false), runTestsAsSeperateProcess_(false),
+    ac_(ac), av_(av), needHelp_(false), verbose_(false), veryVerbose_(false), color_(false),
     listTestGroupNames_(false), listTestGroupAndCaseNames_(false), listTestLocations_(false), runIgnored_(false), reversing_(false),
     crashOnFail_(false), rethrowExceptions_(true), shuffling_(false), shufflingPreSeeded_(false), repeat_(1), shuffleSeed_(0),
     groupFilters_(NULLPTR), nameFilters_(NULLPTR), outputType_(OUTPUT_ECLIPSE)
@@ -64,7 +64,6 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
         else if (argument == "-v") verbose_ = true;
         else if (argument == "-vv") veryVerbose_ = true;
         else if (argument == "-c") color_ = true;
-        else if (argument == "-p") runTestsAsSeperateProcess_ = true;
         else if (argument == "-b") reversing_ = true;
         else if (argument == "-lg") listTestGroupNames_ = true;
         else if (argument == "-ln") listTestGroupAndCaseNames_ = true;
@@ -103,7 +102,7 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
 const char* CommandLineArguments::usage() const
 {
     return "use -h for more extensive help\n"
-           "usage [-h] [-v] [-vv] [-c] [-p] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] [-ci]\n"
+           "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] [-ci]\n"
            "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... [-t|st|xt|xst <groupName>.<testName>]...\n"
            "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, <testName>)\"]...\n"
            "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n";
@@ -151,7 +150,6 @@ const char* CommandLineArguments::help() const
       "                      (this can be used to copy-paste output from the -v option on the command line)\n"
       "\n"
       "Options that control how the tests are run:\n"
-      "  -p                - run tests in a separate process\n"
       "  -b                - run the tests backwards, reversing the normal way\n"
       "  -s [<seed>]       - shuffle tests randomly (randomization seed is optional, must be greater than 0)\n"
       "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is not specified)\n"
@@ -200,12 +198,6 @@ bool CommandLineArguments::isRunIgnored() const
 {
     return runIgnored_;
 }
-
-bool CommandLineArguments::runTestsInSeperateProcess() const
-{
-    return runTestsAsSeperateProcess_;
-}
-
 
 size_t CommandLineArguments::getRepeatCount() const
 {
