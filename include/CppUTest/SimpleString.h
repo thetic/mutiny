@@ -38,7 +38,22 @@
 #ifndef D_SimpleString_h
 #define D_SimpleString_h
 
-#include "StandardCLibrary.h"
+#include "CppUTestConfig.h"
+#include <stdarg.h>
+#ifdef __cplusplus
+# if CPPUTEST_USE_STD_CPP_LIB
+#  include <string>
+#  include <cstddef>
+# endif
+#endif
+/* Kludge to get a va_copy in VC++ V6 and in GCC 98 */
+#ifndef va_copy
+# ifdef __GNUC__
+#  define va_copy __va_copy
+# else
+#  define va_copy(copy, original) copy = original;
+# endif
+#endif
 
 class SimpleStringCollection;
 class TestMemoryAllocator;

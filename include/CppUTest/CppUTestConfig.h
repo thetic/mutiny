@@ -71,8 +71,8 @@
  #endif
 #endif
 
-/* Should be the only #include here. Standard C library wrappers */
-#include "StandardCLibrary.h"
+#include <limits.h>
+#include <stddef.h>
 
 /* Create a CPPUTEST_NORETURN macro, which is used to flag a function as not returning.
  * Used for functions that always throws for instance.

@@ -33,7 +33,7 @@
 #ifndef D_TestRegistry_h
 #define D_TestRegistry_h
 
-#include "StandardCLibrary.h"
+#include <stddef.h>
 #include "SimpleString.h"
 #include "TestFilter.h"
 

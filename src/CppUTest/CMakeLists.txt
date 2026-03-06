@@ -28,8 +28,7 @@ add_library(CppUTest
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestPlugin.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/JUnitTestOutput.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TeamCityTestOutput.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/StandardCLibrary.h
-        ${PROJECT_SOURCE_DIR}/include/CppUTest/TestRegistry.h
+${PROJECT_SOURCE_DIR}/include/CppUTest/TestRegistry.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestFailure.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestResult.h
         ${PROJECT_SOURCE_DIR}/include/CppUTest/TestFilter.h
