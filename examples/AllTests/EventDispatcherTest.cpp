@@ -38,7 +38,7 @@ public:
         mock()
             .actualCall("notify")
             .onObject(this)
-            .withParameterOfType("Event", "event", (void*)&event)
+            .withParameterOfType("Event", "event", static_cast<const void*>(&event))
             .withParameter("timeOutInSeconds", timeOutInSeconds);
     }
     virtual void notifyRegistration(EventObserver* newObserver) override
@@ -52,11 +52,11 @@ class EventComparator : public MockNamedValueComparator
 public:
     virtual bool isEqual(const void* object1, const void* object2) override
     {
-        return ((const Event*)object1)->type == ((const Event*)object2)->type;
+        return static_cast<const Event*>(object1)->type == static_cast<const Event*>(object2)->type;
     }
     virtual SimpleString valueToString(const void* object) override
     {
-        return StringFrom(((const Event*)object)->type);
+        return StringFrom(static_cast<const Event*>(object)->type);
     }
 };
 

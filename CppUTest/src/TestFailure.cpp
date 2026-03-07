@@ -122,7 +122,7 @@ SimpleString TestFailure::createDifferenceAtPosString(const SimpleString& actual
 
     SimpleString paddingForPreventingOutOfBounds (" ", halfOfExtraCharactersWindow);
     SimpleString actualString = paddingForPreventingOutOfBounds + actual + paddingForPreventingOutOfBounds;
-    SimpleString differentString = StringFromFormat("difference starts at position %lu at: <", (unsigned long) reportedPosition);
+    SimpleString differentString = StringFromFormat("difference starts at position %lu at: <", static_cast<unsigned long>(reportedPosition));
 
     result += "\n";
     result += StringFromFormat("\t%s%s>\n", differentString.asCharString(), actualString.subString(offset, extraCharactersWindow).asCharString());
@@ -297,8 +297,8 @@ SignedBytesEqualFailure::SignedBytesEqualFailure (UtestShell* test, const char* 
 {
     message_ = createUserText(text);
 
-    SimpleString aDecimal = StringFrom((int)actual);
-    SimpleString eDecimal = StringFrom((int)expected);
+    SimpleString aDecimal = StringFrom(static_cast<int>(actual));
+    SimpleString eDecimal = StringFrom(static_cast<int>(expected));
 
     SimpleString::padStringsToSameLength(aDecimal, eDecimal, ' ');
 

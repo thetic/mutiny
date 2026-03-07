@@ -539,7 +539,7 @@ TEST(SimpleString, copyInBufferNormal)
 {
     SimpleString str("Hello World");
     size_t bufferSize = str.size()+1;
-    char* buffer = (char*) PlatformSpecificMalloc(bufferSize);
+    char* buffer = static_cast<char*>(PlatformSpecificMalloc(bufferSize));
     str.copyToBuffer(buffer, bufferSize);
     STRCMP_EQUAL(str.asCharString(), buffer);
     PlatformSpecificFree(buffer);
@@ -557,7 +557,7 @@ TEST(SimpleString, copyInBufferWithBiggerBufferThanNeeded)
 {
     SimpleString str("Hello");
     size_t bufferSize = 20;
-    char* buffer= (char*) PlatformSpecificMalloc(bufferSize);
+    char* buffer= static_cast<char*>(PlatformSpecificMalloc(bufferSize));
     str.copyToBuffer(buffer, bufferSize);
     STRCMP_EQUAL(str.asCharString(), buffer);
     PlatformSpecificFree(buffer);
@@ -567,7 +567,7 @@ TEST(SimpleString, copyInBufferWithSmallerBufferThanNeeded)
 {
     SimpleString str("Hello");
     size_t bufferSize = str.size();
-    char* buffer= (char*) PlatformSpecificMalloc(bufferSize);
+    char* buffer= static_cast<char*>(PlatformSpecificMalloc(bufferSize));
     str.copyToBuffer(buffer, bufferSize);
     STRNCMP_EQUAL(str.asCharString(), buffer, (bufferSize-1));
     LONGS_EQUAL(0, buffer[bufferSize-1]);
@@ -582,12 +582,12 @@ TEST(SimpleString, ContainsNull)
 
 TEST(SimpleString, NULLReportsNullString)
 {
-    STRCMP_EQUAL("(null)", StringFromOrNull((char*) nullptr).asCharString());
+    STRCMP_EQUAL("(null)", StringFromOrNull(static_cast<char*>(nullptr)).asCharString());
 }
 
 TEST(SimpleString, NULLReportsNullStringPrintable)
 {
-    STRCMP_EQUAL("(null)", PrintableStringFromOrNull((char*) nullptr).asCharString());
+    STRCMP_EQUAL("(null)", PrintableStringFromOrNull(static_cast<char*>(nullptr)).asCharString());
 }
 
 TEST(SimpleString, Booleans)
@@ -600,13 +600,13 @@ TEST(SimpleString, Booleans)
 
 TEST(SimpleString, Pointers)
 {
-    SimpleString s(StringFrom((void *)0x1234));
+    SimpleString s(StringFrom(reinterpret_cast<void *>(0x1234)));
     STRCMP_EQUAL("0x1234", s.asCharString());
 }
 
 TEST(SimpleString, FunctionPointers)
 {
-    SimpleString s(StringFrom((void (*)())0x1234));
+    SimpleString s(StringFrom(reinterpret_cast<void (*)()>(0x1234)));
     STRCMP_EQUAL("0x1234", s.asCharString());
 }
 
@@ -618,7 +618,7 @@ TEST(SimpleString, Characters)
 
 TEST(SimpleString, NegativeSignedBytes)
 {
-    STRCMP_EQUAL("-15", StringFrom((signed char)-15).asCharString());
+    STRCMP_EQUAL("-15", StringFrom(static_cast<signed char>(-15)).asCharString());
 }
 
 TEST(SimpleString, PositiveSignedBytes)
@@ -628,27 +628,27 @@ TEST(SimpleString, PositiveSignedBytes)
 
 TEST(SimpleString, LongInts)
 {
-    SimpleString s(StringFrom((long)1));
+    SimpleString s(StringFrom(static_cast<long>(1)));
     CHECK(s == "1");
 }
 
 TEST(SimpleString, UnsignedLongInts)
 {
-    SimpleString s(StringFrom((unsigned long)1));
-    SimpleString s2(StringFrom((unsigned long)1));
+    SimpleString s(StringFrom(static_cast<unsigned long>(1)));
+    SimpleString s2(StringFrom(static_cast<unsigned long>(1)));
     CHECK(s == s2);
 }
 
 TEST(SimpleString, LongLongInts)
 {
-    SimpleString s(StringFrom((long long)1));
+    SimpleString s(StringFrom(static_cast<long long>(1)));
     CHECK(s == "1");
 }
 
 TEST(SimpleString, UnsignedLongLongInts)
 {
-    SimpleString s(StringFrom((unsigned long long)1));
-    SimpleString s2(StringFrom((unsigned long long)1));
+    SimpleString s(StringFrom(static_cast<unsigned long long>(1)));
+    SimpleString s2(StringFrom(static_cast<unsigned long long>(1)));
     CHECK(s == s2);
 }
 
@@ -685,7 +685,7 @@ TEST(SimpleString, SmallDoubles)
 TEST(SimpleString, Sizes)
 {
     size_t size = 10;
-    STRCMP_EQUAL("10", StringFrom((int) size).asCharString());
+    STRCMP_EQUAL("10", StringFrom(static_cast<int>(size)).asCharString());
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
@@ -700,7 +700,7 @@ TEST(SimpleString, nullptr_type)
 
 TEST(SimpleString, HexStrings)
 {
-    STRCMP_EQUAL("f3", HexStringFrom((signed char)-13).asCharString());
+    STRCMP_EQUAL("f3", HexStringFrom(static_cast<signed char>(-13)).asCharString());
 
     SimpleString h1 = HexStringFrom(0xffffL);
     STRCMP_EQUAL("ffff", h1.asCharString());
@@ -708,10 +708,10 @@ TEST(SimpleString, HexStrings)
     SimpleString h15 = HexStringFrom(0xffffLL);
     STRCMP_EQUAL("ffff", h15.asCharString());
 
-    SimpleString h2 = HexStringFrom((void *)0xfffeL);
+    SimpleString h2 = HexStringFrom(reinterpret_cast<void *>(0xfffeL));
     STRCMP_EQUAL("fffe", h2.asCharString());
 
-    SimpleString h3 = HexStringFrom((void (*)())0xfffdL);
+    SimpleString h3 = HexStringFrom(reinterpret_cast<void (*)()>(0xfffdL));
     STRCMP_EQUAL("fffd", h3.asCharString());
 }
 
@@ -724,7 +724,7 @@ TEST(SimpleString, StringFromFormat)
 TEST(SimpleString, StringFromFormatpointer)
 {
     //this is not a great test. but %p is odd on mingw and even more odd on Solaris.
-    SimpleString h1 = StringFromFormat("%p", (void*) 1);
+    SimpleString h1 = StringFromFormat("%p", reinterpret_cast<void*>(1));
     if (h1.size() == 3)
         STRCMP_EQUAL("0x1", h1.asCharString());
     else if (h1.size() == 8)
@@ -842,9 +842,9 @@ TEST(SimpleString, CollectionWritingToEmptyString)
 
 TEST(SimpleString, 64BitAddressPrintsCorrectly)
 {
-    char* p = (char*) 0x0012345678901234;
+    char* p = reinterpret_cast<char*>(0x0012345678901234LL);
     SimpleString expected("0x12345678901234");
-    SimpleString actual = StringFrom((void*)p);
+    SimpleString actual = StringFrom(static_cast<void*>(p));
     STRCMP_EQUAL(expected.asCharString(), actual.asCharString());
 }
 
@@ -934,10 +934,10 @@ TEST(SimpleString, StrCmp)
     char blabla[] = "blabla";
     char bla[] = "bla";
     CHECK(SimpleString::StrCmp(empty, empty) == 0);
-    CHECK(SimpleString::StrCmp(bla, blabla) == -(int)'b');
+    CHECK(SimpleString::StrCmp(bla, blabla) == -static_cast<int>('b'));
     CHECK(SimpleString::StrCmp(blabla, bla) == 'b');
     CHECK(SimpleString::StrCmp(bla, empty) == 'b');
-    CHECK(SimpleString::StrCmp(empty, bla) == -(int)'b');
+    CHECK(SimpleString::StrCmp(empty, bla) == -static_cast<int>('b'));
     CHECK(SimpleString::StrCmp(bla, bla) == 0);
 }
 

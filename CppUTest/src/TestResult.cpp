@@ -44,19 +44,19 @@ TestResult::~TestResult()
 void TestResult::currentGroupStarted(UtestShell* test)
 {
     output_.printCurrentGroupStarted(*test);
-    currentGroupTimeStarted_ = (size_t) GetPlatformSpecificTimeInMillis();
+    currentGroupTimeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
 void TestResult::currentGroupEnded(UtestShell* /*test*/)
 {
-    currentGroupTotalExecutionTime_ = (size_t) GetPlatformSpecificTimeInMillis() - currentGroupTimeStarted_;
+    currentGroupTotalExecutionTime_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis()) - currentGroupTimeStarted_;
     output_.printCurrentGroupEnded(*this);
 }
 
 void TestResult::currentTestStarted(UtestShell* test)
 {
     output_.printCurrentTestStarted(*test);
-    currentTestTimeStarted_ = (size_t) GetPlatformSpecificTimeInMillis();
+    currentTestTimeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
 void TestResult::print(const char* text)
@@ -71,7 +71,7 @@ void TestResult::printVeryVerbose(const char* text)
 
 void TestResult::currentTestEnded(UtestShell* /*test*/)
 {
-    currentTestTotalExecutionTime_ = (size_t) GetPlatformSpecificTimeInMillis() - currentTestTimeStarted_;
+    currentTestTotalExecutionTime_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis()) - currentTestTimeStarted_;
     output_.printCurrentTestEnded(*this);
 
 }
@@ -109,13 +109,13 @@ void TestResult::countIgnored()
 
 void TestResult::testsStarted()
 {
-    timeStarted_ = (size_t) GetPlatformSpecificTimeInMillis();
+    timeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
     output_.printTestsStarted();
 }
 
 void TestResult::testsEnded()
 {
-    size_t timeEnded = (size_t) GetPlatformSpecificTimeInMillis();
+    size_t timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
     totalExecutionTime_ = timeEnded - timeStarted_;
     output_.printTestsEnded(*this);
 }

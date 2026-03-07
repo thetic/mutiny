@@ -49,13 +49,13 @@ class TypeForTestingExpectedFunctionCallComparator : public MockNamedValueCompar
 public:
     virtual bool isEqual(const void* object1, const void* object2) override
     {
-        const TypeForTestingExpectedFunctionCall* obj1 = (const TypeForTestingExpectedFunctionCall*) object1;
-        const TypeForTestingExpectedFunctionCall* obj2 = (const TypeForTestingExpectedFunctionCall*) object2;
+        const TypeForTestingExpectedFunctionCall* obj1 = static_cast<const TypeForTestingExpectedFunctionCall*>(object1);
+        const TypeForTestingExpectedFunctionCall* obj2 = static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
         return *(obj1->value) == *(obj2->value);
     }
     virtual SimpleString valueToString(const void* object) override
     {
-        const TypeForTestingExpectedFunctionCall* obj = (const TypeForTestingExpectedFunctionCall*) object;
+        const TypeForTestingExpectedFunctionCall* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
         return StringFrom(*(obj->value));
     }
 };
@@ -65,8 +65,8 @@ class TypeForTestingExpectedFunctionCallCopier : public MockNamedValueCopier
 public:
     virtual void copy(void* dst_, const void* src_) override
     {
-        TypeForTestingExpectedFunctionCall* dst = (TypeForTestingExpectedFunctionCall*) dst_;
-        const TypeForTestingExpectedFunctionCall* src = (const TypeForTestingExpectedFunctionCall*) src_;
+        TypeForTestingExpectedFunctionCall* dst = static_cast<TypeForTestingExpectedFunctionCall*>(dst_);
+        const TypeForTestingExpectedFunctionCall* src = static_cast<const TypeForTestingExpectedFunctionCall*>(src_);
         *(dst->value) = *(src->value);
     }
 };
@@ -289,7 +289,7 @@ TEST(MockExpectedCall, callWithStringParameter)
 TEST(MockExpectedCall, callWithPointerParameter)
 {
     const SimpleString paramName = "paramName";
-    void* value = (void*) 0x123;
+    void* value = reinterpret_cast<void*>(0x123);
     call->withParameter(paramName, value);
     STRCMP_EQUAL("void*", call->getInputParameterType(paramName).asCharString());
     POINTERS_EQUAL(value, call->getInputParameter(paramName).getPointerValue());
@@ -299,7 +299,7 @@ TEST(MockExpectedCall, callWithPointerParameter)
 TEST(MockExpectedCall, callWithConstPointerParameter)
 {
     const SimpleString paramName = "paramName";
-    const void* value = (const void*) 0x345;
+    const void* value = reinterpret_cast<const void*>(0x345);
     call->withParameter(paramName, value);
     STRCMP_EQUAL("const void*", call->getInputParameterType(paramName).asCharString());
     POINTERS_EQUAL(value, call->getInputParameter(paramName).getConstPointerValue());
@@ -309,7 +309,7 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
 TEST(MockExpectedCall, callWithFunctionPointerParameter)
 {
     const SimpleString paramName = "paramName";
-    void (*value)() = (void (*)()) 0xdead;
+    void (*value)() = reinterpret_cast<void (*)()>(0xdead);
     call->withParameter(paramName, value);
     STRCMP_EQUAL("void (*)()", call->getInputParameterType(paramName).asCharString());
     FUNCTIONPOINTERS_EQUAL(value, call->getInputParameter(paramName).getFunctionPointerValue());
@@ -330,7 +330,7 @@ TEST(MockExpectedCall, callWithMemoryBuffer)
 TEST(MockExpectedCall, callWithObjectParameter)
 {
     const SimpleString paramName = "paramName";
-    void* value = (void*) 0x123;
+    void* value = reinterpret_cast<void*>(0x123);
     call->withParameterOfType("ClassName", paramName, value);
     POINTERS_EQUAL(value, call->getInputParameter(paramName).getConstObjectPointer());
     STRCMP_EQUAL("ClassName", call->getInputParameterType(paramName).asCharString());
@@ -720,16 +720,16 @@ TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
 {
     call->withUnmodifiedOutputParameter("foo");
     MockNamedValue foo("foo");
-    foo.setValue((const void *)nullptr);
+    foo.setValue(static_cast<const void*>(nullptr));
     foo.setSize(0);
     CHECK(call->hasOutputParameter(foo));
 }
 
 TEST(MockExpectedCall, hasNoOutputParameter)
 {
-    call->withIntParameter("foo", (int)1);
+    call->withIntParameter("foo", static_cast<int>(1));
     MockNamedValue foo("foo");
-    foo.setValue((int)1);
+    foo.setValue(static_cast<int>(1));
     CHECK_FALSE(call->hasOutputParameter(foo));
 }
 
@@ -772,34 +772,34 @@ TEST(MockIgnoredExpectedCall, worksAsItShould)
     ignored.withCallOrder(1, 1);
     ignored.onObject(nullptr);
     ignored.withBoolParameter("umm", true);
-    ignored.withIntParameter("bla", (int) 1);
-    ignored.withUnsignedIntParameter("foo", (unsigned int) 1);
-    ignored.withLongIntParameter("hey", (long int) 1);
-    ignored.withUnsignedLongIntParameter("bah", (unsigned long int) 1);
-    ignored.withLongLongIntParameter("yo", (long long int) 1);
-    ignored.withUnsignedLongLongIntParameter("grr", (unsigned long long int) 1);
-    ignored.withDoubleParameter("hah", (double) 1.1f);
+    ignored.withIntParameter("bla", static_cast<int>(1));
+    ignored.withUnsignedIntParameter("foo", static_cast<unsigned int>(1));
+    ignored.withLongIntParameter("hey", static_cast<long int>(1));
+    ignored.withUnsignedLongIntParameter("bah", static_cast<unsigned long int>(1));
+    ignored.withLongLongIntParameter("yo", static_cast<long long int>(1));
+    ignored.withUnsignedLongLongIntParameter("grr", static_cast<unsigned long long int>(1));
+    ignored.withDoubleParameter("hah", static_cast<double>(1.1f));
     ignored.withDoubleParameter("gah", 2.1, 0.3);
     ignored.withStringParameter("goo", "hello");
-    ignored.withPointerParameter("pie", (void*) nullptr);
-    ignored.withConstPointerParameter("woo", (const void*) nullptr);
-    ignored.withFunctionPointerParameter("fop", (void(*)()) nullptr);
-    ignored.withMemoryBufferParameter("waa", (const unsigned char*) nullptr, 0);
-    ignored.withParameterOfType( "mytype", "top", (const void*) nullptr);
-    ignored.withOutputParameterReturning("bar", (void*) nullptr, 1);
-    ignored.withOutputParameterOfTypeReturning("mytype", "bar", (const void*) nullptr);
+    ignored.withPointerParameter("pie", static_cast<void*>(nullptr));
+    ignored.withConstPointerParameter("woo", static_cast<const void*>(nullptr));
+    ignored.withFunctionPointerParameter("fop", static_cast<void(*)()>(nullptr));
+    ignored.withMemoryBufferParameter("waa", static_cast<const unsigned char*>(nullptr), 0);
+    ignored.withParameterOfType( "mytype", "top", static_cast<const void*>(nullptr));
+    ignored.withOutputParameterReturning("bar", static_cast<void*>(nullptr), 1);
+    ignored.withOutputParameterOfTypeReturning("mytype", "bar", static_cast<const void*>(nullptr));
     ignored.withUnmodifiedOutputParameter("unmod");
     ignored.ignoreOtherParameters();
     ignored.andReturnValue(true);
-    ignored.andReturnValue((double) 1.0f);
-    ignored.andReturnValue((unsigned int) 1);
-    ignored.andReturnValue((int) 1);
-    ignored.andReturnValue((unsigned long int) 1);
-    ignored.andReturnValue((long int) 1);
-    ignored.andReturnValue((unsigned long long int) 1);
-    ignored.andReturnValue((long long int) 1);
+    ignored.andReturnValue(static_cast<double>(1.0f));
+    ignored.andReturnValue(static_cast<unsigned int>(1));
+    ignored.andReturnValue(static_cast<int>(1));
+    ignored.andReturnValue(static_cast<unsigned long int>(1));
+    ignored.andReturnValue(static_cast<long int>(1));
+    ignored.andReturnValue(static_cast<unsigned long long int>(1));
+    ignored.andReturnValue(static_cast<long long int>(1));
     ignored.andReturnValue("boo");
-    ignored.andReturnValue((void*) nullptr);
-    ignored.andReturnValue((const void*) nullptr);
-    ignored.andReturnValue((void(*)()) nullptr);
+    ignored.andReturnValue(static_cast<void*>(nullptr));
+    ignored.andReturnValue(static_cast<const void*>(nullptr));
+    ignored.andReturnValue(static_cast<void(*)()>(nullptr));
 }

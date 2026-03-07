@@ -244,9 +244,9 @@ void CommandLineArguments::setRepeatCount(int ac, const char *const *av, int& i)
     repeat_ = 0;
 
     SimpleString repeatParameter(av[i]);
-    if (repeatParameter.size() > 2) repeat_ = (size_t) (SimpleString::AtoI(av[i] + 2));
+    if (repeatParameter.size() > 2) repeat_ = static_cast<size_t>(SimpleString::AtoI(av[i] + 2));
     else if (i + 1 < ac) {
-        repeat_ = (size_t) (SimpleString::AtoI(av[i + 1]));
+        repeat_ = static_cast<size_t>(SimpleString::AtoI(av[i + 1]));
         if (repeat_ != 0) i++;
     }
 
@@ -257,7 +257,7 @@ void CommandLineArguments::setRepeatCount(int ac, const char *const *av, int& i)
 bool CommandLineArguments::setShuffle(int ac, const char * const *av, int& i)
 {
     shuffling_ = true;
-    shuffleSeed_ = (unsigned int)GetPlatformSpecificTimeInMillis();
+    shuffleSeed_ = static_cast<unsigned int>(GetPlatformSpecificTimeInMillis());
     if (shuffleSeed_ == 0) shuffleSeed_++;
 
     SimpleString shuffleParameter = av[i];

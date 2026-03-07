@@ -74,7 +74,7 @@ public:
     SimpleString& operator+=(const SimpleString&);
     SimpleString& operator+=(const char*);
 
-    static const size_t npos = (size_t) -1;
+    static const size_t npos = static_cast<size_t>(-1);
 
     char at(size_t pos) const;
     size_t find(char ch) const;

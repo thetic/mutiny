@@ -102,10 +102,10 @@
   CHECK_TRUE_LOCATION(condition, "CHECK", #condition, nullptr, __FILE__, __LINE__)
 
 #define CHECK_TEXT(condition, text) \
-  CHECK_TRUE_LOCATION((bool)(condition), "CHECK", #condition, text, __FILE__, __LINE__)
+  CHECK_TRUE_LOCATION(static_cast<bool>(condition), "CHECK", #condition, text, __FILE__, __LINE__)
 
 #define CHECK_TRUE(condition)\
-  CHECK_TRUE_LOCATION((bool) (condition), "CHECK_TRUE", #condition, nullptr, __FILE__, __LINE__)
+  CHECK_TRUE_LOCATION(static_cast<bool>(condition), "CHECK_TRUE", #condition, nullptr, __FILE__, __LINE__)
 
 #define CHECK_TRUE_TEXT(condition, text)\
   CHECK_TRUE_LOCATION(condition, "CHECK_TRUE", #condition, text, __FILE__, __LINE__)
@@ -139,7 +139,7 @@
   } \
   else \
   { \
-    UtestShell::getCurrent()->assertLongsEqual((long)0, (long)0, nullptr, file, line); \
+    UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
   } } while(0)
 
 #define CHECK_EQUAL_ZERO(actual) CHECK_EQUAL(0, (actual))
@@ -225,10 +225,10 @@
   UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertLongsEqual((long)(expected), (long)(actual), text, file, line); } while(0)
+  do { UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(expected), static_cast<long>(actual), text, file, line); } while(0)
 
 #define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertUnsignedLongsEqual((unsigned long)(expected), (unsigned long)(actual), text, file, line); } while(0)
+  do { UtestShell::getCurrent()->assertUnsignedLongsEqual(static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), text, file, line); } while(0)
 
 #define LONGLONGS_EQUAL(expected, actual)\
   LONGLONGS_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -243,10 +243,10 @@
   UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-        do { UtestShell::getCurrent()->assertLongLongsEqual((long long)(expected), (long long)(actual), text, file, line); } while(0)
+        do { UtestShell::getCurrent()->assertLongLongsEqual(static_cast<long long>(expected), static_cast<long long>(actual), text, file, line); } while(0)
 
 #define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-        do { UtestShell::getCurrent()->assertUnsignedLongLongsEqual((unsigned long long)(expected), (unsigned long long)(actual), text, file, line); } while(0)
+        do { UtestShell::getCurrent()->assertUnsignedLongLongsEqual(static_cast<unsigned long long>(expected), static_cast<unsigned long long>(actual), text, file, line); } while(0)
 
 #define BYTES_EQUAL(expected, actual)\
     LONGS_EQUAL((expected) & 0xff,(actual) & 0xff)
@@ -273,7 +273,7 @@
     POINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertPointersEqual((const void *)(expected), (const void *)(actual), text, file, line); } while(0)
+  do { UtestShell::getCurrent()->assertPointersEqual(static_cast<const void *>(expected), static_cast<const void *>(actual), text, file, line); } while(0)
 
 #define FUNCTIONPOINTERS_EQUAL(expected, actual)\
     FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), nullptr, __FILE__, __LINE__)
@@ -282,7 +282,7 @@
     FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertFunctionPointersEqual((void (*)())(expected), (void (*)())(actual), text, file, line); } while(0)
+  do { UtestShell::getCurrent()->assertFunctionPointersEqual(reinterpret_cast<void (*)()>(expected), reinterpret_cast<void (*)()>(actual), text, file, line); } while(0)
 
 //Check two doubles for equality within a tolerance threshold
 #define DOUBLES_EQUAL(expected, actual, threshold)\
@@ -325,14 +325,14 @@
   ENUMS_EQUAL_TYPE_LOCATION(underlying_type, expected, actual, text, __FILE__, __LINE__)
 
 #define ENUMS_EQUAL_TYPE_LOCATION(underlying_type, expected, actual, text, file, line)\
-  do { underlying_type expected_underlying_value = (underlying_type)(expected); \
-    underlying_type actual_underlying_value = (underlying_type)(actual); \
+  do { underlying_type expected_underlying_value = static_cast<underlying_type>(expected); \
+    underlying_type actual_underlying_value = static_cast<underlying_type>(actual); \
     if (expected_underlying_value != actual_underlying_value) { \
       UtestShell::getCurrent()->assertEquals(true, StringFrom(expected_underlying_value).asCharString(), StringFrom(actual_underlying_value).asCharString(), text, file, line); \
     } \
     else \
     { \
-      UtestShell::getCurrent()->assertLongsEqual((long)0, long(0), nullptr, file, line); \
+      UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
     } \
   } while(0)
 

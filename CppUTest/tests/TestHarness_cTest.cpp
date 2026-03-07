@@ -489,7 +489,7 @@ TEST(TestHarness_c, checkStringText)
 static void failPointerMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_POINTER(nullptr, (void *)0x1);
+    CHECK_EQUAL_C_POINTER(nullptr, reinterpret_cast<void*>(0x1));
 }
 
 TEST(TestHarness_c, checkPointer)
@@ -505,7 +505,7 @@ TEST(TestHarness_c, checkPointer)
 static void failPointerTextMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_POINTER_TEXT(nullptr, (void *)0x1, "PointerTestText");
+    CHECK_EQUAL_C_POINTER_TEXT(nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
 }
 
 TEST(TestHarness_c, checkPointerText)
@@ -561,12 +561,12 @@ TEST(TestHarness_c, checkMemcmpText)
 static void failBitsMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_BITS(0x0001, (unsigned short)0x0003, 0xFFFF);
+    CHECK_EQUAL_C_BITS(0x0001, static_cast<unsigned short>(0x0003), 0xFFFF);
 }
 
 TEST(TestHarness_c, checkBits)
 {
-    CHECK_EQUAL_C_BITS(0xABCD, (unsigned short)0xABCD, 0xFFFF);
+    CHECK_EQUAL_C_BITS(0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF);
     fixture->setTestFunction(failBitsMethod_);
     fixture->runAllTests();
     fixture->assertPrintContains("expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
@@ -577,12 +577,12 @@ TEST(TestHarness_c, checkBits)
 static void failBitsTextMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_BITS_TEXT(0x0001, (unsigned short)0x0003, 0xFFFF, "BitsTestText");
+    CHECK_EQUAL_C_BITS_TEXT(0x0001, static_cast<unsigned short>(0x0003), 0xFFFF, "BitsTestText");
 }
 
 TEST(TestHarness_c, checkBitsText)
 {
-    CHECK_EQUAL_C_BITS_TEXT(0xABCD, (unsigned short)0xABCD, 0xFFFF, "Text");
+    CHECK_EQUAL_C_BITS_TEXT(0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF, "Text");
     fixture->setTestFunction(failBitsTextMethod_);
     fixture->runAllTests();
     fixture->assertPrintContains("expected <00000000 00000001>\n\tbut was  <00000000 00000011>");

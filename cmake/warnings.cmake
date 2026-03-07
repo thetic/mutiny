@@ -27,6 +27,7 @@ if(
         ${WARNING_COMMON_FLAGS}
         -Woverloaded-virtual
         -Wsuggest-override
+        -Wold-style-cast
     )
 
     set(CMAKE_REQUIRED_FLAGS "-Wno-error")

@@ -324,7 +324,7 @@ extern "C" {
     static void mockFPuts(const char* str, PlatformSpecificFile file)
     {
         if (file == currentFile) {
-            ((FileForJUnitOutputTests*)file)->write(str);
+            static_cast<FileForJUnitOutputTests*>(file)->write(str);
         }
         else {
             originalFPuts(str, file);
@@ -334,7 +334,7 @@ extern "C" {
     static void mockFClose(PlatformSpecificFile file)
     {
         currentFile = nullptr;
-        ((FileForJUnitOutputTests*)file)->close();
+        static_cast<FileForJUnitOutputTests*>(file)->close();
     }
 }
 

@@ -292,7 +292,7 @@ class CompositeTestOutputTestStringBufferTestOutput : public StringBufferTestOut
 
     virtual void printTestsEnded(const TestResult& result) override
     {
-      output += StringFromFormat("Test End %d\n", (int) result.getTestCount());
+      output += StringFromFormat("Test End %d\n", static_cast<int>(result.getTestCount()));
     }
 
     void printCurrentGroupStarted(const UtestShell& test) override
@@ -302,7 +302,7 @@ class CompositeTestOutputTestStringBufferTestOutput : public StringBufferTestOut
 
     void printCurrentGroupEnded(const TestResult& res) override
     {
-      output += StringFromFormat("Group End %d\n", (int) res.getTestCount());
+      output += StringFromFormat("Group End %d\n", static_cast<int>(res.getTestCount()));
     }
 
     virtual void printCurrentTestStarted(const UtestShell&) override

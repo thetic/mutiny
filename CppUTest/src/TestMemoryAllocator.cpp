@@ -31,7 +31,7 @@
 
 static char* checkedMalloc(size_t size)
 {
-    char* mem = (char*) PlatformSpecificMalloc(size);
+    char* mem = static_cast<char*>(PlatformSpecificMalloc(size));
     if (mem == nullptr)
     FAIL("malloc returned null pointer");
     return mem;
@@ -242,14 +242,14 @@ FailableMemoryAllocator::FailableMemoryAllocator(const char* name_str, const cha
 
 void FailableMemoryAllocator::failAllocNumber(int number)
 {
-    LocationToFailAllocNode* newNode = (LocationToFailAllocNode*) (void*) PlatformSpecificMalloc(sizeof(LocationToFailAllocNode));
+    LocationToFailAllocNode* newNode = static_cast<LocationToFailAllocNode*>(PlatformSpecificMalloc(sizeof(LocationToFailAllocNode)));
     newNode->failAtAllocNumber(number, head_);
     head_ = newNode;
 }
 
 void FailableMemoryAllocator::failNthAllocAt(int allocationNumber, const char* file, size_t line)
 {
-    LocationToFailAllocNode* newNode = (LocationToFailAllocNode*) (void*) PlatformSpecificMalloc(sizeof(LocationToFailAllocNode));
+    LocationToFailAllocNode* newNode = static_cast<LocationToFailAllocNode*>(PlatformSpecificMalloc(sizeof(LocationToFailAllocNode)));
     newNode->failNthAllocAt(allocationNumber, file, line, head_);
     head_ = newNode;
 }
@@ -265,7 +265,7 @@ char* FailableMemoryAllocator::alloc_memory(size_t size, const char* file, size_
         if (previous) previous->next_ = current->next_;
         else head_ = current->next_;
 
-        free_memory((char*) current, size, __FILE__, __LINE__);
+        free_memory(reinterpret_cast<char*>(current), size, __FILE__, __LINE__);
         return nullptr;
       }
       previous = current;
@@ -280,9 +280,9 @@ void FailableMemoryAllocator::checkAllFailedAllocsWereDone()
         UtestShell* currentTest = UtestShell::getCurrent();
         SimpleString failText;
         if (head_->file_)
-            failText = StringFromFormat("Expected failing alloc at %s:%d was never done", head_->file_, (int) head_->line_);
+            failText = StringFromFormat("Expected failing alloc at %s:%d was never done", head_->file_, static_cast<int>(head_->line_));
         else
-            failText = StringFromFormat("Expected allocation number %d was never done", (int) head_->allocNumberToFail_);
+            failText = StringFromFormat("Expected allocation number %d was never done", static_cast<int>(head_->allocNumberToFail_));
 
         currentTest->failWith(FailFailure(currentTest, currentTest->getName().asCharString(), currentTest->getLineNumber(), failText));
     }
@@ -293,7 +293,7 @@ void FailableMemoryAllocator::clearFailedAllocs()
   LocationToFailAllocNode* current = head_;
   while (current) {
     head_ = current->next_;
-    free_memory((char*) current, 0, __FILE__, __LINE__);
+    free_memory(reinterpret_cast<char*>(current), 0, __FILE__, __LINE__);
     current = head_;
   }
   currentAllocNumber_ = 0;
@@ -323,7 +323,7 @@ MemoryAccountantAllocationNode* MemoryAccountant::createNewAccountantAllocationN
 
 void MemoryAccountant::destroyAccountantAllocationNode(MemoryAccountantAllocationNode* node) const
 {
-    allocator_->free_memory((char*) node, sizeof(*node), __FILE__, __LINE__);
+    allocator_->free_memory(reinterpret_cast<char*>(node), sizeof(*node), __FILE__, __LINE__);
 }
 
 MemoryAccountant::MemoryAccountant()
@@ -503,7 +503,7 @@ SimpleString MemoryAccountant::reportFooter() const
 
 SimpleString MemoryAccountant::stringSize(size_t size) const
 {
-    return (size == 0) ? StringFrom("other") : StringFromFormat("%5d", (int) size);
+    return (size == 0) ? StringFrom("other") : StringFromFormat("%5d", static_cast<int>(size));
 }
 
 SimpleString MemoryAccountant::report() const
@@ -514,7 +514,7 @@ SimpleString MemoryAccountant::report() const
     SimpleString accountantReport = reportTitle() + reportHeader();
 
     for (MemoryAccountantAllocationNode* node = head_; node; node = node->next_)
-        accountantReport += StringFromFormat(MEMORY_ACCOUNTANT_ROW_FORMAT, stringSize(node->size_).asCharString(), (int) node->allocations_, (int) node->deallocations_, (int) node->maxAllocations_);
+        accountantReport += StringFromFormat(MEMORY_ACCOUNTANT_ROW_FORMAT, stringSize(node->size_).asCharString(), static_cast<int>(node->allocations_), static_cast<int>(node->deallocations_), static_cast<int>(node->maxAllocations_));
 
     return accountantReport + reportFooter();
 }
@@ -550,7 +550,7 @@ size_t AccountingTestMemoryAllocator::removeNextNodeAndReturnSize(AccountingTest
     node->next_ = node->next_->next_;
 
     size_t size = foundNode->size_;
-    originalAllocator_->free_memory((char*) foundNode, size, __FILE__, __LINE__);
+    originalAllocator_->free_memory(reinterpret_cast<char*>(foundNode), size, __FILE__, __LINE__);
     return size;
 }
 
@@ -560,7 +560,7 @@ size_t AccountingTestMemoryAllocator::removeHeadAndReturnSize()
     head_ = head_->next_;
 
     size_t size = foundNode->size_;
-    originalAllocator_->free_memory((char*) foundNode, size, __FILE__, __LINE__);
+    originalAllocator_->free_memory(reinterpret_cast<char*>(foundNode), size, __FILE__, __LINE__);
     return size;
 }
 

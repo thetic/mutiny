@@ -185,7 +185,7 @@ TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
     addThreeCallsToList();
 
     MockNamedValue actualParameter("bar");
-    actualParameter.setValue((void *)0x123);
+    actualParameter.setValue(reinterpret_cast<void*>(0x123));
 
     MockUnexpectedOutputParameterFailure failure(UtestShell::getCurrent(), "foo", actualParameter, *list);
     STRCMP_EQUAL("Mock Failure: Unexpected output parameter name to function \"foo\": bar\n"
@@ -207,7 +207,7 @@ TEST(MockFailureTest, MockUnexpectedUnmodifiedOutputParameterFailure)
     addThreeCallsToList();
 
     MockNamedValue actualParameter("bar");
-    actualParameter.setValue((void *)0x123);
+    actualParameter.setValue(reinterpret_cast<void*>(0x123));
 
     MockUnexpectedOutputParameterFailure failure(UtestShell::getCurrent(), "foo", actualParameter, *list);
     STRCMP_EQUAL("Mock Failure: Unexpected output parameter name to function \"foo\": bar\n"
@@ -283,14 +283,14 @@ TEST(MockFailureTest, MockNoWayToCompareCustomTypeFailure)
 
 TEST(MockFailureTest, MockUnexpectedObjectFailure)
 {
-    call1->withName("foo").onObject((void*) 0x02);
-    call2->withName("foo").onObject((void*) 0x03);
+    call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
+    call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));
     call2->callWasMade(1);
     call2->wasPassedToObject();
     call3->withName("unrelated");
     addThreeCallsToList();
 
-    MockUnexpectedObjectFailure failure(UtestShell::getCurrent(), "foo", (void*)0x1, *list);
+    MockUnexpectedObjectFailure failure(UtestShell::getCurrent(), "foo", reinterpret_cast<void*>(0x1), *list);
     STRCMP_EQUAL(StringFromFormat (
                  "MockFailure: Function called on an unexpected object: foo\n"
                  "\tActual object for call has address: <%p>\n"
@@ -298,13 +298,13 @@ TEST(MockFailureTest, MockUnexpectedObjectFailure)
                  "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called 0 times)\n"
                  "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
                  "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called 1 time)",
-                 (void*) 0x01, (void*) 0x02, (void*) 0x03).asCharString(), failure.getMessage().asCharString());
+                 reinterpret_cast<void*>(0x01), reinterpret_cast<void*>(0x02), reinterpret_cast<void*>(0x03)).asCharString(), failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockExpectedObjectDidntHappenFailure)
 {
-    call1->withName("foo").onObject((void*) 0x02);
-    call2->withName("foo").onObject((void*) 0x03);
+    call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
+    call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));
     call2->callWasMade(1);
     call2->wasPassedToObject();
     call3->withName("unrelated");
@@ -317,5 +317,5 @@ TEST(MockFailureTest, MockExpectedObjectDidntHappenFailure)
                  "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called 0 times)\n"
                  "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
                  "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called 1 time)",
-                 (void*) 0x2, (void*) 0x3).asCharString(), failure.getMessage().asCharString());
+                 reinterpret_cast<void*>(0x2), reinterpret_cast<void*>(0x3)).asCharString(), failure.getMessage().asCharString());
 }

@@ -78,7 +78,7 @@ IGNORE_TEST(FE_Demo, should_fail_when_FE_INEXACT_is_set)
 {
     IEEE754ExceptionsPlugin::enableInexact();
     float f = 10.0f;
-    DOUBLES_EQUAL((double)(f / 3.0f), (double)3.333f, (double)0.001f);
+    DOUBLES_EQUAL(static_cast<double>(f / 3.0f), static_cast<double>(3.333f), static_cast<double>(0.001f));
 }
 
 TEST(FE_Demo, should_succeed_when_no_flags_are_set)

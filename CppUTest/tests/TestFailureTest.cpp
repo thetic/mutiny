@@ -153,7 +153,7 @@ TEST(TestFailure, UnsignedLongLongsEqualFailure)
 
 TEST(TestFailure, SignedBytesEqualFailure)
 {
-    SignedBytesEqualFailure f(test, failFileName, failLineNumber, (signed char)-1, (signed char)2, "");
+    SignedBytesEqualFailure f(test, failFileName, failLineNumber, static_cast<signed char>(-1), static_cast<signed char>(2), "");
     FAILURE_EQUAL("expected <-1 (0xff)>\n\tbut was  < 2 (0x2)>", f);
 }
 

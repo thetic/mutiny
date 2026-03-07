@@ -93,7 +93,7 @@ static unsigned long TimeInMillisImplementation()
 #ifdef CPPUTEST_HAVE_GETTIMEOFDAY
     struct timeval tv;
     gettimeofday(&tv, NULL);
-    return (((unsigned long)tv.tv_sec * 1000) + ((unsigned long)tv.tv_usec / 1000));
+    return ((static_cast<unsigned long>(tv.tv_sec) * 1000) + (static_cast<unsigned long>(tv.tv_usec) / 1000));
 #else
     return 0;
 #endif
@@ -140,12 +140,12 @@ static PlatformSpecificFile PlatformSpecificFOpenImplementation(const char* file
 
 static void PlatformSpecificFPutsImplementation(const char* str, PlatformSpecificFile file)
 {
-   fputs(str, (FILE*)file);
+   fputs(str, static_cast<FILE*>(file));
 }
 
 static void PlatformSpecificFCloseImplementation(PlatformSpecificFile file)
 {
-   fclose((FILE*)file);
+   fclose(static_cast<FILE*>(file));
 }
 
 static void PlatformSpecificFlushImplementation()

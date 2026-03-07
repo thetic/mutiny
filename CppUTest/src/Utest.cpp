@@ -88,17 +88,17 @@ extern "C" {
 
     static void helperDoTestSetup(void* data)
     {
-        ((Utest*)data)->setup();
+        static_cast<Utest*>(data)->setup();
     }
 
     static void helperDoTestBody(void* data)
     {
-        ((Utest*)data)->testBody();
+        static_cast<Utest*>(data)->testBody();
     }
 
     static void helperDoTestTeardown(void* data)
     {
-        ((Utest*)data)->teardown();
+        static_cast<Utest*>(data)->teardown();
     }
 
     struct HelperTestRunInfo
@@ -112,7 +112,7 @@ extern "C" {
 
     static void helperDoRunOneTestInCurrentProcess(void* data)
     {
-        HelperTestRunInfo* runInfo = (HelperTestRunInfo*) data;
+        HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
 
         UtestShell* shell = runInfo->shell_;
         TestPlugin* plugin = runInfo->plugin_;
@@ -493,9 +493,9 @@ void UtestShell::assertBinaryEqual(const void *expected, const void *actual, siz
 	if (length == 0) return;
     if (actual == nullptr && expected == nullptr) return;
     if (actual == nullptr || expected == nullptr)
-        failWith(BinaryEqualFailure(this, fileName, lineNumber, (const unsigned char *) expected, (const unsigned char *) actual, length, text), testTerminator);
+        failWith(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text), testTerminator);
     if (SimpleString::MemCmp(expected, actual, length) != 0)
-        failWith(BinaryEqualFailure(this, fileName, lineNumber, (const unsigned char *) expected, (const unsigned char *) actual, length, text), testTerminator);
+        failWith(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text), testTerminator);
 }
 
 void UtestShell::assertBitsEqual(unsigned long expected, unsigned long actual, unsigned long mask, size_t byteCount, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
@@ -884,13 +884,13 @@ void UtestShellPointerArray::shuffle(size_t seed)
 {
     if (count_ == 0) return;
 
-    PlatformSpecificSrand((unsigned int) seed);
+    PlatformSpecificSrand(static_cast<unsigned int>(seed));
 
     for (size_t i = count_ - 1; i >= 1; --i)
     {
         if (count_ == 0) return;
 
-        const size_t j = ((size_t)PlatformSpecificRand()) % (i + 1); // distribution biased by modulo, but good enough for shuffling
+        const size_t j = static_cast<size_t>(PlatformSpecificRand()) % (i + 1); // distribution biased by modulo, but good enough for shuffling
         swap(i, j);
    }
    relinkTestsInOrder();

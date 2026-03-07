@@ -77,10 +77,10 @@ TEST(MockPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
     MockFailureReporterInstaller failureReporterInstaller;
 
     MockExpectedCallsListForTest expectations;
-    expectations.addFunction("differentScope::foobar")->onObject((void*) 1);
+    expectations.addFunction("differentScope::foobar")->onObject(reinterpret_cast<void*>(1));
     MockExpectedObjectDidntHappenFailure expectedFailure(test, "differentScope::foobar", expectations);
 
-    mock("differentScope").expectOneCall("foobar").onObject((void*) 1);
+    mock("differentScope").expectOneCall("foobar").onObject(reinterpret_cast<void*>(1));
     mock("differentScope").actualCall("foobar");
 
     plugin.postTestAction(*test, *result);
@@ -122,7 +122,7 @@ class DummyCopier : public MockNamedValueCopier
 public:
     void copy(void* dst, const void* src) override
     {
-        *(int*)dst = *(const int*)src;
+        *static_cast<int*>(dst) = *static_cast<const int*>(src);
     }
 };
 

@@ -454,7 +454,7 @@ MockExpectedCall_c* withConstPointerParameters_c(const char* name, const void* v
 
 MockExpectedCall_c* withFunctionPointerParameters_c(const char* name, void (*value)())
 {
-    expectedCall = &expectedCall->withParameter(name, (cpputest_cpp_function_pointer)value);
+    expectedCall = &expectedCall->withParameter(name, value);
     return &gExpectedCall;
 }
 
@@ -562,7 +562,7 @@ MockExpectedCall_c* andReturnConstPointerValue_c(const void* value)
 
 MockExpectedCall_c* andReturnFunctionPointerValue_c(void (*value)())
 {
-    expectedCall = &expectedCall->andReturnValue((cpputest_cpp_function_pointer)value);
+    expectedCall = &expectedCall->andReturnValue(value);
     return &gExpectedCall;
 }
 
@@ -615,7 +615,7 @@ static MockValue_c getMockValueCFromNamedValue(const MockNamedValue& namedValue)
     }
     else if (SimpleString::StrCmp(namedValue.getType().asCharString(), "void (*)()") == 0) {
         returnValue.type = MOCKVALUETYPE_FUNCTIONPOINTER;
-        returnValue.value.functionPointerValue = (void (*)()) namedValue.getFunctionPointerValue();
+        returnValue.value.functionPointerValue = namedValue.getFunctionPointerValue();
     }
     else if (SimpleString::StrCmp(namedValue.getType().asCharString(), "const unsigned char*") == 0) {
         returnValue.type = MOCKVALUETYPE_MEMORYBUFFER;
@@ -728,7 +728,7 @@ MockActualCall_c* withActualConstPointerParameters_c(const char* name, const voi
 
 MockActualCall_c* withActualFunctionPointerParameters_c(const char* name, void (*value)())
 {
-    actualCall = &actualCall->withParameter(name, (cpputest_cpp_function_pointer) value);
+    actualCall = &actualCall->withParameter(name, value);
     return &gActualCall;
 }
 
@@ -906,7 +906,7 @@ const void* returnConstPointerValueOrDefault_c(const void * defaultValue)
 
 void (*functionPointerReturnValue_c())()
 {
-    return (void (*)()) actualCall->returnFunctionPointerValue();
+    return actualCall->returnFunctionPointerValue();
 }
 
 void (*returnFunctionPointerValueOrDefault_c(void (*defaultValue)()))()
@@ -979,7 +979,7 @@ void setConstPointerData_c(const char* name, const void* value)
 
 void setFunctionPointerData_c(const char* name, void (*value)())
 {
-    currentMockSupport->setData(name, (cpputest_cpp_function_pointer) value);
+    currentMockSupport->setData(name, value);
 }
 
 void setDataObject_c(const char* name, const char* type, void* value)

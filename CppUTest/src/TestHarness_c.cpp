@@ -38,12 +38,12 @@ void CHECK_EQUAL_C_BOOL_LOCATION(int expected, int actual, const char* text, con
 
 void CHECK_EQUAL_C_INT_LOCATION(int expected, int actual, const char* text, const char* fileName, size_t lineNumber)
 {
-    UtestShell::getCurrent()->assertLongsEqual((long)expected, (long)actual, text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
+    UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(expected), static_cast<long>(actual), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
 }
 
 void CHECK_EQUAL_C_UINT_LOCATION(unsigned int expected, unsigned int actual, const char* text, const char* fileName, size_t lineNumber)
 {
-    UtestShell::getCurrent()->assertUnsignedLongsEqual((unsigned long)expected, (unsigned long)actual, text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
+    UtestShell::getCurrent()->assertUnsignedLongsEqual(static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
 }
 
 void CHECK_EQUAL_C_LONG_LOCATION(long expected, long actual, const char* text, const char* fileName, size_t lineNumber)
@@ -78,12 +78,12 @@ void CHECK_EQUAL_C_CHAR_LOCATION(char expected, char actual, const char* text, c
 
 extern void CHECK_EQUAL_C_UBYTE_LOCATION(unsigned char expected, unsigned char actual, const char* text, const char* fileName, size_t lineNumber)\
 {
-    UtestShell::getCurrent()->assertEquals(((expected) != (actual)),StringFrom((int)expected).asCharString(), StringFrom((int) actual).asCharString(), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
+    UtestShell::getCurrent()->assertEquals(((expected) != (actual)),StringFrom(static_cast<int>(expected)).asCharString(), StringFrom(static_cast<int>(actual)).asCharString(), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
 }
 
 void CHECK_EQUAL_C_SBYTE_LOCATION(char signed expected, signed char actual, const char* text, const char* fileName, size_t lineNumber)
 {
-    UtestShell::getCurrent()->assertEquals(((expected) != (actual)),StringFrom((int)expected).asCharString(), StringFrom((int) actual).asCharString(), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
+    UtestShell::getCurrent()->assertEquals(((expected) != (actual)),StringFrom(static_cast<int>(expected)).asCharString(), StringFrom(static_cast<int>(actual)).asCharString(), text, fileName, lineNumber, UtestShell::getCurrentTestTerminatorWithoutExceptions());
 }
 
 void CHECK_EQUAL_C_STRING_LOCATION(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)

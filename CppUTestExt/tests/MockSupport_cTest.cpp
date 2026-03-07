@@ -99,10 +99,10 @@ TEST(MockSupport_c, expectNoCall)
 TEST(MockSupport_c, expectAndActualParameters)
 {
     mock_c()->expectOneCall("boo")->withIntParameters("integer", 1)->withDoubleParameters("double", 1.0)->
-            withStringParameters("string", "string")->withPointerParameters("pointer", (void*) 1)->
+            withStringParameters("string", "string")->withPointerParameters("pointer", reinterpret_cast<void*>(1))->
             withFunctionPointerParameters("functionPointer", dummy_function_for_mock_c_test);
     mock_c()->actualCall("boo")->withIntParameters("integer", 1)->withDoubleParameters("double", 1.0)->
-            withStringParameters("string", "string")->withPointerParameters("pointer", (void*) 1)->
+            withStringParameters("string", "string")->withPointerParameters("pointer", reinterpret_cast<void*>(1))->
             withFunctionPointerParameters("functionPointer", dummy_function_for_mock_c_test);
 }
 
@@ -120,7 +120,7 @@ extern "C"{
 
     static void typeCopy(void* dst, const void* src)
     {
-        *(int*) dst = *(const int*) src;
+        *static_cast<int*>(dst) = *static_cast<const int*>(src);
     }
 
 }
@@ -128,8 +128,8 @@ extern "C"{
 TEST(MockSupport_c, expectAndActualParametersOnObject)
 {
     mock_c()->installComparator("typeName", typeNameIsEqual, typeNameValueToString);
-    mock_c()->expectOneCall("boo")->withParameterOfType("typeName", "name", (const void*) 1);
-    mock_c()->actualCall("boo")->withParameterOfType("typeName", "name", (const void*) 1);
+    mock_c()->expectOneCall("boo")->withParameterOfType("typeName", "name", reinterpret_cast<const void*>(1));
+    mock_c()->actualCall("boo")->withParameterOfType("typeName", "name", reinterpret_cast<const void*>(1));
     mock_c()->checkExpectations();
     mock_c()->removeAllComparatorsAndCopiers();
 }
@@ -469,16 +469,16 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnDoubleValueOrDefaultShouldlUse
 
 TEST(MockSupport_c, returnPointerValue)
 {
-    mock_c()->expectOneCall("boo")->andReturnPointerValue((void*) 10);
-    POINTERS_EQUAL((void*) 10, mock_c()->actualCall("boo")->pointerReturnValue());
-    POINTERS_EQUAL((void*) 10, mock_c()->pointerReturnValue());
+    mock_c()->expectOneCall("boo")->andReturnPointerValue(reinterpret_cast<void*>(10));
+    POINTERS_EQUAL(reinterpret_cast<void*>(10), mock_c()->actualCall("boo")->pointerReturnValue());
+    POINTERS_EQUAL(reinterpret_cast<void*>(10), mock_c()->pointerReturnValue());
     LONGS_EQUAL(MOCKVALUETYPE_POINTER, mock_c()->returnValue().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnPointerValueOrDefaultShouldIgnoreTheDefault)
 {
-    void* defaultValue = (void*) 10;
-    void* expectedValue = (void*) 27;
+    void* defaultValue = reinterpret_cast<void*>(10);
+    void* expectedValue = reinterpret_cast<void*>(27);
     mock_c()->expectOneCall("foo")->andReturnPointerValue(expectedValue);
     POINTERS_EQUAL(expectedValue, mock_c()->actualCall("foo")->returnPointerValueOrDefault(defaultValue));
     POINTERS_EQUAL(expectedValue, mock_c()->returnPointerValueOrDefault(defaultValue));
@@ -486,7 +486,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnPointerValueOrDefaultShouldIgnor
 
 TEST(MockSupport_c, whenNoReturnValueIsGivenReturnPointerValueOrDefaultShouldlUseTheDefaultValue)
 {
-    void* defaultValue = (void*) 10;
+    void* defaultValue = reinterpret_cast<void*>(10);
     mock_c()->expectOneCall("foo");
     POINTERS_EQUAL(defaultValue, mock_c()->actualCall("foo")->returnPointerValueOrDefault(defaultValue));
     POINTERS_EQUAL(defaultValue, mock_c()->returnPointerValueOrDefault(defaultValue));
@@ -494,16 +494,16 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnPointerValueOrDefaultShouldlUs
 
 TEST(MockSupport_c, returnConstPointerValue)
 {
-    mock_c()->expectOneCall("boo")->andReturnConstPointerValue((const void*) 10);
-    POINTERS_EQUAL((const void*) 10, mock_c()->actualCall("boo")->constPointerReturnValue());
-    POINTERS_EQUAL((const void*) 10, mock_c()->constPointerReturnValue());
+    mock_c()->expectOneCall("boo")->andReturnConstPointerValue(reinterpret_cast<const void*>(10));
+    POINTERS_EQUAL(reinterpret_cast<const void*>(10), mock_c()->actualCall("boo")->constPointerReturnValue());
+    POINTERS_EQUAL(reinterpret_cast<const void*>(10), mock_c()->constPointerReturnValue());
     LONGS_EQUAL(MOCKVALUETYPE_CONST_POINTER, mock_c()->returnValue().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnConstPointerValueOrDefaultShouldIgnoreTheDefault)
 {
-    const void* defaultValue = (void*) 10;
-    const void* expectedValue = (void*) 27;
+    const void* defaultValue = reinterpret_cast<void*>(10);
+    const void* expectedValue = reinterpret_cast<void*>(27);
     mock_c()->expectOneCall("foo")->andReturnConstPointerValue(expectedValue);
     POINTERS_EQUAL(expectedValue, mock_c()->actualCall("foo")->returnConstPointerValueOrDefault(defaultValue));
     POINTERS_EQUAL(expectedValue, mock_c()->returnConstPointerValueOrDefault(defaultValue));
@@ -511,7 +511,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnConstPointerValueOrDefaultShould
 
 TEST(MockSupport_c, whenNoReturnValueIsGivenReturnConstPointerValueOrDefaultShouldlUseTheDefaultValue)
 {
-    const void* defaultValue = (void*) 10;
+    const void* defaultValue = reinterpret_cast<void*>(10);
     mock_c()->expectOneCall("foo");
     POINTERS_EQUAL(defaultValue, mock_c()->actualCall("foo")->returnConstPointerValueOrDefault(defaultValue));
     POINTERS_EQUAL(defaultValue, mock_c()->returnConstPointerValueOrDefault(defaultValue));
@@ -587,20 +587,20 @@ TEST(MockSupport_c, MockSupportSetStringData)
 
 TEST(MockSupport_c, MockSupportSetPointerData)
 {
-    mock_c()->setPointerData("pointer", (void*) 1);
-    POINTERS_EQUAL((void*) 1, mock_c()->getData("pointer").value.pointerValue);
+    mock_c()->setPointerData("pointer", reinterpret_cast<void*>(1));
+    POINTERS_EQUAL(reinterpret_cast<void*>(1), mock_c()->getData("pointer").value.pointerValue);
 }
 
 TEST(MockSupport_c, MockSupportSetConstPointerData)
 {
-    mock_c()->setConstPointerData("constPointer", (const void*) 1);
-    POINTERS_EQUAL((const void*) 1, mock_c()->getData("constPointer").value.constPointerValue);
+    mock_c()->setConstPointerData("constPointer", reinterpret_cast<const void*>(1));
+    POINTERS_EQUAL(reinterpret_cast<const void*>(1), mock_c()->getData("constPointer").value.constPointerValue);
 }
 
 TEST(MockSupport_c, MockSupportMemoryBufferData)
 {
-    mock_c()->setDataObject("name", "const unsigned char*", (void *) 0xDEAD);
-    POINTERS_EQUAL(0xDEAD, mock_c()->getData("name").value.memoryBufferValue);
+    mock_c()->setDataObject("name", "const unsigned char*", reinterpret_cast<void*>(0xDEAD));
+    POINTERS_EQUAL(reinterpret_cast<void*>(0xDEAD), mock_c()->getData("name").value.memoryBufferValue);
     LONGS_EQUAL(MOCKVALUETYPE_MEMORYBUFFER, mock_c()->getData("name").type);
 }
 
@@ -612,15 +612,15 @@ TEST(MockSupport_c, MockSupportSetFunctionPointerData)
 
 TEST(MockSupport_c, MockSupportSetDataObject)
 {
-    mock_c()->setDataObject("name", "type", (void*) 1);
-    POINTERS_EQUAL((void*) 1, mock_c()->getData("name").value.objectValue);
+    mock_c()->setDataObject("name", "type", reinterpret_cast<void*>(1));
+    POINTERS_EQUAL(reinterpret_cast<void*>(1), mock_c()->getData("name").value.objectValue);
     LONGS_EQUAL(MOCKVALUETYPE_OBJECT, mock_c()->getData("name").type);
 }
 
 TEST(MockSupport_c, MockSupportSetDataConstObject)
 {
-    mock_c()->setDataConstObject("name", "type", (const void*) 5);
-    POINTERS_EQUAL((void*) 5, mock_c()->getData("name").value.constObjectValue);
+    mock_c()->setDataConstObject("name", "type", reinterpret_cast<const void*>(5));
+    POINTERS_EQUAL(reinterpret_cast<void*>(5), mock_c()->getData("name").value.constObjectValue);
     LONGS_EQUAL(MOCKVALUETYPE_CONST_OBJECT, mock_c()->getData("name").type);
 }
 
@@ -730,8 +730,8 @@ TEST(MockSupport_c, FailWillCrashIfEnabled)
 
 static void failingCallToMockCWithParameterOfType_()
 {
-    mock_c()->expectOneCall("bar")->withParameterOfType("typeName", "name", (const void*) 1);
-    mock_c()->actualCall("bar")->withParameterOfType("typeName", "name", (const void*) 2);
+    mock_c()->expectOneCall("bar")->withParameterOfType("typeName", "name", reinterpret_cast<const void*>(1));
+    mock_c()->actualCall("bar")->withParameterOfType("typeName", "name", reinterpret_cast<const void*>(2));
 }
 
 TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)

@@ -643,8 +643,8 @@ TEST(MockReturnValueTest, DoubleReturnValue)
 
 TEST(MockReturnValueTest, WhenAConstPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
-    const void * default_return_value = (void*) 0x7778;
-    const void * expected_return_value = (void*) 0x144010;
+    const void * default_return_value = reinterpret_cast<void*>(0x7778);
+    const void * expected_return_value = reinterpret_cast<void*>(0x144010);
     mock().expectOneCall("foo").andReturnValue(expected_return_value);
     POINTERS_EQUAL(expected_return_value, mock().actualCall("foo").returnConstPointerValueOrDefault(default_return_value));
     POINTERS_EQUAL(expected_return_value, mock().returnConstPointerValueOrDefault(default_return_value));
@@ -652,7 +652,7 @@ TEST(MockReturnValueTest, WhenAConstPointerReturnValueIsExpectedAndAlsoThereIsAD
 
 TEST(MockReturnValueTest, WhenNoConstPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
-    const void * default_return_value = (void*) 0x11;
+    const void * default_return_value = reinterpret_cast<void*>(0x11);
     mock().expectOneCall("foo");
     POINTERS_EQUAL(default_return_value, mock().actualCall("foo").returnConstPointerValueOrDefault(default_return_value));
     POINTERS_EQUAL(default_return_value, mock().returnConstPointerValueOrDefault(default_return_value));
@@ -660,8 +660,8 @@ TEST(MockReturnValueTest, WhenNoConstPointerReturnValueIsExpectedButThereIsADefa
 
 TEST(MockReturnValueTest, WhenAPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
-    void * default_return_value = (void*) 0x777;
-    void * expected_return_value = (void*) 0x144000;
+    void * default_return_value = reinterpret_cast<void*>(0x777);
+    void * expected_return_value = reinterpret_cast<void*>(0x144000);
     mock().expectOneCall("foo").andReturnValue(expected_return_value);
     POINTERS_EQUAL(expected_return_value, mock().actualCall("foo").returnPointerValueOrDefault(default_return_value));
     POINTERS_EQUAL(expected_return_value, mock().returnPointerValueOrDefault(default_return_value));
@@ -669,7 +669,7 @@ TEST(MockReturnValueTest, WhenAPointerReturnValueIsExpectedAndAlsoThereIsADefaul
 
 TEST(MockReturnValueTest, WhenNoPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
-    void * default_return_value = (void*) 0x10;
+    void * default_return_value = reinterpret_cast<void*>(0x10);
     mock().expectOneCall("foo");
     POINTERS_EQUAL(default_return_value, mock().actualCall("foo").returnPointerValueOrDefault(default_return_value));
     POINTERS_EQUAL(default_return_value, mock().returnPointerValueOrDefault(default_return_value));
@@ -677,8 +677,8 @@ TEST(MockReturnValueTest, WhenNoPointerReturnValueIsExpectedButThereIsADefaultSh
 
 TEST(MockReturnValueTest, WhenAFunctionPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
-    void (*default_return_value)() = (void(*)()) 0x777;
-    void (*expected_return_value)() = (void(*)()) 0x144000;
+    void (*default_return_value)() = reinterpret_cast<void(*)()>(0x777);
+    void (*expected_return_value)() = reinterpret_cast<void(*)()>(0x144000);
     mock().expectOneCall("foo").andReturnValue(expected_return_value);
     FUNCTIONPOINTERS_EQUAL(expected_return_value, mock().actualCall("foo").returnFunctionPointerValueOrDefault(default_return_value));
     FUNCTIONPOINTERS_EQUAL(expected_return_value, mock().returnFunctionPointerValueOrDefault(default_return_value));
@@ -686,7 +686,7 @@ TEST(MockReturnValueTest, WhenAFunctionPointerReturnValueIsExpectedAndAlsoThereI
 
 TEST(MockReturnValueTest, WhenNoFunctionPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
-    void (*default_return_value)() = (void(*)()) 0x10;
+    void (*default_return_value)() = reinterpret_cast<void(*)()>(0x10);
     mock().expectOneCall("foo");
     FUNCTIONPOINTERS_EQUAL(default_return_value, mock().actualCall("foo").returnFunctionPointerValueOrDefault(default_return_value));
     FUNCTIONPOINTERS_EQUAL(default_return_value, mock().returnFunctionPointerValueOrDefault(default_return_value));
@@ -694,7 +694,7 @@ TEST(MockReturnValueTest, WhenNoFunctionPointerReturnValueIsExpectedButThereIsAD
 
 TEST(MockReturnValueTest, PointerReturnValue)
 {
-    void* ptr = (void*) 0x00107;
+    void* ptr = reinterpret_cast<void*>(0x00107);
     mock().expectOneCall("foo").andReturnValue(ptr);
     MockActualCall& actual_call = mock().actualCall("foo");
 
@@ -705,7 +705,7 @@ TEST(MockReturnValueTest, PointerReturnValue)
 
 TEST(MockReturnValueTest, ConstPointerReturnValue)
 {
-    const void* ptr = (const void*) 0x001074;
+    const void* ptr = reinterpret_cast<const void*>(0x001074);
     mock().expectOneCall("foo").andReturnValue(ptr);
     MockActualCall& actual_call = mock().actualCall("foo");
     POINTERS_EQUAL(ptr, actual_call.returnValue().getConstPointerValue());
@@ -715,7 +715,7 @@ TEST(MockReturnValueTest, ConstPointerReturnValue)
 
 TEST(MockReturnValueTest, FunctionPointerReturnValue)
 {
-    void (*ptr)() = (void(*)()) 0x00107;
+    void (*ptr)() = reinterpret_cast<void(*)()>(0x00107);
     mock().expectOneCall("foo").andReturnValue(ptr);
     MockActualCall& actual_call = mock().actualCall("foo");
 
