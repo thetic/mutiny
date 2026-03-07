@@ -28,7 +28,7 @@
 #ifndef D_MockNamedValue_h
 #define D_MockNamedValue_h
 
-#include "CppUTest/CppUTestConfig.h"
+#include "CppUTest/SimpleString.h"
 
 /*
  * MockNamedValueComparator is an interface that needs to be used when creating Comparators.

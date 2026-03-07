@@ -34,6 +34,8 @@
 #ifndef D_TestResult_h
 #define D_TestResult_h
 
+#include <stddef.h>
+
 class TestFailure;
 class TestOutput;
 class UtestShell;

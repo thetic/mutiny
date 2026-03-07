@@ -30,6 +30,7 @@
 
 #include "TestRegistry.h"
 #include "TestOutput.h"
+#include "Utest.h"
 
 class TestTestingFixture
 {

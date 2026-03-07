@@ -28,7 +28,7 @@
 #ifndef D_MockExpectedCall_h
 #define D_MockExpectedCall_h
 
-#include "CppUTest/CppUTestConfig.h"
+#include "CppUTest/SimpleString.h"
 
 class MockNamedValue;
 

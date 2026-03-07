@@ -28,6 +28,8 @@
 #ifndef D_OrderedTest_h
 #define D_OrderedTest_h
 
+#include "CppUTest/Utest.h"
+
 class OrderedTestShell : public UtestShell
 {
 public:
