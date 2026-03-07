@@ -13,32 +13,31 @@ add_library(CppUTestExt STATIC
     src/MemoryReportFormatter.cpp
     src/MockExpectedCallsList.cpp
     src/MockSupport.cpp
-    include/CppUTestExt/CodeMemoryReportFormatter.h
-    include/CppUTestExt/IEEE754ExceptionsPlugin.h
-    include/CppUTestExt/MemoryReportAllocator.h
-    include/CppUTestExt/MockExpectedCall.h
-    include/CppUTestExt/MockCheckedExpectedCall.h
-    include/CppUTestExt/MockExpectedCallsList.h
-    include/CppUTestExt/MockSupportPlugin.h
-    include/CppUTestExt/MemoryReportFormatter.h
-    include/CppUTestExt/MockFailure.h
-    include/CppUTestExt/MockSupport.h
-    include/CppUTestExt/MockSupport_c.h
-    include/CppUTestExt/MemoryReporterPlugin.h
-    include/CppUTestExt/OrderedTest.h
-    include/CppUTestExt/MockActualCall.h
-    include/CppUTestExt/MockCheckedActualCall.h
-    include/CppUTestExt/MockNamedValue.h
+)
+
+target_sources(CppUTestExt
+    PUBLIC FILE_SET HEADERS
+        BASE_DIRS include
+        FILES
+            include/CppUTestExt/CodeMemoryReportFormatter.h
+            include/CppUTestExt/IEEE754ExceptionsPlugin.h
+            include/CppUTestExt/MemoryReportAllocator.h
+            include/CppUTestExt/MemoryReportFormatter.h
+            include/CppUTestExt/MemoryReporterPlugin.h
+            include/CppUTestExt/MockActualCall.h
+            include/CppUTestExt/MockCheckedActualCall.h
+            include/CppUTestExt/MockCheckedExpectedCall.h
+            include/CppUTestExt/MockExpectedCall.h
+            include/CppUTestExt/MockExpectedCallsList.h
+            include/CppUTestExt/MockFailure.h
+            include/CppUTestExt/MockNamedValue.h
+            include/CppUTestExt/MockSupport.h
+            include/CppUTestExt/MockSupport_c.h
+            include/CppUTestExt/MockSupportPlugin.h
+            include/CppUTestExt/OrderedTest.h
 )
 
 target_link_libraries(CppUTestExt PUBLIC CppUTest)
-
-#[[Arrange for the include directory to be added to the include paths of any CMake target depending on CppUTestExt.]]
-target_include_directories(CppUTestExt
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
 
 add_library(CppUTest::CppUTestExt ALIAS CppUTestExt)
 
@@ -48,10 +47,7 @@ if(PROJECT_IS_TOP_LEVEL)
         EXPORT CppUTestTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/CppUTestExt"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
 

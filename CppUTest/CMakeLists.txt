@@ -16,28 +16,35 @@ add_library(CppUTest
         src/TestTestingFixture.cpp
         src/SimpleMutex.cpp
         src/Utest.cpp
-        include/CppUTest/CommandLineArguments.h
-        include/CppUTest/PlatformSpecificFunctions.h
-        include/CppUTest/TestMemoryAllocator.h
-        include/CppUTest/CommandLineTestRunner.h
-        include/CppUTest/PlatformSpecificFunctions_c.h
-        include/CppUTest/TestOutput.h
-        include/CppUTest/CppUTestConfig.h
-        include/CppUTest/SimpleString.h
-        include/CppUTest/SimpleStringInternalCache.h
-        include/CppUTest/TestPlugin.h
-        include/CppUTest/JUnitTestOutput.h
-        include/CppUTest/TeamCityTestOutput.h
-        include/CppUTest/TestRegistry.h
-        include/CppUTest/TestFailure.h
-        include/CppUTest/TestResult.h
-        include/CppUTest/TestFilter.h
-        include/CppUTest/TestTestingFixture.h
-        include/CppUTest/TestHarness.h
-        include/CppUTest/Utest.h
-        include/CppUTest/TestHarness_c.h
-        include/CppUTest/UtestMacros.h
-        include/CppUTest/SimpleMutex.h
+)
+
+target_sources(CppUTest
+    PUBLIC FILE_SET HEADERS
+        BASE_DIRS include
+        FILES
+            include/CppUTest/CommandLineArguments.h
+            include/CppUTest/CommandLineTestRunner.h
+            include/CppUTest/CppUTestConfig.h
+            include/CppUTest/CppUTestGeneratedConfig.h
+            include/CppUTest/JUnitTestOutput.h
+            include/CppUTest/PlatformSpecificFunctions.h
+            include/CppUTest/PlatformSpecificFunctions_c.h
+            include/CppUTest/SimpleMutex.h
+            include/CppUTest/SimpleString.h
+            include/CppUTest/SimpleStringInternalCache.h
+            include/CppUTest/TeamCityTestOutput.h
+            include/CppUTest/TestFailure.h
+            include/CppUTest/TestFilter.h
+            include/CppUTest/TestHarness.h
+            include/CppUTest/TestHarness_c.h
+            include/CppUTest/TestMemoryAllocator.h
+            include/CppUTest/TestOutput.h
+            include/CppUTest/TestPlugin.h
+            include/CppUTest/TestRegistry.h
+            include/CppUTest/TestResult.h
+            include/CppUTest/TestTestingFixture.h
+            include/CppUTest/Utest.h
+            include/CppUTest/UtestMacros.h
 )
 
 #[[Set CPPUTEST_PLATFORM in a parent CMakeLists.txt if reusing one of the provided platforms, else supply the missing definitions]]
@@ -69,14 +76,6 @@ if (MINGW)
     check_struct_has_member("struct timespec" tv_sec time.h HAVE_STRUCT_TIMESPEC LANGUAGE CXX)
 endif()
 
-#[[Arrange for the include directory to be added to the include paths of any CMake target depending on CppUTest.]]
-target_include_directories(CppUTest
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
-        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-)
-
 target_compile_definitions(CppUTest
     PUBLIC
         CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>
@@ -99,17 +98,13 @@ target_link_libraries(CppUTest
 
 add_library(CppUTest::CppUTest ALIAS CppUTest)
 
-# Installation
 if(PROJECT_IS_TOP_LEVEL)
     install(
         TARGETS CppUTest
         EXPORT CppUTestTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
-    install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/CppUTest"
-        DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
 
