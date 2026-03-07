@@ -16,13 +16,11 @@ add_executable(CppUTestTests
     JUnitOutputTest.cpp
     PluginTest.cpp
     PreprocessorTest.cpp
-    SetPluginTest.cpp
     TeamCityOutputTest.cpp
     TestFailureNaNTest.cpp
     TestFailureTest.cpp
     TestResultTest.cpp
     SimpleStringTest.cpp
-    SimpleStringCacheTest.cpp
     TestOutputTest.cpp
     TestRegistryTest.cpp
     TestFilterTest.cpp

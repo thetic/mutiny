@@ -4,7 +4,6 @@ add_library(CppUTest
         src/TestRegistry.cpp
         src/CommandLineTestRunner.cpp
         src/SimpleString.cpp
-        src/SimpleStringInternalCache.cpp
         src/TestMemoryAllocator.cpp
         src/TestResult.cpp
         src/JUnitTestOutput.cpp
@@ -28,7 +27,6 @@ target_sources(CppUTest
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions_c.h
             include/CppUTest/SimpleString.h
-            include/CppUTest/SimpleStringInternalCache.h
             include/CppUTest/TeamCityTestOutput.h
             include/CppUTest/TestFailure.h
             include/CppUTest/TestFilter.h

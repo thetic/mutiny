@@ -27,14 +27,12 @@
 
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTest/TestRegistry.h"
-#include "CppUTest/SimpleStringInternalCache.h"
 #include "CppUTestExt/MemoryReporterPlugin.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
 int main(int ac, const char *const *av)
 {
     int result = 0;
-    GlobalSimpleStringCache simpleStringCache;
 
     {
         MemoryReporterPlugin plugin;
