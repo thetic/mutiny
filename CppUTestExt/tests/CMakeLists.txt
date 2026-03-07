@@ -13,15 +13,11 @@ include(CppUTest)
 add_executable(CppUTestExtTests
     MockFailureReporterForTest.cpp
     ExpectedFunctionsListTest.cpp
-    MemoryReportAllocatorTest.cpp
-    MemoryReportFormatterTest.cpp
-    MemoryReporterPluginTest.cpp
     MockActualCallTest.cpp
     MockCheatSheetTest.cpp
     MockComparatorCopierTest.cpp
     MockExpectedCallTest.cpp
     MockHierarchyTest.cpp
-    CodeMemoryReporterTest.cpp
     OrderedTestTest.cpp
     OrderedTestTest_c.c
     MockReturnValueTest.cpp

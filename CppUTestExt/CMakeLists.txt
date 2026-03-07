@@ -1,16 +1,12 @@
 add_library(CppUTestExt STATIC
-    src/CodeMemoryReportFormatter.cpp
     src/IEEE754ExceptionsPlugin.cpp
-    src/MemoryReporterPlugin.cpp
     src/MockFailure.cpp
     src/MockSupportPlugin.cpp
     src/MockActualCall.cpp
     src/MockSupport_c.cpp
-    src/MemoryReportAllocator.cpp
     src/MockExpectedCall.cpp
     src/MockNamedValue.cpp
     src/OrderedTest.cpp
-    src/MemoryReportFormatter.cpp
     src/MockExpectedCallsList.cpp
     src/MockSupport.cpp
 )
@@ -19,11 +15,7 @@ target_sources(CppUTestExt
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/CppUTestExt/CodeMemoryReportFormatter.h
             include/CppUTestExt/IEEE754ExceptionsPlugin.h
-            include/CppUTestExt/MemoryReportAllocator.h
-            include/CppUTestExt/MemoryReportFormatter.h
-            include/CppUTestExt/MemoryReporterPlugin.h
             include/CppUTestExt/MockActualCall.h
             include/CppUTestExt/MockCheckedActualCall.h
             include/CppUTestExt/MockCheckedExpectedCall.h
