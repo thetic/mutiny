@@ -193,28 +193,6 @@ double (*PlatformSpecificFabs)(double) = DosFabs;
 int (*PlatformSpecificIsNan)(double d) = DosIsNan;
 int (*PlatformSpecificIsInf)(double d) = DosIsInf;
 
-static PlatformSpecificMutex DummyMutexCreate(void)
-{
-    return 0;
-}
-
-static void DummyMutexLock(PlatformSpecificMutex mtx)
-{
-}
-
-static void DummyMutexUnlock(PlatformSpecificMutex mtx)
-{
-}
-
-static void DummyMutexDestroy(PlatformSpecificMutex mtx)
-{
-}
-
-PlatformSpecificMutex (*PlatformSpecificMutexCreate)(void) = DummyMutexCreate;
-void (*PlatformSpecificMutexLock)(PlatformSpecificMutex) = DummyMutexLock;
-void (*PlatformSpecificMutexUnlock)(PlatformSpecificMutex) = DummyMutexUnlock;
-void (*PlatformSpecificMutexDestroy)(PlatformSpecificMutex) = DummyMutexDestroy;
-
 static void DosAbort()
 {
     abort();

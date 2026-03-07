@@ -214,29 +214,8 @@ static int IsInfImplementation(double d)
 int (*PlatformSpecificIsNan)(double d) = IsNanImplementation;
 int (*PlatformSpecificIsInf)(double d) = IsInfImplementation;
 
-static PlatformSpecificMutex DummyMutexCreate(void)
-{
-    return 0;
-}
-
-static void DummyMutexLock(PlatformSpecificMutex mtx)
-{
-}
-
-static void DummyMutexUnlock(PlatformSpecificMutex mtx)
-{
-}
-
-static void DummyMutexDestroy(PlatformSpecificMutex mtx)
-{
-}
-
-PlatformSpecificMutex (*PlatformSpecificMutexCreate)(void) = DummyMutexCreate;
 void (*PlatformSpecificSrand)(unsigned int) = srand;
 int (*PlatformSpecificRand)(void) = rand;
-void (*PlatformSpecificMutexLock)(PlatformSpecificMutex) = DummyMutexLock;
-void (*PlatformSpecificMutexUnlock)(PlatformSpecificMutex) = DummyMutexUnlock;
-void (*PlatformSpecificMutexDestroy)(PlatformSpecificMutex) = DummyMutexDestroy;
 void (*PlatformSpecificAbort)(void) = abort;
 
 }

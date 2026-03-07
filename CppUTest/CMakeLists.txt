@@ -14,7 +14,6 @@ add_library(CppUTest
         src/TestFilter.cpp
         src/TestPlugin.cpp
         src/TestTestingFixture.cpp
-        src/SimpleMutex.cpp
         src/Utest.cpp
 )
 
@@ -28,7 +27,6 @@ target_sources(CppUTest
             include/CppUTest/JUnitTestOutput.h
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions_c.h
-            include/CppUTest/SimpleMutex.h
             include/CppUTest/SimpleString.h
             include/CppUTest/SimpleStringInternalCache.h
             include/CppUTest/TeamCityTestOutput.h
@@ -64,24 +62,17 @@ endif()
 include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
-check_cxx_symbol_exists(pthread_mutex_lock "pthread.h" CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK)
-
 
 target_compile_definitions(CppUTest
     PUBLIC
         CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>
-        $<$<BOOL:${CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK}>:CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK>
     PRIVATE
         $<$<BOOL:${CPPUTEST_HAVE_GETTIMEOFDAY}>:CPPUTEST_HAVE_GETTIMEOFDAY>
 )
 
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads)
-
 target_link_libraries(CppUTest
     PRIVATE
         $<$<BOOL:${WIN32}>:winmm>
-        $<$<BOOL:${CMAKE_USE_PTHREADS_INIT}>:${CMAKE_THREAD_LIBS_INIT}>
 )
 
 add_library(CppUTest::CppUTest ALIAS CppUTest)

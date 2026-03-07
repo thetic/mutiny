@@ -176,27 +176,6 @@ extern "C"
     int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
     int (*PlatformSpecificAtExit)(void(*func)(void)) = DummyAtExit;
 
-    static PlatformSpecificMutex DummyMutexCreate(void)
-    {
-        return 0;
-    }
-
-    static void DummyMutexLock(PlatformSpecificMutex mtx)
-    {
-    }
-
-    static void DummyMutexUnlock(PlatformSpecificMutex mtx)
-    {
-    }
-
-    static void DummyMutexDestroy(PlatformSpecificMutex mtx)
-    {
-    }
-
-    PlatformSpecificMutex (*PlatformSpecificMutexCreate)(void) = DummyMutexCreate;
-    void (*PlatformSpecificMutexLock)(PlatformSpecificMutex) = DummyMutexLock;
-    void (*PlatformSpecificMutexUnlock)(PlatformSpecificMutex) = DummyMutexUnlock;
-    void (*PlatformSpecificMutexDestroy)(PlatformSpecificMutex) = DummyMutexDestroy;
     void (*PlatformSpecificAbort)(void) = abort;
 
 }

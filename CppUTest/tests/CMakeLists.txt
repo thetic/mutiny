@@ -17,7 +17,6 @@ add_executable(CppUTestTests
     PluginTest.cpp
     PreprocessorTest.cpp
     SetPluginTest.cpp
-    SimpleMutexTest.cpp
     TeamCityOutputTest.cpp
     TestFailureNaNTest.cpp
     TestFailureTest.cpp

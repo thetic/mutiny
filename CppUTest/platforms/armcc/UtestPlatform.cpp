@@ -162,27 +162,6 @@ int (*PlatformSpecificIsNan)(double) = IsNanImplementation;
 int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
 int (*PlatformSpecificAtExit)(void(*func)(void)) = AtExitImplementation;
 
-static PlatformSpecificMutex DummyMutexCreate(void)
-{
-    return 0;
-}
-
-static void DummyMutexLock(PlatformSpecificMutex)
-{
-}
-
-static void DummyMutexUnlock(PlatformSpecificMutex)
-{
-}
-
-static void DummyMutexDestroy(PlatformSpecificMutex)
-{
-}
-
-PlatformSpecificMutex (*PlatformSpecificMutexCreate)(void) = DummyMutexCreate;
-void (*PlatformSpecificMutexLock)(PlatformSpecificMutex) = DummyMutexLock;
-void (*PlatformSpecificMutexUnlock)(PlatformSpecificMutex) = DummyMutexUnlock;
-void (*PlatformSpecificMutexDestroy)(PlatformSpecificMutex) = DummyMutexDestroy;
 void (*PlatformSpecificAbort)(void) = abort;
 
 }

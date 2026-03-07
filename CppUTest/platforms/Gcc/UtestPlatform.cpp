@@ -45,10 +45,6 @@
 #include <math.h>
 #include <ctype.h>
 
-#ifdef CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK
-#include <pthread.h>
-#endif
-
 #include "CppUTest/PlatformSpecificFunctions.h"
 
 static jmp_buf test_exit_jmp_buf[10];
@@ -201,58 +197,6 @@ int (*PlatformSpecificIsNan)(double) = IsNanImplementation;
 int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
 int (*PlatformSpecificAtExit)(void(*func)(void)) = atexit;  /// this was undefined before
 
-static PlatformSpecificMutex PThreadMutexCreate(void)
-{
-#ifdef CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK
-    pthread_mutex_t *mutex = new pthread_mutex_t;
-
-    pthread_mutex_init(mutex, NULLPTR);
-    return (PlatformSpecificMutex)mutex;
-#else
-    return NULLPTR;
-#endif
-
-}
-
-#ifdef CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK
-static void PThreadMutexLock(PlatformSpecificMutex mtx)
-{
-    pthread_mutex_lock((pthread_mutex_t *)mtx);
-}
-#else
-static void PThreadMutexLock(PlatformSpecificMutex)
-{
-}
-#endif
-
-#ifdef CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK
-static void PThreadMutexUnlock(PlatformSpecificMutex mtx)
-{
-    pthread_mutex_unlock((pthread_mutex_t *)mtx);
-}
-#else
-static void PThreadMutexUnlock(PlatformSpecificMutex)
-{
-}
-#endif
-
-#ifdef CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK
-static void PThreadMutexDestroy(PlatformSpecificMutex mtx)
-{
-    pthread_mutex_t *mutex = (pthread_mutex_t *)mtx;
-    pthread_mutex_destroy(mutex);
-    delete mutex;
-}
-#else
-static void PThreadMutexDestroy(PlatformSpecificMutex)
-{
-}
-#endif
-
-PlatformSpecificMutex (*PlatformSpecificMutexCreate)(void) = PThreadMutexCreate;
-void (*PlatformSpecificMutexLock)(PlatformSpecificMutex) = PThreadMutexLock;
-void (*PlatformSpecificMutexUnlock)(PlatformSpecificMutex) = PThreadMutexUnlock;
-void (*PlatformSpecificMutexDestroy)(PlatformSpecificMutex) = PThreadMutexDestroy;
 void (*PlatformSpecificAbort)(void) = abort;
 
 }
