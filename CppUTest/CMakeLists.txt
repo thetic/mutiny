@@ -46,7 +46,7 @@ target_sources(CppUTest
 if(CPPUTEST_PLATFORM)
     target_sources(CppUTest
         PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/platforms/${CPPUTEST_PLATFORM}/UtestPlatform.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/platforms/${CPPUTEST_PLATFORM}/PlatformSpecificFunctions.cpp
     )
 endif()
 
