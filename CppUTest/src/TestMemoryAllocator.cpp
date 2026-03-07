@@ -311,7 +311,7 @@ struct MemoryAccountantAllocationNode
 
 MemoryAccountantAllocationNode* MemoryAccountant::createNewAccountantAllocationNode(size_t size, MemoryAccountantAllocationNode* next) const
 {
-    MemoryAccountantAllocationNode* node = (MemoryAccountantAllocationNode*) (void*) allocator_->alloc_memory(sizeof(MemoryAccountantAllocationNode), __FILE__, __LINE__);
+    MemoryAccountantAllocationNode* node = reinterpret_cast<MemoryAccountantAllocationNode*>(allocator_->alloc_memory(sizeof(MemoryAccountantAllocationNode), __FILE__, __LINE__));
     node->size_ = size;
     node->allocations_ = 0;
     node->deallocations_ = 0;
@@ -537,7 +537,7 @@ struct AccountingTestMemoryAllocatorMemoryNode
 
 void AccountingTestMemoryAllocator::addMemoryToMemoryTrackingToKeepTrackOfSize(char* memory, size_t size)
 {
-    AccountingTestMemoryAllocatorMemoryNode* node = (AccountingTestMemoryAllocatorMemoryNode*) (void*) originalAllocator_->alloc_memory(sizeof(AccountingTestMemoryAllocatorMemoryNode), __FILE__, __LINE__);
+    AccountingTestMemoryAllocatorMemoryNode* node = reinterpret_cast<AccountingTestMemoryAllocatorMemoryNode*>(originalAllocator_->alloc_memory(sizeof(AccountingTestMemoryAllocatorMemoryNode), __FILE__, __LINE__));
     node->memory_ = memory;
     node->size_ = size;
     node->next_ = head_;
