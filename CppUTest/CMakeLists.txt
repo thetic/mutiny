@@ -66,24 +66,13 @@ set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
 check_cxx_symbol_exists(pthread_mutex_lock "pthread.h" CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK)
 
-if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
-    check_cxx_symbol_exists(strdup "string.h" CPPUTEST_HAVE_STRDUP)
-endif()
-
-if (MINGW)
-    include(CheckStructHasMember)
-    check_struct_has_member("struct timespec" tv_sec time.h HAVE_STRUCT_TIMESPEC LANGUAGE CXX)
-endif()
 
 target_compile_definitions(CppUTest
     PUBLIC
         CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>
-        $<$<BOOL:${CPPUTEST_HAVE_STRDUP}>:CPPUTEST_HAVE_STRDUP>
         $<$<BOOL:${CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK}>:CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK>
     PRIVATE
         $<$<BOOL:${CPPUTEST_HAVE_GETTIMEOFDAY}>:CPPUTEST_HAVE_GETTIMEOFDAY>
-        # Apply workaround for MinGW timespec redefinition (pthread.h / time.h).
-        $<$<BOOL:${HAVE_STRUCT_TIMESPEC}>:_TIMESPEC_DEFINED>
 )
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
