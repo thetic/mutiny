@@ -32,16 +32,6 @@
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text) fixture.checkTestFailsWithProperTestLocation(text, __FILE__, __LINE__)
 
 // Mainly this is for Visual C++, but we'll define it for any system that has the same behavior
-// of a 32-bit long on a 64-bit system
-#if defined(CPPUTEST_64BIT) && defined(CPPUTEST_64BIT_32BIT_LONGS)
-// Forcing the value to be unsigned long long means that there's no sign-extension to perform
-#define to_void_pointer(x) reinterpret_cast<void*>(x##ULL)
-#define to_func_pointer(x) reinterpret_cast<void(*)()>(x##ULL)
-#else
-// Probably not needed, but let's guarantee that the value is an unsigned long
-#define to_void_pointer(x) reinterpret_cast<void*>(x##UL)
-#define to_func_pointer(x) reinterpret_cast<void(*)()>(x##UL)
-#endif
 
 TEST_GROUP(UnitTestMacros)
 {
@@ -780,8 +770,8 @@ TEST(UnitTestMacros, FailureWithPOINTERS_EQUAL)
 
 TEST(UnitTestMacros, POINTERS_EQUALBehavesAsProperMacro)
 {
-    if (false) POINTERS_EQUAL(nullptr, to_void_pointer(0xbeefbeef));
-    else POINTERS_EQUAL(to_void_pointer(0xdeadbeef), to_void_pointer(0xdeadbeef));
+    if (false) POINTERS_EQUAL(nullptr, nullptr);
+    else POINTERS_EQUAL(reinterpret_cast<void*>(0xdeadbeefULL), reinterpret_cast<void*>(0xdeadbeefULL));
 }
 
 IGNORE_TEST(UnitTestMacros, POINTERS_EQUALWorksInAnIgnoredTest)
@@ -805,8 +795,8 @@ TEST(UnitTestMacros, FailureWithPOINTERS_EQUAL_TEXT)
 
 TEST(UnitTestMacros, POINTERS_EQUAL_TEXTBehavesAsProperMacro)
 {
-    if (false) POINTERS_EQUAL_TEXT(nullptr, to_void_pointer(0xbeefbeef), "Failed because it failed");
-    else POINTERS_EQUAL_TEXT(to_void_pointer(0xdeadbeef), to_void_pointer(0xdeadbeef), "Failed because it failed");
+    if (false) POINTERS_EQUAL_TEXT(nullptr, nullptr, "Failed because it failed");
+    else POINTERS_EQUAL_TEXT(reinterpret_cast<void*>(0xdeadbeefULL), reinterpret_cast<void*>(0xdeadbeefULL), "Failed because it failed");
 }
 
 IGNORE_TEST(UnitTestMacros, POINTERS_EQUAL_TEXTWorksInAnIgnoredTest)
@@ -830,8 +820,8 @@ TEST(UnitTestMacros, FailureWithFUNCTIONPOINTERS_EQUAL)
 
 TEST(UnitTestMacros, FUNCTIONPOINTERS_EQUALBehavesAsProperMacro)
 {
-    if (false) FUNCTIONPOINTERS_EQUAL(static_cast<void(*)()>(nullptr), to_func_pointer(0xbeefbeef));
-    else FUNCTIONPOINTERS_EQUAL(to_func_pointer(0xdeadbeef), to_func_pointer(0xdeadbeef));
+    if (false) FUNCTIONPOINTERS_EQUAL(static_cast<void(*)()>(nullptr), static_cast<void(*)()>(nullptr));
+    else FUNCTIONPOINTERS_EQUAL(reinterpret_cast<void(*)()>(0xdeadbeefULL), reinterpret_cast<void(*)()>(0xdeadbeefULL));
 }
 
 IGNORE_TEST(UnitTestMacros, FUNCTIONPOINTERS_EQUALWorksInAnIgnoredTest)
@@ -855,8 +845,8 @@ TEST(UnitTestMacros, FailureWithFUNCTIONPOINTERS_EQUAL_TEXT)
 
 TEST(UnitTestMacros, FUNCTIONPOINTERS_EQUAL_TEXTBehavesAsProperMacro)
 {
-    if (false) FUNCTIONPOINTERS_EQUAL_TEXT(static_cast<void(*)()>(nullptr), to_func_pointer(0xbeefbeef), "Failed because it failed");
-    else FUNCTIONPOINTERS_EQUAL_TEXT(to_func_pointer(0xdeadbeef), to_func_pointer(0xdeadbeef), "Failed because it failed");
+    if (false) FUNCTIONPOINTERS_EQUAL_TEXT(static_cast<void(*)()>(nullptr), static_cast<void(*)()>(nullptr), "Failed because it failed");
+    else FUNCTIONPOINTERS_EQUAL_TEXT(reinterpret_cast<void(*)()>(0xdeadbeefULL), reinterpret_cast<void(*)()>(0xdeadbeefULL), "Failed because it failed");
 }
 
 IGNORE_TEST(UnitTestMacros, FUNCTIONPOINTERS_EQUAL_TEXTWorksInAnIgnoredTest)
