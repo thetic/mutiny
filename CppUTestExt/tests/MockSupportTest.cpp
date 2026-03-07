@@ -28,6 +28,7 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestTestingFixture.h"
 #include "CppUTestExt/MockSupport.h"
+#include "CppUTestExt/OrderedTest.h"
 #include "CppUTestExt/MockExpectedCall.h"
 #include "CppUTestExt/MockFailure.h"
 #include "MockFailureReporterForTest.h"
@@ -240,8 +241,6 @@ static void unexpectedCallTestFunction_(void)
 {
     mock().actualCall("unexpected");
 }
-
-#include "CppUTestExt/OrderedTest.h"
 
 TEST(MockSupportTestWithFixture, shouldCrashOnFailure)
 {

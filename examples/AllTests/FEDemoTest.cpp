@@ -32,17 +32,17 @@
 #if CPPUTEST_HAVE_FENV
     #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 
+extern "C" {
+    #include <fenv.h>
+}
+
+#include <limits>
+
 /*
  * To see a demonstration of tests failing as a result of IEEE754ExceptionsPlugin
  * picking up floating point errors, run the test executable with the -ri option.
  *
  */
-
-extern "C" {
-    #include <fenv.h>
-}
-
-    #include <limits>
 
 TEST_GROUP(FE_Demo)
 {

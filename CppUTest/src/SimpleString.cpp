@@ -29,6 +29,9 @@
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestMemoryAllocator.h"
+#if CPPUTEST_USE_STD_CPP_LIB
+#include <string>
+#endif
 
 GlobalSimpleStringAllocatorStash::GlobalSimpleStringAllocatorStash()
     : originalAllocator_(nullptr)
@@ -854,8 +857,6 @@ SimpleString StringFrom(unsigned int i)
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
-
-#include <string>
 
 SimpleString StringFrom(const std::string& value)
 {
