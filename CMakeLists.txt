@@ -59,10 +59,6 @@ if(NOT PROJECT_IS_TOP_LEVEL)
   set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
 endif()
 
-
-if(PROJECT_IS_TOP_LEVEL)
-  include(cmake/warnings.cmake)
-endif()
 include(GNUInstallDirs)
 
 # Helper to handle generating a map file, which is annoyingly tricky.
