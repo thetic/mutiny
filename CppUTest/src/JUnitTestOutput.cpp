@@ -276,7 +276,6 @@ void JUnitTestOutput::writeTestGroupToFile()
     closeFile();
 }
 
-// LCOV_EXCL_START
 
 void JUnitTestOutput::printBuffer(const char*)
 {
@@ -299,7 +298,6 @@ void JUnitTestOutput::flush()
 {
 }
 
-// LCOV_EXCL_STOP
 
 void JUnitTestOutput::printFailure(const TestFailure& failure)
 {
