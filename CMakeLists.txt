@@ -1,19 +1,8 @@
-# 2.6.3 is needed for ctest support
-# 3.1 is needed for target_sources
-# 3.8 is needed for try_compile improvements (CMP0067)
-cmake_minimum_required(VERSION 3.8...3.31)
+cmake_minimum_required(VERSION 4.0)
 
 project(CppUTest
   VERSION 4.0
 )
-
-if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.21")
-  # PROJECT_IS_TOP_LEVEL is defined automatically
-elseif (CMAKE_CURRENT_BINARY_DIR STREQUAL CMAKE_BINARY_DIR)
-  set(PROJECT_IS_TOP_LEVEL TRUE)
-else()
-  set(PROJECT_IS_TOP_LEVEL FALSE)
-endif()
 
 ###############
 # Conan support
@@ -78,20 +67,18 @@ include(GNUInstallDirs)
 
 # Helper to handle generating a map file, which is annoyingly tricky.
 function(add_mapfile target)
-    if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.13")
-        set(mapfile "$<TARGET_FILE:${target}>.map")
-        if(CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
-            # ClangCL (lld-link) can't generate map files
-        elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
-            target_link_options(${target} PRIVATE "SHELL:--map ${mapfile}.map")
-        elseif(MSVC)
-            target_link_options(${target} PRIVATE "/MAP:${mapfile}")
-        elseif(
-            (CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
-            (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        )
-            target_link_options(${target} PRIVATE "LINKER:-Map=${mapfile}")
-        endif()
+    set(mapfile "$<TARGET_FILE:${target}>.map")
+    if(CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
+        # ClangCL (lld-link) can't generate map files
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
+        target_link_options(${target} PRIVATE "SHELL:--map ${mapfile}.map")
+    elseif(MSVC)
+        target_link_options(${target} PRIVATE "/MAP:${mapfile}")
+    elseif(
+        (CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
+        (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    )
+        target_link_options(${target} PRIVATE "LINKER:-Map=${mapfile}")
     endif()
 endfunction()
 
