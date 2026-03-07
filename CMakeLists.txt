@@ -76,25 +76,29 @@ if(PROJECT_IS_TOP_LEVEL)
 endif()
 include(GNUInstallDirs)
 
-# Check for symbols before setting a lot of stuff
-include(CheckCXXSymbolExists)
-set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
-check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
-check_cxx_symbol_exists(pthread_mutex_lock "pthread.h" CPPUTEST_HAVE_PTHREAD_MUTEX_LOCK)
+# Helper to handle generating a map file, which is annoyingly tricky.
+function(add_mapfile target)
+    if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.13")
+        set(mapfile "$<TARGET_FILE:${target}>.map")
+        if(CMAKE_CXX_SIMULATE_ID STREQUAL "MSVC")
+            # ClangCL (lld-link) can't generate map files
+        elseif(CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
+            target_link_options(${target} PRIVATE "SHELL:--map ${mapfile}.map")
+        elseif(MSVC)
+            target_link_options(${target} PRIVATE "/MAP:${mapfile}")
+        elseif(
+            (CMAKE_CXX_COMPILER_ID STREQUAL "GNU") OR
+            (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        )
+            target_link_options(${target} PRIVATE "LINKER:-Map=${mapfile}")
+        endif()
+    endif()
+endfunction()
 
-if (NOT CMAKE_CXX_COMPILER_ID STREQUAL "IAR")
-  check_cxx_symbol_exists(strdup "string.h" CPPUTEST_HAVE_STRDUP)
-endif()
+add_subdirectory(CppUTest)
 
-add_subdirectory(src)
-
-target_include_directories(CppUTest
-    PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}>
-)
-
-if (CPPUTEST_BUILD_TESTING)
-    add_subdirectory(tests)
+if (CPPUTEST_EXTENSIONS)
+    add_subdirectory(CppUTestExt)
 endif ()
 
 if (CPPUTEST_EXAMPLES)
