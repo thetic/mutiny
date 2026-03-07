@@ -71,7 +71,7 @@
   #define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
 #endif
 
-#if defined (__cplusplus) && __cplusplus >= 201103L
+#ifdef __cplusplus
    #define CPPUTEST_NORETURN [[noreturn]]
 #elif CPPUTEST_HAS_ATTRIBUTE(noreturn)
    #define CPPUTEST_NORETURN __attribute__((noreturn))
@@ -91,11 +91,7 @@
   #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) /* type, format_parameter, other_parameters */
 #endif
 
-#if defined(__cplusplus) && __cplusplus >= 201103L
-    #define DEFAULT_COPY_CONSTRUCTOR(classname) classname(const classname &) = default;
-#else
-    #define DEFAULT_COPY_CONSTRUCTOR(classname)
-#endif
+#define DEFAULT_COPY_CONSTRUCTOR(classname) classname(const classname &) = default;
 
 /*
  * Address sanitizer is a good thing... and it causes some conflicts with the CppUTest tests
@@ -164,47 +160,8 @@
     #endif
   #endif
 
-  #if CPPUTEST_HAVE_EXCEPTIONS
-    #if defined(__cplusplus) && __cplusplus >= 201103L
-      #define UT_THROW(exception)
-      #define UT_NOTHROW noexcept
-    #else
-      #define UT_THROW(exception) throw (exception)
-      #define UT_NOTHROW throw()
-    #endif
-  #else
-    #define UT_THROW(exception)
-    #if defined(__clang__) || defined(__GNUC__)
-      #if defined(__cplusplus) && __cplusplus >= 201103L
-        #define UT_NOTHROW noexcept
-      #else
-        #define UT_NOTHROW throw()
-      #endif
-    #else
-      #define UT_NOTHROW
-    #endif
-  #endif
-
-  /*
-   * Visual C++ doesn't define __cplusplus as C++11 yet (201103), however it doesn't want the throw(exception) either, but
-   * it does want throw().
-   */
-  #ifdef _MSC_VER
-    #undef UT_THROW
-    #define UT_THROW(exception)
-  #endif
-
-  /*
-   * g++-4.7 with stdc++11 enabled On MacOSX! will have a different exception specifier for operator new (and thank you!)
-   * I assume they'll fix this in the future, but for now, we'll change that here.
-   * (This should perhaps also be done in the configure.ac)
-   */
-  #if defined(__GXX_EXPERIMENTAL_CXX0X__) && \
-      defined(__APPLE__) && \
-      defined(_GLIBCXX_THROW)
-    #undef UT_THROW
-    #define UT_THROW(exception) _GLIBCXX_THROW(exception)
-  #endif
+  #define UT_THROW(exception)
+  #define UT_NOTHROW noexcept
 
   #if CPPUTEST_USE_STD_CPP_LIB
     #define CPPUTEST_BAD_ALLOC std::bad_alloc
@@ -245,23 +202,9 @@
 
 
 #ifdef __cplusplus
-  /* Visual C++ 10.0+ (2010+) supports the override keyword, but doesn't define the C++ version as C++11 */
-  #if (__cplusplus >= 201103L) || (defined(_MSC_VER) && (_MSC_VER >= 1600))
-    #define CPPUTEST_OVERRIDE override
-    #define NULLPTR nullptr
-  #else
-    #define CPPUTEST_OVERRIDE
-    #define NULLPTR NULL
-  #endif
-#endif
-
-#ifdef __cplusplus
-  /* Visual C++ 11.0+ (2012+) supports the override keyword on destructors */
-  #if (__cplusplus >= 201103L) || (defined(_MSC_VER) && (_MSC_VER >= 1700))
-    #define CPPUTEST_DESTRUCTOR_OVERRIDE override
-  #else
-    #define CPPUTEST_DESTRUCTOR_OVERRIDE
-  #endif
+  #define CPPUTEST_OVERRIDE override
+  #define NULLPTR nullptr
+  #define CPPUTEST_DESTRUCTOR_OVERRIDE override
 #endif
 
 #endif

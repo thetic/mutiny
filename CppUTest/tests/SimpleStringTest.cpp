@@ -688,7 +688,7 @@ TEST(SimpleString, Sizes)
     STRCMP_EQUAL("10", StringFrom((int) size).asCharString());
 }
 
-#if __cplusplus > 199711L && !defined __arm__ && CPPUTEST_USE_STD_CPP_LIB
+#if CPPUTEST_USE_STD_CPP_LIB
 
 TEST(SimpleString, nullptr_type)
 {

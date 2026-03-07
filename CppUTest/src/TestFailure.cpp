@@ -398,7 +398,7 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(UtestShell* test)
 static SimpleString getExceptionTypeName(const std::exception &e)
 {
     const char *name = typeid(e).name();
-#if defined(__GNUC__) && (__cplusplus >= 201103L)
+#if defined(__GNUC__)
     int status = -1;
 
     std::unique_ptr<char, void(*)(void*)> demangledName(

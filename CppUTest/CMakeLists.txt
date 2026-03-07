@@ -61,6 +61,8 @@ include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
 
+target_compile_features(CppUTest PUBLIC cxx_std_11)
+
 target_compile_definitions(CppUTest
     PUBLIC
         CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>

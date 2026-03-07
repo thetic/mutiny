@@ -1155,7 +1155,6 @@ IGNORE_TEST(UnitTestMacros, BITS_EQUAL_TEXTWorksInAnIgnoredTest)
     BITS_EQUAL_TEXT(0x00, 0xFF, 0xFF, "Failed because it failed"); // LCOV_EXCL_LINE
 } // LCOV_EXCL_LINE
 
-#if defined(__cplusplus) && __cplusplus >= 201103L
 enum class ScopedIntEnum {
     A, B
 };
@@ -1259,8 +1258,6 @@ IGNORE_TEST(UnitTestMacros, ENUMS_EQUAL_EQUAL_TYPE_TEXTWithScopedLongEnumWorksIn
 {
     ENUMS_EQUAL_TYPE_TEXT(long, ScopedLongEnum::B, ScopedLongEnum::A, "Failed because it failed"); // LCOV_EXCL_LINE
 } // LCOV_EXCL_LINE
-
-#endif
 
 enum UnscopedEnum {
     UNSCOPED_ENUM_A, UNSCOPED_ENUM_B

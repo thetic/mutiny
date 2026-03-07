@@ -63,10 +63,6 @@ jobs:
           - name: Clang-Tidy
             os: ubuntu-latest
             preset: clang-tidy
-          - name: Linux Clang 98
-            os: ubuntu-latest
-            cmake_args: -DCMAKE_CXX_STANDARD=98
-            preset: Clang
           - name: Linux Clang 11
             os: ubuntu-latest
             cmake_args: -DCMAKE_CXX_STANDARD=11
@@ -87,10 +83,6 @@ jobs:
             os: ubuntu-latest
             cmake_args: -DCMAKE_CXX_STANDARD=23
             preset: Clang
-          - name: Linux GNU 98
-            os: ubuntu-latest
-            cmake_args: -DCMAKE_CXX_STANDARD=98
-            preset: GNU
           - name: No long long
             os: ubuntu-latest
             preset: no-long-long
