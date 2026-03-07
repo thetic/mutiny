@@ -27,12 +27,6 @@
 
 #include <stdlib.h>
 #include "CppUTest/TestHarness.h"
-#undef malloc
-#undef free
-#undef calloc
-#undef realloc
-#undef strdup
-#undef strndup
 
 #ifdef CPPUTEST_HAVE_GETTIMEOFDAY
 #include <sys/time.h>

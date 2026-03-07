@@ -35,12 +35,6 @@
 #include <ctype.h>
 #include <math.h>
 #include "CppUTest/TestHarness.h"
-#undef malloc
-#undef calloc
-#undef realloc
-#undef free
-#undef strdup
-#undef strndup
 
 #define  far  // eliminate "meaningless type qualifier" warning
 

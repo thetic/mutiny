@@ -27,12 +27,6 @@
 
 #include <stdlib.h>
 #include "CppUTest/TestHarness.h"
-#undef malloc
-#undef free
-#undef calloc
-#undef realloc
-#undef strdup
-#undef strndup
 
 #define  far  // eliminate "meaningless type qualifier" warning
 #include <time.h>

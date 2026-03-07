@@ -35,12 +35,6 @@
 #include <ctype.h>
 #include <math.h>
 #include "CppUTest/TestHarness.h"
-#undef malloc
-#undef calloc
-#undef realloc
-#undef free
-#undef strdup
-#undef strndup
 #include "CppUTest/PlatformSpecificFunctions.h"
 
 static jmp_buf test_exit_jmp_buf[10];

@@ -30,12 +30,6 @@
 #include <cstdlib>
 
 #include "CppUTest/TestHarness.h"
-#undef malloc
-#undef free
-#undef calloc
-#undef realloc
-#undef strdup
-#undef strndup
 
 #define  far  // eliminate "meaningless type qualifier" warning
 #include <time.h>
@@ -45,7 +39,6 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
-#undef far
 
 #include "CppUTest/PlatformSpecificFunctions.h"
 
