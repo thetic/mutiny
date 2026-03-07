@@ -102,7 +102,7 @@ TEST(UtestShell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 
 IGNORE_TEST(UtestShell, IgnoreTestAccessingFixture)
 {
-    CHECK(&fixture != nullptr);
+    CHECK(fixture.getCheckCount() == 0);
 }
 
 TEST(UtestShell, MacrosUsedInSetup)
