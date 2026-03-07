@@ -106,5 +106,5 @@ if (CPPUTEST_EXAMPLES)
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
-  include(cmake/install.cmake)
+  add_subdirectory(package)
 endif()
