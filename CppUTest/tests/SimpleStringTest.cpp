@@ -1096,7 +1096,7 @@ TEST(SimpleString, BinaryWithSize)
 
 TEST(SimpleString, BinaryWithSizeLargerThan128)
 {
-    unsigned char value[129];
+    unsigned char value[129] = {};
     value[127] = 0x00;
     value[128] = 0xff;
 
