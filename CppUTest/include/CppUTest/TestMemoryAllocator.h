@@ -63,7 +63,6 @@ class TestMemoryAllocator
 public:
     TestMemoryAllocator(const char* name_str = "generic", const char* alloc_name_str = "alloc", const char* free_name_str = "free");
     virtual ~TestMemoryAllocator();
-    bool hasBeenDestroyed();
 
     virtual char* alloc_memory(size_t size, const char* file, size_t line);
     virtual void free_memory(char* memory, size_t size, const char* file, size_t line);
@@ -72,8 +71,6 @@ public:
     virtual const char* alloc_name() const;
     virtual const char* free_name() const;
 
-    virtual bool isOfEqualType(TestMemoryAllocator* allocator);
-
     virtual TestMemoryAllocator* actualAllocator();
 
 protected:
@@ -81,8 +78,6 @@ protected:
     const char* name_;
     const char* alloc_name_;
     const char* free_name_;
-
-    bool hasBeenDestroyed_;
 };
 
 class NullUnknownAllocator: public TestMemoryAllocator
@@ -93,8 +88,6 @@ public:
 
     virtual char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
     virtual void free_memory(char* memory, size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
-
-    static TestMemoryAllocator* defaultAllocator();
 };
 
 class LocationToFailAllocNode;
@@ -176,7 +169,6 @@ public:
     virtual char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
     virtual void free_memory(char* memory, size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE;
 
-    virtual TestMemoryAllocator* actualAllocator() CPPUTEST_OVERRIDE;
     TestMemoryAllocator* originalAllocator();
 
     virtual const char* alloc_name() const CPPUTEST_OVERRIDE;
@@ -200,12 +192,8 @@ public:
     GlobalMemoryAccountant();
     ~GlobalMemoryAccountant();
 
-    void useCacheSizes(size_t sizes[], size_t length);
-
     void start();
     void stop();
-    SimpleString report();
-    SimpleString reportWithCacheSizes(size_t sizes[], size_t length);
 
     TestMemoryAllocator* getMallocAllocator();
     TestMemoryAllocator* getNewAllocator();

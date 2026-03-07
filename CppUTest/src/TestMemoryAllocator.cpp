@@ -129,23 +129,12 @@ void GlobalMemoryAllocatorStash::restore()
 }
 
 TestMemoryAllocator::TestMemoryAllocator(const char* name_str, const char* alloc_name_str, const char* free_name_str)
-    : name_(name_str), alloc_name_(alloc_name_str), free_name_(free_name_str), hasBeenDestroyed_(false)
+    : name_(name_str), alloc_name_(alloc_name_str), free_name_(free_name_str)
 {
 }
 
 TestMemoryAllocator::~TestMemoryAllocator()
 {
-    hasBeenDestroyed_ = true;
-}
-
-bool TestMemoryAllocator::hasBeenDestroyed()
-{
-    return hasBeenDestroyed_;
-}
-
-bool TestMemoryAllocator::isOfEqualType(TestMemoryAllocator* allocator)
-{
-    return SimpleString::StrCmp(this->name(), allocator->name()) == 0;
 }
 
 char* TestMemoryAllocator::alloc_memory(size_t size, const char*, size_t)
@@ -194,13 +183,6 @@ void NullUnknownAllocator::free_memory(char* /*memory*/, size_t, const char*, si
 NullUnknownAllocator::NullUnknownAllocator()
     : TestMemoryAllocator("Null Allocator", "unknown", "unknown")
 {
-}
-
-
-TestMemoryAllocator* NullUnknownAllocator::defaultAllocator()
-{
-    static NullUnknownAllocator allocator;
-    return &allocator;
 }
 
 class LocationToFailAllocNode
@@ -610,11 +592,6 @@ void AccountingTestMemoryAllocator::free_memory(char* memory, size_t, const char
     originalAllocator_->free_memory(memory, size, file, line);
 }
 
-TestMemoryAllocator* AccountingTestMemoryAllocator::actualAllocator()
-{
-    return originalAllocator_->actualAllocator();
-}
-
 TestMemoryAllocator* AccountingTestMemoryAllocator::originalAllocator()
 {
     return originalAllocator_;
@@ -641,11 +618,6 @@ GlobalMemoryAccountant::~GlobalMemoryAccountant()
     delete mallocAllocator_;
     delete newAllocator_;
     delete newArrayAllocator_;
-}
-
-void GlobalMemoryAccountant::useCacheSizes(size_t sizes[], size_t length)
-{
-    accountant_.useCacheSizes(sizes, length);
 }
 
 void GlobalMemoryAccountant::start()
@@ -691,11 +663,6 @@ void GlobalMemoryAccountant::stop()
         FAIL("GlobalMemoryAccountant: New Array memory allocator has been changed while accounting for memory");
 
     restoreMemoryAllocators();
-}
-
-SimpleString GlobalMemoryAccountant::report()
-{
-    return accountant_.report();
 }
 
 TestMemoryAllocator* GlobalMemoryAccountant::getMallocAllocator()
