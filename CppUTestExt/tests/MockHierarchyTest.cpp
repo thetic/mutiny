@@ -30,7 +30,7 @@
 
 TEST_GROUP(MockHierarchyTest)
 {
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         mock().clear();
     }

@@ -44,14 +44,14 @@ class MockPrinter : public Printer
 {
 public:
     explicit MockPrinter() {}
-    virtual ~MockPrinter() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    virtual ~MockPrinter() override {}
 
-    virtual void Print(const char* s) CPPUTEST_OVERRIDE
+    virtual void Print(const char* s) override
     {
         savedOutput.append(s);
     }
 
-    virtual void Print(long int value) CPPUTEST_OVERRIDE
+    virtual void Print(long int value) override
     {
         SimpleString buffer;
         buffer = StringFromFormat("%ld", value);

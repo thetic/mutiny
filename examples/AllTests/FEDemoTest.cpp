@@ -46,7 +46,7 @@ extern "C" {
 
 TEST_GROUP(FE_Demo)
 {
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         IEEE754ExceptionsPlugin::disableInexact();
     }

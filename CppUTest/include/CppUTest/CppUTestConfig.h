@@ -60,23 +60,10 @@
 #include <limits.h>
 #include <stddef.h>
 
-/* Create a CPPUTEST_NORETURN macro, which is used to flag a function as not returning.
- * Used for functions that always throws for instance.
- *
- * This is needed for compiling with clang, without breaking other compilers.
- */
 #ifndef __has_attribute
   #define CPPUTEST_HAS_ATTRIBUTE(x) 0
 #else
   #define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
-#endif
-
-#ifdef __cplusplus
-   #define CPPUTEST_NORETURN [[noreturn]]
-#elif CPPUTEST_HAS_ATTRIBUTE(noreturn)
-   #define CPPUTEST_NORETURN __attribute__((noreturn))
-#else
-   #define CPPUTEST_NORETURN
 #endif
 
 #if defined(__MINGW32__)
@@ -90,8 +77,6 @@
 #else
   #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) /* type, format_parameter, other_parameters */
 #endif
-
-#define DEFAULT_COPY_CONSTRUCTOR(classname) classname(const classname &) = default;
 
 /*
  * Address sanitizer is a good thing... and it causes some conflicts with the CppUTest tests
@@ -160,9 +145,6 @@
     #endif
   #endif
 
-  #define UT_THROW(exception)
-  #define UT_NOTHROW noexcept
-
   #if CPPUTEST_USE_STD_CPP_LIB
     #define CPPUTEST_BAD_ALLOC std::bad_alloc
   #else
@@ -200,11 +182,5 @@
 #define CPPUTEST_16BIT_INTS
 #endif
 
-
-#ifdef __cplusplus
-  #define CPPUTEST_OVERRIDE override
-  #define NULLPTR nullptr
-  #define CPPUTEST_DESTRUCTOR_OVERRIDE override
-#endif
 
 #endif

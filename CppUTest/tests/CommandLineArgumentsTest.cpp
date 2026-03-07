@@ -36,10 +36,10 @@ public:
         TestPlugin(name)
     {
     }
-    ~OptionsPlugin() CPPUTEST_DESTRUCTOR_OVERRIDE
+    ~OptionsPlugin() override
     {
     }
-    bool parseArguments(int /*ac*/, const char *const * /*av*/, int /*index*/) CPPUTEST_OVERRIDE
+    bool parseArguments(int /*ac*/, const char *const * /*av*/, int /*index*/) override
     {
         return true;
     }
@@ -50,12 +50,12 @@ TEST_GROUP(CommandLineArguments)
     CommandLineArguments* args;
     OptionsPlugin* plugin;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         plugin = new OptionsPlugin("options");
-        args = NULLPTR;
+        args = nullptr;
     }
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         delete args;
         delete plugin;
@@ -553,8 +553,8 @@ TEST(CommandLineArguments, checkDefaultArguments)
     CHECK(newArgumentParser(argc, argv));
     CHECK(!args->isVerbose());
     LONGS_EQUAL(1, args->getRepeatCount());
-    CHECK(NULLPTR == args->getGroupFilters());
-    CHECK(NULLPTR == args->getNameFilters());
+    CHECK(nullptr == args->getGroupFilters());
+    CHECK(nullptr == args->getNameFilters());
     CHECK(args->isEclipseOutput());
     CHECK(SimpleString("") == args->getPackageName());
     CHECK(!args->isCrashingOnFail());
@@ -568,8 +568,8 @@ TEST(CommandLineArguments, checkContinuousIntegrationMode)
     CHECK(newArgumentParser(argc, argv));
     CHECK(!args->isVerbose());
     LONGS_EQUAL(1, args->getRepeatCount());
-    CHECK(NULLPTR == args->getGroupFilters());
-    CHECK(NULLPTR == args->getNameFilters());
+    CHECK(nullptr == args->getGroupFilters());
+    CHECK(nullptr == args->getNameFilters());
     CHECK(args->isEclipseOutput());
     CHECK(SimpleString("") == args->getPackageName());
     CHECK(!args->isCrashingOnFail());

@@ -489,12 +489,12 @@ TEST(TestHarness_c, checkStringText)
 static void failPointerMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_POINTER(NULLPTR, (void *)0x1);
+    CHECK_EQUAL_C_POINTER(nullptr, (void *)0x1);
 }
 
 TEST(TestHarness_c, checkPointer)
 {
-    CHECK_EQUAL_C_POINTER(NULLPTR, NULLPTR);
+    CHECK_EQUAL_C_POINTER(nullptr, nullptr);
     fixture->setTestFunction(failPointerMethod_);
     fixture->runAllTests();
     fixture->assertPrintContains("expected <0x0>\n\tbut was  <0x1>");
@@ -505,12 +505,12 @@ TEST(TestHarness_c, checkPointer)
 static void failPointerTextMethod_()
 {
     HasTheDestructorBeenCalledChecker checker;
-    CHECK_EQUAL_C_POINTER_TEXT(NULLPTR, (void *)0x1, "PointerTestText");
+    CHECK_EQUAL_C_POINTER_TEXT(nullptr, (void *)0x1, "PointerTestText");
 }
 
 TEST(TestHarness_c, checkPointerText)
 {
-    CHECK_EQUAL_C_POINTER_TEXT(NULLPTR, NULLPTR, "Text");
+    CHECK_EQUAL_C_POINTER_TEXT(nullptr, nullptr, "Text");
     fixture->setTestFunction(failPointerTextMethod_);
     fixture->runAllTests();
     fixture->assertPrintContains("expected <0x0>\n\tbut was  <0x1>");

@@ -34,13 +34,13 @@
 class JustUseNewStringAllocator : public TestMemoryAllocator
 {
 public:
-    virtual ~JustUseNewStringAllocator() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    virtual ~JustUseNewStringAllocator() override {}
 
-    char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE
+    char* alloc_memory(size_t size, const char* file, size_t line) override
     {
         return getCurrentNewArrayAllocator()->alloc_memory(size, file, line);
     }
-    void free_memory(char* str, size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE
+    void free_memory(char* str, size_t size, const char* file, size_t line) override
     {
         getCurrentNewArrayAllocator()->free_memory(str, size, file, line);
     }
@@ -53,7 +53,7 @@ public:
     void (*testFunction_)(GlobalSimpleStringMemoryAccountant*);
     GlobalSimpleStringMemoryAccountant* parameter_;
 
-    virtual void exec() CPPUTEST_OVERRIDE
+    virtual void exec() override
     {
         testFunction_(parameter_);
     }
@@ -66,14 +66,14 @@ TEST_GROUP(GlobalSimpleStringMemoryAccountant)
     TestTestingFixture fixture;
     GlobalSimpleStringMemoryAccountant accountant;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         stash.save();
         testFunction.parameter_ = &accountant;
         fixture.setTestFunction(&testFunction);
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         stash.restore();
     }
@@ -156,12 +156,12 @@ TEST_GROUP(SimpleString)
 {
   JustUseNewStringAllocator justNewForSimpleStringTestAllocator;
   GlobalSimpleStringAllocatorStash stash;
-  void setup() CPPUTEST_OVERRIDE
+  void setup() override
   {
       stash.save();
       SimpleString::setStringAllocator(&justNewForSimpleStringTestAllocator);
   }
-  void teardown() CPPUTEST_OVERRIDE
+  void teardown() override
   {
       stash.restore();
   }
@@ -169,7 +169,7 @@ TEST_GROUP(SimpleString)
 
 TEST(SimpleString, defaultAllocatorIsNewArrayAllocator)
 {
-  SimpleString::setStringAllocator(NULLPTR);
+  SimpleString::setStringAllocator(nullptr);
   POINTERS_EQUAL(defaultNewArrayAllocator(), SimpleString::getStringAllocator());
 }
 
@@ -177,10 +177,10 @@ class MyOwnStringAllocator : public TestMemoryAllocator
 {
 public:
     MyOwnStringAllocator() : memoryWasAllocated(false) {}
-    virtual ~MyOwnStringAllocator() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    virtual ~MyOwnStringAllocator() override {}
 
     bool memoryWasAllocated;
-    char* alloc_memory(size_t size, const char* file, size_t line) CPPUTEST_OVERRIDE
+    char* alloc_memory(size_t size, const char* file, size_t line) override
     {
         memoryWasAllocated = true;
         return TestMemoryAllocator::alloc_memory(size, file, line);
@@ -193,7 +193,7 @@ TEST(SimpleString, allocatorForSimpleStringCanBeReplaced)
     SimpleString::setStringAllocator(&myOwnAllocator);
     SimpleString simpleString;
     CHECK(myOwnAllocator.memoryWasAllocated);
-    SimpleString::setStringAllocator(NULLPTR);
+    SimpleString::setStringAllocator(nullptr);
 }
 
 TEST(SimpleString, CreateSequence)
@@ -548,9 +548,9 @@ TEST(SimpleString, copyInBufferNormal)
 TEST(SimpleString, copyInBufferWithEmptyBuffer)
 {
     SimpleString str("Hello World");
-    char* buffer= NULLPTR;
+    char* buffer= nullptr;
     str.copyToBuffer(buffer, 0);
-    POINTERS_EQUAL(NULLPTR, buffer);
+    POINTERS_EQUAL(nullptr, buffer);
 }
 
 TEST(SimpleString, copyInBufferWithBiggerBufferThanNeeded)
@@ -576,18 +576,18 @@ TEST(SimpleString, copyInBufferWithSmallerBufferThanNeeded)
 
 TEST(SimpleString, ContainsNull)
 {
-    SimpleString s(NULLPTR);
+    SimpleString s(nullptr);
     STRCMP_EQUAL("", s.asCharString());
 }
 
 TEST(SimpleString, NULLReportsNullString)
 {
-    STRCMP_EQUAL("(null)", StringFromOrNull((char*) NULLPTR).asCharString());
+    STRCMP_EQUAL("(null)", StringFromOrNull((char*) nullptr).asCharString());
 }
 
 TEST(SimpleString, NULLReportsNullStringPrintable)
 {
-    STRCMP_EQUAL("(null)", PrintableStringFromOrNull((char*) NULLPTR).asCharString());
+    STRCMP_EQUAL("(null)", PrintableStringFromOrNull((char*) nullptr).asCharString());
 }
 
 TEST(SimpleString, Booleans)
@@ -692,7 +692,7 @@ TEST(SimpleString, Sizes)
 
 TEST(SimpleString, nullptr_type)
 {
-    SimpleString s(StringFrom(NULLPTR));
+    SimpleString s(StringFrom(nullptr));
     STRCMP_EQUAL("(null)", s.asCharString());
 }
 
@@ -955,7 +955,7 @@ TEST(SimpleString, StrNCpy_zero_termination)
 
 TEST(SimpleString, StrNCpy_null_proof)
 {
-    POINTERS_EQUAL(NULLPTR, SimpleString::StrNCpy(NULLPTR, "woman", 6));
+    POINTERS_EQUAL(nullptr, SimpleString::StrNCpy(nullptr, "woman", 6));
 }
 
 TEST(SimpleString, StrNCpy_stops_at_end_of_string)
@@ -1032,9 +1032,9 @@ TEST(SimpleString, StrStr)
     char foobarfoo[] = "foobarfoo";
     char barf[] = "barf";
     CHECK(SimpleString::StrStr(foo, empty) == foo);
-    CHECK(SimpleString::StrStr(empty, foo) == NULLPTR);
+    CHECK(SimpleString::StrStr(empty, foo) == nullptr);
     CHECK(SimpleString::StrStr(foobarfoo, barf) == foobarfoo+3);
-    CHECK(SimpleString::StrStr(barf, foobarfoo) == NULLPTR);
+    CHECK(SimpleString::StrStr(barf, foobarfoo) == nullptr);
     CHECK(SimpleString::StrStr(foo, foo) == foo);
 }
 
@@ -1080,7 +1080,7 @@ TEST(SimpleString, Binary)
     STRCMP_EQUAL(expectedString, StringFromBinary(value, sizeof(value)).asCharString());
     STRCMP_EQUAL(expectedString, StringFromBinaryOrNull(value, sizeof(value)).asCharString());
     STRCMP_EQUAL("", StringFromBinary(value, 0).asCharString());
-    STRCMP_EQUAL("(null)", StringFromBinaryOrNull(NULLPTR, 0).asCharString());
+    STRCMP_EQUAL("(null)", StringFromBinaryOrNull(nullptr, 0).asCharString());
 }
 
 TEST(SimpleString, BinaryWithSize)
@@ -1091,7 +1091,7 @@ TEST(SimpleString, BinaryWithSize)
     STRCMP_EQUAL(expectedString, StringFromBinaryWithSize(value, sizeof(value)).asCharString());
     STRCMP_EQUAL(expectedString, StringFromBinaryWithSizeOrNull(value, sizeof(value)).asCharString());
     STRCMP_EQUAL("Size = 0 | HexContents = ", StringFromBinaryWithSize(value, 0).asCharString());
-    STRCMP_EQUAL("(null)", StringFromBinaryWithSizeOrNull(NULLPTR, 0).asCharString());
+    STRCMP_EQUAL("(null)", StringFromBinaryWithSizeOrNull(nullptr, 0).asCharString());
 }
 
 TEST(SimpleString, BinaryWithSizeLargerThan128)
@@ -1111,7 +1111,7 @@ TEST(SimpleString, MemCmp)
     LONGS_EQUAL(0, SimpleString::MemCmp(smaller, smaller, sizeof(smaller)));
     CHECK(SimpleString::MemCmp(smaller, greater, sizeof(smaller)) < 0);
     CHECK(SimpleString::MemCmp(greater, smaller, sizeof(smaller)) > 0);
-    LONGS_EQUAL(0, SimpleString::MemCmp(NULLPTR, NULLPTR, 0));
+    LONGS_EQUAL(0, SimpleString::MemCmp(nullptr, nullptr, 0));
 }
 
 TEST(SimpleString, MemCmpFirstLastNotMatching)

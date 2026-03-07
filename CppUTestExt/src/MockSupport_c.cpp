@@ -41,7 +41,7 @@ public:
     {
     }
 
-    virtual void exitCurrentTest() const CPPUTEST_OVERRIDE
+    virtual void exitCurrentTest() const override
     {
         if (crashOnFailure_)
             UT_CRASH();
@@ -49,7 +49,7 @@ public:
         UtestShell::getCurrentTestTerminatorWithoutExceptions().exitCurrentTest();
     } // LCOV_EXCL_LINE
     // LCOV_EXCL_START
-    virtual ~MockFailureReporterTestTerminatorForInCOnlyCode() CPPUTEST_DESTRUCTOR_OVERRIDE
+    virtual ~MockFailureReporterTestTerminatorForInCOnlyCode() override
     {
     }
     // LCOV_EXCL_STOP
@@ -61,7 +61,7 @@ private:
 class MockFailureReporterForInCOnlyCode : public MockFailureReporter
 {
 public:
-    void failTest(const MockFailure& failure) CPPUTEST_OVERRIDE
+    void failTest(const MockFailure& failure) override
     {
         if (!getTestToFail()->hasFailed())
             getTestToFail()->failWith(failure, MockFailureReporterTestTerminatorForInCOnlyCode(crashOnFailure_));
@@ -69,9 +69,9 @@ public:
 
 };
 
-static MockSupport* currentMockSupport = NULLPTR;
-static MockExpectedCall* expectedCall = NULLPTR;
-static MockActualCall* actualCall = NULLPTR;
+static MockSupport* currentMockSupport = nullptr;
+static MockExpectedCall* expectedCall = nullptr;
+static MockActualCall* actualCall = nullptr;
 static MockFailureReporterForInCOnlyCode failureReporterForC;
 
 class MockCFunctionComparatorNode : public MockNamedValueComparator
@@ -79,13 +79,13 @@ class MockCFunctionComparatorNode : public MockNamedValueComparator
 public:
     MockCFunctionComparatorNode(MockCFunctionComparatorNode* next, MockTypeEqualFunction_c equal, MockTypeValueToStringFunction_c toString)
         : next_(next), equal_(equal), toString_(toString) {}
-    virtual ~MockCFunctionComparatorNode() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    virtual ~MockCFunctionComparatorNode() override {}
 
-    virtual bool isEqual(const void* object1, const void* object2) CPPUTEST_OVERRIDE
+    virtual bool isEqual(const void* object1, const void* object2) override
     {
         return equal_(object1, object2) != 0;
     }
-    virtual SimpleString valueToString(const void* object) CPPUTEST_OVERRIDE
+    virtual SimpleString valueToString(const void* object) override
     {
         return SimpleString(toString_(object));
     }
@@ -95,16 +95,16 @@ public:
     MockTypeValueToStringFunction_c toString_;
 };
 
-static MockCFunctionComparatorNode* comparatorList_ = NULLPTR;
+static MockCFunctionComparatorNode* comparatorList_ = nullptr;
 
 class MockCFunctionCopierNode : public MockNamedValueCopier
 {
 public:
     MockCFunctionCopierNode(MockCFunctionCopierNode* next, MockTypeCopyFunction_c copier)
         : next_(next), copier_(copier) {}
-    virtual ~MockCFunctionCopierNode() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    virtual ~MockCFunctionCopierNode() override {}
 
-    virtual void copy(void* dst, const void* src) CPPUTEST_OVERRIDE
+    virtual void copy(void* dst, const void* src) override
     {
         copier_(dst, src);
     }
@@ -113,7 +113,7 @@ public:
     MockTypeCopyFunction_c copier_;
 };
 
-static MockCFunctionCopierNode* copierList_ = NULLPTR;
+static MockCFunctionCopierNode* copierList_ = nullptr;
 
 extern "C" {
 

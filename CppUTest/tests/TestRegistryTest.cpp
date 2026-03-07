@@ -42,7 +42,7 @@ public:
         UtestShell(group, "Name", "File", testLineNumber), hasRun_(false)
     {
     }
-    virtual void runOneTest(TestPlugin*, TestResult&) CPPUTEST_OVERRIDE
+    virtual void runOneTest(TestPlugin*, TestResult&) override
     {
         hasRun_ = true;
     }
@@ -67,7 +67,7 @@ public:
         resetCount();
     }
 
-    virtual ~MockTestResult() CPPUTEST_DESTRUCTOR_OVERRIDE
+    virtual ~MockTestResult() override
     {
     }
 
@@ -81,27 +81,27 @@ public:
         countCurrentGroupEnded = 0;
     }
 
-    virtual void testsStarted() CPPUTEST_OVERRIDE
+    virtual void testsStarted() override
     {
         countTestsStarted++;
     }
-    virtual void testsEnded() CPPUTEST_OVERRIDE
+    virtual void testsEnded() override
     {
         countTestsEnded++;
     }
-    virtual void currentTestStarted(UtestShell* /*test*/) CPPUTEST_OVERRIDE
+    virtual void currentTestStarted(UtestShell* /*test*/) override
     {
         countCurrentTestStarted++;
     }
-    virtual void currentTestEnded(UtestShell* /*test*/) CPPUTEST_OVERRIDE
+    virtual void currentTestEnded(UtestShell* /*test*/) override
     {
         countCurrentTestEnded++;
     }
-    virtual void currentGroupStarted(UtestShell* /*test*/) CPPUTEST_OVERRIDE
+    virtual void currentGroupStarted(UtestShell* /*test*/) override
     {
         countCurrentGroupStarted++;
     }
-    virtual void currentGroupEnded(UtestShell* /*test*/) CPPUTEST_OVERRIDE
+    virtual void currentGroupEnded(UtestShell* /*test*/) override
     {
         countCurrentGroupEnded++;
     }
@@ -118,7 +118,7 @@ TEST_GROUP(TestRegistry)
     MockTest* test4;
     TestResult *result;
     MockTestResult *mockResult;
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         output = new StringBufferTestOutput();
         mockResult = new MockTestResult(*output);
@@ -131,9 +131,9 @@ TEST_GROUP(TestRegistry)
         myRegistry->setCurrentRegistry(myRegistry);
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
-        myRegistry->setCurrentRegistry(NULLPTR);
+        myRegistry->setCurrentRegistry(nullptr);
         delete myRegistry;
         delete test1;
         delete test2;
@@ -237,7 +237,7 @@ TEST(TestRegistry, reallyUndoLastTest)
 
 TEST(TestRegistry, findTestWithNameDoesntExist)
 {
-    CHECK(myRegistry->findTestWithName("ThisTestDoesntExists") == NULLPTR);
+    CHECK(myRegistry->findTestWithName("ThisTestDoesntExists") == nullptr);
 }
 
 TEST(TestRegistry, findTestWithName)
@@ -246,12 +246,12 @@ TEST(TestRegistry, findTestWithName)
     test2->setTestName("SomeOtherTest");
     myRegistry->addTest(test1);
     myRegistry->addTest(test2);
-    CHECK(myRegistry->findTestWithName("NameOfATestThatDoesExist") != NULLPTR);
+    CHECK(myRegistry->findTestWithName("NameOfATestThatDoesExist") != nullptr);
 }
 
 TEST(TestRegistry, findTestWithGroupDoesntExist)
 {
-    CHECK(myRegistry->findTestWithGroup("ThisTestGroupDoesntExists") == NULLPTR);
+    CHECK(myRegistry->findTestWithGroup("ThisTestGroupDoesntExists") == nullptr);
 }
 
 TEST(TestRegistry, findTestWithGroup)
@@ -260,7 +260,7 @@ TEST(TestRegistry, findTestWithGroup)
     test2->setGroupName("SomeOtherGroup");
     myRegistry->addTest(test1);
     myRegistry->addTest(test2);
-    CHECK(myRegistry->findTestWithGroup("GroupOfATestThatDoesExist") != NULLPTR);
+    CHECK(myRegistry->findTestWithGroup("GroupOfATestThatDoesExist") != nullptr);
 }
 
 TEST(TestRegistry, nameFilterWorks)
@@ -304,9 +304,9 @@ class MyTestPluginDummy: public TestPlugin
 {
 public:
     MyTestPluginDummy(const SimpleString& name) : TestPlugin(name) {}
-    virtual ~MyTestPluginDummy() CPPUTEST_DESTRUCTOR_OVERRIDE {}
-    virtual void runAllPreTestAction(UtestShell&, TestResult&) CPPUTEST_OVERRIDE {}
-    virtual void runAllPostTestAction(UtestShell&, TestResult&) CPPUTEST_OVERRIDE {}
+    virtual ~MyTestPluginDummy() override {}
+    virtual void runAllPreTestAction(UtestShell&, TestResult&) override {}
+    virtual void runAllPostTestAction(UtestShell&, TestResult&) override {}
 };
 
 TEST(TestRegistry, ResetPluginsWorks)
@@ -378,9 +378,9 @@ TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAte
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)
 {
-    CHECK_TRUE(myRegistry->getFirstTest() == NULLPTR);
+    CHECK_TRUE(myRegistry->getFirstTest() == nullptr);
     myRegistry->shuffleTests(0);
-    CHECK_TRUE(myRegistry->getFirstTest() == NULLPTR);
+    CHECK_TRUE(myRegistry->getFirstTest() == nullptr);
 }
 
 TEST(TestRegistry, shuffleSingleTestIsNoOp)
@@ -409,7 +409,7 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
     CHECK_TRUE(first_before  == test1);
     CHECK_TRUE(second_before == test2);
     CHECK_TRUE(third_before  == test3);
-    CHECK_TRUE(third_before->getNext()  == NULLPTR);
+    CHECK_TRUE(third_before->getNext()  == nullptr);
 
     // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
     myRegistry->shuffleTests(0);
@@ -421,7 +421,7 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
     CHECK_TRUE(first_after  == test2);
     CHECK_TRUE(second_after == test3);
     CHECK_TRUE(third_after  == test1);
-    CHECK_TRUE(third_after->getNext() == NULLPTR);
+    CHECK_TRUE(third_after->getNext() == nullptr);
 }
 
 TEST(TestRegistry, reverseTests)
@@ -438,5 +438,5 @@ TEST(TestRegistry, reverseZeroTests)
 {
     myRegistry->reverseTests();
 
-    CHECK(NULLPTR == myRegistry->getFirstTest());
+    CHECK(nullptr == myRegistry->getFirstTest());
 }

@@ -38,7 +38,7 @@ public:
     {
     }
 
-    virtual void exitCurrentTest() const CPPUTEST_OVERRIDE
+    virtual void exitCurrentTest() const override
     {
         if (crashOnFailure_)
             UT_CRASH();
@@ -46,7 +46,7 @@ public:
         UtestShell::getCurrentTestTerminator().exitCurrentTest();
     } // LCOV_EXCL_LINE
 
-    virtual ~MockFailureReporterTestTerminator() CPPUTEST_DESTRUCTOR_OVERRIDE
+    virtual ~MockFailureReporterTestTerminator() override
     {
     }
 private:

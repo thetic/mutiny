@@ -38,7 +38,7 @@ class MockFailureReporterForTest : public MockFailureReporter
 public:
     SimpleString mockFailureString;
 
-    virtual void failTest(const MockFailure& failure) CPPUTEST_OVERRIDE;
+    virtual void failTest(const MockFailure& failure) override;
     static MockFailureReporterForTest* getReporter();
     static void clearReporter();
 private:
@@ -61,7 +61,7 @@ void CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line);
 class MockExpectedCallsListForTest : public MockExpectedCallsList
 {
   public:
-    ~MockExpectedCallsListForTest() CPPUTEST_DESTRUCTOR_OVERRIDE;
+    ~MockExpectedCallsListForTest() override;
     MockCheckedExpectedCall* addFunction(const SimpleString& name);
     MockCheckedExpectedCall* addFunction(unsigned int numCalls, const SimpleString& name);
     MockCheckedExpectedCall* addFunctionOrdered(const SimpleString& name, unsigned int order);

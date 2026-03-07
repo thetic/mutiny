@@ -48,11 +48,11 @@ MockSupport::MockSupport(const SimpleString& mockName)
         actualCallOrder_(0),
         expectedCallOrder_(0),
         strictOrdering_(false),
-        activeReporter_(NULLPTR),
+        activeReporter_(nullptr),
         standardReporter_(&defaultReporter_),
         ignoreOtherCalls_(false),
         enabled_(true),
-        lastActualFunctionCall_(NULLPTR),
+        lastActualFunctionCall_(nullptr),
         mockName_(mockName),
         tracing_(false)
 {
@@ -69,7 +69,7 @@ void MockSupport::crashOnFailure(bool shouldCrash)
 
 void MockSupport::setMockFailureStandardReporter(MockFailureReporter* reporter)
 {
-    standardReporter_ = (reporter != NULLPTR) ? reporter : &defaultReporter_;
+    standardReporter_ = (reporter != nullptr) ? reporter : &defaultReporter_;
 
     if (lastActualFunctionCall_)
         lastActualFunctionCall_->setMockFailureReporter(standardReporter_);
@@ -122,7 +122,7 @@ void MockSupport::removeAllComparatorsAndCopiers()
 void MockSupport::clear()
 {
     delete lastActualFunctionCall_;
-    lastActualFunctionCall_ = NULLPTR;
+    lastActualFunctionCall_ = nullptr;
 
     tracing_ = false;
     MockActualCallTrace::clearInstance();
@@ -199,7 +199,7 @@ MockActualCall& MockSupport::actualCall(const SimpleString& functionName)
     if (lastActualFunctionCall_) {
         lastActualFunctionCall_->checkExpectations();
         delete lastActualFunctionCall_;
-        lastActualFunctionCall_ = NULLPTR;
+        lastActualFunctionCall_ = nullptr;
     }
 
     if (!enabled_) return MockIgnoredActualCall::instance();
@@ -350,13 +350,13 @@ void MockSupport::checkExpectations()
 
 bool MockSupport::hasData(const SimpleString& name)
 {
-    return data_.getValueByName(name) != NULLPTR;
+    return data_.getValueByName(name) != nullptr;
 }
 
 MockNamedValue* MockSupport::retrieveDataFromStore(const SimpleString& name)
 {
     MockNamedValue* newData = data_.getValueByName(name);
-    if (newData == NULLPTR) {
+    if (newData == nullptr) {
         newData = new MockNamedValue(name);
         data_.add(newData);
     }
@@ -438,7 +438,7 @@ void MockSupport::setDataConstObject(const SimpleString& name, const SimpleStrin
 MockNamedValue MockSupport::getData(const SimpleString& name)
 {
     MockNamedValue* value = data_.getValueByName(name);
-    if (value == NULLPTR)
+    if (value == nullptr)
         return MockNamedValue("");
     return *value;
 }
@@ -478,7 +478,7 @@ MockSupport* MockSupport::getMockSupport(MockNamedValueListNode* node)
 {
     if (node->getType() == "MockSupport" && node->getName().contains(MOCK_SUPPORT_SCOPE_PREFIX))
         return (MockSupport*) node->item()->getObjectPointer();
-    return NULLPTR;
+    return nullptr;
 }
 
 MockNamedValue MockSupport::returnValue()

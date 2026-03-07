@@ -101,7 +101,7 @@ static unsigned long TimeInMillisImplementation()
 
 static const char* TimeStringImplementation()
 {
-    time_t theTime = time(NULLPTR);
+    time_t theTime = time(nullptr);
     static char dateTime[80];
     struct tm *tmp = localtime(&theTime);
     strftime(dateTime, 80, "%Y-%m-%dT%H:%M:%S", tmp);

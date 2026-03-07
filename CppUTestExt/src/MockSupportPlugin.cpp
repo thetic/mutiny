@@ -39,12 +39,12 @@ public:
     {
     }
 
-    virtual void failTest(const MockFailure& failure) CPPUTEST_OVERRIDE
+    virtual void failTest(const MockFailure& failure) override
     {
         result_.addFailure(failure);
     }
 
-    virtual UtestShell* getTestToFail() CPPUTEST_OVERRIDE
+    virtual UtestShell* getTestToFail() override
     {
         return &test_;
     }
@@ -77,7 +77,7 @@ void MockSupportPlugin::postTestAction(UtestShell& test, TestResult& result)
     if (!test.hasFailed())
         mock().checkExpectations();
     mock().clear();
-    mock().setMockFailureStandardReporter(NULLPTR);
+    mock().setMockFailureStandardReporter(nullptr);
     mock().removeAllComparatorsAndCopiers();
 }
 

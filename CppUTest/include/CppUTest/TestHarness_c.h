@@ -170,12 +170,12 @@
     TEST_GROUP(group_name)
 
 #define TEST_GROUP_C_SETUP_WRAPPER(group_name) \
-    void setup() CPPUTEST_OVERRIDE { \
+    void setup() override { \
        group_##group_name##_setup_wrapper_c(); \
     }
 
 #define TEST_GROUP_C_TEARDOWN_WRAPPER(group_name) \
-    void teardown() CPPUTEST_OVERRIDE { \
+    void teardown() override { \
        group_##group_name##_teardown_wrapper_c(); \
     }
 

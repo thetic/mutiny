@@ -29,7 +29,7 @@ TEST_GROUP(SetPointerPluginTest)
     StringBufferTestOutput* output_;
     TestResult* result_;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         myRegistry_ = new TestRegistry();
         plugin_ = new SetPointerPlugin("TestSetPlugin");
@@ -39,9 +39,9 @@ TEST_GROUP(SetPointerPluginTest)
         result_ = new TestResult(*output_);
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
-        myRegistry_->setCurrentRegistry(NULLPTR);
+        myRegistry_->setCurrentRegistry(nullptr);
         delete myRegistry_;
         delete plugin_;
         delete output_;
@@ -52,13 +52,13 @@ TEST_GROUP(SetPointerPluginTest)
 class FunctionPointerUtest : public Utest
 {
 public:
-   void setup() CPPUTEST_OVERRIDE
+   void setup() override
    {
       UT_PTR_SET(fp1, stub_func1);
       UT_PTR_SET(fp2, stub_func2);
       UT_PTR_SET(fp2, stub_func2);
    }
-   void testBody() CPPUTEST_OVERRIDE
+   void testBody() override
    {
       CHECK(fp1 == stub_func1);
       CHECK(fp2 == stub_func2);
@@ -68,7 +68,7 @@ public:
 class FunctionPointerUtestShell: public UtestShell
 {
 public:
-   virtual Utest* createTest() CPPUTEST_OVERRIDE
+   virtual Utest* createTest() override
    {
       return new FunctionPointerUtest();
    }
@@ -98,7 +98,7 @@ public:
    {
    }
 
-   void setup() CPPUTEST_OVERRIDE
+   void setup() override
    {
       for (int i = 0; i < numOfFpSets; ++i)
       {
@@ -116,7 +116,7 @@ public:
     {
     }
 
-    virtual Utest* createTest() CPPUTEST_OVERRIDE
+    virtual Utest* createTest() override
     {
        return new MaxFunctionPointerUtest(numOfFpSets);
     }
@@ -140,11 +140,11 @@ static double stub_double = 4.0;
 class SetDoublePointerUtest : public Utest
 {
 public:
-   void setup() CPPUTEST_OVERRIDE
+   void setup() override
    {
       UT_PTR_SET(orig_double_ptr, &stub_double);
    }
-   void testBody() CPPUTEST_OVERRIDE
+   void testBody() override
    {
       CHECK(orig_double_ptr == &stub_double);
    }
@@ -153,7 +153,7 @@ public:
 class SetDoublePointerUtestShell: public UtestShell
 {
 public:
-   Utest * createTest() CPPUTEST_OVERRIDE
+   Utest * createTest() override
    {
       return new SetDoublePointerUtest();
    }

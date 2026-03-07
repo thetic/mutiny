@@ -34,12 +34,12 @@ TEST_GROUP(Printer)
     Printer* printer;
     MockPrinter* mockPrinter;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         mockPrinter = new MockPrinter();
         printer = mockPrinter;
     }
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         delete printer;
     }

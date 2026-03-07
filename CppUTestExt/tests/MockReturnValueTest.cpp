@@ -30,7 +30,7 @@
 
 TEST_GROUP(MockReturnValueTest)
 {
-  void teardown() CPPUTEST_OVERRIDE
+  void teardown() override
   {
       mock().checkExpectations();
       mock().clear();

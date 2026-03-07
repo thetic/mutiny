@@ -35,13 +35,13 @@ TEST_GROUP(TestMemoryAllocatorTest)
     TestMemoryAllocator* allocator;
     GlobalMemoryAllocatorStash memoryAllocatorStash;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
-        allocator = NULLPTR;
+        allocator = nullptr;
         memoryAllocatorStash.save();
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         memoryAllocatorStash.restore();
         delete allocator;
@@ -131,13 +131,13 @@ public:
     FailableMemoryAllocator* allocator_;
     void (*testFunction_)(FailableMemoryAllocator*);
 
-    void exec() CPPUTEST_OVERRIDE
+    void exec() override
     {
         testFunction_(allocator_);
     }
 
-    FailableMemoryAllocatorExecFunction() : allocator_(NULLPTR), testFunction_(NULLPTR) {}
-    virtual ~FailableMemoryAllocatorExecFunction() CPPUTEST_DESTRUCTOR_OVERRIDE {}
+    FailableMemoryAllocatorExecFunction() : allocator_(nullptr), testFunction_(nullptr) {}
+    virtual ~FailableMemoryAllocatorExecFunction() override {}
 };
 
 TEST_GROUP(FailableMemoryAllocator)
@@ -146,12 +146,12 @@ TEST_GROUP(FailableMemoryAllocator)
     FailableMemoryAllocatorExecFunction testFunction;
     TestTestingFixture fixture;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         testFunction.allocator_ = failableMallocAllocator = new FailableMemoryAllocator("Failable Malloc Allocator", "malloc", "free");
         fixture.setTestFunction(&testFunction);
     }
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         failableMallocAllocator->checkAllFailedAllocsWereDone();
         failableMallocAllocator->clearFailedAllocs();
@@ -162,14 +162,14 @@ TEST_GROUP(FailableMemoryAllocator)
 TEST(FailableMemoryAllocator, MallocWorksNormallyIfNotAskedToFail)
 {
     char *memory = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    CHECK(memory != NULLPTR);
+    CHECK(memory != nullptr);
     failableMallocAllocator->free_memory(memory, sizeof(int), __FILE__, __LINE__);
 }
 
 TEST(FailableMemoryAllocator, FailFirstMalloc)
 {
     failableMallocAllocator->failAllocNumber(1);
-    POINTERS_EQUAL(NULLPTR, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
+    POINTERS_EQUAL(nullptr, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
 }
 
 TEST(FailableMemoryAllocator, FailSecondAndFourthMalloc)
@@ -181,10 +181,10 @@ TEST(FailableMemoryAllocator, FailSecondAndFourthMalloc)
     char *memory3 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
     char *memory4 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
 
-    CHECK(NULLPTR != memory1);
-    POINTERS_EQUAL(NULLPTR, memory2);
-    CHECK(NULLPTR != memory3);
-    POINTERS_EQUAL(NULLPTR, memory4);
+    CHECK(nullptr != memory1);
+    POINTERS_EQUAL(nullptr, memory2);
+    CHECK(nullptr != memory3);
+    POINTERS_EQUAL(nullptr, memory4);
 
     failableMallocAllocator->free_memory(memory1, sizeof(int), __FILE__, __LINE__);
     failableMallocAllocator->free_memory(memory3, sizeof(int), __FILE__, __LINE__);
@@ -215,19 +215,19 @@ TEST(FailableMemoryAllocator, FailFirstAllocationAtGivenLine)
 {
     failableMallocAllocator->failNthAllocAt(1, __FILE__, __LINE__ + 2);
 
-    POINTERS_EQUAL(NULLPTR, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
+    POINTERS_EQUAL(nullptr, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
 }
 
 TEST(FailableMemoryAllocator, FailThirdAllocationAtGivenLine)
 {
-    char *memory[10] = { NULLPTR };
+    char *memory[10] = { nullptr };
     int allocation;
     failableMallocAllocator->failNthAllocAt(3, __FILE__, __LINE__ + 4);
 
     for (allocation = 1; allocation <= 10; allocation++)
     {
         memory[allocation - 1] = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-        if (memory[allocation - 1] == NULLPTR)
+        if (memory[allocation - 1] == nullptr)
             break;
         failableMallocAllocator->free_memory(memory[allocation - 1], sizeof(int), __FILE__, __LINE__);
     }
@@ -258,14 +258,14 @@ class MemoryAccountantExecFunction
     : public ExecFunction
 {
 public:
-    virtual ~MemoryAccountantExecFunction() CPPUTEST_DESTRUCTOR_OVERRIDE
+    virtual ~MemoryAccountantExecFunction() override
     {
     }
 
     void (*testFunction_)(MemoryAccountant*);
     MemoryAccountant* parameter_;
 
-    virtual void exec() CPPUTEST_OVERRIDE
+    virtual void exec() override
     {
         testFunction_(parameter_);
     }
@@ -277,13 +277,13 @@ TEST_GROUP(TestMemoryAccountant)
     TestTestingFixture fixture;
     MemoryAccountantExecFunction testFunction;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         testFunction.parameter_ = &accountant;
         fixture.setTestFunction(&testFunction);
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         accountant.clear();
     }
@@ -471,12 +471,12 @@ TEST_GROUP(AccountingTestMemoryAllocator)
     MemoryAccountant accountant;
     AccountingTestMemoryAllocator *allocator;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         allocator = new AccountingTestMemoryAllocator(accountant, getCurrentMallocAllocator());
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         accountant.clear();
         delete allocator;
@@ -541,7 +541,7 @@ public:
     void (*testFunction_)(GlobalMemoryAccountant*);
     GlobalMemoryAccountant* parameter_;
 
-    virtual void exec() CPPUTEST_OVERRIDE
+    virtual void exec() override
     {
         testFunction_(parameter_);
     }
@@ -554,14 +554,14 @@ TEST_GROUP(GlobalMemoryAccountant)
     GlobalMemoryAccountantExecFunction testFunction;
     GlobalMemoryAllocatorStash stash;
 
-    void setup() CPPUTEST_OVERRIDE
+    void setup() override
     {
         testFunction.parameter_ = &accountant;
         fixture.setTestFunction(&testFunction);
         stash.save();
     }
 
-    void teardown() CPPUTEST_OVERRIDE
+    void teardown() override
     {
         stash.restore();
     }
