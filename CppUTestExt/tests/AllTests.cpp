@@ -29,6 +29,10 @@
 #include "CppUTest/TestRegistry.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 int main(int ac, const char *const *av)
 {
     int result = 0;

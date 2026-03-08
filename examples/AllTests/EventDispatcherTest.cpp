@@ -30,6 +30,8 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
 
+using cpputest::extensions::mock;
+
 class ObserverMock : public EventObserver
 {
 public:
@@ -47,16 +49,16 @@ public:
     }
 };
 
-class EventComparator : public MockNamedValueComparator
+class EventComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
     virtual bool isEqual(const void* object1, const void* object2) override
     {
         return static_cast<const Event*>(object1)->type == static_cast<const Event*>(object2)->type;
     }
-    virtual SimpleString valueToString(const void* object) override
+    virtual cpputest::SimpleString valueToString(const void* object) override
     {
-        return StringFrom(static_cast<const Event*>(object)->type);
+        return cpputest::StringFrom(static_cast<const Event*>(object)->type);
     }
 };
 

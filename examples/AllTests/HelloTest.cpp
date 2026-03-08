@@ -31,7 +31,7 @@
 #include <stdarg.h>
 #include "CppUTest/TestHarness.h"
 
-static SimpleString* buffer;
+static cpputest::SimpleString* buffer;
 
 TEST_GROUP(HelloWorld)
 {
@@ -39,13 +39,13 @@ TEST_GROUP(HelloWorld)
     {
         va_list arguments;
         va_start(arguments, output);
-        *buffer = VStringFromFormat(output, arguments);
+        *buffer = cpputest::VStringFromFormat(output, arguments);
         va_end(arguments);
         return 1;
     }
     void setup() override
     {
-        buffer = new SimpleString();
+        buffer = new cpputest::SimpleString();
         UT_PTR_SET(PrintFormated, &output_method);
     }
     void teardown() override

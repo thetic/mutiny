@@ -29,9 +29,12 @@
 #define PLATFORMSPECIFICFUNCTIONS_H_
 
 #include "CppUTest/TestOutput.h"
-TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment();
 
-class TestPlugin;
+namespace cpputest {
+    TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment();
+
+    class TestPlugin;
+}
 /* Platform specific interface we use in order to minimize dependencies with LibC.
  * This enables porting to different embedded platforms.
  *

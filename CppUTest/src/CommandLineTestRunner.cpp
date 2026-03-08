@@ -32,6 +32,8 @@
 #include "CppUTest/TeamCityTestOutput.h"
 #include "CppUTest/TestRegistry.h"
 
+namespace cpputest {
+
 int CommandLineTestRunner::RunAllTests(int ac, char** av)
 {
     return RunAllTests(ac, reinterpret_cast<const char *const *>(av));
@@ -78,9 +80,9 @@ void CommandLineTestRunner::initializeTestRun()
     if (arguments_->isVeryVerbose()) output_->verbose(TestOutput::level_veryVerbose);
     if (arguments_->isColor()) output_->color();
     if (arguments_->isRunIgnored()) registry_->setRunIgnored();
-    if (arguments_->isCrashingOnFail()) UtestShell::setCrashOnFail();
+    if (arguments_->isCrashingOnFail()) TestShell::setCrashOnFail();
 
-    UtestShell::setRethrowExceptions( arguments_->isRethrowingExceptions() );
+    TestShell::setRethrowExceptions( arguments_->isRethrowingExceptions() );
 }
 
 int CommandLineTestRunner::runAllTests()
@@ -183,3 +185,4 @@ bool CommandLineTestRunner::parseArguments(TestPlugin* plugin)
   return true;
 }
 
+} // namespace cpputest

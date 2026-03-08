@@ -30,6 +30,8 @@
 
 #include "CppUTest/SimpleString.h"
 
+namespace cpputest {
+
 class TestMemoryAllocator;
 
 extern void setCurrentNewAllocator(TestMemoryAllocator* allocator);
@@ -68,6 +70,8 @@ protected:
     const char* alloc_name_;
     const char* free_name_;
 };
+
+} // namespace cpputest
 
 #endif
 

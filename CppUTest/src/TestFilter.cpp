@@ -25,8 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/CppUTestConfig.h"
 #include "CppUTest/TestFilter.h"
+
+namespace cpputest {
 
 TestFilter::TestFilter() : strictMatching_(false), invertMatching_(false), next_(nullptr)
 {
@@ -105,3 +106,4 @@ SimpleString StringFrom(const TestFilter& filter)
     return filter.asString();
 }
 
+} // namespace cpputest

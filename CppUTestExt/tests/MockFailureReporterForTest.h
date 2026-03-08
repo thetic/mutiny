@@ -30,6 +30,11 @@
 
 #include "CppUTestExt/MockSupport.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+using UtestShell = cpputest::TestShell;
+
+
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure) CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, __FILE__, __LINE__)
 #define CHECK_NO_MOCK_FAILURE() CHECK_NO_MOCK_FAILURE_LOCATION(__FILE__, __LINE__)
 

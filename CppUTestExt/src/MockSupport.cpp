@@ -33,6 +33,8 @@
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 
+namespace cpputest { namespace extensions {
+
 static MockSupport global_mock;
 
 MockSupport& mock(const SimpleString& mockName, MockFailureReporter* failureReporterForThisCall)
@@ -309,7 +311,7 @@ void MockSupport::failTest(MockFailure& failure)
 
 void MockSupport::countCheck()
 {
-    UtestShell::getCurrent()->countCheck();
+    cpputest::TestShell::getCurrent()->countCheck();
 }
 
 void MockSupport::checkExpectationsOfLastActualCall()
@@ -648,3 +650,6 @@ bool MockSupport::hasReturnValue()
     if (lastActualFunctionCall_) return lastActualFunctionCall_->hasReturnValue();
     return false;
 }
+
+} // namespace extensions
+} // namespace cpputest

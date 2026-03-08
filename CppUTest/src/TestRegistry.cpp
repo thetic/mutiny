@@ -29,6 +29,8 @@
 #include "CppUTest/TestRegistry.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest {
+
 TestRegistry::TestRegistry() :
     tests_(nullptr), nameFilters_(nullptr), groupFilters_(nullptr), firstPlugin_(NullTestPlugin::instance()), currentRepetition_(0), runIgnored_(false)
 {
@@ -38,7 +40,7 @@ TestRegistry::~TestRegistry()
 {
 }
 
-void TestRegistry::addTest(UtestShell *test)
+void TestRegistry::addTest(TestShell *test)
 {
     tests_ = test->addTest(tests_);
 }
@@ -48,7 +50,7 @@ void TestRegistry::runAllTests(TestResult& result)
     bool groupStart = true;
 
     result.testsStarted();
-    for (UtestShell *test = tests_; test != nullptr; test = test->getNext()) {
+    for (TestShell *test = tests_; test != nullptr; test = test->getNext()) {
         if (runIgnored_) test->setRunIgnored();
 
         if (groupStart) {
@@ -76,7 +78,7 @@ void TestRegistry::listTestGroupNames(TestResult& result)
 {
     SimpleString groupList;
 
-    for (UtestShell *test = tests_; test != nullptr; test = test->getNext()) {
+    for (TestShell *test = tests_; test != nullptr; test = test->getNext()) {
         SimpleString gname;
         gname += "#";
         gname += test->getGroup();
@@ -99,7 +101,7 @@ void TestRegistry::listTestGroupAndCaseNames(TestResult& result)
 {
     SimpleString groupAndNameList;
 
-    for (UtestShell *test = tests_; test != nullptr; test = test->getNext()) {
+    for (TestShell *test = tests_; test != nullptr; test = test->getNext()) {
         if (testShouldRun(test, result)) {
             SimpleString groupAndName;
             groupAndName += "#";
@@ -126,7 +128,7 @@ void TestRegistry::listTestLocations(TestResult& result)
 {
     SimpleString testLocations;
 
-    for (UtestShell *test = tests_; test != nullptr; test = test->getNext()) {
+    for (TestShell *test = tests_; test != nullptr; test = test->getNext()) {
             SimpleString testLocation;
             testLocation += test->getGroup();
             testLocation += ".";
@@ -142,7 +144,7 @@ void TestRegistry::listTestLocations(TestResult& result)
     result.print(testLocations.asCharString());
 }
 
-bool TestRegistry::endOfGroup(UtestShell* test)
+bool TestRegistry::endOfGroup(TestShell* test)
 {
     return (!test || !test->getNext() || test->getGroup() != test->getNext()->getGroup());
 }
@@ -191,7 +193,7 @@ int TestRegistry::getCurrentRepetition()
     return currentRepetition_;
 }
 
-bool TestRegistry::testShouldRun(UtestShell* test, TestResult& result)
+bool TestRegistry::testShouldRun(TestShell* test, TestResult& result)
 {
     if (test->shouldRun(groupFilters_, nameFilters_)) return true;
     else {
@@ -236,36 +238,36 @@ int TestRegistry::countPlugins()
 }
 
 
-UtestShell* TestRegistry::getFirstTest()
+TestShell* TestRegistry::getFirstTest()
 {
     return tests_;
 }
 
 void TestRegistry::shuffleTests(size_t seed)
 {
-    UtestShellPointerArray array(getFirstTest());
+    TestShellPointerArray array(getFirstTest());
     array.shuffle(seed);
     tests_ = array.getFirstTest();
 }
 
 void TestRegistry::reverseTests()
 {
-    UtestShellPointerArray array(getFirstTest());
+    TestShellPointerArray array(getFirstTest());
     array.reverse();
     tests_ = array.getFirstTest();
 }
 
-UtestShell* TestRegistry::getTestWithNext(UtestShell* test)
+TestShell* TestRegistry::getTestWithNext(TestShell* test)
 {
-    UtestShell* current = tests_;
+    TestShell* current = tests_;
     while (current && current->getNext() != test)
         current = current->getNext();
     return current;
 }
 
-UtestShell* TestRegistry::findTestWithName(const SimpleString& name)
+TestShell* TestRegistry::findTestWithName(const SimpleString& name)
 {
-    UtestShell* current = tests_;
+    TestShell* current = tests_;
     while (current) {
         if (current->getName() == name)
             return current;
@@ -274,9 +276,9 @@ UtestShell* TestRegistry::findTestWithName(const SimpleString& name)
     return nullptr;
 }
 
-UtestShell* TestRegistry::findTestWithGroup(const SimpleString& group)
+TestShell* TestRegistry::findTestWithGroup(const SimpleString& group)
 {
-    UtestShell* current = tests_;
+    TestShell* current = tests_;
     while (current) {
         if (current->getGroup() == group)
             return current;
@@ -285,3 +287,4 @@ UtestShell* TestRegistry::findTestWithGroup(const SimpleString& group)
     return nullptr;
 }
 
+} // namespace cpputest

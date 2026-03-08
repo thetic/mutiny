@@ -31,6 +31,8 @@
 #include "CppUTestExt/MockFailure.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest { namespace extensions {
+
 MockActualCall::MockActualCall()
 {
 }
@@ -66,7 +68,7 @@ void MockCheckedActualCall::setMockFailureReporter(MockFailureReporter* reporter
     reporter_ = reporter;
 }
 
-UtestShell* MockCheckedActualCall::getTest() const
+cpputest::TestShell* MockCheckedActualCall::getTest() const
 {
     return reporter_->getTestToFail();
 }
@@ -633,7 +635,7 @@ MockActualCall& MockActualCallTrace::withName(const SimpleString& name)
 MockActualCall& MockActualCallTrace::withCallOrder(unsigned int callOrder)
 {
     traceBuffer_ += " withCallOrder:";
-    traceBuffer_ += StringFrom(callOrder);
+    traceBuffer_ += cpputest::StringFrom(callOrder);
     return *this;
 }
 
@@ -647,84 +649,84 @@ void MockActualCallTrace::addParameterName(const SimpleString& name)
 MockActualCall& MockActualCallTrace::withBoolParameter(const SimpleString& name, bool value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withUnsignedIntParameter(const SimpleString& name, unsigned int value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withIntParameter(const SimpleString& name, int value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withUnsignedLongIntParameter(const SimpleString& name, unsigned long int value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withLongIntParameter(const SimpleString& name, long int value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withUnsignedLongLongIntParameter(const SimpleString& name, unsigned long long value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withLongLongIntParameter(const SimpleString& name, long long value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withDoubleParameter(const SimpleString& name, double value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withStringParameter(const SimpleString& name, const char* value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withPointerParameter(const SimpleString& name, void* value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withConstPointerParameter(const SimpleString& name, const void* value)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withFunctionPointerParameter(const SimpleString& name, void (*value)())
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
@@ -740,14 +742,14 @@ MockActualCall& MockActualCallTrace::withParameterOfType(const SimpleString& typ
     traceBuffer_ += " ";
     traceBuffer_ += typeName;
     addParameterName(name);
-    traceBuffer_ += StringFrom(value);
+    traceBuffer_ += cpputest::StringFrom(value);
     return *this;
 }
 
 MockActualCall& MockActualCallTrace::withOutputParameter(const SimpleString& name, void* output)
 {
     addParameterName(name);
-    traceBuffer_ += StringFrom(output);
+    traceBuffer_ += cpputest::StringFrom(output);
     return *this;
 }
 
@@ -756,7 +758,7 @@ MockActualCall& MockActualCallTrace::withOutputParameterOfType(const SimpleStrin
     traceBuffer_ += " ";
     traceBuffer_ += typeName;
     addParameterName(name);
-    traceBuffer_ += StringFrom(output);
+    traceBuffer_ += cpputest::StringFrom(output);
     return *this;
 }
 
@@ -893,7 +895,7 @@ unsigned int MockActualCallTrace::returnUnsignedIntValueOrDefault(unsigned int)
 MockActualCall& MockActualCallTrace::onObject(const void* objectPtr)
 {
     traceBuffer_ += " onObject:";
-    traceBuffer_ += StringFrom(objectPtr);
+    traceBuffer_ += cpputest::StringFrom(objectPtr);
     return *this;
 }
 
@@ -928,3 +930,5 @@ MockIgnoredActualCall& MockIgnoredActualCall::instance()
     return call;
 }
 
+} // namespace extensions
+} // namespace cpputest

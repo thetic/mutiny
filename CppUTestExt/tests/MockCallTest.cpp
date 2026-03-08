@@ -29,6 +29,10 @@
 #include "CppUTest/TestTestingFixture.h"
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(MockCallTest)
 {
     void teardown() override

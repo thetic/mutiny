@@ -29,12 +29,14 @@
 #include "CppUTestExt/MockSupport.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
+namespace cpputest { namespace extensions {
+
 class MockSupportPluginReporter : public MockFailureReporter
 {
-    UtestShell& test_;
+    cpputest::TestShell& test_;
     TestResult& result_;
 public:
-    MockSupportPluginReporter(UtestShell& test, TestResult& result)
+    MockSupportPluginReporter(cpputest::TestShell& test, TestResult& result)
         : test_(test), result_(result)
     {
     }
@@ -44,7 +46,7 @@ public:
         result_.addFailure(failure);
     }
 
-    virtual UtestShell* getTestToFail() override
+    virtual cpputest::TestShell* getTestToFail() override
     {
         return &test_;
     }
@@ -65,12 +67,12 @@ void MockSupportPlugin::clear()
     repository_.clear();
 }
 
-void MockSupportPlugin::preTestAction(UtestShell&, TestResult&)
+void MockSupportPlugin::preTestAction(cpputest::TestShell&, TestResult&)
 {
     mock().installComparatorsAndCopiers(repository_);
 }
 
-void MockSupportPlugin::postTestAction(UtestShell& test, TestResult& result)
+void MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
 {
     MockSupportPluginReporter reporter(test, result);
     mock().setMockFailureStandardReporter(&reporter);
@@ -90,3 +92,6 @@ void MockSupportPlugin::installCopier(const SimpleString& name, MockNamedValueCo
 {
     repository_.installCopier(name, copier);
 }
+
+} // namespace extensions
+} // namespace cpputest

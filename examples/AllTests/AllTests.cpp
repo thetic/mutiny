@@ -31,7 +31,7 @@
 #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
-class MyDummyComparator : public MockNamedValueComparator
+class MyDummyComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
     virtual bool isEqual(const void* object1, const void* object2) override
@@ -39,22 +39,22 @@ public:
         return object1 == object2;
     }
 
-    virtual SimpleString valueToString(const void* object) override
+    virtual cpputest::SimpleString valueToString(const void* object) override
     {
-        return StringFrom(object);
+        return cpputest::StringFrom(object);
     }
 };
 
 int main(int ac, char** av)
 {
     MyDummyComparator dummyComparator;
-    MockSupportPlugin mockPlugin;
-    IEEE754ExceptionsPlugin ieee754Plugin;
+    cpputest::extensions::MockSupportPlugin mockPlugin;
+    cpputest::extensions::IEEE754ExceptionsPlugin ieee754Plugin;
 
     mockPlugin.installComparator("MyDummyType", dummyComparator);
-    TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
-    TestRegistry::getCurrentRegistry()->installPlugin(&ieee754Plugin);
-    return CommandLineTestRunner::RunAllTests(ac, av);
+    cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
+    cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&ieee754Plugin);
+    return cpputest::CommandLineTestRunner::RunAllTests(ac, av);
 }
 
 #include "AllTests.h"

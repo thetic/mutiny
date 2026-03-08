@@ -28,6 +28,8 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestPlugin.h"
 
+namespace cpputest {
+
 TestPlugin::TestPlugin(const SimpleString& name) :
     next_(NullTestPlugin::instance()), name_(name), enabled_(true)
 {
@@ -48,13 +50,13 @@ TestPlugin* TestPlugin::addPlugin(TestPlugin* plugin)
     return this;
 }
 
-void TestPlugin::runAllPreTestAction(UtestShell& test, TestResult& result)
+void TestPlugin::runAllPreTestAction(TestShell& test, TestResult& result)
 {
     if (enabled_) preTestAction(test, result);
     next_->runAllPreTestAction(test, result);
 }
 
-void TestPlugin::runAllPostTestAction(UtestShell& test, TestResult& result)
+void TestPlugin::runAllPostTestAction(TestShell& test, TestResult& result)
 {
     next_ ->runAllPostTestAction(test, result);
     if (enabled_) postTestAction(test, result);
@@ -140,7 +142,7 @@ void CppUTestStore(void**function)
     pointerTableIndex++;
 }
 
-void SetPointerPlugin::postTestAction(UtestShell& /*test*/, TestResult& /*result*/)
+void SetPointerPlugin::postTestAction(TestShell& /*test*/, TestResult& /*result*/)
 {
     for (int i = pointerTableIndex - 1; i >= 0; i--)
         *reinterpret_cast<void**>(setlist[i].orig) = setlist[i].orig_value;
@@ -160,10 +162,12 @@ NullTestPlugin* NullTestPlugin::instance()
     return &_instance;
 }
 
-void NullTestPlugin::runAllPreTestAction(UtestShell&, TestResult&)
+void NullTestPlugin::runAllPreTestAction(TestShell&, TestResult&)
 {
 }
 
-void NullTestPlugin::runAllPostTestAction(UtestShell&, TestResult&)
+void NullTestPlugin::runAllPostTestAction(TestShell&, TestResult&)
 {
 }
+
+} // namespace cpputest

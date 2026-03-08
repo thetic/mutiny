@@ -29,6 +29,8 @@
 #include "CppUTest/TestRegistry.h"
 #include "CppUTestExt/OrderedTest.h"
 
+namespace cpputest { namespace extensions {
+
 OrderedTestShell* OrderedTestShell::_orderedTestsHead = nullptr;
 
 OrderedTestShell::OrderedTestShell() :
@@ -67,7 +69,7 @@ bool OrderedTestShell::firstOrderedTest()
 
 OrderedTestShell* OrderedTestShell::addOrderedTest(OrderedTestShell* test)
 {
-    UtestShell::addTest(test);
+    cpputest::TestShell::addTest(test);
     _nextOrderedTest = test;
     return this;
 }
@@ -75,7 +77,7 @@ OrderedTestShell* OrderedTestShell::addOrderedTest(OrderedTestShell* test)
 void OrderedTestShell::addOrderedTestToHead(OrderedTestShell* test)
 {
     TestRegistry *reg = TestRegistry::getCurrentRegistry();
-    UtestShell* head = getOrderedTestHead();
+    cpputest::TestShell* head = getOrderedTestHead();
 
     if (nullptr == reg->getFirstTest() || head == reg->getFirstTest()) {
         reg->addTest(test);
@@ -135,3 +137,6 @@ void OrderedTestInstaller::addOrderedTestInOrderNotAtHeadPosition(
 OrderedTestInstaller::~OrderedTestInstaller()
 {
 }
+
+} // namespace extensions
+} // namespace cpputest

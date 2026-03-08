@@ -22,7 +22,6 @@ target_sources(CppUTest
         FILES
             include/CppUTest/CommandLineArguments.h
             include/CppUTest/CommandLineTestRunner.h
-            include/CppUTest/CppUTestConfig.h
             include/CppUTest/JUnitTestOutput.h
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions_c.h

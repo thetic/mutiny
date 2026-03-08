@@ -31,10 +31,12 @@
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/SimpleString.h"
 
+namespace cpputest {
+
 struct JUnitTestOutputImpl;
 struct JUnitTestCaseResultNode;
 
-class JUnitTestOutput: public TestOutput
+class JUnitTestOutput : public TestOutput
 {
 public:
     JUnitTestOutput();
@@ -42,9 +44,9 @@ public:
 
     virtual void printTestsStarted() override;
     virtual void printTestsEnded(const TestResult& result) override;
-    virtual void printCurrentTestStarted(const UtestShell& test) override;
+    virtual void printCurrentTestStarted(const TestShell& test) override;
     virtual void printCurrentTestEnded(const TestResult& res) override;
-    virtual void printCurrentGroupStarted(const UtestShell& test) override;
+    virtual void printCurrentGroupStarted(const TestShell& test) override;
     virtual void printCurrentGroupEnded(const TestResult& res) override;
 
     virtual void printBuffer(const char*) override;
@@ -77,5 +79,7 @@ protected:
     virtual void writeFailure(JUnitTestCaseResultNode* node);
     virtual void writeFileEnding();
 };
+
+} // namespace cpputest
 
 #endif

@@ -31,6 +31,9 @@
 
 #include "CppUTest/TestFailure.h"
 
+namespace cpputest { namespace extensions {
+
+
 class MockExpectedCallsList;
 class MockCheckedActualCall;
 class MockNamedValue;
@@ -45,80 +48,84 @@ public:
     virtual ~MockFailureReporter() {}
 
     virtual void failTest(const MockFailure& failure);
-    virtual UtestShell* getTestToFail();
+    virtual cpputest::TestShell* getTestToFail();
 
     virtual void crashOnFailure(bool shouldCrash) { crashOnFailure_ = shouldCrash; }
 };
 
-class MockFailure : public TestFailure
+class MockFailure : public cpputest::TestFailure
 {
 public:
-    MockFailure(UtestShell* test);
+    MockFailure(cpputest::TestShell* test);
     virtual ~MockFailure() override {}
 protected:
     void addExpectationsAndCallHistory(const MockExpectedCallsList& expectations);
-    void addExpectationsAndCallHistoryRelatedTo(const SimpleString& function, const MockExpectedCallsList& expectations);
+    void addExpectationsAndCallHistoryRelatedTo(const cpputest::SimpleString& function, const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedCallsDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedCallsDidntHappenFailure(UtestShell* test, const MockExpectedCallsList& expectations);
+    MockExpectedCallsDidntHappenFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedCallHappenedFailure : public MockFailure
 {
 public:
-    MockUnexpectedCallHappenedFailure(UtestShell* test, const SimpleString& name, const MockExpectedCallsList& expectations);
+    MockUnexpectedCallHappenedFailure(cpputest::TestShell* test, const cpputest::SimpleString& name, const MockExpectedCallsList& expectations);
 };
 
 class MockCallOrderFailure : public MockFailure
 {
 public:
-    MockCallOrderFailure(UtestShell* test, const MockExpectedCallsList& expectations);
+    MockCallOrderFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedInputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedInputParameterFailure(UtestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
+    MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedOutputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedOutputParameterFailure(UtestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
+    MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedParameterDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedParameterDidntHappenFailure(UtestShell* test, const SimpleString& functionName, const MockExpectedCallsList& allExpectations, 
+    MockExpectedParameterDidntHappenFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockExpectedCallsList& allExpectations, 
                                             const MockExpectedCallsList& matchingExpectations);
 };
 
 class MockNoWayToCompareCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCompareCustomTypeFailure(UtestShell* test, const SimpleString& typeName);
+    MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, const cpputest::SimpleString& typeName);
 };
 
 class MockNoWayToCopyCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCopyCustomTypeFailure(UtestShell* test, const SimpleString& typeName);
+    MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, const cpputest::SimpleString& typeName);
 };
 
 class MockUnexpectedObjectFailure : public MockFailure
 {
 public:
-    MockUnexpectedObjectFailure(UtestShell* test, const SimpleString& functionName, const void* expected, const MockExpectedCallsList& expectations);
+    MockUnexpectedObjectFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const void* expected, const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedObjectDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedObjectDidntHappenFailure(UtestShell* test, const SimpleString& functionName, const MockExpectedCallsList& expectations);
+    MockExpectedObjectDidntHappenFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockExpectedCallsList& expectations);
 };
+
+
+} // namespace extensions
+} // namespace cpputest
 
 #endif

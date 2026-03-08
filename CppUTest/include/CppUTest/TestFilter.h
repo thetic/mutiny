@@ -30,6 +30,8 @@
 
 #include "CppUTest/SimpleString.h"
 
+namespace cpputest {
+
 class TestFilter
 {
 public:
@@ -58,6 +60,8 @@ private:
 };
 
 SimpleString StringFrom(const TestFilter& filter);
+
+} // namespace cpputest
 
 #endif
 

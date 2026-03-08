@@ -32,6 +32,11 @@
 #include "MockSupport_cTestCFile.h"
 #include "CppUTestExt/OrderedTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+using UtestShell = cpputest::TestShell;
+
+
 extern "C" {
   static void dummy_function_for_mock_c_test()
   {

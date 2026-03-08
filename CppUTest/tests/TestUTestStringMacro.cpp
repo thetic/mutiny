@@ -33,7 +33,7 @@
 
 TEST_GROUP(UnitTestStringMacros)
 {
-    TestTestingFixture fixture;
+    cpputest::TestTestingFixture fixture;
 };
 
 static void STRCMP_EQUALWithActualIsNULLTestMethod_()
@@ -160,7 +160,7 @@ TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINSAndExpectedIsNULL)
 static void failingTestMethodWithSTRCMP_EQUAL_()
 {
     STRCMP_EQUAL("hello", "hell");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_EQUAL)
@@ -184,7 +184,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_EQUALWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_EQUAL_TEXT_()
 {
     STRCMP_EQUAL_TEXT("hello", "hell", "Failed because it failed");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_EQUAL_TEXT)
@@ -209,7 +209,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRNCMP_EQUAL_()
 {
     STRNCMP_EQUAL("hello", "hallo", 5);
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRNCMP_EQUAL)
@@ -233,7 +233,7 @@ IGNORE_TEST(UnitTestStringMacros, STRNCMP_EQUALWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRNCMP_EQUAL_TEXT_()
 {
     STRNCMP_EQUAL_TEXT("hello", "hallo", 5, "Failed because it failed");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRNCMP_EQUAL_TEXT)
@@ -258,7 +258,7 @@ IGNORE_TEST(UnitTestStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_NOCASE_EQUAL_()
 {
     STRCMP_NOCASE_EQUAL("hello", "Hell");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_EQUAL)
@@ -282,7 +282,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_NOCASE_EQUALWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_NOCASE_EQUAL_TEXT_()
 {
     STRCMP_NOCASE_EQUAL_TEXT("hello", "hell", "Failed because it failed");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_EQUAL_TEXT)
@@ -307,7 +307,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_NOCASE_EQUAL_TEXTWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_CONTAINS_()
 {
     STRCMP_CONTAINS("hello", "world");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_CONTAINS)
@@ -331,7 +331,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_CONTAINSWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_CONTAINS_TEXT_()
 {
     STRCMP_CONTAINS_TEXT("hello", "world", "Failed because it failed");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_CONTAINS_TEXT)
@@ -356,7 +356,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_CONTAINS_TEXTWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_NOCASE_CONTAINS_()
 {
     STRCMP_NOCASE_CONTAINS("hello", "WORLD");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINS)
@@ -380,7 +380,7 @@ IGNORE_TEST(UnitTestStringMacros, STRCMP_NO_CASE_CONTAINSWorksInAnIgnoredTest)
 static void failingTestMethodWithSTRCMP_NOCASE_CONTAINS_TEXT_()
 {
     STRCMP_NOCASE_CONTAINS_TEXT("hello", "WORLD", "Failed because it failed");
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINS_TEXT)
@@ -413,7 +413,7 @@ TEST(UnitTestStringMacros, NFirstCharsComparison)
 static void compareNFirstCharsWithUpperAndLowercase_()
 {
     STRNCMP_EQUAL("hello world!", "HELLO WORLD!", 12);
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, CompareNFirstCharsWithUpperAndLowercase)
@@ -427,7 +427,7 @@ TEST(UnitTestStringMacros, CompareNFirstCharsWithUpperAndLowercase)
 static void compareNFirstCharsWithDifferenceInTheMiddle_()
 {
     STRNCMP_EQUAL("Hello World!", "Hello Peter!", 12);
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, CompareNFirstCharsWithDifferenceInTheMiddle)
@@ -441,7 +441,7 @@ TEST(UnitTestStringMacros, CompareNFirstCharsWithDifferenceInTheMiddle)
 static void compareNFirstCharsWithEmptyString_()
 {
     STRNCMP_EQUAL("", "Not empty string", 5);
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, CompareNFirstCharsWithEmptyString)
@@ -455,7 +455,7 @@ TEST(UnitTestStringMacros, CompareNFirstCharsWithEmptyString)
 static void compareNFirstCharsWithLastCharDifferent_()
 {
     STRNCMP_EQUAL("Not empty string?", "Not empty string!", 17);
-    TestTestingFixture::lineExecutedAfterCheck();
+    cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UnitTestStringMacros, CompareNFirstCharsWithLastCharDifferent)

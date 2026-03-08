@@ -30,7 +30,9 @@
 
 #include "CppUTest/Utest.h"
 
-class OrderedTestShell : public UtestShell
+namespace cpputest { namespace extensions {
+
+class OrderedTestShell : public cpputest::TestShell
 {
 public:
     OrderedTestShell();
@@ -67,6 +69,9 @@ class OrderedTestInstaller
 
 };
 
+} // namespace extensions
+} // namespace cpputest
+
 #define TEST_ORDERED(testGroup, testName, testLevel) \
   /* declarations for compilers */ \
   class TEST_##testGroup##_##testName##_TestShell; \
@@ -74,10 +79,10 @@ class OrderedTestInstaller
   class TEST_##testGroup##_##testName##_Test : public TEST_GROUP_##CppUTestGroup##testGroup \
 { public: TEST_##testGroup##_##testName##_Test () : TEST_GROUP_##CppUTestGroup##testGroup () {} \
        void testBody() override; }; \
-  class TEST_##testGroup##_##testName##_TestShell : public OrderedTestShell { \
-       virtual Utest* createTest() override { return new TEST_##testGroup##_##testName##_Test; } \
+  class TEST_##testGroup##_##testName##_TestShell : public cpputest::extensions::OrderedTestShell { \
+       virtual cpputest::Test* createTest() override { return new TEST_##testGroup##_##testName##_Test; } \
   }  TEST_##testGroup##_##testName##_Instance; \
-  static OrderedTestInstaller TEST_##testGroup##_##testName##_Installer(TEST_##testGroup##_##testName##_Instance, #testGroup, #testName, __FILE__,__LINE__, testLevel); \
+  static cpputest::extensions::OrderedTestInstaller TEST_##testGroup##_##testName##_Installer(TEST_##testGroup##_##testName##_Instance, #testGroup, #testName, __FILE__,__LINE__, testLevel); \
    void TEST_##testGroup##_##testName##_Test::testBody()
 
 #define TEST_ORDERED_C_WRAPPER(group_name, test_name, testLevel) \

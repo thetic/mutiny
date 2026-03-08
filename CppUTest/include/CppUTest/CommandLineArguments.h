@@ -32,6 +32,8 @@
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestFilter.h"
 
+namespace cpputest {
+
 class TestPlugin;
 
 class CommandLineArguments
@@ -114,5 +116,7 @@ private:
     CommandLineArguments& operator=(const CommandLineArguments&);
 
 };
+
+} // namespace cpputest
 
 #endif

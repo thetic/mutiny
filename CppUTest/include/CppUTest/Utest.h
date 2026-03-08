@@ -33,6 +33,34 @@
 
 #include "CppUTest/SimpleString.h"
 
+#ifdef __cplusplus
+  #ifndef CPPUTEST_HAVE_EXCEPTIONS
+    #if ((__cplusplus >= 202002L) && !__cpp_exceptions) || \
+        (defined(_MSC_VER) && !_CPPUNWIND) || \
+        (defined(__GNUC__) && !__EXCEPTIONS) || \
+        (defined(__ghs__) && !__EXCEPTION_HANDLING) || \
+        (defined(__WATCOMC__) && !_CPPUNWIND)
+      #define CPPUTEST_HAVE_EXCEPTIONS 0
+    #else
+      #define CPPUTEST_HAVE_EXCEPTIONS 1
+    #endif
+  #endif
+
+  #ifndef CPPUTEST_HAVE_RTTI
+    #if ((__cplusplus >= 202002L) && !__cpp_rtti) || \
+        (defined(_MSC_VER) && !_CPPRTTI) || \
+        (defined(__GNUC__) && !__GXX_RTTI) || \
+        (defined(__ghs__) && !__RTTI) || \
+        (defined(__WATCOMC__) && !_CPPRTTI)
+      #define CPPUTEST_HAVE_RTTI 0
+    #else
+      #define CPPUTEST_HAVE_RTTI 1
+    #endif
+  #endif
+#endif
+
+namespace cpputest {
+
 class TestResult;
 class TestPlugin;
 class TestFailure;
@@ -41,15 +69,15 @@ class TestTerminator;
 
 extern bool doubles_equal(double d1, double d2, double threshold);
 
-//////////////////// Utest
+//////////////////// Test
 
-class UtestShell;
+class TestShell;
 
-class Utest
+class Test
 {
 public:
-    Utest();
-    virtual ~Utest();
+    Test();
+    virtual ~Test();
     virtual void run();
 
     virtual void setup();
@@ -94,12 +122,12 @@ public:
     virtual ~CrashingTestTerminatorWithoutExceptions() override;
 };
 
-//////////////////// UtestShell
+//////////////////// TestShell
 
-class UtestShell
+class TestShell
 {
 public:
-    static UtestShell *getCurrent();
+    static TestShell *getCurrent();
 
     static const TestTerminator &getCurrentTestTerminator();
     static const TestTerminator &getCurrentTestTerminatorWithoutExceptions();
@@ -111,11 +139,11 @@ public:
     static bool isRethrowingExceptions();
 
 public:
-    UtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber);
-    virtual ~UtestShell();
+    TestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber);
+    virtual ~TestShell();
 
-    virtual UtestShell* addTest(UtestShell* test);
-    virtual UtestShell *getNext() const;
+    virtual TestShell* addTest(TestShell* test);
+    virtual TestShell *getNext() const;
     virtual size_t countTests();
 
     bool shouldRun(const TestFilter* groupFilters, const TestFilter* nameFilters) const;
@@ -164,8 +192,8 @@ public:
 
     virtual void setRunIgnored();
 
-    virtual Utest* createTest();
-    virtual void destroyTest(Utest* test);
+    virtual Test* createTest();
+    virtual void destroyTest(Test* test);
 
     virtual void runOneTest(TestPlugin* plugin, TestResult& result);
     virtual void runOneTestInCurrentProcess(TestPlugin *plugin, TestResult & result);
@@ -176,8 +204,8 @@ public:
     virtual void addFailure(const TestFailure& failure);
 
 protected:
-    UtestShell();
-    UtestShell(const char *groupName, const char *testName, const char *fileName, size_t lineNumber, UtestShell *nextTest);
+    TestShell();
+    TestShell(const char *groupName, const char *testName, const char *fileName, size_t lineNumber, TestShell *nextTest);
 
     virtual SimpleString getMacroName() const;
     TestResult *getTestResult();
@@ -186,14 +214,14 @@ private:
     const char *name_;
     const char *file_;
     size_t lineNumber_;
-    UtestShell *next_;
+    TestShell *next_;
     bool hasFailed_;
 
     void setTestResult(TestResult* result);
-    void setCurrentTest(UtestShell* test);
+    void setCurrentTest(TestShell* test);
     bool match(const char* target, const TestFilter* filters) const;
 
-    static UtestShell* currentTest_;
+    static TestShell* currentTest_;
     static TestResult* testResult_;
 
     static const TestTerminator *currentTestTerminator_;
@@ -207,7 +235,7 @@ private:
 
 class ExecFunctionTestShell;
 
-class ExecFunctionTest : public Utest
+class ExecFunctionTest : public Test
 {
 public:
     ExecFunctionTest(ExecFunctionTestShell* shell);
@@ -242,7 +270,7 @@ public:
 
 //////////////////// ExecFunctionTestShell
 
-class ExecFunctionTestShell : public UtestShell
+class ExecFunctionTestShell : public TestShell
 {
 public:
     void (*setup_)();
@@ -250,30 +278,30 @@ public:
     ExecFunction* testFunction_;
 
     ExecFunctionTestShell(void(*set)() = nullptr, void(*tear)() = nullptr) :
-        UtestShell("ExecFunction", "ExecFunction", "ExecFunction", 1), setup_(set), teardown_(tear), testFunction_(nullptr)
+        TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1), setup_(set), teardown_(tear), testFunction_(nullptr)
     {
     }
 
-    Utest* createTest() override { return new ExecFunctionTest(this); }
+    Test* createTest() override { return new ExecFunctionTest(this); }
     virtual ~ExecFunctionTestShell() override;
 };
 
-//////////////////// CppUTestFailedException
+//////////////////// FailedException
 
-class CppUTestFailedException
+class FailedException
 {
 public:
     int dummy_;
 };
 
-//////////////////// IgnoredTest
+//////////////////// IgnoredTestShell
 
-class IgnoredUtestShell : public UtestShell
+class IgnoredTestShell : public TestShell
 {
 public:
-    IgnoredUtestShell();
-    virtual ~IgnoredUtestShell() override;
-    explicit IgnoredUtestShell(const char* groupName, const char* testName,
+    IgnoredTestShell();
+    virtual ~IgnoredTestShell() override;
+    explicit IgnoredTestShell(const char* groupName, const char* testName,
             const char* fileName, size_t lineNumber);
     virtual bool willRun() const override;
     virtual void setRunIgnored() override;
@@ -282,32 +310,32 @@ protected:
     virtual void runOneTest(TestPlugin* plugin, TestResult& result) override;
 private:
 
-    IgnoredUtestShell(const IgnoredUtestShell&);
-    IgnoredUtestShell& operator=(const IgnoredUtestShell&);
+    IgnoredTestShell(const IgnoredTestShell&);
+    IgnoredTestShell& operator=(const IgnoredTestShell&);
 
     bool runIgnored_;
 
 };
 
-//////////////////// UtestShellPointerArray
+//////////////////// TestShellPointerArray
 
-class UtestShellPointerArray
+class TestShellPointerArray
 {
 public:
-    UtestShellPointerArray(UtestShell* firstTest);
-    ~UtestShellPointerArray();
+    TestShellPointerArray(TestShell* firstTest);
+    ~TestShellPointerArray();
 
     void shuffle(size_t seed);
     void reverse();
     void relinkTestsInOrder();
-    UtestShell* getFirstTest() const;
-    UtestShell* get(size_t index) const;
+    TestShell* getFirstTest() const;
+    TestShell* get(size_t index) const;
 
 private:
 
     void swap(size_t index1, size_t index2);
 
-    UtestShell** arrayOfTests_;
+    TestShell** arrayOfTests_;
     size_t count_;
 };
 
@@ -317,7 +345,7 @@ private:
 class TestInstaller
 {
 public:
-    explicit TestInstaller(UtestShell& shell, const char* groupName, const char* testName,
+    explicit TestInstaller(TestShell& shell, const char* groupName, const char* testName,
             const char* fileName, size_t lineNumber);
     virtual ~TestInstaller();
 
@@ -329,5 +357,7 @@ private:
     TestInstaller& operator=(const TestInstaller&);
 
 };
+
+} // namespace cpputest
 
 #endif

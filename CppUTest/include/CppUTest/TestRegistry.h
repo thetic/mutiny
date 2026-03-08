@@ -37,7 +37,9 @@
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/TestFilter.h"
 
-class UtestShell;
+namespace cpputest {
+
+class TestShell;
 class TestResult;
 class TestPlugin;
 
@@ -47,7 +49,7 @@ public:
     TestRegistry();
     virtual ~TestRegistry();
 
-    virtual void addTest(UtestShell *test);
+    virtual void addTest(TestShell *test);
     virtual void unDoLastAddTest();
     virtual size_t countTests();
     virtual void runAllTests(TestResult& result);
@@ -65,11 +67,11 @@ public:
     virtual void removePluginByName(const SimpleString& name);
     virtual int countPlugins();
 
-    virtual UtestShell* getFirstTest();
-    virtual UtestShell* getTestWithNext(UtestShell* test);
+    virtual TestShell* getFirstTest();
+    virtual TestShell* getTestWithNext(TestShell* test);
 
-    virtual UtestShell* findTestWithName(const SimpleString& name);
-    virtual UtestShell* findTestWithGroup(const SimpleString& name);
+    virtual TestShell* findTestWithName(const SimpleString& name);
+    virtual TestShell* findTestWithGroup(const SimpleString& name);
 
     static TestRegistry* getCurrentRegistry();
     virtual void setCurrentRegistry(TestRegistry* registry);
@@ -79,10 +81,10 @@ public:
 
 private:
 
-    bool testShouldRun(UtestShell* test, TestResult& result);
-    bool endOfGroup(UtestShell* test);
+    bool testShouldRun(TestShell* test, TestResult& result);
+    bool endOfGroup(TestShell* test);
 
-    UtestShell * tests_;
+    TestShell * tests_;
     const TestFilter* nameFilters_;
     const TestFilter* groupFilters_;
     TestPlugin* firstPlugin_;
@@ -90,5 +92,7 @@ private:
     int currentRepetition_;
     bool runIgnored_;
 };
+
+} // namespace cpputest
 
 #endif

@@ -31,6 +31,8 @@
 #include "CppUTestExt/MockExpectedCallsList.h"
 #include "CppUTestExt/MockNamedValue.h"
 
+namespace cpputest { namespace extensions {
+
 class MockFailureReporterTestTerminator : public TestTerminator
 {
 public:
@@ -43,7 +45,7 @@ public:
         if (crashOnFailure_)
             UT_CRASH();
 
-        UtestShell::getCurrentTestTerminator().exitCurrentTest();
+        cpputest::TestShell::getCurrentTestTerminator().exitCurrentTest();
     }
 
     virtual ~MockFailureReporterTestTerminator() override
@@ -60,12 +62,12 @@ void MockFailureReporter::failTest(const MockFailure& failure)
         getTestToFail()->failWith(failure, MockFailureReporterTestTerminator(crashOnFailure_));
 }
 
-UtestShell* MockFailureReporter::getTestToFail()
+cpputest::TestShell* MockFailureReporter::getTestToFail()
 {
-    return UtestShell::getCurrent();
+    return cpputest::TestShell::getCurrent();
 }
 
-MockFailure::MockFailure(UtestShell* test) : TestFailure(test, "Test failed with MockFailure without an error! Something went seriously wrong.")
+MockFailure::MockFailure(cpputest::TestShell* test) : TestFailure(test, "Test failed with MockFailure without an error! Something went seriously wrong.")
 {
 }
 
@@ -95,13 +97,13 @@ void MockFailure::addExpectationsAndCallHistoryRelatedTo(const SimpleString& nam
     message_ += expectationsForFunction.fulfilledCallsToString("\t\t");
 }
 
-MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(UtestShell* test, const MockExpectedCallsList& expectations) : MockFailure(test)
+MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations) : MockFailure(test)
 {
     message_ = "Mock Failure: Expected call WAS NOT fulfilled.\n";
     addExpectationsAndCallHistory(expectations);
 }
 
-MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(UtestShell* test, const SimpleString& name, const MockExpectedCallsList& expectations) : MockFailure(test)
+MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(cpputest::TestShell* test, const SimpleString& name, const MockExpectedCallsList& expectations) : MockFailure(test)
 {
     unsigned int amountOfActualCalls = expectations.amountOfActualCallsFulfilledFor(name);
     if (amountOfActualCalls > 0) {
@@ -115,7 +117,7 @@ MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(UtestShell*
     addExpectationsAndCallHistory(expectations);
 }
 
-MockCallOrderFailure::MockCallOrderFailure(UtestShell* test, const MockExpectedCallsList& expectations) : MockFailure(test)
+MockCallOrderFailure::MockCallOrderFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations) : MockFailure(test)
 {
     MockExpectedCallsList expectationsForOutOfOrder;
     expectationsForOutOfOrder.addExpectations(expectations);
@@ -126,7 +128,7 @@ MockCallOrderFailure::MockCallOrderFailure(UtestShell* test, const MockExpectedC
     addExpectationsAndCallHistory(expectationsForOutOfOrder);
 }
 
-MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(UtestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
+MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
 {
     MockExpectedCallsList expectationsForFunctionWithParameterName;
     expectationsForFunctionWithParameterName.addExpectationsRelatedTo(functionName, expectations);
@@ -164,7 +166,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(UtestSh
     message_ += ">";
 }
 
-MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(UtestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
+MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
 {
     MockExpectedCallsList expectationsForFunctionWithParameterName;
     expectationsForFunctionWithParameterName.addExpectationsRelatedTo(functionName, expectations);
@@ -199,7 +201,7 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(Utest
     message_ += parameter.getName();
 }
 
-MockExpectedParameterDidntHappenFailure::MockExpectedParameterDidntHappenFailure(UtestShell* test, const SimpleString& functionName, 
+MockExpectedParameterDidntHappenFailure::MockExpectedParameterDidntHappenFailure(cpputest::TestShell* test, const SimpleString& functionName, 
                                                                                  const MockExpectedCallsList& allExpectations,
                                                                                  const MockExpectedCallsList& matchingExpectations) : MockFailure(test)
 {
@@ -216,27 +218,28 @@ MockExpectedParameterDidntHappenFailure::MockExpectedParameterDidntHappenFailure
     addExpectationsAndCallHistoryRelatedTo(functionName, allExpectations);
 }
 
-MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(UtestShell* test, const SimpleString& typeName) : MockFailure(test)
+MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, const SimpleString& typeName) : MockFailure(test)
 {
     message_ = StringFromFormat("MockFailure: No way to compare type <%s>. Please install a MockNamedValueComparator.", typeName.asCharString());
 }
 
-MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(UtestShell* test, const SimpleString& typeName) : MockFailure(test)
+MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, const SimpleString& typeName) : MockFailure(test)
 {
     message_ = StringFromFormat("MockFailure: No way to copy type <%s>. Please install a MockNamedValueCopier.", typeName.asCharString());
 }
 
-MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(UtestShell* test, const SimpleString& functionName, const void* actual, const MockExpectedCallsList& expectations) : MockFailure(test)
+MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(cpputest::TestShell* test, const SimpleString& functionName, const void* actual, const MockExpectedCallsList& expectations) : MockFailure(test)
 {
     message_ = StringFromFormat ("MockFailure: Function called on an unexpected object: %s\n"
                                  "\tActual object for call has address: <%p>\n", functionName.asCharString(),actual);
     addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
 
-MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(UtestShell* test, const SimpleString& functionName, const MockExpectedCallsList& expectations) : MockFailure(test)
+MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(cpputest::TestShell* test, const SimpleString& functionName, const MockExpectedCallsList& expectations) : MockFailure(test)
 {
     message_ = StringFromFormat("Mock Failure: Expected call on object for function \"%s\" but it did not happen.\n", functionName.asCharString());
     addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
 
-
+} // namespace extensions
+} // namespace cpputest

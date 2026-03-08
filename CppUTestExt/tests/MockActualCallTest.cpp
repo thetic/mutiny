@@ -32,6 +32,10 @@
 #include "CppUTestExt/MockFailure.h"
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(MockCheckedActualCall)
 {
     MockExpectedCallsList* emptyList;

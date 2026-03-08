@@ -53,8 +53,8 @@ public:
 
     virtual void Print(long int value) override
     {
-        SimpleString buffer;
-        buffer = StringFromFormat("%ld", value);
+        cpputest::SimpleString buffer;
+        buffer = cpputest::StringFromFormat("%ld", value);
         savedOutput.append(buffer.asCharString());
     }
 

@@ -39,7 +39,9 @@
 
 #include "CppUTest/SimpleString.h"
 
-class UtestShell;
+namespace cpputest {
+
+class TestShell;
 class TestFailure;
 class TestResult;
 
@@ -54,9 +56,9 @@ public:
 
     virtual void printTestsStarted();
     virtual void printTestsEnded(const TestResult& result);
-    virtual void printCurrentTestStarted(const UtestShell& test);
+    virtual void printCurrentTestStarted(const TestShell& test);
     virtual void printCurrentTestEnded(const TestResult& res);
-    virtual void printCurrentGroupStarted(const UtestShell& test);
+    virtual void printCurrentGroupStarted(const TestShell& test);
     virtual void printCurrentGroupEnded(const TestResult& res);
 
     virtual void verbose(VerbosityLevel level);
@@ -183,9 +185,9 @@ public:
     virtual void printTestsStarted() override;
     virtual void printTestsEnded(const TestResult& result) override;
 
-    virtual void printCurrentTestStarted(const UtestShell& test) override;
+    virtual void printCurrentTestStarted(const TestShell& test) override;
     virtual void printCurrentTestEnded(const TestResult& res) override;
-    virtual void printCurrentGroupStarted(const UtestShell& test) override;
+    virtual void printCurrentGroupStarted(const TestShell& test) override;
     virtual void printCurrentGroupEnded(const TestResult& res) override;
 
     virtual void verbose(VerbosityLevel level) override;
@@ -210,5 +212,7 @@ private:
     TestOutput* outputOne_;
     TestOutput* outputTwo_;
 };
+
+} // namespace cpputest
 
 #endif

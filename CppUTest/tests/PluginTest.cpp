@@ -26,6 +26,7 @@
  */
 
 #include "CppUTest/TestHarness.h"
+#include "CppUTest/TestPlugin.h"
 #include "CppUTest/TestRegistry.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestTestingFixture.h"
@@ -36,21 +37,21 @@
 
 static int sequenceNumber;
 
-class DummyPlugin: public TestPlugin
+class DummyPlugin: public cpputest::TestPlugin
 {
 public:
-    DummyPlugin(const SimpleString& name) :
+    DummyPlugin(const cpputest::SimpleString& name) :
         TestPlugin(name), preAction(0), preActionSequence(0), postAction(0), postActionSequence(0)
     {
     }
 
-    virtual void preTestAction(UtestShell&, TestResult&) override
+    virtual void preTestAction(cpputest::TestShell&, cpputest::TestResult&) override
     {
         preAction++;
         preActionSequence = sequenceNumber++;
     }
 
-    virtual void postTestAction(UtestShell&, TestResult&) override
+    virtual void postTestAction(cpputest::TestShell&, cpputest::TestResult&) override
     {
         postAction++;
         postActionSequence = sequenceNumber++;
@@ -65,14 +66,14 @@ public:
 class DummyPluginWhichAcceptsParameters: public DummyPlugin
 {
 public:
-    DummyPluginWhichAcceptsParameters(const SimpleString& name) :
+    DummyPluginWhichAcceptsParameters(const cpputest::SimpleString& name) :
         DummyPlugin(name)
     {
     }
 
     virtual bool parseArguments(int ac, const char *const *av, int index) override
     {
-        SimpleString argument (av[index]);
+        cpputest::SimpleString argument (av[index]);
         if (argument == "-paccept")
             return true;
         return TestPlugin::parseArguments(ac, av, index);
@@ -85,15 +86,15 @@ TEST_GROUP(PluginTest)
     DummyPlugin* firstPlugin;
     DummyPluginWhichAcceptsParameters* secondPlugin;
     DummyPlugin* thirdPlugin;
-    TestTestingFixture *genFixture;
-    TestRegistry* registry;
+    cpputest::TestTestingFixture *genFixture;
+    cpputest::TestRegistry* registry;
 
     void setup() override
     {
         firstPlugin = new DummyPlugin(GENERIC_PLUGIN);
         secondPlugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
         thirdPlugin = new DummyPlugin(GENERIC_PLUGIN3);
-        genFixture = new TestTestingFixture;
+        genFixture = new cpputest::TestTestingFixture;
         registry = genFixture->getRegistry();
         registry->installPlugin(firstPlugin);
         sequenceNumber = 1;
@@ -158,7 +159,7 @@ TEST(PluginTest, RemovePluginByName)
     LONGS_EQUAL(2, registry->countPlugins());
 }
 
-struct DefaultPlugin : public TestPlugin
+struct DefaultPlugin : public cpputest::TestPlugin
 {
     DefaultPlugin() : TestPlugin("default") {}
 };

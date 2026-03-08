@@ -31,6 +31,10 @@
 #include "MockFailureReporterForTest.h"
 #include "CppUTest/TestTestingFixture.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(MockPlugin)
 {
     StringBufferTestOutput output;

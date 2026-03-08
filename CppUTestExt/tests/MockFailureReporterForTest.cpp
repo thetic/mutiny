@@ -27,6 +27,10 @@
 
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+using UtestShell = cpputest::TestShell;
+
 void MockFailureReporterForTest::failTest(const MockFailure& failure)
 {
     mockFailureString = failure.getMessage();

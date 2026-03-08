@@ -34,7 +34,7 @@ TEST_GROUP(TestFilter)
 
 TEST(TestFilter, emptyFilterMatchesEverything)
 {
-    TestFilter filter;
+    cpputest::TestFilter filter;
     CHECK(filter.match("random_name"));
     CHECK(filter.match(""));
     CHECK(filter.match("*&%#^&%$(*&^@#(&*@#^(&*$^@#"));
@@ -42,7 +42,7 @@ TEST(TestFilter, emptyFilterMatchesEverything)
 
 TEST(TestFilter, defaultAbsoluteMismatches)
 {
-    TestFilter filter("filtername");
+    cpputest::TestFilter filter("filtername");
     CHECK(!filter.match("notevenclose"));
     CHECK(!filter.match("filterrname"));
     CHECK(!filter.match(""));
@@ -50,7 +50,7 @@ TEST(TestFilter, defaultAbsoluteMismatches)
 
 TEST(TestFilter, strictMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.strictMatching();
     CHECK(filter.match("filter"));
     CHECK(!filter.match("filterr"));
@@ -59,7 +59,7 @@ TEST(TestFilter, strictMatching)
 
 TEST(TestFilter, invertMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.invertMatching();
     CHECK(!filter.match("filter"));
     CHECK(!filter.match("filterr"));
@@ -69,7 +69,7 @@ TEST(TestFilter, invertMatching)
 
 TEST(TestFilter, invertStrictMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.invertMatching();
     filter.strictMatching();
     CHECK(!filter.match("filter"));
@@ -79,61 +79,61 @@ TEST(TestFilter, invertStrictMatching)
 
 TEST(TestFilter, equality)
 {
-    TestFilter filter1("filter");
-    TestFilter filter2("filter");
-    TestFilter filter3("filter3");
+    cpputest::TestFilter filter1("filter");
+    cpputest::TestFilter filter2("filter");
+    cpputest::TestFilter filter3("filter3");
     CHECK(filter1 == filter2);
     CHECK(! (filter1 == filter3));
 }
 
 TEST(TestFilter, equalityWithStrictness)
 {
-    TestFilter filter1("filter");
-    TestFilter filter2("filter");
+    cpputest::TestFilter filter1("filter");
+    cpputest::TestFilter filter2("filter");
     filter2.strictMatching();
     CHECK(! (filter1 == filter2));
 }
 
 TEST(TestFilter, equalityWithInvertion)
 {
-    TestFilter filter1("filter");
-    TestFilter filter2("filter");
+    cpputest::TestFilter filter1("filter");
+    cpputest::TestFilter filter2("filter");
     filter2.invertMatching();
     CHECK(! (filter1 == filter2));
 }
 
 TEST(TestFilter, notEqual)
 {
-    TestFilter filter1("filter");
-    TestFilter filter2("filter");
-    TestFilter filter3("filter3");
+    cpputest::TestFilter filter1("filter");
+    cpputest::TestFilter filter2("filter");
+    cpputest::TestFilter filter3("filter3");
     CHECK(filter1 != filter3);
     CHECK(! (filter1 != filter2));
 }
 
 TEST(TestFilter, stringFrom)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     STRCMP_EQUAL("TestFilter: \"filter\"", StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, stringFromWithStrictMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.strictMatching();
     STRCMP_EQUAL("TestFilter: \"filter\" with strict matching", StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, stringFromWithInvertMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.invertMatching();
     STRCMP_EQUAL("TestFilter: \"filter\" with invert matching", StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, stringFromWithStrictInvertMatching)
 {
-    TestFilter filter("filter");
+    cpputest::TestFilter filter("filter");
     filter.strictMatching();
     filter.invertMatching();
     STRCMP_EQUAL("TestFilter: \"filter\" with strict, invert matching", StringFrom(filter).asCharString());
@@ -141,12 +141,12 @@ TEST(TestFilter, stringFromWithStrictInvertMatching)
 
 TEST(TestFilter, listOfFilters)
 {
-    TestFilter *listOfFilters = nullptr;
-    TestFilter first("foo");
-    TestFilter secnd("bar");
+    cpputest::TestFilter *listOfFilters = nullptr;
+    cpputest::TestFilter first("foo");
+    cpputest::TestFilter secnd("bar");
     listOfFilters = first.add(listOfFilters);
     listOfFilters = secnd.add(listOfFilters);
-    TestFilter *current = listOfFilters;
+    cpputest::TestFilter *current = listOfFilters;
     STRCMP_EQUAL("TestFilter: \"bar\"", StringFrom(*current).asCharString());
     current = current->getNext();
     STRCMP_EQUAL("TestFilter: \"foo\"", StringFrom(*current).asCharString());
@@ -155,9 +155,9 @@ TEST(TestFilter, listOfFilters)
 
 TEST(TestFilter, constructors)
 {
-    TestFilter filter1;
-    TestFilter filter2(SimpleString("a"));
-    TestFilter filter3("a");
+    cpputest::TestFilter filter1;
+    cpputest::TestFilter filter2(cpputest::SimpleString("a"));
+    cpputest::TestFilter filter3("a");
     CHECK(filter1.getNext() == nullptr);
     CHECK(filter2.getNext() == nullptr);
     CHECK(filter3.getNext() == nullptr);

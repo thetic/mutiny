@@ -29,6 +29,8 @@
 #include "CppUTest/CommandLineArguments.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest {
+
 CommandLineArguments::CommandLineArguments(int ac, const char *const *av) :
     ac_(ac), av_(av), needHelp_(false), verbose_(false), veryVerbose_(false), color_(false),
     listTestGroupNames_(false), listTestGroupAndCaseNames_(false), listTestLocations_(false), runIgnored_(false), reversing_(false),
@@ -429,3 +431,4 @@ const SimpleString& CommandLineArguments::getPackageName() const
     return packageName_;
 }
 
+} // namespace cpputest

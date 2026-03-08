@@ -45,9 +45,11 @@
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
 
-TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
-{
-    return TestOutput::eclipse;
+namepace cpputest {
+    TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
+    {
+        return TestOutput::eclipse;
+    }
 }
 
 extern "C" {

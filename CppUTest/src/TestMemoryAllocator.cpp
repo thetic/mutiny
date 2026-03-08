@@ -29,6 +29,8 @@
 #include "CppUTest/TestMemoryAllocator.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest {
+
 static char* checkedMalloc(size_t size)
 {
     char* mem = static_cast<char*>(PlatformSpecificMalloc(size));
@@ -146,3 +148,4 @@ TestMemoryAllocator* TestMemoryAllocator::actualAllocator()
     return this;
 }
 
+} // namespace cpputest

@@ -33,16 +33,16 @@
 
 class FileForJUnitOutputTests
 {
-    SimpleString name_;
+    cpputest::SimpleString name_;
     bool isOpen_;
-    SimpleString buffer_;
+    cpputest::SimpleString buffer_;
     FileForJUnitOutputTests* next_;
 
-    SimpleStringCollection linesOfFile_;
+    cpputest::SimpleStringCollection linesOfFile_;
 
 public:
 
-    FileForJUnitOutputTests(const SimpleString& filename, FileForJUnitOutputTests* next) :
+    FileForJUnitOutputTests(const cpputest::SimpleString& filename, FileForJUnitOutputTests* next) :
         name_(filename), isOpen_(true), next_(next) {}
 
     FileForJUnitOutputTests* nextFile()
@@ -50,12 +50,12 @@ public:
         return next_;
     }
 
-    SimpleString name()
+    cpputest::SimpleString name()
     {
         return name_;
     }
 
-    void write(const SimpleString& buffer)
+    void write(const cpputest::SimpleString& buffer)
     {
         buffer_ += buffer;
     }
@@ -83,7 +83,7 @@ public:
         return linesOfFile_.size();
     }
 
-    SimpleString content()
+    cpputest::SimpleString content()
     {
         return buffer_;
     }
@@ -106,7 +106,7 @@ public:
         }
     }
 
-    FileForJUnitOutputTests* openFile(const SimpleString& filename)
+    FileForJUnitOutputTests* openFile(const cpputest::SimpleString& filename)
     {
         firstFile_ = new FileForJUnitOutputTests(filename, firstFile_);
         return firstFile_;
@@ -151,18 +151,18 @@ extern "C" {
 
 class JUnitTestOutputTestRunner
 {
-    TestResult result_;
+    cpputest::TestResult result_;
 
     const char* currentGroupName_;
-    UtestShell* currentTest_;
+    cpputest::TestShell* currentTest_;
     bool firstTestInGroup_;
     unsigned int timeTheTestTakes_;
     unsigned int numberOfChecksInTest_;
-    TestFailure* testFailure_;
+    cpputest::TestFailure* testFailure_;
 
 public:
 
-    explicit JUnitTestOutputTestRunner(const TestResult& result) :
+    explicit JUnitTestOutputTestRunner(const cpputest::TestResult& result) :
         result_(result), currentGroupName_(nullptr), currentTest_(nullptr), firstTestInGroup_(true), timeTheTestTakes_(0), numberOfChecksInTest_(0), testFailure_(nullptr)
     {
         millisTime = 0;
@@ -219,7 +219,7 @@ public:
         runPreviousTest();
         delete currentTest_;
 
-        currentTest_ = new UtestShell(currentGroupName_, testName, "file", 1);
+        currentTest_ = new cpputest::TestShell(currentGroupName_, testName, "file", 1);
         return *this;
     }
 
@@ -228,7 +228,7 @@ public:
         runPreviousTest();
         delete currentTest_;
 
-        currentTest_ = new IgnoredUtestShell(currentGroupName_, testName, "file", 1);
+        currentTest_ = new cpputest::IgnoredTestShell(currentGroupName_, testName, "file", 1);
         return *this;
     }
 
@@ -292,7 +292,7 @@ public:
 
     JUnitTestOutputTestRunner& thatFails(const char* message, const char* file, size_t line)
     {
-        testFailure_ = new TestFailure(	currentTest_, file, line, message);
+        testFailure_ = new cpputest::TestFailure(	currentTest_, file, line, message);
         return *this;
     }
 
@@ -340,8 +340,8 @@ extern "C" {
 
 TEST_GROUP(JUnitOutputTest)
 {
-    JUnitTestOutput *junitOutput;
-    TestResult *result;
+    cpputest::JUnitTestOutput *junitOutput;
+    cpputest::TestResult *result;
     JUnitTestOutputTestRunner *testCaseRunner;
     FileForJUnitOutputTests* outputFile;
 
@@ -351,8 +351,8 @@ TEST_GROUP(JUnitOutputTest)
         originalFPuts = PlatformSpecificFPuts;
         UT_PTR_SET(PlatformSpecificFPuts, mockFPuts);
         UT_PTR_SET(PlatformSpecificFClose, mockFClose);
-        junitOutput = new JUnitTestOutput();
-        result = new TestResult(*junitOutput);
+        junitOutput = new cpputest::JUnitTestOutput();
+        result = new cpputest::TestResult(*junitOutput);
         testCaseRunner = new JUnitTestOutputTestRunner(*result);
     }
 

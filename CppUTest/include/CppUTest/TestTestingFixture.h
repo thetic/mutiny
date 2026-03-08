@@ -32,6 +32,8 @@
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/Utest.h"
 
+namespace cpputest {
+
 class TestTestingFixture
 {
 public:
@@ -40,7 +42,7 @@ public:
     virtual ~TestTestingFixture();
     void flushOutputAndResetResult();
 
-    void addTest(UtestShell * test);
+    void addTest(TestShell * test);
     void installPlugin(TestPlugin* plugin);
 
     void setTestFunction(void(*testFunction)());
@@ -79,5 +81,7 @@ private:
     StringBufferTestOutput* output_;
     TestResult * result_;
 };
+
+} // namespace cpputest
 
 #endif

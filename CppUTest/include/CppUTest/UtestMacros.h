@@ -44,10 +44,10 @@
   struct TEST_GROUP_##CppUTestGroup##testGroup : public baseclass
 
 #define TEST_BASE(testBaseClass) \
-  struct testBaseClass : public Utest
+  struct testBaseClass : public cpputest::Test
 
 #define TEST_GROUP(testGroup) \
-  TEST_GROUP_BASE(testGroup, Utest)
+  TEST_GROUP_BASE(testGroup, cpputest::Test)
 
 #define TEST_SETUP() \
   virtual void setup() override
@@ -63,10 +63,10 @@
   class TEST_##testGroup##_##testName##_Test : public TEST_GROUP_##CppUTestGroup##testGroup \
 { public: TEST_##testGroup##_##testName##_Test () : TEST_GROUP_##CppUTestGroup##testGroup () {} \
        void testBody() override; }; \
-  class TEST_##testGroup##_##testName##_TestShell : public UtestShell { \
-      virtual Utest* createTest() override { return new TEST_##testGroup##_##testName##_Test; } \
+  class TEST_##testGroup##_##testName##_TestShell : public cpputest::TestShell { \
+      virtual cpputest::Test* createTest() override { return new TEST_##testGroup##_##testName##_Test; } \
   } TEST_##testGroup##_##testName##_TestShell_instance; \
-  static TestInstaller TEST_##testGroup##_##testName##_Installer(TEST_##testGroup##_##testName##_TestShell_instance, #testGroup, #testName, __FILE__,__LINE__); \
+  static cpputest::TestInstaller TEST_##testGroup##_##testName##_Installer(TEST_##testGroup##_##testName##_TestShell_instance, #testGroup, #testName, __FILE__,__LINE__); \
     void TEST_##testGroup##_##testName##_Test::testBody()
 
 #define IGNORE_TEST(testGroup, testName)\
@@ -77,10 +77,10 @@
   class IGNORE##testGroup##_##testName##_Test : public TEST_GROUP_##CppUTestGroup##testGroup \
 { public: IGNORE##testGroup##_##testName##_Test () : TEST_GROUP_##CppUTestGroup##testGroup () {} \
   public: void testBody() override; }; \
-  class IGNORE##testGroup##_##testName##_TestShell : public IgnoredUtestShell { \
-      virtual Utest* createTest() override { return new IGNORE##testGroup##_##testName##_Test; } \
+  class IGNORE##testGroup##_##testName##_TestShell : public cpputest::IgnoredTestShell { \
+      virtual cpputest::Test* createTest() override { return new IGNORE##testGroup##_##testName##_Test; } \
   } IGNORE##testGroup##_##testName##_TestShell_instance; \
-   static TestInstaller TEST_##testGroup##testName##_Installer(IGNORE##testGroup##_##testName##_TestShell_instance, #testGroup, #testName, __FILE__,__LINE__); \
+   static cpputest::TestInstaller TEST_##testGroup##testName##_Installer(IGNORE##testGroup##_##testName##_TestShell_instance, #testGroup, #testName, __FILE__,__LINE__); \
     void IGNORE##testGroup##_##testName##_Test::testBody ()
 
 #define IMPORT_TEST_GROUP(testGroup) \
@@ -92,7 +92,7 @@
   /*#include <CppUTest/CommandLineTestRunner.h>*/ \
   int main(int argc, char** argv) \
   { \
-     return CommandLineTestRunner::RunAllTests(argc, argv); \
+     return cpputest::CommandLineTestRunner::RunAllTests(argc, argv); \
   }
 
 
@@ -117,10 +117,10 @@
   CHECK_FALSE_LOCATION(condition, "CHECK_FALSE", #condition, text, __FILE__, __LINE__)
 
 #define CHECK_TRUE_LOCATION(condition, checkString, conditionString, text, file, line)\
-  do { UtestShell::getCurrent()->assertTrue((condition), checkString, conditionString, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertTrue((condition), checkString, conditionString, text, file, line); } while(0)
 
 #define CHECK_FALSE_LOCATION(condition, checkString, conditionString, text, file, line)\
-  do { UtestShell::getCurrent()->assertTrue(!(condition), checkString, conditionString, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertTrue(!(condition), checkString, conditionString, text, file, line); } while(0)
 
 //This check needs the operator!=(), and a StringFrom(YourType) function
 #define CHECK_EQUAL(expected, actual)\
@@ -132,14 +132,14 @@
 #define CHECK_EQUAL_LOCATION(expected, actual, text, file, line)\
   do { if ((expected) != (actual)) { \
       if ((actual) != (actual)) \
-      	  UtestShell::getCurrent()->print("WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated multiple times resulting in different values.\n\tThus the value in the error message is probably incorrect.", file, line); \
+      	  cpputest::TestShell::getCurrent()->print("WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated multiple times resulting in different values.\n\tThus the value in the error message is probably incorrect.", file, line); \
       if ((expected) != (expected)) \
-      	  UtestShell::getCurrent()->print("WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated multiple times resulting in different values.\n\tThus the value in the error message is probably incorrect.", file, line); \
-      UtestShell::getCurrent()->assertEquals(true, StringFrom(expected).asCharString(), StringFrom(actual).asCharString(), text, file, line); \
+      	  cpputest::TestShell::getCurrent()->print("WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated multiple times resulting in different values.\n\tThus the value in the error message is probably incorrect.", file, line); \
+      cpputest::TestShell::getCurrent()->assertEquals(true, cpputest::StringFrom(expected).asCharString(), cpputest::StringFrom(actual).asCharString(), text, file, line); \
   } \
   else \
   { \
-    UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
+    cpputest::TestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
   } } while(0)
 
 #define CHECK_EQUAL_ZERO(actual) CHECK_EQUAL(0, (actual))
@@ -153,14 +153,14 @@
   CHECK_COMPARE_LOCATION(first, relop, second, text, __FILE__, __LINE__)
 
 #define CHECK_COMPARE_LOCATION(first, relop, second, text, file, line)\
- do {\
+ do { \
       bool success = (first) relop (second);\
       if (!success) {\
-          SimpleString conditionString;\
-          conditionString += StringFrom(first); conditionString += " ";\
+          cpputest::SimpleString conditionString;\
+          conditionString += cpputest::StringFrom(first); conditionString += " ";\
           conditionString += #relop; conditionString += " ";\
-          conditionString += StringFrom(second);\
-          UtestShell::getCurrent()->assertCompare(false, "CHECK_COMPARE", conditionString.asCharString(), text, __FILE__, __LINE__);\
+          conditionString += cpputest::StringFrom(second);\
+          cpputest::TestShell::getCurrent()->assertCompare(false, "CHECK_COMPARE", conditionString.asCharString(), text, __FILE__, __LINE__);\
       }\
  } while(0)
 
@@ -173,7 +173,7 @@
   STRCMP_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define STRCMP_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertCstrEqual(expected, actual, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertCstrEqual(expected, actual, text, file, line); } while(0)
 
 #define STRNCMP_EQUAL(expected, actual, length)\
   STRNCMP_EQUAL_LOCATION(expected, actual, length, nullptr, __FILE__, __LINE__)
@@ -182,7 +182,7 @@
   STRNCMP_EQUAL_LOCATION(expected, actual, length, text, __FILE__, __LINE__)
 
 #define STRNCMP_EQUAL_LOCATION(expected, actual, length, text, file, line)\
-  do { UtestShell::getCurrent()->assertCstrNEqual(expected, actual, length, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertCstrNEqual(expected, actual, length, text, file, line); } while(0)
 
 #define STRCMP_NOCASE_EQUAL(expected, actual)\
   STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -191,7 +191,7 @@
   STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertCstrNoCaseEqual(expected, actual, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertCstrNoCaseEqual(expected, actual, text, file, line); } while(0)
 
 #define STRCMP_CONTAINS(expected, actual)\
   STRCMP_CONTAINS_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -200,7 +200,7 @@
   STRCMP_CONTAINS_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertCstrContains(expected, actual, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertCstrContains(expected, actual, text, file, line); } while(0)
 
 #define STRCMP_NOCASE_CONTAINS(expected, actual)\
   STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -209,7 +209,7 @@
   STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertCstrNoCaseContains(expected, actual, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertCstrNoCaseContains(expected, actual, text, file, line); } while(0)
 
 //Check two long integers for equality
 #define LONGS_EQUAL(expected, actual)\
@@ -225,10 +225,10 @@
   UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(expected), static_cast<long>(actual), text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertLongsEqual(static_cast<long>(expected), static_cast<long>(actual), text, file, line); } while(0)
 
 #define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertUnsignedLongsEqual(static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertUnsignedLongsEqual(static_cast<unsigned long>(expected), static_cast<unsigned long>(actual), text, file, line); } while(0)
 
 #define LONGLONGS_EQUAL(expected, actual)\
   LONGLONGS_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -243,10 +243,10 @@
   UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-        do { UtestShell::getCurrent()->assertLongLongsEqual(static_cast<long long>(expected), static_cast<long long>(actual), text, file, line); } while(0)
+        do { cpputest::TestShell::getCurrent()->assertLongLongsEqual(static_cast<long long>(expected), static_cast<long long>(actual), text, file, line); } while(0)
 
 #define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)\
-        do { UtestShell::getCurrent()->assertUnsignedLongLongsEqual(static_cast<unsigned long long>(expected), static_cast<unsigned long long>(actual), text, file, line); } while(0)
+        do { cpputest::TestShell::getCurrent()->assertUnsignedLongLongsEqual(static_cast<unsigned long long>(expected), static_cast<unsigned long long>(actual), text, file, line); } while(0)
 
 #define BYTES_EQUAL(expected, actual)\
     LONGS_EQUAL((expected) & 0xff,(actual) & 0xff)
@@ -258,13 +258,13 @@
     SIGNED_BYTES_EQUAL_LOCATION(expected, actual, __FILE__, __LINE__)
 
 #define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line) \
-       do { UtestShell::getCurrent()->assertSignedBytesEqual(expected, actual, nullptr, file, line); } while(0)
+       do { cpputest::TestShell::getCurrent()->assertSignedBytesEqual(expected, actual, nullptr, file, line); } while(0)
 
 #define SIGNED_BYTES_EQUAL_TEXT(expected, actual, text)\
     SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line) \
-        do { UtestShell::getCurrent()->assertSignedBytesEqual(expected, actual, text, file, line); } while(0)
+        do { cpputest::TestShell::getCurrent()->assertSignedBytesEqual(expected, actual, text, file, line); } while(0)
 
 #define POINTERS_EQUAL(expected, actual)\
     POINTERS_EQUAL_LOCATION((expected), (actual), nullptr, __FILE__, __LINE__)
@@ -273,7 +273,7 @@
     POINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertPointersEqual(static_cast<const void *>(expected), static_cast<const void *>(actual), text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertPointersEqual(static_cast<const void *>(expected), static_cast<const void *>(actual), text, file, line); } while(0)
 
 #define FUNCTIONPOINTERS_EQUAL(expected, actual)\
     FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), nullptr, __FILE__, __LINE__)
@@ -282,7 +282,7 @@
     FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)\
-  do { UtestShell::getCurrent()->assertFunctionPointersEqual(reinterpret_cast<void (*)()>(expected), reinterpret_cast<void (*)()>(actual), text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertFunctionPointersEqual(reinterpret_cast<void (*)()>(expected), reinterpret_cast<void (*)()>(actual), text, file, line); } while(0)
 
 //Check two doubles for equality within a tolerance threshold
 #define DOUBLES_EQUAL(expected, actual, threshold)\
@@ -292,7 +292,7 @@
   DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
 
 #define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)\
-  do { UtestShell::getCurrent()->assertDoublesEqual(expected, actual, threshold, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertDoublesEqual(expected, actual, threshold, text, file, line); } while(0)
 
 #define MEMCMP_EQUAL(expected, actual, size)\
   MEMCMP_EQUAL_LOCATION(expected, actual, size, nullptr, __FILE__, __LINE__)
@@ -301,7 +301,7 @@
   MEMCMP_EQUAL_LOCATION(expected, actual, size, text, __FILE__, __LINE__)
 
 #define MEMCMP_EQUAL_LOCATION(expected, actual, size, text, file, line)\
-  do { UtestShell::getCurrent()->assertBinaryEqual(expected, actual, size, text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->assertBinaryEqual(expected, actual, size, text, file, line); } while(0)
 
 #define BITS_EQUAL(expected, actual, mask)\
   BITS_LOCATION(expected, actual, mask, nullptr, __FILE__, __LINE__)
@@ -310,7 +310,7 @@
   BITS_LOCATION(expected, actual, mask, text, __FILE__, __LINE__)
 
 #define BITS_LOCATION(expected, actual, mask, text, file, line)\
-  do { UtestShell::getCurrent()->assertBitsEqual(expected, actual, mask, sizeof(actual), text, file, line); } while(0) // NOLINT(bugprone-sizeof-expression)
+  do { cpputest::TestShell::getCurrent()->assertBitsEqual(expected, actual, mask, sizeof(actual), text, file, line); } while(0) // NOLINT(bugprone-sizeof-expression)
 
 #define ENUMS_EQUAL_INT(expected, actual)\
   ENUMS_EQUAL_TYPE(int, expected, actual)
@@ -325,14 +325,15 @@
   ENUMS_EQUAL_TYPE_LOCATION(underlying_type, expected, actual, text, __FILE__, __LINE__)
 
 #define ENUMS_EQUAL_TYPE_LOCATION(underlying_type, expected, actual, text, file, line)\
-  do { underlying_type expected_underlying_value = static_cast<underlying_type>(expected); \
+  do { \
+    underlying_type expected_underlying_value = static_cast<underlying_type>(expected); \
     underlying_type actual_underlying_value = static_cast<underlying_type>(actual); \
     if (expected_underlying_value != actual_underlying_value) { \
-      UtestShell::getCurrent()->assertEquals(true, StringFrom(expected_underlying_value).asCharString(), StringFrom(actual_underlying_value).asCharString(), text, file, line); \
+      cpputest::TestShell::getCurrent()->assertEquals(true, cpputest::StringFrom(expected_underlying_value).asCharString(), cpputest::StringFrom(actual_underlying_value).asCharString(), text, file, line); \
     } \
     else \
     { \
-      UtestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
+      cpputest::TestShell::getCurrent()->assertLongsEqual(static_cast<long>(0), static_cast<long>(0), nullptr, file, line); \
     } \
   } while(0)
 
@@ -343,20 +344,20 @@
   FAIL_LOCATION(text, __FILE__,__LINE__)
 
 #define FAIL_LOCATION(text, file, line)\
-  do { UtestShell::getCurrent()->fail(text,  file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->fail(text,  file, line); } while(0)
 #endif
 
 #define FAIL_TEST(text)\
   FAIL_TEST_LOCATION(text, __FILE__,__LINE__)
 
 #define FAIL_TEST_LOCATION(text, file,line)\
-  do { UtestShell::getCurrent()->fail(text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->fail(text, file, line); } while(0)
 
 #define TEST_EXIT\
-  do { UtestShell::getCurrent()->exitTest(); } while(0)
+  do { cpputest::TestShell::getCurrent()->exitTest(); } while(0)
 
 #define UT_PRINT_LOCATION(text, file, line) \
-  do { UtestShell::getCurrent()->print(text, file, line); } while(0)
+  do { cpputest::TestShell::getCurrent()->print(text, file, line); } while(0)
 
 #define UT_PRINT(text) \
    UT_PRINT_LOCATION(text, __FILE__, __LINE__)
@@ -364,7 +365,7 @@
 #if CPPUTEST_HAVE_EXCEPTIONS
 #define CHECK_THROWS(expected, expression) \
     do { \
-    SimpleString failure_msg("expected to throw "#expected "\nbut threw nothing"); \
+    cpputest::SimpleString failure_msg("expected to throw "#expected "\nbut threw nothing"); \
     bool caught_expected = false; \
     try { \
         (expression); \
@@ -374,15 +375,15 @@
         failure_msg = "expected to throw " #expected "\nbut threw a different type"; \
     } \
     if (!caught_expected) { \
-        UtestShell::getCurrent()->fail(failure_msg.asCharString(), __FILE__, __LINE__); \
+        cpputest::TestShell::getCurrent()->fail(failure_msg.asCharString(), __FILE__, __LINE__); \
     } \
     else { \
-        UtestShell::getCurrent()->countCheck(); \
+        cpputest::TestShell::getCurrent()->countCheck(); \
     } \
     } while(0)
 #endif /* CPPUTEST_HAVE_EXCEPTIONS */
 
-#define UT_CRASH() do { UtestShell::crash(); } while(0)
-#define RUN_ALL_TESTS(ac, av) CommandLineTestRunner::RunAllTests(ac, av)
+#define UT_CRASH() do { cpputest::TestShell::crash(); } while(0)
+#define RUN_ALL_TESTS(ac, av) cpputest::CommandLineTestRunner::RunAllTests(ac, av)
 
 #endif /*D_UTestMacros_h*/

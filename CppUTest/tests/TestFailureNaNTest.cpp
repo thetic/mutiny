@@ -41,11 +41,11 @@ const char* failFileName = "fail.cpp";
 
 TEST_GROUP(TestFailureNanAndInf)
 {
-    UtestShell*  test;
+    cpputest::TestShell*  test;
 
     void setup() override
     {
-        test = new UtestShell("groupname", "testname", failFileName, failLineNumber-1);
+        test = new cpputest::TestShell("groupname", "testname", failFileName, failLineNumber-1);
     }
     void teardown() override
     {
@@ -56,7 +56,7 @@ TEST_GROUP(TestFailureNanAndInf)
 
 TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, static_cast<double>(NAN), 2.0, 3.0, "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, static_cast<double>(NAN), 2.0, 3.0, "");
     FAILURE_EQUAL("expected <Nan - Not a number>\n"
                 "\tbut was  <2> threshold used was <3>\n"
                 "\tCannot make comparisons with Nan", f);
@@ -64,7 +64,7 @@ TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
 
 TEST(TestFailureNanAndInf, DoublesEqualActualIsNaN)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(NAN), 3.0, "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(NAN), 3.0, "");
     FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <Nan - Not a number> threshold used was <3>\n"
                 "\tCannot make comparisons with Nan", f);
@@ -72,7 +72,7 @@ TEST(TestFailureNanAndInf, DoublesEqualActualIsNaN)
 
 TEST(TestFailureNanAndInf, DoublesEqualThresholdIsNaN)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, 2.0, static_cast<double>(NAN), "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, 2.0, static_cast<double>(NAN), "");
     FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <2> threshold used was <Nan - Not a number>\n"
                 "\tCannot make comparisons with Nan", f);
@@ -80,21 +80,21 @@ TEST(TestFailureNanAndInf, DoublesEqualThresholdIsNaN)
 
 TEST(TestFailureNanAndInf, DoublesEqualExpectedIsInf)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, static_cast<double>(INFINITY), 2.0, 3.0, "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, static_cast<double>(INFINITY), 2.0, 3.0, "");
     FAILURE_EQUAL("expected <Inf - Infinity>\n"
                 "\tbut was  <2> threshold used was <3>", f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualActualIsInf)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(INFINITY), 3.0, "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(INFINITY), 3.0, "");
     FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <Inf - Infinity> threshold used was <3>", f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualThresholdIsInf)
 {
-    DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(NAN), static_cast<double>(INFINITY), "");
+    cpputest::DoublesEqualFailure f(test, failFileName, failLineNumber, 1.0, static_cast<double>(NAN), static_cast<double>(INFINITY), "");
     FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <Nan - Not a number> threshold used was <Inf - Infinity>\n"
                 "\tCannot make comparisons with Nan", f);

@@ -28,6 +28,10 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockNamedValue.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(ComparatorsAndCopiersRepository)
 {
 };

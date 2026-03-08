@@ -33,9 +33,9 @@
 #include "CppUTest/CommandLineArguments.h"
 #include "CppUTest/TestFilter.h"
 
-class TestRegistry;
+namespace cpputest {
 
-#define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
+class TestRegistry;
 
 class CommandLineTestRunner
 {
@@ -63,5 +63,9 @@ private:
     int runAllTests();
     void initializeTestRun();
 };
+
+} // namespace cpputest
+
+#define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
 
 #endif

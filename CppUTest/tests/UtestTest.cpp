@@ -25,6 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTest/Utest.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestTestingFixture.h"
@@ -34,7 +35,7 @@
 
 TEST_GROUP(UtestShell)
 {
-    TestTestingFixture fixture;
+    cpputest::TestTestingFixture fixture;
 };
 
 static void failMethod_()
@@ -60,29 +61,29 @@ static void exitTestMethod_()
 
 TEST(UtestShell, compareDoubles)
 {
-    CHECK(doubles_equal(1.0, 1.001, 0.01));
-    CHECK(!doubles_equal(1.0, 1.1, 0.05));
+    CHECK(cpputest::doubles_equal(1.0, 1.001, 0.01));
+    CHECK(!cpputest::doubles_equal(1.0, 1.1, 0.05));
     double a = 1.2345678;
-    CHECK(doubles_equal(a, a, 0.000000001));
+    CHECK(cpputest::doubles_equal(a, a, 0.000000001));
 }
 
 #ifdef NAN
 TEST(UtestShell, compareDoublesNaN)
 {
-    CHECK(!doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
-    CHECK(!doubles_equal(1.0, static_cast<double>(NAN), 0.01));
-    CHECK(!doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
+    CHECK(!cpputest::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
+    CHECK(!cpputest::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
+    CHECK(!cpputest::doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
 }
 #endif
 
 #ifdef INFINITY
 TEST(UtestShell, compareDoublesInf)
 {
-    CHECK(!doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01));
-    CHECK(!doubles_equal(1.0, static_cast<double>(INFINITY), 0.01));
-    CHECK(doubles_equal(1.0, -1.0, static_cast<double>(INFINITY)));
-    CHECK(doubles_equal(static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01));
-    CHECK(doubles_equal(static_cast<double>(INFINITY), static_cast<double>(INFINITY), static_cast<double>(INFINITY)));
+    CHECK(!cpputest::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01));
+    CHECK(!cpputest::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01));
+    CHECK(cpputest::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY)));
+    CHECK(cpputest::doubles_equal(static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01));
+    CHECK(cpputest::doubles_equal(static_cast<double>(INFINITY), static_cast<double>(INFINITY), static_cast<double>(INFINITY)));
 }
 #endif
 
@@ -138,7 +139,7 @@ static void crashMethod()
 TEST(UtestShell, FailWillNotCrashIfNotEnabled)
 {
     cpputestHasCrashed = false;
-    UtestShell::setCrashMethod(crashMethod);
+    cpputest::TestShell::setCrashMethod(crashMethod);
 
     fixture.setTestFunction(failMethod_);
     fixture.runAllTests();
@@ -146,22 +147,22 @@ TEST(UtestShell, FailWillNotCrashIfNotEnabled)
     CHECK_FALSE(cpputestHasCrashed);
     LONGS_EQUAL(1, fixture.getFailureCount());
 
-    UtestShell::resetCrashMethod();
+    cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(UtestShell, FailWillCrashIfEnabled)
 {
     cpputestHasCrashed = false;
-    UtestShell::setCrashOnFail();
-    UtestShell::setCrashMethod(crashMethod);
+    cpputest::TestShell::setCrashOnFail();
+    cpputest::TestShell::setCrashMethod(crashMethod);
 
     fixture.setTestFunction(failMethod_);
     fixture.runAllTests();
 
     CHECK(cpputestHasCrashed);
 
-    UtestShell::restoreDefaultTestTerminator();
-    UtestShell::resetCrashMethod();
+    cpputest::TestShell::restoreDefaultTestTerminator();
+    cpputest::TestShell::resetCrashMethod();
 }
 
 
@@ -227,8 +228,8 @@ static void thrownUnknownExceptionMethod_()
 
 TEST(UtestShell, TestStopsAfterUnknownExceptionIsThrown)
 {
-    bool initialRethrowExceptions = UtestShell::isRethrowingExceptions();
-    UtestShell::setRethrowExceptions(false);
+    bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
+    cpputest::TestShell::setRethrowExceptions(false);
     stopAfterFailure = 0;
     shouldThrowException = true;
     fixture.setTestFunction(thrownUnknownExceptionMethod_);
@@ -236,15 +237,15 @@ TEST(UtestShell, TestStopsAfterUnknownExceptionIsThrown)
     LONGS_EQUAL(1, fixture.getFailureCount());
     fixture.assertPrintContains("Unexpected exception of unknown type was thrown");
     LONGS_EQUAL(0, stopAfterFailure);
-    UtestShell::setRethrowExceptions(initialRethrowExceptions);
+    cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
 TEST(UtestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
 {
-    bool initialRethrowExceptions = UtestShell::isRethrowingExceptions();
+    bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
     bool exceptionRethrown = false;
     stopAfterFailure = 0;
-    UtestShell::setRethrowExceptions(true);
+    cpputest::TestShell::setRethrowExceptions(true);
     shouldThrowException = false;
     fixture.setTestFunction(thrownUnknownExceptionMethod_);
     try
@@ -258,15 +259,15 @@ TEST(UtestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
     CHECK_FALSE(exceptionRethrown);
     LONGS_EQUAL(0, fixture.getFailureCount());
     LONGS_EQUAL(1, stopAfterFailure);
-    UtestShell::setRethrowExceptions(initialRethrowExceptions);
+    cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
 TEST(UtestShell, UnknownExceptionIsRethrownIfEnabled)
 {
-    bool initialRethrowExceptions = UtestShell::isRethrowingExceptions();
+    bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
     bool exceptionRethrown = false;
     stopAfterFailure = 0;
-    UtestShell::setRethrowExceptions(true);
+    cpputest::TestShell::setRethrowExceptions(true);
     shouldThrowException = true;
     fixture.setTestFunction(thrownUnknownExceptionMethod_);
     try
@@ -282,7 +283,7 @@ TEST(UtestShell, UnknownExceptionIsRethrownIfEnabled)
     LONGS_EQUAL(1, fixture.getFailureCount());
     fixture.assertPrintContains("Unexpected exception of unknown type was thrown");
     LONGS_EQUAL(0, stopAfterFailure);
-    UtestShell::setRethrowExceptions(initialRethrowExceptions);
+    cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
@@ -297,8 +298,8 @@ static void thrownStandardExceptionMethod_()
 
 TEST(UtestShell, TestStopsAfterStandardExceptionIsThrown)
 {
-    bool initialRethrowExceptions = UtestShell::isRethrowingExceptions();
-    UtestShell::setRethrowExceptions(false);
+    bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
+    cpputest::TestShell::setRethrowExceptions(false);
     stopAfterFailure = 0;
     shouldThrowException = true;
     fixture.setTestFunction(thrownStandardExceptionMethod_);
@@ -312,15 +313,15 @@ TEST(UtestShell, TestStopsAfterStandardExceptionIsThrown)
     fixture.assertPrintContains("Unexpected exception of unknown type was thrown");
 #endif
     LONGS_EQUAL(0, stopAfterFailure);
-    UtestShell::setRethrowExceptions(initialRethrowExceptions);
+    cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
 TEST(UtestShell, StandardExceptionIsRethrownIfEnabled)
 {
-    bool initialRethrowExceptions = UtestShell::isRethrowingExceptions();
+    bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
     bool exceptionRethrown = false;
     stopAfterFailure = 0;
-    UtestShell::setRethrowExceptions(true);
+    cpputest::TestShell::setRethrowExceptions(true);
     shouldThrowException = true;
     fixture.setTestFunction(thrownStandardExceptionMethod_);
     try
@@ -338,24 +339,24 @@ TEST(UtestShell, StandardExceptionIsRethrownIfEnabled)
     fixture.assertPrintContains("runtime_error");
     fixture.assertPrintContains("' was thrown: exception text");
     LONGS_EQUAL(0, stopAfterFailure);
-    UtestShell::setRethrowExceptions(initialRethrowExceptions);
+    cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 #endif // CPPUTEST_USE_STD_CPP_LIB
 #endif // CPPUTEST_HAVE_EXCEPTIONS
 
 TEST(UtestShell, veryVebose)
 {
-    UtestShell shell("Group", "name", __FILE__, __LINE__);
-    StringBufferTestOutput normalOutput;
-    normalOutput.verbose(TestOutput::level_veryVerbose);
-    NullTestPlugin plugin;
+    cpputest::TestShell shell("Group", "name", __FILE__, __LINE__);
+    cpputest::StringBufferTestOutput normalOutput;
+    normalOutput.verbose(cpputest::TestOutput::level_veryVerbose);
+    cpputest::NullTestPlugin plugin;
 
-    TestResult result(normalOutput);
+    cpputest::TestResult result(normalOutput);
     shell.runOneTestInCurrentProcess(&plugin, result);
     STRCMP_CONTAINS("\n------ before runTest", normalOutput.getOutput().asCharString());
 }
 
-class defaultUtestShell: public UtestShell
+class defaultUtestShell: public cpputest::TestShell
 {
 };
 
@@ -391,9 +392,9 @@ TEST(UtestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 
 TEST_GROUP(IgnoredUtestShell)
 {
-    TestTestingFixture fixture;
-    IgnoredUtestShell ignoredTest;
-    ExecFunctionTestShell normalUtestShell;
+    cpputest::TestTestingFixture fixture;
+    cpputest::IgnoredTestShell ignoredTest;
+    cpputest::ExecFunctionTestShell normalUtestShell;
 
     void setup() override
     {
@@ -495,14 +496,14 @@ TEST(UtestMyOwn, test)
     CHECK(inTest);
 }
 
-class NullParameterTest: public UtestShell
+class NullParameterTest: public cpputest::TestShell
 {
 };
 
 TEST(UtestMyOwn, NullParameters)
 {
     NullParameterTest nullTest; /* Bug fix tests for creating a test without a name, fix in SimpleString */
-    TestFilter emptyFilter;
+    cpputest::TestFilter emptyFilter;
     CHECK(nullTest.shouldRun(&emptyFilter, &emptyFilter));
 }
 
@@ -550,15 +551,15 @@ static int getOne()
 
 TEST_GROUP(UtestShellPointerArrayTest)
 {
-    UtestShell* test0;
-    UtestShell* test1;
-    UtestShell* test2;
+    cpputest::TestShell* test0;
+    cpputest::TestShell* test1;
+    cpputest::TestShell* test2;
 
     void setup() override
     {
-        test0 = new IgnoredUtestShell();
-        test1 = new IgnoredUtestShell();
-        test2 = new IgnoredUtestShell();
+        test0 = new cpputest::IgnoredTestShell();
+        test1 = new cpputest::IgnoredTestShell();
+        test2 = new cpputest::IgnoredTestShell();
 
         test0->addTest(test1);
         test1->addTest(test2);
@@ -575,14 +576,14 @@ TEST_GROUP(UtestShellPointerArrayTest)
 
 TEST(UtestShellPointerArrayTest, empty)
 {
-    UtestShellPointerArray tests(nullptr);
+    cpputest::TestShellPointerArray tests(nullptr);
     tests.shuffle(0);
     CHECK(nullptr == tests.getFirstTest());
 }
 
 TEST(UtestShellPointerArrayTest, testsAreInOrder)
 {
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     CHECK(tests.get(0) == test0);
     CHECK(tests.get(1) == test1);
     CHECK(tests.get(2) == test2);
@@ -590,7 +591,7 @@ TEST(UtestShellPointerArrayTest, testsAreInOrder)
 
 TEST(UtestShellPointerArrayTest, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 {
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     tests.relinkTestsInOrder();
     CHECK(tests.get(0) == test0);
     CHECK(tests.get(1) == test1);
@@ -602,7 +603,7 @@ TEST(UtestShellPointerArrayTest, firstTestisNotTheFirstTestWithSeed1234)
 {
     UT_PTR_SET(PlatformSpecificRand, getZero);
 
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     tests.shuffle(1234);
     CHECK(tests.getFirstTest() != test0);
 }
@@ -611,7 +612,7 @@ TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningZero)
 {
     UT_PTR_SET(PlatformSpecificRand, getZero);
 
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     tests.shuffle(3);
     CHECK(tests.get(0) == test1);
     CHECK(tests.get(1) == test2);
@@ -623,7 +624,7 @@ TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningOne)
 {
     UT_PTR_SET(PlatformSpecificRand, getOne);
 
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     tests.shuffle(3);
     CHECK(tests.get(0) == test0);
     CHECK(tests.get(1) == test2);
@@ -634,7 +635,7 @@ TEST(UtestShellPointerArrayTest, reverse)
 {
     UT_PTR_SET(PlatformSpecificRand, getOne);
 
-    UtestShellPointerArray tests(test0);
+    cpputest::TestShellPointerArray tests(test0);
     tests.reverse();
     CHECK(tests.get(0) == test2);
     CHECK(tests.get(1) == test1);

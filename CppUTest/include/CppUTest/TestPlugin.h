@@ -30,7 +30,9 @@
 
 #include "CppUTest/SimpleString.h"
 
-class UtestShell;
+namespace cpputest {
+
+class TestShell;
 class TestResult;
 
 class TestPlugin
@@ -40,11 +42,11 @@ public:
     TestPlugin(const SimpleString& name);
     virtual ~TestPlugin();
 
-    virtual void preTestAction(UtestShell&, TestResult&)
+    virtual void preTestAction(TestShell&, TestResult&)
     {
     }
 
-    virtual void postTestAction(UtestShell&, TestResult&)
+    virtual void postTestAction(TestShell&, TestResult&)
     {
     }
 
@@ -53,8 +55,8 @@ public:
         return false;
     }
 
-    virtual void runAllPreTestAction(UtestShell&, TestResult&);
-    virtual void runAllPostTestAction(UtestShell&, TestResult&);
+    virtual void runAllPreTestAction(TestShell&, TestResult&);
+    virtual void runAllPostTestAction(TestShell&, TestResult&);
     virtual bool parseAllArguments(int ac, const char *const *av, int index);
     virtual bool parseAllArguments(int ac, char** av, int index);
 
@@ -88,23 +90,17 @@ private:
 
 extern void CppUTestStore(void **location);
 
-class SetPointerPlugin: public TestPlugin
+class SetPointerPlugin : public TestPlugin
 {
 public:
     SetPointerPlugin(const SimpleString& name);
-    virtual void postTestAction(UtestShell&, TestResult&) override;
+    virtual void postTestAction(TestShell&, TestResult&) override;
 
     enum
     {
         MAX_SET = 32
     };
 };
-
-#define UT_PTR_SET(a, b)                                                                                               \
-    do {                                                                                                               \
-        CppUTestStore(reinterpret_cast<void**>(&(a)));                                                                 \
-        (a) = b;                                                                                                       \
-    } while (0)
 
 ///////////// Null Plugin
 
@@ -114,10 +110,18 @@ public:
 
     NullTestPlugin();
 
-    virtual void runAllPreTestAction(UtestShell& test, TestResult& result) override;
-    virtual void runAllPostTestAction(UtestShell& test, TestResult& result) override;
+    virtual void runAllPreTestAction(TestShell& test, TestResult& result) override;
+    virtual void runAllPostTestAction(TestShell& test, TestResult& result) override;
 
     static NullTestPlugin* instance();
 };
+
+} // namespace cpputest
+
+#define UT_PTR_SET(a, b)                                                                                               \
+    do {                                                                                                               \
+        cpputest::CppUTestStore(reinterpret_cast<void**>(&(a)));                                                       \
+        (a) = b;                                                                                                       \
+    } while (0)
 
 #endif

@@ -38,9 +38,12 @@
 #ifndef D_SimpleString_h
 #define D_SimpleString_h
 
-#include "CppUTest/CppUTestConfig.h"
+#include <stddef.h>
 #include <stdarg.h>
 #ifdef __cplusplus
+# ifndef CPPUTEST_USE_STD_CPP_LIB
+#  define CPPUTEST_USE_STD_CPP_LIB 1
+# endif
 # if CPPUTEST_USE_STD_CPP_LIB
 #  include <string>
 #  include <cstddef>
@@ -54,6 +57,8 @@
 #  define va_copy(copy, original) copy = original;
 # endif
 #endif
+
+namespace cpputest {
 
 class SimpleStringCollection;
 class TestMemoryAllocator;
@@ -190,6 +195,21 @@ SimpleString HexStringFrom(const void* value);
 SimpleString HexStringFrom(void (*value)());
 SimpleString StringFrom(double value, int precision = 6);
 SimpleString StringFrom(const SimpleString& other);
+#ifndef __has_attribute
+  #define CPPUTEST_HAS_ATTRIBUTE(x) 0
+#else
+  #define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
+#endif
+#if defined(__MINGW32__)
+  #define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
+#else
+  #define CPPUTEST_CHECK_FORMAT_TYPE printf
+#endif
+#if CPPUTEST_HAS_ATTRIBUTE(format)
+  #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) __attribute__ ((format (type, format_parameter, other_parameters)))
+#else
+  #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) /* type, format_parameter, other_parameters */
+#endif
 SimpleString StringFromFormat(const char* format, ...) CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
 SimpleString VStringFromFormat(const char* format, va_list args);
 SimpleString StringFromBinary(const unsigned char* value, size_t size);
@@ -217,5 +237,7 @@ SimpleString StringFrom(const std::nullptr_t value);
 SimpleString StringFrom(const std::string& other);
 
 #endif
+
+} // namespace cpputest
 
 #endif

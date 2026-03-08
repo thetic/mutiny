@@ -1,6 +1,8 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TeamCityTestOutput.h"
 
+namespace cpputest {
+
 TeamCityTestOutput::TeamCityTestOutput() : currtest_(nullptr), currGroup_()
 {
 }
@@ -9,7 +11,7 @@ TeamCityTestOutput::~TeamCityTestOutput()
 {
 }
 
-void TeamCityTestOutput::printCurrentTestStarted(const UtestShell& test)
+void TeamCityTestOutput::printCurrentTestStarted(const TestShell& test)
 {
     print("##teamcity[testStarted name='");
     printEscaped(test.getName().asCharString());
@@ -34,7 +36,7 @@ void TeamCityTestOutput::printCurrentTestEnded(const TestResult& res)
     print("']\n");
 }
 
-void TeamCityTestOutput::printCurrentGroupStarted(const UtestShell& test)
+void TeamCityTestOutput::printCurrentGroupStarted(const TestShell& test)
 {
     currGroup_ = test.getGroup();
     print("##teamcity[testSuiteStarted name='");
@@ -98,3 +100,5 @@ void TeamCityTestOutput::printFailure(const TestFailure& failure)
     printEscaped(failure.getMessage().asCharString());
     print("']\n");
 }
+
+} // namespace cpputest

@@ -30,13 +30,16 @@
 
 #include "CppUTest/TestPlugin.h"
 
-class IEEE754ExceptionsPlugin: public TestPlugin
+namespace cpputest { namespace extensions {
+
+
+class IEEE754ExceptionsPlugin: public cpputest::TestPlugin
 {
 public:
-    IEEE754ExceptionsPlugin(const SimpleString& name = "IEEE754ExceptionsPlugin");
+    IEEE754ExceptionsPlugin(const cpputest::SimpleString& name = "IEEE754ExceptionsPlugin");
 
-    virtual void preTestAction(UtestShell& test, TestResult& result) override;
-    virtual void postTestAction(UtestShell& test, TestResult& result) override;
+    virtual void preTestAction(cpputest::TestShell& test, cpputest::TestResult& result) override;
+    virtual void postTestAction(cpputest::TestShell& test, cpputest::TestResult& result) override;
 
     static void disableInexact(void);
     static void enableInexact(void);
@@ -46,8 +49,12 @@ public:
     static bool checkIeee754DivByZeroExceptionFlag();
 
 private:
-    void ieee754Check(UtestShell& test, TestResult& result, int flag, const char* text);
+    void ieee754Check(cpputest::TestShell& test, cpputest::TestResult& result, int flag, const char* text);
     static bool inexactDisabled_;
 };
+
+
+} // namespace extensions
+} // namespace cpputest
 
 #endif

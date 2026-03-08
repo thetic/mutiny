@@ -39,17 +39,20 @@
 #endif
 #endif
 
-TestFailure::TestFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& theMessage) :
+namespace cpputest {
+
+
+TestFailure::TestFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& theMessage) :
     testName_(test->getFormattedName()), testNameOnly_(test->getName()), fileName_(fileName), lineNumber_(lineNumber), testFileName_(test->getFile()), testLineNumber_(test->getLineNumber()), message_(theMessage)
 {
 }
 
-TestFailure::TestFailure(UtestShell* test, const SimpleString& theMessage) :
+TestFailure::TestFailure(TestShell* test, const SimpleString& theMessage) :
     testName_(test->getFormattedName()), testNameOnly_(test->getName()), fileName_(test->getFile()), lineNumber_(test->getLineNumber()), testFileName_(test->getFile()), testLineNumber_(test->getLineNumber()), message_(theMessage)
 {
 }
 
-TestFailure::TestFailure(UtestShell* test, const char* fileName, size_t lineNum) :
+TestFailure::TestFailure(TestShell* test, const char* fileName, size_t lineNum) :
     testName_(test->getFormattedName()), testNameOnly_(test->getName()), fileName_(fileName), lineNumber_(lineNum), testFileName_(test->getFile()), testLineNumber_(test->getLineNumber()), message_("no message")
 {
 }
@@ -148,7 +151,7 @@ SimpleString TestFailure::createUserText(const SimpleString& text)
     return userMessage;
 }
 
-EqualsFailure::EqualsFailure(UtestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text) :
+EqualsFailure::EqualsFailure(TestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text) :
     TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -156,7 +159,7 @@ EqualsFailure::EqualsFailure(UtestShell* test, const char* fileName, size_t line
     message_ += createButWasString(StringFromOrNull(expected), StringFromOrNull(actual));
 }
 
-EqualsFailure::EqualsFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
+EqualsFailure::EqualsFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
     : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -164,7 +167,7 @@ EqualsFailure::EqualsFailure(UtestShell* test, const char* fileName, size_t line
     message_ += createButWasString(expected, actual);
 }
 
-DoublesEqualFailure::DoublesEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, double expected, double actual, double threshold, const SimpleString& text)
+DoublesEqualFailure::DoublesEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, double expected, double actual, double threshold, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -178,7 +181,7 @@ DoublesEqualFailure::DoublesEqualFailure(UtestShell* test, const char* fileName,
         message_ += "\n\tCannot make comparisons with Nan";
 }
 
-CheckEqualFailure::CheckEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
+CheckEqualFailure::CheckEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -197,7 +200,7 @@ CheckEqualFailure::CheckEqualFailure(UtestShell* test, const char* fileName, siz
     message_ += createDifferenceAtPosString(printableActual, failStartPrintable, failStart);
 }
 
-ComparisonFailure::ComparisonFailure(UtestShell *test, const char *fileName, size_t lineNumber, const SimpleString& checkString, const SimpleString &comparisonString, const SimpleString &text)
+ComparisonFailure::ComparisonFailure(TestShell *test, const char *fileName, size_t lineNumber, const SimpleString& checkString, const SimpleString &comparisonString, const SimpleString &text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -207,7 +210,7 @@ ComparisonFailure::ComparisonFailure(UtestShell *test, const char *fileName, siz
     message_ += ") failed";
 }
 
-ContainsFailure::ContainsFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
+ContainsFailure::ContainsFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& expected, const SimpleString& actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -215,7 +218,7 @@ ContainsFailure::ContainsFailure(UtestShell* test, const char* fileName, size_t 
     message_ += StringFromFormat("actual <%s>\n\tdid not contain  <%s>", actual.asCharString(), expected.asCharString());
 }
 
-CheckFailure::CheckFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& checkString, const SimpleString& conditionString, const SimpleString& text)
+CheckFailure::CheckFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& checkString, const SimpleString& conditionString, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -226,12 +229,12 @@ CheckFailure::CheckFailure(UtestShell* test, const char* fileName, size_t lineNu
     message_ += ") failed";
 }
 
-FailFailure::FailFailure(UtestShell* test, const char* fileName, size_t lineNumber, const SimpleString& message) : TestFailure(test, fileName, lineNumber)
+FailFailure::FailFailure(TestShell* test, const char* fileName, size_t lineNumber, const SimpleString& message) : TestFailure(test, fileName, lineNumber)
 {
     message_ = message;
 }
 
-LongsEqualFailure::LongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, long expected, long actual, const SimpleString& text)
+LongsEqualFailure::LongsEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, long expected, long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -246,7 +249,7 @@ LongsEqualFailure::LongsEqualFailure(UtestShell* test, const char* fileName, siz
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, unsigned long expected, unsigned long actual, const SimpleString& text)
+UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, unsigned long expected, unsigned long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -262,7 +265,7 @@ UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(UtestShell* test, const cha
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-LongLongsEqualFailure::LongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, long long expected, long long actual, const SimpleString& text)
+LongLongsEqualFailure::LongLongsEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, long long expected, long long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -277,7 +280,7 @@ LongLongsEqualFailure::LongLongsEqualFailure(UtestShell* test, const char* fileN
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, unsigned long long expected, unsigned long long actual, const SimpleString& text)
+UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, unsigned long long expected, unsigned long long actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -292,7 +295,7 @@ UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(UtestShell* test, c
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-SignedBytesEqualFailure::SignedBytesEqualFailure (UtestShell* test, const char* fileName, size_t lineNumber, signed char expected, signed char actual, const SimpleString& text)
+SignedBytesEqualFailure::SignedBytesEqualFailure (TestShell* test, const char* fileName, size_t lineNumber, signed char expected, signed char actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -307,7 +310,7 @@ SignedBytesEqualFailure::SignedBytesEqualFailure (UtestShell* test, const char* 
     message_ += createButWasString(expectedReported, actualReported);
 }
 
-StringEqualFailure::StringEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text)
+StringEqualFailure::StringEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -328,7 +331,7 @@ StringEqualFailure::StringEqualFailure(UtestShell* test, const char* fileName, s
     }
 }
 
-StringEqualNoCaseFailure::StringEqualNoCaseFailure(UtestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text)
+StringEqualNoCaseFailure::StringEqualNoCaseFailure(TestShell* test, const char* fileName, size_t lineNumber, const char* expected, const char* actual, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
     message_ = createUserText(text);
@@ -351,7 +354,7 @@ StringEqualNoCaseFailure::StringEqualNoCaseFailure(UtestShell* test, const char*
     }
 }
 
-BinaryEqualFailure::BinaryEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, const unsigned char* expected,
+BinaryEqualFailure::BinaryEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, const unsigned char* expected,
                                        const unsigned char* actual, size_t size, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
@@ -369,7 +372,7 @@ BinaryEqualFailure::BinaryEqualFailure(UtestShell* test, const char* fileName, s
 	}
 }
 
-BitsEqualFailure::BitsEqualFailure(UtestShell* test, const char* fileName, size_t lineNumber, unsigned long expected, unsigned long actual,
+BitsEqualFailure::BitsEqualFailure(TestShell* test, const char* fileName, size_t lineNumber, unsigned long expected, unsigned long actual,
                                    unsigned long mask, size_t byteCount, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
@@ -378,7 +381,7 @@ BitsEqualFailure::BitsEqualFailure(UtestShell* test, const char* fileName, size_
     message_ += createButWasString(StringFromMaskedBits(expected, mask, byteCount), StringFromMaskedBits(actual, mask, byteCount));
 }
 
-FeatureUnsupportedFailure::FeatureUnsupportedFailure(UtestShell* test, const char* fileName, size_t lineNumber,
+FeatureUnsupportedFailure::FeatureUnsupportedFailure(TestShell* test, const char* fileName, size_t lineNumber,
                                                      const SimpleString& featureName, const SimpleString& text)
 : TestFailure(test, fileName, lineNumber)
 {
@@ -388,7 +391,7 @@ FeatureUnsupportedFailure::FeatureUnsupportedFailure(UtestShell* test, const cha
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
-UnexpectedExceptionFailure::UnexpectedExceptionFailure(UtestShell* test)
+UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test)
 : TestFailure(test, "Unexpected exception of unknown type was thrown.")
 {
 }
@@ -412,7 +415,7 @@ static SimpleString getExceptionTypeName(const std::exception &e)
 }
 #endif // CPPUTEST_HAVE_RTTI
 
-UnexpectedExceptionFailure::UnexpectedExceptionFailure(UtestShell* test, const std::exception &e)
+UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test, const std::exception &e)
 : TestFailure(
     test,
 #if CPPUTEST_HAVE_RTTI
@@ -430,3 +433,5 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(UtestShell* test, const s
 }
 #endif // CPPUTEST_USE_STD_CPP_LIB
 #endif // CPPUTEST_HAVE_EXCEPTIONS
+
+} // namespace cpputest

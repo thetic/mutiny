@@ -28,6 +28,8 @@
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest {
+
 TestOutput::WorkingEnvironment TestOutput::workingEnvironment_ = TestOutput::detectEnvironment;
 
 void TestOutput::setWorkingEnvironment(TestOutput::WorkingEnvironment workEnvironment)
@@ -94,7 +96,7 @@ TestOutput& operator<<(TestOutput& p, long int i)
     return p;
 }
 
-void TestOutput::printCurrentTestStarted(const UtestShell& test)
+void TestOutput::printCurrentTestStarted(const TestShell& test)
 {
     if (verbose_ > level_quiet) print(test.getFormattedName().asCharString());
 
@@ -133,7 +135,7 @@ void TestOutput::printTestsStarted()
 {
 }
 
-void TestOutput::printCurrentGroupStarted(const UtestShell& /*test*/)
+void TestOutput::printCurrentGroupStarted(const TestShell& /*test*/)
 {
 }
 
@@ -322,7 +324,7 @@ void CompositeTestOutput::printTestsEnded(const TestResult& result)
   if (outputTwo_) outputTwo_->printTestsEnded(result);
 }
 
-void CompositeTestOutput::printCurrentTestStarted(const UtestShell& test)
+void CompositeTestOutput::printCurrentTestStarted(const TestShell& test)
 {
   if (outputOne_) outputOne_->printCurrentTestStarted(test);
   if (outputTwo_) outputTwo_->printCurrentTestStarted(test);
@@ -334,7 +336,7 @@ void CompositeTestOutput::printCurrentTestEnded(const TestResult& res)
   if (outputTwo_) outputTwo_->printCurrentTestEnded(res);
 }
 
-void CompositeTestOutput::printCurrentGroupStarted(const UtestShell& test)
+void CompositeTestOutput::printCurrentGroupStarted(const TestShell& test)
 {
   if (outputOne_) outputOne_->printCurrentGroupStarted(test);
   if (outputTwo_) outputTwo_->printCurrentGroupStarted(test);
@@ -412,3 +414,4 @@ void CompositeTestOutput::flush()
   if (outputTwo_) outputTwo_->flush();
 }
 
+} // namespace cpputest

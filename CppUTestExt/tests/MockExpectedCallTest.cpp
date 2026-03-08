@@ -30,6 +30,10 @@
 #include "CppUTestExt/MockFailure.h"
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 class TypeForTestingExpectedFunctionCall
 {
 public:

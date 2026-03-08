@@ -30,6 +30,8 @@
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestOutput.h"
 
+namespace cpputest {
+
 #if defined(__GNUC__) && __GNUC__ >= 11
 # define NEEDS_DISABLE_NULL_WARNING
 #endif /* GCC >= 11 */
@@ -51,7 +53,7 @@ bool doubles_equal(double d1, double d2, double threshold)
  * Its not correct to do so, but this small helper class will prevent a segmentation fault and instead
  * will give an error message and also the file/line of the check that was executed outside the tests.
  */
-class OutsideTestRunnerUTest: public UtestShell
+class OutsideTestRunnerUTest: public TestShell
 {
 public:
     static OutsideTestRunnerUTest& instance();
@@ -64,7 +66,7 @@ public:
     }
 private:
     OutsideTestRunnerUTest() :
-        UtestShell("\n\t NOTE: Assertion happened without being in a test run (perhaps in main?)", "\n\t       Something is very wrong. Check this assertion and fix", "unknown file", 0),
+        TestShell("\n\t NOTE: Assertion happened without being in a test run (perhaps in main?)", "\n\t       Something is very wrong. Check this assertion and fix", "unknown file", 0),
                 defaultTestResult(defaultOutput)
     {
     }
@@ -88,24 +90,24 @@ extern "C" {
 
     static void helperDoTestSetup(void* data)
     {
-        static_cast<Utest*>(data)->setup();
+        static_cast<Test*>(data)->setup();
     }
 
     static void helperDoTestBody(void* data)
     {
-        static_cast<Utest*>(data)->testBody();
+        static_cast<Test*>(data)->testBody();
     }
 
     static void helperDoTestTeardown(void* data)
     {
-        static_cast<Utest*>(data)->teardown();
+        static_cast<Test*>(data)->teardown();
     }
 
     struct HelperTestRunInfo
     {
-        HelperTestRunInfo(UtestShell* shell, TestPlugin* plugin, TestResult* result) : shell_(shell), plugin_(plugin), result_(result){}
+        HelperTestRunInfo(TestShell* shell, TestPlugin* plugin, TestResult* result) : shell_(shell), plugin_(plugin), result_(result){}
 
-        UtestShell* shell_;
+        TestShell* shell_;
         TestPlugin* plugin_;
         TestResult* result_;
     };
@@ -114,7 +116,7 @@ extern "C" {
     {
         HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
 
-        UtestShell* shell = runInfo->shell_;
+        TestShell* shell = runInfo->shell_;
         TestPlugin* plugin = runInfo->plugin_;
         TestResult* result = runInfo->result_;
 
@@ -130,50 +132,50 @@ static const CrashingTestTerminator crashingTestTerminator = CrashingTestTermina
 static const TestTerminatorWithoutExceptions normalTestTerminatorWithoutExceptions = TestTerminatorWithoutExceptions();
 static const CrashingTestTerminatorWithoutExceptions crashingTestTerminatorWithoutExceptions = CrashingTestTerminatorWithoutExceptions();
 
-const TestTerminator *UtestShell::currentTestTerminator_ = &normalTestTerminator;
-const TestTerminator *UtestShell::currentTestTerminatorWithoutExceptions_ = &normalTestTerminatorWithoutExceptions;
+const TestTerminator *TestShell::currentTestTerminator_ = &normalTestTerminator;
+const TestTerminator *TestShell::currentTestTerminatorWithoutExceptions_ = &normalTestTerminatorWithoutExceptions;
 
-bool UtestShell::rethrowExceptions_ = false;
+bool TestShell::rethrowExceptions_ = false;
 
 /******************************** */
 
-UtestShell::UtestShell() :
+TestShell::TestShell() :
     group_("UndefinedTestGroup"), name_("UndefinedTest"), file_("UndefinedFile"), lineNumber_(0), next_(nullptr), hasFailed_(false)
 {
 }
 
-UtestShell::UtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber) :
+TestShell::TestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber) :
     group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(nullptr), hasFailed_(false)
 {
 }
 
-UtestShell::UtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber, UtestShell* nextTest) :
+TestShell::TestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber, TestShell* nextTest) :
     group_(groupName), name_(testName), file_(fileName), lineNumber_(lineNumber), next_(nextTest), hasFailed_(false)
 {
 }
 
-UtestShell::~UtestShell()
+TestShell::~TestShell()
 {
 }
 
 static void (*pleaseCrashMeRightNow) () = PlatformSpecificAbort;
 
-void UtestShell::setCrashMethod(void (*crashme)())
+void TestShell::setCrashMethod(void (*crashme)())
 {
     pleaseCrashMeRightNow = crashme;
 }
 
-void UtestShell::resetCrashMethod()
+void TestShell::resetCrashMethod()
 {
     pleaseCrashMeRightNow = PlatformSpecificAbort;
 }
 
-void UtestShell::crash()
+void TestShell::crash()
 {
     pleaseCrashMeRightNow();
 }
 
-void UtestShell::runOneTest(TestPlugin* plugin, TestResult& result)
+void TestShell::runOneTest(TestPlugin* plugin, TestResult& result)
 {
     hasFailed_ = false;
     result.countRun();
@@ -181,30 +183,30 @@ void UtestShell::runOneTest(TestPlugin* plugin, TestResult& result)
     PlatformSpecificSetJmp(helperDoRunOneTestInCurrentProcess, &runInfo);
 }
 
-Utest* UtestShell::createTest()
+Test* TestShell::createTest()
 {
-    return new Utest();
+    return new Test();
 }
 
-void UtestShell::destroyTest(Utest* test)
+void TestShell::destroyTest(Test* test)
 {
     delete test;
 }
 
-void UtestShell::runOneTestInCurrentProcess(TestPlugin* plugin, TestResult& result)
+void TestShell::runOneTestInCurrentProcess(TestPlugin* plugin, TestResult& result)
 {
     result.printVeryVerbose("\n-- before runAllPreTestAction: ");
     plugin->runAllPreTestAction(*this, result);
     result.printVeryVerbose("\n-- after runAllPreTestAction: ");
 
     //save test context, so that test class can be tested
-    UtestShell* savedTest = UtestShell::getCurrent();
-    TestResult* savedResult = UtestShell::getTestResult();
+    TestShell* savedTest = TestShell::getCurrent();
+    TestResult* savedResult = TestShell::getTestResult();
 
-    UtestShell::setTestResult(&result);
-    UtestShell::setCurrentTest(this);
+    TestShell::setTestResult(&result);
+    TestShell::setCurrentTest(this);
 
-    Utest* testToRun = nullptr;
+    Test* testToRun = nullptr;
 
 #if CPPUTEST_HAVE_EXCEPTIONS
     try
@@ -218,8 +220,8 @@ void UtestShell::runOneTestInCurrentProcess(TestPlugin* plugin, TestResult& resu
         testToRun->run();
         result.printVeryVerbose("\n------ after runTest: ");
 
-        UtestShell::setCurrentTest(savedTest);
-        UtestShell::setTestResult(savedResult);
+        TestShell::setCurrentTest(savedTest);
+        TestShell::setTestResult(savedResult);
 #if CPPUTEST_HAVE_EXCEPTIONS
     }
     catch(...)
@@ -238,38 +240,38 @@ void UtestShell::runOneTestInCurrentProcess(TestPlugin* plugin, TestResult& resu
     result.printVeryVerbose("\n-- after runAllPostTestAction: ");
 }
 
-UtestShell *UtestShell::getNext() const
+TestShell *TestShell::getNext() const
 {
     return next_;
 }
 
-UtestShell* UtestShell::addTest(UtestShell *test)
+TestShell* TestShell::addTest(TestShell *test)
 {
     next_ = test;
     return this;
 }
 
-size_t UtestShell::countTests()
+size_t TestShell::countTests()
 {
     return next_ ? next_->countTests() + 1 : 1;
 }
 
-SimpleString UtestShell::getMacroName() const
+SimpleString TestShell::getMacroName() const
 {
     return "TEST";
 }
 
-const SimpleString UtestShell::getName() const
+const SimpleString TestShell::getName() const
 {
     return SimpleString(name_);
 }
 
-const SimpleString UtestShell::getGroup() const
+const SimpleString TestShell::getGroup() const
 {
     return SimpleString(group_);
 }
 
-SimpleString UtestShell::getFormattedName() const
+SimpleString TestShell::getFormattedName() const
 {
     SimpleString formattedName(getMacroName());
     formattedName += "(";
@@ -281,57 +283,57 @@ SimpleString UtestShell::getFormattedName() const
     return formattedName;
 }
 
-bool UtestShell::hasFailed() const
+bool TestShell::hasFailed() const
 {
     return hasFailed_;
 }
 
-void UtestShell::countCheck()
+void TestShell::countCheck()
 {
     getTestResult()->countCheck();
 }
 
-bool UtestShell::willRun() const
+bool TestShell::willRun() const
 {
     return true;
 }
 
-void UtestShell::setRunIgnored()
+void TestShell::setRunIgnored()
 {
 
 }
 
-void UtestShell::setFileName(const char* fileName)
+void TestShell::setFileName(const char* fileName)
 {
     file_ = fileName;
 }
 
-void UtestShell::setLineNumber(size_t lineNumber)
+void TestShell::setLineNumber(size_t lineNumber)
 {
     lineNumber_ = lineNumber;
 }
 
-void UtestShell::setGroupName(const char* groupName)
+void TestShell::setGroupName(const char* groupName)
 {
     group_ = groupName;
 }
 
-void UtestShell::setTestName(const char* testName)
+void TestShell::setTestName(const char* testName)
 {
     name_ = testName;
 }
 
-const SimpleString UtestShell::getFile() const
+const SimpleString TestShell::getFile() const
 {
     return SimpleString(file_);
 }
 
-size_t UtestShell::getLineNumber() const
+size_t TestShell::getLineNumber() const
 {
     return lineNumber_;
 }
 
-bool UtestShell::match(const char* target, const TestFilter* filters) const
+bool TestShell::match(const char* target, const TestFilter* filters) const
 {
     if(filters == nullptr) return true;
 
@@ -341,47 +343,47 @@ bool UtestShell::match(const char* target, const TestFilter* filters) const
     return false;
 }
 
-bool UtestShell::shouldRun(const TestFilter* groupFilters, const TestFilter* nameFilters) const
+bool TestShell::shouldRun(const TestFilter* groupFilters, const TestFilter* nameFilters) const
 {
     return match(group_, groupFilters) && match(name_, nameFilters);
 }
 
-void UtestShell::failWith(const TestFailure& failure)
+void TestShell::failWith(const TestFailure& failure)
 {
     failWith(failure, getCurrentTestTerminator());
 }
 
-void UtestShell::failWith(const TestFailure& failure, const TestTerminator& terminator)
+void TestShell::failWith(const TestFailure& failure, const TestTerminator& terminator)
 {
     addFailure(failure);
     terminator.exitCurrentTest();
 }
 
-void UtestShell::addFailure(const TestFailure& failure)
+void TestShell::addFailure(const TestFailure& failure)
 {
     hasFailed_ = true;
     getTestResult()->addFailure(failure);
 }
 
-void UtestShell::exitTest(const TestTerminator& terminator)
+void TestShell::exitTest(const TestTerminator& terminator)
 {
     terminator.exitCurrentTest();
 }
 
-void UtestShell::assertTrue(bool condition, const char *checkString, const char *conditionString, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertTrue(bool condition, const char *checkString, const char *conditionString, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (!condition)
         failWith(CheckFailure(this, fileName, lineNumber, checkString, conditionString, text), testTerminator);
 }
 
-void UtestShell::fail(const char *text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::fail(const char *text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     failWith(FailFailure(this, fileName, lineNumber, text), testTerminator);
 }
 
-void UtestShell::assertCstrEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertCstrEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
@@ -391,7 +393,7 @@ void UtestShell::assertCstrEqual(const char* expected, const char* actual, const
         failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertCstrNEqual(const char* expected, const char* actual, size_t length, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertCstrNEqual(const char* expected, const char* actual, size_t length, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
@@ -401,7 +403,7 @@ void UtestShell::assertCstrNEqual(const char* expected, const char* actual, size
         failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertCstrNoCaseEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
+void TestShell::assertCstrNoCaseEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
@@ -411,7 +413,7 @@ void UtestShell::assertCstrNoCaseEqual(const char* expected, const char* actual,
         failWith(StringEqualNoCaseFailure(this, fileName, lineNumber, expected, actual, text));
 }
 
-void UtestShell::assertCstrContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
+void TestShell::assertCstrContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
@@ -421,7 +423,7 @@ void UtestShell::assertCstrContains(const char* expected, const char* actual, co
         failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
 }
 
-void UtestShell::assertCstrNoCaseContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
+void TestShell::assertCstrNoCaseContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
@@ -431,63 +433,63 @@ void UtestShell::assertCstrNoCaseContains(const char* expected, const char* actu
         failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
 }
 
-void UtestShell::assertLongsEqual(long expected, long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertLongsEqual(long expected, long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(LongsEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertUnsignedLongsEqual(unsigned long expected, unsigned long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertUnsignedLongsEqual(unsigned long expected, unsigned long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(UnsignedLongsEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertLongLongsEqual(long long expected, long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertLongLongsEqual(long long expected, long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(LongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertUnsignedLongLongsEqual(unsigned long long expected, unsigned long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertUnsignedLongLongsEqual(unsigned long long expected, unsigned long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(UnsignedLongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertSignedBytesEqual(signed char expected, signed char actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertSignedBytesEqual(signed char expected, signed char actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(SignedBytesEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertPointersEqual(const void* expected, const void* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertPointersEqual(const void* expected, const void* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text), testTerminator);
 }
 
-void UtestShell::assertFunctionPointersEqual(void (*expected)(), void (*actual)(), const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertFunctionPointersEqual(void (*expected)(), void (*actual)(), const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (expected != actual)
         failWith(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text), testTerminator);
 }
 
-void UtestShell::assertDoublesEqual(double expected, double actual, double threshold, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertDoublesEqual(double expected, double actual, double threshold, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (!doubles_equal(expected, actual, threshold))
         failWith(DoublesEqualFailure(this, fileName, lineNumber, expected, actual, threshold, text), testTerminator);
 }
 
-void UtestShell::assertBinaryEqual(const void *expected, const void *actual, size_t length, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertBinaryEqual(const void *expected, const void *actual, size_t length, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
 	if (length == 0) return;
@@ -498,28 +500,28 @@ void UtestShell::assertBinaryEqual(const void *expected, const void *actual, siz
         failWith(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text), testTerminator);
 }
 
-void UtestShell::assertBitsEqual(unsigned long expected, unsigned long actual, unsigned long mask, size_t byteCount, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
+void TestShell::assertBitsEqual(unsigned long expected, unsigned long actual, unsigned long mask, size_t byteCount, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if ((expected & mask) != (actual & mask))
         failWith(BitsEqualFailure(this, fileName, lineNumber, expected, actual, mask, byteCount, text), testTerminator);
 }
 
-void UtestShell::assertEquals(bool failed, const char* expected, const char* actual, const char* text, const char* file, size_t line, const TestTerminator& testTerminator)
+void TestShell::assertEquals(bool failed, const char* expected, const char* actual, const char* text, const char* file, size_t line, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (failed)
         failWith(CheckEqualFailure(this, file, line, expected, actual, text), testTerminator);
 }
 
-void UtestShell::assertCompare(bool comparison, const char *checkString, const char *comparisonString, const char *text, const char *fileName, size_t lineNumber, const TestTerminator &testTerminator)
+void TestShell::assertCompare(bool comparison, const char *checkString, const char *comparisonString, const char *text, const char *fileName, size_t lineNumber, const TestTerminator &testTerminator)
 {
     getTestResult()->countCheck();
     if (!comparison)
         failWith(ComparisonFailure(this, fileName, lineNumber, checkString, comparisonString, text), testTerminator);
 }
 
-void UtestShell::print(const char *text, const char* fileName, size_t lineNumber)
+void TestShell::print(const char *text, const char* fileName, size_t lineNumber)
 {
     SimpleString stringToPrint = "\n";
     stringToPrint += fileName;
@@ -530,71 +532,71 @@ void UtestShell::print(const char *text, const char* fileName, size_t lineNumber
     getTestResult()->print(stringToPrint.asCharString());
 }
 
-void UtestShell::print(const SimpleString& text, const char* fileName, size_t lineNumber)
+void TestShell::print(const SimpleString& text, const char* fileName, size_t lineNumber)
 {
     print(text.asCharString(), fileName, lineNumber);
 }
 
-void UtestShell::printVeryVerbose(const char* text)
+void TestShell::printVeryVerbose(const char* text)
 {
     getTestResult()->printVeryVerbose(text);
 }
 
-TestResult* UtestShell::testResult_ = nullptr;
-UtestShell* UtestShell::currentTest_ = nullptr;
+TestResult* TestShell::testResult_ = nullptr;
+TestShell* TestShell::currentTest_ = nullptr;
 
-void UtestShell::setTestResult(TestResult* result)
+void TestShell::setTestResult(TestResult* result)
 {
     testResult_ = result;
 }
 
-void UtestShell::setCurrentTest(UtestShell* test)
+void TestShell::setCurrentTest(TestShell* test)
 {
     currentTest_ = test;
 }
 
-TestResult* UtestShell::getTestResult()
+TestResult* TestShell::getTestResult()
 {
     if (testResult_ == nullptr)
         return &OutsideTestRunnerUTest::instance().getTestResult();
     return testResult_;
 }
 
-UtestShell* UtestShell::getCurrent()
+TestShell* TestShell::getCurrent()
 {
     if (currentTest_ == nullptr)
         return &OutsideTestRunnerUTest::instance();
     return currentTest_;
 }
 
-const TestTerminator &UtestShell::getCurrentTestTerminator()
+const TestTerminator &TestShell::getCurrentTestTerminator()
 {
     return *currentTestTerminator_;
 }
 
-const TestTerminator &UtestShell::getCurrentTestTerminatorWithoutExceptions()
+const TestTerminator &TestShell::getCurrentTestTerminatorWithoutExceptions()
 {
     return *currentTestTerminatorWithoutExceptions_;
 }
 
-void UtestShell::setCrashOnFail()
+void TestShell::setCrashOnFail()
 {
     currentTestTerminator_ = &crashingTestTerminator;
     currentTestTerminatorWithoutExceptions_ = &crashingTestTerminatorWithoutExceptions;
 }
 
-void UtestShell::restoreDefaultTestTerminator()
+void TestShell::restoreDefaultTestTerminator()
 {
     currentTestTerminator_ = &normalTestTerminator;
     currentTestTerminatorWithoutExceptions_ = &normalTestTerminatorWithoutExceptions;
 }
 
-void UtestShell::setRethrowExceptions(bool rethrowExceptions)
+void TestShell::setRethrowExceptions(bool rethrowExceptions)
 {
     rethrowExceptions_ = rethrowExceptions;
 }
 
-bool UtestShell::isRethrowingExceptions()
+bool TestShell::isRethrowingExceptions()
 {
     return rethrowExceptions_;
 }
@@ -603,21 +605,21 @@ ExecFunctionTestShell::~ExecFunctionTestShell()
 {
 }
 
-////////////// Utest ////////////
+////////////// Test ////////////
 
-Utest::Utest()
+Test::Test()
 {
 }
 
-Utest::~Utest()
+Test::~Test()
 {
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 
-void Utest::run()
+void Test::run()
 {
-    UtestShell* current = UtestShell::getCurrent();
+    TestShell* current = TestShell::getCurrent();
     int jumpResult = 0;
     try {
         current->printVeryVerbose("\n-------- before setup: ");
@@ -630,7 +632,7 @@ void Utest::run()
             current->printVeryVerbose("\n----------  after body: ");
         }
     }
-    catch (CppUTestFailedException&)
+    catch (FailedException&)
     {
         PlatformSpecificRestoreJumpBuffer();
     }
@@ -660,7 +662,7 @@ void Utest::run()
         PlatformSpecificSetJmp(helperDoTestTeardown, this);
         current->printVeryVerbose("\n--------  after teardown: ");
     }
-    catch (CppUTestFailedException&)
+    catch (FailedException&)
     {
         PlatformSpecificRestoreJumpBuffer();
     }
@@ -687,7 +689,7 @@ void Utest::run()
 }
 #else
 
-void Utest::run()
+void Test::run()
 {
     if (PlatformSpecificSetJmp(helperDoTestSetup, this)) {
         PlatformSpecificSetJmp(helperDoTestBody, this);
@@ -697,15 +699,15 @@ void Utest::run()
 
 #endif
 
-void Utest::setup()
+void Test::setup()
 {
 }
 
-void Utest::testBody()
+void Test::testBody()
 {
 }
 
-void Utest::teardown()
+void Test::teardown()
 {
 }
 
@@ -719,7 +721,7 @@ TestTerminator::~TestTerminator()
 void NormalTestTerminator::exitCurrentTest() const
 {
     #if CPPUTEST_HAVE_EXCEPTIONS
-        throw CppUTestFailedException();
+        throw FailedException();
     #else
         TestTerminatorWithoutExceptions().exitCurrentTest();
     #endif
@@ -740,7 +742,7 @@ TestTerminatorWithoutExceptions::~TestTerminatorWithoutExceptions()
 
 void CrashingTestTerminator::exitCurrentTest() const
 {
-    UtestShell::crash();
+    TestShell::crash();
     NormalTestTerminator::exitCurrentTest();
 }
 
@@ -750,7 +752,7 @@ CrashingTestTerminator::~CrashingTestTerminator()
 
 void CrashingTestTerminatorWithoutExceptions::exitCurrentTest() const
 {
-    UtestShell::crash();
+    TestShell::crash();
     TestTerminatorWithoutExceptions::exitCurrentTest();
 }
 
@@ -805,61 +807,61 @@ void ExecFunctionTest::teardown()
     if (shell_->teardown_) shell_->teardown_();
 }
 
-/////////////// IgnoredUtestShell /////////////
-IgnoredUtestShell::IgnoredUtestShell(): runIgnored_(false)
+/////////////// IgnoredTestShell /////////////
+IgnoredTestShell::IgnoredTestShell(): runIgnored_(false)
 {
 }
 
-IgnoredUtestShell::IgnoredUtestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber) :
-   UtestShell(groupName, testName, fileName, lineNumber), runIgnored_(false)
+IgnoredTestShell::IgnoredTestShell(const char* groupName, const char* testName, const char* fileName, size_t lineNumber) :
+   TestShell(groupName, testName, fileName, lineNumber), runIgnored_(false)
 {
 }
 
-IgnoredUtestShell::~IgnoredUtestShell()
+IgnoredTestShell::~IgnoredTestShell()
 {
 }
 
-bool IgnoredUtestShell::willRun() const
+bool IgnoredTestShell::willRun() const
 {
-    if (runIgnored_) return UtestShell::willRun();
+    if (runIgnored_) return TestShell::willRun();
 
     return false;
 }
 
-SimpleString IgnoredUtestShell::getMacroName() const
+SimpleString IgnoredTestShell::getMacroName() const
 {
     if (runIgnored_) return "TEST";
 
     return "IGNORE_TEST";
 }
 
-void IgnoredUtestShell::runOneTest(TestPlugin* plugin, TestResult& result)
+void IgnoredTestShell::runOneTest(TestPlugin* plugin, TestResult& result)
 {
     if (runIgnored_)
     {
-        UtestShell::runOneTest(plugin, result);
+        TestShell::runOneTest(plugin, result);
         return;
     }
 
     result.countIgnored();
 }
 
-void IgnoredUtestShell::setRunIgnored()
+void IgnoredTestShell::setRunIgnored()
 {
     runIgnored_ = true;
 }
 
-//////////////////// UtestShellPointerArray
+//////////////////// TestShellPointerArray
 
-UtestShellPointerArray::UtestShellPointerArray(UtestShell* firstTest)
+TestShellPointerArray::TestShellPointerArray(TestShell* firstTest)
     : arrayOfTests_(nullptr), count_(0)
 {
     count_ = (firstTest) ? firstTest->countTests() : 0;
     if (count_ == 0) return;
 
-    arrayOfTests_ = new UtestShell*[count_];
+    arrayOfTests_ = new TestShell*[count_];
 
-    UtestShell*currentTest = firstTest;
+    TestShell*currentTest = firstTest;
     for (size_t i = 0; i < count_; i++)
     {
         arrayOfTests_[i] = currentTest;
@@ -867,20 +869,20 @@ UtestShellPointerArray::UtestShellPointerArray(UtestShell* firstTest)
     }
 }
 
-UtestShellPointerArray::~UtestShellPointerArray()
+TestShellPointerArray::~TestShellPointerArray()
 {
     delete [] arrayOfTests_;
 }
 
-void UtestShellPointerArray::swap(size_t index1, size_t index2)
+void TestShellPointerArray::swap(size_t index1, size_t index2)
 {
-        UtestShell* e2 = arrayOfTests_[index2];
-        UtestShell* e1 = arrayOfTests_[index1];
+        TestShell* e2 = arrayOfTests_[index2];
+        TestShell* e1 = arrayOfTests_[index1];
         arrayOfTests_[index1] = e2;
         arrayOfTests_[index2] = e1;
 }
 
-void UtestShellPointerArray::shuffle(size_t seed)
+void TestShellPointerArray::shuffle(size_t seed)
 {
     if (count_ == 0) return;
 
@@ -896,7 +898,7 @@ void UtestShellPointerArray::shuffle(size_t seed)
    relinkTestsInOrder();
 }
 
-void UtestShellPointerArray::reverse()
+void TestShellPointerArray::reverse()
 {
     if (count_ == 0) return;
 
@@ -909,19 +911,19 @@ void UtestShellPointerArray::reverse()
    relinkTestsInOrder();
 }
 
-void UtestShellPointerArray::relinkTestsInOrder()
+void TestShellPointerArray::relinkTestsInOrder()
 {
-    UtestShell *tests = nullptr;
+    TestShell *tests = nullptr;
     for (size_t i = 0; i < count_; i++)
         tests = arrayOfTests_[count_ - i - 1]->addTest(tests);
 }
 
-UtestShell* UtestShellPointerArray::getFirstTest() const
+TestShell* TestShellPointerArray::getFirstTest() const
 {
     return get(0);
 }
 
-UtestShell* UtestShellPointerArray::get(size_t index) const
+TestShell* TestShellPointerArray::get(size_t index) const
 {
     if (index >= count_) return nullptr;
     return arrayOfTests_[index];
@@ -931,7 +933,7 @@ UtestShell* UtestShellPointerArray::get(size_t index) const
 
 ////////////// TestInstaller ////////////
 
-TestInstaller::TestInstaller(UtestShell& shell, const char* groupName, const char* testName, const char* fileName, size_t lineNumber)
+TestInstaller::TestInstaller(TestShell& shell, const char* groupName, const char* testName, const char* fileName, size_t lineNumber)
 {
     shell.setGroupName(groupName);
     shell.setTestName(testName);
@@ -948,3 +950,5 @@ void TestInstaller::unDo()
 {
     TestRegistry::getCurrentRegistry()->unDoLastAddTest();
 }
+
+} // namespace cpputest

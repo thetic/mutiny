@@ -35,6 +35,10 @@
 
 #include "IEEE754PluginTest_c.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(FE_with_Plugin)
 {
     TestTestingFixture fixture;

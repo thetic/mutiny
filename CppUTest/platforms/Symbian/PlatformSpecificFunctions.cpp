@@ -70,17 +70,19 @@ static unsigned long TimeInMillisImplementation() {
 
 unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
 
-TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
-{
-    return TestOutput::eclipse;
+namespace cpputest {
+    TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
+    {
+        return TestOutput::eclipse;
+    }
 }
 
-static SimpleString TimeStringImplementation() {
+static cpputest::SimpleString TimeStringImplementation() {
     time_t tm = time(NULL);
     return ctime(&tm);
 }
 
-SimpleString GetPlatformSpecificTimeString() = TimeStringImplementation;
+cpputest::SimpleString GetPlatformSpecificTimeString() = TimeStringImplementation;
 
 int PlatformSpecificVSNprintf(char* str, size_t size, const char* format, va_list args) {
     return vsnprintf(str, size, format, args);

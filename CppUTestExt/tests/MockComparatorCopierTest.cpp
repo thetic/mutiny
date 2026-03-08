@@ -28,6 +28,11 @@
 #include "CppUTest/TestHarness.h"
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+using UtestShell = cpputest::TestShell;
+
+
 TEST_GROUP(MockComparatorCopierTest)
 {
     void teardown() override

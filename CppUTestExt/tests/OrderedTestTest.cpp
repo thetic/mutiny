@@ -32,6 +32,11 @@
 #include "CppUTestExt/OrderedTest.h"
 #include "OrderedTestTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+using UtestShell = cpputest::TestShell;
+
+
 TEST_GROUP(TestOrderedTest)
 {
     TestTestingFixture* fixture;

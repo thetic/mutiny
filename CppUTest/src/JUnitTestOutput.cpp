@@ -31,6 +31,8 @@
 #include "CppUTest/TestFailure.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest {
+
 struct JUnitTestCaseResultNode
 {
     JUnitTestCaseResultNode() :
@@ -104,7 +106,7 @@ void JUnitTestOutput::printTestsStarted()
 {
 }
 
-void JUnitTestOutput::printCurrentGroupStarted(const UtestShell& /*test*/)
+void JUnitTestOutput::printCurrentGroupStarted(const TestShell& /*test*/)
 {
 }
 
@@ -125,7 +127,7 @@ void JUnitTestOutput::printCurrentGroupEnded(const TestResult& result)
     resetTestGroupResult();
 }
 
-void JUnitTestOutput::printCurrentTestStarted(const UtestShell& test)
+void JUnitTestOutput::printCurrentTestStarted(const TestShell& test)
 {
     impl_->results_.testCount_++;
     impl_->results_.group_ = test.getGroup();
@@ -321,3 +323,5 @@ void JUnitTestOutput::closeFile()
 {
     PlatformSpecificFClose(impl_->file_);
 }
+
+} // namespace cpputest

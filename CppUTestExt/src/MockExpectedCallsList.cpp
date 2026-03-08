@@ -29,6 +29,8 @@
 #include "CppUTestExt/MockExpectedCallsList.h"
 #include "CppUTestExt/MockCheckedExpectedCall.h"
 
+namespace cpputest { namespace extensions {
+
 MockExpectedCallsList::MockExpectedCallsList() : head_(nullptr)
 {
 }
@@ -365,3 +367,5 @@ bool MockExpectedCallsList::hasUnmatchingExpectationsBecauseOfMissingParameters(
     return false;
 }
 
+} // namespace extensions
+} // namespace cpputest

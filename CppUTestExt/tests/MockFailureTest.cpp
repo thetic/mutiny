@@ -31,6 +31,10 @@
 #include "CppUTestExt/MockExpectedCallsList.h"
 #include "MockFailureReporterForTest.h"
 
+using namespace cpputest;
+using namespace cpputest::extensions;
+
+
 TEST_GROUP(MockFailureTest)
 {
     MockFailureReporter reporter;

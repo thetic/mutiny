@@ -29,6 +29,7 @@
 #include "CppUTestExt/MockNamedValue.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
+namespace cpputest { namespace extensions {
 
 MockNamedValueComparatorsAndCopiersRepository* MockNamedValue::defaultRepository_ = nullptr;
 const double MockNamedValue::defaultDoubleTolerance = 0.005;
@@ -625,3 +626,6 @@ void MockNamedValueComparatorsAndCopiersRepository::installComparatorsAndCopiers
     for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_; p; p = p->next_)
       head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(p->name_, p->comparator_, p->copier_, head_);
 }
+
+} // namespace extensions
+} // namespace cpputest

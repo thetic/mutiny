@@ -28,7 +28,7 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestRegistry.h"
 
-class TestInstallerTestUtestShell : public UtestShell
+class TestInstallerTestUtestShell : public cpputest::TestShell
 {
 };
 
@@ -39,14 +39,14 @@ class TestInstallerTestUtestShell : public UtestShell
 
 TEST_GROUP(TestInstaller)
 {
-    TestInstaller* testInstaller;
-    TestRegistry* myRegistry;
+    cpputest::TestInstaller* testInstaller;
+    cpputest::TestRegistry* myRegistry;
     TestInstallerTestUtestShell shell;
     void setup() override
     {
-        myRegistry = new TestRegistry();
+        myRegistry = new cpputest::TestRegistry();
         myRegistry->setCurrentRegistry(myRegistry);
-        testInstaller = new TestInstaller(shell, "TestInstaller", "test", __FILE__, __LINE__);
+        testInstaller = new cpputest::TestInstaller(shell, "TestInstaller", "test", __FILE__, __LINE__);
     }
     void teardown() override
     {

@@ -72,11 +72,11 @@ public:
 
 TEST_GROUP(TestHarness_c)
 {
-    TestTestingFixture* fixture;
+    cpputest::TestTestingFixture* fixture;
     TEST_SETUP()
     {
         hasDestructorOfTheDestructorCheckedBeenCalled = false;
-        fixture = new TestTestingFixture();
+        fixture = new cpputest::TestTestingFixture();
     }
     TEST_TEARDOWN()
     {
@@ -461,7 +461,7 @@ TEST(TestHarness_c, checkString)
     fixture->setTestFunction(failStringMethod_);
     fixture->runAllTests();
 
-    StringEqualFailure failure(UtestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
+    cpputest::StringEqualFailure failure(cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
     fixture->assertPrintContains(failure.getMessage());
     fixture->assertPrintContains("arness_c");
     CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
@@ -479,7 +479,7 @@ TEST(TestHarness_c, checkStringText)
     fixture->setTestFunction(failStringTextMethod_);
     fixture->runAllTests();
 
-    StringEqualFailure failure(UtestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
+    cpputest::StringEqualFailure failure(cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
     fixture->assertPrintContains(failure.getMessage());
     fixture->assertPrintContains("arness_c");
     fixture->assertPrintContains("Message: StringTestText");
@@ -631,7 +631,7 @@ static void crashMethod()
 TEST(TestHarness_c, doesNotCrashIfNotSetToCrash)
 {
     cpputestHasCrashed = false;
-    UtestShell::setCrashMethod(crashMethod);
+    cpputest::TestShell::setCrashMethod(crashMethod);
     fixture->setTestFunction(failMethod_);
 
     fixture->runAllTests();
@@ -640,14 +640,14 @@ TEST(TestHarness_c, doesNotCrashIfNotSetToCrash)
     LONGS_EQUAL(1, fixture->getFailureCount());
     CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 
-    UtestShell::resetCrashMethod();
+    cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(TestHarness_c, doesCrashIfSetToCrash)
 {
     cpputestHasCrashed = false;
-    UtestShell::setCrashOnFail();
-    UtestShell::setCrashMethod(crashMethod);
+    cpputest::TestShell::setCrashOnFail();
+    cpputest::TestShell::setCrashMethod(crashMethod);
     fixture->setTestFunction(failMethod_);
 
     fixture->runAllTests();
@@ -655,8 +655,8 @@ TEST(TestHarness_c, doesCrashIfSetToCrash)
     CHECK(cpputestHasCrashed);
     CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 
-    UtestShell::restoreDefaultTestTerminator();
-    UtestShell::resetCrashMethod();
+    cpputest::TestShell::restoreDefaultTestTerminator();
+    cpputest::TestShell::resetCrashMethod();
 }
 
 static void CheckMethod_()

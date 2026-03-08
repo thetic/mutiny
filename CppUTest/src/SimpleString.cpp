@@ -27,10 +27,13 @@
 
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include <limits.h>
 #include "CppUTest/TestMemoryAllocator.h"
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <string>
 #endif
+
+namespace cpputest {
 
 
 TestMemoryAllocator* SimpleString::stringAllocator_ = nullptr;
@@ -642,7 +645,7 @@ SimpleString HexStringFrom(signed char value)
     SimpleString result = StringFromFormat("%x", value);
     if(value < 0) {
         size_t size = result.size();
-        result = result.subString(size-(CPPUTEST_CHAR_BIT/4));
+        result = result.subString(size-(CHAR_BIT/4));
     }
     return result;
 }
@@ -851,7 +854,7 @@ SimpleString StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t s
 SimpleString StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount)
 {
     SimpleString result;
-    size_t bitCount = (byteCount > sizeof(unsigned long)) ? (sizeof(unsigned long) * CPPUTEST_CHAR_BIT) : (byteCount * CPPUTEST_CHAR_BIT);
+    size_t bitCount = (byteCount > sizeof(unsigned long)) ? (sizeof(unsigned long) * CHAR_BIT) : (byteCount * CHAR_BIT);
     const unsigned long msbMask = (static_cast<unsigned long>(1) << (bitCount - 1));
 
     for (size_t i = 0; i < bitCount; i++) {
@@ -924,3 +927,5 @@ SimpleString& SimpleStringCollection::operator[](size_t index)
 
     return collection_[index];
 }
+
+} // namespace cpputest

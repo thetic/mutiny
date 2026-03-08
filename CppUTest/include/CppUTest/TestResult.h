@@ -36,9 +36,11 @@
 
 #include <stddef.h>
 
+namespace cpputest {
+
 class TestFailure;
 class TestOutput;
-class UtestShell;
+class TestShell;
 
 class TestResult
 {
@@ -49,10 +51,10 @@ public:
 
     virtual void testsStarted();
     virtual void testsEnded();
-    virtual void currentGroupStarted(UtestShell* test);
-    virtual void currentGroupEnded(UtestShell* test);
-    virtual void currentTestStarted(UtestShell* test);
-    virtual void currentTestEnded(UtestShell* test);
+    virtual void currentGroupStarted(TestShell* test);
+    virtual void currentGroupEnded(TestShell* test);
+    virtual void currentTestStarted(TestShell* test);
+    virtual void currentTestEnded(TestShell* test);
 
     virtual void countTest();
     virtual void countRun();
@@ -114,5 +116,7 @@ private:
     size_t currentGroupTimeStarted_;
     size_t currentGroupTotalExecutionTime_;
 };
+
+} // namespace cpputest
 
 #endif

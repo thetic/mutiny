@@ -25,12 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/CppUTestConfig.h"
 #include "CppUTest/Utest.h"
 #include "CppUTest/UtestMacros.h"
 #include "CppUTest/PlatformSpecificFunctions_c.h"
 #include "CppUTestExt/MockSupport.h"
 #include "CppUTestExt/MockSupport_c.h"
+
+namespace cpputest { namespace extensions {
 
 typedef void (*cpputest_cpp_function_pointer)();  /* Cl2000 requires cast to C++ function */
 
@@ -46,7 +47,7 @@ public:
         if (crashOnFailure_)
             UT_CRASH();
 
-        UtestShell::getCurrentTestTerminatorWithoutExceptions().exitCurrentTest();
+        TestShell::getCurrentTestTerminatorWithoutExceptions().exitCurrentTest();
     }
     virtual ~MockFailureReporterTestTerminatorForInCOnlyCode() override
     {
@@ -1035,3 +1036,4 @@ MockSupport_c* mock_scope_c(const char* scope)
 }
 
 }
+}}

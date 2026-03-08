@@ -35,14 +35,14 @@ namespace
 const int testLineNumber = 1;
 }
 
-class MockTest: public UtestShell
+class MockTest: public cpputest::TestShell
 {
 public:
     MockTest(const char* group = "Group") :
-        UtestShell(group, "Name", "File", testLineNumber), hasRun_(false)
+        TestShell(group, "Name", "File", testLineNumber), hasRun_(false)
     {
     }
-    virtual void runOneTest(TestPlugin*, TestResult&) override
+    virtual void runOneTest(cpputest::TestPlugin*, cpputest::TestResult&) override
     {
         hasRun_ = true;
     }
@@ -50,7 +50,7 @@ public:
     bool hasRun_;
 };
 
-class MockTestResult: public TestResult
+class MockTestResult: public cpputest::TestResult
 {
 public:
 
@@ -61,7 +61,7 @@ public:
     int countCurrentGroupStarted;
     int countCurrentGroupEnded;
 
-    MockTestResult(TestOutput& p) :
+    MockTestResult(cpputest::TestOutput& p) :
         TestResult(p)
     {
         resetCount();
@@ -89,19 +89,19 @@ public:
     {
         countTestsEnded++;
     }
-    virtual void currentTestStarted(UtestShell* /*test*/) override
+    virtual void currentTestStarted(cpputest::TestShell* /*test*/) override
     {
         countCurrentTestStarted++;
     }
-    virtual void currentTestEnded(UtestShell* /*test*/) override
+    virtual void currentTestEnded(cpputest::TestShell* /*test*/) override
     {
         countCurrentTestEnded++;
     }
-    virtual void currentGroupStarted(UtestShell* /*test*/) override
+    virtual void currentGroupStarted(cpputest::TestShell* /*test*/) override
     {
         countCurrentGroupStarted++;
     }
-    virtual void currentGroupEnded(UtestShell* /*test*/) override
+    virtual void currentGroupEnded(cpputest::TestShell* /*test*/) override
     {
         countCurrentGroupEnded++;
     }
@@ -110,24 +110,24 @@ public:
 
 TEST_GROUP(TestRegistry)
 {
-    TestRegistry* myRegistry;
-    StringBufferTestOutput* output;
+    cpputest::TestRegistry* myRegistry;
+    cpputest::StringBufferTestOutput* output;
     MockTest* test1;
     MockTest* test2;
     MockTest* test3;
     MockTest* test4;
-    TestResult *result;
+    cpputest::TestResult *result;
     MockTestResult *mockResult;
     void setup() override
     {
-        output = new StringBufferTestOutput();
+        output = new cpputest::StringBufferTestOutput();
         mockResult = new MockTestResult(*output);
         result = mockResult;
         test1 = new MockTest();
         test2 = new MockTest();
         test3 = new MockTest("group2");
         test4 = new MockTest();
-        myRegistry = new TestRegistry();
+        myRegistry = new cpputest::TestRegistry();
         myRegistry->setCurrentRegistry(myRegistry);
     }
 
@@ -267,7 +267,7 @@ TEST(TestRegistry, nameFilterWorks)
 {
     test1->setTestName("testname");
     test2->setTestName("noname");
-    TestFilter nameFilter("testname");
+    cpputest::TestFilter nameFilter("testname");
     myRegistry->setNameFilters(&nameFilter);
     addAndRunAllTests();
     CHECK(test1->hasRun_);
@@ -278,7 +278,7 @@ TEST(TestRegistry, groupFilterWorks)
 {
     test1->setGroupName("groupname");
     test2->setGroupName("noname");
-    TestFilter groupFilter("groupname");
+    cpputest::TestFilter groupFilter("groupname");
     myRegistry->setGroupFilters(&groupFilter);
     addAndRunAllTests();
     CHECK(test1->hasRun_);
@@ -300,13 +300,13 @@ TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
     LONGS_EQUAL(2, myRegistry->getCurrentRepetition());
 }
 
-class MyTestPluginDummy: public TestPlugin
+class MyTestPluginDummy: public cpputest::TestPlugin
 {
 public:
-    MyTestPluginDummy(const SimpleString& name) : TestPlugin(name) {}
+    MyTestPluginDummy(const cpputest::SimpleString& name) : TestPlugin(name) {}
     virtual ~MyTestPluginDummy() override {}
-    virtual void runAllPreTestAction(UtestShell&, TestResult&) override {}
-    virtual void runAllPostTestAction(UtestShell&, TestResult&) override {}
+    virtual void runAllPreTestAction(cpputest::TestShell&, cpputest::TestResult&) override {}
+    virtual void runAllPostTestAction(cpputest::TestShell&, cpputest::TestResult&) override {}
 };
 
 TEST(TestRegistry, ResetPluginsWorks)
@@ -332,7 +332,7 @@ TEST(TestRegistry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGr
     myRegistry->addTest(test4);
 
     myRegistry->listTestGroupNames(*result);
-    SimpleString s = output->getOutput();
+    cpputest::SimpleString s = output->getOutput();
     STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.asCharString());
 }
 
@@ -349,7 +349,7 @@ TEST(TestRegistry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfter
     myRegistry->addTest(test3);
 
     myRegistry->listTestGroupAndCaseNames(*result);
-    SimpleString s = output->getOutput();
+    cpputest::SimpleString s = output->getOutput();
     STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.asCharString());
 }
 
@@ -372,7 +372,7 @@ TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAte
     myRegistry->addTest(test3);
 
     myRegistry->listTestLocations(*result);
-    SimpleString s = output->getOutput();
+    cpputest::SimpleString s = output->getOutput();
     STRCMP_EQUAL("GROUP_A.test_aa.cpptest_simple/my_tests/testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/testa.cpp.100\n", s.asCharString());
 }
 
@@ -402,9 +402,9 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
     myRegistry->addTest(test2);
     myRegistry->addTest(test1);
 
-    UtestShell* first_before  = myRegistry->getFirstTest();
-    UtestShell* second_before = first_before->getNext();
-    UtestShell* third_before  = second_before->getNext();
+    cpputest::TestShell* first_before  = myRegistry->getFirstTest();
+    cpputest::TestShell* second_before = first_before->getNext();
+    cpputest::TestShell* third_before  = second_before->getNext();
 
     CHECK_TRUE(first_before  == test1);
     CHECK_TRUE(second_before == test2);
@@ -414,9 +414,9 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
     // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
     myRegistry->shuffleTests(0);
 
-    UtestShell* first_after  = myRegistry->getFirstTest();
-    UtestShell* second_after = first_after->getNext();
-    UtestShell* third_after  = second_after->getNext();
+    cpputest::TestShell* first_after  = myRegistry->getFirstTest();
+    cpputest::TestShell* second_after = first_after->getNext();
+    cpputest::TestShell* third_after  = second_after->getNext();
 
     CHECK_TRUE(first_after  == test2);
     CHECK_TRUE(second_after == test3);

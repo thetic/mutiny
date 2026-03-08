@@ -28,8 +28,6 @@
 #ifndef D_TestHarness_h
 #define D_TestHarness_h
 
-#include "CppUTest/CppUTestConfig.h"
-
 #include "CppUTest/Utest.h"
 #include "CppUTest/UtestMacros.h"
 #include "CppUTest/SimpleString.h"

@@ -52,9 +52,11 @@ static int jmp_buf_index = 0;
     static int idx = 0;
 #endif
 
-TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
-{
-    return TestOutput::eclipse;
+namespace cpputest {
+    TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment()
+    {
+        return TestOutput::eclipse;
+    }
 }
 
 extern "C" {
