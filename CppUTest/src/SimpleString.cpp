@@ -562,17 +562,6 @@ char* SimpleString::copyToNewBuffer(const char* bufferToCopy, size_t bufferSize)
     return newBuffer;
 }
 
-
-void SimpleString::copyToBuffer(char* bufferToCopy, size_t bufferSize) const
-{
-    if (bufferToCopy == nullptr || bufferSize == 0) return;
-
-    size_t sizeToCopy = (bufferSize-1 < size()) ? (bufferSize-1) : size();
-
-    StrNCpy(bufferToCopy, getBuffer(), sizeToCopy);
-    bufferToCopy[sizeToCopy] = '\0';
-}
-
 bool SimpleString::isDigit(char ch)
 {
     return '0' <= ch && '9' >= ch;
@@ -815,11 +804,11 @@ SimpleString VStringFromFormat(const char* format, va_list args)
     }
     else {
         size_t newBufferSize = size + 1;
-        char* newBuffer = SimpleString::allocStringBuffer(newBufferSize, __FILE__, __LINE__);
+        char* newBuffer = SimpleString::getStringAllocator()->alloc_memory(newBufferSize, __FILE__, __LINE__);
         PlatformSpecificVSNprintf(newBuffer, newBufferSize, format, argsCopy);
         resultString = SimpleString(newBuffer);
 
-        SimpleString::deallocStringBuffer(newBuffer, newBufferSize, __FILE__, __LINE__);
+        SimpleString::getStringAllocator()->free_memory(newBuffer, newBufferSize, __FILE__, __LINE__);
     }
     va_end(argsCopy);
     return resultString;

@@ -281,30 +281,6 @@ TEST(SimpleString, splitNoTokenOnTheEnd)
     STRCMP_EQUAL("oops", collection[2].asCharString());
 }
 
-TEST(SimpleString, count)
-{
-    SimpleString str("ha ha ha ha");
-    LONGS_EQUAL(4, str.count("ha"));
-}
-
-TEST(SimpleString, countTogether)
-{
-    SimpleString str("hahahaha");
-    LONGS_EQUAL(4, str.count("ha"));
-}
-
-TEST(SimpleString, countEmptyString)
-{
-    SimpleString str("hahahaha");
-	LONGS_EQUAL(8, str.count(""));
-}
-
-TEST(SimpleString, countEmptyStringInEmptyString)
-{
-    SimpleString str;
-    LONGS_EQUAL(0, str.count(""));
-}
-
 TEST(SimpleString, endsWith)
 {
     SimpleString str("Hello World");
@@ -427,45 +403,6 @@ TEST(SimpleString, at)
 {
     SimpleString str("Hello World");
     BYTES_EQUAL('H', str.at(0));
-}
-
-TEST(SimpleString, copyInBufferNormal)
-{
-    SimpleString str("Hello World");
-    size_t bufferSize = str.size()+1;
-    char* buffer = static_cast<char*>(PlatformSpecificMalloc(bufferSize));
-    str.copyToBuffer(buffer, bufferSize);
-    STRCMP_EQUAL(str.asCharString(), buffer);
-    PlatformSpecificFree(buffer);
-}
-
-TEST(SimpleString, copyInBufferWithEmptyBuffer)
-{
-    SimpleString str("Hello World");
-    char* buffer= nullptr;
-    str.copyToBuffer(buffer, 0);
-    POINTERS_EQUAL(nullptr, buffer);
-}
-
-TEST(SimpleString, copyInBufferWithBiggerBufferThanNeeded)
-{
-    SimpleString str("Hello");
-    size_t bufferSize = 20;
-    char* buffer= static_cast<char*>(PlatformSpecificMalloc(bufferSize));
-    str.copyToBuffer(buffer, bufferSize);
-    STRCMP_EQUAL(str.asCharString(), buffer);
-    PlatformSpecificFree(buffer);
-}
-
-TEST(SimpleString, copyInBufferWithSmallerBufferThanNeeded)
-{
-    SimpleString str("Hello");
-    size_t bufferSize = str.size();
-    char* buffer= static_cast<char*>(PlatformSpecificMalloc(bufferSize));
-    str.copyToBuffer(buffer, bufferSize);
-    STRNCMP_EQUAL(str.asCharString(), buffer, (bufferSize-1));
-    LONGS_EQUAL(0, buffer[bufferSize-1]);
-    PlatformSpecificFree(buffer);
 }
 
 TEST(SimpleString, ContainsNull)
@@ -637,7 +574,7 @@ TEST(SimpleString, StringFromFormatLarge)
 {
     const char* s = "ThisIsAPrettyLargeStringAndIfWeAddThisManyTimesToABufferItWillbeFull";
     SimpleString h1 = StringFromFormat("%s%s%s%s%s%s%s%s%s%s", s, s, s, s, s, s, s, s, s, s);
-    LONGS_EQUAL(10, h1.count(s));
+    LONGS_EQUAL(10 * static_cast<long>(SimpleString(s).size()), static_cast<long>(h1.size()));
 }
 
 TEST(SimpleString, StringFromConstSimpleString)
@@ -835,42 +772,6 @@ TEST(SimpleString, StrCmp)
     CHECK(SimpleString::StrCmp(bla, bla) == 0);
 }
 
-TEST(SimpleString, StrNCpy_no_zero_termination)
-{
-    char str[] = "XXXXXXXXXX";
-    STRCMP_EQUAL("womanXXXXX", SimpleString::StrNCpy(str, "woman", 5));
-}
-
-TEST(SimpleString, StrNCpy_zero_termination)
-{
-    char str[] = "XXXXXXXXXX";
-    STRCMP_EQUAL("woman", SimpleString::StrNCpy(str, "woman", 6));
-}
-
-TEST(SimpleString, StrNCpy_null_proof)
-{
-    POINTERS_EQUAL(nullptr, SimpleString::StrNCpy(nullptr, "woman", 6));
-}
-
-TEST(SimpleString, StrNCpy_stops_at_end_of_string)
-{
-    char str[] = "XXXXXXXXXX";
-    STRCMP_EQUAL("woman", SimpleString::StrNCpy(str, "woman", 8));
-}
-
-TEST(SimpleString, StrNCpy_nothing_to_do)
-{
-    char str[] = "XXXXXXXXXX";
-    STRCMP_EQUAL("XXXXXXXXXX", SimpleString::StrNCpy(str, "woman", 0));
-}
-
-TEST(SimpleString, StrNCpy_write_into_the_middle)
-{
-    char str[] = "womanXXXXX";
-    SimpleString::StrNCpy(str+3, "e", 1);
-    STRCMP_EQUAL("womenXXXXX", str);
-}
-
 TEST(SimpleString, StrNCmp_equal)
 {
     int result = SimpleString::StrNCmp("teststring", "tests", 5);
@@ -917,19 +818,6 @@ TEST(SimpleString, StrNCmp_s1_and_s2_empty)
 {
     int result = SimpleString::StrNCmp("", "", 2);
     LONGS_EQUAL(0, result);
-}
-
-TEST(SimpleString, StrStr)
-{
-    char foo[] = "foo";
-    char empty[] = "";
-    char foobarfoo[] = "foobarfoo";
-    char barf[] = "barf";
-    CHECK(SimpleString::StrStr(foo, empty) == foo);
-    CHECK(SimpleString::StrStr(empty, foo) == nullptr);
-    CHECK(SimpleString::StrStr(foobarfoo, barf) == foobarfoo+3);
-    CHECK(SimpleString::StrStr(barf, foobarfoo) == nullptr);
-    CHECK(SimpleString::StrStr(foo, foo) == foo);
 }
 
 TEST(SimpleString, AtoI)

@@ -78,7 +78,6 @@ public:
 
     char at(size_t pos) const;
     size_t find(char ch) const;
-    size_t findFrom(size_t starting_position, char ch) const;
     bool contains(const SimpleString& other) const;
     bool containsNoCase(const SimpleString& other) const;
     bool startsWith(const SimpleString& other) const;
@@ -87,8 +86,6 @@ public:
                     SimpleStringCollection& outCollection) const;
     bool equalsNoCase(const SimpleString& str) const;
 
-    size_t count(const SimpleString& str) const;
-
     void replace(char to, char with);
     void replace(const char* to, const char* with);
 
@@ -96,7 +93,6 @@ public:
     SimpleString subString(size_t beginPos) const;
     SimpleString subString(size_t beginPos, size_t amount) const;
     SimpleString subStringFromTill(char startChar, char lastExcludedChar) const;
-    void copyToBuffer(char* buffer, size_t bufferSize) const;
 
     SimpleString printable() const;
 
@@ -112,15 +108,17 @@ public:
     static int AtoI(const char*str);
     static unsigned AtoU(const char*str);
     static int StrCmp(const char* s1, const char* s2);
-    static size_t StrLen(const char*);
     static int StrNCmp(const char* s1, const char* s2, size_t n);
-    static char* StrNCpy(char* s1, const char* s2, size_t n);
-    static const char* StrStr(const char* s1, const char* s2);
     static char ToLower(char ch);
     static int MemCmp(const void* s1, const void *s2, size_t n);
+private:
+    size_t findFrom(size_t starting_position, char ch) const;
+    size_t count(const SimpleString& str) const;
+    static size_t StrLen(const char*);
+    static char* StrNCpy(char* s1, const char* s2, size_t n);
+    static const char* StrStr(const char* s1, const char* s2);
     static char* allocStringBuffer(size_t size, const char* file, size_t line);
     static void deallocStringBuffer(char* str, size_t size, const char* file, size_t line);
-private:
 
     const char* getBuffer() const;
 
