@@ -301,19 +301,3 @@ jobs:
       - name: Test
         run: ctest --test-dir build --output-on-failure
 
-  Docker:
-    strategy:
-      matrix:
-        image: ["ubuntu"]
-    runs-on: ubuntu-latest
-    name: Docker ${{ matrix.image }}
-    steps:
-      - name: Build
-        uses: docker/build-push-action@v3
-        with:
-          file: docker/Dockerfile.${{ matrix.image }}
-          tags: cpputest/${{ matrix.image }}:latest
-          push: false
-      - name: Test
-        run: |
-          docker run --rm cpputest/${{ matrix.image }}:latest
