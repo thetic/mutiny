@@ -375,7 +375,7 @@ static bool destructorWasCalledOnFailedTest = false;
 
 static void destructorCalledForLocalObjects_()
 {
-    SetBooleanOnDestructorCall pleaseCallTheDestructor(destructorWasCalledOnFailedTest);
+    struct SetBoolOnDestruct { bool& b_; ~SetBoolOnDestruct() { b_ = true; } } pleaseCallTheDestructor{destructorWasCalledOnFailedTest};
     destructorWasCalledOnFailedTest = false;
     FAIL("fail");
 }

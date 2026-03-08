@@ -33,17 +33,23 @@
 TEST_GROUP(TestMemoryAllocatorTest)
 {
     TestMemoryAllocator* allocator;
-    GlobalMemoryAllocatorStash memoryAllocatorStash;
+    TestMemoryAllocator* originalMallocAllocator;
+    TestMemoryAllocator* originalNewAllocator;
+    TestMemoryAllocator* originalNewArrayAllocator;
 
     void setup() override
     {
         allocator = nullptr;
-        memoryAllocatorStash.save();
+        originalMallocAllocator = getCurrentMallocAllocator();
+        originalNewAllocator = getCurrentNewAllocator();
+        originalNewArrayAllocator = getCurrentNewArrayAllocator();
     }
 
     void teardown() override
     {
-        memoryAllocatorStash.restore();
+        setCurrentMallocAllocator(originalMallocAllocator);
+        setCurrentNewAllocator(originalNewAllocator);
+        setCurrentNewArrayAllocator(originalNewArrayAllocator);
         delete allocator;
     }
 };
@@ -110,149 +116,6 @@ TEST(TestMemoryAllocatorTest, NewArrayNames)
     STRCMP_EQUAL("delete []", defaultNewArrayAllocator()->free_name());
 }
 
-TEST(TestMemoryAllocatorTest, NullUnknownAllocation)
-{
-    allocator = new NullUnknownAllocator;
-    allocator->free_memory(allocator->alloc_memory(100, "file", 1), 100, "file", 1);
-}
-
-TEST(TestMemoryAllocatorTest, NullUnknownNames)
-{
-    allocator = new NullUnknownAllocator;
-    STRCMP_EQUAL("Null Allocator", allocator->name());
-    STRCMP_EQUAL("unknown", allocator->alloc_name());
-    STRCMP_EQUAL("unknown", allocator->free_name());
-}
-
-
-class FailableMemoryAllocatorExecFunction : public ExecFunction
-{
-public:
-    FailableMemoryAllocator* allocator_;
-    void (*testFunction_)(FailableMemoryAllocator*);
-
-    void exec() override
-    {
-        testFunction_(allocator_);
-    }
-
-    FailableMemoryAllocatorExecFunction() : allocator_(nullptr), testFunction_(nullptr) {}
-    virtual ~FailableMemoryAllocatorExecFunction() override {}
-};
-
-TEST_GROUP(FailableMemoryAllocator)
-{
-    FailableMemoryAllocator *failableMallocAllocator;
-    FailableMemoryAllocatorExecFunction testFunction;
-    TestTestingFixture fixture;
-
-    void setup() override
-    {
-        testFunction.allocator_ = failableMallocAllocator = new FailableMemoryAllocator("Failable Malloc Allocator", "malloc", "free");
-        fixture.setTestFunction(&testFunction);
-    }
-    void teardown() override
-    {
-        failableMallocAllocator->checkAllFailedAllocsWereDone();
-        failableMallocAllocator->clearFailedAllocs();
-        delete failableMallocAllocator;
-    }
-};
-
-TEST(FailableMemoryAllocator, MallocWorksNormallyIfNotAskedToFail)
-{
-    char *memory = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    CHECK(memory != nullptr);
-    failableMallocAllocator->free_memory(memory, sizeof(int), __FILE__, __LINE__);
-}
-
-TEST(FailableMemoryAllocator, FailFirstMalloc)
-{
-    failableMallocAllocator->failAllocNumber(1);
-    POINTERS_EQUAL(nullptr, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
-}
-
-TEST(FailableMemoryAllocator, FailSecondAndFourthMalloc)
-{
-    failableMallocAllocator->failAllocNumber(2);
-    failableMallocAllocator->failAllocNumber(4);
-    char *memory1 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    char *memory2 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    char *memory3 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    char *memory4 = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-
-    CHECK(nullptr != memory1);
-    POINTERS_EQUAL(nullptr, memory2);
-    CHECK(nullptr != memory3);
-    POINTERS_EQUAL(nullptr, memory4);
-
-    failableMallocAllocator->free_memory(memory1, sizeof(int), __FILE__, __LINE__);
-    failableMallocAllocator->free_memory(memory3, sizeof(int), __FILE__, __LINE__);
-}
-
-static void failingAllocIsNeverDone_(FailableMemoryAllocator* failableMallocAllocator)
-{
-    failableMallocAllocator->failAllocNumber(1);
-    failableMallocAllocator->failAllocNumber(2);
-    failableMallocAllocator->failAllocNumber(3);
-    failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-    failableMallocAllocator->checkAllFailedAllocsWereDone();
-}
-
-TEST(FailableMemoryAllocator, CheckAllFailingAllocsWereDone)
-{
-    testFunction.testFunction_ = failingAllocIsNeverDone_;
-
-    fixture.runAllTests();
-
-    LONGS_EQUAL(1, fixture.getFailureCount());
-    fixture.assertPrintContains("Expected allocation number 3 was never done");
-    failableMallocAllocator->clearFailedAllocs();
-}
-
-TEST(FailableMemoryAllocator, FailFirstAllocationAtGivenLine)
-{
-    failableMallocAllocator->failNthAllocAt(1, __FILE__, __LINE__ + 2);
-
-    POINTERS_EQUAL(nullptr, failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__));
-}
-
-TEST(FailableMemoryAllocator, FailThirdAllocationAtGivenLine)
-{
-    char *memory[10] = { nullptr };
-    int allocation;
-    failableMallocAllocator->failNthAllocAt(3, __FILE__, __LINE__ + 4);
-
-    for (allocation = 1; allocation <= 10; allocation++)
-    {
-        memory[allocation - 1] = failableMallocAllocator->alloc_memory(sizeof(int), __FILE__, __LINE__);
-        if (memory[allocation - 1] == nullptr)
-            break;
-        failableMallocAllocator->free_memory(memory[allocation - 1], sizeof(int), __FILE__, __LINE__);
-    }
-
-    LONGS_EQUAL(3, allocation);
-}
-
-static void failingLocationAllocIsNeverDone_(FailableMemoryAllocator* failableMallocAllocator)
-{
-    failableMallocAllocator->failNthAllocAt(1, "TestMemoryAllocatorTest.cpp", __LINE__);
-    failableMallocAllocator->checkAllFailedAllocsWereDone();
-}
-
-TEST(FailableMemoryAllocator, CheckAllFailingLocationAllocsWereDone)
-{
-    testFunction.testFunction_ = failingLocationAllocIsNeverDone_;
-
-    fixture.runAllTests();
-
-    LONGS_EQUAL(1, fixture.getFailureCount());
-    fixture.assertPrintContains("Expected failing alloc at TestMemoryAllocatorTest.cpp:");
-    fixture.assertPrintContains("was never done");
-
-    failableMallocAllocator->clearFailedAllocs();
-}
 
 class MemoryAccountantExecFunction
     : public ExecFunction
@@ -552,18 +415,24 @@ TEST_GROUP(GlobalMemoryAccountant)
     GlobalMemoryAccountant accountant;
     TestTestingFixture fixture;
     GlobalMemoryAccountantExecFunction testFunction;
-    GlobalMemoryAllocatorStash stash;
+    TestMemoryAllocator* originalMallocAllocator;
+    TestMemoryAllocator* originalNewAllocator;
+    TestMemoryAllocator* originalNewArrayAllocator;
 
     void setup() override
     {
         testFunction.parameter_ = &accountant;
         fixture.setTestFunction(&testFunction);
-        stash.save();
+        originalMallocAllocator = getCurrentMallocAllocator();
+        originalNewAllocator = getCurrentNewAllocator();
+        originalNewArrayAllocator = getCurrentNewArrayAllocator();
     }
 
     void teardown() override
     {
-        stash.restore();
+        setCurrentMallocAllocator(originalMallocAllocator);
+        setCurrentNewAllocator(originalNewAllocator);
+        setCurrentNewArrayAllocator(originalNewArrayAllocator);
     }
 };
 

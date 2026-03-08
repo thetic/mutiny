@@ -25,7 +25,6 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestMemoryAllocator.h"
@@ -33,77 +32,6 @@
 #include <string>
 #endif
 
-GlobalSimpleStringAllocatorStash::GlobalSimpleStringAllocatorStash()
-    : originalAllocator_(nullptr)
-{
-}
-
-void GlobalSimpleStringAllocatorStash::save()
-{
-    originalAllocator_ = SimpleString::getStringAllocator();
-}
-
-void GlobalSimpleStringAllocatorStash::restore()
-{
-    SimpleString::setStringAllocator(originalAllocator_);
-}
-
-
-GlobalSimpleStringMemoryAccountant::GlobalSimpleStringMemoryAccountant()
-    : allocator_(nullptr)
-{
-    accountant_ = new MemoryAccountant();
-}
-
-GlobalSimpleStringMemoryAccountant::~GlobalSimpleStringMemoryAccountant()
-{
-    restoreAllocator();
-
-    delete accountant_;
-    delete allocator_;
-}
-
-void GlobalSimpleStringMemoryAccountant::restoreAllocator()
-{
-    if (allocator_ && (SimpleString::getStringAllocator() == allocator_))
-        SimpleString::setStringAllocator(allocator_->originalAllocator());
-}
-
-void GlobalSimpleStringMemoryAccountant::useCacheSizes(size_t cacheSizes[], size_t length)
-{
-    accountant_->useCacheSizes(cacheSizes, length);
-}
-
-void GlobalSimpleStringMemoryAccountant::start()
-{
-    if (allocator_ != nullptr)
-      return;
-
-    allocator_ = new AccountingTestMemoryAllocator(*accountant_, SimpleString::getStringAllocator());
-
-    SimpleString::setStringAllocator(allocator_);
-}
-
-void GlobalSimpleStringMemoryAccountant::stop()
-{
-    if (allocator_ == nullptr)
-        FAIL("Global SimpleString allocator stopped without starting");
-
-    if (SimpleString::getStringAllocator() != allocator_)
-      FAIL("GlobalStrimpleStringMemoryAccountant: allocator has changed between start and stop!");
-
-    restoreAllocator();
-}
-
-SimpleString GlobalSimpleStringMemoryAccountant::report()
-{
-    return accountant_->report();
-}
-
-AccountingTestMemoryAllocator* GlobalSimpleStringMemoryAccountant::getAllocator()
-{
-    return allocator_;
-}
 
 TestMemoryAllocator* SimpleString::stringAllocator_ = nullptr;
 

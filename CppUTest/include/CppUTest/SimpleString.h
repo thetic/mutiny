@@ -168,38 +168,6 @@ private:
     SimpleStringCollection(SimpleStringCollection&);
 };
 
-class GlobalSimpleStringAllocatorStash
-{
-public:
-    GlobalSimpleStringAllocatorStash();
-    void save();
-    void restore();
-private:
-    TestMemoryAllocator* originalAllocator_;
-};
-
-class MemoryAccountant;
-class AccountingTestMemoryAllocator;
-
-class GlobalSimpleStringMemoryAccountant
-{
-public:
-    GlobalSimpleStringMemoryAccountant();
-    ~GlobalSimpleStringMemoryAccountant();
-
-    void useCacheSizes(size_t cacheSizes[], size_t length);
-
-    void start();
-    void stop();
-    SimpleString report();
-
-    AccountingTestMemoryAllocator* getAllocator();
-private:
-    void restoreAllocator();
-
-    AccountingTestMemoryAllocator* allocator_;
-    MemoryAccountant* accountant_;
-};
 
 SimpleString StringFrom(bool value);
 SimpleString StringFrom(const void* value);

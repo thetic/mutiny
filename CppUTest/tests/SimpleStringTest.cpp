@@ -29,7 +29,6 @@
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestMemoryAllocator.h"
-#include "CppUTest/TestTestingFixture.h"
 
 class JustUseNewStringAllocator : public TestMemoryAllocator
 {
@@ -46,124 +45,19 @@ public:
     }
 };
 
-class GlobalSimpleStringMemoryAccountantExecFunction
-    : public ExecFunction
-{
-public:
-    void (*testFunction_)(GlobalSimpleStringMemoryAccountant*);
-    GlobalSimpleStringMemoryAccountant* parameter_;
-
-    virtual void exec() override
-    {
-        testFunction_(parameter_);
-    }
-};
-
-TEST_GROUP(GlobalSimpleStringMemoryAccountant)
-{
-    GlobalSimpleStringAllocatorStash stash;
-    GlobalSimpleStringMemoryAccountantExecFunction testFunction;
-    TestTestingFixture fixture;
-    GlobalSimpleStringMemoryAccountant accountant;
-
-    void setup() override
-    {
-        stash.save();
-        testFunction.parameter_ = &accountant;
-        fixture.setTestFunction(&testFunction);
-    }
-
-    void teardown() override
-    {
-        stash.restore();
-    }
-};
-
-TEST(GlobalSimpleStringMemoryAccountant, start)
-{
-    accountant.start();
-    POINTERS_EQUAL(accountant.getAllocator(), SimpleString::getStringAllocator());
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, startTwiceDoesNothing)
-{
-    accountant.start();
-    TestMemoryAllocator* memoryAccountantAllocator = SimpleString::getStringAllocator();
-    accountant.start();
-
-    POINTERS_EQUAL(memoryAccountantAllocator, SimpleString::getStringAllocator());
-
-    accountant.stop();
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, stop)
-{
-    TestMemoryAllocator* originalAllocator = SimpleString::getStringAllocator();
-    accountant.start();
-    accountant.stop();
-    POINTERS_EQUAL(originalAllocator, SimpleString::getStringAllocator());
-}
-
-static void stopAccountant_(GlobalSimpleStringMemoryAccountant* accountant)
-{
-    accountant->stop();
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, stopWithoutStartWillFail)
-{
-    testFunction.testFunction_ = stopAccountant_;
-    fixture.runAllTests();
-    fixture.assertPrintContains("Global SimpleString allocator stopped without starting");
-}
-
-static void changeAllocatorBetweenStartAndStop_(GlobalSimpleStringMemoryAccountant* accountant)
-{
-    TestMemoryAllocator* originalAllocator = SimpleString::getStringAllocator();
-    accountant->start();
-    SimpleString::setStringAllocator(originalAllocator);
-    accountant->stop();
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, stopFailsWhenAllocatorWasChangedInBetween)
-{
-    testFunction.testFunction_ = changeAllocatorBetweenStartAndStop_;
-    fixture.runAllTests();
-    fixture.assertPrintContains("GlobalStrimpleStringMemoryAccountant: allocator has changed between start and stop!");
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, report)
-{
-    SimpleString str;
-    accountant.start();
-    str += "More";
-    accountant.stop();
-    STRCMP_CONTAINS(" 1                0                 1", accountant.report().asCharString());
-}
-
-TEST(GlobalSimpleStringMemoryAccountant, reportUseCaches)
-{
-    size_t caches[] = {32};
-    accountant.useCacheSizes(caches, 1);
-    SimpleString str;
-    accountant.start();
-    str += "More";
-    accountant.stop();
-    STRCMP_CONTAINS("32                   1                1                 1", accountant.report().asCharString());
-}
-
 
 TEST_GROUP(SimpleString)
 {
   JustUseNewStringAllocator justNewForSimpleStringTestAllocator;
-  GlobalSimpleStringAllocatorStash stash;
+  TestMemoryAllocator* originalAllocator;
   void setup() override
   {
-      stash.save();
+      originalAllocator = SimpleString::getStringAllocator();
       SimpleString::setStringAllocator(&justNewForSimpleStringTestAllocator);
   }
   void teardown() override
   {
-      stash.restore();
+      SimpleString::setStringAllocator(originalAllocator);
   }
 };
 

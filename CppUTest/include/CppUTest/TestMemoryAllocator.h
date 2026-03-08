@@ -47,19 +47,6 @@ extern TestMemoryAllocator* getCurrentMallocAllocator();
 extern void setCurrentMallocAllocatorToDefault();
 extern TestMemoryAllocator* defaultMallocAllocator();
 
-class GlobalMemoryAllocatorStash
-{
-public:
-    GlobalMemoryAllocatorStash();
-    void save();
-    void restore();
-
-private:
-    TestMemoryAllocator* originalMallocAllocator;
-    TestMemoryAllocator* originalNewAllocator;
-    TestMemoryAllocator* originalNewArrayAllocator;
-};
-
 class TestMemoryAllocator
 {
 public:
@@ -80,38 +67,6 @@ protected:
     const char* name_;
     const char* alloc_name_;
     const char* free_name_;
-};
-
-class NullUnknownAllocator: public TestMemoryAllocator
-{
-public:
-    NullUnknownAllocator();
-    virtual ~NullUnknownAllocator() override;
-
-    virtual char* alloc_memory(size_t size, const char* file, size_t line) override;
-    virtual void free_memory(char* memory, size_t size, const char* file, size_t line) override;
-};
-
-class LocationToFailAllocNode;
-
-class FailableMemoryAllocator: public TestMemoryAllocator
-{
-public:
-    FailableMemoryAllocator(const char* name_str = "failable alloc", const char* alloc_name_str = "alloc", const char* free_name_str = "free");
-    virtual ~FailableMemoryAllocator() override;
-
-    virtual char* alloc_memory(size_t size, const char* file, size_t line) override;
-
-    virtual void failAllocNumber(int number);
-    virtual void failNthAllocAt(int allocationNumber, const char* file, size_t line);
-
-    virtual void checkAllFailedAllocsWereDone();
-    virtual void clearFailedAllocs();
-
-protected:
-
-    LocationToFailAllocNode* head_;
-    int currentAllocNumber_;
 };
 
 struct MemoryAccountantAllocationNode;

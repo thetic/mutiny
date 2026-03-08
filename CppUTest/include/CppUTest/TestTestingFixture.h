@@ -80,18 +80,4 @@ private:
     TestResult * result_;
 };
 
-class SetBooleanOnDestructorCall
-{
-    bool& booleanToSet_;
-public:
-    SetBooleanOnDestructorCall(bool& booleanToSet) : booleanToSet_(booleanToSet)
-    {
-    }
-
-    virtual ~SetBooleanOnDestructorCall()
-    {
-        booleanToSet_ = true;
-    }
-};
-
 #endif

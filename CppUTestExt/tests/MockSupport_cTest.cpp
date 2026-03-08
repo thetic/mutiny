@@ -633,7 +633,7 @@ static bool destructorWasCalled = false;
 
 static void failedCallToMockC()
 {
-    SetBooleanOnDestructorCall setOneDestructor(destructorWasCalled);
+    struct SetBoolOnDestruct { bool& b_; ~SetBoolOnDestruct() { b_ = true; } } setOneDestructor{destructorWasCalled};
     mock_c()->actualCall("Not a call");
 }
 
