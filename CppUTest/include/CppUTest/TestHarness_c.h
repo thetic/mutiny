@@ -34,7 +34,7 @@
 #ifndef D_TestHarness_c_h
 #define D_TestHarness_c_h
 
-#include "CppUTestConfig.h"
+#include "CppUTest/CppUTestConfig.h"
 
 #define CHECK_EQUAL_C_BOOL(expected,actual) \
   CHECK_EQUAL_C_BOOL_LOCATION(expected,actual,NULL,__FILE__,__LINE__)

@@ -34,8 +34,8 @@
 #define D_TestRegistry_h
 
 #include <stddef.h>
-#include "SimpleString.h"
-#include "TestFilter.h"
+#include "CppUTest/SimpleString.h"
+#include "CppUTest/TestFilter.h"
 
 class UtestShell;
 class TestResult;

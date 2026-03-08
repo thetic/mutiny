@@ -28,7 +28,7 @@
 #ifndef TESTFILTER_H_
 #define TESTFILTER_H_
 
-#include "SimpleString.h"
+#include "CppUTest/SimpleString.h"
 
 class TestFilter
 {

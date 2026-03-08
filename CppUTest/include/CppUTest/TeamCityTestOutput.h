@@ -1,8 +1,8 @@
 #ifndef D_TeamCityTestOutput_h
 #define D_TeamCityTestOutput_h
 
-#include "TestOutput.h"
-#include "SimpleString.h"
+#include "CppUTest/TestOutput.h"
+#include "CppUTest/SimpleString.h"
 
 class TeamCityTestOutput: public ConsoleTestOutput
 {

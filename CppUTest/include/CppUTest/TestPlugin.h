@@ -28,7 +28,7 @@
 #ifndef D_TestPlugin_h
 #define D_TestPlugin_h
 
-#include "SimpleString.h"
+#include "CppUTest/SimpleString.h"
 
 class UtestShell;
 class TestResult;

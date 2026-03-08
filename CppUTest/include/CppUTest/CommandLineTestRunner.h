@@ -28,10 +28,10 @@
 #ifndef D_CommandLineTestRunner_H
 #define D_CommandLineTestRunner_H
 
-#include "TestHarness.h"
-#include "TestOutput.h"
-#include "CommandLineArguments.h"
-#include "TestFilter.h"
+#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestOutput.h"
+#include "CppUTest/CommandLineArguments.h"
+#include "CppUTest/TestFilter.h"
 
 class TestRegistry;
 

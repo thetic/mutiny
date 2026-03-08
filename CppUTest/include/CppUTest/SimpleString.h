@@ -38,7 +38,7 @@
 #ifndef D_SimpleString_h
 #define D_SimpleString_h
 
-#include "CppUTestConfig.h"
+#include "CppUTest/CppUTestConfig.h"
 #include <stdarg.h>
 #ifdef __cplusplus
 # if CPPUTEST_USE_STD_CPP_LIB
