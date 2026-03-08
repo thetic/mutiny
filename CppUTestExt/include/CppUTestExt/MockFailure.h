@@ -48,6 +48,8 @@ public:
     virtual ~MockFailureReporter() {}
 
     virtual void failTest(const MockFailure& failure);
+    virtual void reportFailure(const MockFailure& failure);
+    virtual void exitTest();
     virtual cpputest::TestShell* getTestToFail();
 
     virtual void crashOnFailure(bool shouldCrash) { crashOnFailure_ = shouldCrash; }

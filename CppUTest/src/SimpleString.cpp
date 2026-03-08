@@ -251,6 +251,25 @@ SimpleString::SimpleString(const SimpleString& other)
     copyBufferToNewInternalBuffer(other.getBuffer());
 }
 
+SimpleString::SimpleString(SimpleString&& other) noexcept
+    : buffer_(other.buffer_), bufferSize_(other.bufferSize_)
+{
+    other.buffer_ = nullptr;
+    other.bufferSize_ = 0;
+}
+
+SimpleString& SimpleString::operator=(SimpleString&& other) noexcept
+{
+    if (this != &other) {
+        deallocateInternalBuffer();
+        buffer_ = other.buffer_;
+        bufferSize_ = other.bufferSize_;
+        other.buffer_ = nullptr;
+        other.bufferSize_ = 0;
+    }
+    return *this;
+}
+
 SimpleString& SimpleString::operator=(const SimpleString& other)
 {
     if (this != &other)

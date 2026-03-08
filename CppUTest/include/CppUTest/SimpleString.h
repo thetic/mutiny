@@ -72,9 +72,11 @@ public:
     SimpleString(const char *value = "");
     SimpleString(const char *value, size_t repeatCount);
     SimpleString(const SimpleString& other);
+    SimpleString(SimpleString&& other) noexcept;
     ~SimpleString();
 
     SimpleString& operator=(const SimpleString& other);
+    SimpleString& operator=(SimpleString&& other) noexcept;
     SimpleString operator+(const SimpleString&) const;
     SimpleString& operator+=(const SimpleString&);
     SimpleString& operator+=(const char*);

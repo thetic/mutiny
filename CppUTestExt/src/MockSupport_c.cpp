@@ -66,6 +66,10 @@ public:
             getTestToFail()->failWith(failure, MockFailureReporterTestTerminatorForInCOnlyCode(crashOnFailure_));
     }
 
+    void exitTest() override
+    {
+        MockFailureReporterTestTerminatorForInCOnlyCode(crashOnFailure_).exitCurrentTest();
+    }
 };
 
 static MockSupport* currentMockSupport = nullptr;

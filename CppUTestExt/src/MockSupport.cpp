@@ -194,9 +194,31 @@ bool MockSupport::callIsIgnored(const SimpleString& functionName)
     return ignoreOtherCalls_ && !expectations_.hasExpectationWithName(functionName);
 }
 
+MockActualCall& MockSupport::actualCall(const char* functionName)
+{
+    SimpleString scopeFunctionName = appendScopeToName(functionName);
+
+    if (lastActualFunctionCall_) {
+        lastActualFunctionCall_->checkExpectations();
+        delete lastActualFunctionCall_;
+        lastActualFunctionCall_ = nullptr;
+    }
+
+    if (!enabled_) return MockIgnoredActualCall::instance();
+    if (tracing_) return MockActualCallTrace::instance().withName(scopeFunctionName);
+
+    if (callIsIgnored(scopeFunctionName)) {
+        return MockIgnoredActualCall::instance();
+    }
+
+    MockCheckedActualCall* call = createActualCall();
+    call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
+    return *call;
+}
+
 MockActualCall& MockSupport::actualCall(const SimpleString& functionName)
 {
-    const SimpleString scopeFunctionName = appendScopeToName(functionName);
+    SimpleString scopeFunctionName = appendScopeToName(functionName);
 
     if (lastActualFunctionCall_) {
         lastActualFunctionCall_->checkExpectations();
@@ -213,7 +235,7 @@ MockActualCall& MockSupport::actualCall(const SimpleString& functionName)
     }
 
     MockCheckedActualCall* call = createActualCall();
-    call->withName(scopeFunctionName);
+    call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
     return *call;
 }
 

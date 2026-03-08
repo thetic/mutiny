@@ -56,10 +56,23 @@ private:
 
 };
 
-void MockFailureReporter::failTest(const MockFailure& failure)
+void MockFailureReporter::reportFailure(const MockFailure& failure)
 {
     if (!getTestToFail()->hasFailed())
-        getTestToFail()->failWith(failure, MockFailureReporterTestTerminator(crashOnFailure_));
+        getTestToFail()->addFailure(failure);
+}
+
+void MockFailureReporter::exitTest()
+{
+    MockFailureReporterTestTerminator(crashOnFailure_).exitCurrentTest();
+}
+
+void MockFailureReporter::failTest(const MockFailure& failure)
+{
+    if (!getTestToFail()->hasFailed()) {
+        reportFailure(failure);
+        exitTest();
+    }
 }
 
 cpputest::TestShell* MockFailureReporter::getTestToFail()

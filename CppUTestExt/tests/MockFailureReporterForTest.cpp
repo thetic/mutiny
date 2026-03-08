@@ -36,6 +36,16 @@ void MockFailureReporterForTest::failTest(const MockFailure& failure)
     mockFailureString = failure.getMessage();
 }
 
+void MockFailureReporterForTest::reportFailure(const MockFailure& failure)
+{
+    mockFailureString = failure.getMessage();
+}
+
+void MockFailureReporterForTest::exitTest()
+{
+    // suppress exit in test-spy mode
+}
+
 MockFailureReporterForTest* MockFailureReporterForTest::instance_ = nullptr;
 
 MockFailureReporterForTest* MockFailureReporterForTest::getReporter()

@@ -171,6 +171,7 @@ public:
     virtual void assertFunctionPointersEqual(void (*expected)(), void (*actual)(), const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertDoublesEqual(double expected, double actual, double threshold, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertEquals(bool failed, const char* expected, const char* actual, const char* text, const char* file, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
+    virtual void assertEquals(bool failed, SimpleString expected, SimpleString actual, const char* text, const char* file, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertBinaryEqual(const void *expected, const void *actual, size_t length, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertBitsEqual(unsigned long expected, unsigned long actual, unsigned long mask, size_t byteCount, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());
     virtual void assertCompare(bool comparison, const char *checkString, const char *comparisonString, const char *text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator = getCurrentTestTerminator());

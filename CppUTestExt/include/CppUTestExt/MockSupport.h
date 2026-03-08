@@ -52,6 +52,7 @@ public:
     virtual void expectNoCall(const cpputest::SimpleString& functionName);
     virtual MockExpectedCall& expectNCalls(unsigned int amount, const cpputest::SimpleString& functionName);
     virtual MockActualCall& actualCall(const cpputest::SimpleString& functionName);
+    virtual MockActualCall& actualCall(const char* functionName);
     virtual bool hasReturnValue();
     virtual MockNamedValue returnValue();
     virtual bool boolReturnValue();

@@ -373,152 +373,212 @@ void TestShell::exitTest(const TestTerminator& terminator)
 void TestShell::assertTrue(bool condition, const char *checkString, const char *conditionString, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (!condition)
-        failWith(CheckFailure(this, fileName, lineNumber, checkString, conditionString, text), testTerminator);
+    if (!condition) {
+        addFailure(CheckFailure(this, fileName, lineNumber, checkString, conditionString, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::fail(const char *text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    failWith(FailFailure(this, fileName, lineNumber, text), testTerminator);
+    addFailure(FailFailure(this, fileName, lineNumber, text));
+    testTerminator.exitCurrentTest();
 }
 
 void TestShell::assertCstrEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
-    if (SimpleString::StrCmp(expected, actual) != 0)
-        failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
+    if (SimpleString::StrCmp(expected, actual) != 0) {
+        addFailure(StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertCstrNEqual(const char* expected, const char* actual, size_t length, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
-    if (SimpleString::StrNCmp(expected, actual, length) != 0)
-        failWith(StringEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
+    if (SimpleString::StrNCmp(expected, actual, length) != 0) {
+        addFailure(StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertCstrNoCaseEqual(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(StringEqualNoCaseFailure(this, fileName, lineNumber, expected, actual, text));
-    if (!SimpleString(expected).equalsNoCase(actual))
-        failWith(StringEqualNoCaseFailure(this, fileName, lineNumber, expected, actual, text));
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(StringEqualNoCaseFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
+    if (!SimpleString(expected).equalsNoCase(actual)) {
+        addFailure(StringEqualNoCaseFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
 }
 
 void TestShell::assertCstrContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
-    if (!SimpleString(actual).contains(expected))
-        failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
+    if (!SimpleString(actual).contains(expected)) {
+        addFailure(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
 }
 
 void TestShell::assertCstrNoCaseContains(const char* expected, const char* actual, const char* text, const char* fileName, size_t lineNumber)
 {
     getTestResult()->countCheck();
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
-    if (!SimpleString(actual).containsNoCase(expected))
-        failWith(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
+    if (!SimpleString(actual).containsNoCase(expected)) {
+        addFailure(ContainsFailure(this, fileName, lineNumber, expected, actual, text));
+        exitTest(getCurrentTestTerminator());
+    }
 }
 
 void TestShell::assertLongsEqual(long expected, long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(LongsEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (expected != actual) {
+        addFailure(LongsEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertUnsignedLongsEqual(unsigned long expected, unsigned long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(UnsignedLongsEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (expected != actual) {
+        addFailure(UnsignedLongsEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertLongLongsEqual(long long expected, long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(LongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (expected != actual) {
+        addFailure(LongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertUnsignedLongLongsEqual(unsigned long long expected, unsigned long long actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(UnsignedLongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (expected != actual) {
+        addFailure(UnsignedLongLongsEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertSignedBytesEqual(signed char expected, signed char actual, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(SignedBytesEqualFailure (this, fileName, lineNumber, expected, actual, text), testTerminator);
+    if (expected != actual) {
+        addFailure(SignedBytesEqualFailure(this, fileName, lineNumber, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertPointersEqual(const void* expected, const void* actual, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text), testTerminator);
+    if (expected != actual) {
+        addFailure(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertFunctionPointersEqual(void (*expected)(), void (*actual)(), const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (expected != actual)
-        failWith(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text), testTerminator);
+    if (expected != actual) {
+        addFailure(EqualsFailure(this, fileName, lineNumber, StringFrom(expected), StringFrom(actual), text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertDoublesEqual(double expected, double actual, double threshold, const char* text, const char* fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (!doubles_equal(expected, actual, threshold))
-        failWith(DoublesEqualFailure(this, fileName, lineNumber, expected, actual, threshold, text), testTerminator);
+    if (!doubles_equal(expected, actual, threshold)) {
+        addFailure(DoublesEqualFailure(this, fileName, lineNumber, expected, actual, threshold, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertBinaryEqual(const void *expected, const void *actual, size_t length, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-	if (length == 0) return;
+    if (length == 0) return;
     if (actual == nullptr && expected == nullptr) return;
-    if (actual == nullptr || expected == nullptr)
-        failWith(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text), testTerminator);
-    if (SimpleString::MemCmp(expected, actual, length) != 0)
-        failWith(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text), testTerminator);
+    if (actual == nullptr || expected == nullptr) {
+        addFailure(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text));
+        testTerminator.exitCurrentTest();
+    }
+    if (SimpleString::MemCmp(expected, actual, length) != 0) {
+        addFailure(BinaryEqualFailure(this, fileName, lineNumber, static_cast<const unsigned char *>(expected), static_cast<const unsigned char *>(actual), length, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertBitsEqual(unsigned long expected, unsigned long actual, unsigned long mask, size_t byteCount, const char* text, const char *fileName, size_t lineNumber, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if ((expected & mask) != (actual & mask))
-        failWith(BitsEqualFailure(this, fileName, lineNumber, expected, actual, mask, byteCount, text), testTerminator);
+    if ((expected & mask) != (actual & mask)) {
+        addFailure(BitsEqualFailure(this, fileName, lineNumber, expected, actual, mask, byteCount, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertEquals(bool failed, const char* expected, const char* actual, const char* text, const char* file, size_t line, const TestTerminator& testTerminator)
 {
     getTestResult()->countCheck();
-    if (failed)
-        failWith(CheckEqualFailure(this, file, line, expected, actual, text), testTerminator);
+    if (failed) {
+        addFailure(CheckEqualFailure(this, file, line, expected, actual, text));
+        testTerminator.exitCurrentTest();
+    }
+}
+
+void TestShell::assertEquals(bool failed, SimpleString expected, SimpleString actual, const char* text, const char* file, size_t line, const TestTerminator& testTerminator)
+{
+    getTestResult()->countCheck();
+    if (failed) {
+        addFailure(CheckEqualFailure(this, file, line, expected.asCharString(), actual.asCharString(), text));
+        { SimpleString e(static_cast<SimpleString&&>(expected)); }
+        { SimpleString a(static_cast<SimpleString&&>(actual)); }
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::assertCompare(bool comparison, const char *checkString, const char *comparisonString, const char *text, const char *fileName, size_t lineNumber, const TestTerminator &testTerminator)
 {
     getTestResult()->countCheck();
-    if (!comparison)
-        failWith(ComparisonFailure(this, fileName, lineNumber, checkString, comparisonString, text), testTerminator);
+    if (!comparison) {
+        addFailure(ComparisonFailure(this, fileName, lineNumber, checkString, comparisonString, text));
+        testTerminator.exitCurrentTest();
+    }
 }
 
 void TestShell::print(const char *text, const char* fileName, size_t lineNumber)

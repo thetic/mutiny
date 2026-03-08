@@ -105,6 +105,7 @@ class MockNamedValue
 public:
     MockNamedValue(const cpputest::SimpleString& name);
     MockNamedValue(const MockNamedValue &) = default;
+    MockNamedValue(MockNamedValue&&) noexcept;
     virtual ~MockNamedValue();
 
     virtual void setValue(bool value);

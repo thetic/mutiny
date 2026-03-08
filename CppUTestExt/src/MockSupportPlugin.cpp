@@ -46,6 +46,15 @@ public:
         result_.addFailure(failure);
     }
 
+    virtual void reportFailure(const MockFailure& failure) override
+    {
+        result_.addFailure(failure);
+    }
+
+    virtual void exitTest() override
+    {
+    }
+
     virtual cpputest::TestShell* getTestToFail() override
     {
         return &test_;

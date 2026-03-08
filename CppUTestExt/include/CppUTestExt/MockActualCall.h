@@ -59,7 +59,9 @@ public:
     MockActualCall& withParameter(const cpputest::SimpleString& name, void (*value)()) { return withFunctionPointerParameter(name, value); }
     MockActualCall& withParameter(const cpputest::SimpleString& name, const void* value) { return withConstPointerParameter(name, value); }
     MockActualCall& withParameter(const cpputest::SimpleString& name, const unsigned char* value, size_t size) { return withMemoryBufferParameter(name, value, size); }
+    MockActualCall& withParameter(const char* name, const unsigned char* value, size_t size) { return withMemoryBufferParameter(name, value, size); }
     virtual MockActualCall& withParameterOfType(const cpputest::SimpleString& typeName, const cpputest::SimpleString& name, const void* value)=0;
+    virtual MockActualCall& withParameterOfType(const char* typeName, const char* name, const void* value)=0;
     virtual MockActualCall& withOutputParameter(const cpputest::SimpleString& name, void* output)=0;
     virtual MockActualCall& withOutputParameterOfType(const cpputest::SimpleString& typeName, const cpputest::SimpleString& name, void* output)=0;
 
@@ -76,6 +78,7 @@ public:
     virtual MockActualCall& withFunctionPointerParameter(const cpputest::SimpleString& name, void (*value)())=0;
     virtual MockActualCall& withConstPointerParameter(const cpputest::SimpleString& name, const void* value)=0;
     virtual MockActualCall& withMemoryBufferParameter(const cpputest::SimpleString& name, const unsigned char* value, size_t size)=0;
+    virtual MockActualCall& withMemoryBufferParameter(const char* name, const unsigned char* value, size_t size)=0;
 
     virtual bool hasReturnValue()=0;
     virtual MockNamedValue returnValue()=0;

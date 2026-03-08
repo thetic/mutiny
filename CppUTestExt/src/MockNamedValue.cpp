@@ -49,6 +49,17 @@ MockNamedValue::MockNamedValue(const SimpleString& name) : name_(name), type_("i
     value_.intValue_ = 0;
 }
 
+MockNamedValue::MockNamedValue(MockNamedValue&& other) noexcept
+    : name_(static_cast<SimpleString&&>(other.name_))
+    , type_(static_cast<SimpleString&&>(other.type_))
+    , isConstObject_(other.isConstObject_)
+    , value_(other.value_)
+    , size_(other.size_)
+    , comparator_(other.comparator_)
+    , copier_(other.copier_)
+{
+}
+
 MockNamedValue::~MockNamedValue()
 {
 }
