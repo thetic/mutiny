@@ -28,9 +28,10 @@
 #ifndef D_MockActualCall_h
 #define D_MockActualCall_h
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTestExt/MockNamedValue.h"
 #include "CppUTestExt/MockExpectedCallsList.h"
+#include "CppUTestExt/MockNamedValue.h"
+
+#include "CppUTest/TestHarness.h"
 
 namespace cpputest {
 namespace extensions {

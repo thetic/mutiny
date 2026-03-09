@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestResult.h"
-#include "CppUTest/TestFailure.h"
-#include "CppUTest/TestOutput.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/TestFailure.h"
+#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestOutput.h"
 
 namespace cpputest {
 

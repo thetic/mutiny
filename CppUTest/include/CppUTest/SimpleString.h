@@ -38,15 +38,15 @@
 #ifndef D_SimpleString_h
 #define D_SimpleString_h
 
-#include <stddef.h>
 #include <stdarg.h>
+#include <stddef.h>
 #ifdef __cplusplus
 #ifndef CPPUTEST_USE_STD_CPP_LIB
 #define CPPUTEST_USE_STD_CPP_LIB 1
 #endif
 #if CPPUTEST_USE_STD_CPP_LIB
-#include <string>
 #include <cstddef>
+#include <string>
 #endif
 #endif
 /* Kludge to get a va_copy in VC++ V6 and in GCC 98 */

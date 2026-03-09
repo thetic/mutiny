@@ -26,10 +26,11 @@
  */
 
 #include "CppUTest/Utest.h"
+
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestTestingFixture.h"
-#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include <math.h>
 

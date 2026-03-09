@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestRegistry.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/TestHarness.h"
 
 namespace cpputest {
 

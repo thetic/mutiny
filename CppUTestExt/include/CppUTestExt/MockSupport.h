@@ -28,10 +28,10 @@
 #ifndef D_MockSupport_h
 #define D_MockSupport_h
 
-#include "CppUTestExt/MockFailure.h"
 #include "CppUTestExt/MockCheckedActualCall.h"
 #include "CppUTestExt/MockCheckedExpectedCall.h"
 #include "CppUTestExt/MockExpectedCallsList.h"
+#include "CppUTestExt/MockFailure.h"
 
 namespace cpputest {
 namespace extensions {

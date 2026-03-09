@@ -25,12 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTestExt/OrderedTest.h"
+
+#include "OrderedTestTest.h"
+
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestRegistry.h"
 #include "CppUTest/TestTestingFixture.h"
-#include "CppUTestExt/OrderedTest.h"
-#include "OrderedTestTest.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

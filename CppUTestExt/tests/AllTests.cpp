@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTestExt/MockSupportPlugin.h"
+
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTest/TestRegistry.h"
-#include "CppUTestExt/MockSupportPlugin.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

@@ -24,13 +24,15 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "CppUTest/TestHarness.h"
+#include "CppUTestExt/MockSupport_c.h"
 
+#include "MockSupport_cTestCFile.h"
+
+#include "CppUTestExt/OrderedTest.h"
+
+#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestHarness_c.h"
 #include "CppUTest/TestTestingFixture.h"
-#include "CppUTestExt/MockSupport_c.h"
-#include "MockSupport_cTestCFile.h"
-#include "CppUTestExt/OrderedTest.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

@@ -1,19 +1,17 @@
-#include <stdlib.h>
-#include "CppUTest/TestHarness.h"
-
-#include <stdio.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <string.h>
-#include <math.h>
-#include <float.h>
-#include <time.h>
 #include "CppUTest/PlatformSpecificFunctions.h"
 
-#include <Windows.h>
-#include <mmsystem.h>
+#include "CppUTest/TestHarness.h"
 
+#include <Windows.h>
+#include <float.h>
+#include <math.h>
+#include <mmsystem.h>
 #include <setjmp.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
 #define MAYBE_SECURE_FOPEN(fp, filename, flag) fopen_s((fp), (filename), (flag))

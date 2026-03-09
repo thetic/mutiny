@@ -26,9 +26,11 @@
  */
 
 #include "CppUTest/SimpleString.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
-#include <limits.h>
 #include "CppUTest/TestMemoryAllocator.h"
+
+#include <limits.h>
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <string>
 #endif

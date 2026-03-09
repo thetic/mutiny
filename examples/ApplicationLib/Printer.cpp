@@ -26,6 +26,7 @@
  */
 
 #include "Printer.h"
+
 #include <stdio.h>
 
 Printer::Printer() {}

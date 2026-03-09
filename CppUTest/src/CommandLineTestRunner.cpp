@@ -25,11 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/CommandLineTestRunner.h"
-#include "CppUTest/TestOutput.h"
+
 #include "CppUTest/JUnitTestOutput.h"
 #include "CppUTest/TeamCityTestOutput.h"
+#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestOutput.h"
 #include "CppUTest/TestRegistry.h"
 
 namespace cpputest {

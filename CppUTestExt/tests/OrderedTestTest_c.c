@@ -1,5 +1,6 @@
-#include "CppUTest/TestHarness_c.h"
 #include "OrderedTestTest.h"
+
+#include "CppUTest/TestHarness_c.h"
 
 TEST_C(TestOrderedTestMacros, Test11)
 {

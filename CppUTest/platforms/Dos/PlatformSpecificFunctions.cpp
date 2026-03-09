@@ -27,20 +27,20 @@
 
 /* Un-comment to use buffer instead of std out */
 // #define USE_BUFFER_OUTPUT 1
-#include <cstdlib>
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include "CppUTest/TestHarness.h"
 
-#define far // eliminate "meaningless type qualifier" warning
-#include <time.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <setjmp.h>
-#include <string.h>
-#include <math.h>
-#include <ctype.h>
+#include <cstdlib>
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#define far // eliminate "meaningless type qualifier" warning
+#include <ctype.h>
+#include <math.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;

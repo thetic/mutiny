@@ -26,7 +26,9 @@
  */
 
 #include "CircularBuffer.h"
+
 #include "Printer.h"
+
 #include <stddef.h>
 
 CircularBuffer::CircularBuffer(int _capacity)

@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/JUnitTestOutput.h"
-#include "CppUTest/TestResult.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/SimpleString.h"
+#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestResult.h"
 
 class FileForJUnitOutputTests
 {

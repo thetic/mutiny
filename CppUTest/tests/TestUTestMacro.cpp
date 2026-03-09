@@ -28,6 +28,7 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestTestingFixture.h"
+
 #include <limits.h>
 
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \

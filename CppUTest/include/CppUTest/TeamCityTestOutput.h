@@ -1,8 +1,8 @@
 #ifndef D_TeamCityTestOutput_h
 #define D_TeamCityTestOutput_h
 
-#include "CppUTest/TestOutput.h"
 #include "CppUTest/SimpleString.h"
+#include "CppUTest/TestOutput.h"
 
 namespace cpputest {
 

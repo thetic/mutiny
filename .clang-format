@@ -1,6 +1,32 @@
 ---
 BasedOnStyle: Mozilla
 Standard: Cpp11
-SortIncludes: Never
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  # 1. Local includes (quoted, no path separator — the "no-slash" anchor is critical)
+  - Regex:           '^"[^/"]*"$'
+    Priority:        1
+    SortPriority:    1
+  # 2. CppUTestExt includes
+  - Regex:           '^"CppUTestExt/'
+    Priority:        2
+    SortPriority:    2
+  # 3. CppUTest includes
+  - Regex:           '^"CppUTest/'
+    Priority:        3
+    SortPriority:    3
+  # 4. System/POSIX headers (angle-bracket with subdirectory path)
+  - Regex:           '^<[^>]*/[^>]*>'
+    Priority:        4
+    SortPriority:    4
+  # 5. C++ standard headers (angle-bracket, no .h extension)
+  - Regex:           '^<[a-zA-Z][^.>]*>'
+    Priority:        5
+    SortPriority:    5
+  # 6. C standard headers (angle-bracket with .h)
+  - Regex:           '^<[^>]+\.h>'
+    Priority:        6
+    SortPriority:    6
 NamespaceMacros:
   - TEST_GROUP

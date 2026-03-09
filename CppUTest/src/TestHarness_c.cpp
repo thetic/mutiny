@@ -25,8 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestHarness_c.h"
+
+#include "CppUTest/TestHarness.h"
 
 extern "C"
 {

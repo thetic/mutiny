@@ -33,9 +33,10 @@
 #ifndef D_TestRegistry_h
 #define D_TestRegistry_h
 
-#include <stddef.h>
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/TestFilter.h"
+
+#include <stddef.h>
 
 namespace cpputest {
 

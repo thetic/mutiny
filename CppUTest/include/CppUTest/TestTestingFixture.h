@@ -28,8 +28,8 @@
 #ifndef D_TestTestingFixture_H
 #define D_TestTestingFixture_H
 
-#include "CppUTest/TestRegistry.h"
 #include "CppUTest/TestOutput.h"
+#include "CppUTest/TestRegistry.h"
 #include "CppUTest/Utest.h"
 
 namespace cpputest {

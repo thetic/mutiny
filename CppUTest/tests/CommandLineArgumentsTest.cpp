@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTest/CommandLineArguments.h"
+
 #include "CppUTest/SimpleString.h"
 #include "CppUTest/TestHarness.h"
-#include "CppUTest/CommandLineArguments.h"
 #include "CppUTest/TestRegistry.h"
 
 class OptionsPlugin : public cpputest::TestPlugin

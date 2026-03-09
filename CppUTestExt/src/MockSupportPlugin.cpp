@@ -25,9 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTestExt/MockSupport.h"
 #include "CppUTestExt/MockSupportPlugin.h"
+
+#include "CppUTestExt/MockSupport.h"
+
+#include "CppUTest/TestHarness.h"
 
 namespace cpputest {
 namespace extensions {

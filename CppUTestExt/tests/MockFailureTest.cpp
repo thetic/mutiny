@@ -25,11 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockFailure.h"
+
+#include "MockFailureReporterForTest.h"
+
 #include "CppUTestExt/MockCheckedExpectedCall.h"
 #include "CppUTestExt/MockExpectedCallsList.h"
-#include "MockFailureReporterForTest.h"
+
+#include "CppUTest/TestHarness.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

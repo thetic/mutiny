@@ -36,9 +36,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.h"
+
 #include "CppUTest/SimpleString.h"
-#include <stdlib.h>
+
 #include <string>
+
+#include <stdlib.h>
 
 class MockPrinter : public Printer
 {

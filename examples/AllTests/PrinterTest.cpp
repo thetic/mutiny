@@ -25,9 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "Printer.h"
+
 #include "MockPrinter.h"
+
+#include "CppUTest/TestHarness.h"
 
 TEST_GROUP(Printer) {
 Printer* printer;

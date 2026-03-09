@@ -25,11 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
+
 #include "CppUTestExt/MockActualCall.h"
 #include "CppUTestExt/MockExpectedCall.h"
 #include "CppUTestExt/MockFailure.h"
+
+#include "CppUTest/TestHarness.h"
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 

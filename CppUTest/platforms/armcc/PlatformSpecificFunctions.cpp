@@ -25,19 +25,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <time.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <setjmp.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
+#include "CppUTest/PlatformSpecificFunctions.h"
+
 #include "CppUTest/TestHarness.h"
 
-#define far // eliminate "meaningless type qualifier" warning
+#include <ctype.h>
+#include <math.h>
+#include <setjmp.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#define far // eliminate "meaningless type qualifier" warning
 
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;

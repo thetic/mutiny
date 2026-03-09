@@ -26,8 +26,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "MockFailureReporterForTest.h"
+
+#include "CppUTest/TestHarness.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

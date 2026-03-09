@@ -25,11 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTestExt/MockSupport_c.h"
+
+#include "CppUTestExt/MockSupport.h"
+
+#include "CppUTest/PlatformSpecificFunctions_c.h"
 #include "CppUTest/Utest.h"
 #include "CppUTest/UtestMacros.h"
-#include "CppUTest/PlatformSpecificFunctions_c.h"
-#include "CppUTestExt/MockSupport.h"
-#include "CppUTestExt/MockSupport_c.h"
 
 namespace cpputest {
 namespace extensions {

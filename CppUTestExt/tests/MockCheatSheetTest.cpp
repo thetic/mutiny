@@ -1,7 +1,8 @@
 
 /* Additional include from CppUTestExt */
-#include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockSupport.h"
+
+#include "CppUTest/TestHarness.h"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

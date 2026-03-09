@@ -25,10 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/SimpleString.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestMemoryAllocator.h"
+
 #include <limits.h>
 
 class JustUseNewStringAllocator : public cpputest::TestMemoryAllocator

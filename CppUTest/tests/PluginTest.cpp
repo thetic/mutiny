@@ -26,9 +26,9 @@
  */
 
 #include "CppUTest/TestHarness.h"
+#include "CppUTest/TestOutput.h"
 #include "CppUTest/TestPlugin.h"
 #include "CppUTest/TestRegistry.h"
-#include "CppUTest/TestOutput.h"
 #include "CppUTest/TestTestingFixture.h"
 
 #define GENERIC_PLUGIN "GenericPlugin"

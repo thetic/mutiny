@@ -25,17 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestFailure.h"
-#include "CppUTest/TestOutput.h"
-#include "CppUTest/SimpleString.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/SimpleString.h"
+#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestOutput.h"
 
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <typeinfo>
 #if defined(__GNUC__)
-#include <cxxabi.h>
 #include <memory>
+
+#include <cxxabi.h>
 #endif
 #endif
 
