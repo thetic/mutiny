@@ -16,12 +16,12 @@ endif()
 include(CTest)
 
 include(CMakeDependentOption)
-option(CPPUTEST_STD_CPP_LIB_DISABLED "Disable the standard C++ library")
+option(CPPUTEST_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 option(CPPUTEST_EXTENSIONS "Use the CppUTest extension library" ON)
 cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
   ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"
-  ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_EXTENSIONS;NOT CPPUTEST_STD_CPP_LIB_DISABLED" OFF)
+  ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_EXTENSIONS;CPPUTEST_USE_STD_CPP_LIB" OFF)
 
 if(NOT DEFINED CPPUTEST_PLATFORM)
   if(DEFINED CPP_PLATFORM)

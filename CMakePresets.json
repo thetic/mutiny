@@ -94,7 +94,7 @@
         "CXXFLAGS": "-nostdinc++"
       },
       "cacheVariables": {
-        "CPPUTEST_STD_CPP_LIB_DISABLED": true
+        "CPPUTEST_USE_STD_CPP_LIB": false
       }
     },
     {
@@ -129,7 +129,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CPPUTEST_EXAMPLES": false,
-        "CPPUTEST_STD_CPP_LIB_DISABLED": true
+        "CPPUTEST_USE_STD_CPP_LIB": false
       },
       "environment": {
         "CFLAGS": "-fsanitize=memory -fno-omit-frame-pointer",
@@ -165,7 +165,7 @@
         "CMAKE_SYSTEM_PROCESSOR": "x86",
         "CMAKE_CXX_STANDARD": "11",
         "CMAKE_BUILD_TYPE": "MinRelSize",
-        "CPPUTEST_STD_CPP_LIB_DISABLED": true
+        "CPPUTEST_USE_STD_CPP_LIB": false
       }
     }
   ]

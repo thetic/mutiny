@@ -64,7 +64,7 @@ target_compile_features(CppUTest PUBLIC cxx_std_11)
 
 target_compile_definitions(CppUTest
     PUBLIC
-        CPPUTEST_USE_STD_CPP_LIB=$<NOT:$<BOOL:${CPPUTEST_STD_CPP_LIB_DISABLED}>>
+        CPPUTEST_USE_STD_CPP_LIB=$<BOOL:${CPPUTEST_USE_STD_CPP_LIB}>
     PRIVATE
         $<$<BOOL:${CPPUTEST_HAVE_GETTIMEOFDAY}>:CPPUTEST_HAVE_GETTIMEOFDAY>
 )
