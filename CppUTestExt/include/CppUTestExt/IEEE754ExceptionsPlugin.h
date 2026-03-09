@@ -28,6 +28,14 @@
 #ifndef D_IEEE754ExceptionsPlugin_h
 #define D_IEEE754ExceptionsPlugin_h
 
+#ifndef CPPUTEST_HAVE_FENV
+#if (defined(__STDC_IEC_559__) && __STDC_IEC_559__)
+#define CPPUTEST_HAVE_FENV 1
+#else
+#define CPPUTEST_HAVE_FENV 0
+#endif
+#endif
+
 #include "CppUTest/TestPlugin.h"
 
 namespace cpputest {

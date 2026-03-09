@@ -25,12 +25,15 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTestExt/IEEE754ExceptionsPlugin.h"
+
 #include "CppUTest/CommandLineTestRunner.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestRegistry.h"
 
 #if CPPUTEST_HAVE_FENV
-#include "CppUTestExt/IEEE754ExceptionsPlugin.h"
+
+using cpputest::extensions::IEEE754ExceptionsPlugin;
 
 extern "C"
 {
