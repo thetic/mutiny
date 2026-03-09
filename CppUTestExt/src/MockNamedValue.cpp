@@ -29,613 +29,772 @@
 #include "CppUTestExt/MockNamedValue.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
 
-namespace cpputest { namespace extensions {
+namespace cpputest {
+namespace extensions {
 
-MockNamedValueComparatorsAndCopiersRepository* MockNamedValue::defaultRepository_ = nullptr;
+MockNamedValueComparatorsAndCopiersRepository*
+  MockNamedValue::defaultRepository_ = nullptr;
 const double MockNamedValue::defaultDoubleTolerance = 0.005;
 
-void MockNamedValue::setDefaultComparatorsAndCopiersRepository(MockNamedValueComparatorsAndCopiersRepository* repository)
+void
+MockNamedValue::setDefaultComparatorsAndCopiersRepository(
+  MockNamedValueComparatorsAndCopiersRepository* repository)
 {
-    defaultRepository_ = repository;
+  defaultRepository_ = repository;
 }
 
-MockNamedValueComparatorsAndCopiersRepository* MockNamedValue::getDefaultComparatorsAndCopiersRepository()
+MockNamedValueComparatorsAndCopiersRepository*
+MockNamedValue::getDefaultComparatorsAndCopiersRepository()
 {
-    return defaultRepository_;
+  return defaultRepository_;
 }
 
-MockNamedValue::MockNamedValue(const SimpleString& name) : name_(name), type_("int"), isConstObject_(false), size_(0), comparator_(nullptr), copier_(nullptr)
+MockNamedValue::MockNamedValue(const SimpleString& name)
+  : name_(name)
+  , type_("int")
+  , isConstObject_(false)
+  , size_(0)
+  , comparator_(nullptr)
+  , copier_(nullptr)
 {
-    value_.intValue_ = 0;
+  value_.intValue_ = 0;
 }
 
 MockNamedValue::MockNamedValue(MockNamedValue&& other) noexcept
-    : name_(static_cast<SimpleString&&>(other.name_))
-    , type_(static_cast<SimpleString&&>(other.type_))
-    , isConstObject_(other.isConstObject_)
-    , value_(other.value_)
-    , size_(other.size_)
-    , comparator_(other.comparator_)
-    , copier_(other.copier_)
+  : name_(static_cast<SimpleString&&>(other.name_))
+  , type_(static_cast<SimpleString&&>(other.type_))
+  , isConstObject_(other.isConstObject_)
+  , value_(other.value_)
+  , size_(other.size_)
+  , comparator_(other.comparator_)
+  , copier_(other.copier_)
 {
 }
 
-MockNamedValue::~MockNamedValue()
+MockNamedValue::~MockNamedValue() {}
+
+void
+MockNamedValue::setValue(bool value)
 {
+  type_ = "bool";
+  value_.boolValue_ = value;
 }
 
-void MockNamedValue::setValue(bool value)
+void
+MockNamedValue::setValue(unsigned int value)
 {
-    type_ = "bool";
-    value_.boolValue_ = value;
+  type_ = "unsigned int";
+  value_.unsignedIntValue_ = value;
 }
 
-void MockNamedValue::setValue(unsigned int value)
+void
+MockNamedValue::setValue(int value)
 {
-    type_ = "unsigned int";
-    value_.unsignedIntValue_ = value;
+  type_ = "int";
+  value_.intValue_ = value;
 }
 
-void MockNamedValue::setValue(int value)
+void
+MockNamedValue::setValue(long int value)
 {
-    type_ = "int";
-    value_.intValue_ = value;
+  type_ = "long int";
+  value_.longIntValue_ = value;
 }
 
-void MockNamedValue::setValue(long int value)
+void
+MockNamedValue::setValue(unsigned long int value)
 {
-    type_ = "long int";
-    value_.longIntValue_ = value;
+  type_ = "unsigned long int";
+  value_.unsignedLongIntValue_ = value;
 }
 
-void MockNamedValue::setValue(unsigned long int value)
+void
+MockNamedValue::setValue(long long value)
 {
-    type_ = "unsigned long int";
-    value_.unsignedLongIntValue_ = value;
+  type_ = "long long int";
+  value_.longLongIntValue_ = value;
 }
 
-void MockNamedValue::setValue(long long value)
+void
+MockNamedValue::setValue(unsigned long long value)
 {
-    type_ = "long long int";
-    value_.longLongIntValue_ = value;
+  type_ = "unsigned long long int";
+  value_.unsignedLongLongIntValue_ = value;
 }
 
-void MockNamedValue::setValue(unsigned long long value)
+void
+MockNamedValue::setValue(double value)
 {
-    type_ = "unsigned long long int";
-    value_.unsignedLongLongIntValue_ = value;
+  setValue(value, defaultDoubleTolerance);
 }
 
-void MockNamedValue::setValue(double value)
+void
+MockNamedValue::setValue(double value, double tolerance)
 {
-    setValue(value, defaultDoubleTolerance);
+  type_ = "double";
+  value_.doubleValue_.value = value;
+  value_.doubleValue_.tolerance = tolerance;
 }
 
-void MockNamedValue::setValue(double value, double tolerance)
+void
+MockNamedValue::setValue(void* value)
 {
-    type_ = "double";
-    value_.doubleValue_.value = value;
-    value_.doubleValue_.tolerance = tolerance;
+  type_ = "void*";
+  value_.pointerValue_ = value;
 }
 
-void MockNamedValue::setValue(void* value)
+void
+MockNamedValue::setValue(const void* value)
 {
-    type_ = "void*";
-    value_.pointerValue_ = value;
+  type_ = "const void*";
+  value_.constPointerValue_ = value;
 }
 
-void MockNamedValue::setValue(const void* value)
+void
+MockNamedValue::setValue(void (*value)())
 {
-    type_ = "const void*";
-    value_.constPointerValue_ = value;
+  type_ = "void (*)()";
+  value_.functionPointerValue_ = value;
 }
 
-void MockNamedValue::setValue(void (*value)())
+void
+MockNamedValue::setValue(const char* value)
 {
-    type_ = "void (*)()";
-    value_.functionPointerValue_ = value;
+  type_ = "const char*";
+  value_.stringValue_ = value;
 }
 
-void MockNamedValue::setValue(const char* value)
+void
+MockNamedValue::setMemoryBuffer(const unsigned char* value, size_t size)
 {
-    type_ = "const char*";
-    value_.stringValue_ = value;
+  type_ = "const unsigned char*";
+  value_.memoryBufferValue_ = value;
+  size_ = size;
 }
 
-void MockNamedValue::setMemoryBuffer(const unsigned char* value, size_t size)
+void
+MockNamedValue::setConstObjectPointer(const SimpleString& type,
+                                      const void* objectPtr)
 {
-    type_ = "const unsigned char*";
-    value_.memoryBufferValue_ = value;
-    size_ = size;
+  type_ = type;
+  isConstObject_ = true;
+  value_.constObjectPointerValue_ = objectPtr;
+  if (defaultRepository_) {
+    comparator_ = defaultRepository_->getComparatorForType(type);
+    copier_ = defaultRepository_->getCopierForType(type);
+  }
 }
 
-void MockNamedValue::setConstObjectPointer(const SimpleString& type, const void* objectPtr)
+void
+MockNamedValue::setObjectPointer(const SimpleString& type, void* objectPtr)
 {
-    type_ = type;
-    isConstObject_ = true;
-    value_.constObjectPointerValue_ = objectPtr;
-    if (defaultRepository_)
-    {
-        comparator_ = defaultRepository_->getComparatorForType(type);
-        copier_ = defaultRepository_->getCopierForType(type);
-    }
+  type_ = type;
+  isConstObject_ = false;
+  value_.objectPointerValue_ = objectPtr;
+  if (defaultRepository_) {
+    comparator_ = defaultRepository_->getComparatorForType(type);
+    copier_ = defaultRepository_->getCopierForType(type);
+  }
 }
 
-void MockNamedValue::setObjectPointer(const SimpleString& type, void* objectPtr)
+void
+MockNamedValue::setSize(size_t size)
 {
-    type_ = type;
-    isConstObject_ = false;
-    value_.objectPointerValue_ = objectPtr;
-    if (defaultRepository_)
-    {
-        comparator_ = defaultRepository_->getComparatorForType(type);
-        copier_ = defaultRepository_->getCopierForType(type);
-    }
+  size_ = size;
 }
 
-void MockNamedValue::setSize(size_t size)
+void
+MockNamedValue::setName(const char* name)
 {
-    size_ = size;
+  name_ = name;
 }
 
-void MockNamedValue::setName(const char* name)
+SimpleString
+MockNamedValue::getName() const
 {
-    name_ = name;
+  return name_;
 }
 
-SimpleString MockNamedValue::getName() const
+SimpleString
+MockNamedValue::getType() const
 {
-    return name_;
+  return type_;
 }
 
-SimpleString MockNamedValue::getType() const
+bool
+MockNamedValue::getBoolValue() const
 {
-    return type_;
+  STRCMP_EQUAL("bool", type_.asCharString());
+  return value_.boolValue_;
 }
 
-bool MockNamedValue::getBoolValue() const
+unsigned int
+MockNamedValue::getUnsignedIntValue() const
 {
-    STRCMP_EQUAL("bool", type_.asCharString());
-    return value_.boolValue_;
+  if (type_ == "int" && value_.intValue_ >= 0)
+    return static_cast<unsigned int>(value_.intValue_);
+  else {
+    STRCMP_EQUAL("unsigned int", type_.asCharString());
+    return value_.unsignedIntValue_;
+  }
 }
 
-unsigned int MockNamedValue::getUnsignedIntValue() const
+int
+MockNamedValue::getIntValue() const
 {
-    if(type_ == "int" && value_.intValue_ >= 0)
-        return static_cast<unsigned int>(value_.intValue_);
-    else
-    {
-        STRCMP_EQUAL("unsigned int", type_.asCharString());
-        return value_.unsignedIntValue_;
-    }
+  STRCMP_EQUAL("int", type_.asCharString());
+  return value_.intValue_;
 }
 
-int MockNamedValue::getIntValue() const
+long int
+MockNamedValue::getLongIntValue() const
 {
-    STRCMP_EQUAL("int", type_.asCharString());
+  if (type_ == "int")
     return value_.intValue_;
+  else if (type_ == "unsigned int")
+    return static_cast<long int>(value_.unsignedIntValue_);
+  else {
+    STRCMP_EQUAL("long int", type_.asCharString());
+    return value_.longIntValue_;
+  }
 }
 
-long int MockNamedValue::getLongIntValue() const
+unsigned long int
+MockNamedValue::getUnsignedLongIntValue() const
 {
-    if(type_ == "int")
-        return value_.intValue_;
-    else if(type_ == "unsigned int")
-        return static_cast<long int>(value_.unsignedIntValue_);
-    else
-    {
-        STRCMP_EQUAL("long int", type_.asCharString());
-        return value_.longIntValue_;
-    }
+  if (type_ == "unsigned int")
+    return value_.unsignedIntValue_;
+  else if (type_ == "int" && value_.intValue_ >= 0)
+    return static_cast<unsigned long int>(value_.intValue_);
+  else if (type_ == "long int" && value_.longIntValue_ >= 0)
+    return static_cast<unsigned long int>(value_.longIntValue_);
+  else {
+    STRCMP_EQUAL("unsigned long int", type_.asCharString());
+    return value_.unsignedLongIntValue_;
+  }
 }
 
-unsigned long int MockNamedValue::getUnsignedLongIntValue() const
+long long
+MockNamedValue::getLongLongIntValue() const
 {
-    if(type_ == "unsigned int")
-        return value_.unsignedIntValue_;
-    else if(type_ == "int" && value_.intValue_ >= 0)
-        return static_cast<unsigned long int>(value_.intValue_);
-    else if(type_ == "long int" && value_.longIntValue_ >= 0)
-        return static_cast<unsigned long int>(value_.longIntValue_);
-    else
-    {
-        STRCMP_EQUAL("unsigned long int", type_.asCharString());
-        return value_.unsignedLongIntValue_;
-    }
+  if (type_ == "int")
+    return value_.intValue_;
+  else if (type_ == "unsigned int")
+    return static_cast<long long int>(value_.unsignedIntValue_);
+  else if (type_ == "long int")
+    return value_.longIntValue_;
+  else if (type_ == "unsigned long int")
+    return static_cast<long long int>(value_.unsignedLongIntValue_);
+  else {
+    STRCMP_EQUAL("long long int", type_.asCharString());
+    return value_.longLongIntValue_;
+  }
 }
 
-long long MockNamedValue::getLongLongIntValue() const
+unsigned long long
+MockNamedValue::getUnsignedLongLongIntValue() const
 {
-    if(type_ == "int")
-        return value_.intValue_;
-    else if(type_ == "unsigned int")
-        return static_cast<long long int>(value_.unsignedIntValue_);
-    else if(type_ == "long int")
-        return value_.longIntValue_;
-    else if(type_ == "unsigned long int")
-        return static_cast<long long int>(value_.unsignedLongIntValue_);
-    else
-    {
-        STRCMP_EQUAL("long long int", type_.asCharString());
-        return value_.longLongIntValue_;
-    }
+  if (type_ == "unsigned int")
+    return value_.unsignedIntValue_;
+  else if (type_ == "int" && value_.intValue_ >= 0)
+    return static_cast<unsigned long long int>(value_.intValue_);
+  else if (type_ == "long int" && value_.longIntValue_ >= 0)
+    return static_cast<unsigned long long int>(value_.longIntValue_);
+  else if (type_ == "unsigned long int")
+    return value_.unsignedLongIntValue_;
+  else if (type_ == "long long int" && value_.longLongIntValue_ >= 0)
+    return static_cast<unsigned long long int>(value_.longLongIntValue_);
+  else {
+    STRCMP_EQUAL("unsigned long long int", type_.asCharString());
+    return value_.unsignedLongLongIntValue_;
+  }
 }
 
-unsigned long long MockNamedValue::getUnsignedLongLongIntValue() const
+double
+MockNamedValue::getDoubleValue() const
 {
-    if(type_ == "unsigned int")
-        return value_.unsignedIntValue_;
-    else if(type_ == "int" && value_.intValue_ >= 0)
-        return static_cast<unsigned long long int>(value_.intValue_);
-    else if(type_ == "long int" && value_.longIntValue_ >= 0)
-        return static_cast<unsigned long long int>(value_.longIntValue_);
-    else if(type_ == "unsigned long int")
-        return value_.unsignedLongIntValue_;
-    else if(type_ == "long long int" && value_.longLongIntValue_ >= 0)
-        return static_cast<unsigned long long int>(value_.longLongIntValue_);
-    else
-    {
-        STRCMP_EQUAL("unsigned long long int", type_.asCharString());
-        return value_.unsignedLongLongIntValue_;
-    }
+  STRCMP_EQUAL("double", type_.asCharString());
+  return value_.doubleValue_.value;
 }
 
-double MockNamedValue::getDoubleValue() const
+double
+MockNamedValue::getDoubleTolerance() const
 {
-    STRCMP_EQUAL("double", type_.asCharString());
-    return value_.doubleValue_.value;
+  STRCMP_EQUAL("double", type_.asCharString());
+  return value_.doubleValue_.tolerance;
 }
 
-double MockNamedValue::getDoubleTolerance() const
+const char*
+MockNamedValue::getStringValue() const
 {
-    STRCMP_EQUAL("double", type_.asCharString());
-    return value_.doubleValue_.tolerance;
+  STRCMP_EQUAL("const char*", type_.asCharString());
+  return value_.stringValue_;
 }
 
-const char* MockNamedValue::getStringValue() const
+void*
+MockNamedValue::getPointerValue() const
 {
-    STRCMP_EQUAL("const char*", type_.asCharString());
-    return value_.stringValue_;
+  STRCMP_EQUAL("void*", type_.asCharString());
+  return value_.pointerValue_;
 }
 
-void* MockNamedValue::getPointerValue() const
+const void*
+MockNamedValue::getConstPointerValue() const
 {
-    STRCMP_EQUAL("void*", type_.asCharString());
-    return value_.pointerValue_;
-}
-
-const void* MockNamedValue::getConstPointerValue() const
-{
-    STRCMP_EQUAL("const void*", type_.asCharString());
-    return value_.pointerValue_;
+  STRCMP_EQUAL("const void*", type_.asCharString());
+  return value_.pointerValue_;
 }
 
 void (*MockNamedValue::getFunctionPointerValue() const)()
 {
-    STRCMP_EQUAL("void (*)()", type_.asCharString());
-    return value_.functionPointerValue_;
+  STRCMP_EQUAL("void (*)()", type_.asCharString());
+  return value_.functionPointerValue_;
 }
 
-const unsigned char* MockNamedValue::getMemoryBuffer() const
+const unsigned char*
+MockNamedValue::getMemoryBuffer() const
 {
-    STRCMP_EQUAL("const unsigned char*", type_.asCharString());
-    return value_.memoryBufferValue_;
+  STRCMP_EQUAL("const unsigned char*", type_.asCharString());
+  return value_.memoryBufferValue_;
 }
 
-const void* MockNamedValue::getConstObjectPointer() const
+const void*
+MockNamedValue::getConstObjectPointer() const
 {
-    return value_.constObjectPointerValue_;
+  return value_.constObjectPointerValue_;
 }
 
-void* MockNamedValue::getObjectPointer() const
+void*
+MockNamedValue::getObjectPointer() const
 {
-    return value_.objectPointerValue_;
+  return value_.objectPointerValue_;
 }
 
-bool MockNamedValue::isConstObject() const
+bool
+MockNamedValue::isConstObject() const
 {
-    return isConstObject_;
+  return isConstObject_;
 }
 
-size_t MockNamedValue::getSize() const
+size_t
+MockNamedValue::getSize() const
 {
-    return size_;
+  return size_;
 }
 
-MockNamedValueComparator* MockNamedValue::getComparator() const
+MockNamedValueComparator*
+MockNamedValue::getComparator() const
 {
-    return comparator_;
+  return comparator_;
 }
 
-MockNamedValueCopier* MockNamedValue::getCopier() const
+MockNamedValueCopier*
+MockNamedValue::getCopier() const
 {
-    return copier_;
+  return copier_;
 }
 
-bool MockNamedValue::equals(const MockNamedValue& p) const
+bool
+MockNamedValue::equals(const MockNamedValue& p) const
 {
-    if((type_ == "long int") && (p.type_ == "int"))
-        return value_.longIntValue_ == p.value_.intValue_;
-    else if((type_ == "int") && (p.type_ == "long int"))
-        return value_.intValue_ == p.value_.longIntValue_;
-    else if((type_ == "unsigned int") && (p.type_ == "int"))
-        return (p.value_.intValue_ >= 0) && (value_.unsignedIntValue_ == static_cast<unsigned int>(p.value_.intValue_));
-    else if((type_ == "int") && (p.type_ == "unsigned int"))
-        return (value_.intValue_ >= 0) && (static_cast<unsigned int>(value_.intValue_) == p.value_.unsignedIntValue_);
-    else if((type_ == "unsigned long int") && (p.type_ == "int"))
-        return (p.value_.intValue_ >= 0) && (value_.unsignedLongIntValue_ == static_cast<unsigned long>(p.value_.intValue_));
-    else if((type_ == "int") && (p.type_ == "unsigned long int"))
-        return (value_.intValue_ >= 0) && (static_cast<unsigned long>(value_.intValue_) == p.value_.unsignedLongIntValue_);
-    else if((type_ == "unsigned int") && (p.type_ == "long int"))
-        return (p.value_.longIntValue_ >= 0) && (value_.unsignedIntValue_ == static_cast<unsigned long>(p.value_.longIntValue_));
-    else if((type_ == "long int") && (p.type_ == "unsigned int"))
-        return (value_.longIntValue_ >= 0) && (static_cast<unsigned long>(value_.longIntValue_) == p.value_.unsignedIntValue_);
-    else if((type_ == "unsigned int") && (p.type_ == "unsigned long int"))
-        return value_.unsignedIntValue_ == p.value_.unsignedLongIntValue_;
-    else if((type_ == "unsigned long int") && (p.type_ == "unsigned int"))
-        return value_.unsignedLongIntValue_ == p.value_.unsignedIntValue_;
-    else if((type_ == "long int") && (p.type_ == "unsigned long int"))
-        return (value_.longIntValue_ >= 0) && (static_cast<unsigned long>(value_.longIntValue_) == p.value_.unsignedLongIntValue_);
-    else if((type_ == "unsigned long int") && (p.type_ == "long int"))
-        return (p.value_.longIntValue_ >= 0) && (value_.unsignedLongIntValue_ == static_cast<unsigned long>(p.value_.longIntValue_));
-    else if ((type_ == "long long int") && (p.type_ == "int"))
-        return value_.longLongIntValue_ == p.value_.intValue_;
-    else if ((type_ == "int") && (p.type_ == "long long int"))
-        return value_.intValue_ == p.value_.longLongIntValue_;
-    else if ((type_ == "long long int") && (p.type_ == "long int"))
-        return value_.longLongIntValue_ == p.value_.longIntValue_;
-    else if ((type_ == "long int") && (p.type_ == "long long int"))
-        return value_.longIntValue_ == p.value_.longLongIntValue_;
-    else if ((type_ == "long long int") && (p.type_ == "unsigned int"))
-        return (value_.longLongIntValue_ >= 0) && (static_cast<unsigned long long>(value_.longLongIntValue_) == p.value_.unsignedIntValue_);
-    else if ((type_ == "unsigned int") && (p.type_ == "long long int"))
-        return (p.value_.longLongIntValue_ >= 0) && (value_.unsignedIntValue_ == static_cast<unsigned long long>(p.value_.longLongIntValue_));
-    else if ((type_ == "long long int") && (p.type_ == "unsigned long int"))
-        return (value_.longLongIntValue_ >= 0) && (static_cast<unsigned long long>(value_.longLongIntValue_) == p.value_.unsignedLongIntValue_);
-    else if ((type_ == "unsigned long int") && (p.type_ == "long long int"))
-        return (p.value_.longLongIntValue_ >= 0) && (value_.unsignedLongIntValue_ == static_cast<unsigned long long>(p.value_.longLongIntValue_));
-    else if ((type_ == "long long int") && (p.type_ == "unsigned long long int"))
-        return (value_.longLongIntValue_ >= 0) && (static_cast<unsigned long long>(value_.longLongIntValue_) == p.value_.unsignedLongLongIntValue_);
-    else if ((type_ == "unsigned long long int") && (p.type_ == "long long int"))
-        return (p.value_.longLongIntValue_ >= 0) && (value_.unsignedLongLongIntValue_ == static_cast<unsigned long long>(p.value_.longLongIntValue_));
-    else if ((type_ == "unsigned long long int") && (p.type_ == "int"))
-        return (p.value_.intValue_ >= 0) && (value_.unsignedLongLongIntValue_ == static_cast<unsigned long long>(p.value_.intValue_));
-    else if ((type_ == "int") && (p.type_ == "unsigned long long int"))
-        return (value_.intValue_ >= 0) && (static_cast<unsigned long long>(value_.intValue_) == p.value_.unsignedLongLongIntValue_);
-    else if ((type_ == "unsigned long long int") && (p.type_ == "unsigned int"))
-        return value_.unsignedLongLongIntValue_ == p.value_.unsignedIntValue_;
-    else if ((type_ == "unsigned int") && (p.type_ == "unsigned long long int"))
-        return value_.unsignedIntValue_ == p.value_.unsignedLongLongIntValue_;
-    else if ((type_ == "unsigned long long int") && (p.type_ == "long int"))
-        return (p.value_.longIntValue_ >= 0) && (value_.unsignedLongLongIntValue_ == static_cast<unsigned long long>(p.value_.longIntValue_));
-    else if ((type_ == "long int") && (p.type_ == "unsigned long long int"))
-        return (value_.longIntValue_ >= 0) && (static_cast<unsigned long long>(value_.longIntValue_) == p.value_.unsignedLongLongIntValue_);
-    else if ((type_ == "unsigned long long int") && (p.type_ == "unsigned long int"))
-        return value_.unsignedLongLongIntValue_ == p.value_.unsignedLongIntValue_;
-    else if ((type_ == "unsigned long int") && (p.type_ == "unsigned long long int"))
-        return value_.unsignedLongIntValue_ == p.value_.unsignedLongLongIntValue_;
+  if ((type_ == "long int") && (p.type_ == "int"))
+    return value_.longIntValue_ == p.value_.intValue_;
+  else if ((type_ == "int") && (p.type_ == "long int"))
+    return value_.intValue_ == p.value_.longIntValue_;
+  else if ((type_ == "unsigned int") && (p.type_ == "int"))
+    return (p.value_.intValue_ >= 0) &&
+           (value_.unsignedIntValue_ ==
+            static_cast<unsigned int>(p.value_.intValue_));
+  else if ((type_ == "int") && (p.type_ == "unsigned int"))
+    return (value_.intValue_ >= 0) &&
+           (static_cast<unsigned int>(value_.intValue_) ==
+            p.value_.unsignedIntValue_);
+  else if ((type_ == "unsigned long int") && (p.type_ == "int"))
+    return (p.value_.intValue_ >= 0) &&
+           (value_.unsignedLongIntValue_ ==
+            static_cast<unsigned long>(p.value_.intValue_));
+  else if ((type_ == "int") && (p.type_ == "unsigned long int"))
+    return (value_.intValue_ >= 0) &&
+           (static_cast<unsigned long>(value_.intValue_) ==
+            p.value_.unsignedLongIntValue_);
+  else if ((type_ == "unsigned int") && (p.type_ == "long int"))
+    return (p.value_.longIntValue_ >= 0) &&
+           (value_.unsignedIntValue_ ==
+            static_cast<unsigned long>(p.value_.longIntValue_));
+  else if ((type_ == "long int") && (p.type_ == "unsigned int"))
+    return (value_.longIntValue_ >= 0) &&
+           (static_cast<unsigned long>(value_.longIntValue_) ==
+            p.value_.unsignedIntValue_);
+  else if ((type_ == "unsigned int") && (p.type_ == "unsigned long int"))
+    return value_.unsignedIntValue_ == p.value_.unsignedLongIntValue_;
+  else if ((type_ == "unsigned long int") && (p.type_ == "unsigned int"))
+    return value_.unsignedLongIntValue_ == p.value_.unsignedIntValue_;
+  else if ((type_ == "long int") && (p.type_ == "unsigned long int"))
+    return (value_.longIntValue_ >= 0) &&
+           (static_cast<unsigned long>(value_.longIntValue_) ==
+            p.value_.unsignedLongIntValue_);
+  else if ((type_ == "unsigned long int") && (p.type_ == "long int"))
+    return (p.value_.longIntValue_ >= 0) &&
+           (value_.unsignedLongIntValue_ ==
+            static_cast<unsigned long>(p.value_.longIntValue_));
+  else if ((type_ == "long long int") && (p.type_ == "int"))
+    return value_.longLongIntValue_ == p.value_.intValue_;
+  else if ((type_ == "int") && (p.type_ == "long long int"))
+    return value_.intValue_ == p.value_.longLongIntValue_;
+  else if ((type_ == "long long int") && (p.type_ == "long int"))
+    return value_.longLongIntValue_ == p.value_.longIntValue_;
+  else if ((type_ == "long int") && (p.type_ == "long long int"))
+    return value_.longIntValue_ == p.value_.longLongIntValue_;
+  else if ((type_ == "long long int") && (p.type_ == "unsigned int"))
+    return (value_.longLongIntValue_ >= 0) &&
+           (static_cast<unsigned long long>(value_.longLongIntValue_) ==
+            p.value_.unsignedIntValue_);
+  else if ((type_ == "unsigned int") && (p.type_ == "long long int"))
+    return (p.value_.longLongIntValue_ >= 0) &&
+           (value_.unsignedIntValue_ ==
+            static_cast<unsigned long long>(p.value_.longLongIntValue_));
+  else if ((type_ == "long long int") && (p.type_ == "unsigned long int"))
+    return (value_.longLongIntValue_ >= 0) &&
+           (static_cast<unsigned long long>(value_.longLongIntValue_) ==
+            p.value_.unsignedLongIntValue_);
+  else if ((type_ == "unsigned long int") && (p.type_ == "long long int"))
+    return (p.value_.longLongIntValue_ >= 0) &&
+           (value_.unsignedLongIntValue_ ==
+            static_cast<unsigned long long>(p.value_.longLongIntValue_));
+  else if ((type_ == "long long int") && (p.type_ == "unsigned long long int"))
+    return (value_.longLongIntValue_ >= 0) &&
+           (static_cast<unsigned long long>(value_.longLongIntValue_) ==
+            p.value_.unsignedLongLongIntValue_);
+  else if ((type_ == "unsigned long long int") && (p.type_ == "long long int"))
+    return (p.value_.longLongIntValue_ >= 0) &&
+           (value_.unsignedLongLongIntValue_ ==
+            static_cast<unsigned long long>(p.value_.longLongIntValue_));
+  else if ((type_ == "unsigned long long int") && (p.type_ == "int"))
+    return (p.value_.intValue_ >= 0) &&
+           (value_.unsignedLongLongIntValue_ ==
+            static_cast<unsigned long long>(p.value_.intValue_));
+  else if ((type_ == "int") && (p.type_ == "unsigned long long int"))
+    return (value_.intValue_ >= 0) &&
+           (static_cast<unsigned long long>(value_.intValue_) ==
+            p.value_.unsignedLongLongIntValue_);
+  else if ((type_ == "unsigned long long int") && (p.type_ == "unsigned int"))
+    return value_.unsignedLongLongIntValue_ == p.value_.unsignedIntValue_;
+  else if ((type_ == "unsigned int") && (p.type_ == "unsigned long long int"))
+    return value_.unsignedIntValue_ == p.value_.unsignedLongLongIntValue_;
+  else if ((type_ == "unsigned long long int") && (p.type_ == "long int"))
+    return (p.value_.longIntValue_ >= 0) &&
+           (value_.unsignedLongLongIntValue_ ==
+            static_cast<unsigned long long>(p.value_.longIntValue_));
+  else if ((type_ == "long int") && (p.type_ == "unsigned long long int"))
+    return (value_.longIntValue_ >= 0) &&
+           (static_cast<unsigned long long>(value_.longIntValue_) ==
+            p.value_.unsignedLongLongIntValue_);
+  else if ((type_ == "unsigned long long int") &&
+           (p.type_ == "unsigned long int"))
+    return value_.unsignedLongLongIntValue_ == p.value_.unsignedLongIntValue_;
+  else if ((type_ == "unsigned long int") &&
+           (p.type_ == "unsigned long long int"))
+    return value_.unsignedLongIntValue_ == p.value_.unsignedLongLongIntValue_;
 
-    if (type_ != p.type_) return false;
+  if (type_ != p.type_)
+    return false;
 
-    if (type_ == "bool")
-        return value_.boolValue_ == p.value_.boolValue_;
-    else if (type_ == "int")
-        return value_.intValue_ == p.value_.intValue_;
-    else if (type_ == "unsigned int")
-        return value_.unsignedIntValue_ == p.value_.unsignedIntValue_;
-    else if (type_ == "long int")
-        return value_.longIntValue_ == p.value_.longIntValue_;
-    else if (type_ == "unsigned long int")
-        return value_.unsignedLongIntValue_ == p.value_.unsignedLongIntValue_;
-    else if (type_ == "long long int")
-        return value_.longLongIntValue_ == p.value_.longLongIntValue_;
-    else if (type_ == "unsigned long long int")
-        return value_.unsignedLongLongIntValue_ == p.value_.unsignedLongLongIntValue_;
-    else if (type_ == "const char*")
-        return SimpleString(value_.stringValue_) == SimpleString(p.value_.stringValue_);
-    else if (type_ == "void*")
-        return value_.pointerValue_ == p.value_.pointerValue_;
-    else if (type_ == "const void*")
-        return value_.constPointerValue_ == p.value_.constPointerValue_;
-    else if (type_ == "void (*)()")
-        return value_.functionPointerValue_ == p.value_.functionPointerValue_;
-    else if (type_ == "double")
-        return (doubles_equal(value_.doubleValue_.value, p.value_.doubleValue_.value, value_.doubleValue_.tolerance));
-    else if (type_ == "const unsigned char*")
-    {
-        if (size_ != p.size_) {
-            return false;
-        }
-        return SimpleString::MemCmp(value_.memoryBufferValue_, p.value_.memoryBufferValue_, size_) == 0;
+  if (type_ == "bool")
+    return value_.boolValue_ == p.value_.boolValue_;
+  else if (type_ == "int")
+    return value_.intValue_ == p.value_.intValue_;
+  else if (type_ == "unsigned int")
+    return value_.unsignedIntValue_ == p.value_.unsignedIntValue_;
+  else if (type_ == "long int")
+    return value_.longIntValue_ == p.value_.longIntValue_;
+  else if (type_ == "unsigned long int")
+    return value_.unsignedLongIntValue_ == p.value_.unsignedLongIntValue_;
+  else if (type_ == "long long int")
+    return value_.longLongIntValue_ == p.value_.longLongIntValue_;
+  else if (type_ == "unsigned long long int")
+    return value_.unsignedLongLongIntValue_ ==
+           p.value_.unsignedLongLongIntValue_;
+  else if (type_ == "const char*")
+    return SimpleString(value_.stringValue_) ==
+           SimpleString(p.value_.stringValue_);
+  else if (type_ == "void*")
+    return value_.pointerValue_ == p.value_.pointerValue_;
+  else if (type_ == "const void*")
+    return value_.constPointerValue_ == p.value_.constPointerValue_;
+  else if (type_ == "void (*)()")
+    return value_.functionPointerValue_ == p.value_.functionPointerValue_;
+  else if (type_ == "double")
+    return (doubles_equal(value_.doubleValue_.value,
+                          p.value_.doubleValue_.value,
+                          value_.doubleValue_.tolerance));
+  else if (type_ == "const unsigned char*") {
+    if (size_ != p.size_) {
+      return false;
     }
+    return SimpleString::MemCmp(value_.memoryBufferValue_,
+                                p.value_.memoryBufferValue_,
+                                size_) == 0;
+  }
 
-    if (comparator_)
-        return comparator_->isEqual(value_.constObjectPointerValue_, p.value_.constObjectPointerValue_);
+  if (comparator_)
+    return comparator_->isEqual(value_.constObjectPointerValue_,
+                                p.value_.constObjectPointerValue_);
 
-    return false;
+  return false;
 }
 
-bool MockNamedValue::compatibleForCopying(const MockNamedValue& p) const
+bool
+MockNamedValue::compatibleForCopying(const MockNamedValue& p) const
 {
-    if (type_ == p.type_) return true;
+  if (type_ == p.type_)
+    return true;
 
-    if ((type_ == "const void*") && (p.type_ == "void*"))
-        return true;
+  if ((type_ == "const void*") && (p.type_ == "void*"))
+    return true;
 
-    return false;
+  return false;
 }
 
-SimpleString MockNamedValue::toString() const
+SimpleString
+MockNamedValue::toString() const
 {
-    if (type_ == "bool")
-        return StringFrom(value_.boolValue_);
-    else if (type_ == "int")
-        return StringFrom(value_.intValue_) + " " + BracketsFormattedHexStringFrom(value_.intValue_);
-    else if (type_ == "unsigned int")
-        return StringFrom(value_.unsignedIntValue_) + " " + BracketsFormattedHexStringFrom(value_.unsignedIntValue_);
-    else if (type_ == "long int")
-        return StringFrom(value_.longIntValue_) + " " + BracketsFormattedHexStringFrom(value_.longIntValue_);
-    else if (type_ == "unsigned long int")
-        return StringFrom(value_.unsignedLongIntValue_) + " " + BracketsFormattedHexStringFrom(value_.unsignedLongIntValue_);
-    else if (type_ == "long long int")
-        return StringFrom(value_.longLongIntValue_) + " " + BracketsFormattedHexStringFrom(value_.longLongIntValue_);
-    else if (type_ == "unsigned long long int")
-        return StringFrom(value_.unsignedLongLongIntValue_) + " " + BracketsFormattedHexStringFrom(value_.unsignedLongLongIntValue_);
-    else if (type_ == "const char*")
-        return value_.stringValue_;
-    else if (type_ == "void*")
-        return StringFrom(value_.pointerValue_);
-    else if (type_ == "void (*)()")
-        return StringFrom(value_.functionPointerValue_);
-    else if (type_ == "const void*")
-        return StringFrom(value_.constPointerValue_);
-    else if (type_ == "double")
-        return StringFrom(value_.doubleValue_.value);
-    else if (type_ == "const unsigned char*")
-        return StringFromBinaryWithSizeOrNull(value_.memoryBufferValue_, size_);
+  if (type_ == "bool")
+    return StringFrom(value_.boolValue_);
+  else if (type_ == "int")
+    return StringFrom(value_.intValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.intValue_);
+  else if (type_ == "unsigned int")
+    return StringFrom(value_.unsignedIntValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.unsignedIntValue_);
+  else if (type_ == "long int")
+    return StringFrom(value_.longIntValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.longIntValue_);
+  else if (type_ == "unsigned long int")
+    return StringFrom(value_.unsignedLongIntValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.unsignedLongIntValue_);
+  else if (type_ == "long long int")
+    return StringFrom(value_.longLongIntValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.longLongIntValue_);
+  else if (type_ == "unsigned long long int")
+    return StringFrom(value_.unsignedLongLongIntValue_) + " " +
+           BracketsFormattedHexStringFrom(value_.unsignedLongLongIntValue_);
+  else if (type_ == "const char*")
+    return value_.stringValue_;
+  else if (type_ == "void*")
+    return StringFrom(value_.pointerValue_);
+  else if (type_ == "void (*)()")
+    return StringFrom(value_.functionPointerValue_);
+  else if (type_ == "const void*")
+    return StringFrom(value_.constPointerValue_);
+  else if (type_ == "double")
+    return StringFrom(value_.doubleValue_.value);
+  else if (type_ == "const unsigned char*")
+    return StringFromBinaryWithSizeOrNull(value_.memoryBufferValue_, size_);
 
-    if (comparator_)
-        return comparator_->valueToString(value_.constObjectPointerValue_);
+  if (comparator_)
+    return comparator_->valueToString(value_.constObjectPointerValue_);
 
-    return StringFromFormat("No comparator found for type: \"%s\"", type_.asCharString());
-
+  return StringFromFormat("No comparator found for type: \"%s\"",
+                          type_.asCharString());
 }
 
-void MockNamedValueListNode::setNext(MockNamedValueListNode* node)
+void
+MockNamedValueListNode::setNext(MockNamedValueListNode* node)
 {
-    next_ = node;
+  next_ = node;
 }
 
-MockNamedValueListNode* MockNamedValueListNode::next()
+MockNamedValueListNode*
+MockNamedValueListNode::next()
 {
-    return next_;
+  return next_;
 }
 
-MockNamedValue* MockNamedValueListNode::item()
+MockNamedValue*
+MockNamedValueListNode::item()
 {
-    return data_;
+  return data_;
 }
 
-void MockNamedValueListNode::destroy()
+void
+MockNamedValueListNode::destroy()
 {
-    delete data_;
+  delete data_;
 }
 
 MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* newValue)
-    : data_(newValue), next_(nullptr)
+  : data_(newValue)
+  , next_(nullptr)
 {
 }
 
-SimpleString MockNamedValueListNode::getName() const
+SimpleString
+MockNamedValueListNode::getName() const
 {
-    return data_->getName();
+  return data_->getName();
 }
 
-SimpleString MockNamedValueListNode::getType() const
+SimpleString
+MockNamedValueListNode::getType() const
 {
-    return data_->getType();
+  return data_->getType();
 }
 
-MockNamedValueList::MockNamedValueList() : head_(nullptr)
+MockNamedValueList::MockNamedValueList()
+  : head_(nullptr)
 {
 }
 
-void MockNamedValueList::clear()
+void
+MockNamedValueList::clear()
 {
-    while (head_) {
-        MockNamedValueListNode* n = head_->next();
-        head_->destroy();
-        delete head_;
-        head_ = n;
-    }
+  while (head_) {
+    MockNamedValueListNode* n = head_->next();
+    head_->destroy();
+    delete head_;
+    head_ = n;
+  }
 }
 
-void MockNamedValueList::add(MockNamedValue* newValue)
+void
+MockNamedValueList::add(MockNamedValue* newValue)
 {
-    MockNamedValueListNode* newNode = new MockNamedValueListNode(newValue);
-    if (head_ == nullptr)
-        head_ = newNode;
-    else {
-        MockNamedValueListNode* lastNode = head_;
-        while (lastNode->next()) lastNode = lastNode->next();
-        lastNode->setNext(newNode);
-    }
+  MockNamedValueListNode* newNode = new MockNamedValueListNode(newValue);
+  if (head_ == nullptr)
+    head_ = newNode;
+  else {
+    MockNamedValueListNode* lastNode = head_;
+    while (lastNode->next())
+      lastNode = lastNode->next();
+    lastNode->setNext(newNode);
+  }
 }
 
-MockNamedValue* MockNamedValueList::getValueByName(const SimpleString& name)
+MockNamedValue*
+MockNamedValueList::getValueByName(const SimpleString& name)
 {
-    for (MockNamedValueListNode * p = head_; p; p = p->next())
-        if (p->getName() == name)
-            return p->item();
-    return nullptr;
+  for (MockNamedValueListNode* p = head_; p; p = p->next())
+    if (p->getName() == name)
+      return p->item();
+  return nullptr;
 }
 
-MockNamedValueListNode* MockNamedValueList::begin()
+MockNamedValueListNode*
+MockNamedValueList::begin()
 {
-    return head_;
+  return head_;
 }
 
 struct MockNamedValueComparatorsAndCopiersRepositoryNode
 {
-    MockNamedValueComparatorsAndCopiersRepositoryNode(const SimpleString& name, MockNamedValueComparator* comparator, MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-        : name_(name), comparator_(comparator), copier_(nullptr), next_(next) {}
-    MockNamedValueComparatorsAndCopiersRepositoryNode(const SimpleString& name, MockNamedValueCopier* copier, MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-        : name_(name), comparator_(nullptr), copier_(copier), next_(next) {}
-    MockNamedValueComparatorsAndCopiersRepositoryNode(const SimpleString& name, MockNamedValueComparator* comparator, MockNamedValueCopier* copier, MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-        : name_(name), comparator_(comparator), copier_(copier), next_(next) {}
-    SimpleString name_;
-    MockNamedValueComparator* comparator_;
-    MockNamedValueCopier* copier_;
-    MockNamedValueComparatorsAndCopiersRepositoryNode* next_;
+  MockNamedValueComparatorsAndCopiersRepositoryNode(
+    const SimpleString& name,
+    MockNamedValueComparator* comparator,
+    MockNamedValueComparatorsAndCopiersRepositoryNode* next)
+    : name_(name)
+    , comparator_(comparator)
+    , copier_(nullptr)
+    , next_(next)
+  {
+  }
+  MockNamedValueComparatorsAndCopiersRepositoryNode(
+    const SimpleString& name,
+    MockNamedValueCopier* copier,
+    MockNamedValueComparatorsAndCopiersRepositoryNode* next)
+    : name_(name)
+    , comparator_(nullptr)
+    , copier_(copier)
+    , next_(next)
+  {
+  }
+  MockNamedValueComparatorsAndCopiersRepositoryNode(
+    const SimpleString& name,
+    MockNamedValueComparator* comparator,
+    MockNamedValueCopier* copier,
+    MockNamedValueComparatorsAndCopiersRepositoryNode* next)
+    : name_(name)
+    , comparator_(comparator)
+    , copier_(copier)
+    , next_(next)
+  {
+  }
+  SimpleString name_;
+  MockNamedValueComparator* comparator_;
+  MockNamedValueCopier* copier_;
+  MockNamedValueComparatorsAndCopiersRepositoryNode* next_;
 };
 
-MockNamedValueComparatorsAndCopiersRepository::MockNamedValueComparatorsAndCopiersRepository() : head_(nullptr)
+MockNamedValueComparatorsAndCopiersRepository::
+  MockNamedValueComparatorsAndCopiersRepository()
+  : head_(nullptr)
 {
-
 }
 
-MockNamedValueComparatorsAndCopiersRepository::~MockNamedValueComparatorsAndCopiersRepository()
+MockNamedValueComparatorsAndCopiersRepository::
+  ~MockNamedValueComparatorsAndCopiersRepository()
 {
-    clear();
+  clear();
 }
 
-void MockNamedValueComparatorsAndCopiersRepository::clear()
+void
+MockNamedValueComparatorsAndCopiersRepository::clear()
 {
-    while (head_) {
-        MockNamedValueComparatorsAndCopiersRepositoryNode* next = head_->next_;
-        delete head_;
-        head_ = next;
-    }
+  while (head_) {
+    MockNamedValueComparatorsAndCopiersRepositoryNode* next = head_->next_;
+    delete head_;
+    head_ = next;
+  }
 }
 
-void MockNamedValueComparatorsAndCopiersRepository::installComparator(const SimpleString& name, MockNamedValueComparator& comparator)
+void
+MockNamedValueComparatorsAndCopiersRepository::installComparator(
+  const SimpleString& name,
+  MockNamedValueComparator& comparator)
 {
-    head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(name, &comparator, head_);
+  head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(
+    name, &comparator, head_);
 }
 
-void MockNamedValueComparatorsAndCopiersRepository::installCopier(const SimpleString& name, MockNamedValueCopier& copier)
+void
+MockNamedValueComparatorsAndCopiersRepository::installCopier(
+  const SimpleString& name,
+  MockNamedValueCopier& copier)
 {
-    head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(name, &copier, head_);
+  head_ =
+    new MockNamedValueComparatorsAndCopiersRepositoryNode(name, &copier, head_);
 }
 
-MockNamedValueComparator* MockNamedValueComparatorsAndCopiersRepository::getComparatorForType(const SimpleString& name)
+MockNamedValueComparator*
+MockNamedValueComparatorsAndCopiersRepository::getComparatorForType(
+  const SimpleString& name)
 {
-    for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next_)
-            if (p->name_ == name && p->comparator_) return p->comparator_;
-    return nullptr;
+  for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+       p = p->next_)
+    if (p->name_ == name && p->comparator_)
+      return p->comparator_;
+  return nullptr;
 }
 
-MockNamedValueCopier* MockNamedValueComparatorsAndCopiersRepository::getCopierForType(const SimpleString& name)
+MockNamedValueCopier*
+MockNamedValueComparatorsAndCopiersRepository::getCopierForType(
+  const SimpleString& name)
 {
-    for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next_)
-            if (p->name_ == name && p->copier_) return p->copier_;
-    return nullptr;
+  for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+       p = p->next_)
+    if (p->name_ == name && p->copier_)
+      return p->copier_;
+  return nullptr;
 }
 
-void MockNamedValueComparatorsAndCopiersRepository::installComparatorsAndCopiers(const MockNamedValueComparatorsAndCopiersRepository& repository)
+void
+MockNamedValueComparatorsAndCopiersRepository::installComparatorsAndCopiers(
+  const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
-    for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_; p; p = p->next_)
-      head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(p->name_, p->comparator_, p->copier_, head_);
+  for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_;
+       p;
+       p = p->next_)
+    head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(
+      p->name_, p->comparator_, p->copier_, head_);
 }
 
 } // namespace extensions

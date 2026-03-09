@@ -28,9 +28,10 @@
 #include <stdio.h>
 #include "hello.h"
 
-void printHelloWorld(void)
+void
+printHelloWorld(void)
 {
-    PrintFormated("Hello World!\n");
+  PrintFormated("Hello World!\n");
 }
 
 int (*PrintFormated)(const char*, ...) = printf;

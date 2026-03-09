@@ -43,31 +43,25 @@
 class MockPrinter : public Printer
 {
 public:
-    explicit MockPrinter() {}
-    virtual ~MockPrinter() override {}
+  explicit MockPrinter() {}
+  virtual ~MockPrinter() override {}
 
-    virtual void Print(const char* s) override
-    {
-        savedOutput.append(s);
-    }
+  virtual void Print(const char* s) override { savedOutput.append(s); }
 
-    virtual void Print(long int value) override
-    {
-        cpputest::SimpleString buffer;
-        buffer = cpputest::StringFromFormat("%ld", value);
-        savedOutput.append(buffer.asCharString());
-    }
+  virtual void Print(long int value) override
+  {
+    cpputest::SimpleString buffer;
+    buffer = cpputest::StringFromFormat("%ld", value);
+    savedOutput.append(buffer.asCharString());
+  }
 
-    std::string getOutput() const
-    {
-        return savedOutput;
-    }
+  std::string getOutput() const { return savedOutput; }
 
 private:
-    std::string savedOutput;
+  std::string savedOutput;
 
-    MockPrinter(const MockPrinter&);
-    MockPrinter& operator=(const MockPrinter&);
+  MockPrinter(const MockPrinter&);
+  MockPrinter& operator=(const MockPrinter&);
 };
 
 #endif // D_MockPrinter_H

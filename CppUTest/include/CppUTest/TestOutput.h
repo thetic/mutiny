@@ -48,62 +48,77 @@ class TestResult;
 class TestOutput
 {
 public:
-    enum WorkingEnvironment {visualStudio, eclipse, detectEnvironment};
-    enum VerbosityLevel {level_quiet, level_verbose, level_veryVerbose};
+  enum WorkingEnvironment
+  {
+    visualStudio,
+    eclipse,
+    detectEnvironment
+  };
+  enum VerbosityLevel
+  {
+    level_quiet,
+    level_verbose,
+    level_veryVerbose
+  };
 
-    explicit TestOutput();
-    virtual ~TestOutput();
+  explicit TestOutput();
+  virtual ~TestOutput();
 
-    virtual void printTestsStarted();
-    virtual void printTestsEnded(const TestResult& result);
-    virtual void printCurrentTestStarted(const TestShell& test);
-    virtual void printCurrentTestEnded(const TestResult& res);
-    virtual void printCurrentGroupStarted(const TestShell& test);
-    virtual void printCurrentGroupEnded(const TestResult& res);
+  virtual void printTestsStarted();
+  virtual void printTestsEnded(const TestResult& result);
+  virtual void printCurrentTestStarted(const TestShell& test);
+  virtual void printCurrentTestEnded(const TestResult& res);
+  virtual void printCurrentGroupStarted(const TestShell& test);
+  virtual void printCurrentGroupEnded(const TestResult& res);
 
-    virtual void verbose(VerbosityLevel level);
-    virtual void color();
-    virtual void printBuffer(const char*)=0;
-    virtual void print(const char*);
-    virtual void print(long);
-    virtual void print(size_t);
-    virtual void printDouble(double);
-    virtual void printFailure(const TestFailure& failure);
-    virtual void printTestRun(size_t number, size_t total);
-    virtual void setProgressIndicator(const char*);
+  virtual void verbose(VerbosityLevel level);
+  virtual void color();
+  virtual void printBuffer(const char*) = 0;
+  virtual void print(const char*);
+  virtual void print(long);
+  virtual void print(size_t);
+  virtual void printDouble(double);
+  virtual void printFailure(const TestFailure& failure);
+  virtual void printTestRun(size_t number, size_t total);
+  virtual void setProgressIndicator(const char*);
 
-    virtual void printVeryVerbose(const char*);
+  virtual void printVeryVerbose(const char*);
 
-    virtual void flush()=0;
+  virtual void flush() = 0;
 
-    static void setWorkingEnvironment(WorkingEnvironment workEnvironment);
-    static WorkingEnvironment getWorkingEnvironment();
+  static void setWorkingEnvironment(WorkingEnvironment workEnvironment);
+  static WorkingEnvironment getWorkingEnvironment();
 
 protected:
+  virtual void printEclipseErrorInFileOnLine(SimpleString file,
+                                             size_t lineNumber);
+  virtual void printVisualStudioErrorInFileOnLine(SimpleString file,
+                                                  size_t lineNumber);
 
-    virtual void printEclipseErrorInFileOnLine(SimpleString file, size_t lineNumber);
-    virtual void printVisualStudioErrorInFileOnLine(SimpleString file, size_t lineNumber);
+  virtual void printProgressIndicator();
+  void printFileAndLineForTestAndFailure(const TestFailure& failure);
+  void printFileAndLineForFailure(const TestFailure& failure);
+  void printFailureInTest(SimpleString testName);
+  void printFailureMessage(SimpleString reason);
+  void printErrorInFileOnLineFormattedForWorkingEnvironment(
+    SimpleString testFile,
+    size_t lineNumber);
 
-    virtual void printProgressIndicator();
-    void printFileAndLineForTestAndFailure(const TestFailure& failure);
-    void printFileAndLineForFailure(const TestFailure& failure);
-    void printFailureInTest(SimpleString testName);
-    void printFailureMessage(SimpleString reason);
-    void printErrorInFileOnLineFormattedForWorkingEnvironment(SimpleString testFile, size_t lineNumber);
+  TestOutput(const TestOutput&);
+  TestOutput& operator=(const TestOutput&);
 
-    TestOutput(const TestOutput&);
-    TestOutput& operator=(const TestOutput&);
+  int dotCount_;
+  VerbosityLevel verbose_;
+  bool color_;
+  const char* progressIndication_;
 
-    int dotCount_;
-    VerbosityLevel verbose_;
-    bool color_;
-    const char* progressIndication_;
-
-    static WorkingEnvironment workingEnvironment_;
+  static WorkingEnvironment workingEnvironment_;
 };
 
-TestOutput& operator<<(TestOutput&, const char*);
-TestOutput& operator<<(TestOutput&, long);
+TestOutput&
+operator<<(TestOutput&, const char*);
+TestOutput&
+operator<<(TestOutput&, long);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -113,22 +128,18 @@ TestOutput& operator<<(TestOutput&, long);
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-class ConsoleTestOutput: public TestOutput
+class ConsoleTestOutput : public TestOutput
 {
 public:
-    explicit ConsoleTestOutput()
-    {
-    }
-    virtual ~ConsoleTestOutput() override
-    {
-    }
+  explicit ConsoleTestOutput() {}
+  virtual ~ConsoleTestOutput() override {}
 
-    virtual void printBuffer(const char* s) override;
-    virtual void flush() override;
+  virtual void printBuffer(const char* s) override;
+  virtual void flush() override;
 
 private:
-    ConsoleTestOutput(const ConsoleTestOutput&);
-    ConsoleTestOutput& operator=(const ConsoleTestOutput&);
+  ConsoleTestOutput(const ConsoleTestOutput&);
+  ConsoleTestOutput& operator=(const ConsoleTestOutput&);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -139,78 +150,65 @@ private:
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-
-class StringBufferTestOutput: public TestOutput
+class StringBufferTestOutput : public TestOutput
 {
 public:
-    explicit StringBufferTestOutput()
-    {
-    }
+  explicit StringBufferTestOutput() {}
 
-    virtual ~StringBufferTestOutput() override;
+  virtual ~StringBufferTestOutput() override;
 
-    void printBuffer(const char* s) override
-    {
-        output += s;
-    }
+  void printBuffer(const char* s) override { output += s; }
 
-    void flush() override
-    {
-        output = "";
-    }
+  void flush() override { output = ""; }
 
-    const SimpleString& getOutput()
-    {
-        return output;
-    }
+  const SimpleString& getOutput() { return output; }
 
 protected:
-    SimpleString output;
+  SimpleString output;
 
 private:
-    StringBufferTestOutput(const StringBufferTestOutput&);
-    StringBufferTestOutput& operator=(const StringBufferTestOutput&);
-
+  StringBufferTestOutput(const StringBufferTestOutput&);
+  StringBufferTestOutput& operator=(const StringBufferTestOutput&);
 };
 
 class CompositeTestOutput : public TestOutput
 {
 public:
-    virtual void setOutputOne(TestOutput* output);
-    virtual void setOutputTwo(TestOutput* output);
+  virtual void setOutputOne(TestOutput* output);
+  virtual void setOutputTwo(TestOutput* output);
 
-    CompositeTestOutput();
-    virtual ~CompositeTestOutput() override;
+  CompositeTestOutput();
+  virtual ~CompositeTestOutput() override;
 
-    virtual void printTestsStarted() override;
-    virtual void printTestsEnded(const TestResult& result) override;
+  virtual void printTestsStarted() override;
+  virtual void printTestsEnded(const TestResult& result) override;
 
-    virtual void printCurrentTestStarted(const TestShell& test) override;
-    virtual void printCurrentTestEnded(const TestResult& res) override;
-    virtual void printCurrentGroupStarted(const TestShell& test) override;
-    virtual void printCurrentGroupEnded(const TestResult& res) override;
+  virtual void printCurrentTestStarted(const TestShell& test) override;
+  virtual void printCurrentTestEnded(const TestResult& res) override;
+  virtual void printCurrentGroupStarted(const TestShell& test) override;
+  virtual void printCurrentGroupEnded(const TestResult& res) override;
 
-    virtual void verbose(VerbosityLevel level) override;
-    virtual void color() override;
-    virtual void printBuffer(const char*) override;
-    virtual void print(const char*) override;
-    virtual void print(long) override;
-    virtual void print(size_t) override;
-    virtual void printDouble(double) override;
-    virtual void printFailure(const TestFailure& failure) override;
-    virtual void setProgressIndicator(const char*) override;
+  virtual void verbose(VerbosityLevel level) override;
+  virtual void color() override;
+  virtual void printBuffer(const char*) override;
+  virtual void print(const char*) override;
+  virtual void print(long) override;
+  virtual void print(size_t) override;
+  virtual void printDouble(double) override;
+  virtual void printFailure(const TestFailure& failure) override;
+  virtual void setProgressIndicator(const char*) override;
 
-    virtual void printVeryVerbose(const char*) override;
+  virtual void printVeryVerbose(const char*) override;
 
-    virtual void flush() override;
+  virtual void flush() override;
 
 protected:
-    CompositeTestOutput(const TestOutput&);
-    CompositeTestOutput& operator=(const TestOutput&);
+  CompositeTestOutput(const TestOutput&);
+  CompositeTestOutput& operator=(const TestOutput&);
 
 private:
-    TestOutput* outputOne_;
-    TestOutput* outputTwo_;
+  TestOutput* outputOne_;
+  TestOutput* outputTwo_;
 };
 
 } // namespace cpputest

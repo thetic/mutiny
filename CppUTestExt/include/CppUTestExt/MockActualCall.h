@@ -32,8 +32,8 @@
 #include "CppUTestExt/MockNamedValue.h"
 #include "CppUTestExt/MockExpectedCallsList.h"
 
-namespace cpputest { namespace extensions {
-
+namespace cpputest {
+namespace extensions {
 
 class MockFailureReporter;
 class MockFailure;
@@ -41,87 +41,184 @@ class MockFailure;
 class MockActualCall
 {
 public:
-    MockActualCall();
-    virtual ~MockActualCall();
+  MockActualCall();
+  virtual ~MockActualCall();
 
-    virtual MockActualCall& withName(const cpputest::SimpleString& name)=0;
-    virtual MockActualCall& withCallOrder(unsigned int callOrder)=0;
-    MockActualCall& withParameter(const cpputest::SimpleString& name, bool value) { return withBoolParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, int value) { return withIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, unsigned int value) { return withUnsignedIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, long int value) { return withLongIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, unsigned long int value) { return withUnsignedLongIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, long long value) { return withLongLongIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, unsigned long long value) { return withUnsignedLongLongIntParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, double value) { return withDoubleParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, const char* value) { return withStringParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, void* value) { return withPointerParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, void (*value)()) { return withFunctionPointerParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, const void* value) { return withConstPointerParameter(name, value); }
-    MockActualCall& withParameter(const cpputest::SimpleString& name, const unsigned char* value, size_t size) { return withMemoryBufferParameter(name, value, size); }
-    MockActualCall& withParameter(const char* name, const unsigned char* value, size_t size) { return withMemoryBufferParameter(name, value, size); }
-    virtual MockActualCall& withParameterOfType(const cpputest::SimpleString& typeName, const cpputest::SimpleString& name, const void* value)=0;
-    virtual MockActualCall& withParameterOfType(const char* typeName, const char* name, const void* value)=0;
-    virtual MockActualCall& withOutputParameter(const cpputest::SimpleString& name, void* output)=0;
-    virtual MockActualCall& withOutputParameterOfType(const cpputest::SimpleString& typeName, const cpputest::SimpleString& name, void* output)=0;
+  virtual MockActualCall& withName(const cpputest::SimpleString& name) = 0;
+  virtual MockActualCall& withCallOrder(unsigned int callOrder) = 0;
+  MockActualCall& withParameter(const cpputest::SimpleString& name, bool value)
+  {
+    return withBoolParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name, int value)
+  {
+    return withIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                unsigned int value)
+  {
+    return withUnsignedIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                long int value)
+  {
+    return withLongIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                unsigned long int value)
+  {
+    return withUnsignedLongIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                long long value)
+  {
+    return withLongLongIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                unsigned long long value)
+  {
+    return withUnsignedLongLongIntParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                double value)
+  {
+    return withDoubleParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                const char* value)
+  {
+    return withStringParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name, void* value)
+  {
+    return withPointerParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                void (*value)())
+  {
+    return withFunctionPointerParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                const void* value)
+  {
+    return withConstPointerParameter(name, value);
+  }
+  MockActualCall& withParameter(const cpputest::SimpleString& name,
+                                const unsigned char* value,
+                                size_t size)
+  {
+    return withMemoryBufferParameter(name, value, size);
+  }
+  MockActualCall& withParameter(const char* name,
+                                const unsigned char* value,
+                                size_t size)
+  {
+    return withMemoryBufferParameter(name, value, size);
+  }
+  virtual MockActualCall& withParameterOfType(
+    const cpputest::SimpleString& typeName,
+    const cpputest::SimpleString& name,
+    const void* value) = 0;
+  virtual MockActualCall& withParameterOfType(const char* typeName,
+                                              const char* name,
+                                              const void* value) = 0;
+  virtual MockActualCall& withOutputParameter(
+    const cpputest::SimpleString& name,
+    void* output) = 0;
+  virtual MockActualCall& withOutputParameterOfType(
+    const cpputest::SimpleString& typeName,
+    const cpputest::SimpleString& name,
+    void* output) = 0;
 
-    virtual MockActualCall& withBoolParameter(const cpputest::SimpleString& name, bool value)=0;
-    virtual MockActualCall& withIntParameter(const cpputest::SimpleString& name, int value)=0;
-    virtual MockActualCall& withUnsignedIntParameter(const cpputest::SimpleString& name, unsigned int value)=0;
-    virtual MockActualCall& withLongIntParameter(const cpputest::SimpleString& name, long int value)=0;
-    virtual MockActualCall& withUnsignedLongIntParameter(const cpputest::SimpleString& name, unsigned long int value)=0;
-    virtual MockActualCall& withLongLongIntParameter(const cpputest::SimpleString& name, long long value)=0;
-    virtual MockActualCall& withUnsignedLongLongIntParameter(const cpputest::SimpleString& name, unsigned long long value)=0;
-    virtual MockActualCall& withDoubleParameter(const cpputest::SimpleString& name, double value)=0;
-    virtual MockActualCall& withStringParameter(const cpputest::SimpleString& name, const char* value)=0;
-    virtual MockActualCall& withPointerParameter(const cpputest::SimpleString& name, void* value)=0;
-    virtual MockActualCall& withFunctionPointerParameter(const cpputest::SimpleString& name, void (*value)())=0;
-    virtual MockActualCall& withConstPointerParameter(const cpputest::SimpleString& name, const void* value)=0;
-    virtual MockActualCall& withMemoryBufferParameter(const cpputest::SimpleString& name, const unsigned char* value, size_t size)=0;
-    virtual MockActualCall& withMemoryBufferParameter(const char* name, const unsigned char* value, size_t size)=0;
+  virtual MockActualCall& withBoolParameter(const cpputest::SimpleString& name,
+                                            bool value) = 0;
+  virtual MockActualCall& withIntParameter(const cpputest::SimpleString& name,
+                                           int value) = 0;
+  virtual MockActualCall& withUnsignedIntParameter(
+    const cpputest::SimpleString& name,
+    unsigned int value) = 0;
+  virtual MockActualCall& withLongIntParameter(
+    const cpputest::SimpleString& name,
+    long int value) = 0;
+  virtual MockActualCall& withUnsignedLongIntParameter(
+    const cpputest::SimpleString& name,
+    unsigned long int value) = 0;
+  virtual MockActualCall& withLongLongIntParameter(
+    const cpputest::SimpleString& name,
+    long long value) = 0;
+  virtual MockActualCall& withUnsignedLongLongIntParameter(
+    const cpputest::SimpleString& name,
+    unsigned long long value) = 0;
+  virtual MockActualCall& withDoubleParameter(
+    const cpputest::SimpleString& name,
+    double value) = 0;
+  virtual MockActualCall& withStringParameter(
+    const cpputest::SimpleString& name,
+    const char* value) = 0;
+  virtual MockActualCall& withPointerParameter(
+    const cpputest::SimpleString& name,
+    void* value) = 0;
+  virtual MockActualCall& withFunctionPointerParameter(
+    const cpputest::SimpleString& name,
+    void (*value)()) = 0;
+  virtual MockActualCall& withConstPointerParameter(
+    const cpputest::SimpleString& name,
+    const void* value) = 0;
+  virtual MockActualCall& withMemoryBufferParameter(
+    const cpputest::SimpleString& name,
+    const unsigned char* value,
+    size_t size) = 0;
+  virtual MockActualCall& withMemoryBufferParameter(const char* name,
+                                                    const unsigned char* value,
+                                                    size_t size) = 0;
 
-    virtual bool hasReturnValue()=0;
-    virtual MockNamedValue returnValue()=0;
+  virtual bool hasReturnValue() = 0;
+  virtual MockNamedValue returnValue() = 0;
 
-    virtual bool returnBoolValueOrDefault(bool default_value)=0;
-    virtual bool returnBoolValue()=0;
+  virtual bool returnBoolValueOrDefault(bool default_value) = 0;
+  virtual bool returnBoolValue() = 0;
 
-    virtual int returnIntValueOrDefault(int default_value)=0;
-    virtual int returnIntValue()=0;
+  virtual int returnIntValueOrDefault(int default_value) = 0;
+  virtual int returnIntValue() = 0;
 
-    virtual unsigned long int returnUnsignedLongIntValue()=0;
-    virtual unsigned long int returnUnsignedLongIntValueOrDefault(unsigned long int default_value)=0;
+  virtual unsigned long int returnUnsignedLongIntValue() = 0;
+  virtual unsigned long int returnUnsignedLongIntValueOrDefault(
+    unsigned long int default_value) = 0;
 
-    virtual long int returnLongIntValue()=0;
-    virtual long int returnLongIntValueOrDefault(long int default_value)=0;
+  virtual long int returnLongIntValue() = 0;
+  virtual long int returnLongIntValueOrDefault(long int default_value) = 0;
 
-    virtual unsigned long long returnUnsignedLongLongIntValue()=0;
-    virtual unsigned long long returnUnsignedLongLongIntValueOrDefault(unsigned long long default_value)=0;
+  virtual unsigned long long returnUnsignedLongLongIntValue() = 0;
+  virtual unsigned long long returnUnsignedLongLongIntValueOrDefault(
+    unsigned long long default_value) = 0;
 
-    virtual long long returnLongLongIntValue()=0;
-    virtual long long returnLongLongIntValueOrDefault(long long default_value)=0;
+  virtual long long returnLongLongIntValue() = 0;
+  virtual long long returnLongLongIntValueOrDefault(
+    long long default_value) = 0;
 
-    virtual unsigned int returnUnsignedIntValue()=0;
-    virtual unsigned int returnUnsignedIntValueOrDefault(unsigned int default_value)=0;
+  virtual unsigned int returnUnsignedIntValue() = 0;
+  virtual unsigned int returnUnsignedIntValueOrDefault(
+    unsigned int default_value) = 0;
 
-    virtual const char * returnStringValueOrDefault(const char * default_value)=0;
-    virtual const char * returnStringValue()=0;
+  virtual const char* returnStringValueOrDefault(const char* default_value) = 0;
+  virtual const char* returnStringValue() = 0;
 
-    virtual double returnDoubleValue()=0;
-    virtual double returnDoubleValueOrDefault(double default_value)=0;
+  virtual double returnDoubleValue() = 0;
+  virtual double returnDoubleValueOrDefault(double default_value) = 0;
 
-    virtual void * returnPointerValue()=0;
-    virtual void * returnPointerValueOrDefault(void * default_value)=0;
+  virtual void* returnPointerValue() = 0;
+  virtual void* returnPointerValueOrDefault(void* default_value) = 0;
 
-    virtual const void * returnConstPointerValue()=0;
-    virtual const void * returnConstPointerValueOrDefault(const void * default_value)=0;
+  virtual const void* returnConstPointerValue() = 0;
+  virtual const void* returnConstPointerValueOrDefault(
+    const void* default_value) = 0;
 
-    virtual void (*returnFunctionPointerValue())()=0;
-    virtual void (*returnFunctionPointerValueOrDefault(void (*default_value)()))()=0;
+  virtual void (*returnFunctionPointerValue())() = 0;
+  virtual void (
+    *returnFunctionPointerValueOrDefault(void (*default_value)()))() = 0;
 
-    virtual MockActualCall& onObject(const void* objectPtr)=0;
+  virtual MockActualCall& onObject(const void* objectPtr) = 0;
 };
-
 
 } // namespace extensions
 } // namespace cpputest

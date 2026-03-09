@@ -31,12 +31,13 @@
 #include "CppUTest/TestOutput.h"
 
 namespace cpputest {
-    TestOutput::WorkingEnvironment PlatformSpecificGetWorkingEnvironment();
+TestOutput::WorkingEnvironment
+PlatformSpecificGetWorkingEnvironment();
 
-    class TestPlugin;
+class TestPlugin;
 }
-/* Platform specific interface we use in order to minimize dependencies with LibC.
- * This enables porting to different embedded platforms.
+/* Platform specific interface we use in order to minimize dependencies with
+ * LibC. This enables porting to different embedded platforms.
  *
  */
 

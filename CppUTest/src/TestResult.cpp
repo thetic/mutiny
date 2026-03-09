@@ -33,113 +33,145 @@
 
 namespace cpputest {
 
-TestResult::TestResult(TestOutput& p) :
-    output_(p), testCount_(0), runCount_(0), checkCount_(0), failureCount_(0), filteredOutCount_(0), ignoredCount_(0), totalExecutionTime_(0), timeStarted_(0), currentTestTimeStarted_(0),
-            currentTestTotalExecutionTime_(0), currentGroupTimeStarted_(0), currentGroupTotalExecutionTime_(0)
+TestResult::TestResult(TestOutput& p)
+  : output_(p)
+  , testCount_(0)
+  , runCount_(0)
+  , checkCount_(0)
+  , failureCount_(0)
+  , filteredOutCount_(0)
+  , ignoredCount_(0)
+  , totalExecutionTime_(0)
+  , timeStarted_(0)
+  , currentTestTimeStarted_(0)
+  , currentTestTotalExecutionTime_(0)
+  , currentGroupTimeStarted_(0)
+  , currentGroupTotalExecutionTime_(0)
 {
 }
 
-TestResult::~TestResult()
+TestResult::~TestResult() {}
+
+void
+TestResult::currentGroupStarted(TestShell* test)
 {
+  output_.printCurrentGroupStarted(*test);
+  currentGroupTimeStarted_ =
+    static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
-void TestResult::currentGroupStarted(TestShell* test)
+void
+TestResult::currentGroupEnded(TestShell* /*test*/)
 {
-    output_.printCurrentGroupStarted(*test);
-    currentGroupTimeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  currentGroupTotalExecutionTime_ =
+    static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+    currentGroupTimeStarted_;
+  output_.printCurrentGroupEnded(*this);
 }
 
-void TestResult::currentGroupEnded(TestShell* /*test*/)
+void
+TestResult::currentTestStarted(TestShell* test)
 {
-    currentGroupTotalExecutionTime_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis()) - currentGroupTimeStarted_;
-    output_.printCurrentGroupEnded(*this);
+  output_.printCurrentTestStarted(*test);
+  currentTestTimeStarted_ =
+    static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
-void TestResult::currentTestStarted(TestShell* test)
+void
+TestResult::print(const char* text)
 {
-    output_.printCurrentTestStarted(*test);
-    currentTestTimeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  output_.print(text);
 }
 
-void TestResult::print(const char* text)
+void
+TestResult::printVeryVerbose(const char* text)
 {
-    output_.print(text);
+  output_.printVeryVerbose(text);
 }
 
-void TestResult::printVeryVerbose(const char* text)
+void
+TestResult::currentTestEnded(TestShell* /*test*/)
 {
-    output_.printVeryVerbose(text);
+  currentTestTotalExecutionTime_ =
+    static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+    currentTestTimeStarted_;
+  output_.printCurrentTestEnded(*this);
 }
 
-void TestResult::currentTestEnded(TestShell* /*test*/)
+void
+TestResult::addFailure(const TestFailure& failure)
 {
-    currentTestTotalExecutionTime_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis()) - currentTestTimeStarted_;
-    output_.printCurrentTestEnded(*this);
-
+  output_.printFailure(failure);
+  failureCount_++;
 }
 
-void TestResult::addFailure(const TestFailure& failure)
+void
+TestResult::countTest()
 {
-    output_.printFailure(failure);
-    failureCount_++;
+  testCount_++;
 }
 
-void TestResult::countTest()
+void
+TestResult::countRun()
 {
-    testCount_++;
+  runCount_++;
 }
 
-void TestResult::countRun()
+void
+TestResult::countCheck()
 {
-    runCount_++;
+  checkCount_++;
 }
 
-void TestResult::countCheck()
+void
+TestResult::countFilteredOut()
 {
-    checkCount_++;
+  filteredOutCount_++;
 }
 
-void TestResult::countFilteredOut()
+void
+TestResult::countIgnored()
 {
-    filteredOutCount_++;
+  ignoredCount_++;
 }
 
-void TestResult::countIgnored()
+void
+TestResult::testsStarted()
 {
-    ignoredCount_++;
+  timeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  output_.printTestsStarted();
 }
 
-void TestResult::testsStarted()
+void
+TestResult::testsEnded()
 {
-    timeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
-    output_.printTestsStarted();
+  size_t timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  totalExecutionTime_ = timeEnded - timeStarted_;
+  output_.printTestsEnded(*this);
 }
 
-void TestResult::testsEnded()
+size_t
+TestResult::getTotalExecutionTime() const
 {
-    size_t timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
-    totalExecutionTime_ = timeEnded - timeStarted_;
-    output_.printTestsEnded(*this);
+  return totalExecutionTime_;
 }
 
-size_t TestResult::getTotalExecutionTime() const
+void
+TestResult::setTotalExecutionTime(size_t exTime)
 {
-    return totalExecutionTime_;
+  totalExecutionTime_ = exTime;
 }
 
-void TestResult::setTotalExecutionTime(size_t exTime)
+size_t
+TestResult::getCurrentTestTotalExecutionTime() const
 {
-    totalExecutionTime_ = exTime;
+  return currentTestTotalExecutionTime_;
 }
 
-size_t TestResult::getCurrentTestTotalExecutionTime() const
+size_t
+TestResult::getCurrentGroupTotalExecutionTime() const
 {
-    return currentTestTotalExecutionTime_;
-}
-
-size_t TestResult::getCurrentGroupTotalExecutionTime() const
-{
-    return currentGroupTotalExecutionTime_;
+  return currentGroupTotalExecutionTime_;
 }
 
 } // namespace cpputest

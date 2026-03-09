@@ -39,45 +39,44 @@ struct JUnitTestCaseResultNode;
 class JUnitTestOutput : public TestOutput
 {
 public:
-    JUnitTestOutput();
-    virtual ~JUnitTestOutput() override;
+  JUnitTestOutput();
+  virtual ~JUnitTestOutput() override;
 
-    virtual void printTestsStarted() override;
-    virtual void printTestsEnded(const TestResult& result) override;
-    virtual void printCurrentTestStarted(const TestShell& test) override;
-    virtual void printCurrentTestEnded(const TestResult& res) override;
-    virtual void printCurrentGroupStarted(const TestShell& test) override;
-    virtual void printCurrentGroupEnded(const TestResult& res) override;
+  virtual void printTestsStarted() override;
+  virtual void printTestsEnded(const TestResult& result) override;
+  virtual void printCurrentTestStarted(const TestShell& test) override;
+  virtual void printCurrentTestEnded(const TestResult& res) override;
+  virtual void printCurrentGroupStarted(const TestShell& test) override;
+  virtual void printCurrentGroupEnded(const TestResult& res) override;
 
-    virtual void printBuffer(const char*) override;
-    virtual void print(const char*) override;
-    virtual void print(long) override;
-    virtual void print(size_t) override;
-    virtual void printFailure(const TestFailure& failure) override;
+  virtual void printBuffer(const char*) override;
+  virtual void print(const char*) override;
+  virtual void print(long) override;
+  virtual void print(size_t) override;
+  virtual void printFailure(const TestFailure& failure) override;
 
-    virtual void flush() override;
+  virtual void flush() override;
 
-    virtual SimpleString createFileName(const SimpleString& group);
-    void setPackageName(const SimpleString &package);
+  virtual SimpleString createFileName(const SimpleString& group);
+  void setPackageName(const SimpleString& package);
 
 protected:
+  JUnitTestOutputImpl* impl_;
+  void resetTestGroupResult();
 
-    JUnitTestOutputImpl* impl_;
-    void resetTestGroupResult();
+  virtual void openFileForWrite(const SimpleString& fileName);
+  virtual void writeTestGroupToFile();
+  virtual void writeToFile(const SimpleString& buffer);
+  virtual void closeFile();
 
-    virtual void openFileForWrite(const SimpleString& fileName);
-    virtual void writeTestGroupToFile();
-    virtual void writeToFile(const SimpleString& buffer);
-    virtual void closeFile();
-
-    virtual void writeXmlHeader();
-    virtual void writeTestSuiteSummary();
-    virtual void writeProperties();
-    virtual void writeTestCases();
-    virtual SimpleString encodeXmlText(const SimpleString& textbody);
-    virtual SimpleString encodeFileName(const SimpleString& fileName);
-    virtual void writeFailure(JUnitTestCaseResultNode* node);
-    virtual void writeFileEnding();
+  virtual void writeXmlHeader();
+  virtual void writeTestSuiteSummary();
+  virtual void writeProperties();
+  virtual void writeTestCases();
+  virtual SimpleString encodeXmlText(const SimpleString& textbody);
+  virtual SimpleString encodeFileName(const SimpleString& fileName);
+  virtual void writeFailure(JUnitTestCaseResultNode* node);
+  virtual void writeFileEnding();
 };
 
 } // namespace cpputest

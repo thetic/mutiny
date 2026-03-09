@@ -34,44 +34,59 @@ namespace cpputest {
 
 class TestMemoryAllocator;
 
-extern void setCurrentNewAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator* getCurrentNewAllocator();
-extern void setCurrentNewAllocatorToDefault();
-extern TestMemoryAllocator* defaultNewAllocator();
+extern void
+setCurrentNewAllocator(TestMemoryAllocator* allocator);
+extern TestMemoryAllocator*
+getCurrentNewAllocator();
+extern void
+setCurrentNewAllocatorToDefault();
+extern TestMemoryAllocator*
+defaultNewAllocator();
 
-extern void setCurrentNewArrayAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator* getCurrentNewArrayAllocator();
-extern void setCurrentNewArrayAllocatorToDefault();
-extern TestMemoryAllocator* defaultNewArrayAllocator();
+extern void
+setCurrentNewArrayAllocator(TestMemoryAllocator* allocator);
+extern TestMemoryAllocator*
+getCurrentNewArrayAllocator();
+extern void
+setCurrentNewArrayAllocatorToDefault();
+extern TestMemoryAllocator*
+defaultNewArrayAllocator();
 
-extern void setCurrentMallocAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator* getCurrentMallocAllocator();
-extern void setCurrentMallocAllocatorToDefault();
-extern TestMemoryAllocator* defaultMallocAllocator();
+extern void
+setCurrentMallocAllocator(TestMemoryAllocator* allocator);
+extern TestMemoryAllocator*
+getCurrentMallocAllocator();
+extern void
+setCurrentMallocAllocatorToDefault();
+extern TestMemoryAllocator*
+defaultMallocAllocator();
 
 class TestMemoryAllocator
 {
 public:
-    TestMemoryAllocator(const char* name_str = "generic", const char* alloc_name_str = "alloc", const char* free_name_str = "free");
-    virtual ~TestMemoryAllocator();
+  TestMemoryAllocator(const char* name_str = "generic",
+                      const char* alloc_name_str = "alloc",
+                      const char* free_name_str = "free");
+  virtual ~TestMemoryAllocator();
 
-    virtual char* alloc_memory(size_t size, const char* file, size_t line);
-    virtual void free_memory(char* memory, size_t size, const char* file, size_t line);
+  virtual char* alloc_memory(size_t size, const char* file, size_t line);
+  virtual void free_memory(char* memory,
+                           size_t size,
+                           const char* file,
+                           size_t line);
 
-    virtual const char* name() const;
-    virtual const char* alloc_name() const;
-    virtual const char* free_name() const;
+  virtual const char* name() const;
+  virtual const char* alloc_name() const;
+  virtual const char* free_name() const;
 
-    virtual TestMemoryAllocator* actualAllocator();
+  virtual TestMemoryAllocator* actualAllocator();
 
 protected:
-
-    const char* name_;
-    const char* alloc_name_;
-    const char* free_name_;
+  const char* name_;
+  const char* alloc_name_;
+  const char* free_name_;
 };
 
 } // namespace cpputest
 
 #endif
-

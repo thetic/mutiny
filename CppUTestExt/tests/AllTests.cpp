@@ -32,18 +32,17 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-
-int main(int ac, const char *const *av)
+int
+main(int ac, const char* const* av)
 {
-    int result = 0;
+  int result = 0;
 
-    {
-        MockSupportPlugin mockPlugin;
-        TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
+  {
+    MockSupportPlugin mockPlugin;
+    TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
 
-        result = CommandLineTestRunner::RunAllTests(ac, av);
-    }
+    result = CommandLineTestRunner::RunAllTests(ac, av);
+  }
 
-    return result;
+  return result;
 }
-

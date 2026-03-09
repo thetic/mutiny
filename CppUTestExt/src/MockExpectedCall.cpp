@@ -28,559 +28,686 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTestExt/MockCheckedExpectedCall.h"
 
-namespace cpputest { namespace extensions {
+namespace cpputest {
+namespace extensions {
 
-MockExpectedCall::MockExpectedCall()
+MockExpectedCall::MockExpectedCall() {}
+
+MockExpectedCall::~MockExpectedCall() {}
+
+SimpleString
+StringFrom(const MockNamedValue& parameter)
 {
+  return parameter.toString();
 }
 
-MockExpectedCall::~MockExpectedCall()
+void
+MockCheckedExpectedCall::setName(const SimpleString& name)
 {
+  functionName_ = name;
 }
 
-SimpleString StringFrom(const MockNamedValue& parameter)
+SimpleString
+MockCheckedExpectedCall::getName() const
 {
-    return parameter.toString();
-}
-
-void MockCheckedExpectedCall::setName(const SimpleString& name)
-{
-    functionName_ = name;
-}
-
-SimpleString MockCheckedExpectedCall::getName() const
-{
-    return functionName_;
+  return functionName_;
 }
 
 MockCheckedExpectedCall::MockCheckedExpectedCall()
-    : ignoreOtherParameters_(false), isActualCallMatchFinalized_(false),
-      initialExpectedCallOrder_(NO_EXPECTED_CALL_ORDER), finalExpectedCallOrder_(NO_EXPECTED_CALL_ORDER),
-      outOfOrder_(false), returnValue_(""), objectPtr_(nullptr), isSpecificObjectExpected_(false), wasPassedToObject_(true),
-      actualCalls_(0), expectedCalls_(1)
+  : ignoreOtherParameters_(false)
+  , isActualCallMatchFinalized_(false)
+  , initialExpectedCallOrder_(NO_EXPECTED_CALL_ORDER)
+  , finalExpectedCallOrder_(NO_EXPECTED_CALL_ORDER)
+  , outOfOrder_(false)
+  , returnValue_("")
+  , objectPtr_(nullptr)
+  , isSpecificObjectExpected_(false)
+  , wasPassedToObject_(true)
+  , actualCalls_(0)
+  , expectedCalls_(1)
 {
-    inputParameters_ = new MockNamedValueList();
-    outputParameters_ = new MockNamedValueList();
+  inputParameters_ = new MockNamedValueList();
+  outputParameters_ = new MockNamedValueList();
 }
 
 MockCheckedExpectedCall::MockCheckedExpectedCall(unsigned int numCalls)
-    : ignoreOtherParameters_(false), isActualCallMatchFinalized_(false),
-      initialExpectedCallOrder_(NO_EXPECTED_CALL_ORDER), finalExpectedCallOrder_(NO_EXPECTED_CALL_ORDER),
-      outOfOrder_(false), returnValue_(""), objectPtr_(nullptr), isSpecificObjectExpected_(false), wasPassedToObject_(true),
-      actualCalls_(0), expectedCalls_(numCalls)
+  : ignoreOtherParameters_(false)
+  , isActualCallMatchFinalized_(false)
+  , initialExpectedCallOrder_(NO_EXPECTED_CALL_ORDER)
+  , finalExpectedCallOrder_(NO_EXPECTED_CALL_ORDER)
+  , outOfOrder_(false)
+  , returnValue_("")
+  , objectPtr_(nullptr)
+  , isSpecificObjectExpected_(false)
+  , wasPassedToObject_(true)
+  , actualCalls_(0)
+  , expectedCalls_(numCalls)
 {
-    inputParameters_ = new MockNamedValueList();
-    outputParameters_ = new MockNamedValueList();
+  inputParameters_ = new MockNamedValueList();
+  outputParameters_ = new MockNamedValueList();
 }
 
 MockCheckedExpectedCall::~MockCheckedExpectedCall()
 {
-    inputParameters_->clear();
-    delete inputParameters_;
-    outputParameters_->clear();
-    delete outputParameters_;
+  inputParameters_->clear();
+  delete inputParameters_;
+  outputParameters_->clear();
+  delete outputParameters_;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withName(const SimpleString& name)
+MockExpectedCall&
+MockCheckedExpectedCall::withName(const SimpleString& name)
 {
-    setName(name);
-    return *this;
+  setName(name);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withBoolParameter(const SimpleString& name, bool value)
+MockExpectedCall&
+MockCheckedExpectedCall::withBoolParameter(const SimpleString& name, bool value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withUnsignedIntParameter(const SimpleString& name, unsigned int value)
+MockExpectedCall&
+MockCheckedExpectedCall::withUnsignedIntParameter(const SimpleString& name,
+                                                  unsigned int value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withIntParameter(const SimpleString& name, int value)
+MockExpectedCall&
+MockCheckedExpectedCall::withIntParameter(const SimpleString& name, int value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withLongIntParameter(const SimpleString& name, long int value)
+MockExpectedCall&
+MockCheckedExpectedCall::withLongIntParameter(const SimpleString& name,
+                                              long int value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withUnsignedLongIntParameter(const SimpleString& name, unsigned long int value)
+MockExpectedCall&
+MockCheckedExpectedCall::withUnsignedLongIntParameter(const SimpleString& name,
+                                                      unsigned long int value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withLongLongIntParameter(const SimpleString& name, long long value)
+MockExpectedCall&
+MockCheckedExpectedCall::withLongLongIntParameter(const SimpleString& name,
+                                                  long long value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withUnsignedLongLongIntParameter(const SimpleString& name, unsigned long long value)
+MockExpectedCall&
+MockCheckedExpectedCall::withUnsignedLongLongIntParameter(
+  const SimpleString& name,
+  unsigned long long value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name, double value)
+MockExpectedCall&
+MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
+                                             double value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name, double value, double tolerance)
+MockExpectedCall&
+MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
+                                             double value,
+                                             double tolerance)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value, tolerance);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value, tolerance);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withStringParameter(const SimpleString& name, const char* value)
+MockExpectedCall&
+MockCheckedExpectedCall::withStringParameter(const SimpleString& name,
+                                             const char* value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withPointerParameter(const SimpleString& name, void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::withPointerParameter(const SimpleString& name,
+                                              void* value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withConstPointerParameter(const SimpleString& name, const void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::withConstPointerParameter(const SimpleString& name,
+                                                   const void* value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withFunctionPointerParameter(const SimpleString& name, void (*value)())
+MockExpectedCall&
+MockCheckedExpectedCall::withFunctionPointerParameter(const SimpleString& name,
+                                                      void (*value)())
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withMemoryBufferParameter(const SimpleString& name, const unsigned char* value, size_t size)
+MockExpectedCall&
+MockCheckedExpectedCall::withMemoryBufferParameter(const SimpleString& name,
+                                                   const unsigned char* value,
+                                                   size_t size)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setMemoryBuffer(value, size);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setMemoryBuffer(value, size);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withParameterOfType(const SimpleString& type, const SimpleString& name, const void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::withParameterOfType(const SimpleString& type,
+                                             const SimpleString& name,
+                                             const void* value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    inputParameters_->add(newParameter);
-    newParameter->setConstObjectPointer(type, value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  inputParameters_->add(newParameter);
+  newParameter->setConstObjectPointer(type, value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withOutputParameterReturning(const SimpleString& name, const void* value, size_t size)
+MockExpectedCall&
+MockCheckedExpectedCall::withOutputParameterReturning(const SimpleString& name,
+                                                      const void* value,
+                                                      size_t size)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    outputParameters_->add(newParameter);
-    newParameter->setValue(value);
-    newParameter->setSize(size);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  outputParameters_->add(newParameter);
+  newParameter->setValue(value);
+  newParameter->setSize(size);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withOutputParameterOfTypeReturning(const SimpleString& type, const SimpleString& name, const void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::withOutputParameterOfTypeReturning(
+  const SimpleString& type,
+  const SimpleString& name,
+  const void* value)
 {
-    MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
-    outputParameters_->add(newParameter);
-    newParameter->setConstObjectPointer(type, value);
-    return *this;
+  MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
+  outputParameters_->add(newParameter);
+  newParameter->setConstObjectPointer(type, value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withUnmodifiedOutputParameter(const SimpleString& name)
+MockExpectedCall&
+MockCheckedExpectedCall::withUnmodifiedOutputParameter(const SimpleString& name)
 {
-    return withOutputParameterReturning(name, nullptr, 0);
+  return withOutputParameterReturning(name, nullptr, 0);
 }
 
-SimpleString MockCheckedExpectedCall::getInputParameterType(const SimpleString& name)
+SimpleString
+MockCheckedExpectedCall::getInputParameterType(const SimpleString& name)
 {
-    MockNamedValue * p = inputParameters_->getValueByName(name);
-    return (p) ? p->getType() : cpputest::StringFrom("");
+  MockNamedValue* p = inputParameters_->getValueByName(name);
+  return (p) ? p->getType() : cpputest::StringFrom("");
 }
 
-bool MockCheckedExpectedCall::hasInputParameterWithName(const SimpleString& name)
+bool
+MockCheckedExpectedCall::hasInputParameterWithName(const SimpleString& name)
 {
-    MockNamedValue * p = inputParameters_->getValueByName(name);
-    return p != nullptr;
+  MockNamedValue* p = inputParameters_->getValueByName(name);
+  return p != nullptr;
 }
 
-bool MockCheckedExpectedCall::hasOutputParameterWithName(const SimpleString& name)
+bool
+MockCheckedExpectedCall::hasOutputParameterWithName(const SimpleString& name)
 {
-    MockNamedValue * p = outputParameters_->getValueByName(name);
-    return p != nullptr;
+  MockNamedValue* p = outputParameters_->getValueByName(name);
+  return p != nullptr;
 }
 
-MockNamedValue MockCheckedExpectedCall::getInputParameter(const SimpleString& name)
+MockNamedValue
+MockCheckedExpectedCall::getInputParameter(const SimpleString& name)
 {
-    MockNamedValue * p = inputParameters_->getValueByName(name);
-    return (p) ? *p : MockNamedValue("");
+  MockNamedValue* p = inputParameters_->getValueByName(name);
+  return (p) ? *p : MockNamedValue("");
 }
 
-MockNamedValue MockCheckedExpectedCall::getOutputParameter(const SimpleString& name)
+MockNamedValue
+MockCheckedExpectedCall::getOutputParameter(const SimpleString& name)
 {
-    MockNamedValue * p = outputParameters_->getValueByName(name);
-    return (p) ? *p : MockNamedValue("");
+  MockNamedValue* p = outputParameters_->getValueByName(name);
+  return (p) ? *p : MockNamedValue("");
 }
 
-bool MockCheckedExpectedCall::areParametersMatchingActualCall()
+bool
+MockCheckedExpectedCall::areParametersMatchingActualCall()
 {
-    MockNamedValueListNode* p;
-    for (p = inputParameters_->begin(); p; p = p->next())
-        if (! item(p)->isMatchingActualCall())
-            return false;
-    for (p = outputParameters_->begin(); p; p = p->next())
-        if (! item(p)->isMatchingActualCall())
-            return false;
-    return true;
+  MockNamedValueListNode* p;
+  for (p = inputParameters_->begin(); p; p = p->next())
+    if (!item(p)->isMatchingActualCall())
+      return false;
+  for (p = outputParameters_->begin(); p; p = p->next())
+    if (!item(p)->isMatchingActualCall())
+      return false;
+  return true;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::ignoreOtherParameters()
+MockExpectedCall&
+MockCheckedExpectedCall::ignoreOtherParameters()
 {
-    ignoreOtherParameters_ = true;
-    return *this;
+  ignoreOtherParameters_ = true;
+  return *this;
 }
 
-bool MockCheckedExpectedCall::isFulfilled()
+bool
+MockCheckedExpectedCall::isFulfilled()
 {
-    return (actualCalls_ == expectedCalls_);
+  return (actualCalls_ == expectedCalls_);
 }
 
-bool MockCheckedExpectedCall::canMatchActualCalls()
+bool
+MockCheckedExpectedCall::canMatchActualCalls()
 {
-    return (actualCalls_ < expectedCalls_);
+  return (actualCalls_ < expectedCalls_);
 }
 
-bool MockCheckedExpectedCall::isMatchingActualCallAndFinalized()
+bool
+MockCheckedExpectedCall::isMatchingActualCallAndFinalized()
 {
-    return isMatchingActualCall() && (!ignoreOtherParameters_ || isActualCallMatchFinalized_);
+  return isMatchingActualCall() &&
+         (!ignoreOtherParameters_ || isActualCallMatchFinalized_);
 }
 
-bool MockCheckedExpectedCall::isMatchingActualCall()
+bool
+MockCheckedExpectedCall::isMatchingActualCall()
 {
-    return areParametersMatchingActualCall() && wasPassedToObject_;
+  return areParametersMatchingActualCall() && wasPassedToObject_;
 }
 
-void MockCheckedExpectedCall::callWasMade(unsigned int callOrder)
+void
+MockCheckedExpectedCall::callWasMade(unsigned int callOrder)
 {
-    actualCalls_++;
+  actualCalls_++;
 
-    if ( (initialExpectedCallOrder_ != NO_EXPECTED_CALL_ORDER) &&
-         ((callOrder < initialExpectedCallOrder_) || (callOrder > finalExpectedCallOrder_)) ) {
-        outOfOrder_ = true;
-    }
+  if ((initialExpectedCallOrder_ != NO_EXPECTED_CALL_ORDER) &&
+      ((callOrder < initialExpectedCallOrder_) ||
+       (callOrder > finalExpectedCallOrder_))) {
+    outOfOrder_ = true;
+  }
 
-    resetActualCallMatchingState();
+  resetActualCallMatchingState();
 }
 
-void MockCheckedExpectedCall::finalizeActualCallMatch()
+void
+MockCheckedExpectedCall::finalizeActualCallMatch()
 {
-    isActualCallMatchFinalized_ = true;
+  isActualCallMatchFinalized_ = true;
 }
 
-
-void MockCheckedExpectedCall::wasPassedToObject()
+void
+MockCheckedExpectedCall::wasPassedToObject()
 {
-    wasPassedToObject_ = true;
+  wasPassedToObject_ = true;
 }
 
-void MockCheckedExpectedCall::resetActualCallMatchingState()
+void
+MockCheckedExpectedCall::resetActualCallMatchingState()
 {
-    wasPassedToObject_ = !isSpecificObjectExpected_;
-    isActualCallMatchFinalized_ = false;
+  wasPassedToObject_ = !isSpecificObjectExpected_;
+  isActualCallMatchFinalized_ = false;
 
-    MockNamedValueListNode* p;
+  MockNamedValueListNode* p;
 
-    for (p = inputParameters_->begin(); p; p = p->next())
-        item(p)->setMatchesActualCall(false);
-    for (p = outputParameters_->begin(); p; p = p->next())
-        item(p)->setMatchesActualCall(false);
+  for (p = inputParameters_->begin(); p; p = p->next())
+    item(p)->setMatchesActualCall(false);
+  for (p = outputParameters_->begin(); p; p = p->next())
+    item(p)->setMatchesActualCall(false);
 }
 
-void MockCheckedExpectedCall::inputParameterWasPassed(const SimpleString& name)
+void
+MockCheckedExpectedCall::inputParameterWasPassed(const SimpleString& name)
 {
-    for (MockNamedValueListNode* p = inputParameters_->begin(); p; p = p->next()) {
-        if (p->getName() == name)
-            item(p)->setMatchesActualCall(true);
-    }
+  for (MockNamedValueListNode* p = inputParameters_->begin(); p;
+       p = p->next()) {
+    if (p->getName() == name)
+      item(p)->setMatchesActualCall(true);
+  }
 }
 
-void MockCheckedExpectedCall::outputParameterWasPassed(const SimpleString& name)
+void
+MockCheckedExpectedCall::outputParameterWasPassed(const SimpleString& name)
 {
-    for (MockNamedValueListNode* p = outputParameters_->begin(); p; p = p->next()) {
-        if (p->getName() == name)
-            item(p)->setMatchesActualCall(true);
-    }
+  for (MockNamedValueListNode* p = outputParameters_->begin(); p;
+       p = p->next()) {
+    if (p->getName() == name)
+      item(p)->setMatchesActualCall(true);
+  }
 }
 
-SimpleString MockCheckedExpectedCall::getInputParameterValueString(const SimpleString& name)
+SimpleString
+MockCheckedExpectedCall::getInputParameterValueString(const SimpleString& name)
 {
-    MockNamedValue * p = inputParameters_->getValueByName(name);
-    return (p) ? StringFrom(*p) : cpputest::StringFrom("failed");
+  MockNamedValue* p = inputParameters_->getValueByName(name);
+  return (p) ? StringFrom(*p) : cpputest::StringFrom("failed");
 }
 
-bool MockCheckedExpectedCall::hasInputParameter(const MockNamedValue& parameter)
+bool
+MockCheckedExpectedCall::hasInputParameter(const MockNamedValue& parameter)
 {
-    MockNamedValue * p = inputParameters_->getValueByName(parameter.getName());
-    return (p) ? p->equals(parameter) : ignoreOtherParameters_;
+  MockNamedValue* p = inputParameters_->getValueByName(parameter.getName());
+  return (p) ? p->equals(parameter) : ignoreOtherParameters_;
 }
 
-bool MockCheckedExpectedCall::hasOutputParameter(const MockNamedValue& parameter)
+bool
+MockCheckedExpectedCall::hasOutputParameter(const MockNamedValue& parameter)
 {
-    MockNamedValue * p = outputParameters_->getValueByName(parameter.getName());
-    return (p) ? p->compatibleForCopying(parameter) : ignoreOtherParameters_;
+  MockNamedValue* p = outputParameters_->getValueByName(parameter.getName());
+  return (p) ? p->compatibleForCopying(parameter) : ignoreOtherParameters_;
 }
 
-SimpleString MockCheckedExpectedCall::callToString()
+SimpleString
+MockCheckedExpectedCall::callToString()
 {
-    SimpleString str;
-    if (isSpecificObjectExpected_)
-        str = StringFromFormat("(object address: %p)::", objectPtr_);
+  SimpleString str;
+  if (isSpecificObjectExpected_)
+    str = StringFromFormat("(object address: %p)::", objectPtr_);
 
-    str += getName();
-    str += " -> ";
-    if (initialExpectedCallOrder_ != NO_EXPECTED_CALL_ORDER) {
-        if (initialExpectedCallOrder_ == finalExpectedCallOrder_) {
-            str += StringFromFormat("expected call order: <%u> -> ", initialExpectedCallOrder_);
-        } else {
-            str += StringFromFormat("expected calls order: <%u..%u> -> ", initialExpectedCallOrder_, finalExpectedCallOrder_);
-        }
-    }
-
-    if (inputParameters_->begin() == nullptr && outputParameters_->begin() == nullptr) {
-        str += (ignoreOtherParameters_) ? "all parameters ignored" : "no parameters";
+  str += getName();
+  str += " -> ";
+  if (initialExpectedCallOrder_ != NO_EXPECTED_CALL_ORDER) {
+    if (initialExpectedCallOrder_ == finalExpectedCallOrder_) {
+      str += StringFromFormat("expected call order: <%u> -> ",
+                              initialExpectedCallOrder_);
     } else {
-        MockNamedValueListNode* p;
-
-        for (p = inputParameters_->begin(); p; p = p->next()) {
-            str += StringFromFormat("%s %s: <%s>", p->getType().asCharString(), p->getName().asCharString(), getInputParameterValueString(p->getName()).asCharString());
-            if (p->next()) str += ", ";
-        }
-
-        if (inputParameters_->begin() && outputParameters_->begin())
-        {
-            str += ", ";
-        }
-
-        for (p = outputParameters_->begin(); p; p = p->next()) {
-            str += StringFromFormat("%s %s: <output>", p->getType().asCharString(), p->getName().asCharString());
-            if (p->next()) str += ", ";
-        }
-
-        if (ignoreOtherParameters_)
-            str += ", other parameters are ignored";
+      str += StringFromFormat("expected calls order: <%u..%u> -> ",
+                              initialExpectedCallOrder_,
+                              finalExpectedCallOrder_);
     }
+  }
 
-    str += StringFromFormat(" (expected %u call%s, called %u time%s)",
-                            expectedCalls_, (expectedCalls_ == 1) ? "" : "s", actualCalls_, (actualCalls_ == 1) ? "" : "s" );
-
-    return str;
-}
-
-SimpleString MockCheckedExpectedCall::missingParametersToString()
-{
-    SimpleString str;
-	MockNamedValueListNode* p;
+  if (inputParameters_->begin() == nullptr &&
+      outputParameters_->begin() == nullptr) {
+    str +=
+      (ignoreOtherParameters_) ? "all parameters ignored" : "no parameters";
+  } else {
+    MockNamedValueListNode* p;
 
     for (p = inputParameters_->begin(); p; p = p->next()) {
-        if (! item(p)->isMatchingActualCall()) {
-            if (str != "") str += ", ";
-            str += StringFromFormat("%s %s", p->getType().asCharString(), p->getName().asCharString());
-        }
+      str += StringFromFormat(
+        "%s %s: <%s>",
+        p->getType().asCharString(),
+        p->getName().asCharString(),
+        getInputParameterValueString(p->getName()).asCharString());
+      if (p->next())
+        str += ", ";
     }
+
+    if (inputParameters_->begin() && outputParameters_->begin()) {
+      str += ", ";
+    }
+
     for (p = outputParameters_->begin(); p; p = p->next()) {
-        if (! item(p)->isMatchingActualCall()) {
-            if (str != "") str += ", ";
-            str += StringFromFormat("%s %s", p->getType().asCharString(), p->getName().asCharString());
-        }
+      str += StringFromFormat("%s %s: <output>",
+                              p->getType().asCharString(),
+                              p->getName().asCharString());
+      if (p->next())
+        str += ", ";
     }
-    return str;
+
+    if (ignoreOtherParameters_)
+      str += ", other parameters are ignored";
+  }
+
+  str += StringFromFormat(" (expected %u call%s, called %u time%s)",
+                          expectedCalls_,
+                          (expectedCalls_ == 1) ? "" : "s",
+                          actualCalls_,
+                          (actualCalls_ == 1) ? "" : "s");
+
+  return str;
 }
 
-bool MockCheckedExpectedCall::relatesTo(const SimpleString& functionName)
+SimpleString
+MockCheckedExpectedCall::missingParametersToString()
 {
-    return functionName == getName();
+  SimpleString str;
+  MockNamedValueListNode* p;
+
+  for (p = inputParameters_->begin(); p; p = p->next()) {
+    if (!item(p)->isMatchingActualCall()) {
+      if (str != "")
+        str += ", ";
+      str += StringFromFormat(
+        "%s %s", p->getType().asCharString(), p->getName().asCharString());
+    }
+  }
+  for (p = outputParameters_->begin(); p; p = p->next()) {
+    if (!item(p)->isMatchingActualCall()) {
+      if (str != "")
+        str += ", ";
+      str += StringFromFormat(
+        "%s %s", p->getType().asCharString(), p->getName().asCharString());
+    }
+  }
+  return str;
 }
 
-bool MockCheckedExpectedCall::relatesToObject(const void* objectPtr) const
+bool
+MockCheckedExpectedCall::relatesTo(const SimpleString& functionName)
 {
-    return (!isSpecificObjectExpected_) || (objectPtr_ == objectPtr);
+  return functionName == getName();
 }
 
-MockCheckedExpectedCall::MockExpectedFunctionParameter* MockCheckedExpectedCall::item(MockNamedValueListNode* node)
+bool
+MockCheckedExpectedCall::relatesToObject(const void* objectPtr) const
 {
-    return static_cast<MockExpectedFunctionParameter*>(node->item());
+  return (!isSpecificObjectExpected_) || (objectPtr_ == objectPtr);
 }
 
-MockCheckedExpectedCall::MockExpectedFunctionParameter::MockExpectedFunctionParameter(const SimpleString& name)
-            : MockNamedValue(name), matchesActualCall_(false)
+MockCheckedExpectedCall::MockExpectedFunctionParameter*
+MockCheckedExpectedCall::item(MockNamedValueListNode* node)
+{
+  return static_cast<MockExpectedFunctionParameter*>(node->item());
+}
+
+MockCheckedExpectedCall::MockExpectedFunctionParameter::
+  MockExpectedFunctionParameter(const SimpleString& name)
+  : MockNamedValue(name)
+  , matchesActualCall_(false)
 {
 }
 
-void MockCheckedExpectedCall::MockExpectedFunctionParameter::setMatchesActualCall(bool b)
+void
+MockCheckedExpectedCall::MockExpectedFunctionParameter::setMatchesActualCall(
+  bool b)
 {
-    matchesActualCall_ = b;
+  matchesActualCall_ = b;
 }
 
-bool MockCheckedExpectedCall::MockExpectedFunctionParameter::isMatchingActualCall() const
+bool
+MockCheckedExpectedCall::MockExpectedFunctionParameter::isMatchingActualCall()
+  const
 {
-    return matchesActualCall_;
+  return matchesActualCall_;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(bool value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(bool value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(unsigned int value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(unsigned int value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(int value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(int value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(long int value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(long int value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(unsigned long int value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(unsigned long int value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(long long value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(long long value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(unsigned long long value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(unsigned long long value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(const char* value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(const char* value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(double value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(double value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(void* value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(const void* value)
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(const void* value)
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::andReturnValue(void (*value)())
+MockExpectedCall&
+MockCheckedExpectedCall::andReturnValue(void (*value)())
 {
-    returnValue_.setName("returnValue");
-    returnValue_.setValue(value);
-    return *this;
+  returnValue_.setName("returnValue");
+  returnValue_.setValue(value);
+  return *this;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::onObject(void* objectPtr)
+MockExpectedCall&
+MockCheckedExpectedCall::onObject(void* objectPtr)
 {
-    isSpecificObjectExpected_ = true;
-    wasPassedToObject_ = false;
-    objectPtr_ = objectPtr;
-    return *this;
+  isSpecificObjectExpected_ = true;
+  wasPassedToObject_ = false;
+  objectPtr_ = objectPtr;
+  return *this;
 }
 
-MockNamedValue MockCheckedExpectedCall::returnValue()
+MockNamedValue
+MockCheckedExpectedCall::returnValue()
 {
-    return returnValue_;
+  return returnValue_;
 }
 
-MockExpectedCall& MockCheckedExpectedCall::withCallOrder(unsigned int initialCallOrder, unsigned int finalCallOrder)
+MockExpectedCall&
+MockCheckedExpectedCall::withCallOrder(unsigned int initialCallOrder,
+                                       unsigned int finalCallOrder)
 {
-    initialExpectedCallOrder_ = initialCallOrder;
-    finalExpectedCallOrder_ = finalCallOrder;
-    return *this;
+  initialExpectedCallOrder_ = initialCallOrder;
+  finalExpectedCallOrder_ = finalCallOrder;
+  return *this;
 }
 
-bool MockCheckedExpectedCall::isOutOfOrder() const
+bool
+MockCheckedExpectedCall::isOutOfOrder() const
 {
-    return outOfOrder_;
+  return outOfOrder_;
 }
 
-unsigned int MockCheckedExpectedCall::getActualCallsFulfilled() const
+unsigned int
+MockCheckedExpectedCall::getActualCallsFulfilled() const
 {
-    return actualCalls_;
+  return actualCalls_;
 }
 
-MockExpectedCall& MockIgnoredExpectedCall::instance()
+MockExpectedCall&
+MockIgnoredExpectedCall::instance()
 {
-    static MockIgnoredExpectedCall call;
-    return call;
+  static MockIgnoredExpectedCall call;
+  return call;
 }
 
 } // namespace extensions

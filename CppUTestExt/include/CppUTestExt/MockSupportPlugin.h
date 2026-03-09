@@ -31,26 +31,30 @@
 #include "CppUTest/TestPlugin.h"
 #include "CppUTestExt/MockNamedValue.h"
 
-namespace cpputest { namespace extensions {
-
+namespace cpputest {
+namespace extensions {
 
 class MockSupportPlugin : public cpputest::TestPlugin
 {
 public:
-    MockSupportPlugin(const cpputest::SimpleString& name = "MockSupportPLugin");
-    virtual ~MockSupportPlugin() override;
+  MockSupportPlugin(const cpputest::SimpleString& name = "MockSupportPLugin");
+  virtual ~MockSupportPlugin() override;
 
-    virtual void preTestAction(cpputest::TestShell&, cpputest::TestResult&) override;
-    virtual void postTestAction(cpputest::TestShell&, cpputest::TestResult&) override;
+  virtual void preTestAction(cpputest::TestShell&,
+                             cpputest::TestResult&) override;
+  virtual void postTestAction(cpputest::TestShell&,
+                              cpputest::TestResult&) override;
 
-    virtual void installComparator(const cpputest::SimpleString& name, MockNamedValueComparator& comparator);
-    virtual void installCopier(const cpputest::SimpleString& name, MockNamedValueCopier& copier);
+  virtual void installComparator(const cpputest::SimpleString& name,
+                                 MockNamedValueComparator& comparator);
+  virtual void installCopier(const cpputest::SimpleString& name,
+                             MockNamedValueCopier& copier);
 
-    void clear();
+  void clear();
+
 private:
-    MockNamedValueComparatorsAndCopiersRepository repository_;
+  MockNamedValueComparatorsAndCopiersRepository repository_;
 };
-
 
 } // namespace extensions
 } // namespace cpputest

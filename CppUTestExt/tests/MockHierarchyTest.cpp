@@ -31,127 +31,132 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-
-TEST_GROUP(MockHierarchyTest)
+TEST_GROUP(MockHierarchyTest) {
+void
+teardown() override
 {
-    void teardown() override
-    {
-        mock().clear();
-    }
+  mock().clear();
+}
 };
 
 TEST(MockHierarchyTest, getMockSupportScope)
 {
-    MockSupport* mock1 = mock().getMockSupportScope("name");
-    MockSupport* mock2 = mock().getMockSupportScope("differentName");
+  MockSupport* mock1 = mock().getMockSupportScope("name");
+  MockSupport* mock2 = mock().getMockSupportScope("differentName");
 
-    CHECK(!mock().hasData("name"));
-    CHECK(mock1 != mock2);
-    POINTERS_EQUAL(mock1, mock().getMockSupportScope("name"));
-    CHECK(mock1 != &mock());
+  CHECK(!mock().hasData("name"));
+  CHECK(mock1 != mock2);
+  POINTERS_EQUAL(mock1, mock().getMockSupportScope("name"));
+  CHECK(mock1 != &mock());
 }
 
 TEST(MockHierarchyTest, usingTwoMockSupportsByName)
 {
-    mock("first").expectOneCall("boo");
+  mock("first").expectOneCall("boo");
 
-    LONGS_EQUAL(0, mock("other").expectedCallsLeft());
-    LONGS_EQUAL(1, mock("first").expectedCallsLeft());
+  LONGS_EQUAL(0, mock("other").expectedCallsLeft());
+  LONGS_EQUAL(1, mock("first").expectedCallsLeft());
 
-    mock("first").clear();
+  mock("first").clear();
 }
 
 TEST(MockHierarchyTest, EnableDisableWorkHierarchically)
 {
-    mock("first");
+  mock("first");
 
-    mock().disable();
-    mock("first").expectOneCall("boo");
-    LONGS_EQUAL(0, mock("first").expectedCallsLeft());
+  mock().disable();
+  mock("first").expectOneCall("boo");
+  LONGS_EQUAL(0, mock("first").expectedCallsLeft());
 
-    mock().enable();
-    mock("first").expectOneCall("boo");
-    LONGS_EQUAL(1, mock("first").expectedCallsLeft());
+  mock().enable();
+  mock("first").expectOneCall("boo");
+  LONGS_EQUAL(1, mock("first").expectedCallsLeft());
 
-    mock("first").clear();
+  mock("first").clear();
 }
 
-TEST(MockHierarchyTest, EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreated)
+TEST(MockHierarchyTest,
+     EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreated)
 {
-    mock().disable();
-    mock("first").expectOneCall("boo");
-    LONGS_EQUAL(0, mock("first").expectedCallsLeft());
+  mock().disable();
+  mock("first").expectOneCall("boo");
+  LONGS_EQUAL(0, mock("first").expectedCallsLeft());
 
-    mock().enable();
-    mock("second").expectOneCall("boo");
-    LONGS_EQUAL(1, mock("second").expectedCallsLeft());
+  mock().enable();
+  mock("second").expectOneCall("boo");
+  LONGS_EQUAL(1, mock("second").expectedCallsLeft());
 
-    mock().clear();
+  mock().clear();
 }
 
 TEST(MockHierarchyTest, ExpectedCallsLeftWorksHierarchically)
 {
-    mock("first").expectOneCall("foobar");
-    LONGS_EQUAL(1, mock().expectedCallsLeft());
+  mock("first").expectOneCall("foobar");
+  LONGS_EQUAL(1, mock().expectedCallsLeft());
 
-    mock().clear();
+  mock().clear();
 }
 
 TEST(MockHierarchyTest, checkExpectationsWorksHierarchically)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    MockExpectedCallsListForTest expectations;
-    expectations.addFunction("first::foobar");
-    expectations.addFunction("second::helloworld");
-    MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(), expectations);
+  MockExpectedCallsListForTest expectations;
+  expectations.addFunction("first::foobar");
+  expectations.addFunction("second::helloworld");
+  MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(),
+                                                      expectations);
 
-    mock("first").expectOneCall("foobar");
-    mock("second").expectOneCall("helloworld");
+  mock("first").expectOneCall("foobar");
+  mock("second").expectOneCall("helloworld");
 
-    mock().checkExpectations();
-    CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  mock().checkExpectations();
+  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockHierarchyTest, ignoreOtherCallsWorksHierarchically)
 {
-    mock("first");
-    mock().ignoreOtherCalls();
-    mock("first").actualCall("boo");
+  mock("first");
+  mock().ignoreOtherCalls();
+  mock("first").actualCall("boo");
 
-    mock().checkExpectations();
+  mock().checkExpectations();
 }
 
-TEST(MockHierarchyTest, ignoreOtherCallsWorksHierarchicallyWhenDynamicallyCreated)
+TEST(MockHierarchyTest,
+     ignoreOtherCallsWorksHierarchicallyWhenDynamicallyCreated)
 {
-    mock().ignoreOtherCalls();
-    mock("first").actualCall("boo");
+  mock().ignoreOtherCalls();
+  mock("first").actualCall("boo");
 
-    mock().checkExpectations();
+  mock().checkExpectations();
 }
 
-TEST(MockHierarchyTest, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
+TEST(MockHierarchyTest,
+     checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    MockExpectedCallsListForTest expectations;
-    expectations.addFunction("first::foobar")->withParameter("boo", 1);
-    MockExpectedParameterDidntHappenFailure expectedFailure(mockFailureTest(), "first::foobar", expectations, expectations);
+  MockExpectedCallsListForTest expectations;
+  expectations.addFunction("first::foobar")->withParameter("boo", 1);
+  MockExpectedParameterDidntHappenFailure expectedFailure(
+    mockFailureTest(), "first::foobar", expectations, expectations);
 
-    mock("first").expectOneCall("foobar").withParameter("boo", 1);
-    mock("first").actualCall("foobar");
+  mock("first").expectOneCall("foobar").withParameter("boo", 1);
+  mock("first").actualCall("foobar");
 
-    mock().checkExpectations();
-    CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  mock().checkExpectations();
+  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockHierarchyTest, reporterIsInheritedInHierarchicalMocks)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
-    MockExpectedCallsListForTest expectations;
+  MockFailureReporterInstaller failureReporterInstaller;
+  MockExpectedCallsListForTest expectations;
 
-    mock("differentScope").actualCall("foobar");
+  mock("differentScope").actualCall("foobar");
 
-    MockUnexpectedCallHappenedFailure expectedFailure(mockFailureTest(), "differentScope::foobar", expectations);
-    CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  MockUnexpectedCallHappenedFailure expectedFailure(
+    mockFailureTest(), "differentScope::foobar", expectations);
+  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }

@@ -34,159 +34,193 @@ bool TestTestingFixture::lineOfCodeExecutedAfterCheck = false;
 
 TestTestingFixture::TestTestingFixture()
 {
-    output_ = new StringBufferTestOutput();
-    result_ = new TestResult(*output_);
-    genTest_ = new ExecFunctionTestShell();
-    registry_ = new TestRegistry();
-    ownsExecFunction_ = false;
+  output_ = new StringBufferTestOutput();
+  result_ = new TestResult(*output_);
+  genTest_ = new ExecFunctionTestShell();
+  registry_ = new TestRegistry();
+  ownsExecFunction_ = false;
 
-    registry_->setCurrentRegistry(registry_);
-    registry_->addTest(genTest_);
+  registry_->setCurrentRegistry(registry_);
+  registry_->addTest(genTest_);
 
-    lineOfCodeExecutedAfterCheck = false;
+  lineOfCodeExecutedAfterCheck = false;
 }
 
-void TestTestingFixture::flushOutputAndResetResult()
+void
+TestTestingFixture::flushOutputAndResetResult()
 {
-     output_->flush();
-     delete result_;
-     result_ = new TestResult(*output_);
+  output_->flush();
+  delete result_;
+  result_ = new TestResult(*output_);
 }
 
 TestTestingFixture::~TestTestingFixture()
 {
-    registry_->setCurrentRegistry(nullptr);
-    clearExecFunction();
-    delete registry_;
-    delete result_;
-    delete output_;
-    delete genTest_;
+  registry_->setCurrentRegistry(nullptr);
+  clearExecFunction();
+  delete registry_;
+  delete result_;
+  delete output_;
+  delete genTest_;
 }
 
-void TestTestingFixture::clearExecFunction()
+void
+TestTestingFixture::clearExecFunction()
 {
-    if (genTest_->testFunction_ && ownsExecFunction_)
-        delete genTest_->testFunction_;
+  if (genTest_->testFunction_ && ownsExecFunction_)
+    delete genTest_->testFunction_;
 }
 
-void TestTestingFixture::addTest(TestShell * test)
+void
+TestTestingFixture::addTest(TestShell* test)
 {
-    registry_->addTest(test);
+  registry_->addTest(test);
 }
 
-void TestTestingFixture::setTestFunction(void(*testFunction)())
+void
+TestTestingFixture::setTestFunction(void (*testFunction)())
 {
-    clearExecFunction();
+  clearExecFunction();
 
-    genTest_->testFunction_ = new ExecFunctionWithoutParameters(testFunction);
-    ownsExecFunction_ = true;
+  genTest_->testFunction_ = new ExecFunctionWithoutParameters(testFunction);
+  ownsExecFunction_ = true;
 }
 
-void TestTestingFixture::setTestFunction(ExecFunction* testFunction)
+void
+TestTestingFixture::setTestFunction(ExecFunction* testFunction)
 {
-    clearExecFunction();
+  clearExecFunction();
 
-    genTest_->testFunction_ = testFunction;
+  genTest_->testFunction_ = testFunction;
 
-    ownsExecFunction_ = false;
+  ownsExecFunction_ = false;
 }
 
-void TestTestingFixture::setSetup(void(*setupFunction)())
+void
+TestTestingFixture::setSetup(void (*setupFunction)())
 {
-    genTest_->setup_ = setupFunction;
+  genTest_->setup_ = setupFunction;
 }
 
-void TestTestingFixture::setTeardown(void(*teardownFunction)())
+void
+TestTestingFixture::setTeardown(void (*teardownFunction)())
 {
-    genTest_->teardown_ = teardownFunction;
+  genTest_->teardown_ = teardownFunction;
 }
 
-void TestTestingFixture::installPlugin(TestPlugin* plugin)
+void
+TestTestingFixture::installPlugin(TestPlugin* plugin)
 {
-    registry_->installPlugin(plugin);
+  registry_->installPlugin(plugin);
 }
 
-void TestTestingFixture::setOutputVerbose()
+void
+TestTestingFixture::setOutputVerbose()
 {
-    output_->verbose(TestOutput::level_verbose);
+  output_->verbose(TestOutput::level_verbose);
 }
 
-void TestTestingFixture::runTestWithMethod(void(*method)())
+void
+TestTestingFixture::runTestWithMethod(void (*method)())
 {
-    setTestFunction(method);
-    runAllTests();
+  setTestFunction(method);
+  runAllTests();
 }
 
-void TestTestingFixture::runAllTests()
+void
+TestTestingFixture::runAllTests()
 {
-    registry_->runAllTests(*result_);
+  registry_->runAllTests(*result_);
 }
 
-size_t TestTestingFixture::getFailureCount()
+size_t
+TestTestingFixture::getFailureCount()
 {
-    return result_->getFailureCount();
+  return result_->getFailureCount();
 }
 
-size_t TestTestingFixture::getCheckCount()
+size_t
+TestTestingFixture::getCheckCount()
 {
-    return result_->getCheckCount();
+  return result_->getCheckCount();
 }
 
-size_t TestTestingFixture::getTestCount()
+size_t
+TestTestingFixture::getTestCount()
 {
-    return result_->getTestCount();
+  return result_->getTestCount();
 }
 
-size_t TestTestingFixture::getIgnoreCount()
+size_t
+TestTestingFixture::getIgnoreCount()
 {
-    return result_->getIgnoredCount();
+  return result_->getIgnoredCount();
 }
 
-TestRegistry* TestTestingFixture::getRegistry()
+TestRegistry*
+TestTestingFixture::getRegistry()
 {
-    return registry_;
+  return registry_;
 }
 
-bool TestTestingFixture::hasTestFailed()
+bool
+TestTestingFixture::hasTestFailed()
 {
-    return genTest_->hasFailed();
+  return genTest_->hasFailed();
 }
 
-void TestTestingFixture::assertPrintContains(const SimpleString& contains)
+void
+TestTestingFixture::assertPrintContains(const SimpleString& contains)
 {
-    STRCMP_CONTAINS(contains.asCharString(), getOutput().asCharString());
+  STRCMP_CONTAINS(contains.asCharString(), getOutput().asCharString());
 }
 
-void TestTestingFixture::assertPrintContainsNot(const SimpleString& contains)
+void
+TestTestingFixture::assertPrintContainsNot(const SimpleString& contains)
 {
-    CHECK(! getOutput().contains(contains));
+  CHECK(!getOutput().contains(contains));
 }
 
-
-const SimpleString& TestTestingFixture::getOutput()
+const SimpleString&
+TestTestingFixture::getOutput()
 {
-    return output_->getOutput();
+  return output_->getOutput();
 }
 
-size_t TestTestingFixture::getRunCount()
+size_t
+TestTestingFixture::getRunCount()
 {
-  	return result_->getRunCount();
+  return result_->getRunCount();
 }
 
-void TestTestingFixture::lineExecutedAfterCheck()
+void
+TestTestingFixture::lineExecutedAfterCheck()
 {
-    lineOfCodeExecutedAfterCheck = true;
+  lineOfCodeExecutedAfterCheck = true;
 }
 
-void TestTestingFixture::checkTestFailsWithProperTestLocation(const char* text, const char* file, size_t line)
+void
+TestTestingFixture::checkTestFailsWithProperTestLocation(const char* text,
+                                                         const char* file,
+                                                         size_t line)
 {
-    if (getFailureCount() != 1)
-      FAIL_LOCATION(StringFromFormat("Expected one test failure, but got %d amount of test failures", static_cast<int>(getFailureCount())).asCharString(), file, line);
+  if (getFailureCount() != 1)
+    FAIL_LOCATION(
+      StringFromFormat(
+        "Expected one test failure, but got %d amount of test failures",
+        static_cast<int>(getFailureCount()))
+        .asCharString(),
+      file,
+      line);
 
-    STRCMP_CONTAINS_LOCATION(text, output_->getOutput().asCharString(), "", file, line);
+  STRCMP_CONTAINS_LOCATION(
+    text, output_->getOutput().asCharString(), "", file, line);
 
-    if (lineOfCodeExecutedAfterCheck)
-      FAIL_LOCATION("The test should jump/throw on failure and not execute the next line. However, the next line was executed.", file, line);
+  if (lineOfCodeExecutedAfterCheck)
+    FAIL_LOCATION("The test should jump/throw on failure and not execute the "
+                  "next line. However, the next line was executed.",
+                  file,
+                  line);
 }
 
 } // namespace cpputest

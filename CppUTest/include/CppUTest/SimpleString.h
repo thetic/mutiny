@@ -41,21 +41,21 @@
 #include <stddef.h>
 #include <stdarg.h>
 #ifdef __cplusplus
-# ifndef CPPUTEST_USE_STD_CPP_LIB
-#  define CPPUTEST_USE_STD_CPP_LIB 1
-# endif
-# if CPPUTEST_USE_STD_CPP_LIB
-#  include <string>
-#  include <cstddef>
-# endif
+#ifndef CPPUTEST_USE_STD_CPP_LIB
+#define CPPUTEST_USE_STD_CPP_LIB 1
+#endif
+#if CPPUTEST_USE_STD_CPP_LIB
+#include <string>
+#include <cstddef>
+#endif
 #endif
 /* Kludge to get a va_copy in VC++ V6 and in GCC 98 */
 #ifndef va_copy
-# ifdef __GNUC__
-#  define va_copy __va_copy
-# else
-#  define va_copy(copy, original) copy = original;
-# endif
+#ifdef __GNUC__
+#define va_copy __va_copy
+#else
+#define va_copy(copy, original) copy = original;
+#endif
 #endif
 
 namespace cpputest {
@@ -65,178 +65,231 @@ class TestMemoryAllocator;
 
 class SimpleString
 {
-    friend bool operator==(const SimpleString& left, const SimpleString& right);
-    friend bool operator!=(const SimpleString& left, const SimpleString& right);
+  friend bool operator==(const SimpleString& left, const SimpleString& right);
+  friend bool operator!=(const SimpleString& left, const SimpleString& right);
 
 public:
-    SimpleString(const char *value = "");
-    SimpleString(const char *value, size_t repeatCount);
-    SimpleString(const SimpleString& other);
-    SimpleString(SimpleString&& other) noexcept;
-    ~SimpleString();
+  SimpleString(const char* value = "");
+  SimpleString(const char* value, size_t repeatCount);
+  SimpleString(const SimpleString& other);
+  SimpleString(SimpleString&& other) noexcept;
+  ~SimpleString();
 
-    SimpleString& operator=(const SimpleString& other);
-    SimpleString& operator=(SimpleString&& other) noexcept;
-    SimpleString operator+(const SimpleString&) const;
-    SimpleString& operator+=(const SimpleString&);
-    SimpleString& operator+=(const char*);
+  SimpleString& operator=(const SimpleString& other);
+  SimpleString& operator=(SimpleString&& other) noexcept;
+  SimpleString operator+(const SimpleString&) const;
+  SimpleString& operator+=(const SimpleString&);
+  SimpleString& operator+=(const char*);
 
-    static const size_t npos = static_cast<size_t>(-1);
+  static const size_t npos = static_cast<size_t>(-1);
 
-    char at(size_t pos) const;
-    size_t find(char ch) const;
-    bool contains(const SimpleString& other) const;
-    bool containsNoCase(const SimpleString& other) const;
-    bool startsWith(const SimpleString& other) const;
-    bool endsWith(const SimpleString& other) const;
-    void split(const SimpleString& split,
-                    SimpleStringCollection& outCollection) const;
-    bool equalsNoCase(const SimpleString& str) const;
+  char at(size_t pos) const;
+  size_t find(char ch) const;
+  bool contains(const SimpleString& other) const;
+  bool containsNoCase(const SimpleString& other) const;
+  bool startsWith(const SimpleString& other) const;
+  bool endsWith(const SimpleString& other) const;
+  void split(const SimpleString& split,
+             SimpleStringCollection& outCollection) const;
+  bool equalsNoCase(const SimpleString& str) const;
 
-    void replace(char to, char with);
-    void replace(const char* to, const char* with);
+  void replace(char to, char with);
+  void replace(const char* to, const char* with);
 
-    SimpleString lowerCase() const;
-    SimpleString subString(size_t beginPos) const;
-    SimpleString subString(size_t beginPos, size_t amount) const;
-    SimpleString subStringFromTill(char startChar, char lastExcludedChar) const;
+  SimpleString lowerCase() const;
+  SimpleString subString(size_t beginPos) const;
+  SimpleString subString(size_t beginPos, size_t amount) const;
+  SimpleString subStringFromTill(char startChar, char lastExcludedChar) const;
 
-    SimpleString printable() const;
+  SimpleString printable() const;
 
-    const char *asCharString() const;
-    size_t size() const;
-    bool isEmpty() const;
+  const char* asCharString() const;
+  size_t size() const;
+  bool isEmpty() const;
 
-    static void padStringsToSameLength(SimpleString& str1, SimpleString& str2, char ch);
+  static void padStringsToSameLength(SimpleString& str1,
+                                     SimpleString& str2,
+                                     char ch);
 
-    static TestMemoryAllocator* getStringAllocator();
-    static void setStringAllocator(TestMemoryAllocator* allocator);
+  static TestMemoryAllocator* getStringAllocator();
+  static void setStringAllocator(TestMemoryAllocator* allocator);
 
-    static int AtoI(const char*str);
-    static unsigned AtoU(const char*str);
-    static int StrCmp(const char* s1, const char* s2);
-    static int StrNCmp(const char* s1, const char* s2, size_t n);
-    static char ToLower(char ch);
-    static int MemCmp(const void* s1, const void *s2, size_t n);
+  static int AtoI(const char* str);
+  static unsigned AtoU(const char* str);
+  static int StrCmp(const char* s1, const char* s2);
+  static int StrNCmp(const char* s1, const char* s2, size_t n);
+  static char ToLower(char ch);
+  static int MemCmp(const void* s1, const void* s2, size_t n);
+
 private:
-    size_t findFrom(size_t starting_position, char ch) const;
-    size_t count(const SimpleString& str) const;
-    static size_t StrLen(const char*);
-    static char* StrNCpy(char* s1, const char* s2, size_t n);
-    static const char* StrStr(const char* s1, const char* s2);
-    static char* allocStringBuffer(size_t size, const char* file, size_t line);
-    static void deallocStringBuffer(char* str, size_t size, const char* file, size_t line);
+  size_t findFrom(size_t starting_position, char ch) const;
+  size_t count(const SimpleString& str) const;
+  static size_t StrLen(const char*);
+  static char* StrNCpy(char* s1, const char* s2, size_t n);
+  static const char* StrStr(const char* s1, const char* s2);
+  static char* allocStringBuffer(size_t size, const char* file, size_t line);
+  static void deallocStringBuffer(char* str,
+                                  size_t size,
+                                  const char* file,
+                                  size_t line);
 
-    const char* getBuffer() const;
+  const char* getBuffer() const;
 
-    void deallocateInternalBuffer();
-    void setInternalBufferAsEmptyString();
-    void setInternalBufferToNewBuffer(size_t bufferSize);
-    void setInternalBufferTo(char* buffer, size_t bufferSize);
-    void copyBufferToNewInternalBuffer(const char* otherBuffer);
-    void copyBufferToNewInternalBuffer(const char* otherBuffer, size_t bufferSize);
-    void copyBufferToNewInternalBuffer(const SimpleString& otherBuffer);
+  void deallocateInternalBuffer();
+  void setInternalBufferAsEmptyString();
+  void setInternalBufferToNewBuffer(size_t bufferSize);
+  void setInternalBufferTo(char* buffer, size_t bufferSize);
+  void copyBufferToNewInternalBuffer(const char* otherBuffer);
+  void copyBufferToNewInternalBuffer(const char* otherBuffer,
+                                     size_t bufferSize);
+  void copyBufferToNewInternalBuffer(const SimpleString& otherBuffer);
 
-    char *buffer_;
-    size_t bufferSize_;
+  char* buffer_;
+  size_t bufferSize_;
 
-    static TestMemoryAllocator* stringAllocator_;
+  static TestMemoryAllocator* stringAllocator_;
 
-    char* getEmptyString() const;
-    static char* copyToNewBuffer(const char* bufferToCopy, size_t bufferSize);
-    static bool isDigit(char ch);
-    static bool isSpace(char ch);
-    static bool isUpper(char ch);
-    static bool isControl(char ch);
-    static bool isControlWithShortEscapeSequence(char ch);
-    
-    size_t getPrintableSize() const;
+  char* getEmptyString() const;
+  static char* copyToNewBuffer(const char* bufferToCopy, size_t bufferSize);
+  static bool isDigit(char ch);
+  static bool isSpace(char ch);
+  static bool isUpper(char ch);
+  static bool isControl(char ch);
+  static bool isControlWithShortEscapeSequence(char ch);
+
+  size_t getPrintableSize() const;
 };
 
 class SimpleStringCollection
 {
 public:
-    SimpleStringCollection();
-    ~SimpleStringCollection();
+  SimpleStringCollection();
+  ~SimpleStringCollection();
 
-    void allocate(size_t size);
+  void allocate(size_t size);
 
-    size_t size() const;
-    SimpleString& operator[](size_t index);
+  size_t size() const;
+  SimpleString& operator[](size_t index);
 
 private:
-    SimpleString* collection_;
-    SimpleString empty_;
-    size_t size_;
+  SimpleString* collection_;
+  SimpleString empty_;
+  size_t size_;
 
-    void operator =(SimpleStringCollection&);
-    SimpleStringCollection(SimpleStringCollection&);
+  void operator=(SimpleStringCollection&);
+  SimpleStringCollection(SimpleStringCollection&);
 };
 
-
-SimpleString StringFrom(bool value);
-SimpleString StringFrom(const void* value);
-SimpleString StringFrom(void (*value)());
-SimpleString StringFrom(char value);
-SimpleString StringFrom(const char *value);
-SimpleString StringFromOrNull(const char * value);
-SimpleString StringFrom(int value);
-SimpleString StringFrom(unsigned int value);
-SimpleString StringFrom(long value);
-SimpleString StringFrom(unsigned long value);
-SimpleString StringFrom(long long value);
-SimpleString StringFrom(unsigned long long value);
-SimpleString HexStringFrom(unsigned int value);
-SimpleString HexStringFrom(int value);
-SimpleString HexStringFrom(signed char value);
-SimpleString HexStringFrom(long value);
-SimpleString HexStringFrom(unsigned long value);
-SimpleString HexStringFrom(long long value);
-SimpleString HexStringFrom(unsigned long long value);
-SimpleString HexStringFrom(const void* value);
-SimpleString HexStringFrom(void (*value)());
-SimpleString StringFrom(double value, int precision = 6);
-SimpleString StringFrom(const SimpleString& other);
+SimpleString
+StringFrom(bool value);
+SimpleString
+StringFrom(const void* value);
+SimpleString
+StringFrom(void (*value)());
+SimpleString
+StringFrom(char value);
+SimpleString
+StringFrom(const char* value);
+SimpleString
+StringFromOrNull(const char* value);
+SimpleString
+StringFrom(int value);
+SimpleString
+StringFrom(unsigned int value);
+SimpleString
+StringFrom(long value);
+SimpleString
+StringFrom(unsigned long value);
+SimpleString
+StringFrom(long long value);
+SimpleString
+StringFrom(unsigned long long value);
+SimpleString
+HexStringFrom(unsigned int value);
+SimpleString
+HexStringFrom(int value);
+SimpleString
+HexStringFrom(signed char value);
+SimpleString
+HexStringFrom(long value);
+SimpleString
+HexStringFrom(unsigned long value);
+SimpleString
+HexStringFrom(long long value);
+SimpleString
+HexStringFrom(unsigned long long value);
+SimpleString
+HexStringFrom(const void* value);
+SimpleString
+HexStringFrom(void (*value)());
+SimpleString
+StringFrom(double value, int precision = 6);
+SimpleString
+StringFrom(const SimpleString& other);
 #ifndef __has_attribute
-  #define CPPUTEST_HAS_ATTRIBUTE(x) 0
+#define CPPUTEST_HAS_ATTRIBUTE(x) 0
 #else
-  #define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
+#define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
 #endif
 #if defined(__MINGW32__)
-  #define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
+#define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
 #else
-  #define CPPUTEST_CHECK_FORMAT_TYPE printf
+#define CPPUTEST_CHECK_FORMAT_TYPE printf
 #endif
 #if CPPUTEST_HAS_ATTRIBUTE(format)
-  #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) __attribute__ ((format (type, format_parameter, other_parameters)))
+#define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters)        \
+  __attribute__((format(type, format_parameter, other_parameters)))
 #else
-  #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters) /* type, format_parameter, other_parameters */
+#define CPPUTEST_CHECK_FORMAT(                                                 \
+  type,                                                                        \
+  format_parameter,                                                            \
+  other_parameters) /* type, format_parameter, other_parameters */
 #endif
-SimpleString StringFromFormat(const char* format, ...) CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
-SimpleString VStringFromFormat(const char* format, va_list args);
-SimpleString StringFromBinary(const unsigned char* value, size_t size);
-SimpleString StringFromBinaryOrNull(const unsigned char* value, size_t size);
-SimpleString StringFromBinaryWithSize(const unsigned char* value, size_t size);
-SimpleString StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
-SimpleString StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount);
-SimpleString StringFromOrdinalNumber(unsigned int number);
-SimpleString BracketsFormattedHexStringFrom(int value);
-SimpleString BracketsFormattedHexStringFrom(unsigned int value);
-SimpleString BracketsFormattedHexStringFrom(long value);
-SimpleString BracketsFormattedHexStringFrom(unsigned long value);
-SimpleString BracketsFormattedHexStringFrom(long long value);
-SimpleString BracketsFormattedHexStringFrom(unsigned long long value);
-SimpleString BracketsFormattedHexStringFrom(signed char value);
-SimpleString BracketsFormattedHexString(SimpleString hexString);
-SimpleString PrintableStringFromOrNull(const char * expected);
+SimpleString
+StringFromFormat(const char* format, ...)
+  CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
+SimpleString
+VStringFromFormat(const char* format, va_list args);
+SimpleString
+StringFromBinary(const unsigned char* value, size_t size);
+SimpleString
+StringFromBinaryOrNull(const unsigned char* value, size_t size);
+SimpleString
+StringFromBinaryWithSize(const unsigned char* value, size_t size);
+SimpleString
+StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
+SimpleString
+StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount);
+SimpleString
+StringFromOrdinalNumber(unsigned int number);
+SimpleString
+BracketsFormattedHexStringFrom(int value);
+SimpleString
+BracketsFormattedHexStringFrom(unsigned int value);
+SimpleString
+BracketsFormattedHexStringFrom(long value);
+SimpleString
+BracketsFormattedHexStringFrom(unsigned long value);
+SimpleString
+BracketsFormattedHexStringFrom(long long value);
+SimpleString
+BracketsFormattedHexStringFrom(unsigned long long value);
+SimpleString
+BracketsFormattedHexStringFrom(signed char value);
+SimpleString
+BracketsFormattedHexString(SimpleString hexString);
+SimpleString
+PrintableStringFromOrNull(const char* expected);
 
 #if CPPUTEST_USE_STD_CPP_LIB
-SimpleString StringFrom(const std::nullptr_t value);
+SimpleString
+StringFrom(const std::nullptr_t value);
 #endif
 
 #if CPPUTEST_USE_STD_CPP_LIB
 
-SimpleString StringFrom(const std::string& other);
+SimpleString
+StringFrom(const std::string& other);
 
 #endif
 

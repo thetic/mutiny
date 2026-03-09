@@ -30,8 +30,8 @@
 
 #include "CppUTest/SimpleString.h"
 
-namespace cpputest { namespace extensions {
-
+namespace cpputest {
+namespace extensions {
 
 class MockCheckedExpectedCall;
 class MockNamedValue;
@@ -40,68 +40,82 @@ class MockExpectedCallsList
 {
 
 public:
-    MockExpectedCallsList();
-    virtual ~MockExpectedCallsList();
-    virtual void deleteAllExpectationsAndClearList();
+  MockExpectedCallsList();
+  virtual ~MockExpectedCallsList();
+  virtual void deleteAllExpectationsAndClearList();
 
-    virtual unsigned int size() const;
-    virtual unsigned int amountOfActualCallsFulfilledFor(const cpputest::SimpleString& name) const;
-    virtual unsigned int amountOfUnfulfilledExpectations() const;
-    virtual bool hasUnfulfilledExpectations() const;
-    virtual bool hasFinalizedMatchingExpectations() const;
-    virtual bool hasUnmatchingExpectationsBecauseOfMissingParameters() const;
-    virtual bool hasExpectationWithName(const cpputest::SimpleString& name) const;
-    virtual bool hasCallsOutOfOrder() const;
-    virtual bool isEmpty() const;
+  virtual unsigned int size() const;
+  virtual unsigned int amountOfActualCallsFulfilledFor(
+    const cpputest::SimpleString& name) const;
+  virtual unsigned int amountOfUnfulfilledExpectations() const;
+  virtual bool hasUnfulfilledExpectations() const;
+  virtual bool hasFinalizedMatchingExpectations() const;
+  virtual bool hasUnmatchingExpectationsBecauseOfMissingParameters() const;
+  virtual bool hasExpectationWithName(const cpputest::SimpleString& name) const;
+  virtual bool hasCallsOutOfOrder() const;
+  virtual bool isEmpty() const;
 
-    virtual void addExpectedCall(MockCheckedExpectedCall* call);
-    virtual void addExpectations(const MockExpectedCallsList& list);
-    virtual void addExpectationsRelatedTo(const cpputest::SimpleString& name, const MockExpectedCallsList& list);
+  virtual void addExpectedCall(MockCheckedExpectedCall* call);
+  virtual void addExpectations(const MockExpectedCallsList& list);
+  virtual void addExpectationsRelatedTo(const cpputest::SimpleString& name,
+                                        const MockExpectedCallsList& list);
 
-    virtual void onlyKeepOutOfOrderExpectations();
-    virtual void addPotentiallyMatchingExpectations(const MockExpectedCallsList& list);
+  virtual void onlyKeepOutOfOrderExpectations();
+  virtual void addPotentiallyMatchingExpectations(
+    const MockExpectedCallsList& list);
 
-    virtual void onlyKeepExpectationsRelatedTo(const cpputest::SimpleString& name);
-    virtual void onlyKeepExpectationsWithInputParameter(const MockNamedValue& parameter);
-    virtual void onlyKeepExpectationsWithInputParameterName(const cpputest::SimpleString& name);
-    virtual void onlyKeepExpectationsWithOutputParameter(const MockNamedValue& parameter);
-    virtual void onlyKeepExpectationsWithOutputParameterName(const cpputest::SimpleString& name);
-    virtual void onlyKeepExpectationsOnObject(const void* objectPtr);
-    virtual void onlyKeepUnmatchingExpectations();
+  virtual void onlyKeepExpectationsRelatedTo(
+    const cpputest::SimpleString& name);
+  virtual void onlyKeepExpectationsWithInputParameter(
+    const MockNamedValue& parameter);
+  virtual void onlyKeepExpectationsWithInputParameterName(
+    const cpputest::SimpleString& name);
+  virtual void onlyKeepExpectationsWithOutputParameter(
+    const MockNamedValue& parameter);
+  virtual void onlyKeepExpectationsWithOutputParameterName(
+    const cpputest::SimpleString& name);
+  virtual void onlyKeepExpectationsOnObject(const void* objectPtr);
+  virtual void onlyKeepUnmatchingExpectations();
 
-    virtual MockCheckedExpectedCall* removeFirstFinalizedMatchingExpectation();
-    virtual MockCheckedExpectedCall* removeFirstMatchingExpectation();
-    virtual MockCheckedExpectedCall* getFirstMatchingExpectation();
+  virtual MockCheckedExpectedCall* removeFirstFinalizedMatchingExpectation();
+  virtual MockCheckedExpectedCall* removeFirstMatchingExpectation();
+  virtual MockCheckedExpectedCall* getFirstMatchingExpectation();
 
-    virtual void resetActualCallMatchingState();
-    virtual void wasPassedToObject();
-    virtual void parameterWasPassed(const cpputest::SimpleString& parameterName);
-    virtual void outputParameterWasPassed(const cpputest::SimpleString& parameterName);
+  virtual void resetActualCallMatchingState();
+  virtual void wasPassedToObject();
+  virtual void parameterWasPassed(const cpputest::SimpleString& parameterName);
+  virtual void outputParameterWasPassed(
+    const cpputest::SimpleString& parameterName);
 
-    virtual cpputest::SimpleString unfulfilledCallsToString(const cpputest::SimpleString& linePrefix = "") const;
-    virtual cpputest::SimpleString fulfilledCallsToString(const cpputest::SimpleString& linePrefix = "") const;
-    virtual cpputest::SimpleString callsWithMissingParametersToString(const cpputest::SimpleString& linePrefix,
-                                                            const cpputest::SimpleString& missingParametersPrefix) const;
+  virtual cpputest::SimpleString unfulfilledCallsToString(
+    const cpputest::SimpleString& linePrefix = "") const;
+  virtual cpputest::SimpleString fulfilledCallsToString(
+    const cpputest::SimpleString& linePrefix = "") const;
+  virtual cpputest::SimpleString callsWithMissingParametersToString(
+    const cpputest::SimpleString& linePrefix,
+    const cpputest::SimpleString& missingParametersPrefix) const;
 
 protected:
-    virtual void pruneEmptyNodeFromList();
+  virtual void pruneEmptyNodeFromList();
 
-    class MockExpectedCallsListNode
+  class MockExpectedCallsListNode
+  {
+  public:
+    MockCheckedExpectedCall* expectedCall_;
+
+    MockExpectedCallsListNode* next_;
+    MockExpectedCallsListNode(MockCheckedExpectedCall* expectedCall)
+      : expectedCall_(expectedCall)
+      , next_(nullptr)
     {
-    public:
-        MockCheckedExpectedCall* expectedCall_;
-
-        MockExpectedCallsListNode* next_;
-        MockExpectedCallsListNode(MockCheckedExpectedCall* expectedCall)
-            : expectedCall_(expectedCall), next_(nullptr) {}
-    };
+    }
+  };
 
 private:
-    MockExpectedCallsListNode* head_;
+  MockExpectedCallsListNode* head_;
 
-    MockExpectedCallsList(const MockExpectedCallsList&);
+  MockExpectedCallsList(const MockExpectedCallsList&);
 };
-
 
 } // namespace extensions
 } // namespace cpputest

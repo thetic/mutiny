@@ -29,77 +29,82 @@
 #include "CppUTestExt/MockSupport.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
-namespace cpputest { namespace extensions {
+namespace cpputest {
+namespace extensions {
 
 class MockSupportPluginReporter : public MockFailureReporter
 {
-    cpputest::TestShell& test_;
-    TestResult& result_;
+  cpputest::TestShell& test_;
+  TestResult& result_;
+
 public:
-    MockSupportPluginReporter(cpputest::TestShell& test, TestResult& result)
-        : test_(test), result_(result)
-    {
-    }
+  MockSupportPluginReporter(cpputest::TestShell& test, TestResult& result)
+    : test_(test)
+    , result_(result)
+  {
+  }
 
-    virtual void failTest(MockFailure failure) override
-    {
-        result_.addFailure(failure);
-    }
+  virtual void failTest(MockFailure failure) override
+  {
+    result_.addFailure(failure);
+  }
 
-    virtual void reportFailure(const MockFailure& failure) override
-    {
-        result_.addFailure(failure);
-    }
+  virtual void reportFailure(const MockFailure& failure) override
+  {
+    result_.addFailure(failure);
+  }
 
-    virtual void exitTest() override
-    {
-    }
+  virtual void exitTest() override {}
 
-    virtual cpputest::TestShell* getTestToFail() override
-    {
-        return &test_;
-    }
+  virtual cpputest::TestShell* getTestToFail() override { return &test_; }
 };
 
 MockSupportPlugin::MockSupportPlugin(const SimpleString& name)
-    : TestPlugin(name)
+  : TestPlugin(name)
 {
 }
 
 MockSupportPlugin::~MockSupportPlugin()
 {
-    clear();
+  clear();
 }
 
-void MockSupportPlugin::clear()
+void
+MockSupportPlugin::clear()
 {
-    repository_.clear();
+  repository_.clear();
 }
 
-void MockSupportPlugin::preTestAction(cpputest::TestShell&, TestResult&)
+void
+MockSupportPlugin::preTestAction(cpputest::TestShell&, TestResult&)
 {
-    mock().installComparatorsAndCopiers(repository_);
+  mock().installComparatorsAndCopiers(repository_);
 }
 
-void MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
+void
+MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
 {
-    MockSupportPluginReporter reporter(test, result);
-    mock().setMockFailureStandardReporter(&reporter);
-    if (!test.hasFailed())
-        mock().checkExpectations();
-    mock().clear();
-    mock().setMockFailureStandardReporter(nullptr);
-    mock().removeAllComparatorsAndCopiers();
+  MockSupportPluginReporter reporter(test, result);
+  mock().setMockFailureStandardReporter(&reporter);
+  if (!test.hasFailed())
+    mock().checkExpectations();
+  mock().clear();
+  mock().setMockFailureStandardReporter(nullptr);
+  mock().removeAllComparatorsAndCopiers();
 }
 
-void MockSupportPlugin::installComparator(const SimpleString& name, MockNamedValueComparator& comparator)
+void
+MockSupportPlugin::installComparator(const SimpleString& name,
+                                     MockNamedValueComparator& comparator)
 {
-    repository_.installComparator(name, comparator);
+  repository_.installComparator(name, comparator);
 }
 
-void MockSupportPlugin::installCopier(const SimpleString& name, MockNamedValueCopier& copier)
+void
+MockSupportPlugin::installCopier(const SimpleString& name,
+                                 MockNamedValueCopier& copier)
 {
-    repository_.installCopier(name, copier);
+  repository_.installCopier(name, copier);
 }
 
 } // namespace extensions

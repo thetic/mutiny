@@ -29,12 +29,13 @@
 #define HELLO_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-extern void printHelloWorld(void);
+  extern void printHelloWorld(void);
 
-extern int (*PrintFormated)(const char*, ...);
+  extern int (*PrintFormated)(const char*, ...);
 
 #ifdef __cplusplus
 }

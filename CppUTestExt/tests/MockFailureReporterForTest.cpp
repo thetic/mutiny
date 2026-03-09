@@ -31,40 +31,46 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
-void MockFailureReporterForTest::failTest(MockFailure failure)
+void
+MockFailureReporterForTest::failTest(MockFailure failure)
 {
-    mockFailureString = failure.getMessage();
+  mockFailureString = failure.getMessage();
 }
 
-void MockFailureReporterForTest::reportFailure(const MockFailure& failure)
+void
+MockFailureReporterForTest::reportFailure(const MockFailure& failure)
 {
-    mockFailureString = failure.getMessage();
+  mockFailureString = failure.getMessage();
 }
 
-void MockFailureReporterForTest::exitTest()
+void
+MockFailureReporterForTest::exitTest()
 {
-    // suppress exit in test-spy mode
+  // suppress exit in test-spy mode
 }
 
 MockFailureReporterForTest* MockFailureReporterForTest::instance_ = nullptr;
 
-MockFailureReporterForTest* MockFailureReporterForTest::getReporter()
+MockFailureReporterForTest*
+MockFailureReporterForTest::getReporter()
 {
-    if (instance_ == nullptr)
-        instance_ = new MockFailureReporterForTest;
+  if (instance_ == nullptr)
+    instance_ = new MockFailureReporterForTest;
 
-    return instance_;
+  return instance_;
 }
 
-void MockFailureReporterForTest::clearReporter()
+void
+MockFailureReporterForTest::clearReporter()
 {
-    delete instance_;
-    instance_ = nullptr;
+  delete instance_;
+  instance_ = nullptr;
 }
 
 MockFailureReporterInstaller::MockFailureReporterInstaller()
 {
-  mock().setMockFailureStandardReporter(MockFailureReporterForTest::getReporter());
+  mock().setMockFailureStandardReporter(
+    MockFailureReporterForTest::getReporter());
 }
 
 MockFailureReporterInstaller::~MockFailureReporterInstaller()
@@ -73,47 +79,52 @@ MockFailureReporterInstaller::~MockFailureReporterInstaller()
   MockFailureReporterForTest::clearReporter();
 }
 
-UtestShell* mockFailureTest()
+UtestShell*
+mockFailureTest()
 {
-    return MockFailureReporterForTest::getReporter()->getTestToFail();
+  return MockFailureReporterForTest::getReporter()->getTestToFail();
 }
 
-SimpleString mockFailureString()
+SimpleString
+mockFailureString()
 {
-    return MockFailureReporterForTest::getReporter()->mockFailureString;
+  return MockFailureReporterForTest::getReporter()->mockFailureString;
 }
 
-void CLEAR_MOCK_FAILURE()
+void
+CLEAR_MOCK_FAILURE()
 {
-    MockFailureReporterForTest::getReporter()->mockFailureString = "";
+  MockFailureReporterForTest::getReporter()->mockFailureString = "";
 }
 
-void CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure, const char* file, size_t line)
+void
+CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
+                                     const char* file,
+                                     size_t line)
 {
-    SimpleString expectedFailureString = expectedFailure.getMessage();
-    SimpleString actualFailureString = mockFailureString();
+  SimpleString expectedFailureString = expectedFailure.getMessage();
+  SimpleString actualFailureString = mockFailureString();
+  CLEAR_MOCK_FAILURE();
+  if (expectedFailureString != actualFailureString) {
+    SimpleString error = "MockFailures are different.\n";
+    error += "Expected MockFailure:\n\t";
+    error += expectedFailureString;
+    error += "\nActual MockFailure:\n\t";
+    error += actualFailureString;
+    FAIL_LOCATION(error.asCharString(), file, line);
+  }
+}
+
+void
+CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line)
+{
+  if (mockFailureString() != "") {
+    SimpleString error = "Unexpected mock failure:\n";
+    error += mockFailureString();
     CLEAR_MOCK_FAILURE();
-    if (expectedFailureString != actualFailureString)
-    {
-        SimpleString error = "MockFailures are different.\n";
-        error += "Expected MockFailure:\n\t";
-        error += expectedFailureString;
-        error += "\nActual MockFailure:\n\t";
-        error += actualFailureString;
-        FAIL_LOCATION(error.asCharString(), file, line);
-    }
-}
-
-void CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line)
-{
-    if (mockFailureString() != "") {
-        SimpleString error = "Unexpected mock failure:\n";
-        error += mockFailureString();
-        CLEAR_MOCK_FAILURE();
-        FAIL_LOCATION(error.asCharString(), file, line);
-
-    }
-    CLEAR_MOCK_FAILURE();
+    FAIL_LOCATION(error.asCharString(), file, line);
+  }
+  CLEAR_MOCK_FAILURE();
 }
 
 MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
@@ -121,7 +132,8 @@ MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
   deleteAllExpectationsAndClearList();
 }
 
-MockCheckedExpectedCall* MockExpectedCallsListForTest::addFunction(const SimpleString& name)
+MockCheckedExpectedCall*
+MockExpectedCallsListForTest::addFunction(const SimpleString& name)
 {
   MockCheckedExpectedCall* newCall = new MockCheckedExpectedCall;
   newCall->withName(name);
@@ -129,7 +141,9 @@ MockCheckedExpectedCall* MockExpectedCallsListForTest::addFunction(const SimpleS
   return newCall;
 }
 
-MockCheckedExpectedCall* MockExpectedCallsListForTest::addFunction(unsigned int numCalls, const SimpleString& name)
+MockCheckedExpectedCall*
+MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
+                                          const SimpleString& name)
 {
   MockCheckedExpectedCall* newCall = new MockCheckedExpectedCall(numCalls);
   newCall->withName(name);
@@ -137,11 +151,11 @@ MockCheckedExpectedCall* MockExpectedCallsListForTest::addFunction(unsigned int 
   return newCall;
 }
 
-MockCheckedExpectedCall* MockExpectedCallsListForTest::addFunctionOrdered(const SimpleString& name, unsigned int order)
+MockCheckedExpectedCall*
+MockExpectedCallsListForTest::addFunctionOrdered(const SimpleString& name,
+                                                 unsigned int order)
 {
   MockCheckedExpectedCall* newCall = addFunction(name);
   newCall->withCallOrder(order);
   return newCall;
 }
-
-

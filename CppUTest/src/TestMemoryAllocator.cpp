@@ -31,121 +31,148 @@
 
 namespace cpputest {
 
-static char* checkedMalloc(size_t size)
+static char*
+checkedMalloc(size_t size)
 {
-    char* mem = static_cast<char*>(PlatformSpecificMalloc(size));
-    if (mem == nullptr)
+  char* mem = static_cast<char*>(PlatformSpecificMalloc(size));
+  if (mem == nullptr)
     FAIL("malloc returned null pointer");
-    return mem;
+  return mem;
 }
 
 static TestMemoryAllocator* currentNewAllocator = nullptr;
 static TestMemoryAllocator* currentNewArrayAllocator = nullptr;
 static TestMemoryAllocator* currentMallocAllocator = nullptr;
 
-void setCurrentNewAllocator(TestMemoryAllocator* allocator)
+void
+setCurrentNewAllocator(TestMemoryAllocator* allocator)
 {
-    currentNewAllocator = allocator;
+  currentNewAllocator = allocator;
 }
 
-TestMemoryAllocator* getCurrentNewAllocator()
+TestMemoryAllocator*
+getCurrentNewAllocator()
 {
-    if (currentNewAllocator == nullptr) setCurrentNewAllocatorToDefault();
-    return currentNewAllocator;
+  if (currentNewAllocator == nullptr)
+    setCurrentNewAllocatorToDefault();
+  return currentNewAllocator;
 }
 
-void setCurrentNewAllocatorToDefault()
+void
+setCurrentNewAllocatorToDefault()
 {
-    currentNewAllocator = defaultNewAllocator();
+  currentNewAllocator = defaultNewAllocator();
 }
 
-TestMemoryAllocator* defaultNewAllocator()
+TestMemoryAllocator*
+defaultNewAllocator()
 {
-    static TestMemoryAllocator allocator("Standard New Allocator", "new", "delete");
-    return &allocator;
+  static TestMemoryAllocator allocator(
+    "Standard New Allocator", "new", "delete");
+  return &allocator;
 }
 
-void setCurrentNewArrayAllocator(TestMemoryAllocator* allocator)
+void
+setCurrentNewArrayAllocator(TestMemoryAllocator* allocator)
 {
-    currentNewArrayAllocator = allocator;
+  currentNewArrayAllocator = allocator;
 }
 
-TestMemoryAllocator* getCurrentNewArrayAllocator()
+TestMemoryAllocator*
+getCurrentNewArrayAllocator()
 {
-    if (currentNewArrayAllocator == nullptr) setCurrentNewArrayAllocatorToDefault();
-    return currentNewArrayAllocator;
+  if (currentNewArrayAllocator == nullptr)
+    setCurrentNewArrayAllocatorToDefault();
+  return currentNewArrayAllocator;
 }
 
-void setCurrentNewArrayAllocatorToDefault()
+void
+setCurrentNewArrayAllocatorToDefault()
 {
-    currentNewArrayAllocator = defaultNewArrayAllocator();
+  currentNewArrayAllocator = defaultNewArrayAllocator();
 }
 
-TestMemoryAllocator* defaultNewArrayAllocator()
+TestMemoryAllocator*
+defaultNewArrayAllocator()
 {
-    static TestMemoryAllocator allocator("Standard New [] Allocator", "new []", "delete []");
-    return &allocator;
+  static TestMemoryAllocator allocator(
+    "Standard New [] Allocator", "new []", "delete []");
+  return &allocator;
 }
 
-void setCurrentMallocAllocator(TestMemoryAllocator* allocator)
+void
+setCurrentMallocAllocator(TestMemoryAllocator* allocator)
 {
-    currentMallocAllocator = allocator;
+  currentMallocAllocator = allocator;
 }
 
-TestMemoryAllocator* getCurrentMallocAllocator()
+TestMemoryAllocator*
+getCurrentMallocAllocator()
 {
-    if (currentMallocAllocator == nullptr) setCurrentMallocAllocatorToDefault();
-    return currentMallocAllocator;
+  if (currentMallocAllocator == nullptr)
+    setCurrentMallocAllocatorToDefault();
+  return currentMallocAllocator;
 }
 
-void setCurrentMallocAllocatorToDefault()
+void
+setCurrentMallocAllocatorToDefault()
 {
-    currentMallocAllocator = defaultMallocAllocator();
+  currentMallocAllocator = defaultMallocAllocator();
 }
 
-TestMemoryAllocator* defaultMallocAllocator()
+TestMemoryAllocator*
+defaultMallocAllocator()
 {
-    static TestMemoryAllocator allocator("Standard Malloc Allocator", "malloc", "free");
-    return &allocator;
+  static TestMemoryAllocator allocator(
+    "Standard Malloc Allocator", "malloc", "free");
+  return &allocator;
 }
 
-TestMemoryAllocator::TestMemoryAllocator(const char* name_str, const char* alloc_name_str, const char* free_name_str)
-    : name_(name_str), alloc_name_(alloc_name_str), free_name_(free_name_str)
+TestMemoryAllocator::TestMemoryAllocator(const char* name_str,
+                                         const char* alloc_name_str,
+                                         const char* free_name_str)
+  : name_(name_str)
+  , alloc_name_(alloc_name_str)
+  , free_name_(free_name_str)
 {
 }
 
-TestMemoryAllocator::~TestMemoryAllocator()
+TestMemoryAllocator::~TestMemoryAllocator() {}
+
+char*
+TestMemoryAllocator::alloc_memory(size_t size, const char*, size_t)
 {
+  return checkedMalloc(size);
 }
 
-char* TestMemoryAllocator::alloc_memory(size_t size, const char*, size_t)
+void
+TestMemoryAllocator::free_memory(char* memory, size_t, const char*, size_t)
 {
-    return checkedMalloc(size);
+  PlatformSpecificFree(memory);
 }
 
-void TestMemoryAllocator::free_memory(char* memory, size_t, const char*, size_t)
+const char*
+TestMemoryAllocator::name() const
 {
-    PlatformSpecificFree(memory);
+  return name_;
 }
 
-const char* TestMemoryAllocator::name() const
+const char*
+TestMemoryAllocator::alloc_name() const
 {
-    return name_;
+  return alloc_name_;
 }
 
-const char* TestMemoryAllocator::alloc_name() const
+const char*
+TestMemoryAllocator::free_name() const
 {
-    return alloc_name_;
+  return free_name_;
 }
 
-const char* TestMemoryAllocator::free_name() const
+TestMemoryAllocator*
+TestMemoryAllocator::actualAllocator()
 {
-    return free_name_;
-}
-
-TestMemoryAllocator* TestMemoryAllocator::actualAllocator()
-{
-    return this;
+  return this;
 }
 
 } // namespace cpputest

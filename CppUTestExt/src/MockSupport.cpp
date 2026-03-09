@@ -33,644 +33,753 @@
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 
-namespace cpputest { namespace extensions {
+namespace cpputest {
+namespace extensions {
 
 static MockSupport global_mock;
 
-MockSupport& mock(const SimpleString& mockName, MockFailureReporter* failureReporterForThisCall)
+MockSupport&
+mock(const SimpleString& mockName,
+     MockFailureReporter* failureReporterForThisCall)
 {
-    MockSupport& mock_support = (mockName != "") ? *global_mock.getMockSupportScope(mockName) : global_mock;
-    mock_support.setActiveReporter(failureReporterForThisCall);
-    mock_support.setDefaultComparatorsAndCopiersRepository();
-    return mock_support;
+  MockSupport& mock_support =
+    (mockName != "") ? *global_mock.getMockSupportScope(mockName) : global_mock;
+  mock_support.setActiveReporter(failureReporterForThisCall);
+  mock_support.setDefaultComparatorsAndCopiersRepository();
+  return mock_support;
 }
 
 MockSupport::MockSupport(const SimpleString& mockName)
-    :
-        actualCallOrder_(0),
-        expectedCallOrder_(0),
-        strictOrdering_(false),
-        activeReporter_(nullptr),
-        standardReporter_(&defaultReporter_),
-        ignoreOtherCalls_(false),
-        enabled_(true),
-        lastActualFunctionCall_(nullptr),
-        mockName_(mockName),
-        tracing_(false)
+  : actualCallOrder_(0)
+  , expectedCallOrder_(0)
+  , strictOrdering_(false)
+  , activeReporter_(nullptr)
+  , standardReporter_(&defaultReporter_)
+  , ignoreOtherCalls_(false)
+  , enabled_(true)
+  , lastActualFunctionCall_(nullptr)
+  , mockName_(mockName)
+  , tracing_(false)
 {
 }
 
-MockSupport::~MockSupport()
+MockSupport::~MockSupport() {}
+
+void
+MockSupport::crashOnFailure(bool shouldCrash)
 {
+  activeReporter_->crashOnFailure(shouldCrash);
 }
 
-void MockSupport::crashOnFailure(bool shouldCrash)
+void
+MockSupport::setMockFailureStandardReporter(MockFailureReporter* reporter)
 {
-    activeReporter_->crashOnFailure(shouldCrash);
+  standardReporter_ = (reporter != nullptr) ? reporter : &defaultReporter_;
+
+  if (lastActualFunctionCall_)
+    lastActualFunctionCall_->setMockFailureReporter(standardReporter_);
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->setMockFailureStandardReporter(standardReporter_);
 }
 
-void MockSupport::setMockFailureStandardReporter(MockFailureReporter* reporter)
+void
+MockSupport::setActiveReporter(MockFailureReporter* reporter)
 {
-    standardReporter_ = (reporter != nullptr) ? reporter : &defaultReporter_;
-
-    if (lastActualFunctionCall_)
-        lastActualFunctionCall_->setMockFailureReporter(standardReporter_);
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->setMockFailureStandardReporter(standardReporter_);
+  activeReporter_ = (reporter) ? reporter : standardReporter_;
 }
 
-void MockSupport::setActiveReporter(MockFailureReporter* reporter)
+void
+MockSupport::setDefaultComparatorsAndCopiersRepository()
 {
-    activeReporter_ = (reporter) ? reporter : standardReporter_;
+  MockNamedValue::setDefaultComparatorsAndCopiersRepository(
+    &comparatorsAndCopiersRepository_);
 }
 
-void MockSupport::setDefaultComparatorsAndCopiersRepository()
+void
+MockSupport::installComparator(const SimpleString& typeName,
+                               MockNamedValueComparator& comparator)
 {
-    MockNamedValue::setDefaultComparatorsAndCopiersRepository(&comparatorsAndCopiersRepository_);
+  comparatorsAndCopiersRepository_.installComparator(typeName, comparator);
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->installComparator(typeName, comparator);
 }
 
-void MockSupport::installComparator(const SimpleString& typeName, MockNamedValueComparator& comparator)
+void
+MockSupport::installCopier(const SimpleString& typeName,
+                           MockNamedValueCopier& copier)
 {
-    comparatorsAndCopiersRepository_.installComparator(typeName, comparator);
+  comparatorsAndCopiersRepository_.installCopier(typeName, copier);
 
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->installComparator(typeName, comparator);
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->installCopier(typeName, copier);
 }
 
-void MockSupport::installCopier(const SimpleString& typeName, MockNamedValueCopier& copier)
+void
+MockSupport::installComparatorsAndCopiers(
+  const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
-    comparatorsAndCopiersRepository_.installCopier(typeName, copier);
+  comparatorsAndCopiersRepository_.installComparatorsAndCopiers(repository);
 
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->installCopier(typeName, copier);
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->installComparatorsAndCopiers(repository);
 }
 
-void MockSupport::installComparatorsAndCopiers(const MockNamedValueComparatorsAndCopiersRepository& repository)
+void
+MockSupport::removeAllComparatorsAndCopiers()
 {
-    comparatorsAndCopiersRepository_.installComparatorsAndCopiers(repository);
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->installComparatorsAndCopiers(repository);
+  comparatorsAndCopiersRepository_.clear();
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->removeAllComparatorsAndCopiers();
 }
 
-void MockSupport::removeAllComparatorsAndCopiers()
+void
+MockSupport::clear()
 {
-    comparatorsAndCopiersRepository_.clear();
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->removeAllComparatorsAndCopiers();
+  delete lastActualFunctionCall_;
+  lastActualFunctionCall_ = nullptr;
+
+  tracing_ = false;
+  MockActualCallTrace::clearInstance();
+
+  expectations_.deleteAllExpectationsAndClearList();
+  ignoreOtherCalls_ = false;
+  enabled_ = true;
+  actualCallOrder_ = 0;
+  expectedCallOrder_ = 0;
+  strictOrdering_ = false;
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next()) {
+    MockSupport* support = getMockSupport(p);
+    if (support) {
+      support->clear();
+      delete support;
+    }
+  }
+  data_.clear();
 }
 
-void MockSupport::clear()
+void
+MockSupport::strictOrder()
 {
+  strictOrdering_ = true;
+}
+
+SimpleString
+MockSupport::appendScopeToName(const SimpleString& functionName)
+{
+  if (mockName_.isEmpty())
+    return functionName;
+  return mockName_ + "::" + functionName;
+}
+
+MockExpectedCall&
+MockSupport::expectOneCall(const SimpleString& functionName)
+{
+  return expectNCalls(1, functionName);
+}
+
+void
+MockSupport::expectNoCall(const SimpleString& functionName)
+{
+  expectNCalls(0, functionName);
+}
+
+MockExpectedCall&
+MockSupport::expectNCalls(unsigned int amount, const SimpleString& functionName)
+{
+  if (!enabled_)
+    return MockIgnoredExpectedCall::instance();
+
+  countCheck();
+
+  MockCheckedExpectedCall* call = new MockCheckedExpectedCall(amount);
+  call->withName(appendScopeToName(functionName));
+  if (strictOrdering_) {
+    call->withCallOrder(expectedCallOrder_ + 1, expectedCallOrder_ + amount);
+    expectedCallOrder_ += amount;
+  }
+  expectations_.addExpectedCall(call);
+  return *call;
+}
+
+MockCheckedActualCall*
+MockSupport::createActualCall()
+{
+  lastActualFunctionCall_ = new MockCheckedActualCall(
+    ++actualCallOrder_, activeReporter_, expectations_);
+  return lastActualFunctionCall_;
+}
+
+bool
+MockSupport::callIsIgnored(const SimpleString& functionName)
+{
+  return ignoreOtherCalls_ &&
+         !expectations_.hasExpectationWithName(functionName);
+}
+
+MockActualCall&
+MockSupport::actualCall(const char* functionName)
+{
+  SimpleString scopeFunctionName = appendScopeToName(functionName);
+
+  if (lastActualFunctionCall_) {
+    lastActualFunctionCall_->checkExpectations();
     delete lastActualFunctionCall_;
     lastActualFunctionCall_ = nullptr;
+  }
 
-    tracing_ = false;
-    MockActualCallTrace::clearInstance();
+  if (!enabled_)
+    return MockIgnoredActualCall::instance();
+  if (tracing_)
+    return MockActualCallTrace::instance().withName(scopeFunctionName);
 
-    expectations_.deleteAllExpectationsAndClearList();
-    ignoreOtherCalls_ = false;
-    enabled_ = true;
-    actualCallOrder_ = 0;
-    expectedCallOrder_ = 0;
-    strictOrdering_ = false;
+  if (callIsIgnored(scopeFunctionName)) {
+    return MockIgnoredActualCall::instance();
+  }
 
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next()) {
-        MockSupport* support = getMockSupport(p);
-        if (support) {
-            support->clear();
-            delete support;
-        }
-    }
-    data_.clear();
+  MockCheckedActualCall* call = createActualCall();
+  call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
+  return *call;
 }
 
-void MockSupport::strictOrder()
+MockActualCall&
+MockSupport::actualCall(const SimpleString& functionName)
 {
-    strictOrdering_ = true;
+  SimpleString scopeFunctionName = appendScopeToName(functionName);
+
+  if (lastActualFunctionCall_) {
+    lastActualFunctionCall_->checkExpectations();
+    delete lastActualFunctionCall_;
+    lastActualFunctionCall_ = nullptr;
+  }
+
+  if (!enabled_)
+    return MockIgnoredActualCall::instance();
+  if (tracing_)
+    return MockActualCallTrace::instance().withName(scopeFunctionName);
+
+  if (callIsIgnored(scopeFunctionName)) {
+    return MockIgnoredActualCall::instance();
+  }
+
+  MockCheckedActualCall* call = createActualCall();
+  call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
+  return *call;
 }
 
-SimpleString MockSupport::appendScopeToName(const SimpleString& functionName)
+void
+MockSupport::ignoreOtherCalls()
 {
-    if (mockName_.isEmpty()) return functionName;
-    return mockName_ + "::" + functionName;
+  ignoreOtherCalls_ = true;
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->ignoreOtherCalls();
 }
 
-MockExpectedCall& MockSupport::expectOneCall(const SimpleString& functionName)
+void
+MockSupport::disable()
 {
-    return expectNCalls(1, functionName);
+  enabled_ = false;
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->disable();
 }
 
-void MockSupport::expectNoCall(const SimpleString& functionName)
+void
+MockSupport::enable()
 {
-    expectNCalls(0, functionName);
+  enabled_ = true;
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->enable();
 }
 
-MockExpectedCall& MockSupport::expectNCalls(unsigned int amount, const SimpleString& functionName)
+void
+MockSupport::tracing(bool enabled)
 {
-    if (!enabled_) return MockIgnoredExpectedCall::instance();
+  tracing_ = enabled;
 
-    countCheck();
-
-    MockCheckedExpectedCall* call = new MockCheckedExpectedCall(amount);
-    call->withName(appendScopeToName(functionName));
-    if (strictOrdering_) {
-        call->withCallOrder(expectedCallOrder_ + 1, expectedCallOrder_ + amount);
-        expectedCallOrder_ += amount;
-    }
-    expectations_.addExpectedCall(call);
-    return *call;
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      getMockSupport(p)->tracing(enabled);
 }
 
-MockCheckedActualCall* MockSupport::createActualCall()
+const char*
+MockSupport::getTraceOutput()
 {
-    lastActualFunctionCall_ = new MockCheckedActualCall(++actualCallOrder_, activeReporter_, expectations_);
-    return lastActualFunctionCall_;
+  return MockActualCallTrace::instance().getTraceOutput();
 }
 
-bool MockSupport::callIsIgnored(const SimpleString& functionName)
+bool
+MockSupport::expectedCallsLeft()
 {
-    return ignoreOtherCalls_ && !expectations_.hasExpectationWithName(functionName);
+  checkExpectationsOfLastActualCall();
+  int callsLeft = expectations_.hasUnfulfilledExpectations();
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      callsLeft += getMockSupport(p)->expectedCallsLeft();
+
+  return callsLeft != 0;
 }
 
-MockActualCall& MockSupport::actualCall(const char* functionName)
+bool
+MockSupport::wasLastActualCallFulfilled()
 {
-    SimpleString scopeFunctionName = appendScopeToName(functionName);
-
-    if (lastActualFunctionCall_) {
-        lastActualFunctionCall_->checkExpectations();
-        delete lastActualFunctionCall_;
-        lastActualFunctionCall_ = nullptr;
-    }
-
-    if (!enabled_) return MockIgnoredActualCall::instance();
-    if (tracing_) return MockActualCallTrace::instance().withName(scopeFunctionName);
-
-    if (callIsIgnored(scopeFunctionName)) {
-        return MockIgnoredActualCall::instance();
-    }
-
-    MockCheckedActualCall* call = createActualCall();
-    call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
-    return *call;
-}
-
-MockActualCall& MockSupport::actualCall(const SimpleString& functionName)
-{
-    SimpleString scopeFunctionName = appendScopeToName(functionName);
-
-    if (lastActualFunctionCall_) {
-        lastActualFunctionCall_->checkExpectations();
-        delete lastActualFunctionCall_;
-        lastActualFunctionCall_ = nullptr;
-    }
-
-    if (!enabled_) return MockIgnoredActualCall::instance();
-    if (tracing_) return MockActualCallTrace::instance().withName(scopeFunctionName);
-
-
-    if (callIsIgnored(scopeFunctionName)) {
-        return MockIgnoredActualCall::instance();
-    }
-
-    MockCheckedActualCall* call = createActualCall();
-    call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
-    return *call;
-}
-
-void MockSupport::ignoreOtherCalls()
-{
-    ignoreOtherCalls_ = true;
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->ignoreOtherCalls();
-}
-
-void MockSupport::disable()
-{
-    enabled_ = false;
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->disable();
-}
-
-void MockSupport::enable()
-{
-    enabled_ = true;
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->enable();
-}
-
-void MockSupport::tracing(bool enabled)
-{
-    tracing_ = enabled;
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) getMockSupport(p)->tracing(enabled);
-}
-
-const char* MockSupport::getTraceOutput()
-{
-    return MockActualCallTrace::instance().getTraceOutput();
-}
-
-bool MockSupport::expectedCallsLeft()
-{
-    checkExpectationsOfLastActualCall();
-    int callsLeft = expectations_.hasUnfulfilledExpectations();
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p)) callsLeft += getMockSupport(p)->expectedCallsLeft();
-
-    return callsLeft != 0;
-}
-
-bool MockSupport::wasLastActualCallFulfilled()
-{
-    if (lastActualFunctionCall_ && !lastActualFunctionCall_->isFulfilled())
-        return false;
-
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p) && !getMockSupport(p)->wasLastActualCallFulfilled())
-                return false;
-
-    return true;
-}
-
-void MockSupport::failTestWithExpectedCallsNotFulfilled()
-{
-    MockExpectedCallsList expectationsList;
-    expectationsList.addExpectations(expectations_);
-
-    for(MockNamedValueListNode *p = data_.begin();p;p = p->next())
-        if(getMockSupport(p))
-            expectationsList.addExpectations(getMockSupport(p)->expectations_);
-
-    MockExpectedCallsDidntHappenFailure failure(activeReporter_->getTestToFail(), expectationsList);
-    failTest(failure);
-}
-
-void MockSupport::failTestWithOutOfOrderCalls()
-{
-    MockExpectedCallsList expectationsList;
-    expectationsList.addExpectations(expectations_);
-
-    for(MockNamedValueListNode *p = data_.begin();p;p = p->next())
-        if(getMockSupport(p))
-            expectationsList.addExpectations(getMockSupport(p)->expectations_);
-
-    MockCallOrderFailure failure(activeReporter_->getTestToFail(), expectationsList);
-    failTest(failure);
-}
-
-void MockSupport::failTest(MockFailure& failure)
-{
-    clear();
-    activeReporter_->failTest(static_cast<MockFailure&&>(failure));
-}
-
-void MockSupport::countCheck()
-{
-    cpputest::TestShell::getCurrent()->countCheck();
-}
-
-void MockSupport::checkExpectationsOfLastActualCall()
-{
-    if(lastActualFunctionCall_)
-        lastActualFunctionCall_->checkExpectations();
-
-    for(MockNamedValueListNode *p = data_.begin();p;p = p->next())
-        if(getMockSupport(p) && getMockSupport(p)->lastActualFunctionCall_)
-            getMockSupport(p)->lastActualFunctionCall_->checkExpectations();
-}
-
-bool MockSupport::hasCallsOutOfOrder()
-{
-    if (expectations_.hasCallsOutOfOrder())
-    {
-        return true;
-    }
-    for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-        if (getMockSupport(p) && getMockSupport(p)->hasCallsOutOfOrder())
-        {
-            return true;
-        }
+  if (lastActualFunctionCall_ && !lastActualFunctionCall_->isFulfilled())
     return false;
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p) && !getMockSupport(p)->wasLastActualCallFulfilled())
+      return false;
+
+  return true;
 }
 
-void MockSupport::checkExpectations()
+void
+MockSupport::failTestWithExpectedCallsNotFulfilled()
 {
-    checkExpectationsOfLastActualCall();
+  MockExpectedCallsList expectationsList;
+  expectationsList.addExpectations(expectations_);
 
-    if (wasLastActualCallFulfilled() && expectedCallsLeft())
-        failTestWithExpectedCallsNotFulfilled();
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      expectationsList.addExpectations(getMockSupport(p)->expectations_);
 
-    if (hasCallsOutOfOrder())
-        failTestWithOutOfOrderCalls();
+  MockExpectedCallsDidntHappenFailure failure(activeReporter_->getTestToFail(),
+                                              expectationsList);
+  failTest(failure);
 }
 
-
-bool MockSupport::hasData(const SimpleString& name)
+void
+MockSupport::failTestWithOutOfOrderCalls()
 {
-    return data_.getValueByName(name) != nullptr;
+  MockExpectedCallsList expectationsList;
+  expectationsList.addExpectations(expectations_);
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p))
+      expectationsList.addExpectations(getMockSupport(p)->expectations_);
+
+  MockCallOrderFailure failure(activeReporter_->getTestToFail(),
+                               expectationsList);
+  failTest(failure);
 }
 
-MockNamedValue* MockSupport::retrieveDataFromStore(const SimpleString& name)
+void
+MockSupport::failTest(MockFailure& failure)
 {
-    MockNamedValue* newData = data_.getValueByName(name);
-    if (newData == nullptr) {
-        newData = new MockNamedValue(name);
-        data_.add(newData);
+  clear();
+  activeReporter_->failTest(static_cast<MockFailure&&>(failure));
+}
+
+void
+MockSupport::countCheck()
+{
+  cpputest::TestShell::getCurrent()->countCheck();
+}
+
+void
+MockSupport::checkExpectationsOfLastActualCall()
+{
+  if (lastActualFunctionCall_)
+    lastActualFunctionCall_->checkExpectations();
+
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p) && getMockSupport(p)->lastActualFunctionCall_)
+      getMockSupport(p)->lastActualFunctionCall_->checkExpectations();
+}
+
+bool
+MockSupport::hasCallsOutOfOrder()
+{
+  if (expectations_.hasCallsOutOfOrder()) {
+    return true;
+  }
+  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+    if (getMockSupport(p) && getMockSupport(p)->hasCallsOutOfOrder()) {
+      return true;
     }
-    return newData;
+  return false;
 }
 
-void MockSupport::setData(const SimpleString& name, bool value)
+void
+MockSupport::checkExpectations()
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  checkExpectationsOfLastActualCall();
+
+  if (wasLastActualCallFulfilled() && expectedCallsLeft())
+    failTestWithExpectedCallsNotFulfilled();
+
+  if (hasCallsOutOfOrder())
+    failTestWithOutOfOrderCalls();
 }
 
-void MockSupport::setData(const SimpleString& name, unsigned int value)
+bool
+MockSupport::hasData(const SimpleString& name)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  return data_.getValueByName(name) != nullptr;
 }
 
-void MockSupport::setData(const SimpleString& name, int value)
+MockNamedValue*
+MockSupport::retrieveDataFromStore(const SimpleString& name)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = data_.getValueByName(name);
+  if (newData == nullptr) {
+    newData = new MockNamedValue(name);
+    data_.add(newData);
+  }
+  return newData;
 }
 
-void MockSupport::setData(const SimpleString& name, long int value)
+void
+MockSupport::setData(const SimpleString& name, bool value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, unsigned long int value)
+void
+MockSupport::setData(const SimpleString& name, unsigned int value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, const char* value)
+void
+MockSupport::setData(const SimpleString& name, int value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, double value)
+void
+MockSupport::setData(const SimpleString& name, long int value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, void* value)
+void
+MockSupport::setData(const SimpleString& name, unsigned long int value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, const void* value)
+void
+MockSupport::setData(const SimpleString& name, const char* value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setData(const SimpleString& name, void (*value)())
+void
+MockSupport::setData(const SimpleString& name, double value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setValue(value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setDataObject(const SimpleString& name, const SimpleString& type, void* value)
+void
+MockSupport::setData(const SimpleString& name, void* value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setObjectPointer(type, value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-void MockSupport::setDataConstObject(const SimpleString& name, const SimpleString& type, const void* value)
+void
+MockSupport::setData(const SimpleString& name, const void* value)
 {
-    MockNamedValue* newData = retrieveDataFromStore(name);
-    newData->setConstObjectPointer(type, value);
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-MockNamedValue MockSupport::getData(const SimpleString& name)
+void
+MockSupport::setData(const SimpleString& name, void (*value)())
 {
-    MockNamedValue* value = data_.getValueByName(name);
-    if (value == nullptr)
-        return MockNamedValue("");
-    return *value;
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setValue(value);
 }
 
-MockSupport* MockSupport::clone(const SimpleString& mockName)
+void
+MockSupport::setDataObject(const SimpleString& name,
+                           const SimpleString& type,
+                           void* value)
 {
-    MockSupport* newMock = new MockSupport(mockName);
-    newMock->setMockFailureStandardReporter(standardReporter_);
-    if (ignoreOtherCalls_) newMock->ignoreOtherCalls();
-
-    if (!enabled_) newMock->disable();
-
-    if (strictOrdering_) newMock->strictOrder();
-
-    newMock->tracing(tracing_);
-    newMock->installComparatorsAndCopiers(comparatorsAndCopiersRepository_);
-    return newMock;
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setObjectPointer(type, value);
 }
 
-MockSupport* MockSupport::getMockSupportScope(const SimpleString& name)
+void
+MockSupport::setDataConstObject(const SimpleString& name,
+                                const SimpleString& type,
+                                const void* value)
 {
-    SimpleString mockingSupportName = MOCK_SUPPORT_SCOPE_PREFIX;
-    mockingSupportName += name;
-
-    if (hasData(mockingSupportName)) {
-        STRCMP_EQUAL("MockSupport", getData(mockingSupportName).getType().asCharString());
-        return static_cast<MockSupport*>(getData(mockingSupportName).getObjectPointer());
-    }
-
-    MockSupport *newMock = clone(name);
-
-    setDataObject(mockingSupportName, "MockSupport", newMock);
-    return newMock;
+  MockNamedValue* newData = retrieveDataFromStore(name);
+  newData->setConstObjectPointer(type, value);
 }
 
-MockSupport* MockSupport::getMockSupport(MockNamedValueListNode* node)
+MockNamedValue
+MockSupport::getData(const SimpleString& name)
 {
-    if (node->getType() == "MockSupport" && node->getName().contains(MOCK_SUPPORT_SCOPE_PREFIX))
-        return static_cast<MockSupport*>(node->item()->getObjectPointer());
-    return nullptr;
-}
-
-MockNamedValue MockSupport::returnValue()
-{
-    if (lastActualFunctionCall_) return lastActualFunctionCall_->returnValue();
+  MockNamedValue* value = data_.getValueByName(name);
+  if (value == nullptr)
     return MockNamedValue("");
+  return *value;
 }
 
-bool MockSupport::boolReturnValue()
+MockSupport*
+MockSupport::clone(const SimpleString& mockName)
 {
-    return returnValue().getBoolValue();
+  MockSupport* newMock = new MockSupport(mockName);
+  newMock->setMockFailureStandardReporter(standardReporter_);
+  if (ignoreOtherCalls_)
+    newMock->ignoreOtherCalls();
+
+  if (!enabled_)
+    newMock->disable();
+
+  if (strictOrdering_)
+    newMock->strictOrder();
+
+  newMock->tracing(tracing_);
+  newMock->installComparatorsAndCopiers(comparatorsAndCopiersRepository_);
+  return newMock;
 }
 
-unsigned int MockSupport::unsignedIntReturnValue()
+MockSupport*
+MockSupport::getMockSupportScope(const SimpleString& name)
 {
-    return returnValue().getUnsignedIntValue();
+  SimpleString mockingSupportName = MOCK_SUPPORT_SCOPE_PREFIX;
+  mockingSupportName += name;
+
+  if (hasData(mockingSupportName)) {
+    STRCMP_EQUAL("MockSupport",
+                 getData(mockingSupportName).getType().asCharString());
+    return static_cast<MockSupport*>(
+      getData(mockingSupportName).getObjectPointer());
+  }
+
+  MockSupport* newMock = clone(name);
+
+  setDataObject(mockingSupportName, "MockSupport", newMock);
+  return newMock;
 }
 
-int MockSupport::intReturnValue()
+MockSupport*
+MockSupport::getMockSupport(MockNamedValueListNode* node)
 {
-    return returnValue().getIntValue();
+  if (node->getType() == "MockSupport" &&
+      node->getName().contains(MOCK_SUPPORT_SCOPE_PREFIX))
+    return static_cast<MockSupport*>(node->item()->getObjectPointer());
+  return nullptr;
 }
 
-const char * MockSupport::returnStringValueOrDefault(const char * defaultValue)
+MockNamedValue
+MockSupport::returnValue()
 {
-    if (hasReturnValue()) {
-        return stringReturnValue();
-    }
-    return defaultValue;
+  if (lastActualFunctionCall_)
+    return lastActualFunctionCall_->returnValue();
+  return MockNamedValue("");
 }
 
-double MockSupport::returnDoubleValueOrDefault(double defaultValue)
+bool
+MockSupport::boolReturnValue()
 {
-    if (hasReturnValue()) {
-        return doubleReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getBoolValue();
 }
 
-long int MockSupport::returnLongIntValueOrDefault(long int defaultValue)
+unsigned int
+MockSupport::unsignedIntReturnValue()
 {
-    if (hasReturnValue()) {
-        return longIntReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getUnsignedIntValue();
 }
 
-bool MockSupport::returnBoolValueOrDefault(bool defaultValue)
+int
+MockSupport::intReturnValue()
 {
-    if (hasReturnValue()) {
-        return boolReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getIntValue();
 }
 
-int MockSupport::returnIntValueOrDefault(int defaultValue)
+const char*
+MockSupport::returnStringValueOrDefault(const char* defaultValue)
 {
-    if (hasReturnValue()) {
-        return intReturnValue();
-    }
-    return defaultValue;
+  if (hasReturnValue()) {
+    return stringReturnValue();
+  }
+  return defaultValue;
 }
 
-unsigned int MockSupport::returnUnsignedIntValueOrDefault(unsigned int defaultValue)
+double
+MockSupport::returnDoubleValueOrDefault(double defaultValue)
 {
-    if (hasReturnValue()) {
-        return unsignedIntReturnValue();
-    }
-    return defaultValue;
+  if (hasReturnValue()) {
+    return doubleReturnValue();
+  }
+  return defaultValue;
 }
 
-unsigned long int MockSupport::returnUnsignedLongIntValueOrDefault(unsigned long int defaultValue)
+long int
+MockSupport::returnLongIntValueOrDefault(long int defaultValue)
 {
-    if (hasReturnValue()) {
-        return unsignedLongIntReturnValue();
-    }
-    return defaultValue;
+  if (hasReturnValue()) {
+    return longIntReturnValue();
+  }
+  return defaultValue;
 }
 
-long int MockSupport::longIntReturnValue()
+bool
+MockSupport::returnBoolValueOrDefault(bool defaultValue)
 {
-    return returnValue().getLongIntValue();
+  if (hasReturnValue()) {
+    return boolReturnValue();
+  }
+  return defaultValue;
 }
 
-unsigned long int MockSupport::unsignedLongIntReturnValue()
+int
+MockSupport::returnIntValueOrDefault(int defaultValue)
 {
-    return returnValue().getUnsignedLongIntValue();
+  if (hasReturnValue()) {
+    return intReturnValue();
+  }
+  return defaultValue;
 }
 
-long long MockSupport::longLongIntReturnValue()
+unsigned int
+MockSupport::returnUnsignedIntValueOrDefault(unsigned int defaultValue)
 {
-    return returnValue().getLongLongIntValue();
+  if (hasReturnValue()) {
+    return unsignedIntReturnValue();
+  }
+  return defaultValue;
 }
 
-unsigned long long MockSupport::unsignedLongLongIntReturnValue()
+unsigned long int
+MockSupport::returnUnsignedLongIntValueOrDefault(unsigned long int defaultValue)
 {
-    return returnValue().getUnsignedLongLongIntValue();
+  if (hasReturnValue()) {
+    return unsignedLongIntReturnValue();
+  }
+  return defaultValue;
 }
 
-long long MockSupport::returnLongLongIntValueOrDefault(long long defaultValue)
+long int
+MockSupport::longIntReturnValue()
 {
-    if (hasReturnValue()) {
-        return longLongIntReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getLongIntValue();
 }
 
-unsigned long long MockSupport::returnUnsignedLongLongIntValueOrDefault(unsigned long long defaultValue)
+unsigned long int
+MockSupport::unsignedLongIntReturnValue()
 {
-    if (hasReturnValue()) {
-        return unsignedLongLongIntReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getUnsignedLongIntValue();
 }
 
-const char* MockSupport::stringReturnValue()
+long long
+MockSupport::longLongIntReturnValue()
 {
-    return returnValue().getStringValue();
+  return returnValue().getLongLongIntValue();
 }
 
-double MockSupport::doubleReturnValue()
+unsigned long long
+MockSupport::unsignedLongLongIntReturnValue()
 {
-    return returnValue().getDoubleValue();
+  return returnValue().getUnsignedLongLongIntValue();
 }
 
-void * MockSupport::returnPointerValueOrDefault(void * defaultValue)
+long long
+MockSupport::returnLongLongIntValueOrDefault(long long defaultValue)
 {
-    if (hasReturnValue()) {
-        return pointerReturnValue();
-    }
-    return defaultValue;
+  if (hasReturnValue()) {
+    return longLongIntReturnValue();
+  }
+  return defaultValue;
 }
 
-const void* MockSupport::returnConstPointerValueOrDefault(const void * defaultValue)
+unsigned long long
+MockSupport::returnUnsignedLongLongIntValueOrDefault(
+  unsigned long long defaultValue)
 {
-    if (hasReturnValue()) {
-        return constPointerReturnValue();
-    }
-    return defaultValue;
+  if (hasReturnValue()) {
+    return unsignedLongLongIntReturnValue();
+  }
+  return defaultValue;
 }
 
-void (*MockSupport::returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
+const char*
+MockSupport::stringReturnValue()
 {
-    if (hasReturnValue()) {
-        return functionPointerReturnValue();
-    }
-    return defaultValue;
+  return returnValue().getStringValue();
 }
 
-void* MockSupport::pointerReturnValue()
+double
+MockSupport::doubleReturnValue()
 {
-    return returnValue().getPointerValue();
+  return returnValue().getDoubleValue();
 }
 
-const void* MockSupport::constPointerReturnValue()
+void*
+MockSupport::returnPointerValueOrDefault(void* defaultValue)
 {
-    return returnValue().getConstPointerValue();
+  if (hasReturnValue()) {
+    return pointerReturnValue();
+  }
+  return defaultValue;
+}
+
+const void*
+MockSupport::returnConstPointerValueOrDefault(const void* defaultValue)
+{
+  if (hasReturnValue()) {
+    return constPointerReturnValue();
+  }
+  return defaultValue;
+}
+
+void (
+  *MockSupport::returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
+{
+  if (hasReturnValue()) {
+    return functionPointerReturnValue();
+  }
+  return defaultValue;
+}
+
+void*
+MockSupport::pointerReturnValue()
+{
+  return returnValue().getPointerValue();
+}
+
+const void*
+MockSupport::constPointerReturnValue()
+{
+  return returnValue().getConstPointerValue();
 }
 
 void (*MockSupport::functionPointerReturnValue())()
 {
-    return returnValue().getFunctionPointerValue();
+  return returnValue().getFunctionPointerValue();
 }
 
-bool MockSupport::hasReturnValue()
+bool
+MockSupport::hasReturnValue()
 {
-    if (lastActualFunctionCall_) return lastActualFunctionCall_->hasReturnValue();
-    return false;
+  if (lastActualFunctionCall_)
+    return lastActualFunctionCall_->hasReturnValue();
+  return false;
 }
 
 } // namespace extensions

@@ -34,147 +34,156 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
+TEST_GROUP(MockPlugin) {
+StringBufferTestOutput output;
 
-TEST_GROUP(MockPlugin)
+UtestShell* test;
+TestResult* result;
+
+MockSupportPlugin plugin;
+
+void
+setup() override
 {
-    StringBufferTestOutput output;
+  test = new UtestShell("group", "name", "file", 1);
+  result = new TestResult(output);
+}
 
-    UtestShell *test;
-    TestResult *result;
-
-    MockSupportPlugin plugin;
-
-    void setup() override
-    {
-        test = new UtestShell("group", "name", "file", 1);
-        result = new TestResult(output);
-    }
-
-    void teardown() override
-    {
-        delete test;
-        delete result;
-        mock().clear();
-        mock().removeAllComparatorsAndCopiers();
-    }
+void
+teardown() override
+{
+  delete test;
+  delete result;
+  mock().clear();
+  mock().removeAllComparatorsAndCopiers();
+}
 };
 
 TEST(MockPlugin, checkExpectationsAndClearAtEnd)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    MockExpectedCallsListForTest expectations;
-    expectations.addFunction("foobar");
-    MockExpectedCallsDidntHappenFailure expectedFailure(test, expectations);
+  MockExpectedCallsListForTest expectations;
+  expectations.addFunction("foobar");
+  MockExpectedCallsDidntHappenFailure expectedFailure(test, expectations);
 
-    mock().expectOneCall("foobar");
+  mock().expectOneCall("foobar");
 
-    plugin.postTestAction(*test, *result);
+  plugin.postTestAction(*test, *result);
 
-    STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(), output.getOutput().asCharString());
-    LONGS_EQUAL(0, mock().expectedCallsLeft());
-    CHECK_NO_MOCK_FAILURE();
+  STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(),
+                  output.getOutput().asCharString());
+  LONGS_EQUAL(0, mock().expectedCallsLeft());
+  CHECK_NO_MOCK_FAILURE();
 }
 
 TEST(MockPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    MockExpectedCallsListForTest expectations;
-    expectations.addFunction("differentScope::foobar")->onObject(reinterpret_cast<void*>(1));
-    MockExpectedObjectDidntHappenFailure expectedFailure(test, "differentScope::foobar", expectations);
+  MockExpectedCallsListForTest expectations;
+  expectations.addFunction("differentScope::foobar")
+    ->onObject(reinterpret_cast<void*>(1));
+  MockExpectedObjectDidntHappenFailure expectedFailure(
+    test, "differentScope::foobar", expectations);
 
-    mock("differentScope").expectOneCall("foobar").onObject(reinterpret_cast<void*>(1));
-    mock("differentScope").actualCall("foobar");
+  mock("differentScope")
+    .expectOneCall("foobar")
+    .onObject(reinterpret_cast<void*>(1));
+  mock("differentScope").actualCall("foobar");
 
-    plugin.postTestAction(*test, *result);
+  plugin.postTestAction(*test, *result);
 
-    STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(), output.getOutput().asCharString());
-    CHECK_NO_MOCK_FAILURE();
+  STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(),
+                  output.getOutput().asCharString());
+  CHECK_NO_MOCK_FAILURE();
 }
 
 class DummyComparator : public MockNamedValueComparator
 {
 public:
-    bool isEqual(const void* object1, const void* object2) override
-    {
-        return object1 == object2;
-    }
-    SimpleString valueToString(const void*) override
-    {
-        return "string";
-    }
+  bool isEqual(const void* object1, const void* object2) override
+  {
+    return object1 == object2;
+  }
+  SimpleString valueToString(const void*) override { return "string"; }
 };
 
 TEST(MockPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    DummyComparator comparator;
-    plugin.installComparator("myType", comparator);
-    mock().expectOneCall("foo").withParameterOfType("myType", "name", nullptr);
-    mock().actualCall("foo").withParameterOfType("myType", "name", nullptr);
+  DummyComparator comparator;
+  plugin.installComparator("myType", comparator);
+  mock().expectOneCall("foo").withParameterOfType("myType", "name", nullptr);
+  mock().actualCall("foo").withParameterOfType("myType", "name", nullptr);
 
-    MockNoWayToCompareCustomTypeFailure failure(test, "myType");
-    CHECK_EXPECTED_MOCK_FAILURE(failure);
+  MockNoWayToCompareCustomTypeFailure failure(test, "myType");
+  CHECK_EXPECTED_MOCK_FAILURE(failure);
 
-    plugin.clear();
+  plugin.clear();
 }
 
 class DummyCopier : public MockNamedValueCopier
 {
 public:
-    void copy(void* dst, const void* src) override
-    {
-        *static_cast<int*>(dst) = *static_cast<const int*>(src);
-    }
+  void copy(void* dst, const void* src) override
+  {
+    *static_cast<int*>(dst) = *static_cast<const int*>(src);
+  }
 };
 
 TEST(MockPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
 {
-    MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failureReporterInstaller;
 
-    DummyCopier copier;
-    plugin.installCopier("myType", copier);
-    mock().expectOneCall("foo").withOutputParameterOfTypeReturning("myType", "name", nullptr);
-    mock().actualCall("foo").withOutputParameterOfType("myType", "name", nullptr);
+  DummyCopier copier;
+  plugin.installCopier("myType", copier);
+  mock().expectOneCall("foo").withOutputParameterOfTypeReturning(
+    "myType", "name", nullptr);
+  mock().actualCall("foo").withOutputParameterOfType("myType", "name", nullptr);
 
-    MockNoWayToCopyCustomTypeFailure failure(test, "myType");
-    CHECK_EXPECTED_MOCK_FAILURE(failure);
+  MockNoWayToCopyCustomTypeFailure failure(test, "myType");
+  CHECK_EXPECTED_MOCK_FAILURE(failure);
 
-    plugin.clear();
+  plugin.clear();
 }
 
-TEST(MockPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
+TEST(MockPlugin,
+     preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
 {
-    DummyComparator comparator;
-    DummyComparator comparator2;
-    plugin.installComparator("myType", comparator);
-    plugin.installComparator("myOtherType", comparator2);
+  DummyComparator comparator;
+  DummyComparator comparator2;
+  plugin.installComparator("myType", comparator);
+  plugin.installComparator("myOtherType", comparator2);
 
-    plugin.preTestAction(*test, *result);
-    mock().expectOneCall("foo").withParameterOfType("myType", "name", &comparator);
-    mock().expectOneCall("foo").withParameterOfType("myOtherType", "name", &comparator);
-    mock().actualCall("foo").withParameterOfType("myType", "name", &comparator);
-    mock().actualCall("foo").withParameterOfType("myOtherType", "name", &comparator);
+  plugin.preTestAction(*test, *result);
+  mock().expectOneCall("foo").withParameterOfType(
+    "myType", "name", &comparator);
+  mock().expectOneCall("foo").withParameterOfType(
+    "myOtherType", "name", &comparator);
+  mock().actualCall("foo").withParameterOfType("myType", "name", &comparator);
+  mock().actualCall("foo").withParameterOfType(
+    "myOtherType", "name", &comparator);
 
-    mock().checkExpectations();
-    LONGS_EQUAL(0, result->getFailureCount());
+  mock().checkExpectations();
+  LONGS_EQUAL(0, result->getFailureCount());
 
-    plugin.clear();
+  plugin.clear();
 }
 
-static void failTwiceFunction_()
+static void
+failTwiceFunction_()
 {
-    mock().expectOneCall("foobar");
-    FAIL("This failed");
+  mock().expectOneCall("foobar");
+  FAIL("This failed");
 }
 
 TEST(MockPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
-    TestTestingFixture fixture;
-    fixture.installPlugin(&plugin);
-    fixture.setTestFunction(failTwiceFunction_);
-    fixture.runAllTests();
-    fixture.assertPrintContains("1 failures, 1 tests, 1 ran, 2 checks,");
+  TestTestingFixture fixture;
+  fixture.installPlugin(&plugin);
+  fixture.setTestFunction(failTwiceFunction_);
+  fixture.runAllTests();
+  fixture.assertPrintContains("1 failures, 1 tests, 1 ran, 2 checks,");
 }

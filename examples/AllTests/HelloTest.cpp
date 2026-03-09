@@ -33,29 +33,31 @@
 
 static cpputest::SimpleString* buffer;
 
-TEST_GROUP(HelloWorld)
+TEST_GROUP(HelloWorld) {
+static int
+output_method(const char* output, ...)
 {
-    static int output_method(const char* output, ...)
-    {
-        va_list arguments;
-        va_start(arguments, output);
-        *buffer = cpputest::VStringFromFormat(output, arguments);
-        va_end(arguments);
-        return 1;
-    }
-    void setup() override
-    {
-        buffer = new cpputest::SimpleString();
-        UT_PTR_SET(PrintFormated, &output_method);
-    }
-    void teardown() override
-    {
-        delete buffer;
-    }
+  va_list arguments;
+  va_start(arguments, output);
+  *buffer = cpputest::VStringFromFormat(output, arguments);
+  va_end(arguments);
+  return 1;
+}
+void
+setup() override
+{
+  buffer = new cpputest::SimpleString();
+  UT_PTR_SET(PrintFormated, &output_method);
+}
+void
+teardown() override
+{
+  delete buffer;
+}
 };
 
 TEST(HelloWorld, PrintOk)
 {
-    printHelloWorld();
-    STRCMP_EQUAL("Hello World!\n", buffer->asCharString());
+  printHelloWorld();
+  STRCMP_EQUAL("Hello World!\n", buffer->asCharString());
 }

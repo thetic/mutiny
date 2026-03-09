@@ -29,14 +29,14 @@
 #define ORDEREDTESTTEST_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-extern int orderedTestFixtureCWrapper(void);
+  extern int orderedTestFixtureCWrapper(void);
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* ORDEREDTESTTEST_H */
-

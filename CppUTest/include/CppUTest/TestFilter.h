@@ -35,33 +35,33 @@ namespace cpputest {
 class TestFilter
 {
 public:
+  TestFilter();
+  TestFilter(const char* filter);
+  TestFilter(const SimpleString& filter);
 
-    TestFilter();
-    TestFilter(const char* filter);
-    TestFilter(const SimpleString& filter);
+  TestFilter* add(TestFilter* filter);
+  TestFilter* getNext() const;
 
-    TestFilter* add(TestFilter* filter);
-    TestFilter* getNext() const;
+  bool match(const SimpleString& name) const;
 
-    bool match(const SimpleString& name) const;
+  void strictMatching();
+  void invertMatching();
 
-    void strictMatching();
-    void invertMatching();
+  bool operator==(const TestFilter& filter) const;
+  bool operator!=(const TestFilter& filter) const;
 
-    bool operator==(const TestFilter& filter) const;
-    bool operator!=(const TestFilter& filter) const;
+  SimpleString asString() const;
 
-    SimpleString asString() const;
 private:
-    SimpleString filter_;
-    bool strictMatching_;
-    bool invertMatching_;
-    TestFilter* next_;
+  SimpleString filter_;
+  bool strictMatching_;
+  bool invertMatching_;
+  TestFilter* next_;
 };
 
-SimpleString StringFrom(const TestFilter& filter);
+SimpleString
+StringFrom(const TestFilter& filter);
 
 } // namespace cpputest
 
 #endif
-

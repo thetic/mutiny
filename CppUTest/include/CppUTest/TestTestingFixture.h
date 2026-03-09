@@ -37,49 +37,50 @@ namespace cpputest {
 class TestTestingFixture
 {
 public:
+  TestTestingFixture();
+  virtual ~TestTestingFixture();
+  void flushOutputAndResetResult();
 
-    TestTestingFixture();
-    virtual ~TestTestingFixture();
-    void flushOutputAndResetResult();
+  void addTest(TestShell* test);
+  void installPlugin(TestPlugin* plugin);
 
-    void addTest(TestShell * test);
-    void installPlugin(TestPlugin* plugin);
+  void setTestFunction(void (*testFunction)());
+  void setTestFunction(ExecFunction* testFunction);
+  void setSetup(void (*setupFunction)());
+  void setTeardown(void (*teardownFunction)());
 
-    void setTestFunction(void(*testFunction)());
-    void setTestFunction(ExecFunction* testFunction);
-    void setSetup(void(*setupFunction)());
-    void setTeardown(void(*teardownFunction)());
+  void setOutputVerbose();
 
-    void setOutputVerbose();
+  void runTestWithMethod(void (*method)());
+  void runAllTests();
 
-    void runTestWithMethod(void(*method)());
-    void runAllTests();
+  size_t getFailureCount();
+  size_t getCheckCount();
+  size_t getIgnoreCount();
+  size_t getRunCount();
+  size_t getTestCount();
+  const SimpleString& getOutput();
+  TestRegistry* getRegistry();
 
-    size_t getFailureCount();
-    size_t getCheckCount();
-    size_t getIgnoreCount();
-    size_t getRunCount();
-    size_t getTestCount();
-    const SimpleString& getOutput();
-    TestRegistry* getRegistry();
+  bool hasTestFailed();
+  void assertPrintContains(const SimpleString& contains);
+  void assertPrintContainsNot(const SimpleString& contains);
+  void checkTestFailsWithProperTestLocation(const char* text,
+                                            const char* file,
+                                            size_t line);
 
-    bool hasTestFailed();
-    void assertPrintContains(const SimpleString& contains);
-    void assertPrintContainsNot(const SimpleString& contains);
-    void checkTestFailsWithProperTestLocation(const char* text, const char* file, size_t line);
-
-    static void lineExecutedAfterCheck();
+  static void lineExecutedAfterCheck();
 
 private:
-    void clearExecFunction();
+  void clearExecFunction();
 
-    static bool lineOfCodeExecutedAfterCheck;
+  static bool lineOfCodeExecutedAfterCheck;
 
-    TestRegistry* registry_;
-    ExecFunctionTestShell* genTest_;
-    bool ownsExecFunction_;
-    StringBufferTestOutput* output_;
-    TestResult * result_;
+  TestRegistry* registry_;
+  ExecFunctionTestShell* genTest_;
+  bool ownsExecFunction_;
+  StringBufferTestOutput* output_;
+  TestResult* result_;
 };
 
 } // namespace cpputest

@@ -36,212 +36,220 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
+TEST_GROUP(TestOrderedTest) {
+TestTestingFixture* fixture;
 
-TEST_GROUP(TestOrderedTest)
+OrderedTestShell orderedTest;
+OrderedTestShell orderedTest2;
+OrderedTestShell orderedTest3;
+ExecFunctionTestShell normalTest;
+ExecFunctionTestShell normalTest2;
+ExecFunctionTestShell normalTest3;
+
+OrderedTestShell* orderedTestCache;
+void
+setup() override
 {
-    TestTestingFixture* fixture;
+  orderedTestCache = OrderedTestShell::getOrderedTestHead();
+  OrderedTestShell::setOrderedTestHead(nullptr);
 
-    OrderedTestShell orderedTest;
-    OrderedTestShell orderedTest2;
-    OrderedTestShell orderedTest3;
-    ExecFunctionTestShell normalTest;
-    ExecFunctionTestShell normalTest2;
-    ExecFunctionTestShell normalTest3;
+  fixture = new TestTestingFixture();
+  fixture->getRegistry()->unDoLastAddTest();
+}
 
-    OrderedTestShell* orderedTestCache;
-    void setup() override
-    {
-        orderedTestCache = OrderedTestShell::getOrderedTestHead();
-        OrderedTestShell::setOrderedTestHead(nullptr);
+void
+teardown() override
+{
+  delete fixture;
+  OrderedTestShell::setOrderedTestHead(orderedTestCache);
+}
 
-        fixture = new TestTestingFixture();
-        fixture->getRegistry()->unDoLastAddTest();
-    }
+void
+InstallOrderedTest(OrderedTestShell& test, int level)
+{
+  OrderedTestInstaller(
+    test, "testgroup", "testname", __FILE__, __LINE__, level);
+}
 
-    void teardown() override
-    {
-        delete fixture;
-        OrderedTestShell::setOrderedTestHead(orderedTestCache);
-    }
+void
+InstallNormalTest(UtestShell& test)
+{
+  TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
+}
 
-    void InstallOrderedTest(OrderedTestShell& test, int level)
-    {
-        OrderedTestInstaller(test, "testgroup", "testname", __FILE__, __LINE__, level);
-    }
+UtestShell*
+firstTest()
+{
+  return fixture->getRegistry()->getFirstTest();
+}
 
-    void InstallNormalTest(UtestShell& test)
-    {
-        TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
-    }
-
-    UtestShell* firstTest()
-    {
-        return fixture->getRegistry()->getFirstTest();
-    }
-
-    UtestShell* secondTest()
-    {
-        return firstTest()->getNext();
-    }
+UtestShell*
+secondTest()
+{
+  return firstTest()->getNext();
+}
 };
 
 TEST(TestOrderedTest, TestInstallerSetsFields)
 {
-    OrderedTestInstaller installer(orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
-    STRCMP_EQUAL("testgroup", orderedTest.getGroup().asCharString());
-    STRCMP_EQUAL("testname", orderedTest.getName().asCharString());
-    STRCMP_EQUAL("this.cpp", orderedTest.getFile().asCharString());
-    LONGS_EQUAL(10, orderedTest.getLineNumber());
-    LONGS_EQUAL(5, orderedTest.getLevel());
+  OrderedTestInstaller installer(
+    orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
+  STRCMP_EQUAL("testgroup", orderedTest.getGroup().asCharString());
+  STRCMP_EQUAL("testname", orderedTest.getName().asCharString());
+  STRCMP_EQUAL("this.cpp", orderedTest.getFile().asCharString());
+  LONGS_EQUAL(10, orderedTest.getLineNumber());
+  LONGS_EQUAL(5, orderedTest.getLevel());
 }
 
 TEST(TestOrderedTest, InstallOneText)
 {
-    InstallOrderedTest(orderedTest, 5);
-    CHECK(firstTest() == &orderedTest);
+  InstallOrderedTest(orderedTest, 5);
+  CHECK(firstTest() == &orderedTest);
 }
 
 TEST(TestOrderedTest, OrderedTestsAreLast)
 {
-    InstallNormalTest(normalTest);
-    InstallOrderedTest(orderedTest, 5);
-    CHECK(firstTest() == &normalTest);
-    CHECK(secondTest() == &orderedTest);
+  InstallNormalTest(normalTest);
+  InstallOrderedTest(orderedTest, 5);
+  CHECK(firstTest() == &normalTest);
+  CHECK(secondTest() == &orderedTest);
 }
 
 TEST(TestOrderedTest, TwoTestsAddedInReverseOrder)
 {
-    InstallOrderedTest(orderedTest, 5);
-    InstallOrderedTest(orderedTest2, 3);
-    CHECK(firstTest() == &orderedTest2);
-    CHECK(secondTest() == &orderedTest);
+  InstallOrderedTest(orderedTest, 5);
+  InstallOrderedTest(orderedTest2, 3);
+  CHECK(firstTest() == &orderedTest2);
+  CHECK(secondTest() == &orderedTest);
 }
 
 TEST(TestOrderedTest, TwoTestsAddedInOrder)
 {
-    InstallOrderedTest(orderedTest2, 3);
-    InstallOrderedTest(orderedTest, 5);
-    CHECK(firstTest() == &orderedTest2);
-    CHECK(secondTest() == &orderedTest);
+  InstallOrderedTest(orderedTest2, 3);
+  InstallOrderedTest(orderedTest, 5);
+  CHECK(firstTest() == &orderedTest2);
+  CHECK(secondTest() == &orderedTest);
 }
 
 TEST(TestOrderedTest, MultipleOrderedTests)
 {
-    InstallNormalTest(normalTest);
-    InstallOrderedTest(orderedTest2, 3);
-    InstallNormalTest(normalTest2);
-    InstallOrderedTest(orderedTest, 5);
-    InstallNormalTest(normalTest3);
-    InstallOrderedTest(orderedTest3, 7);
+  InstallNormalTest(normalTest);
+  InstallOrderedTest(orderedTest2, 3);
+  InstallNormalTest(normalTest2);
+  InstallOrderedTest(orderedTest, 5);
+  InstallNormalTest(normalTest3);
+  InstallOrderedTest(orderedTest3, 7);
 
-    UtestShell * firstOrderedTest = firstTest()->getNext()->getNext()->getNext();
-    CHECK(firstOrderedTest == &orderedTest2);
-    CHECK(firstOrderedTest->getNext() == &orderedTest);
-    CHECK(firstOrderedTest->getNext()->getNext() == &orderedTest3);
+  UtestShell* firstOrderedTest = firstTest()->getNext()->getNext()->getNext();
+  CHECK(firstOrderedTest == &orderedTest2);
+  CHECK(firstOrderedTest->getNext() == &orderedTest);
+  CHECK(firstOrderedTest->getNext()->getNext() == &orderedTest3);
 }
 
 TEST(TestOrderedTest, MultipleOrderedTests2)
 {
-    InstallOrderedTest(orderedTest, 3);
-    InstallOrderedTest(orderedTest2, 1);
-    InstallOrderedTest(orderedTest3, 2);
+  InstallOrderedTest(orderedTest, 3);
+  InstallOrderedTest(orderedTest2, 1);
+  InstallOrderedTest(orderedTest3, 2);
 
-    CHECK(firstTest() == &orderedTest2);
-    CHECK(secondTest() == &orderedTest3);
-    CHECK(secondTest()->getNext() == &orderedTest);
-
+  CHECK(firstTest() == &orderedTest2);
+  CHECK(secondTest() == &orderedTest3);
+  CHECK(secondTest()->getNext() == &orderedTest);
 }
 
 class OrderedTestTestingFixture
 {
 public:
-    static void checkRun(int run) {
-        if(run != run_) {
-            run_ = run;
-            count_ = 0;
-        }
+  static void checkRun(int run)
+  {
+    if (run != run_) {
+      run_ = run;
+      count_ = 0;
     }
-    static int count(void) {
-        return count_++;
-    }
+  }
+  static int count(void) { return count_++; }
+
 private:
-    static int run_;
-    static int count_;
+  static int run_;
+  static int count_;
 };
 
 int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
 
-TEST_GROUP(TestOrderedTestMacros)
+TEST_GROUP(TestOrderedTestMacros) {
+void
+setup() override
 {
-    void setup() override
-    {
-        OrderedTestTestingFixture::checkRun(TestRegistry::getCurrentRegistry()->getCurrentRepetition());
-    }
+  OrderedTestTestingFixture::checkRun(
+    TestRegistry::getCurrentRegistry()->getCurrentRepetition());
+}
 };
 
 TEST(TestOrderedTestMacros, NormalTest)
 {
-    CHECK(OrderedTestTestingFixture::count() == 0);
+  CHECK(OrderedTestTestingFixture::count() == 0);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test2, 2)
 {
-    CHECK(OrderedTestTestingFixture::count() == 2);
+  CHECK(OrderedTestTestingFixture::count() == 2);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test1, 1)
 {
-    CHECK(OrderedTestTestingFixture::count() == 1);
+  CHECK(OrderedTestTestingFixture::count() == 1);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test4, 4)
 {
-    CHECK(OrderedTestTestingFixture::count() == 4);
+  CHECK(OrderedTestTestingFixture::count() == 4);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test3, 3)
 {
-    CHECK(OrderedTestTestingFixture::count() == 3);
+  CHECK(OrderedTestTestingFixture::count() == 3);
 }
 
 // Test with same level
 TEST_ORDERED(TestOrderedTestMacros, Test5_1, 5)
 {
-    CHECK(OrderedTestTestingFixture::count() == 5);
+  CHECK(OrderedTestTestingFixture::count() == 5);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test6_1, 6)
 {
-    CHECK(OrderedTestTestingFixture::count() == 7);
+  CHECK(OrderedTestTestingFixture::count() == 7);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test5_2, 5)
 {
-    CHECK(OrderedTestTestingFixture::count() == 6);
+  CHECK(OrderedTestTestingFixture::count() == 6);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test6_2, 6)
 {
-    CHECK(OrderedTestTestingFixture::count() == 8);
+  CHECK(OrderedTestTestingFixture::count() == 8);
 }
 
 // Test C-Interface
 TEST_ORDERED(TestOrderedTestMacros, Test10, 10)
 {
-    CHECK(OrderedTestTestingFixture::count() == 12);
+  CHECK(OrderedTestTestingFixture::count() == 12);
 }
 
 TEST_ORDERED(TestOrderedTestMacros, Test8, 8)
 {
-    CHECK(OrderedTestTestingFixture::count() == 10);
+  CHECK(OrderedTestTestingFixture::count() == 10);
 }
 
 // Export to be usable in OrderedTestTest_c.c
-extern "C" {
-int orderedTestFixtureCWrapper(void) {
+extern "C"
+{
+  int orderedTestFixtureCWrapper(void)
+  {
     return OrderedTestTestingFixture::count();
-}
+  }
 }
 
 TEST_ORDERED_C_WRAPPER(TestOrderedTestMacros, Test11, 11)

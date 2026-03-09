@@ -36,268 +36,285 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
+TEST_GROUP(MockSupportTest) {
+MockExpectedCallsListForTest expectations;
+MockFailureReporterInstaller failureReporterInstaller;
 
-TEST_GROUP(MockSupportTest)
+void
+teardown() override
 {
-  MockExpectedCallsListForTest expectations;
-  MockFailureReporterInstaller failureReporterInstaller;
-
-  void teardown() override
-  {
-      mock().checkExpectations();
-      CHECK_NO_MOCK_FAILURE();
-      MockFailureReporterForTest::clearReporter();
-      mock().clear();
-  }
+  mock().checkExpectations();
+  CHECK_NO_MOCK_FAILURE();
+  MockFailureReporterForTest::clearReporter();
+  mock().clear();
+}
 };
 
 TEST(MockSupportTest, setDataForUnsignedIntegerValues)
 {
-    unsigned int expected_data = 7;
-    mock().setData("data", expected_data);
-    LONGS_EQUAL(expected_data, mock().getData("data").getUnsignedIntValue());
+  unsigned int expected_data = 7;
+  mock().setData("data", expected_data);
+  LONGS_EQUAL(expected_data, mock().getData("data").getUnsignedIntValue());
 }
 
 TEST(MockSupportTest, setDataForIntegerValues)
 {
-    int expected_data = 10;
-    mock().setData("data", expected_data);
-    LONGS_EQUAL(expected_data, mock().getData("data").getIntValue());
+  int expected_data = 10;
+  mock().setData("data", expected_data);
+  LONGS_EQUAL(expected_data, mock().getData("data").getIntValue());
 }
 
 TEST(MockSupportTest, setDataForBooleanValues)
 {
-    bool expected_data = true;
-    mock().setData("data", expected_data);
-    CHECK_EQUAL(expected_data, mock().getData("data").getBoolValue());
+  bool expected_data = true;
+  mock().setData("data", expected_data);
+  CHECK_EQUAL(expected_data, mock().getData("data").getBoolValue());
 }
 
 TEST(MockSupportTest, hasDataBeenSet)
 {
-    CHECK(!mock().hasData("data"));
-    mock().setData("data", 10);
-    CHECK(mock().hasData("data"));
+  CHECK(!mock().hasData("data"));
+  mock().setData("data", 10);
+  CHECK(mock().hasData("data"));
 }
 
 TEST(MockSupportTest, dataCanBeChanged)
 {
-    mock().setData("data", 10);
-    mock().setData("data", 15);
-    LONGS_EQUAL(15, mock().getData("data").getIntValue());
+  mock().setData("data", 10);
+  mock().setData("data", 15);
+  LONGS_EQUAL(15, mock().getData("data").getIntValue());
 }
 
 TEST(MockSupportTest, uninitializedData)
 {
-    LONGS_EQUAL(0, mock().getData("nonexisting").getIntValue());
-    STRCMP_EQUAL("int", mock().getData("nonexisting").getType().asCharString());
+  LONGS_EQUAL(0, mock().getData("nonexisting").getIntValue());
+  STRCMP_EQUAL("int", mock().getData("nonexisting").getType().asCharString());
 }
 
 TEST(MockSupportTest, setMultipleData)
 {
-    mock().setData("data", 1);
-    mock().setData("data2", 10);
-    LONGS_EQUAL(1, mock().getData("data").getIntValue());
-    LONGS_EQUAL(10, mock().getData("data2").getIntValue());
+  mock().setData("data", 1);
+  mock().setData("data2", 10);
+  LONGS_EQUAL(1, mock().getData("data").getIntValue());
+  LONGS_EQUAL(10, mock().getData("data2").getIntValue());
 }
 
 TEST(MockSupportTest, setDataString)
 {
-    mock().setData("data", "string");
-    STRCMP_EQUAL("string", mock().getData("data").getStringValue());
+  mock().setData("data", "string");
+  STRCMP_EQUAL("string", mock().getData("data").getStringValue());
 }
 
 TEST(MockSupportTest, setDataDouble)
 {
-    mock().setData("data", 1.0);
-    DOUBLES_EQUAL(1.0, mock().getData("data").getDoubleValue(), 0.05);
+  mock().setData("data", 1.0);
+  DOUBLES_EQUAL(1.0, mock().getData("data").getDoubleValue(), 0.05);
 }
 
 TEST(MockSupportTest, setDataLongInt)
 {
-    long int i = 100;
-    mock().setData("data", i);
-    LONGS_EQUAL(i, mock().getData("data").getLongIntValue());
+  long int i = 100;
+  mock().setData("data", i);
+  LONGS_EQUAL(i, mock().getData("data").getLongIntValue());
 }
 
 TEST(MockSupportTest, setDataUnsignedLongInt)
 {
-    unsigned long int i = 100;
-    mock().setData("data", i);
-    UNSIGNED_LONGS_EQUAL(i, mock().getData("data").getUnsignedLongIntValue());
+  unsigned long int i = 100;
+  mock().setData("data", i);
+  UNSIGNED_LONGS_EQUAL(i, mock().getData("data").getUnsignedLongIntValue());
 }
 
 TEST(MockSupportTest, setDataPointer)
 {
-    void * ptr = reinterpret_cast<void*>(0x001);
-    mock().setData("data", ptr);
-    POINTERS_EQUAL(ptr, mock().getData("data").getPointerValue());
+  void* ptr = reinterpret_cast<void*>(0x001);
+  mock().setData("data", ptr);
+  POINTERS_EQUAL(ptr, mock().getData("data").getPointerValue());
 }
 
 TEST(MockSupportTest, setConstDataPointer)
 {
-    const void * ptr = reinterpret_cast<const void*>(0x001);
-    mock().setData("data", ptr);
-    POINTERS_EQUAL(ptr, mock().getData("data").getConstPointerValue());
+  const void* ptr = reinterpret_cast<const void*>(0x001);
+  mock().setData("data", ptr);
+  POINTERS_EQUAL(ptr, mock().getData("data").getConstPointerValue());
 }
 
 TEST(MockSupportTest, setDataFunctionPointer)
 {
-    void (*ptr)() = reinterpret_cast<void(*)()>(0x001);
-    mock().setData("data", ptr);
-    FUNCTIONPOINTERS_EQUAL(ptr, mock().getData("data").getFunctionPointerValue());
+  void (*ptr)() = reinterpret_cast<void (*)()>(0x001);
+  mock().setData("data", ptr);
+  FUNCTIONPOINTERS_EQUAL(ptr, mock().getData("data").getFunctionPointerValue());
 }
 
 TEST(MockSupportTest, setDataObject)
 {
-    void * ptr = reinterpret_cast<void*>(0x001);
-    mock().setDataObject("data", "type", ptr);
-    POINTERS_EQUAL(ptr, mock().getData("data").getObjectPointer());
-    STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
+  void* ptr = reinterpret_cast<void*>(0x001);
+  mock().setDataObject("data", "type", ptr);
+  POINTERS_EQUAL(ptr, mock().getData("data").getObjectPointer());
+  STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
 }
 
 TEST(MockSupportTest, setDataConstObject)
 {
-    void * ptr = reinterpret_cast<void*>(0x011);
-    mock().setDataConstObject("data", "type", ptr);
-    POINTERS_EQUAL(ptr, mock().getData("data").getConstObjectPointer());
-    STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
+  void* ptr = reinterpret_cast<void*>(0x011);
+  mock().setDataConstObject("data", "type", ptr);
+  POINTERS_EQUAL(ptr, mock().getData("data").getConstObjectPointer());
+  STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
 }
 
 TEST(MockSupportTest, tracing)
 {
-    mock().tracing(true);
+  mock().tracing(true);
 
-    mock().actualCall("boo").withParameter("double", 1.0).withParameter("int", 1).withParameter("string", "string");
-    mock("scope").actualCall("foo").withParameter("double", 1.0).withParameter("int", 1).withParameter("string", "string");
-    mock().checkExpectations();
+  mock()
+    .actualCall("boo")
+    .withParameter("double", 1.0)
+    .withParameter("int", 1)
+    .withParameter("string", "string");
+  mock("scope")
+    .actualCall("foo")
+    .withParameter("double", 1.0)
+    .withParameter("int", 1)
+    .withParameter("string", "string");
+  mock().checkExpectations();
 
-    STRCMP_CONTAINS("boo", mock().getTraceOutput());
-    STRCMP_CONTAINS("foo", mock().getTraceOutput());
+  STRCMP_CONTAINS("boo", mock().getTraceOutput());
+  STRCMP_CONTAINS("foo", mock().getTraceOutput());
 }
 
 TEST(MockSupportTest, tracingWorksHierarchically)
 {
-    mock("scope").tracing(true);
-    mock().tracing(true);
+  mock("scope").tracing(true);
+  mock().tracing(true);
 
-    mock().actualCall("boo");
-    mock("scope").actualCall("foo");
-    mock().checkExpectations();
+  mock().actualCall("boo");
+  mock("scope").actualCall("foo");
+  mock().checkExpectations();
 
-    STRCMP_CONTAINS("boo", mock().getTraceOutput());
-    STRCMP_CONTAINS("foo", mock().getTraceOutput());
+  STRCMP_CONTAINS("boo", mock().getTraceOutput());
+  STRCMP_CONTAINS("foo", mock().getTraceOutput());
 }
 
-TEST_GROUP(MockSupportTestWithFixture)
-{
-    TestTestingFixture fixture;
+TEST_GROUP(MockSupportTestWithFixture) {
+TestTestingFixture fixture;
 
-    void teardown() override
-    {
-        mock().clear();
-        MockFailureReporterForTest::clearReporter();
-    }
+void
+teardown() override
+{
+  mock().clear();
+  MockFailureReporterForTest::clearReporter();
+}
 };
 
-static void CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
+static void
+CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
 {
-    MockExpectedCallsList list;
-    MockUnexpectedCallHappenedFailure expectedFailure(UtestShell::getCurrent(), "unexpected", list);
-    mock().actualCall("boo");
-    CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
+  MockExpectedCallsList list;
+  MockUnexpectedCallHappenedFailure expectedFailure(
+    UtestShell::getCurrent(), "unexpected", list);
+  mock().actualCall("boo");
+  CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
 }
 
 TEST(MockSupportTestWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 {
-    mock().setMockFailureStandardReporter(MockFailureReporterForTest::getReporter());
-    fixture.setTestFunction(CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_);
-    fixture.runAllTests();
-    fixture.assertPrintContains("MockFailures are different.");
-    fixture.assertPrintContains("Expected MockFailure:");
-    fixture.assertPrintContains("Mock Failure: Unexpected call to function: unexpected");
-    fixture.assertPrintContains("Actual MockFailure:");
-    fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
+  mock().setMockFailureStandardReporter(
+    MockFailureReporterForTest::getReporter());
+  fixture.setTestFunction(
+    CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_);
+  fixture.runAllTests();
+  fixture.assertPrintContains("MockFailures are different.");
+  fixture.assertPrintContains("Expected MockFailure:");
+  fixture.assertPrintContains(
+    "Mock Failure: Unexpected call to function: unexpected");
+  fixture.assertPrintContains("Actual MockFailure:");
+  fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
 }
 
-static void CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_()
+static void
+CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_()
 {
-    mock().actualCall("boo");
-    CHECK_NO_MOCK_FAILURE_LOCATION("file", 1);
+  mock().actualCall("boo");
+  CHECK_NO_MOCK_FAILURE_LOCATION("file", 1);
 }
 
 TEST(MockSupportTestWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 {
-    mock().setMockFailureStandardReporter(MockFailureReporterForTest::getReporter());
-    fixture.setTestFunction(CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_);
-    fixture.runAllTests();
-    fixture.assertPrintContains("Unexpected mock failure:");
-    fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
+  mock().setMockFailureStandardReporter(
+    MockFailureReporterForTest::getReporter());
+  fixture.setTestFunction(CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_);
+  fixture.runAllTests();
+  fixture.assertPrintContains("Unexpected mock failure:");
+  fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
 }
 
 static bool cpputestHasCrashed;
 
-static void crashMethod()
+static void
+crashMethod()
 {
-    cpputestHasCrashed = true;
+  cpputestHasCrashed = true;
 }
 
-static void unexpectedCallTestFunction_(void)
+static void
+unexpectedCallTestFunction_(void)
 {
-    mock().actualCall("unexpected");
+  mock().actualCall("unexpected");
 }
 
 TEST(MockSupportTestWithFixture, shouldCrashOnFailure)
 {
-    cpputestHasCrashed = false;
-    mock().crashOnFailure(true);
-    UtestShell::setCrashMethod(crashMethod);
-    fixture.setTestFunction(unexpectedCallTestFunction_);
+  cpputestHasCrashed = false;
+  mock().crashOnFailure(true);
+  UtestShell::setCrashMethod(crashMethod);
+  fixture.setTestFunction(unexpectedCallTestFunction_);
 
-    fixture.runAllTests();
+  fixture.runAllTests();
 
-    CHECK(cpputestHasCrashed);
+  CHECK(cpputestHasCrashed);
 
-    mock().crashOnFailure(false);
-    UtestShell::resetCrashMethod();
+  mock().crashOnFailure(false);
+  UtestShell::resetCrashMethod();
 }
 
-TEST(MockSupportTestWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
+TEST(MockSupportTestWithFixture,
+     ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 {
-    cpputestHasCrashed = false;
-    UtestShell::setCrashMethod(crashMethod);
-    fixture.setTestFunction(unexpectedCallTestFunction_);
-    UtestShell::resetCrashMethod();
+  cpputestHasCrashed = false;
+  UtestShell::setCrashMethod(crashMethod);
+  fixture.setTestFunction(unexpectedCallTestFunction_);
+  UtestShell::resetCrashMethod();
 
-    fixture.runAllTests();
+  fixture.runAllTests();
 
-    fixture.assertPrintContains("Unexpected call to function: unexpected");
-    CHECK_FALSE(cpputestHasCrashed);
+  fixture.assertPrintContains("Unexpected call to function: unexpected");
+  CHECK_FALSE(cpputestHasCrashed);
 }
 
 TEST(MockSupportTestWithFixture, shouldCrashOnFailureWithCppUTestSetting)
 {
-    cpputestHasCrashed = false;
-    UtestShell::setCrashOnFail();
-    UtestShell::setCrashMethod(crashMethod);
-    fixture.setTestFunction(unexpectedCallTestFunction_);
+  cpputestHasCrashed = false;
+  UtestShell::setCrashOnFail();
+  UtestShell::setCrashMethod(crashMethod);
+  fixture.setTestFunction(unexpectedCallTestFunction_);
 
-    fixture.runAllTests();
+  fixture.runAllTests();
 
-    CHECK(cpputestHasCrashed);
+  CHECK(cpputestHasCrashed);
 
-    UtestShell::restoreDefaultTestTerminator();
-    UtestShell::resetCrashMethod();
+  UtestShell::restoreDefaultTestTerminator();
+  UtestShell::resetCrashMethod();
 }
 
 TEST(MockSupportTestWithFixture, failedMockShouldFailAgainWhenRepeated)
 {
-    fixture.setTestFunction(unexpectedCallTestFunction_);
-    int repeatCount = 2;
-    while(repeatCount--)
-    {
-        fixture.runAllTests();
-        fixture.assertPrintContains("Unexpected call to function: unexpected");
-        fixture.assertPrintContains("Errors (1 failures, 1 tests, 1 ran, 0 checks, 0 ignored, 0 filtered out");
-        fixture.flushOutputAndResetResult();
-    }
+  fixture.setTestFunction(unexpectedCallTestFunction_);
+  int repeatCount = 2;
+  while (repeatCount--) {
+    fixture.runAllTests();
+    fixture.assertPrintContains("Unexpected call to function: unexpected");
+    fixture.assertPrintContains("Errors (1 failures, 1 tests, 1 ran, 0 checks, "
+                                "0 ignored, 0 filtered out");
+    fixture.flushOutputAndResetResult();
+  }
 }

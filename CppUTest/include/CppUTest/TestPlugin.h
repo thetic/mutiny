@@ -38,46 +38,43 @@ class TestResult;
 class TestPlugin
 {
 public:
+  TestPlugin(const SimpleString& name);
+  virtual ~TestPlugin();
 
-    TestPlugin(const SimpleString& name);
-    virtual ~TestPlugin();
+  virtual void preTestAction(TestShell&, TestResult&) {}
 
-    virtual void preTestAction(TestShell&, TestResult&)
-    {
-    }
+  virtual void postTestAction(TestShell&, TestResult&) {}
 
-    virtual void postTestAction(TestShell&, TestResult&)
-    {
-    }
+  virtual bool parseArguments(int /* ac */,
+                              const char* const* /* av */,
+                              int /* index */)
+  {
+    return false;
+  }
 
-    virtual bool parseArguments(int /* ac */, const char *const * /* av */, int /* index */ )
-    {
-        return false;
-    }
+  virtual void runAllPreTestAction(TestShell&, TestResult&);
+  virtual void runAllPostTestAction(TestShell&, TestResult&);
+  virtual bool parseAllArguments(int ac, const char* const* av, int index);
+  virtual bool parseAllArguments(int ac, char** av, int index);
 
-    virtual void runAllPreTestAction(TestShell&, TestResult&);
-    virtual void runAllPostTestAction(TestShell&, TestResult&);
-    virtual bool parseAllArguments(int ac, const char *const *av, int index);
-    virtual bool parseAllArguments(int ac, char** av, int index);
+  virtual TestPlugin* addPlugin(TestPlugin*);
+  virtual TestPlugin* removePluginByName(const SimpleString& name);
+  virtual TestPlugin* getNext();
 
-    virtual TestPlugin* addPlugin(TestPlugin*);
-    virtual TestPlugin* removePluginByName(const SimpleString& name);
-    virtual TestPlugin* getNext();
+  virtual void disable();
+  virtual void enable();
+  virtual bool isEnabled();
 
-    virtual void disable();
-    virtual void enable();
-    virtual bool isEnabled();
-
-    const SimpleString& getName();
-    TestPlugin* getPluginByName(const SimpleString& name);
+  const SimpleString& getName();
+  TestPlugin* getPluginByName(const SimpleString& name);
 
 protected:
-    TestPlugin(TestPlugin* next_);
+  TestPlugin(TestPlugin* next_);
 
 private:
-    TestPlugin* next_;
-    SimpleString name_;
-    bool enabled_;
+  TestPlugin* next_;
+  SimpleString name_;
+  bool enabled_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -88,40 +85,42 @@ private:
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-extern void CppUTestStore(void **location);
+extern void
+CppUTestStore(void** location);
 
 class SetPointerPlugin : public TestPlugin
 {
 public:
-    SetPointerPlugin(const SimpleString& name);
-    virtual void postTestAction(TestShell&, TestResult&) override;
+  SetPointerPlugin(const SimpleString& name);
+  virtual void postTestAction(TestShell&, TestResult&) override;
 
-    enum
-    {
-        MAX_SET = 32
-    };
+  enum
+  {
+    MAX_SET = 32
+  };
 };
 
 ///////////// Null Plugin
 
-class NullTestPlugin: public TestPlugin
+class NullTestPlugin : public TestPlugin
 {
 public:
+  NullTestPlugin();
 
-    NullTestPlugin();
+  virtual void runAllPreTestAction(TestShell& test,
+                                   TestResult& result) override;
+  virtual void runAllPostTestAction(TestShell& test,
+                                    TestResult& result) override;
 
-    virtual void runAllPreTestAction(TestShell& test, TestResult& result) override;
-    virtual void runAllPostTestAction(TestShell& test, TestResult& result) override;
-
-    static NullTestPlugin* instance();
+  static NullTestPlugin* instance();
 };
 
 } // namespace cpputest
 
-#define UT_PTR_SET(a, b)                                                                                               \
-    do {                                                                                                               \
-        cpputest::CppUTestStore(reinterpret_cast<void**>(&(a)));                                                       \
-        (a) = b;                                                                                                       \
-    } while (0)
+#define UT_PTR_SET(a, b)                                                       \
+  do {                                                                         \
+    cpputest::CppUTestStore(reinterpret_cast<void**>(&(a)));                   \
+    (a) = b;                                                                   \
+  } while (0)
 
 #endif

@@ -25,14 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #ifndef D_MockFailure_h
 #define D_MockFailure_h
 
 #include "CppUTest/TestFailure.h"
 
-namespace cpputest { namespace extensions {
-
+namespace cpputest {
+namespace extensions {
 
 class MockExpectedCallsList;
 class MockCheckedActualCall;
@@ -42,91 +41,124 @@ class MockFailure;
 class MockFailureReporter
 {
 protected:
-    bool crashOnFailure_;
+  bool crashOnFailure_;
+
 public:
-    MockFailureReporter() : crashOnFailure_(false){}
-    virtual ~MockFailureReporter() {}
+  MockFailureReporter()
+    : crashOnFailure_(false)
+  {
+  }
+  virtual ~MockFailureReporter() {}
 
-    virtual void failTest(MockFailure failure);
-    virtual void reportFailure(const MockFailure& failure);
-    virtual void exitTest();
-    virtual cpputest::TestShell* getTestToFail();
+  virtual void failTest(MockFailure failure);
+  virtual void reportFailure(const MockFailure& failure);
+  virtual void exitTest();
+  virtual cpputest::TestShell* getTestToFail();
 
-    virtual void crashOnFailure(bool shouldCrash) { crashOnFailure_ = shouldCrash; }
+  virtual void crashOnFailure(bool shouldCrash)
+  {
+    crashOnFailure_ = shouldCrash;
+  }
 };
 
 class MockFailure : public cpputest::TestFailure
 {
 public:
-    MockFailure(cpputest::TestShell* test);
-    MockFailure(MockFailure&&) noexcept = default;
-    virtual ~MockFailure() override {}
+  MockFailure(cpputest::TestShell* test);
+  MockFailure(MockFailure&&) noexcept = default;
+  virtual ~MockFailure() override {}
+
 protected:
-    void addExpectationsAndCallHistory(const MockExpectedCallsList& expectations);
-    void addExpectationsAndCallHistoryRelatedTo(const cpputest::SimpleString& function, const MockExpectedCallsList& expectations);
+  void addExpectationsAndCallHistory(const MockExpectedCallsList& expectations);
+  void addExpectationsAndCallHistoryRelatedTo(
+    const cpputest::SimpleString& function,
+    const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedCallsDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedCallsDidntHappenFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations);
+  MockExpectedCallsDidntHappenFailure(
+    cpputest::TestShell* test,
+    const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedCallHappenedFailure : public MockFailure
 {
 public:
-    MockUnexpectedCallHappenedFailure(cpputest::TestShell* test, const cpputest::SimpleString& name, const MockExpectedCallsList& expectations);
+  MockUnexpectedCallHappenedFailure(cpputest::TestShell* test,
+                                    const cpputest::SimpleString& name,
+                                    const MockExpectedCallsList& expectations);
 };
 
 class MockCallOrderFailure : public MockFailure
 {
 public:
-    MockCallOrderFailure(cpputest::TestShell* test, const MockExpectedCallsList& expectations);
+  MockCallOrderFailure(cpputest::TestShell* test,
+                       const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedInputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations);
+  MockUnexpectedInputParameterFailure(
+    cpputest::TestShell* test,
+    const cpputest::SimpleString& functionName,
+    MockNamedValue parameter,
+    const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedOutputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations);
+  MockUnexpectedOutputParameterFailure(
+    cpputest::TestShell* test,
+    const cpputest::SimpleString& functionName,
+    MockNamedValue parameter,
+    const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedParameterDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedParameterDidntHappenFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockExpectedCallsList& allExpectations, 
-                                            const MockExpectedCallsList& matchingExpectations);
+  MockExpectedParameterDidntHappenFailure(
+    cpputest::TestShell* test,
+    const cpputest::SimpleString& functionName,
+    const MockExpectedCallsList& allExpectations,
+    const MockExpectedCallsList& matchingExpectations);
 };
 
 class MockNoWayToCompareCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, cpputest::SimpleString typeName);
+  MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test,
+                                      cpputest::SimpleString typeName);
 };
 
 class MockNoWayToCopyCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, cpputest::SimpleString typeName);
+  MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test,
+                                   cpputest::SimpleString typeName);
 };
 
 class MockUnexpectedObjectFailure : public MockFailure
 {
 public:
-    MockUnexpectedObjectFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const void* expected, const MockExpectedCallsList& expectations);
+  MockUnexpectedObjectFailure(cpputest::TestShell* test,
+                              const cpputest::SimpleString& functionName,
+                              const void* expected,
+                              const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedObjectDidntHappenFailure : public MockFailure
 {
 public:
-    MockExpectedObjectDidntHappenFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockExpectedCallsList& expectations);
+  MockExpectedObjectDidntHappenFailure(
+    cpputest::TestShell* test,
+    const cpputest::SimpleString& functionName,
+    const MockExpectedCallsList& expectations);
 };
-
 
 } // namespace extensions
 } // namespace cpputest

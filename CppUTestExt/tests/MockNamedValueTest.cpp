@@ -31,30 +31,26 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-
-TEST_GROUP(ComparatorsAndCopiersRepository)
-{
+TEST_GROUP(ComparatorsAndCopiersRepository) {
 };
 
 class MyComparator : public MockNamedValueComparator
 {
-  public:
+public:
+  MyComparator() {}
+  virtual ~MyComparator() override {}
 
-    MyComparator() {}
-    virtual ~MyComparator() override {}
-
-    virtual bool isEqual(const void*, const void*) override { return false; }
-    virtual SimpleString valueToString(const void*) override { return ""; }
+  virtual bool isEqual(const void*, const void*) override { return false; }
+  virtual SimpleString valueToString(const void*) override { return ""; }
 };
 
 class MyCopier : public MockNamedValueCopier
 {
-  public:
+public:
+  MyCopier() {}
+  virtual ~MyCopier() override {}
 
-    MyCopier() {}
-    virtual ~MyCopier() override {}
-
-    virtual void copy(void*, const void*) override {}
+  virtual void copy(void*, const void*) override {}
 };
 
 TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
@@ -66,7 +62,8 @@ TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
   repository.clear();
 }
 
-TEST(ComparatorsAndCopiersRepository, ComparatorAndCopierByTheSameNameShouldBothBeFound)
+TEST(ComparatorsAndCopiersRepository,
+     ComparatorAndCopierByTheSameNameShouldBothBeFound)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -78,7 +75,8 @@ TEST(ComparatorsAndCopiersRepository, ComparatorAndCopierByTheSameNameShouldBoth
   repository.clear();
 }
 
-TEST(ComparatorsAndCopiersRepository, InstallComparatorsAndCopiersFromRepository)
+TEST(ComparatorsAndCopiersRepository,
+     InstallComparatorsAndCopiersFromRepository)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -97,24 +95,26 @@ TEST(ComparatorsAndCopiersRepository, InstallComparatorsAndCopiersFromRepository
   target.clear();
 }
 
-TEST_GROUP(MockNamedValue)
+TEST_GROUP(MockNamedValue) {
+MockNamedValue* value;
+void
+setup() override
 {
-  MockNamedValue * value;
-  void setup() override
-  {
-    value = new MockNamedValue("param");
-  }
+  value = new MockNamedValue("param");
+}
 
-  void teardown() override
-  {
-    delete value;
-  }
+void
+teardown() override
+{
+  delete value;
+}
 };
 
 TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->setValue(0.2);
-  DOUBLES_EQUAL(MockNamedValue::defaultDoubleTolerance, value->getDoubleTolerance(), 0.0);
+  DOUBLES_EQUAL(
+    MockNamedValue::defaultDoubleTolerance, value->getDoubleTolerance(), 0.0);
 }
 
 TEST(MockNamedValue, GivenToleranceUsed)
@@ -133,7 +133,6 @@ TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 
   CHECK_TRUE(value->equals(other));
 }
-
 
 TEST(MockNamedValue, DoublesNotEqualIfOutsideTolerance)
 {
