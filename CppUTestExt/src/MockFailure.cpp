@@ -67,10 +67,11 @@ void MockFailureReporter::exitTest()
     MockFailureReporterTestTerminator(crashOnFailure_).exitCurrentTest();
 }
 
-void MockFailureReporter::failTest(const MockFailure& failure)
+void MockFailureReporter::failTest(MockFailure failure)
 {
     if (!getTestToFail()->hasFailed()) {
         reportFailure(failure);
+        { MockFailure f(static_cast<MockFailure&&>(failure)); }
         exitTest();
     }
 }
@@ -141,7 +142,7 @@ MockCallOrderFailure::MockCallOrderFailure(cpputest::TestShell* test, const Mock
     addExpectationsAndCallHistory(expectationsForOutOfOrder);
 }
 
-MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
+MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
 {
     MockExpectedCallsList expectationsForFunctionWithParameterName;
     expectationsForFunctionWithParameterName.addExpectationsRelatedTo(functionName, expectations);
@@ -179,7 +180,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(cpputes
     message_ += ">";
 }
 
-MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
+MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations)  : MockFailure(test)
 {
     MockExpectedCallsList expectationsForFunctionWithParameterName;
     expectationsForFunctionWithParameterName.addExpectationsRelatedTo(functionName, expectations);
@@ -231,12 +232,12 @@ MockExpectedParameterDidntHappenFailure::MockExpectedParameterDidntHappenFailure
     addExpectationsAndCallHistoryRelatedTo(functionName, allExpectations);
 }
 
-MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, const SimpleString& typeName) : MockFailure(test)
+MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, SimpleString typeName) : MockFailure(test)
 {
     message_ = StringFromFormat("MockFailure: No way to compare type <%s>. Please install a MockNamedValueComparator.", typeName.asCharString());
 }
 
-MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, const SimpleString& typeName) : MockFailure(test)
+MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, SimpleString typeName) : MockFailure(test)
 {
     message_ = StringFromFormat("MockFailure: No way to copy type <%s>. Please install a MockNamedValueCopier.", typeName.asCharString());
 }

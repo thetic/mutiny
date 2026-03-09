@@ -41,7 +41,7 @@ public:
     {
     }
 
-    virtual void failTest(const MockFailure& failure) override
+    virtual void failTest(MockFailure failure) override
     {
         result_.addFailure(failure);
     }

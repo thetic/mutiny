@@ -69,6 +69,7 @@ public:
     TestFailure(TestShell*, const SimpleString& theMessage);
     TestFailure(TestShell*, const char* fileName, size_t lineNumber);
     TestFailure(const TestFailure&);
+    TestFailure(TestFailure&&) noexcept;
     virtual ~TestFailure();
 
     virtual SimpleString getFileName() const;

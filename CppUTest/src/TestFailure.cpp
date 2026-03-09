@@ -62,6 +62,16 @@ TestFailure::TestFailure(const TestFailure& f) :
 {
 }
 
+TestFailure::TestFailure(TestFailure&& f) noexcept
+    : testName_(static_cast<SimpleString&&>(f.testName_))
+    , testNameOnly_(static_cast<SimpleString&&>(f.testNameOnly_))
+    , fileName_(static_cast<SimpleString&&>(f.fileName_))
+    , lineNumber_(f.lineNumber_)
+    , testFileName_(static_cast<SimpleString&&>(f.testFileName_))
+    , testLineNumber_(f.testLineNumber_)
+    , message_(static_cast<SimpleString&&>(f.message_))
+{
+}
 
 TestFailure::~TestFailure()
 {

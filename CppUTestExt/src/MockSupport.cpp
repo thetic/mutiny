@@ -328,7 +328,7 @@ void MockSupport::failTestWithOutOfOrderCalls()
 void MockSupport::failTest(MockFailure& failure)
 {
     clear();
-    activeReporter_->failTest(failure);
+    activeReporter_->failTest(static_cast<MockFailure&&>(failure));
 }
 
 void MockSupport::countCheck()

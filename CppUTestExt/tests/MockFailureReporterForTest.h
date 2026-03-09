@@ -43,7 +43,7 @@ class MockFailureReporterForTest : public MockFailureReporter
 public:
     SimpleString mockFailureString;
 
-    virtual void failTest(const MockFailure& failure) override;
+    virtual void failTest(MockFailure failure) override;
     virtual void reportFailure(const MockFailure& failure) override;
     virtual void exitTest() override;
     static MockFailureReporterForTest* getReporter();

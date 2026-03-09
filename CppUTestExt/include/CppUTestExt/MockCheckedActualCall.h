@@ -113,35 +113,12 @@ public:
     void setNameAndCheck(cpputest::SimpleString name);
 protected:
     void setName(const cpputest::SimpleString& name);
-    cpputest::SimpleString getName() const;
+    const cpputest::SimpleString& getName() const;
     virtual cpputest::TestShell* getTest() const;
     virtual void callHasSucceeded();
     virtual void copyOutputParameters(MockCheckedExpectedCall* call);
     virtual void completeCallWhenMatchIsFound();
-    virtual void failTest(const MockFailure& failure);
-    template<typename FailureFactory>
-    void failTestWith(FailureFactory factory)
-    {
-        if (!hasFailed()) {
-            setState(CALL_FAILED);
-            if (!reporter_->getTestToFail()->hasFailed()) {
-                reporter_->reportFailure(factory());
-                reporter_->exitTest();
-            }
-        }
-    }
-    template<typename FailureFactory, typename Cleanup>
-    void failTestWithCleanup(FailureFactory factory, Cleanup cleanup)
-    {
-        if (!hasFailed()) {
-            setState(CALL_FAILED);
-            if (!reporter_->getTestToFail()->hasFailed()) {
-                reporter_->reportFailure(factory());
-                cleanup();
-                reporter_->exitTest();
-            }
-        }
-    }
+    void failWith(MockFailure failure);
     virtual void checkInputParameter(MockNamedValue actualParameter);
     virtual void checkOutputParameter(MockNamedValue outputParameter);
     virtual void discardCurrentlyMatchingExpectations();

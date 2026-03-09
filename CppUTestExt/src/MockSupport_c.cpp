@@ -60,10 +60,13 @@ private:
 class MockFailureReporterForInCOnlyCode : public MockFailureReporter
 {
 public:
-    void failTest(const MockFailure& failure) override
+    void failTest(MockFailure failure) override
     {
-        if (!getTestToFail()->hasFailed())
-            getTestToFail()->failWith(failure, MockFailureReporterTestTerminatorForInCOnlyCode(crashOnFailure_));
+        if (!getTestToFail()->hasFailed()) {
+            getTestToFail()->addFailure(failure);
+            { MockFailure freed(static_cast<MockFailure&&>(failure)); }
+            exitTest();
+        }
     }
 
     void exitTest() override

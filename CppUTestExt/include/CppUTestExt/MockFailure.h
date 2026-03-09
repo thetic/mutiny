@@ -47,7 +47,7 @@ public:
     MockFailureReporter() : crashOnFailure_(false){}
     virtual ~MockFailureReporter() {}
 
-    virtual void failTest(const MockFailure& failure);
+    virtual void failTest(MockFailure failure);
     virtual void reportFailure(const MockFailure& failure);
     virtual void exitTest();
     virtual cpputest::TestShell* getTestToFail();
@@ -59,6 +59,7 @@ class MockFailure : public cpputest::TestFailure
 {
 public:
     MockFailure(cpputest::TestShell* test);
+    MockFailure(MockFailure&&) noexcept = default;
     virtual ~MockFailure() override {}
 protected:
     void addExpectationsAndCallHistory(const MockExpectedCallsList& expectations);
@@ -86,13 +87,13 @@ public:
 class MockUnexpectedInputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
+    MockUnexpectedInputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations);
 };
 
 class MockUnexpectedOutputParameterFailure : public MockFailure
 {
 public:
-    MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, const MockNamedValue& parameter, const MockExpectedCallsList& expectations);
+    MockUnexpectedOutputParameterFailure(cpputest::TestShell* test, const cpputest::SimpleString& functionName, MockNamedValue parameter, const MockExpectedCallsList& expectations);
 };
 
 class MockExpectedParameterDidntHappenFailure : public MockFailure
@@ -105,13 +106,13 @@ public:
 class MockNoWayToCompareCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, const cpputest::SimpleString& typeName);
+    MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test, cpputest::SimpleString typeName);
 };
 
 class MockNoWayToCopyCustomTypeFailure : public MockFailure
 {
 public:
-    MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, const cpputest::SimpleString& typeName);
+    MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test, cpputest::SimpleString typeName);
 };
 
 class MockUnexpectedObjectFailure : public MockFailure
