@@ -1,5 +1,3 @@
-
-/* Additional include from CppUTestExt */
 #include "CppUTestExt/MockSupport.hpp"
 
 #include "CppUTest/TestHarness.hpp"
