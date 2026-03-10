@@ -47,7 +47,7 @@ public:
   virtual void exitCurrentTest() const override
   {
     if (crashOnFailure_)
-      UT_CRASH();
+      cpputest::TestShell::crash();
 
     cpputest::TestShell::getCurrentTestTerminator().exitCurrentTest();
   }

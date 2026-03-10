@@ -28,7 +28,8 @@
 #ifndef D_MockSupportPlugin_h
 #define D_MockSupportPlugin_h
 
-#include "CppUTestExt/MockNamedValue.hpp"
+#include "CppUTestExt/MockNamedValueComparator.hpp"
+#include "CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
 #include "CppUTest/TestPlugin.hpp"
 

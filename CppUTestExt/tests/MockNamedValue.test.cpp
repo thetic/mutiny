@@ -27,6 +27,8 @@
 
 #include "CppUTestExt/MockNamedValue.hpp"
 
+#include "CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp"
+
 #include "CppUTest/TestHarness.hpp"
 
 using namespace cpputest;

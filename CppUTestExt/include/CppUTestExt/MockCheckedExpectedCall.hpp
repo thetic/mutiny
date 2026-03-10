@@ -30,6 +30,7 @@
 
 #include "CppUTestExt/MockExpectedCall.hpp"
 #include "CppUTestExt/MockNamedValue.hpp"
+#include "CppUTestExt/MockNamedValueList.hpp"
 
 namespace cpputest {
 namespace extensions {

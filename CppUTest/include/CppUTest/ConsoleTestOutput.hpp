@@ -25,62 +25,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_ConsoleTestOutput_h
+#define D_ConsoleTestOutput_h
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 
-class TestTestingFixture
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Printf Based Solution
+//
+///////////////////////////////////////////////////////////////////////////////
+
+class ConsoleTestOutput : public TestOutput
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  explicit ConsoleTestOutput() {}
+  virtual ~ConsoleTestOutput() override {}
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
-
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
-
-  void setOutputVerbose();
-
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
-
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
+  virtual void printBuffer(const char* s) override;
+  virtual void flush() override;
 
 private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  ConsoleTestOutput(const ConsoleTestOutput&);
+  ConsoleTestOutput& operator=(const ConsoleTestOutput&);
 };
 
 } // namespace cpputest

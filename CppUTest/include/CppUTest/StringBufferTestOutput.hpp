@@ -25,62 +25,38 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_StringBufferTestOutput_h
+#define D_StringBufferTestOutput_h
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 
-class TestTestingFixture
+///////////////////////////////////////////////////////////////////////////////
+//
+//  TestOutput for test purposes
+//
+///////////////////////////////////////////////////////////////////////////////
+
+class StringBufferTestOutput : public TestOutput
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  explicit StringBufferTestOutput() {}
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  virtual ~StringBufferTestOutput() override;
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+  void printBuffer(const char* s) override { output += s; }
 
-  void setOutputVerbose();
+  void flush() override { output = ""; }
 
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
+  const String& getOutput() { return output; }
 
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
+protected:
+  String output;
 
 private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  StringBufferTestOutput(const StringBufferTestOutput&);
+  StringBufferTestOutput& operator=(const StringBufferTestOutput&);
 };
 
 } // namespace cpputest

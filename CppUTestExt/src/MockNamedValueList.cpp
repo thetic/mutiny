@@ -25,64 +25,97 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
-
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTestExt/MockNamedValueList.hpp"
 
 namespace cpputest {
+namespace extensions {
 
-class TestTestingFixture
+void
+MockNamedValueListNode::setNext(MockNamedValueListNode* node)
 {
-public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  next_ = node;
+}
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+MockNamedValueListNode*
+MockNamedValueListNode::next()
+{
+  return next_;
+}
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+MockNamedValue*
+MockNamedValueListNode::item()
+{
+  return data_;
+}
 
-  void setOutputVerbose();
+void
+MockNamedValueListNode::destroy()
+{
+  delete data_;
+}
 
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
+MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* newValue)
+  : data_(newValue)
+  , next_(nullptr)
+{
+}
 
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
+String
+MockNamedValueListNode::getName() const
+{
+  return data_->getName();
+}
 
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
+String
+MockNamedValueListNode::getType() const
+{
+  return data_->getType();
+}
 
-  static void lineExecutedAfterCheck();
+MockNamedValueList::MockNamedValueList()
+  : head_(nullptr)
+{
+}
 
-private:
-  void clearExecFunction();
+void
+MockNamedValueList::clear()
+{
+  while (head_) {
+    MockNamedValueListNode* n = head_->next();
+    head_->destroy();
+    delete head_;
+    head_ = n;
+  }
+}
 
-  static bool lineOfCodeExecutedAfterCheck;
+void
+MockNamedValueList::add(MockNamedValue* newValue)
+{
+  MockNamedValueListNode* newNode = new MockNamedValueListNode(newValue);
+  if (head_ == nullptr)
+    head_ = newNode;
+  else {
+    MockNamedValueListNode* lastNode = head_;
+    while (lastNode->next())
+      lastNode = lastNode->next();
+    lastNode->setNext(newNode);
+  }
+}
 
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
-};
+MockNamedValue*
+MockNamedValueList::getValueByName(const String& name)
+{
+  for (MockNamedValueListNode* p = head_; p; p = p->next())
+    if (p->getName() == name)
+      return p->item();
+  return nullptr;
+}
 
+MockNamedValueListNode*
+MockNamedValueList::begin()
+{
+  return head_;
+}
+
+} // namespace extensions
 } // namespace cpputest
-
-#endif

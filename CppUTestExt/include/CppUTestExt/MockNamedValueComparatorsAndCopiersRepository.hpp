@@ -25,64 +25,43 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_MockNamedValueComparatorsAndCopiersRepository_h
+#define D_MockNamedValueComparatorsAndCopiersRepository_h
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTestExt/MockNamedValueComparator.hpp"
 
 namespace cpputest {
+namespace extensions {
 
-class TestTestingFixture
+/*
+ * MockParameterComparatorRepository is a class which stores comparators and
+ * copiers which can be used for comparing non-native types
+ *
+ */
+
+struct MockNamedValueComparatorsAndCopiersRepositoryNode;
+class MockNamedValueComparatorsAndCopiersRepository
 {
+  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
+
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  MockNamedValueComparatorsAndCopiersRepository();
+  virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  virtual void installComparator(const cpputest::String& name,
+      MockNamedValueComparator& comparator);
+  virtual void installCopier(const cpputest::String& name,
+      MockNamedValueCopier& copier);
+  virtual void installComparatorsAndCopiers(
+      const MockNamedValueComparatorsAndCopiersRepository& repository);
+  virtual MockNamedValueComparator* getComparatorForType(
+      const cpputest::String& name);
+  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
-
-  void setOutputVerbose();
-
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
-
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
-
-private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  void clear();
 };
 
+} // namespace extensions
 } // namespace cpputest
 
 #endif

@@ -27,9 +27,11 @@
 
 #include "CppUTestExt/MockSupport.h"
 
-#include "CppUTestExt/MockActualCall.hpp"
+#include "CppUTestExt/MockActualCallTrace.hpp"
+#include "CppUTestExt/MockCheckedActualCall.hpp"
 #include "CppUTestExt/MockExpectedCall.hpp"
 #include "CppUTestExt/MockFailure.hpp"
+#include "CppUTestExt/MockIgnoredActualCall.hpp"
 #include "CppUTestExt/MockSupport.hpp"
 
 #include "CppUTest/TestHarness.hpp"
@@ -800,7 +802,7 @@ public:
   virtual void exitCurrentTest() const override
   {
     if (crashOnFailure_)
-      UT_CRASH();
+      cpputest::TestShell::crash();
 
     TestShell::getCurrentTestTerminatorWithoutExceptions().exitCurrentTest();
   }

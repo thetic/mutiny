@@ -1,31 +1,37 @@
-add_library(CppUTest
-        src/CommandLineArguments.cpp
-        src/TestHarness.cpp
-        src/TestRegistry.cpp
-        src/CommandLineTestRunner.cpp
-        src/String.cpp
-        src/TestMemoryAllocator.cpp
-        src/TestResult.cpp
-        src/JUnitTestOutput.cpp
-        src/TeamCityTestOutput.cpp
-        src/TestFailure.cpp
-        src/TestOutput.cpp
-        src/TestFilter.cpp
-        src/TestPlugin.cpp
-        src/TestTestingFixture.cpp
-        src/Utest.cpp
-)
+add_library(CppUTest)
 
 target_sources(CppUTest
+    PRIVATE
+        src/CommandLineArguments.cpp
+        src/CommandLineTestRunner.cpp
+        src/CompositeTestOutput.cpp
+        src/ConsoleTestOutput.cpp
+        src/JUnitTestOutput.cpp
+        src/String.cpp
+        src/StringBufferTestOutput.cpp
+        src/TeamCityTestOutput.cpp
+        src/TestFailure.cpp
+        src/TestFilter.cpp
+        src/TestHarness.cpp
+        src/TestMemoryAllocator.cpp
+        src/TestOutput.cpp
+        src/TestPlugin.cpp
+        src/TestRegistry.cpp
+        src/TestResult.cpp
+        src/TestTestingFixture.cpp
+        src/Utest.cpp
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
             include/CppUTest/CommandLineArguments.hpp
             include/CppUTest/CommandLineTestRunner.hpp
+            include/CppUTest/CompositeTestOutput.hpp
+            include/CppUTest/ConsoleTestOutput.hpp
             include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions.hpp
             include/CppUTest/String.hpp
+            include/CppUTest/StringBufferTestOutput.hpp
             include/CppUTest/TeamCityTestOutput.hpp
             include/CppUTest/TestFailure.hpp
             include/CppUTest/TestFilter.hpp

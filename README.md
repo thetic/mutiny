@@ -126,9 +126,9 @@ int main(int ac, char** av)
 ```cpp
 #include "CppUTest/CommandLineTestRunner.h"
 
-int main(int ac, char** av)
+int main(int argc, char** argv)
 {
-  return RUN_ALL_TESTS(ac, av);
+  return cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
 }
 ```
 

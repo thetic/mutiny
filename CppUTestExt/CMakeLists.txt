@@ -1,27 +1,36 @@
-add_library(CppUTestExt STATIC
-    src/IEEE754ExceptionsPlugin.cpp
-    src/MockFailure.cpp
-    src/MockSupportPlugin.cpp
-    src/MockActualCall.cpp
-    src/MockExpectedCall.cpp
-    src/MockNamedValue.cpp
-    src/OrderedTest.cpp
-    src/MockExpectedCallsList.cpp
-    src/MockSupport.cpp
-)
+add_library(CppUTestExt)
 
 target_sources(CppUTestExt
+    PRIVATE
+        src/IEEE754ExceptionsPlugin.cpp
+        src/MockActualCall.cpp
+        src/MockActualCallTrace.cpp
+        src/MockCheckedActualCall.cpp
+        src/MockExpectedCall.cpp
+        src/MockExpectedCallsList.cpp
+        src/MockFailure.cpp
+        src/MockNamedValue.cpp
+        src/MockNamedValueComparatorsAndCopiersRepository.cpp
+        src/MockNamedValueList.cpp
+        src/MockSupport.cpp
+        src/MockSupportPlugin.cpp
+        src/OrderedTest.cpp
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
             include/CppUTestExt/IEEE754ExceptionsPlugin.hpp
             include/CppUTestExt/MockActualCall.hpp
+            include/CppUTestExt/MockActualCallTrace.hpp
             include/CppUTestExt/MockCheckedActualCall.hpp
+            include/CppUTestExt/MockIgnoredActualCall.hpp
             include/CppUTestExt/MockCheckedExpectedCall.hpp
             include/CppUTestExt/MockExpectedCall.hpp
             include/CppUTestExt/MockExpectedCallsList.hpp
             include/CppUTestExt/MockFailure.hpp
             include/CppUTestExt/MockNamedValue.hpp
+            include/CppUTestExt/MockNamedValueComparator.hpp
+            include/CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp
+            include/CppUTestExt/MockNamedValueList.hpp
             include/CppUTestExt/MockSupport.h
             include/CppUTestExt/MockSupport.hpp
             include/CppUTestExt/MockSupportPlugin.hpp

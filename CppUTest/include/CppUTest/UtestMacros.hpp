@@ -516,13 +516,6 @@
     cpputest::TestShell::getCurrent()->exitTest();                             \
   } while (0)
 
-#define UT_PRINT_LOCATION(text, file, line)                                    \
-  do {                                                                         \
-    cpputest::TestShell::getCurrent()->print(text, file, line);                \
-  } while (0)
-
-#define UT_PRINT(text) UT_PRINT_LOCATION(text, __FILE__, __LINE__)
-
 #if CPPUTEST_HAVE_EXCEPTIONS
 #define CHECK_THROWS(expected, expression)                                     \
   do {                                                                         \
@@ -545,12 +538,5 @@
     }                                                                          \
   } while (0)
 #endif /* CPPUTEST_HAVE_EXCEPTIONS */
-
-#define UT_CRASH()                                                             \
-  do {                                                                         \
-    cpputest::TestShell::crash();                                              \
-  } while (0)
-#define RUN_ALL_TESTS(ac, av)                                                  \
-  cpputest::CommandLineTestRunner::RunAllTests(ac, av)
 
 #endif /*D_UTestMacros_h*/

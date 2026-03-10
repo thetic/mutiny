@@ -25,23 +25,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_MockCheckedActualCall_h
-#define D_MockCheckedActualCall_h
+#ifndef D_MockActualCallTrace_h
+#define D_MockActualCallTrace_h
 
 #include "CppUTestExt/MockActualCall.hpp"
-#include "CppUTestExt/MockExpectedCallsList.hpp"
-#include "CppUTestExt/MockFailure.hpp"
 
 namespace cpputest {
 namespace extensions {
 
-class MockCheckedActualCall : public MockActualCall
+class MockActualCallTrace : public MockActualCall
 {
 public:
-  MockCheckedActualCall(unsigned int callOrder,
-      MockFailureReporter* reporter,
-      const MockExpectedCallsList& expectations);
-  virtual ~MockCheckedActualCall() override;
+  MockActualCallTrace();
+  virtual ~MockActualCallTrace() override;
 
   virtual MockActualCall& withName(const cpputest::String& name) override;
   virtual MockActualCall& withCallOrder(unsigned int) override;
@@ -80,7 +76,7 @@ public:
   virtual MockActualCall& withMemoryBufferParameter(const char* name,
       const unsigned char* value,
       size_t size) override;
-  virtual MockActualCall& withParameterOfType(const cpputest::String& type,
+  virtual MockActualCall& withParameterOfType(const cpputest::String& typeName,
       const cpputest::String& name,
       const void* value) override;
   virtual MockActualCall& withParameterOfType(const char* typeName,
@@ -89,7 +85,7 @@ public:
   virtual MockActualCall& withOutputParameter(const cpputest::String& name,
       void* output) override;
   virtual MockActualCall& withOutputParameterOfType(
-      const cpputest::String& type,
+      const cpputest::String& typeName,
       const cpputest::String& name,
       void* output) override;
 
@@ -128,12 +124,12 @@ public:
   virtual double returnDoubleValue() override;
   virtual double returnDoubleValueOrDefault(double default_value) override;
 
+  virtual void* returnPointerValue() override;
+  virtual void* returnPointerValueOrDefault(void*) override;
+
   virtual const void* returnConstPointerValue() override;
   virtual const void* returnConstPointerValueOrDefault(
       const void* default_value) override;
-
-  virtual void* returnPointerValue() override;
-  virtual void* returnPointerValueOrDefault(void*) override;
 
   virtual FunctionPointerReturnValue returnFunctionPointerValue() override;
   virtual FunctionPointerReturnValue returnFunctionPointerValueOrDefault(
@@ -141,71 +137,17 @@ public:
 
   virtual MockActualCall& onObject(const void* objectPtr) override;
 
-  virtual bool isFulfilled() const;
-  virtual bool hasFailed() const;
-
-  virtual void checkExpectations();
-
-  virtual void setMockFailureReporter(MockFailureReporter* reporter);
-  void setNameAndCheck(cpputest::String name);
-
-protected:
-  void setName(const cpputest::String& name);
-  const cpputest::String& getName() const;
-  virtual cpputest::TestShell* getTest() const;
-  virtual void callHasSucceeded();
-  virtual void copyOutputParameters(MockCheckedExpectedCall* call);
-  virtual void completeCallWhenMatchIsFound();
-  void failWith(MockFailure failure);
-  virtual void checkInputParameter(MockNamedValue actualParameter);
-  virtual void checkOutputParameter(MockNamedValue outputParameter);
-  virtual void discardCurrentlyMatchingExpectations();
-
-  enum ActualCallState
-  {
-    CALL_IN_PROGRESS,
-    CALL_FAILED,
-    CALL_SUCCEED
-  };
-  virtual void setState(ActualCallState state);
+  const char* getTraceOutput();
+  void clear();
+  static MockActualCallTrace& instance();
+  static void clearInstance();
 
 private:
-  cpputest::String functionName_;
-  unsigned int callOrder_;
-  MockFailureReporter* reporter_;
+  cpputest::String traceBuffer_;
 
-  ActualCallState state_;
-  bool expectationsChecked_;
-  MockCheckedExpectedCall* matchingExpectation_;
+  static MockActualCallTrace* instance_;
 
-  MockExpectedCallsList potentiallyMatchingExpectations_;
-  const MockExpectedCallsList& allExpectations_;
-
-  class MockOutputParametersListNode
-  {
-  public:
-    cpputest::String name_;
-    cpputest::String type_;
-    void* ptr_;
-
-    MockOutputParametersListNode* next_;
-    MockOutputParametersListNode(const cpputest::String& name,
-        const cpputest::String& type,
-        void* ptr)
-      : name_(name)
-      , type_(type)
-      , ptr_(ptr)
-      , next_(nullptr)
-    {
-    }
-  };
-
-  MockOutputParametersListNode* outputParameterExpectations_;
-
-  virtual void addOutputParameter(const cpputest::String& name,
-      const cpputest::String& type,
-      void* ptr);
-  void cleanUpOutputParameterList();
+  void addParameterName(const cpputest::String& name);
 };
 
 } // namespace extensions

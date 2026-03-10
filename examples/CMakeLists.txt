@@ -8,22 +8,21 @@ endif()
 
 include(CTest)
 
-add_library(ExampleLib
-    src/CircularBuffer.cpp
-    src/EventDispatcher.cpp
-    src/hello.c
-    src/Printer.cpp
-)
+add_library(ExampleLib)
 
 target_sources(ExampleLib
-    PUBLIC
-    FILE_SET HEADERS
+    PRIVATE
+        src/CircularBuffer.cpp
+        src/EventDispatcher.cpp
+        src/Printer.cpp
+        src/hello.c
+    PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
             include/CircularBuffer.h
             include/EventDispatcher.h
-            include/hello.h
             include/Printer.h
+            include/hello.h
 )
 
 if(BUILD_TESTING)

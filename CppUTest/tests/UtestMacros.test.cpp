@@ -1068,33 +1068,6 @@ TEST(UnitTestMacros, SuccessPrintsNothing)
   CHECK(lineOfCodeExecutedAfterCheck);
 }
 
-static void
-methodThatOnlyPrints_()
-{
-  UT_PRINT("Hello World!");
-}
-
-TEST(UnitTestMacros, PrintPrintsWhateverPrintPrints)
-{
-  fixture.runTestWithMethod(methodThatOnlyPrints_);
-
-  LONGS_EQUAL(0, fixture.getFailureCount());
-  fixture.assertPrintContains("Hello World!");
-  fixture.assertPrintContains(__FILE__);
-}
-
-static void
-methodThatOnlyPrintsUsingStringFromFormat_()
-{
-  UT_PRINT(cpputest::StringFromFormat("Hello %s %d", "World!", 2009));
-}
-
-TEST(UnitTestMacros, PrintPrintsStringsForExampleThoseReturnedByFromString)
-{
-  fixture.runTestWithMethod(methodThatOnlyPrintsUsingStringFromFormat_);
-  fixture.assertPrintContains("Hello World! 2009");
-}
-
 static int
 functionThatReturnsAValue()
 {

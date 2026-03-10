@@ -28,82 +28,10 @@
 #ifndef D_MockNamedValue_h
 #define D_MockNamedValue_h
 
-#include "CppUTest/String.hpp"
+#include "CppUTestExt/MockNamedValueComparator.hpp"
 
 namespace cpputest {
 namespace extensions {
-
-/*
- * MockNamedValueComparator is an interface that needs to be used when creating
- * Comparators. This is needed when comparing values of non-native type.
- */
-
-class MockNamedValueComparator
-{
-public:
-  MockNamedValueComparator() {}
-  virtual ~MockNamedValueComparator() {}
-
-  virtual bool isEqual(const void* object1, const void* object2) = 0;
-  virtual cpputest::String valueToString(const void* object) = 0;
-};
-
-/*
- * MockNamedValueCopier is an interface that needs to be used when creating
- * Copiers. This is needed when copying values of non-native type.
- */
-
-class MockNamedValueCopier
-{
-public:
-  MockNamedValueCopier() {}
-  virtual ~MockNamedValueCopier() {}
-
-  virtual void copy(void* out, const void* in) = 0;
-};
-
-class MockFunctionComparator : public MockNamedValueComparator
-{
-public:
-  typedef bool (*isEqualFunction)(const void*, const void*);
-  typedef cpputest::String (*valueToStringFunction)(const void*);
-
-  MockFunctionComparator(isEqualFunction equal,
-      valueToStringFunction valToString)
-    : equal_(equal)
-    , valueToString_(valToString)
-  {
-  }
-
-  virtual bool isEqual(const void* object1, const void* object2) override
-  {
-    return equal_(object1, object2);
-  }
-  virtual cpputest::String valueToString(const void* object) override
-  {
-    return valueToString_(object);
-  }
-
-private:
-  isEqualFunction equal_;
-  valueToStringFunction valueToString_;
-};
-
-class MockFunctionCopier : public MockNamedValueCopier
-{
-public:
-  typedef void (*copyFunction)(void*, const void*);
-
-  MockFunctionCopier(copyFunction copier)
-    : copier_(copier)
-  {
-  }
-
-  virtual void copy(void* dst, const void* src) override { copier_(dst, src); }
-
-private:
-  copyFunction copier_;
-};
 
 /*
  * MockNamedValue is the generic value class used. It encapsulates basic types
@@ -211,69 +139,6 @@ private:
   MockNamedValueComparator* comparator_;
   MockNamedValueCopier* copier_;
   static MockNamedValueComparatorsAndCopiersRepository* defaultRepository_;
-};
-
-class MockNamedValueListNode
-{
-public:
-  MockNamedValueListNode(MockNamedValue* newValue);
-
-  cpputest::String getName() const;
-  cpputest::String getType() const;
-
-  MockNamedValueListNode* next();
-  MockNamedValue* item();
-
-  void destroy();
-  void setNext(MockNamedValueListNode* node);
-
-private:
-  MockNamedValue* data_;
-  MockNamedValueListNode* next_;
-};
-
-class MockNamedValueList
-{
-public:
-  MockNamedValueList();
-
-  MockNamedValueListNode* begin();
-
-  void add(MockNamedValue* newValue);
-  void clear();
-
-  MockNamedValue* getValueByName(const cpputest::String& name);
-
-private:
-  MockNamedValueListNode* head_;
-};
-
-/*
- * MockParameterComparatorRepository is a class which stores comparators and
- * copiers which can be used for comparing non-native types
- *
- */
-
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
-{
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
-
-public:
-  MockNamedValueComparatorsAndCopiersRepository();
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
-
-  virtual void installComparator(const cpputest::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
-      MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
-      const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
-
-  void clear();
 };
 
 } // namespace extensions

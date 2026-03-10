@@ -25,64 +25,50 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_MockNamedValueList_h
+#define D_MockNamedValueList_h
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTestExt/MockNamedValue.hpp"
 
 namespace cpputest {
+namespace extensions {
 
-class TestTestingFixture
+class MockNamedValueListNode
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  MockNamedValueListNode(MockNamedValue* newValue);
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  cpputest::String getName() const;
+  cpputest::String getType() const;
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+  MockNamedValueListNode* next();
+  MockNamedValue* item();
 
-  void setOutputVerbose();
-
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
-
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
+  void destroy();
+  void setNext(MockNamedValueListNode* node);
 
 private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  MockNamedValue* data_;
+  MockNamedValueListNode* next_;
 };
 
+class MockNamedValueList
+{
+public:
+  MockNamedValueList();
+
+  MockNamedValueListNode* begin();
+
+  void add(MockNamedValue* newValue);
+  void clear();
+
+  MockNamedValue* getValueByName(const cpputest::String& name);
+
+private:
+  MockNamedValueListNode* head_;
+};
+
+} // namespace extensions
 } // namespace cpputest
 
 #endif

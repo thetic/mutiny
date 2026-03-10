@@ -27,6 +27,7 @@
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 
+#include "CppUTest/CompositeTestOutput.hpp"
 #include "CppUTest/JUnitTestOutput.hpp"
 #include "CppUTest/TeamCityTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"

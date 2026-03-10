@@ -32,6 +32,8 @@
 #include "CppUTestExt/MockCheckedExpectedCall.hpp"
 #include "CppUTestExt/MockExpectedCallsList.hpp"
 #include "CppUTestExt/MockFailure.hpp"
+#include "CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppUTestExt/MockNamedValueList.hpp"
 
 namespace cpputest {
 namespace extensions {

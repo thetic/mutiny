@@ -25,62 +25,51 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_CompositeTestOutput_h
+#define D_CompositeTestOutput_h
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 
-class TestTestingFixture
+class CompositeTestOutput : public TestOutput
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  virtual void setOutputOne(TestOutput* output);
+  virtual void setOutputTwo(TestOutput* output);
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  CompositeTestOutput();
+  virtual ~CompositeTestOutput() override;
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+  virtual void printTestsStarted() override;
+  virtual void printTestsEnded(const TestResult& result) override;
 
-  void setOutputVerbose();
+  virtual void printCurrentTestStarted(const TestShell& test) override;
+  virtual void printCurrentTestEnded(const TestResult& res) override;
+  virtual void printCurrentGroupStarted(const TestShell& test) override;
+  virtual void printCurrentGroupEnded(const TestResult& res) override;
 
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
+  virtual void verbose(VerbosityLevel level) override;
+  virtual void color() override;
+  virtual void printBuffer(const char*) override;
+  virtual void print(const char*) override;
+  virtual void print(long) override;
+  virtual void print(size_t) override;
+  virtual void printDouble(double) override;
+  virtual void printFailure(const TestFailure& failure) override;
+  virtual void setProgressIndicator(const char*) override;
 
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
+  virtual void printVeryVerbose(const char*) override;
 
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
+  virtual void flush() override;
 
-  static void lineExecutedAfterCheck();
+protected:
+  CompositeTestOutput(const TestOutput&);
+  CompositeTestOutput& operator=(const TestOutput&);
 
 private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  TestOutput* outputOne_;
+  TestOutput* outputTwo_;
 };
 
 } // namespace cpputest
