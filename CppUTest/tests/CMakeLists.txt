@@ -9,28 +9,28 @@ target_link_libraries(CppUTestTests_main
 include(CppUTest)
 
 add_executable(CppUTestTests
-    CheatSheetTest.cpp
-    CompatabilityTests.cpp
-    CommandLineArgumentsTest.cpp
-    CommandLineTestRunnerTest.cpp
-    JUnitOutputTest.cpp
-    PluginTest.cpp
-    PreprocessorTest.cpp
-    TeamCityOutputTest.cpp
-    TestFailureNaNTest.cpp
-    TestFailureTest.cpp
-    TestResultTest.cpp
-    StringTest.cpp
-    TestOutputTest.cpp
-    TestRegistryTest.cpp
-    TestFilterTest.cpp
-    TestHarness_cTest.cpp
-    TestHarness_cTestCFile.c
-    TestInstallerTest.cpp
-    TestMemoryAllocatorTest.cpp
-    TestUTestMacro.cpp
-    UtestTest.cpp
-    TestUTestStringMacro.cpp
+    CheatSheet.test.cpp
+    Compatibility.test.cpp
+    CommandLineArguments.test.cpp
+    CommandLineTestRunner.test.cpp
+    JUnitTestOutput.test.cpp
+    TestPlugin.test.cpp
+    Preprocessor.test.cpp
+    TeamCityTestOutput.test.cpp
+    TestFailureNaN.test.cpp
+    TestFailure.test.cpp
+    TestResult.test.cpp
+    String.test.cpp
+    TestOutput.test.cpp
+    TestRegistry.test.cpp
+    TestFilter.test.cpp
+    TestHarness.test.cpp
+    TestHarness.test.c
+    TestInstaller.test.cpp
+    TestMemoryAllocator.test.cpp
+    UtestMacros.test.cpp
+    Utest.test.cpp
+    UtestStringMacros.test.cpp
 )
 
 add_mapfile(CppUTestTests)

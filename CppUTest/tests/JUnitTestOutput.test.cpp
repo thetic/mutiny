@@ -26,6 +26,7 @@
  */
 
 #include "CppUTest/JUnitTestOutput.hpp"
+
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestHarness.hpp"

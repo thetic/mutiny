@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTest/TestPlugin.hpp"
+
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 

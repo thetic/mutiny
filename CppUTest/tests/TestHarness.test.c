@@ -1,8 +1,9 @@
 
+#include "CppUTest/TestHarness.h"
+
 #include "TestHarness_cTestCFile.h"
 
 #include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
 
 TEST_GROUP_C_SETUP(TestGroupInC)
 {
