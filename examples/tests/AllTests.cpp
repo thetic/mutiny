@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/IEEE754ExceptionsPlugin.h"
-#include "CppUTestExt/MockSupportPlugin.h"
+#include "CppUTestExt/IEEE754ExceptionsPlugin.hpp"
+#include "CppUTestExt/MockSupportPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/TestPlugin.hpp"

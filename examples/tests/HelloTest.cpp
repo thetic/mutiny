@@ -44,11 +44,13 @@ TEST_GROUP(HelloWorld)
     va_end(arguments);
     return 1;
   }
+
   void setup() override
   {
     buffer = new cpputest::String();
     UT_PTR_SET(PrintFormated, &output_method);
   }
+
   void teardown() override { delete buffer; }
 };
 
