@@ -38,10 +38,13 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
-extern "C"
+static void
+dummy_function_for_mock_c_test()
 {
-  static void dummy_function_for_mock_c_test() {}
-  static void dummy_function_for_mock_c_test_two() {}
+}
+static void
+dummy_function_for_mock_c_test_two()
+{
 }
 
 TEST_GROUP(MockSupport_c) {
@@ -119,23 +122,22 @@ TEST(MockSupport_c, expectAndActualParameters)
                                     dummy_function_for_mock_c_test);
 }
 
-extern "C"
+static int
+typeNameIsEqual(const void* object1, const void* object2)
 {
+  return object1 == object2;
+}
 
-  static int typeNameIsEqual(const void* object1, const void* object2)
-  {
-    return object1 == object2;
-  }
+static const char*
+typeNameValueToString(const void* /*object*/)
+{
+  return "valueToString";
+}
 
-  static const char* typeNameValueToString(const void* PUNUSED(object))
-  {
-    return "valueToString";
-  }
-
-  static void typeCopy(void* dst, const void* src)
-  {
-    *static_cast<int*>(dst) = *static_cast<const int*>(src);
-  }
+static void
+typeCopy(void* dst, const void* src)
+{
+  *static_cast<int*>(dst) = *static_cast<const int*>(src);
 }
 
 TEST(MockSupport_c, expectAndActualParametersOnObject)

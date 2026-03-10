@@ -30,10 +30,7 @@
 #include "CppUTest/TestHarness.h"
 
 #if CPPUTEST_HAVE_FENV
-extern "C"
-{
 #include <fenv.h>
-}
 #endif
 
 namespace cpputest {

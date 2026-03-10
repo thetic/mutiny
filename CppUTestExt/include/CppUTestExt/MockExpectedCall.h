@@ -35,7 +35,7 @@ namespace extensions {
 
 class MockNamedValue;
 
-extern cpputest::SimpleString
+cpputest::SimpleString
 StringFrom(const MockNamedValue& parameter);
 
 class MockExpectedCall

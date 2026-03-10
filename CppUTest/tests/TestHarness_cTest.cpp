@@ -27,14 +27,13 @@
 
 #include "CppUTest/TestHarness_c.h"
 
+#include "TestHarness_cTestCFile.h"
+
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 #include "CppUTest/TestRegistry.h"
 #include "CppUTest/TestTestingFixture.h"
-
-extern "C" int setup_teardown_was_called_in_test_group_in_C;
-extern "C" int test_was_called_in_test_group_in_C;
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 

@@ -245,13 +245,10 @@ TEST_ORDERED(TestOrderedTestMacros, Test8, 8)
   CHECK(OrderedTestTestingFixture::count() == 10);
 }
 
-// Export to be usable in OrderedTestTest_c.c
-extern "C"
+int
+orderedTestFixtureCWrapper(void)
 {
-  int orderedTestFixtureCWrapper(void)
-  {
-    return OrderedTestTestingFixture::count();
-  }
+  return OrderedTestTestingFixture::count();
 }
 
 TEST_ORDERED_C_WRAPPER(TestOrderedTestMacros, Test11, 11)

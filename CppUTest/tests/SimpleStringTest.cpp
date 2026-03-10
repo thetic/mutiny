@@ -518,12 +518,10 @@ TEST(SimpleString, Doubles)
   STRCMP_EQUAL("1.2", s.asCharString());
 }
 
-extern "C"
+static int
+alwaysTrue(double)
 {
-  static int alwaysTrue(double)
-  {
-    return true;
-  }
+  return true;
 }
 
 TEST(SimpleString, NaN)

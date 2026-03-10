@@ -206,8 +206,8 @@ IsInfImplementation(double d)
 }
 
 double (*PlatformSpecificFabs)(double d) = fabs;
-extern "C" int (*PlatformSpecificIsNan)(double) = _isnan;
-extern "C" int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
+int (*PlatformSpecificIsNan)(double) = _isnan;
+int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
 int (*PlatformSpecificAtExit)(void (*func)(void)) = atexit;
 
 void (*PlatformSpecificAbort)(void) = abort;

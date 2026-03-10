@@ -34,31 +34,31 @@ namespace cpputest {
 
 class TestMemoryAllocator;
 
-extern void
+void
 setCurrentNewAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 getCurrentNewAllocator();
-extern void
+void
 setCurrentNewAllocatorToDefault();
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 defaultNewAllocator();
 
-extern void
+void
 setCurrentNewArrayAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 getCurrentNewArrayAllocator();
-extern void
+void
 setCurrentNewArrayAllocatorToDefault();
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 defaultNewArrayAllocator();
 
-extern void
+void
 setCurrentMallocAllocator(TestMemoryAllocator* allocator);
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 getCurrentMallocAllocator();
-extern void
+void
 setCurrentMallocAllocatorToDefault();
-extern TestMemoryAllocator*
+TestMemoryAllocator*
 defaultMallocAllocator();
 
 class TestMemoryAllocator

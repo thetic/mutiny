@@ -65,7 +65,7 @@ class TestFailure;
 class TestFilter;
 class TestTerminator;
 
-extern bool
+bool
 doubles_equal(double d1, double d2, double threshold);
 
 //////////////////// Test

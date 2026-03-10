@@ -91,48 +91,48 @@ OutsideTestRunnerUTest::instance()
  *
  */
 
-extern "C"
+static void
+helperDoTestSetup(void* data)
 {
+  static_cast<Test*>(data)->setup();
+}
 
-  static void helperDoTestSetup(void* data)
+static void
+helperDoTestBody(void* data)
+{
+  static_cast<Test*>(data)->testBody();
+}
+
+static void
+helperDoTestTeardown(void* data)
+{
+  static_cast<Test*>(data)->teardown();
+}
+
+struct HelperTestRunInfo
+{
+  HelperTestRunInfo(TestShell* shell, TestPlugin* plugin, TestResult* result)
+    : shell_(shell)
+    , plugin_(plugin)
+    , result_(result)
   {
-    static_cast<Test*>(data)->setup();
   }
 
-  static void helperDoTestBody(void* data)
-  {
-    static_cast<Test*>(data)->testBody();
-  }
+  TestShell* shell_;
+  TestPlugin* plugin_;
+  TestResult* result_;
+};
 
-  static void helperDoTestTeardown(void* data)
-  {
-    static_cast<Test*>(data)->teardown();
-  }
+static void
+helperDoRunOneTestInCurrentProcess(void* data)
+{
+  HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
 
-  struct HelperTestRunInfo
-  {
-    HelperTestRunInfo(TestShell* shell, TestPlugin* plugin, TestResult* result)
-      : shell_(shell)
-      , plugin_(plugin)
-      , result_(result)
-    {
-    }
+  TestShell* shell = runInfo->shell_;
+  TestPlugin* plugin = runInfo->plugin_;
+  TestResult* result = runInfo->result_;
 
-    TestShell* shell_;
-    TestPlugin* plugin_;
-    TestResult* result_;
-  };
-
-  static void helperDoRunOneTestInCurrentProcess(void* data)
-  {
-    HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
-
-    TestShell* shell = runInfo->shell_;
-    TestPlugin* plugin = runInfo->plugin_;
-    TestResult* result = runInfo->result_;
-
-    shell->runOneTestInCurrentProcess(plugin, *result);
-  }
+  shell->runOneTestInCurrentProcess(plugin, *result);
 }
 
 /******************************** */

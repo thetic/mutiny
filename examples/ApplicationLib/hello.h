@@ -33,7 +33,7 @@ extern "C"
 {
 #endif
 
-  extern void printHelloWorld(void);
+  void printHelloWorld(void);
 
   extern int (*PrintFormated)(const char*, ...);
 

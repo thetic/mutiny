@@ -33,14 +33,11 @@
 
 #if CPPUTEST_HAVE_FENV
 
-using cpputest::extensions::IEEE754ExceptionsPlugin;
-
-extern "C"
-{
-#include <fenv.h>
-}
-
 #include <limits>
+
+#include <fenv.h>
+
+using cpputest::extensions::IEEE754ExceptionsPlugin;
 
 /*
  * To see a demonstration of tests failing as a result of

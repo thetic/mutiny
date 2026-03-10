@@ -85,7 +85,7 @@ private:
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-extern void
+void
 CppUTestStore(void** location);
 
 class SetPointerPlugin : public TestPlugin

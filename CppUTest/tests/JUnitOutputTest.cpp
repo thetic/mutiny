@@ -128,20 +128,19 @@ public:
   }
 };
 
-extern "C"
+static unsigned long millisTime = 0;
+static const char* theTime = "";
+
+static unsigned long
+MockGetPlatformSpecificTimeInMillis()
 {
-  static unsigned long millisTime = 0;
-  static const char* theTime = "";
+  return millisTime;
+}
 
-  static unsigned long MockGetPlatformSpecificTimeInMillis()
-  {
-    return millisTime;
-  }
-
-  static const char* MockGetPlatformSpecificTimeString()
-  {
-    return theTime;
-  }
+static const char*
+MockGetPlatformSpecificTimeString()
+{
+  return theTime;
 }
 
 class JUnitTestOutputTestRunner
@@ -314,32 +313,32 @@ public:
   }
 };
 
-extern "C"
+static FileSystemForJUnitTestOutputTests fileSystem;
+static FileForJUnitOutputTests* currentFile = nullptr;
+
+static PlatformSpecificFile
+mockFOpen(const char* filename, const char*)
 {
-  static FileSystemForJUnitTestOutputTests fileSystem;
-  static FileForJUnitOutputTests* currentFile = nullptr;
+  currentFile = fileSystem.openFile(filename);
+  return currentFile;
+}
 
-  static PlatformSpecificFile mockFOpen(const char* filename, const char*)
-  {
-    currentFile = fileSystem.openFile(filename);
-    return currentFile;
+static void (*originalFPuts)(const char* str, PlatformSpecificFile file);
+static void
+mockFPuts(const char* str, PlatformSpecificFile file)
+{
+  if (file == currentFile) {
+    static_cast<FileForJUnitOutputTests*>(file)->write(str);
+  } else {
+    originalFPuts(str, file);
   }
+}
 
-  static void (*originalFPuts)(const char* str, PlatformSpecificFile file);
-  static void mockFPuts(const char* str, PlatformSpecificFile file)
-  {
-    if (file == currentFile) {
-      static_cast<FileForJUnitOutputTests*>(file)->write(str);
-    } else {
-      originalFPuts(str, file);
-    }
-  }
-
-  static void mockFClose(PlatformSpecificFile file)
-  {
-    currentFile = nullptr;
-    static_cast<FileForJUnitOutputTests*>(file)->close();
-  }
+static void
+mockFClose(PlatformSpecificFile file)
+{
+  currentFile = nullptr;
+  static_cast<FileForJUnitOutputTests*>(file)->close();
 }
 
 TEST_GROUP(JUnitOutputTest) {

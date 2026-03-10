@@ -166,21 +166,19 @@ PlatformSpecificFClose(PlatformSpecificFile file)
   fclose((FILE*)file);
 }
 
-extern "C"
+static int
+IsNanImplementation(double d)
 {
-
-  static int IsNanImplementation(double d)
-  {
-    return isnan(d);
-  }
-
-  static int IsInfImplementation(double d)
-  {
-    return isinf(d);
-  }
-
-  int (*PlatformSpecificIsNan)(double) = IsNanImplementation;
-  int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
+  return isnan(d);
 }
+
+static int
+IsInfImplementation(double d)
+{
+  return isinf(d);
+}
+
+int (*PlatformSpecificIsNan)(double) = IsNanImplementation;
+int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
 
 void (*PlatformSpecificAbort)(void) = abort;

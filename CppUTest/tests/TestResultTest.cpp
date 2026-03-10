@@ -30,13 +30,10 @@
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestOutput.h"
 
-extern "C"
+static unsigned long
+MockGetPlatformSpecificTimeInMillis()
 {
-
-  static unsigned long MockGetPlatformSpecificTimeInMillis()
-  {
-    return 10;
-  }
+  return 10;
 }
 
 TEST_GROUP(TestResult) {
