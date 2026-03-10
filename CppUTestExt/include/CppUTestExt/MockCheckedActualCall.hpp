@@ -28,9 +28,9 @@
 #ifndef D_MockCheckedActualCall_h
 #define D_MockCheckedActualCall_h
 
-#include "CppUTestExt/MockActualCall.h"
-#include "CppUTestExt/MockExpectedCallsList.h"
-#include "CppUTestExt/MockFailure.h"
+#include "CppUTestExt/MockActualCall.hpp"
+#include "CppUTestExt/MockExpectedCallsList.hpp"
+#include "CppUTestExt/MockFailure.hpp"
 
 namespace cpputest {
 namespace extensions {

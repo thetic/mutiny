@@ -28,8 +28,8 @@
 #ifndef D_MockCheckedExpectedCall_h
 #define D_MockCheckedExpectedCall_h
 
-#include "CppUTestExt/MockExpectedCall.h"
-#include "CppUTestExt/MockNamedValue.h"
+#include "CppUTestExt/MockExpectedCall.hpp"
+#include "CppUTestExt/MockNamedValue.hpp"
 
 namespace cpputest {
 namespace extensions {

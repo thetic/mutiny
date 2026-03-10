@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/MockNamedValue.h"
+#include "CppUTestExt/MockNamedValue.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

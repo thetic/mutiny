@@ -27,8 +27,8 @@
 
 #include "MockFailureReporterForTest.h"
 
-#include "CppUTestExt/MockCheckedExpectedCall.h"
-#include "CppUTestExt/MockFailure.h"
+#include "CppUTestExt/MockCheckedExpectedCall.hpp"
+#include "CppUTestExt/MockFailure.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

@@ -28,7 +28,7 @@
 #ifndef D_MockFailureReporterForTest_h
 #define D_MockFailureReporterForTest_h
 
-#include "CppUTestExt/MockSupport.h"
+#include "CppUTestExt/MockSupport.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

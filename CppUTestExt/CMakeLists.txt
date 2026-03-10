@@ -15,18 +15,18 @@ target_sources(CppUTestExt
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/CppUTestExt/IEEE754ExceptionsPlugin.h
-            include/CppUTestExt/MockActualCall.h
-            include/CppUTestExt/MockCheckedActualCall.h
-            include/CppUTestExt/MockCheckedExpectedCall.h
-            include/CppUTestExt/MockExpectedCall.h
-            include/CppUTestExt/MockExpectedCallsList.h
-            include/CppUTestExt/MockFailure.h
-            include/CppUTestExt/MockNamedValue.h
+            include/CppUTestExt/IEEE754ExceptionsPlugin.hpp
+            include/CppUTestExt/MockActualCall.hpp
+            include/CppUTestExt/MockCheckedActualCall.hpp
+            include/CppUTestExt/MockCheckedExpectedCall.hpp
+            include/CppUTestExt/MockExpectedCall.hpp
+            include/CppUTestExt/MockExpectedCallsList.hpp
+            include/CppUTestExt/MockFailure.hpp
+            include/CppUTestExt/MockNamedValue.hpp
             include/CppUTestExt/MockSupport.h
-            include/CppUTestExt/MockSupport_c.h
-            include/CppUTestExt/MockSupportPlugin.h
-            include/CppUTestExt/OrderedTest.h
+            include/CppUTestExt/MockSupport.hpp
+            include/CppUTestExt/MockSupportPlugin.hpp
+            include/CppUTestExt/OrderedTest.hpp
 )
 
 target_link_libraries(CppUTestExt PUBLIC CppUTest)

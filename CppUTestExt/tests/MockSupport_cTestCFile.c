@@ -27,7 +27,7 @@
 
 #include "MockSupport_cTestCFile.h"
 
-#include "CppUTestExt/MockSupport_c.h"
+#include "CppUTestExt/MockSupport.h"
 
 static int
 typeNameIsEqual(const void* object1, const void* object2)

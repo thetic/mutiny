@@ -24,11 +24,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include "CppUTestExt/MockSupport_c.h"
+#include "CppUTestExt/MockSupport.h"
 
 #include "MockSupport_cTestCFile.h"
 
-#include "CppUTestExt/OrderedTest.h"
+#include "CppUTestExt/OrderedTest.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"

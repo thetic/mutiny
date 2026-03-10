@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/OrderedTest.h"
+#include "CppUTestExt/OrderedTest.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestRegistry.hpp"

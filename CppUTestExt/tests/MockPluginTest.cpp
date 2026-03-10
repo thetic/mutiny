@@ -26,8 +26,8 @@
  */
 #include "MockFailureReporterForTest.h"
 
-#include "CppUTestExt/MockSupport.h"
-#include "CppUTestExt/MockSupportPlugin.h"
+#include "CppUTestExt/MockSupport.hpp"
+#include "CppUTestExt/MockSupportPlugin.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"

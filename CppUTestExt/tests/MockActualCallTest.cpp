@@ -27,10 +27,10 @@
 
 #include "MockFailureReporterForTest.h"
 
-#include "CppUTestExt/MockCheckedActualCall.h"
-#include "CppUTestExt/MockCheckedExpectedCall.h"
-#include "CppUTestExt/MockExpectedCallsList.h"
-#include "CppUTestExt/MockFailure.h"
+#include "CppUTestExt/MockCheckedActualCall.hpp"
+#include "CppUTestExt/MockCheckedExpectedCall.hpp"
+#include "CppUTestExt/MockExpectedCallsList.hpp"
+#include "CppUTestExt/MockFailure.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

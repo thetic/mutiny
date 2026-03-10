@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/MockSupportPlugin.h"
+#include "CppUTestExt/MockSupportPlugin.hpp"
 
-#include "CppUTestExt/MockSupport.h"
+#include "CppUTestExt/MockSupport.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

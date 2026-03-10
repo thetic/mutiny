@@ -28,8 +28,8 @@
 #ifndef D_MockActualCall_h
 #define D_MockActualCall_h
 
-#include "CppUTestExt/MockExpectedCallsList.h"
-#include "CppUTestExt/MockNamedValue.h"
+#include "CppUTestExt/MockExpectedCallsList.hpp"
+#include "CppUTestExt/MockNamedValue.hpp"
 
 #include "CppUTest/TestHarness.h"
 

@@ -27,7 +27,7 @@
 
 #include "IEEE754PluginTest_c.h"
 
-#include "CppUTestExt/IEEE754ExceptionsPlugin.h"
+#include "CppUTestExt/IEEE754ExceptionsPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/TestHarness.hpp"

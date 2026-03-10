@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/MockCheckedActualCall.h"
-#include "CppUTestExt/MockCheckedExpectedCall.h"
-#include "CppUTestExt/MockFailure.h"
+#include "CppUTestExt/MockCheckedActualCall.hpp"
+#include "CppUTestExt/MockCheckedExpectedCall.hpp"
+#include "CppUTestExt/MockFailure.hpp"
 
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
