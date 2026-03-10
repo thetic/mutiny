@@ -29,6 +29,7 @@
 
 #include "CppUTestExt/MockCheckedExpectedCall.hpp"
 #include "CppUTestExt/MockFailure.hpp"
+#include "CppUTestExt/MockIgnoredExpectedCall.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

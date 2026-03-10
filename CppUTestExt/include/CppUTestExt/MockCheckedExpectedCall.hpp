@@ -195,6 +195,4 @@ private:
 } // namespace extensions
 } // namespace cpputest
 
-#include "CppUTestExt/MockIgnoredExpectedCall.hpp"
-
 #endif

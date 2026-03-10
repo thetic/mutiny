@@ -27,6 +27,7 @@
 
 #include "CppUTest/Utest.hpp"
 
+#include "CppUTest/ExecFunctionTestShell.hpp"
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"

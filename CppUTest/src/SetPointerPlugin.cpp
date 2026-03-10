@@ -24,68 +24,45 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#include "CppUTest/SetPointerPlugin.hpp"
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
-
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/Utest.hpp"
+#include "CppUTest/UtestMacros.hpp"
 
 namespace cpputest {
 
-class ExecFunction;
-class ExecFunctionTestShell;
-
-class TestTestingFixture
+struct cpputest_pair
 {
-public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
-
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
-
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
-
-  void setOutputVerbose();
-
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
-
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
-
-private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
-  TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  void** orig;
+  void* orig_value;
 };
 
-} // namespace cpputest
+static int pointerTableIndex;
+static cpputest_pair setlist[SetPointerPlugin::MAX_SET];
 
-#endif
+SetPointerPlugin::SetPointerPlugin(const String& name)
+  : TestPlugin(name)
+{
+  pointerTableIndex = 0;
+}
+
+void
+CppUTestStore(void** function)
+{
+  if (pointerTableIndex >= SetPointerPlugin::MAX_SET) {
+    FAIL("Maximum number of function pointers installed!");
+  }
+  setlist[pointerTableIndex].orig_value = *function;
+  setlist[pointerTableIndex].orig = function;
+  pointerTableIndex++;
+}
+
+void
+SetPointerPlugin::postTestAction(TestShell& /*test*/, TestResult& /*result*/)
+{
+  for (int i = pointerTableIndex - 1; i >= 0; i--)
+    *reinterpret_cast<void**>(setlist[i].orig) = setlist[i].orig_value;
+  pointerTableIndex = 0;
+}
+
+}

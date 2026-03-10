@@ -28,8 +28,10 @@
 #ifndef D_TestHarness_h
 #define D_TestHarness_h
 
+#include "CppUTest/SetPointerPlugin.hpp"
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestFailure.hpp"
+#include "CppUTest/TestInstaller.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestResult.hpp"
 #include "CppUTest/Utest.hpp"

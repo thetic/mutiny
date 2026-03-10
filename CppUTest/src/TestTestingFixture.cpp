@@ -27,6 +27,7 @@
 
 #include "CppUTest/TestTestingFixture.hpp"
 
+#include "CppUTest/ExecFunctionTestShell.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {

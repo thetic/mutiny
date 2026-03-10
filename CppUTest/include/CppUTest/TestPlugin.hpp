@@ -94,6 +94,4 @@ public:
 
 } // namespace cpputest
 
-#include "CppUTest/SetPointerPlugin.hpp"
-
 #endif

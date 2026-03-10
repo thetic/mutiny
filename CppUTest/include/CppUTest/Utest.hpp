@@ -358,7 +358,4 @@ private:
 
 } // namespace cpputest
 
-#include "CppUTest/ExecFunctionTestShell.hpp"
-#include "CppUTest/TestInstaller.hpp"
-
 #endif

@@ -7,6 +7,7 @@ target_sources(CppUTest
         src/CompositeTestOutput.cpp
         src/ConsoleTestOutput.cpp
         src/JUnitTestOutput.cpp
+        src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
         src/TeamCityTestOutput.cpp

@@ -26,8 +26,10 @@
  */
 
 #include "CppUTest/ConsoleTestOutput.hpp"
+#include "CppUTest/ExecFunctionTestShell.hpp"
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestInstaller.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 namespace cpputest {
