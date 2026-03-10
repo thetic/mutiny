@@ -12,26 +12,26 @@ include(CppUTest)
 
 add_executable(CppUTestExtTests
     MockFailureReporterForTest.cpp
-    ExpectedFunctionsListTest.cpp
-    MockActualCallTest.cpp
-    MockCheatSheetTest.cpp
-    MockComparatorCopierTest.cpp
-    MockExpectedCallTest.cpp
-    MockHierarchyTest.cpp
-    OrderedTestTest.cpp
-    OrderedTestTest_c.c
-    MockReturnValueTest.cpp
-    MockNamedValueTest.cpp
-    MockPluginTest.cpp
-    MockSupport_cTest.cpp
-    MockSupport_cTestCFile.c
-    MockCallTest.cpp
-    MockParameterTest.cpp
-    IEEE754PluginTest.cpp
-    IEEE754PluginTest_c.c
-    MockFailureTest.cpp
-    MockStrictOrderTest.cpp
-    MockSupportTest.cpp
+    MockExpectedCallsList.test.cpp
+    MockCheckedActualCall.test.cpp
+    MockCheatSheet.test.cpp
+    MockComparatorCopier.test.cpp
+    MockExpectedCall.test.cpp
+    MockHierarchy.test.cpp
+    OrderedTest.test.cpp
+    OrderedTest.test.c
+    MockReturnValue.test.cpp
+    MockNamedValue.test.cpp
+    MockSupportPlugin.test.cpp
+    MockSupport_c.test.cpp
+    MockSupport.test.c
+    MockCall.test.cpp
+    MockParameter.test.cpp
+    IEEE754ExceptionsPlugin.test.cpp
+    IEEE754ExceptionsPlugin.test.c
+    MockFailure.test.cpp
+    MockStrictOrder.test.cpp
+    MockSupport.test.cpp
 )
 
 add_mapfile(CppUTestExtTests)

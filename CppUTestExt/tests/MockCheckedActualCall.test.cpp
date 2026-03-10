@@ -25,9 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "CppUTestExt/MockCheckedActualCall.hpp"
+
 #include "MockFailureReporterForTest.h"
 
-#include "CppUTestExt/MockCheckedActualCall.hpp"
 #include "CppUTestExt/MockCheckedExpectedCall.hpp"
 #include "CppUTestExt/MockExpectedCallsList.hpp"
 #include "CppUTestExt/MockFailure.hpp"

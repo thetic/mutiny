@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "MockSupport_cTestCFile.h"
-
 #include "CppUTestExt/MockSupport.h"
+
+#include "MockSupport_cTestCFile.h"
 
 static int
 typeNameIsEqual(const void* object1, const void* object2)
