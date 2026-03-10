@@ -38,20 +38,16 @@ const int failLineNumber = 2;
 const char* failFileName = "fail.cpp";
 }
 
-TEST_GROUP(TestFailureNanAndInf) {
-cpputest::TestShell* test;
+TEST_GROUP(TestFailureNanAndInf)
+{
+  cpputest::TestShell* test;
 
-void
-setup() override
-{
-  test = new cpputest::TestShell(
-      "groupname", "testname", failFileName, failLineNumber - 1);
-}
-void
-teardown() override
-{
-  delete test;
-}
+  void setup() override
+  {
+    test = new cpputest::TestShell(
+        "groupname", "testname", failFileName, failLineNumber - 1);
+  }
+  void teardown() override { delete test; }
 };
 #define FAILURE_EQUAL(a, b)                                                    \
   STRCMP_EQUAL_LOCATION(a, (b).getMessage().c_str(), "", __FILE__, __LINE__)

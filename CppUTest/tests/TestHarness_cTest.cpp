@@ -69,17 +69,15 @@ public:
   }
 };
 
-TEST_GROUP(TestHarness_c) {
-cpputest::TestTestingFixture* fixture;
-TEST_SETUP()
+TEST_GROUP(TestHarness_c)
 {
-  hasDestructorOfTheDestructorCheckedBeenCalled = false;
-  fixture = new cpputest::TestTestingFixture();
-}
-TEST_TEARDOWN()
-{
-  delete fixture;
-}
+  cpputest::TestTestingFixture* fixture;
+  TEST_SETUP()
+  {
+    hasDestructorOfTheDestructorCheckedBeenCalled = false;
+    fixture = new cpputest::TestTestingFixture();
+  }
+  TEST_TEARDOWN() { delete fixture; }
 };
 
 static void

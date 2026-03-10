@@ -34,8 +34,9 @@
 
 #include <math.h>
 
-TEST_GROUP(UtestShell) {
-cpputest::TestTestingFixture fixture;
+TEST_GROUP(UtestShell)
+{
+  cpputest::TestTestingFixture fixture;
 };
 
 static void
@@ -395,17 +396,17 @@ TEST(UtestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 
 #endif
 
-TEST_GROUP(IgnoredUtestShell) {
-cpputest::TestTestingFixture fixture;
-cpputest::IgnoredTestShell ignoredTest;
-cpputest::ExecFunctionTestShell normalUtestShell;
-
-void
-setup() override
+TEST_GROUP(IgnoredUtestShell)
 {
-  fixture.addTest(&ignoredTest);
-  fixture.addTest(&normalUtestShell);
-}
+  cpputest::TestTestingFixture fixture;
+  cpputest::IgnoredTestShell ignoredTest;
+  cpputest::ExecFunctionTestShell normalUtestShell;
+
+  void setup() override
+  {
+    fixture.addTest(&ignoredTest);
+    fixture.addTest(&normalUtestShell);
+  }
 };
 
 TEST(IgnoredUtestShell, doesIgnoreCount)
@@ -535,8 +536,9 @@ public:
 };
 
 TEST_GROUP(
-    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks) {
-AllocateAndDeallocateInConstructorAndDestructor dummy;
+    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks)
+{
+  AllocateAndDeallocateInConstructorAndDestructor dummy;
 };
 
 TEST(
@@ -558,29 +560,28 @@ getOne()
   return 1;
 }
 
-TEST_GROUP(UtestShellPointerArrayTest) {
-cpputest::TestShell* test0;
-cpputest::TestShell* test1;
-cpputest::TestShell* test2;
-
-void
-setup() override
+TEST_GROUP(UtestShellPointerArrayTest)
 {
-  test0 = new cpputest::IgnoredTestShell();
-  test1 = new cpputest::IgnoredTestShell();
-  test2 = new cpputest::IgnoredTestShell();
+  cpputest::TestShell* test0;
+  cpputest::TestShell* test1;
+  cpputest::TestShell* test2;
 
-  test0->addTest(test1);
-  test1->addTest(test2);
-}
+  void setup() override
+  {
+    test0 = new cpputest::IgnoredTestShell();
+    test1 = new cpputest::IgnoredTestShell();
+    test2 = new cpputest::IgnoredTestShell();
 
-void
-teardown() override
-{
-  delete test0;
-  delete test1;
-  delete test2;
-}
+    test0->addTest(test1);
+    test1->addTest(test2);
+  }
+
+  void teardown() override
+  {
+    delete test0;
+    delete test1;
+    delete test2;
+  }
 };
 
 TEST(UtestShellPointerArrayTest, empty)

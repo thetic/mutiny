@@ -31,32 +31,23 @@
 
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(CircularBuffer) {
-CircularBuffer* buffer;
+TEST_GROUP(CircularBuffer)
+{
+  CircularBuffer* buffer;
 
-void
-setup() override
-{
-  buffer = new CircularBuffer();
-}
-void
-teardown() override
-{
-  delete buffer;
-}
+  void setup() override { buffer = new CircularBuffer(); }
+  void teardown() override { delete buffer; }
 
-void
-fillTheQueue(int seed, int howMany)
-{
-  for (int i = 0; i < howMany; i++)
-    buffer->Put(seed + i);
-}
-void
-removeFromQueue(int howMany)
-{
-  for (int i = 0; i < howMany; i++)
-    buffer->Get();
-}
+  void fillTheQueue(int seed, int howMany)
+  {
+    for (int i = 0; i < howMany; i++)
+      buffer->Put(seed + i);
+  }
+  void removeFromQueue(int howMany)
+  {
+    for (int i = 0; i < howMany; i++)
+      buffer->Get();
+  }
 };
 
 TEST(CircularBuffer, EmptyAfterCreation)

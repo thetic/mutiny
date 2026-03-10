@@ -38,58 +38,47 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
-TEST_GROUP(TestOrderedTest) {
-TestTestingFixture* fixture;
-
-OrderedTestShell orderedTest;
-OrderedTestShell orderedTest2;
-OrderedTestShell orderedTest3;
-ExecFunctionTestShell normalTest;
-ExecFunctionTestShell normalTest2;
-ExecFunctionTestShell normalTest3;
-
-OrderedTestShell* orderedTestCache;
-void
-setup() override
+TEST_GROUP(TestOrderedTest)
 {
-  orderedTestCache = OrderedTestShell::getOrderedTestHead();
-  OrderedTestShell::setOrderedTestHead(nullptr);
+  TestTestingFixture* fixture;
 
-  fixture = new TestTestingFixture();
-  fixture->getRegistry()->unDoLastAddTest();
-}
+  OrderedTestShell orderedTest;
+  OrderedTestShell orderedTest2;
+  OrderedTestShell orderedTest3;
+  ExecFunctionTestShell normalTest;
+  ExecFunctionTestShell normalTest2;
+  ExecFunctionTestShell normalTest3;
 
-void
-teardown() override
-{
-  delete fixture;
-  OrderedTestShell::setOrderedTestHead(orderedTestCache);
-}
+  OrderedTestShell* orderedTestCache;
+  void setup() override
+  {
+    orderedTestCache = OrderedTestShell::getOrderedTestHead();
+    OrderedTestShell::setOrderedTestHead(nullptr);
 
-void
-InstallOrderedTest(OrderedTestShell& test, int level)
-{
-  OrderedTestInstaller(
-      test, "testgroup", "testname", __FILE__, __LINE__, level);
-}
+    fixture = new TestTestingFixture();
+    fixture->getRegistry()->unDoLastAddTest();
+  }
 
-void
-InstallNormalTest(UtestShell& test)
-{
-  TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
-}
+  void teardown() override
+  {
+    delete fixture;
+    OrderedTestShell::setOrderedTestHead(orderedTestCache);
+  }
 
-UtestShell*
-firstTest()
-{
-  return fixture->getRegistry()->getFirstTest();
-}
+  void InstallOrderedTest(OrderedTestShell& test, int level)
+  {
+    OrderedTestInstaller(
+        test, "testgroup", "testname", __FILE__, __LINE__, level);
+  }
 
-UtestShell*
-secondTest()
-{
-  return firstTest()->getNext();
-}
+  void InstallNormalTest(UtestShell& test)
+  {
+    TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
+  }
+
+  UtestShell* firstTest() { return fixture->getRegistry()->getFirstTest(); }
+
+  UtestShell* secondTest() { return firstTest()->getNext(); }
 };
 
 TEST(TestOrderedTest, TestInstallerSetsFields)
@@ -179,13 +168,13 @@ private:
 int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
 
-TEST_GROUP(TestOrderedTestMacros) {
-void
-setup() override
+TEST_GROUP(TestOrderedTestMacros)
 {
-  OrderedTestTestingFixture::checkRun(
-      TestRegistry::getCurrentRegistry()->getCurrentRepetition());
-}
+  void setup() override
+  {
+    OrderedTestTestingFixture::checkRun(
+        TestRegistry::getCurrentRegistry()->getCurrentRepetition());
+  }
 };
 
 TEST(TestOrderedTestMacros, NormalTest)

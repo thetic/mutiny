@@ -99,50 +99,48 @@ public:
   }
 };
 
-TEST_GROUP(TestRegistry) {
-cpputest::TestRegistry* myRegistry;
-cpputest::StringBufferTestOutput* output;
-MockTest* test1;
-MockTest* test2;
-MockTest* test3;
-MockTest* test4;
-cpputest::TestResult* result;
-MockTestResult* mockResult;
-void
-setup() override
+TEST_GROUP(TestRegistry)
 {
-  output = new cpputest::StringBufferTestOutput();
-  mockResult = new MockTestResult(*output);
-  result = mockResult;
-  test1 = new MockTest();
-  test2 = new MockTest();
-  test3 = new MockTest("group2");
-  test4 = new MockTest();
-  myRegistry = new cpputest::TestRegistry();
-  myRegistry->setCurrentRegistry(myRegistry);
-}
+  cpputest::TestRegistry* myRegistry;
+  cpputest::StringBufferTestOutput* output;
+  MockTest* test1;
+  MockTest* test2;
+  MockTest* test3;
+  MockTest* test4;
+  cpputest::TestResult* result;
+  MockTestResult* mockResult;
+  void setup() override
+  {
+    output = new cpputest::StringBufferTestOutput();
+    mockResult = new MockTestResult(*output);
+    result = mockResult;
+    test1 = new MockTest();
+    test2 = new MockTest();
+    test3 = new MockTest("group2");
+    test4 = new MockTest();
+    myRegistry = new cpputest::TestRegistry();
+    myRegistry->setCurrentRegistry(myRegistry);
+  }
 
-void
-teardown() override
-{
-  myRegistry->setCurrentRegistry(nullptr);
-  delete myRegistry;
-  delete test1;
-  delete test2;
-  delete test3;
-  delete test4;
-  delete result;
-  delete output;
-}
+  void teardown() override
+  {
+    myRegistry->setCurrentRegistry(nullptr);
+    delete myRegistry;
+    delete test1;
+    delete test2;
+    delete test3;
+    delete test4;
+    delete result;
+    delete output;
+  }
 
-void
-addAndRunAllTests()
-{
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  myRegistry->addTest(test3);
-  myRegistry->runAllTests(*result);
-}
+  void addAndRunAllTests()
+  {
+    myRegistry->addTest(test1);
+    myRegistry->addTest(test2);
+    myRegistry->addTest(test3);
+    myRegistry->runAllTests(*result);
+  }
 };
 
 TEST(TestRegistry, registryMyRegistryAndReset)

@@ -52,20 +52,19 @@ public:
   }
 };
 
-TEST_GROUP(String) {
-JustUseNewStringAllocator justNewForStringTestAllocator;
-cpputest::TestMemoryAllocator* originalAllocator;
-void
-setup() override
+TEST_GROUP(String)
 {
-  originalAllocator = cpputest::String::getStringAllocator();
-  cpputest::String::setStringAllocator(&justNewForStringTestAllocator);
-}
-void
-teardown() override
-{
-  cpputest::String::setStringAllocator(originalAllocator);
-}
+  JustUseNewStringAllocator justNewForStringTestAllocator;
+  cpputest::TestMemoryAllocator* originalAllocator;
+  void setup() override
+  {
+    originalAllocator = cpputest::String::getStringAllocator();
+    cpputest::String::setStringAllocator(&justNewForStringTestAllocator);
+  }
+  void teardown() override
+  {
+    cpputest::String::setStringAllocator(originalAllocator);
+  }
 };
 
 TEST(String, defaultAllocatorIsNewArrayAllocator)
@@ -771,13 +770,15 @@ TEST(String, fromStdString)
   STRCMP_EQUAL("hello", s1.c_str());
 }
 
-TEST(String, CHECK_EQUAL_unsigned_long)
+TEST(
+String, CHECK_EQUAL_unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
   CHECK_EQUAL(i, i);
 }
 
-TEST(String, unsigned_long)
+TEST(
+String, unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
 

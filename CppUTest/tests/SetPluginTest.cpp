@@ -26,32 +26,31 @@ stub_func2()
 static void (*fp1)();
 static void (*fp2)();
 
-TEST_GROUP(SetPointerPluginTest) {
-SetPointerPlugin* plugin_;
-TestRegistry* myRegistry_;
-StringBufferTestOutput* output_;
-TestResult* result_;
-
-void
-setup() override
+TEST_GROUP(SetPointerPluginTest)
 {
-  myRegistry_ = new TestRegistry();
-  plugin_ = new SetPointerPlugin("TestSetPlugin");
-  myRegistry_->setCurrentRegistry(myRegistry_);
-  myRegistry_->installPlugin(plugin_);
-  output_ = new StringBufferTestOutput();
-  result_ = new TestResult(*output_);
-}
+  SetPointerPlugin* plugin_;
+  TestRegistry* myRegistry_;
+  StringBufferTestOutput* output_;
+  TestResult* result_;
 
-void
-teardown() override
-{
-  myRegistry_->setCurrentRegistry(nullptr);
-  delete myRegistry_;
-  delete plugin_;
-  delete output_;
-  delete result_;
-}
+  void setup() override
+  {
+    myRegistry_ = new TestRegistry();
+    plugin_ = new SetPointerPlugin("TestSetPlugin");
+    myRegistry_->setCurrentRegistry(myRegistry_);
+    myRegistry_->installPlugin(plugin_);
+    output_ = new StringBufferTestOutput();
+    result_ = new TestResult(*output_);
+  }
+
+  void teardown() override
+  {
+    myRegistry_->setCurrentRegistry(nullptr);
+    delete myRegistry_;
+    delete plugin_;
+    delete output_;
+    delete result_;
+  }
 };
 
 class FunctionPointerUtest : public Utest

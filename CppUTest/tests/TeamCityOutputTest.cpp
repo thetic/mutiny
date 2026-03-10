@@ -27,39 +27,38 @@ MockGetPlatformSpecificTimeInMillis()
   return millisTime;
 }
 
-TEST_GROUP(TeamCityOutputTest) {
-cpputest::TeamCityTestOutput* tcout;
-TeamCityOutputToBuffer* mock;
-cpputest::TestShell* tst;
-cpputest::TestFailure *f, *f2, *f3;
-cpputest::TestResult* result;
+TEST_GROUP(TeamCityOutputTest)
+{
+  cpputest::TeamCityTestOutput* tcout;
+  TeamCityOutputToBuffer* mock;
+  cpputest::TestShell* tst;
+  cpputest::TestFailure *f, *f2, *f3;
+  cpputest::TestResult* result;
 
-void
-setup() override
-{
-  mock = new TeamCityOutputToBuffer();
-  tcout = mock;
-  tst = new cpputest::TestShell("group", "test", "file", 10);
-  f = new cpputest::TestFailure(tst, "failfile", 20, "failure message");
-  f2 = new cpputest::TestFailure(tst, "file", 20, "message");
-  f3 = new cpputest::TestFailure(
-      tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
-  result = new cpputest::TestResult(*mock);
-  result->setTotalExecutionTime(10);
-  millisTime = 0;
-  UT_PTR_SET(
-      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
-}
-void
-teardown() override
-{
-  delete tcout;
-  delete tst;
-  delete f;
-  delete f2;
-  delete f3;
-  delete result;
-}
+  void setup() override
+  {
+    mock = new TeamCityOutputToBuffer();
+    tcout = mock;
+    tst = new cpputest::TestShell("group", "test", "file", 10);
+    f = new cpputest::TestFailure(tst, "failfile", 20, "failure message");
+    f2 = new cpputest::TestFailure(tst, "file", 20, "message");
+    f3 = new cpputest::TestFailure(
+        tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
+    result = new cpputest::TestResult(*mock);
+    result->setTotalExecutionTime(10);
+    millisTime = 0;
+    UT_PTR_SET(
+        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
+  }
+  void teardown() override
+  {
+    delete tcout;
+    delete tst;
+    delete f;
+    delete f2;
+    delete f3;
+    delete result;
+  }
 };
 
 TEST(TeamCityOutputTest, PrintGroupStarted)

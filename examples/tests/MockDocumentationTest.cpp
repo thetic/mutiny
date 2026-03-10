@@ -32,8 +32,8 @@
 
 using cpputest::extensions::mock;
 
-TEST_GROUP(FirstTestGroup) {
-};
+TEST_GROUP(FirstTestGroup)
+{};
 
 TEST(FirstTestGroup, FirsTest)
 {
@@ -45,8 +45,8 @@ TEST(FirstTestGroup, SecondTest)
   //	STRCMP_EQUAL("hello", "world");
 }
 
-TEST_GROUP(MockDocumentation) {
-};
+TEST_GROUP(MockDocumentation)
+{};
 
 static void
 productionCode()
@@ -226,18 +226,17 @@ TEST(MockDocumentation, CInterface)
   mock_c()->clear();
 }
 
-TEST_GROUP(FooTestGroup) {
-void
-setup() override
+TEST_GROUP(FooTestGroup)
 {
-  // Init stuff
-}
+  void setup() override
+  {
+    // Init stuff
+  }
 
-void
-teardown() override
-{
-  // Uninit stuff
-}
+  void teardown() override
+  {
+    // Uninit stuff
+  }
 };
 
 TEST(FooTestGroup, Foo)
@@ -250,12 +249,12 @@ TEST(FooTestGroup, MoreFoo)
   // Test more FOO
 }
 
-TEST_GROUP(BarTestGroup) {
-void
-setup() override
+TEST_GROUP(BarTestGroup)
 {
-  // Init Bar
-}
+  void setup() override
+  {
+    // Init Bar
+  }
 };
 
 TEST(BarTestGroup, Bar)

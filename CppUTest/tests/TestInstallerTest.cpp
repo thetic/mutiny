@@ -35,26 +35,27 @@ class TestInstallerTestUtestShell : public cpputest::TestShell
 // with all other tests, which also happen to be
 // created as static instances at file scope
 
-TEST_GROUP(TestInstaller) {
-cpputest::TestInstaller* testInstaller;
-cpputest::TestRegistry* myRegistry;
-TestInstallerTestUtestShell shell;
-void
-setup() override
+TEST_GROUP(TestInstaller)
 {
-  myRegistry = new cpputest::TestRegistry();
-  myRegistry->setCurrentRegistry(myRegistry);
-  testInstaller = new cpputest::TestInstaller(
-      shell, "TestInstaller", "test", __FILE__, __LINE__);
-}
-void
-teardown() override
-{
-  myRegistry->setCurrentRegistry(nullptr);
-  testInstaller->unDo();
-  delete testInstaller;
-  delete myRegistry;
-}
+  cpputest::TestInstaller* testInstaller;
+  cpputest::TestRegistry* myRegistry;
+  TestInstallerTestUtestShell shell;
+  void setup() override
+  {
+    myRegistry = new cpputest::TestRegistry();
+    myRegistry->setCurrentRegistry(myRegistry);
+    testInstaller = new cpputest::TestInstaller(
+        shell, "TestInstaller", "test", __FILE__, __LINE__);
+  }
+  void teardown() override
+  {
+    myRegistry->setCurrentRegistry(nullptr);
+    testInstaller->unDo();
+    delete testInstaller;
+    delete myRegistry;
+  }
 };
 
-TEST(TestInstaller, Create) {}
+TEST(TestInstaller, Create)
+{
+}

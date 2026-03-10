@@ -36,27 +36,26 @@ MockGetPlatformSpecificTimeInMillis()
   return 10;
 }
 
-TEST_GROUP(TestResult) {
-cpputest::TestOutput* printer;
-cpputest::StringBufferTestOutput* mock;
-
-cpputest::TestResult* res;
-
-void
-setup() override
+TEST_GROUP(TestResult)
 {
-  mock = new cpputest::StringBufferTestOutput();
-  printer = mock;
-  res = new cpputest::TestResult(*printer);
-  UT_PTR_SET(
-      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
-}
-void
-teardown() override
-{
-  delete printer;
-  delete res;
-}
+  cpputest::TestOutput* printer;
+  cpputest::StringBufferTestOutput* mock;
+
+  cpputest::TestResult* res;
+
+  void setup() override
+  {
+    mock = new cpputest::StringBufferTestOutput();
+    printer = mock;
+    res = new cpputest::TestResult(*printer);
+    UT_PTR_SET(
+        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
+  }
+  void teardown() override
+  {
+    delete printer;
+    delete res;
+  }
 };
 
 TEST(TestResult, TestEndedWillPrintResultsAndExecutionTime)

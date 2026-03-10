@@ -30,5 +30,6 @@ IncludeCategories:
   - Regex:           '^<[^>]+\.h>'
     Priority:        6
     SortPriority:    6
-NamespaceMacros:
-  - TEST_GROUP
+Macros:
+  - TEST_GROUP(x)=class x
+  - TEST(x,y)=void x()

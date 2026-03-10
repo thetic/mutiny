@@ -48,15 +48,15 @@ productionCodeBarCalls()
 }
 
 /* Actual test */
-TEST_GROUP(MockCheatSheet) {
-void
-teardown() override
+TEST_GROUP(MockCheatSheet)
 {
-  /* Check expectations. Alternatively use MockSupportPlugin */
-  mock().checkExpectations();
+  void teardown() override
+  {
+    /* Check expectations. Alternatively use MockSupportPlugin */
+    mock().checkExpectations();
 
-  mock().clear();
-}
+    mock().clear();
+  }
 };
 
 TEST(MockCheatSheet, foo)

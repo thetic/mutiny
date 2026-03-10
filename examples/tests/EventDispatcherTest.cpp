@@ -67,25 +67,24 @@ public:
   }
 };
 
-TEST_GROUP(EventDispatcher) {
-Event event;
-EventDispatcher* dispatcher;
-ObserverMock observer;
-ObserverMock observer2;
-EventComparator eventComparator;
+TEST_GROUP(EventDispatcher)
+{
+  Event event;
+  EventDispatcher* dispatcher;
+  ObserverMock observer;
+  ObserverMock observer2;
+  EventComparator eventComparator;
 
-void
-setup() override
-{
-  dispatcher = new EventDispatcher;
-  mock().installComparator("Event", eventComparator);
-}
-void
-teardown() override
-{
-  delete dispatcher;
-  mock().removeAllComparatorsAndCopiers();
-}
+  void setup() override
+  {
+    dispatcher = new EventDispatcher;
+    mock().installComparator("Event", eventComparator);
+  }
+  void teardown() override
+  {
+    delete dispatcher;
+    mock().removeAllComparatorsAndCopiers();
+  }
 };
 
 TEST(EventDispatcher, EventWithoutRegistrationsResultsIntoNoCalls)

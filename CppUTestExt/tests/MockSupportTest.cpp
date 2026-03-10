@@ -39,18 +39,18 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockSupportTest) {
-MockExpectedCallsListForTest expectations;
-MockFailureReporterInstaller failureReporterInstaller;
-
-void
-teardown() override
+TEST_GROUP(MockSupportTest)
 {
-  mock().checkExpectations();
-  CHECK_NO_MOCK_FAILURE();
-  MockFailureReporterForTest::clearReporter();
-  mock().clear();
-}
+  MockExpectedCallsListForTest expectations;
+  MockFailureReporterInstaller failureReporterInstaller;
+
+  void teardown() override
+  {
+    mock().checkExpectations();
+    CHECK_NO_MOCK_FAILURE();
+    MockFailureReporterForTest::clearReporter();
+    mock().clear();
+  }
 };
 
 TEST(MockSupportTest, setDataForUnsignedIntegerValues)
@@ -198,15 +198,15 @@ TEST(MockSupportTest, tracingWorksHierarchically)
   STRCMP_CONTAINS("foo", mock().getTraceOutput());
 }
 
-TEST_GROUP(MockSupportTestWithFixture) {
-TestTestingFixture fixture;
-
-void
-teardown() override
+TEST_GROUP(MockSupportTestWithFixture)
 {
-  mock().clear();
-  MockFailureReporterForTest::clearReporter();
-}
+  TestTestingFixture fixture;
+
+  void teardown() override
+  {
+    mock().clear();
+    MockFailureReporterForTest::clearReporter();
+  }
 };
 
 static void

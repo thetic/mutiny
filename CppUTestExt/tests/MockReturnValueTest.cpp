@@ -32,13 +32,13 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockReturnValueTest) {
-void
-teardown() override
+TEST_GROUP(MockReturnValueTest)
 {
-  mock().checkExpectations();
-  mock().clear();
-}
+  void teardown() override
+  {
+    mock().checkExpectations();
+    mock().clear();
+  }
 };
 
 TEST(MockReturnValueTest, hasReturnValue)

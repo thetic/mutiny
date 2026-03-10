@@ -37,8 +37,9 @@
 // Mainly this is for Visual C++, but we'll define it for any system that has
 // the same behavior
 
-TEST_GROUP(UnitTestMacros) {
-cpputest::TestTestingFixture fixture;
+TEST_GROUP(UnitTestMacros)
+{
+  cpputest::TestTestingFixture fixture;
 };
 
 static void
@@ -1449,7 +1450,8 @@ failingTestMethod_NoThrowWithCHECK_THROWS_()
   cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
-TEST(UnitTestMacros, FailureWithCHECK_THROWS_whenDoesntThrow)
+TEST(
+UnitTestMacros, FailureWithCHECK_THROWS_whenDoesntThrow)
 {
   fixture.runTestWithMethod(failingTestMethod_NoThrowWithCHECK_THROWS_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected to throw int");
@@ -1464,7 +1466,8 @@ succeedingTestMethod_CorrectThrowWithCHECK_THROWS_()
   cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
-TEST(UnitTestMacros, SuccessWithCHECK_THROWS)
+TEST(
+UnitTestMacros, SuccessWithCHECK_THROWS)
 {
   fixture.runTestWithMethod(succeedingTestMethod_CorrectThrowWithCHECK_THROWS_);
   LONGS_EQUAL(1, fixture.getCheckCount());
@@ -1477,7 +1480,8 @@ failingTestMethod_WrongThrowWithCHECK_THROWS_()
   cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
-TEST(UnitTestMacros, FailureWithCHECK_THROWS_whenWrongThrow)
+TEST(
+UnitTestMacros, FailureWithCHECK_THROWS_whenWrongThrow)
 {
   fixture.runTestWithMethod(failingTestMethod_WrongThrowWithCHECK_THROWS_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected to throw int");
@@ -1485,7 +1489,8 @@ TEST(UnitTestMacros, FailureWithCHECK_THROWS_whenWrongThrow)
   LONGS_EQUAL(1, fixture.getCheckCount());
 }
 
-TEST(UnitTestMacros, MultipleCHECK_THROWS_inOneScope)
+TEST(
+UnitTestMacros, MultipleCHECK_THROWS_inOneScope)
 {
   CHECK_THROWS(int, throw 4);
   CHECK_THROWS(int, throw 4);

@@ -46,12 +46,9 @@ using cpputest::extensions::IEEE754ExceptionsPlugin;
  *
  */
 
-TEST_GROUP(FE_Demo) {
-void
-setup() override
+TEST_GROUP(FE_Demo)
 {
-  IEEE754ExceptionsPlugin::disableInexact();
-}
+  void setup() override { IEEE754ExceptionsPlugin::disableInexact(); }
 };
 
 IGNORE_TEST(FE_Demo, should_fail_when_FE_DIVBYZERO_is_set)

@@ -36,29 +36,28 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockPlugin) {
-StringBufferTestOutput output;
-
-UtestShell* test;
-TestResult* result;
-
-MockSupportPlugin plugin;
-
-void
-setup() override
+TEST_GROUP(MockPlugin)
 {
-  test = new UtestShell("group", "name", "file", 1);
-  result = new TestResult(output);
-}
+  StringBufferTestOutput output;
 
-void
-teardown() override
-{
-  delete test;
-  delete result;
-  mock().clear();
-  mock().removeAllComparatorsAndCopiers();
-}
+  UtestShell* test;
+  TestResult* result;
+
+  MockSupportPlugin plugin;
+
+  void setup() override
+  {
+    test = new UtestShell("group", "name", "file", 1);
+    result = new TestResult(output);
+  }
+
+  void teardown() override
+  {
+    delete test;
+    delete result;
+    mock().clear();
+    mock().removeAllComparatorsAndCopiers();
+  }
 };
 
 TEST(MockPlugin, checkExpectationsAndClearAtEnd)

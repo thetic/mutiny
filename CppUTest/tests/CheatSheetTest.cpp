@@ -9,20 +9,17 @@ stub()
 #include "CppUTest/TestHarness.h"
 
 /* Declare TestGroup with name CheatSheet */
-TEST_GROUP(CheatSheet) {
-/* declare a setup method for the test group. Optional. */
-void
-setup() override
+TEST_GROUP(CheatSheet)
 {
-  /* Set method real_one to stub. Automatically restore in teardown */
-  UT_PTR_SET(real_one, stub);
-}
+  /* declare a setup method for the test group. Optional. */
+  void setup() override
+  {
+    /* Set method real_one to stub. Automatically restore in teardown */
+    UT_PTR_SET(real_one, stub);
+  }
 
-/* Declare a teardown method for the test group. Optional */
-void
-teardown() override
-{
-}
+  /* Declare a teardown method for the test group. Optional */
+  void teardown() override {}
 }; /* Do not forget semicolumn */
 
 /* Declare one test within the test group */

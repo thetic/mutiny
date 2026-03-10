@@ -341,32 +341,31 @@ mockFClose(PlatformSpecificFile file)
   static_cast<FileForJUnitOutputTests*>(file)->close();
 }
 
-TEST_GROUP(JUnitOutputTest) {
-cpputest::JUnitTestOutput* junitOutput;
-cpputest::TestResult* result;
-JUnitTestOutputTestRunner* testCaseRunner;
-FileForJUnitOutputTests* outputFile;
-
-void
-setup() override
+TEST_GROUP(JUnitOutputTest)
 {
-  UT_PTR_SET(PlatformSpecificFOpen, mockFOpen);
-  originalFPuts = PlatformSpecificFPuts;
-  UT_PTR_SET(PlatformSpecificFPuts, mockFPuts);
-  UT_PTR_SET(PlatformSpecificFClose, mockFClose);
-  junitOutput = new cpputest::JUnitTestOutput();
-  result = new cpputest::TestResult(*junitOutput);
-  testCaseRunner = new JUnitTestOutputTestRunner(*result);
-}
+  cpputest::JUnitTestOutput* junitOutput;
+  cpputest::TestResult* result;
+  JUnitTestOutputTestRunner* testCaseRunner;
+  FileForJUnitOutputTests* outputFile;
 
-void
-teardown() override
-{
-  delete testCaseRunner;
-  delete result;
-  delete junitOutput;
-  fileSystem.clear();
-}
+  void setup() override
+  {
+    UT_PTR_SET(PlatformSpecificFOpen, mockFOpen);
+    originalFPuts = PlatformSpecificFPuts;
+    UT_PTR_SET(PlatformSpecificFPuts, mockFPuts);
+    UT_PTR_SET(PlatformSpecificFClose, mockFClose);
+    junitOutput = new cpputest::JUnitTestOutput();
+    result = new cpputest::TestResult(*junitOutput);
+    testCaseRunner = new JUnitTestOutputTestRunner(*result);
+  }
+
+  void teardown() override
+  {
+    delete testCaseRunner;
+    delete result;
+    delete junitOutput;
+    fileSystem.clear();
+  }
 };
 
 TEST(JUnitOutputTest, withOneTestGroupAndOneTestOnlyWriteToOneFile)

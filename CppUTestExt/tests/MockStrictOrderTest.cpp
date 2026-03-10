@@ -32,12 +32,9 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockStrictOrderTest) {
-void
-teardown() override
+TEST_GROUP(MockStrictOrderTest)
 {
-  mock().clear();
-}
+  void teardown() override { mock().clear(); }
 };
 
 TEST(MockStrictOrderTest, OrderObserved)

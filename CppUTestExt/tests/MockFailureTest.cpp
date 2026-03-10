@@ -37,88 +37,85 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockFailureTest) {
-MockFailureReporter reporter;
-
-MockExpectedCallsList* list;
-MockCheckedExpectedCall* call1;
-MockCheckedExpectedCall* call2;
-MockCheckedExpectedCall* call3;
-MockCheckedExpectedCall* call4;
-MockCheckedExpectedCall* call5;
-
-void
-setup() override
+TEST_GROUP(MockFailureTest)
 {
-  list = new MockExpectedCallsList;
-  call1 = new MockCheckedExpectedCall;
-  call2 = new MockCheckedExpectedCall;
-  call3 = new MockCheckedExpectedCall;
-  call4 = new MockCheckedExpectedCall;
-  call5 = new MockCheckedExpectedCall;
-}
-void
-teardown() override
-{
-  delete list;
-  delete call1;
-  delete call2;
-  delete call3;
-  delete call4;
-  delete call5;
-  CHECK_NO_MOCK_FAILURE();
-  MockFailureReporterForTest::clearReporter();
-}
+  MockFailureReporter reporter;
 
-void
-addThreeCallsToList()
-{
-  list->addExpectedCall(call1);
-  list->addExpectedCall(call2);
-  list->addExpectedCall(call3);
-}
+  MockExpectedCallsList* list;
+  MockCheckedExpectedCall* call1;
+  MockCheckedExpectedCall* call2;
+  MockCheckedExpectedCall* call3;
+  MockCheckedExpectedCall* call4;
+  MockCheckedExpectedCall* call5;
 
-void
-addFiveCallsToList()
-{
-  list->addExpectedCall(call1);
-  list->addExpectedCall(call2);
-  list->addExpectedCall(call3);
-  list->addExpectedCall(call4);
-  list->addExpectedCall(call5);
-}
-
-void
-checkUnexpectedNthCallMessage(unsigned int count, const char* expectedOrdinal)
-{
-  MockExpectedCallsList callList;
-  MockCheckedExpectedCall expectedCallSingle(1);
-  MockCheckedExpectedCall expectedCallMulti(count - 1);
-
-  expectedCallSingle.withName("bar");
-  expectedCallMulti.withName("bar");
-
-  if (count > 1) {
-    callList.addExpectedCall(&expectedCallSingle);
-    expectedCallSingle.callWasMade(1);
+  void setup() override
+  {
+    list = new MockExpectedCallsList;
+    call1 = new MockCheckedExpectedCall;
+    call2 = new MockCheckedExpectedCall;
+    call3 = new MockCheckedExpectedCall;
+    call4 = new MockCheckedExpectedCall;
+    call5 = new MockCheckedExpectedCall;
+  }
+  void teardown() override
+  {
+    delete list;
+    delete call1;
+    delete call2;
+    delete call3;
+    delete call4;
+    delete call5;
+    CHECK_NO_MOCK_FAILURE();
+    MockFailureReporterForTest::clearReporter();
   }
 
-  if (count > 2) {
-    callList.addExpectedCall(&expectedCallMulti);
-    for (unsigned int i = 1; i < (count - 1); i++) {
-      expectedCallMulti.callWasMade(i + 1);
+  void addThreeCallsToList()
+  {
+    list->addExpectedCall(call1);
+    list->addExpectedCall(call2);
+    list->addExpectedCall(call3);
+  }
+
+  void addFiveCallsToList()
+  {
+    list->addExpectedCall(call1);
+    list->addExpectedCall(call2);
+    list->addExpectedCall(call3);
+    list->addExpectedCall(call4);
+    list->addExpectedCall(call5);
+  }
+
+  void checkUnexpectedNthCallMessage(unsigned int count,
+      const char* expectedOrdinal)
+  {
+    MockExpectedCallsList callList;
+    MockCheckedExpectedCall expectedCallSingle(1);
+    MockCheckedExpectedCall expectedCallMulti(count - 1);
+
+    expectedCallSingle.withName("bar");
+    expectedCallMulti.withName("bar");
+
+    if (count > 1) {
+      callList.addExpectedCall(&expectedCallSingle);
+      expectedCallSingle.callWasMade(1);
     }
+
+    if (count > 2) {
+      callList.addExpectedCall(&expectedCallMulti);
+      for (unsigned int i = 1; i < (count - 1); i++) {
+        expectedCallMulti.callWasMade(i + 1);
+      }
+    }
+
+    MockUnexpectedCallHappenedFailure failure(
+        UtestShell::getCurrent(), "bar", callList);
+
+    String expectedMessage =
+        StringFromFormat("Mock Failure: Unexpected additional (%s) call to "
+                         "function: bar\n\tEXPECTED",
+            expectedOrdinal);
+    STRCMP_CONTAINS(expectedMessage.c_str(), failure.getMessage().c_str());
   }
-
-  MockUnexpectedCallHappenedFailure failure(
-      UtestShell::getCurrent(), "bar", callList);
-
-  String expectedMessage =
-      StringFromFormat("Mock Failure: Unexpected additional (%s) call to "
-                       "function: bar\n\tEXPECTED",
-          expectedOrdinal);
-  STRCMP_CONTAINS(expectedMessage.c_str(), failure.getMessage().c_str());
-}
 };
 
 TEST(MockFailureTest, noErrorFailureSomethingGoneWrong)

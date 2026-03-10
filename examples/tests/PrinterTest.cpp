@@ -31,21 +31,17 @@
 
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(Printer) {
-Printer* printer;
-MockPrinter* mockPrinter;
+TEST_GROUP(Printer)
+{
+  Printer* printer;
+  MockPrinter* mockPrinter;
 
-void
-setup() override
-{
-  mockPrinter = new MockPrinter();
-  printer = mockPrinter;
-}
-void
-teardown() override
-{
-  delete printer;
-}
+  void setup() override
+  {
+    mockPrinter = new MockPrinter();
+    printer = mockPrinter;
+  }
+  void teardown() override { delete printer; }
 };
 
 TEST(Printer, PrintConstCharStar)

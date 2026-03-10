@@ -32,8 +32,9 @@
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \
   fixture.checkTestFailsWithProperTestLocation(text, __FILE__, __LINE__)
 
-TEST_GROUP(UnitTestStringMacros) {
-cpputest::TestTestingFixture fixture;
+TEST_GROUP(UnitTestStringMacros)
+{
+  cpputest::TestTestingFixture fixture;
 };
 
 static void

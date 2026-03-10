@@ -32,12 +32,9 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockHierarchyTest) {
-void
-teardown() override
+TEST_GROUP(MockHierarchyTest)
 {
-  mock().clear();
-}
+  void teardown() override { mock().clear(); }
 };
 
 TEST(MockHierarchyTest, getMockSupportScope)

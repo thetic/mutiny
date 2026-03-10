@@ -98,38 +98,36 @@ public:
   }
 };
 
-TEST_GROUP(CommandLineTestRunner) {
-cpputest::TestRegistry registry;
-cpputest::TestShell* test1;
-cpputest::TestShell* test2;
-DummyPluginWhichCountsThePlugins* pluginCountingPlugin;
+TEST_GROUP(CommandLineTestRunner)
+{
+  cpputest::TestRegistry registry;
+  cpputest::TestShell* test1;
+  cpputest::TestShell* test2;
+  DummyPluginWhichCountsThePlugins* pluginCountingPlugin;
 
-void
-setup() override
-{
-  test1 = new cpputest::TestShell("group1", "test1", "file1", 1);
-  test2 = new cpputest::TestShell("group2", "test2", "file2", 2);
-  registry.addTest(test1);
-  pluginCountingPlugin =
-      new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
-}
-void
-teardown() override
-{
-  delete pluginCountingPlugin;
-  delete test2;
-  delete test1;
-}
+  void setup() override
+  {
+    test1 = new cpputest::TestShell("group1", "test1", "file1", 1);
+    test2 = new cpputest::TestShell("group2", "test2", "file2", 2);
+    registry.addTest(test1);
+    pluginCountingPlugin =
+        new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
+  }
+  void teardown() override
+  {
+    delete pluginCountingPlugin;
+    delete test2;
+    delete test1;
+  }
 
-cpputest::String
-runAndGetOutput(const int argc, const char* argv[])
-{
-  CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-      argc, argv, &registry);
-  commandLineTestRunner.runAllTestsMain();
-  return commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer
-      ->getOutput();
-}
+  cpputest::String runAndGetOutput(const int argc, const char* argv[])
+  {
+    CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
+        argc, argv, &registry);
+    commandLineTestRunner.runAllTestsMain();
+    return commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer
+        ->getOutput();
+  }
 };
 
 TEST(CommandLineTestRunner, OnePluginGetsInstalledDuringTheRunningTheTests)
@@ -480,26 +478,25 @@ public:
   virtual cpputest::Test* createTest() override { return new RunIgnoredTest; }
 };
 
-TEST_GROUP(RunIgnoredTest) {
-cpputest::TestRegistry registry;
-RunIgnoredUtestShell* runIgnoredTest;
-DummyPluginWhichCountsThePlugins* pluginCountingPlugin;
+TEST_GROUP(RunIgnoredTest)
+{
+  cpputest::TestRegistry registry;
+  RunIgnoredUtestShell* runIgnoredTest;
+  DummyPluginWhichCountsThePlugins* pluginCountingPlugin;
 
-void
-setup() override
-{
-  runIgnoredTest = new RunIgnoredUtestShell("group", "test", "file", 1);
-  registry.addTest(runIgnoredTest);
-  pluginCountingPlugin =
-      new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
-}
-void
-teardown() override
-{
-  delete pluginCountingPlugin;
-  delete runIgnoredTest;
-  RunIgnoredTest::Checker = false;
-}
+  void setup() override
+  {
+    runIgnoredTest = new RunIgnoredUtestShell("group", "test", "file", 1);
+    registry.addTest(runIgnoredTest);
+    pluginCountingPlugin =
+        new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
+  }
+  void teardown() override
+  {
+    delete pluginCountingPlugin;
+    delete runIgnoredTest;
+    RunIgnoredTest::Checker = false;
+  }
 };
 
 TEST(RunIgnoredTest, IgnoreTestWillBeIgnoredIfNoOptionSpecified)

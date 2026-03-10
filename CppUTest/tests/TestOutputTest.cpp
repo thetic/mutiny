@@ -39,50 +39,48 @@ MockGetPlatformSpecificTimeInMillis()
   return millisTime;
 }
 
-TEST_GROUP(TestOutput) {
-cpputest::TestOutput* printer;
-cpputest::StringBufferTestOutput* mock;
-cpputest::TestShell* tst;
-cpputest::TestFailure* f;
-cpputest::TestFailure* f2;
-cpputest::TestFailure* f3;
-cpputest::TestResult* result;
+TEST_GROUP(TestOutput)
+{
+  cpputest::TestOutput* printer;
+  cpputest::StringBufferTestOutput* mock;
+  cpputest::TestShell* tst;
+  cpputest::TestFailure* f;
+  cpputest::TestFailure* f2;
+  cpputest::TestFailure* f3;
+  cpputest::TestResult* result;
 
-void
-setup() override
-{
-  mock = new cpputest::StringBufferTestOutput();
-  printer = mock;
-  tst = new cpputest::TestShell("group", "test", "file", 10);
-  f = new cpputest::TestFailure(tst, "failfile", 20, "message");
-  f2 = new cpputest::TestFailure(tst, "file", 20, "message");
-  f3 = new cpputest::TestFailure(tst, "file", 2, "message");
-  result = new cpputest::TestResult(*mock);
-  result->setTotalExecutionTime(10);
-  millisTime = 0;
-  UT_PTR_SET(
-      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
-  cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
-}
-void
-teardown() override
-{
-  cpputest::TestOutput::setWorkingEnvironment(
-      cpputest::TestOutput::detectEnvironment);
-  delete printer;
-  delete tst;
-  delete f;
-  delete f2;
-  delete f3;
-  delete result;
-}
+  void setup() override
+  {
+    mock = new cpputest::StringBufferTestOutput();
+    printer = mock;
+    tst = new cpputest::TestShell("group", "test", "file", 10);
+    f = new cpputest::TestFailure(tst, "failfile", 20, "message");
+    f2 = new cpputest::TestFailure(tst, "file", 20, "message");
+    f3 = new cpputest::TestFailure(tst, "file", 2, "message");
+    result = new cpputest::TestResult(*mock);
+    result->setTotalExecutionTime(10);
+    millisTime = 0;
+    UT_PTR_SET(
+        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
+    cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
+  }
+  void teardown() override
+  {
+    cpputest::TestOutput::setWorkingEnvironment(
+        cpputest::TestOutput::detectEnvironment);
+    delete printer;
+    delete tst;
+    delete f;
+    delete f2;
+    delete f3;
+    delete result;
+  }
 
-void
-runOneTest()
-{
-  result->countTest();
-  result->countRun();
-}
+  void runOneTest()
+  {
+    result->countTest();
+    result->countRun();
+  }
 };
 
 TEST(TestOutput, PrintConstCharStar)
@@ -336,30 +334,29 @@ public:
   virtual const char* getProgressIndicator() { return progressIndication_; }
 };
 
-TEST_GROUP(CompositeTestOutput) {
-CompositeTestOutputTestStringBufferTestOutput* output1;
-CompositeTestOutputTestStringBufferTestOutput* output2;
-cpputest::CompositeTestOutput compositeOutput;
-cpputest::TestResult* result;
-cpputest::TestShell* test;
-
-void
-setup() override
+TEST_GROUP(CompositeTestOutput)
 {
-  output1 = new CompositeTestOutputTestStringBufferTestOutput;
-  output2 = new CompositeTestOutputTestStringBufferTestOutput;
-  compositeOutput.setOutputOne(output1);
-  compositeOutput.setOutputTwo(output2);
-  result = new cpputest::TestResult(compositeOutput);
-  test = new cpputest::TestShell("Group", "Name", "file", 10);
-}
+  CompositeTestOutputTestStringBufferTestOutput* output1;
+  CompositeTestOutputTestStringBufferTestOutput* output2;
+  cpputest::CompositeTestOutput compositeOutput;
+  cpputest::TestResult* result;
+  cpputest::TestShell* test;
 
-void
-teardown() override
-{
-  delete test;
-  delete result;
-}
+  void setup() override
+  {
+    output1 = new CompositeTestOutputTestStringBufferTestOutput;
+    output2 = new CompositeTestOutputTestStringBufferTestOutput;
+    compositeOutput.setOutputOne(output1);
+    compositeOutput.setOutputTwo(output2);
+    result = new cpputest::TestResult(compositeOutput);
+    test = new cpputest::TestShell("Group", "Name", "file", 10);
+  }
+
+  void teardown() override
+  {
+    delete test;
+    delete result;
+  }
 };
 
 TEST(CompositeTestOutput, TestStartedAndEnded)

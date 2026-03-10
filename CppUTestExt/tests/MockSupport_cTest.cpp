@@ -47,12 +47,9 @@ dummy_function_for_mock_c_test_two()
 {
 }
 
-TEST_GROUP(MockSupport_c) {
-void
-teardown() override
+TEST_GROUP(MockSupport_c)
 {
-  mock_c()->clear();
-}
+  void teardown() override { mock_c()->clear(); }
 };
 
 TEST(MockSupport_c, OrderObserved)

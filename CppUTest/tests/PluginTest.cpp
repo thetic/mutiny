@@ -86,33 +86,32 @@ public:
   }
 };
 
-TEST_GROUP(PluginTest) {
-DummyPlugin* firstPlugin;
-DummyPluginWhichAcceptsParameters* secondPlugin;
-DummyPlugin* thirdPlugin;
-cpputest::TestTestingFixture* genFixture;
-cpputest::TestRegistry* registry;
-
-void
-setup() override
+TEST_GROUP(PluginTest)
 {
-  firstPlugin = new DummyPlugin(GENERIC_PLUGIN);
-  secondPlugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
-  thirdPlugin = new DummyPlugin(GENERIC_PLUGIN3);
-  genFixture = new cpputest::TestTestingFixture;
-  registry = genFixture->getRegistry();
-  registry->installPlugin(firstPlugin);
-  sequenceNumber = 1;
-}
+  DummyPlugin* firstPlugin;
+  DummyPluginWhichAcceptsParameters* secondPlugin;
+  DummyPlugin* thirdPlugin;
+  cpputest::TestTestingFixture* genFixture;
+  cpputest::TestRegistry* registry;
 
-void
-teardown() override
-{
-  delete firstPlugin;
-  delete secondPlugin;
-  delete thirdPlugin;
-  delete genFixture;
-}
+  void setup() override
+  {
+    firstPlugin = new DummyPlugin(GENERIC_PLUGIN);
+    secondPlugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
+    thirdPlugin = new DummyPlugin(GENERIC_PLUGIN3);
+    genFixture = new cpputest::TestTestingFixture;
+    registry = genFixture->getRegistry();
+    registry->installPlugin(firstPlugin);
+    sequenceNumber = 1;
+  }
+
+  void teardown() override
+  {
+    delete firstPlugin;
+    delete secondPlugin;
+    delete thirdPlugin;
+    delete genFixture;
+  }
 };
 
 #define GENERIC_PLUGIN "GenericPlugin"

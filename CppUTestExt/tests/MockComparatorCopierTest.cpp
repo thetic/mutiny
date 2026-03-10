@@ -33,14 +33,14 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
-TEST_GROUP(MockComparatorCopierTest) {
-void
-teardown() override
+TEST_GROUP(MockComparatorCopierTest)
 {
-  mock().checkExpectations();
-  mock().clear();
-  mock().removeAllComparatorsAndCopiers();
-}
+  void teardown() override
+  {
+    mock().checkExpectations();
+    mock().clear();
+    mock().removeAllComparatorsAndCopiers();
+  }
 };
 
 class MyTypeForTesting

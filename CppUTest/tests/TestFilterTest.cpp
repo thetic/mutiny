@@ -29,8 +29,8 @@
 
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(TestFilter) {
-};
+TEST_GROUP(TestFilter)
+{};
 
 TEST(TestFilter, emptyFilterMatchesEverything)
 {

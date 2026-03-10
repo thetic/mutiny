@@ -33,13 +33,13 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockParameterTest) {
-void
-teardown() override
+TEST_GROUP(MockParameterTest)
 {
-  mock().checkExpectations();
-  mock().clear();
-}
+  void teardown() override
+  {
+    mock().checkExpectations();
+    mock().clear();
+  }
 };
 
 TEST(MockParameterTest, expectOneBooleanParameterAndValue)

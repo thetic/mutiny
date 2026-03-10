@@ -37,29 +37,28 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockCheckedActualCall) {
-MockExpectedCallsList* emptyList;
-MockExpectedCallsList* list;
-MockFailureReporter* reporter;
-
-void
-setup() override
+TEST_GROUP(MockCheckedActualCall)
 {
-  emptyList = new MockExpectedCallsList;
-  list = new MockExpectedCallsList;
-  reporter = MockFailureReporterForTest::getReporter();
-}
+  MockExpectedCallsList* emptyList;
+  MockExpectedCallsList* list;
+  MockFailureReporter* reporter;
 
-void
-teardown() override
-{
-  CHECK_NO_MOCK_FAILURE();
+  void setup() override
+  {
+    emptyList = new MockExpectedCallsList;
+    list = new MockExpectedCallsList;
+    reporter = MockFailureReporterForTest::getReporter();
+  }
 
-  MockFailureReporterForTest::clearReporter();
+  void teardown() override
+  {
+    CHECK_NO_MOCK_FAILURE();
 
-  delete emptyList;
-  delete list;
-}
+    MockFailureReporterForTest::clearReporter();
+
+    delete emptyList;
+    delete list;
+  }
 };
 
 TEST(MockCheckedActualCall, unExpectedCall)

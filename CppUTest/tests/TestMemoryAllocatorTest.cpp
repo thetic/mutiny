@@ -29,29 +29,28 @@
 
 #include "CppUTest/TestHarness.h"
 
-TEST_GROUP(TestMemoryAllocatorTest) {
-cpputest::TestMemoryAllocator* allocator;
-cpputest::TestMemoryAllocator* originalMallocAllocator;
-cpputest::TestMemoryAllocator* originalNewAllocator;
-cpputest::TestMemoryAllocator* originalNewArrayAllocator;
-
-void
-setup() override
+TEST_GROUP(TestMemoryAllocatorTest)
 {
-  allocator = nullptr;
-  originalMallocAllocator = cpputest::getCurrentMallocAllocator();
-  originalNewAllocator = cpputest::getCurrentNewAllocator();
-  originalNewArrayAllocator = cpputest::getCurrentNewArrayAllocator();
-}
+  cpputest::TestMemoryAllocator* allocator;
+  cpputest::TestMemoryAllocator* originalMallocAllocator;
+  cpputest::TestMemoryAllocator* originalNewAllocator;
+  cpputest::TestMemoryAllocator* originalNewArrayAllocator;
 
-void
-teardown() override
-{
-  setCurrentMallocAllocator(originalMallocAllocator);
-  setCurrentNewAllocator(originalNewAllocator);
-  setCurrentNewArrayAllocator(originalNewArrayAllocator);
-  delete allocator;
-}
+  void setup() override
+  {
+    allocator = nullptr;
+    originalMallocAllocator = cpputest::getCurrentMallocAllocator();
+    originalNewAllocator = cpputest::getCurrentNewAllocator();
+    originalNewArrayAllocator = cpputest::getCurrentNewArrayAllocator();
+  }
+
+  void teardown() override
+  {
+    setCurrentMallocAllocator(originalMallocAllocator);
+    setCurrentNewAllocator(originalNewAllocator);
+    setCurrentNewArrayAllocator(originalNewArrayAllocator);
+    delete allocator;
+  }
 };
 
 TEST(TestMemoryAllocatorTest, SetCurrentNewAllocator)

@@ -32,8 +32,8 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(ComparatorsAndCopiersRepository) {
-};
+TEST_GROUP(ComparatorsAndCopiersRepository)
+{};
 
 class MyComparator : public MockNamedValueComparator
 {
@@ -96,19 +96,12 @@ TEST(ComparatorsAndCopiersRepository,
   target.clear();
 }
 
-TEST_GROUP(MockNamedValue) {
-MockNamedValue* value;
-void
-setup() override
+TEST_GROUP(MockNamedValue)
 {
-  value = new MockNamedValue("param");
-}
+  MockNamedValue* value;
+  void setup() override { value = new MockNamedValue("param"); }
 
-void
-teardown() override
-{
-  delete value;
-}
+  void teardown() override { delete value; }
 };
 
 TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)

@@ -36,35 +36,34 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockExpectedCallsList) {
-MockExpectedCallsList* list;
-MockCheckedExpectedCall* call1;
-MockCheckedExpectedCall* call2;
-MockCheckedExpectedCall* call3;
-MockCheckedExpectedCall* call4;
-void
-setup() override
+TEST_GROUP(MockExpectedCallsList)
 {
-  list = new MockExpectedCallsList;
-  call1 = new MockCheckedExpectedCall;
-  call2 = new MockCheckedExpectedCall;
-  call3 = new MockCheckedExpectedCall;
-  call4 = new MockCheckedExpectedCall;
-  call1->withName("foo");
-  call2->withName("bar");
-  call3->withName("boo");
-}
-void
-teardown() override
-{
-  delete call1;
-  delete call2;
-  delete call3;
-  delete call4;
-  delete list;
-  CHECK_NO_MOCK_FAILURE();
-  MockFailureReporterForTest::clearReporter();
-}
+  MockExpectedCallsList* list;
+  MockCheckedExpectedCall* call1;
+  MockCheckedExpectedCall* call2;
+  MockCheckedExpectedCall* call3;
+  MockCheckedExpectedCall* call4;
+  void setup() override
+  {
+    list = new MockExpectedCallsList;
+    call1 = new MockCheckedExpectedCall;
+    call2 = new MockCheckedExpectedCall;
+    call3 = new MockCheckedExpectedCall;
+    call4 = new MockCheckedExpectedCall;
+    call1->withName("foo");
+    call2->withName("bar");
+    call3->withName("boo");
+  }
+  void teardown() override
+  {
+    delete call1;
+    delete call2;
+    delete call3;
+    delete call4;
+    delete list;
+    CHECK_NO_MOCK_FAILURE();
+    MockFailureReporterForTest::clearReporter();
+  }
 };
 
 TEST(MockExpectedCallsList, emptyList)

@@ -47,32 +47,32 @@ public:
   }
 };
 
-TEST_GROUP(CommandLineArguments) {
-cpputest::CommandLineArguments* args;
-OptionsPlugin* plugin;
+TEST_GROUP(CommandLineArguments)
+{
+  cpputest::CommandLineArguments* args;
+  OptionsPlugin* plugin;
 
-void
-setup() override
-{
-  plugin = new OptionsPlugin("options");
-  args = nullptr;
-}
-void
-teardown() override
-{
-  delete args;
-  delete plugin;
-}
+  void setup() override
+  {
+    plugin = new OptionsPlugin("options");
+    args = nullptr;
+  }
+  void teardown() override
+  {
+    delete args;
+    delete plugin;
+  }
 
-bool
-newArgumentParser(int argc, const char* const* argv)
-{
-  args = new cpputest::CommandLineArguments(argc, argv);
-  return args->parse(plugin);
-}
+  bool newArgumentParser(int argc, const char* const* argv)
+  {
+    args = new cpputest::CommandLineArguments(argc, argv);
+    return args->parse(plugin);
+  }
 };
 
-TEST(CommandLineArguments, Create) {}
+TEST(CommandLineArguments, Create)
+{
+}
 
 TEST(CommandLineArguments, verboseSetMultipleParameters)
 {

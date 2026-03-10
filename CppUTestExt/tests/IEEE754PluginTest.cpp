@@ -37,15 +37,12 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(FE_with_Plugin) {
-TestTestingFixture fixture;
-IEEE754ExceptionsPlugin ieee754Plugin;
-
-void
-setup(void) override
+TEST_GROUP(FE_with_Plugin)
 {
-  fixture.installPlugin(&ieee754Plugin);
-}
+  TestTestingFixture fixture;
+  IEEE754ExceptionsPlugin ieee754Plugin;
+
+  void setup(void) override { fixture.installPlugin(&ieee754Plugin); }
 };
 
 #if CPPUTEST_HAVE_FENV
@@ -135,12 +132,12 @@ TEST(FE_with_Plugin, should_not_fail_again_when_test_has_already_failed)
 
 static IEEE754ExceptionsPlugin ip;
 
-TEST_GROUP(IEEE754ExceptionsPlugin2) {
-void
-setup(void) override
+TEST_GROUP(IEEE754ExceptionsPlugin2)
 {
-  TestRegistry::getCurrentRegistry()->installPlugin(&ip);
-}
+  void setup(void) override
+  {
+    TestRegistry::getCurrentRegistry()->installPlugin(&ip);
+  }
 };
 
 IGNORE_TEST(IEEE754ExceptionsPlugin2, should_not_fail_in_ignored_test)

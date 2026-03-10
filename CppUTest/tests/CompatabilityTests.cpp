@@ -5,8 +5,8 @@
 
 #include <memory>
 
-TEST_GROUP(StandardCppLibrary) {
-};
+TEST_GROUP(StandardCppLibrary)
+{};
 
 #if defined(__cplusplus) && __cplusplus >= 201402L
 

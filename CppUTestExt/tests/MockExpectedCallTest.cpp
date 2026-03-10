@@ -76,13 +76,13 @@ public:
   }
 };
 
-TEST_GROUP(MockNamedValueHandlerRepository) {
-void
-teardown() override
+TEST_GROUP(MockNamedValueHandlerRepository)
 {
-  CHECK_NO_MOCK_FAILURE();
-  MockFailureReporterForTest::clearReporter();
-}
+  void teardown() override
+  {
+    CHECK_NO_MOCK_FAILURE();
+    MockFailureReporterForTest::clearReporter();
+  }
 };
 
 TEST(MockNamedValueHandlerRepository, getComparatorForNonExistingName)
@@ -158,26 +158,25 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
   POINTERS_EQUAL(&copier1, repository.getCopierForType("type1"));
 }
 
-TEST_GROUP(MockExpectedCall) {
-MockCheckedExpectedCall* call;
-MockNamedValueComparatorsAndCopiersRepository* originalComparatorRepository;
-void
-setup() override
+TEST_GROUP(MockExpectedCall)
 {
-  originalComparatorRepository =
-      MockNamedValue::getDefaultComparatorsAndCopiersRepository();
-  call = new MockCheckedExpectedCall(1);
-  call->withName("funcName");
-}
-void
-teardown() override
-{
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(
-      originalComparatorRepository);
-  delete call;
-  CHECK_NO_MOCK_FAILURE();
-  MockFailureReporterForTest::clearReporter();
-}
+  MockCheckedExpectedCall* call;
+  MockNamedValueComparatorsAndCopiersRepository* originalComparatorRepository;
+  void setup() override
+  {
+    originalComparatorRepository =
+        MockNamedValue::getDefaultComparatorsAndCopiersRepository();
+    call = new MockCheckedExpectedCall(1);
+    call->withName("funcName");
+  }
+  void teardown() override
+  {
+    MockNamedValue::setDefaultComparatorsAndCopiersRepository(
+        originalComparatorRepository);
+    delete call;
+    CHECK_NO_MOCK_FAILURE();
+    MockFailureReporterForTest::clearReporter();
+  }
 };
 
 TEST(MockExpectedCall, callWithoutParameterSetOrNotFound)
@@ -840,8 +839,9 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
   CHECK_FALSE(call->hasOutputParameter(foo));
 }
 
-TEST_GROUP(MockIgnoredExpectedCall) {
-MockIgnoredExpectedCall ignored;
+TEST_GROUP(MockIgnoredExpectedCall)
+{
+  MockIgnoredExpectedCall ignored;
 };
 
 TEST(MockIgnoredExpectedCall, worksAsItShould)
