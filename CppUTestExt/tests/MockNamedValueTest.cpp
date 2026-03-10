@@ -27,7 +27,7 @@
 
 #include "CppUTestExt/MockNamedValue.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

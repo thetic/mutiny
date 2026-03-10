@@ -25,64 +25,49 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef D_CommandLineTestRunner_H
+#define D_CommandLineTestRunner_H
 
-#include "CppUTest/TestOutput.h"
-#include "CppUTest/TestRegistry.h"
-#include "CppUTest/Utest.h"
+#include "CppUTest/CommandLineArguments.hpp"
+#include "CppUTest/TestFilter.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 
-class TestTestingFixture
+class TestRegistry;
+
+class CommandLineTestRunner
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  static int RunAllTests(int ac, const char* const* av);
+  static int RunAllTests(int ac, char** av);
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  CommandLineTestRunner(int ac, const char* const* av, TestRegistry* registry);
+  virtual ~CommandLineTestRunner();
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+  int runAllTestsMain();
 
-  void setOutputVerbose();
+protected:
+  virtual TestOutput* createTeamCityOutput();
+  virtual TestOutput* createJUnitOutput(const String& packageName);
+  virtual TestOutput* createConsoleOutput();
+  virtual TestOutput* createCompositeOutput(TestOutput* outputOne,
+      TestOutput* outputTwo);
 
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
-
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
-
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
-      const char* file,
-      size_t line);
-
-  static void lineExecutedAfterCheck();
+  TestOutput* output_;
 
 private:
-  void clearExecFunction();
-
-  static bool lineOfCodeExecutedAfterCheck;
-
+  CommandLineArguments* arguments_;
   TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+
+  bool parseArguments(TestPlugin*);
+  int runAllTests();
+  void initializeTestRun();
 };
 
 } // namespace cpputest
+
+#define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
 
 #endif

@@ -28,7 +28,7 @@
 #ifndef D_MockFailure_h
 #define D_MockFailure_h
 
-#include "CppUTest/TestFailure.h"
+#include "CppUTest/TestFailure.hpp"
 
 namespace cpputest {
 namespace extensions {

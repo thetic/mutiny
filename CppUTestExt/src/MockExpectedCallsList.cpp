@@ -29,7 +29,7 @@
 
 #include "CppUTestExt/MockCheckedExpectedCall.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
 namespace extensions {

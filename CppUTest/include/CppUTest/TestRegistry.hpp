@@ -33,8 +33,8 @@
 #ifndef D_TestRegistry_h
 #define D_TestRegistry_h
 
-#include "CppUTest/String.h"
-#include "CppUTest/TestFilter.h"
+#include "CppUTest/String.hpp"
+#include "CppUTest/TestFilter.hpp"
 
 #include <stddef.h>
 

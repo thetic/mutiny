@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/TestRegistry.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace {
 const int testLineNumber = 1;

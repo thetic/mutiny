@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestFailure.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestFailure.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 static unsigned long
 MockGetPlatformSpecificTimeInMillis()

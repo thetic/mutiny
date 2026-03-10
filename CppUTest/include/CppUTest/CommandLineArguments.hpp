@@ -28,9 +28,9 @@
 #ifndef D_CommandLineArguments_H
 #define D_CommandLineArguments_H
 
-#include "CppUTest/String.h"
-#include "CppUTest/TestFilter.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/String.hpp"
+#include "CppUTest/TestFilter.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 

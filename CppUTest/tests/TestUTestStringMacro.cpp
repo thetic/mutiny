@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
-#include "CppUTest/TestTestingFixture.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
+#include "CppUTest/TestTestingFixture.hpp"
 
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \
   fixture.checkTestFailsWithProperTestLocation(text, __FILE__, __LINE__)

@@ -25,12 +25,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestFailure.h"
+#include "CppUTest/TestFailure.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/String.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/String.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <typeinfo>

@@ -28,7 +28,7 @@
 #ifndef D_OrderedTest_h
 #define D_OrderedTest_h
 
-#include "CppUTest/Utest.h"
+#include "CppUTest/Utest.hpp"
 
 namespace cpputest {
 namespace extensions {

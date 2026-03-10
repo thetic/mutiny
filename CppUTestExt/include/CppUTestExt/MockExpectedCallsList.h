@@ -28,7 +28,7 @@
 #ifndef D_MockExpectedCallsList_h
 #define D_MockExpectedCallsList_h
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
 namespace cpputest {
 namespace extensions {

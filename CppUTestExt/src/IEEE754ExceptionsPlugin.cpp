@@ -27,7 +27,7 @@
 
 #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 #if CPPUTEST_HAVE_FENV
 #include <fenv.h>

@@ -27,7 +27,7 @@
 
 #include "hello.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 #include <stdarg.h>
 #include <stdio.h>

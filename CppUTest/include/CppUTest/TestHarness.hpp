@@ -25,49 +25,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_CommandLineTestRunner_H
-#define D_CommandLineTestRunner_H
+#ifndef D_TestHarness_h
+#define D_TestHarness_h
 
-#include "CppUTest/CommandLineArguments.h"
-#include "CppUTest/TestFilter.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
-
-namespace cpputest {
-
-class TestRegistry;
-
-class CommandLineTestRunner
-{
-public:
-  static int RunAllTests(int ac, const char* const* av);
-  static int RunAllTests(int ac, char** av);
-
-  CommandLineTestRunner(int ac, const char* const* av, TestRegistry* registry);
-  virtual ~CommandLineTestRunner();
-
-  int runAllTestsMain();
-
-protected:
-  virtual TestOutput* createTeamCityOutput();
-  virtual TestOutput* createJUnitOutput(const String& packageName);
-  virtual TestOutput* createConsoleOutput();
-  virtual TestOutput* createCompositeOutput(TestOutput* outputOne,
-      TestOutput* outputTwo);
-
-  TestOutput* output_;
-
-private:
-  CommandLineArguments* arguments_;
-  TestRegistry* registry_;
-
-  bool parseArguments(TestPlugin*);
-  int runAllTests();
-  void initializeTestRun();
-};
-
-} // namespace cpputest
-
-#define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
-
+#include "CppUTest/String.hpp"
+#include "CppUTest/TestFailure.hpp"
+#include "CppUTest/TestPlugin.hpp"
+#include "CppUTest/TestResult.hpp"
+#include "CppUTest/Utest.hpp"
+#include "CppUTest/UtestMacros.hpp"
 #endif

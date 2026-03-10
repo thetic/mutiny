@@ -25,9 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness_c.h"
-
 #include "CppUTest/TestHarness.h"
+#include "CppUTest/Utest.hpp"
 
 void
 CHECK_EQUAL_C_BOOL_LOCATION(int expected,

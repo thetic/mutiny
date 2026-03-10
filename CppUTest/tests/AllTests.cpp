@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/CommandLineTestRunner.h"
+#include "CppUTest/CommandLineTestRunner.hpp"
 
 int
 main(int ac, char** av)

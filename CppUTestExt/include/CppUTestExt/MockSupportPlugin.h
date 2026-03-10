@@ -30,7 +30,7 @@
 
 #include "CppUTestExt/MockNamedValue.h"
 
-#include "CppUTest/TestPlugin.h"
+#include "CppUTest/TestPlugin.hpp"
 
 namespace cpputest {
 namespace extensions {

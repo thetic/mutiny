@@ -28,9 +28,9 @@
 #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 #include "CppUTestExt/MockSupportPlugin.h"
 
-#include "CppUTest/CommandLineTestRunner.h"
-#include "CppUTest/TestPlugin.h"
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppUTest/TestPlugin.hpp"
+#include "CppUTest/TestRegistry.hpp"
 
 class MyDummyComparator : public cpputest::extensions::MockNamedValueComparator
 {

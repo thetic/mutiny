@@ -1,6 +1,6 @@
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 #include <Windows.h>
 #include <float.h>

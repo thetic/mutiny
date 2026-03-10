@@ -27,6 +27,8 @@
 
 #include "MockFailureReporterForTest.h"
 
+#include "CppUTest/TestHarness.hpp"
+
 using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;

@@ -31,7 +31,7 @@
 #ifndef D_UTest_h
 #define D_UTest_h
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
 #ifdef __cplusplus
 #ifndef CPPUTEST_HAVE_EXCEPTIONS

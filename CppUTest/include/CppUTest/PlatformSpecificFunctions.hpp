@@ -25,43 +25,22 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef TESTFILTER_H_
-#define TESTFILTER_H_
+#ifndef PLATFORMSPECIFICFUNCTIONS_H_
+#define PLATFORMSPECIFICFUNCTIONS_H_
 
-#include "CppUTest/String.h"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
+TestOutput::WorkingEnvironment
+PlatformSpecificGetWorkingEnvironment();
 
-class TestFilter
-{
-public:
-  TestFilter();
-  TestFilter(const char* filter);
-  TestFilter(const String& filter);
+class TestPlugin;
+}
+/* Platform specific interface we use in order to minimize dependencies with
+ * LibC. This enables porting to different embedded platforms.
+ *
+ */
 
-  TestFilter* add(TestFilter* filter);
-  TestFilter* getNext() const;
-
-  bool match(const String& name) const;
-
-  void strictMatching();
-  void invertMatching();
-
-  bool operator==(const TestFilter& filter) const;
-  bool operator!=(const TestFilter& filter) const;
-
-  String asString() const;
-
-private:
-  String filter_;
-  bool strictMatching_;
-  bool invertMatching_;
-  TestFilter* next_;
-};
-
-String
-StringFrom(const TestFilter& filter);
-
-} // namespace cpputest
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #endif

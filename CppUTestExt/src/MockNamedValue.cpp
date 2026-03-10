@@ -27,8 +27,8 @@
 
 #include "CppUTestExt/MockNamedValue.h"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
 namespace extensions {

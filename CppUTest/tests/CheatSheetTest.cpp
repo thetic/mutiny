@@ -6,7 +6,7 @@ stub()
 }
 
 /* in CheatSheetTest.cpp */
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 /* Declare TestGroup with name CheatSheet */
 TEST_GROUP(CheatSheet)

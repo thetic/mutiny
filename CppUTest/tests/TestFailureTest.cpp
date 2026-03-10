@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 #include <limits.h>
 

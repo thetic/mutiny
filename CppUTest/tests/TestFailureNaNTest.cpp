@@ -25,9 +25,9 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 #include <math.h>
 

@@ -25,11 +25,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/TestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestResult.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestResult.hpp"
 
 static unsigned long millisTime;
 

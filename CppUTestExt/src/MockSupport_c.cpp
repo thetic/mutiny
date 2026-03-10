@@ -29,9 +29,9 @@
 
 #include "CppUTestExt/MockSupport.h"
 
-#include "CppUTest/PlatformSpecificFunctions_c.h"
-#include "CppUTest/Utest.h"
-#include "CppUTest/UtestMacros.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/Utest.hpp"
+#include "CppUTest/UtestMacros.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

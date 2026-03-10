@@ -32,7 +32,7 @@
 #include "CppUTestExt/MockExpectedCallsList.h"
 #include "CppUTestExt/MockFailure.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

@@ -25,15 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness_c.h"
-
 #include "TestHarness_cTestCFile.h"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
-#include "CppUTest/TestRegistry.h"
-#include "CppUTest/TestTestingFixture.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
+#include "CppUTest/TestRegistry.hpp"
+#include "CppUTest/TestTestingFixture.hpp"
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 

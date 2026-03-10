@@ -20,25 +20,25 @@ target_sources(CppUTest
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/CppUTest/CommandLineArguments.h
-            include/CppUTest/CommandLineTestRunner.h
-            include/CppUTest/JUnitTestOutput.h
+            include/CppUTest/CommandLineArguments.hpp
+            include/CppUTest/CommandLineTestRunner.hpp
+            include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
-            include/CppUTest/PlatformSpecificFunctions_c.h
-            include/CppUTest/String.h
-            include/CppUTest/TeamCityTestOutput.h
-            include/CppUTest/TestFailure.h
-            include/CppUTest/TestFilter.h
+            include/CppUTest/PlatformSpecificFunctions.hpp
+            include/CppUTest/String.hpp
+            include/CppUTest/TeamCityTestOutput.hpp
+            include/CppUTest/TestFailure.hpp
+            include/CppUTest/TestFilter.hpp
             include/CppUTest/TestHarness.h
-            include/CppUTest/TestHarness_c.h
-            include/CppUTest/TestMemoryAllocator.h
-            include/CppUTest/TestOutput.h
-            include/CppUTest/TestPlugin.h
-            include/CppUTest/TestRegistry.h
-            include/CppUTest/TestResult.h
-            include/CppUTest/TestTestingFixture.h
-            include/CppUTest/Utest.h
-            include/CppUTest/UtestMacros.h
+            include/CppUTest/TestHarness.hpp
+            include/CppUTest/TestMemoryAllocator.hpp
+            include/CppUTest/TestOutput.hpp
+            include/CppUTest/TestPlugin.hpp
+            include/CppUTest/TestRegistry.hpp
+            include/CppUTest/TestResult.hpp
+            include/CppUTest/TestTestingFixture.hpp
+            include/CppUTest/Utest.hpp
+            include/CppUTest/UtestMacros.hpp
 )
 
 #[[Set CPPUTEST_PLATFORM in a parent CMakeLists.txt if reusing one of the provided platforms, else supply the missing definitions]]

@@ -28,7 +28,7 @@
 #ifndef D_MockNamedValue_h
 #define D_MockNamedValue_h
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
 namespace cpputest {
 namespace extensions {

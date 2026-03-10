@@ -1,6 +1,6 @@
-#include "CppUTest/TeamCityTestOutput.h"
+#include "CppUTest/TeamCityTestOutput.hpp"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
 

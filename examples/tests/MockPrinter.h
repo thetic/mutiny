@@ -37,7 +37,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.h"
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
 #include <string>
 

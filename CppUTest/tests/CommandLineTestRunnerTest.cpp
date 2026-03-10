@@ -25,14 +25,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/CommandLineTestRunner.h"
+#include "CppUTest/CommandLineTestRunner.hpp"
 
-#include "CppUTest/JUnitTestOutput.h"
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestPlugin.h"
-#include "CppUTest/TestRegistry.h"
-#include "CppUTest/TestTestingFixture.h"
+#include "CppUTest/JUnitTestOutput.hpp"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestPlugin.hpp"
+#include "CppUTest/TestRegistry.hpp"
+#include "CppUTest/TestTestingFixture.hpp"
 
 class DummyPluginWhichCountsThePlugins : public cpputest::TestPlugin
 {

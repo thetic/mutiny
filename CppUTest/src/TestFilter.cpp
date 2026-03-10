@@ -25,7 +25,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestFilter.h"
+#include "CppUTest/TestFilter.hpp"
 
 namespace cpputest {
 

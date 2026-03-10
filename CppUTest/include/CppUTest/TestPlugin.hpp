@@ -28,7 +28,7 @@
 #ifndef D_TestPlugin_h
 #define D_TestPlugin_h
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
 namespace cpputest {
 

@@ -28,8 +28,8 @@
 #ifndef D_JUnitTestOutput_h
 #define D_JUnitTestOutput_h
 
-#include "CppUTest/String.h"
-#include "CppUTest/TestOutput.h"
+#include "CppUTest/String.hpp"
+#include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {
 

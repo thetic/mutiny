@@ -27,8 +27,8 @@
 
 #include "MockFailureReporterForTest.h"
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestTestingFixture.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestTestingFixture.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

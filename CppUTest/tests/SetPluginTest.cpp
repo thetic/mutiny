@@ -1,7 +1,7 @@
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestOutput.h"
-#include "CppUTest/TestPlugin.h"
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
+#include "CppUTest/TestPlugin.hpp"
+#include "CppUTest/TestRegistry.hpp"
 
 static void
 orig_func1()

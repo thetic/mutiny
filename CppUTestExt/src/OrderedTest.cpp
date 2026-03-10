@@ -27,8 +27,8 @@
 
 #include "CppUTestExt/OrderedTest.h"
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestRegistry.hpp"
 
 namespace cpputest {
 namespace extensions {

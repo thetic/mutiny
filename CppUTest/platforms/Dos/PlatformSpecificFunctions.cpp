@@ -27,9 +27,9 @@
 
 /* Un-comment to use buffer instead of std out */
 // #define USE_BUFFER_OUTPUT 1
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 #include <cstdlib>
 

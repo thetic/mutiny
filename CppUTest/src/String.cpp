@@ -25,10 +25,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/String.h"
+#include "CppUTest/String.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestMemoryAllocator.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/TestMemoryAllocator.hpp"
 
 #include <limits.h>
 #if CPPUTEST_USE_STD_CPP_LIB

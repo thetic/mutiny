@@ -31,7 +31,7 @@
 #include "CppUTestExt/MockExpectedCallsList.h"
 #include "CppUTestExt/MockNamedValue.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
 namespace extensions {

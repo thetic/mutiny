@@ -27,8 +27,8 @@
 
 #include "CppUTestExt/MockSupportPlugin.h"
 
-#include "CppUTest/CommandLineTestRunner.h"
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppUTest/TestRegistry.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

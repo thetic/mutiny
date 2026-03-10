@@ -29,10 +29,10 @@
 
 #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 
-#include "CppUTest/CommandLineTestRunner.h"
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestRegistry.h"
-#include "CppUTest/TestTestingFixture.h"
+#include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestRegistry.hpp"
+#include "CppUTest/TestTestingFixture.hpp"
 
 using namespace cpputest;
 using namespace cpputest::extensions;

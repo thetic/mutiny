@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2016, Michael Feathers, James Grenning, Bas Vodde
- * and Arnd Strube. All rights reserved.
+ * Copyright (c) 2007, Michael Feathers, James Grenning and Bas Vodde
+ * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,66 +25,64 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTestExt/IEEE754ExceptionsPlugin.h"
+#ifndef D_TestTestingFixture_H
+#define D_TestTestingFixture_H
 
-#include "CppUTest/CommandLineTestRunner.hpp"
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
+#include "CppUTest/Utest.hpp"
 
-#if CPPUTEST_HAVE_FENV
+namespace cpputest {
 
-#include <limits>
-
-#include <fenv.h>
-
-using cpputest::extensions::IEEE754ExceptionsPlugin;
-
-/*
- * To see a demonstration of tests failing as a result of
- * IEEE754ExceptionsPlugin picking up floating point errors, run the test
- * executable with the -ri option.
- *
- */
-
-TEST_GROUP(FE_Demo)
+class TestTestingFixture
 {
-  void setup() override { IEEE754ExceptionsPlugin::disableInexact(); }
+public:
+  TestTestingFixture();
+  virtual ~TestTestingFixture();
+  void flushOutputAndResetResult();
+
+  void addTest(TestShell* test);
+  void installPlugin(TestPlugin* plugin);
+
+  void setTestFunction(void (*testFunction)());
+  void setTestFunction(ExecFunction* testFunction);
+  void setSetup(void (*setupFunction)());
+  void setTeardown(void (*teardownFunction)());
+
+  void setOutputVerbose();
+
+  void runTestWithMethod(void (*method)());
+  void runAllTests();
+
+  size_t getFailureCount();
+  size_t getCheckCount();
+  size_t getIgnoreCount();
+  size_t getRunCount();
+  size_t getTestCount();
+  const String& getOutput();
+  TestRegistry* getRegistry();
+
+  bool hasTestFailed();
+  void assertPrintContains(const String& contains);
+  void assertPrintContainsNot(const String& contains);
+  void checkTestFailsWithProperTestLocation(const char* text,
+      const char* file,
+      size_t line);
+
+  static void lineExecutedAfterCheck();
+
+private:
+  void clearExecFunction();
+
+  static bool lineOfCodeExecutedAfterCheck;
+
+  TestRegistry* registry_;
+  ExecFunctionTestShell* genTest_;
+  bool ownsExecFunction_;
+  StringBufferTestOutput* output_;
+  TestResult* result_;
 };
 
-IGNORE_TEST(FE_Demo, should_fail_when_FE_DIVBYZERO_is_set)
-{
-  float f = 1.0f;
-  CHECK((f /= 0.0f) >= std::numeric_limits<float>::infinity());
-}
-
-IGNORE_TEST(FE_Demo, should_fail_when_FE_UNDERFLOW_is_set)
-{
-  volatile float f = 0.01f;
-  while (f > 0.0f)
-    f = f * f;
-  CHECK(f == 0.0f);
-}
-
-IGNORE_TEST(FE_Demo, should_fail_when_FE_OVERFLOW_is_set)
-{
-  volatile float f = 1000.0f;
-  while (f < std::numeric_limits<float>::infinity())
-    f = f * f;
-  CHECK(f >= std::numeric_limits<float>::infinity());
-}
-
-IGNORE_TEST(FE_Demo, should_fail_when_FE_INEXACT_is_set)
-{
-  IEEE754ExceptionsPlugin::enableInexact();
-  float f = 10.0f;
-  DOUBLES_EQUAL(static_cast<double>(f / 3.0f),
-      static_cast<double>(3.333f),
-      static_cast<double>(0.001f));
-}
-
-TEST(FE_Demo, should_succeed_when_no_flags_are_set)
-{
-  CHECK(5.0f == 15.0f / 3.0f);
-}
+} // namespace cpputest
 
 #endif

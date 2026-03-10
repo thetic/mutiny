@@ -31,7 +31,7 @@
 #include "CppUTestExt/MockExpectedCall.h"
 #include "CppUTestExt/MockFailure.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/TestHarness.hpp"
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 

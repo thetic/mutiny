@@ -25,8 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestRegistry.h"
+#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestRegistry.hpp"
 
 class TestInstallerTestUtestShell : public cpputest::TestShell
 {};
