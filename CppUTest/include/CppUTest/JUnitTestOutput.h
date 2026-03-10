@@ -28,7 +28,7 @@
 #ifndef D_JUnitTestOutput_h
 #define D_JUnitTestOutput_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestOutput.h"
 
 namespace cpputest {
@@ -57,24 +57,24 @@ public:
 
   virtual void flush() override;
 
-  virtual SimpleString createFileName(const SimpleString& group);
-  void setPackageName(const SimpleString& package);
+  virtual String createFileName(const String& group);
+  void setPackageName(const String& package);
 
 protected:
   JUnitTestOutputImpl* impl_;
   void resetTestGroupResult();
 
-  virtual void openFileForWrite(const SimpleString& fileName);
+  virtual void openFileForWrite(const String& fileName);
   virtual void writeTestGroupToFile();
-  virtual void writeToFile(const SimpleString& buffer);
+  virtual void writeToFile(const String& buffer);
   virtual void closeFile();
 
   virtual void writeXmlHeader();
   virtual void writeTestSuiteSummary();
   virtual void writeProperties();
   virtual void writeTestCases();
-  virtual SimpleString encodeXmlText(const SimpleString& textbody);
-  virtual SimpleString encodeFileName(const SimpleString& fileName);
+  virtual String encodeXmlText(const String& textbody);
+  virtual String encodeFileName(const String& fileName);
   virtual void writeFailure(JUnitTestCaseResultNode* node);
   virtual void writeFileEnding();
 };

@@ -37,7 +37,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.h"
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 #include <string>
 
@@ -53,7 +53,7 @@ public:
 
   virtual void Print(long int value) override
   {
-    cpputest::SimpleString buffer;
+    cpputest::String buffer;
     buffer = cpputest::StringFromFormat("%ld", value);
     savedOutput.append(buffer.asCharString());
   }

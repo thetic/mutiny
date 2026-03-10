@@ -73,8 +73,7 @@ MockExpectedCallsList::isEmpty() const
 }
 
 unsigned int
-MockExpectedCallsList::amountOfActualCallsFulfilledFor(
-  const SimpleString& name) const
+MockExpectedCallsList::amountOfActualCallsFulfilledFor(const String& name) const
 {
   unsigned int count = 0;
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_) {
@@ -118,7 +117,7 @@ MockExpectedCallsList::hasUnfulfilledExpectations() const
 }
 
 bool
-MockExpectedCallsList::hasExpectationWithName(const SimpleString& name) const
+MockExpectedCallsList::hasExpectationWithName(const String& name) const
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (p->expectedCall_->relatesTo(name))
@@ -152,7 +151,7 @@ MockExpectedCallsList::addPotentiallyMatchingExpectations(
 
 void
 MockExpectedCallsList::addExpectationsRelatedTo(
-  const SimpleString& name,
+  const String& name,
   const MockExpectedCallsList& list)
 {
   for (MockExpectedCallsListNode* p = list.head_; p; p = p->next_)
@@ -168,7 +167,7 @@ MockExpectedCallsList::addExpectations(const MockExpectedCallsList& list)
 }
 
 void
-MockExpectedCallsList::onlyKeepExpectationsRelatedTo(const SimpleString& name)
+MockExpectedCallsList::onlyKeepExpectationsRelatedTo(const String& name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (!p->expectedCall_->relatesTo(name))
@@ -200,7 +199,7 @@ MockExpectedCallsList::onlyKeepUnmatchingExpectations()
 
 void
 MockExpectedCallsList::onlyKeepExpectationsWithInputParameterName(
-  const SimpleString& name)
+  const String& name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (!p->expectedCall_->hasInputParameterWithName(name))
@@ -210,7 +209,7 @@ MockExpectedCallsList::onlyKeepExpectationsWithInputParameterName(
 
 void
 MockExpectedCallsList::onlyKeepExpectationsWithOutputParameterName(
-  const SimpleString& name)
+  const String& name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (!p->expectedCall_->hasOutputParameterWithName(name))
@@ -334,25 +333,23 @@ MockExpectedCallsList::wasPassedToObject()
 }
 
 void
-MockExpectedCallsList::parameterWasPassed(const SimpleString& parameterName)
+MockExpectedCallsList::parameterWasPassed(const String& parameterName)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     p->expectedCall_->inputParameterWasPassed(parameterName);
 }
 
 void
-MockExpectedCallsList::outputParameterWasPassed(
-  const SimpleString& parameterName)
+MockExpectedCallsList::outputParameterWasPassed(const String& parameterName)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     p->expectedCall_->outputParameterWasPassed(parameterName);
 }
 
-static SimpleString
-stringOrNoneTextWhenEmpty(const SimpleString& inputString,
-                          const SimpleString& linePrefix)
+static String
+stringOrNoneTextWhenEmpty(const String& inputString, const String& linePrefix)
 {
-  SimpleString str = inputString;
+  String str = inputString;
   if (str == "") {
     str += linePrefix;
     str += "<none>";
@@ -360,12 +357,12 @@ stringOrNoneTextWhenEmpty(const SimpleString& inputString,
   return str;
 }
 
-static SimpleString
-appendStringOnANewLine(const SimpleString& inputString,
-                       const SimpleString& linePrefix,
-                       const SimpleString& stringToAppend)
+static String
+appendStringOnANewLine(const String& inputString,
+                       const String& linePrefix,
+                       const String& stringToAppend)
 {
-  SimpleString str = inputString;
+  String str = inputString;
   if (str != "")
     str += "\n";
   str += linePrefix;
@@ -373,11 +370,10 @@ appendStringOnANewLine(const SimpleString& inputString,
   return str;
 }
 
-SimpleString
-MockExpectedCallsList::unfulfilledCallsToString(
-  const SimpleString& linePrefix) const
+String
+MockExpectedCallsList::unfulfilledCallsToString(const String& linePrefix) const
 {
-  SimpleString str;
+  String str;
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (!p->expectedCall_->isFulfilled())
       str = appendStringOnANewLine(
@@ -385,11 +381,10 @@ MockExpectedCallsList::unfulfilledCallsToString(
   return stringOrNoneTextWhenEmpty(str, linePrefix);
 }
 
-SimpleString
-MockExpectedCallsList::fulfilledCallsToString(
-  const SimpleString& linePrefix) const
+String
+MockExpectedCallsList::fulfilledCallsToString(const String& linePrefix) const
 {
-  SimpleString str;
+  String str;
 
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_)
     if (p->expectedCall_->isFulfilled())
@@ -399,12 +394,12 @@ MockExpectedCallsList::fulfilledCallsToString(
   return stringOrNoneTextWhenEmpty(str, linePrefix);
 }
 
-SimpleString
+String
 MockExpectedCallsList::callsWithMissingParametersToString(
-  const SimpleString& linePrefix,
-  const SimpleString& missingParametersPrefix) const
+  const String& linePrefix,
+  const String& missingParametersPrefix) const
 {
-  SimpleString str;
+  String str;
   for (MockExpectedCallsListNode* p = head_; p; p = p->next_) {
     str =
       appendStringOnANewLine(str, linePrefix, p->expectedCall_->callToString());

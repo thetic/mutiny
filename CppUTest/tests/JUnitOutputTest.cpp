@@ -27,21 +27,21 @@
 
 #include "CppUTest/JUnitTestOutput.h"
 #include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestResult.h"
 
 class FileForJUnitOutputTests
 {
-  cpputest::SimpleString name_;
+  cpputest::String name_;
   bool isOpen_;
-  cpputest::SimpleString buffer_;
+  cpputest::String buffer_;
   FileForJUnitOutputTests* next_;
 
-  cpputest::SimpleStringCollection linesOfFile_;
+  cpputest::StringCollection linesOfFile_;
 
 public:
-  FileForJUnitOutputTests(const cpputest::SimpleString& filename,
+  FileForJUnitOutputTests(const cpputest::String& filename,
                           FileForJUnitOutputTests* next)
     : name_(filename)
     , isOpen_(true)
@@ -51,9 +51,9 @@ public:
 
   FileForJUnitOutputTests* nextFile() { return next_; }
 
-  cpputest::SimpleString name() { return name_; }
+  cpputest::String name() { return name_; }
 
-  void write(const cpputest::SimpleString& buffer) { buffer_ += buffer; }
+  void write(const cpputest::String& buffer) { buffer_ += buffer; }
 
   void close() { isOpen_ = false; }
 
@@ -74,7 +74,7 @@ public:
     return linesOfFile_.size();
   }
 
-  cpputest::SimpleString content() { return buffer_; }
+  cpputest::String content() { return buffer_; }
 };
 
 class FileSystemForJUnitTestOutputTests
@@ -97,7 +97,7 @@ public:
     }
   }
 
-  FileForJUnitOutputTests* openFile(const cpputest::SimpleString& filename)
+  FileForJUnitOutputTests* openFile(const cpputest::String& filename)
   {
     firstFile_ = new FileForJUnitOutputTests(filename, firstFile_);
     return firstFile_;

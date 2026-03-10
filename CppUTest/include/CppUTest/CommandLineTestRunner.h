@@ -50,7 +50,7 @@ public:
 
 protected:
   virtual TestOutput* createTeamCityOutput();
-  virtual TestOutput* createJUnitOutput(const SimpleString& packageName);
+  virtual TestOutput* createJUnitOutput(const String& packageName);
   virtual TestOutput* createConsoleOutput();
   virtual TestOutput* createCompositeOutput(TestOutput* outputOne,
                                             TestOutput* outputTwo);

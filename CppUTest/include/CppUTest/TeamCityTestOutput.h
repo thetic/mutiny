@@ -1,7 +1,7 @@
 #ifndef D_TeamCityTestOutput_h
 #define D_TeamCityTestOutput_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestOutput.h"
 
 namespace cpputest {
@@ -23,7 +23,7 @@ protected:
 private:
   void printEscaped(const char* s);
   const TestShell* currtest_;
-  SimpleString currGroup_;
+  String currGroup_;
 };
 
 } // namespace cpputest

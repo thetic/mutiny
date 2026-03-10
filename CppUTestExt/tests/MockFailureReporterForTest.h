@@ -42,7 +42,7 @@ using UtestShell = cpputest::TestShell;
 class MockFailureReporterForTest : public MockFailureReporter
 {
 public:
-  SimpleString mockFailureString;
+  String mockFailureString;
 
   virtual void failTest(MockFailure failure) override;
   virtual void reportFailure(const MockFailure& failure) override;
@@ -63,7 +63,7 @@ public:
 
 UtestShell*
 mockFailureTest();
-SimpleString
+String
 mockFailureString();
 void
 CLEAR_MOCK_FAILURE();
@@ -78,10 +78,10 @@ class MockExpectedCallsListForTest : public MockExpectedCallsList
 {
 public:
   ~MockExpectedCallsListForTest() override;
-  MockCheckedExpectedCall* addFunction(const SimpleString& name);
+  MockCheckedExpectedCall* addFunction(const String& name);
   MockCheckedExpectedCall* addFunction(unsigned int numCalls,
-                                       const SimpleString& name);
-  MockCheckedExpectedCall* addFunctionOrdered(const SimpleString& name,
+                                       const String& name);
+  MockCheckedExpectedCall* addFunctionOrdered(const String& name,
                                               unsigned int order);
 };
 

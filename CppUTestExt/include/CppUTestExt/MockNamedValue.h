@@ -28,7 +28,7 @@
 #ifndef D_MockNamedValue_h
 #define D_MockNamedValue_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 namespace cpputest {
 namespace extensions {
@@ -45,7 +45,7 @@ public:
   virtual ~MockNamedValueComparator() {}
 
   virtual bool isEqual(const void* object1, const void* object2) = 0;
-  virtual cpputest::SimpleString valueToString(const void* object) = 0;
+  virtual cpputest::String valueToString(const void* object) = 0;
 };
 
 /*
@@ -66,7 +66,7 @@ class MockFunctionComparator : public MockNamedValueComparator
 {
 public:
   typedef bool (*isEqualFunction)(const void*, const void*);
-  typedef cpputest::SimpleString (*valueToStringFunction)(const void*);
+  typedef cpputest::String (*valueToStringFunction)(const void*);
 
   MockFunctionComparator(isEqualFunction equal,
                          valueToStringFunction valToString)
@@ -79,7 +79,7 @@ public:
   {
     return equal_(object1, object2);
   }
-  virtual cpputest::SimpleString valueToString(const void* object) override
+  virtual cpputest::String valueToString(const void* object) override
   {
     return valueToString_(object);
   }
@@ -117,7 +117,7 @@ class MockNamedValueComparatorsAndCopiersRepository;
 class MockNamedValue
 {
 public:
-  MockNamedValue(const cpputest::SimpleString& name);
+  MockNamedValue(const cpputest::String& name);
   MockNamedValue(const MockNamedValue&) = default;
   MockNamedValue(MockNamedValue&&) noexcept;
   virtual ~MockNamedValue();
@@ -136,10 +136,9 @@ public:
   virtual void setValue(void (*value)());
   virtual void setValue(const char* value);
   virtual void setMemoryBuffer(const unsigned char* value, size_t size);
-  virtual void setConstObjectPointer(const cpputest::SimpleString& type,
+  virtual void setConstObjectPointer(const cpputest::String& type,
                                      const void* objectPtr);
-  virtual void setObjectPointer(const cpputest::SimpleString& type,
-                                void* objectPtr);
+  virtual void setObjectPointer(const cpputest::String& type, void* objectPtr);
   virtual void setSize(size_t size);
 
   virtual void setName(const char* name);
@@ -147,10 +146,10 @@ public:
   virtual bool equals(const MockNamedValue& p) const;
   virtual bool compatibleForCopying(const MockNamedValue& p) const;
 
-  virtual cpputest::SimpleString toString() const;
+  virtual cpputest::String toString() const;
 
-  virtual cpputest::SimpleString getName() const;
-  virtual cpputest::SimpleString getType() const;
+  virtual cpputest::String getName() const;
+  virtual cpputest::String getType() const;
 
   virtual bool getBoolValue() const;
   virtual int getIntValue() const;
@@ -182,8 +181,8 @@ public:
   static const double defaultDoubleTolerance;
 
 private:
-  cpputest::SimpleString name_;
-  cpputest::SimpleString type_;
+  cpputest::String name_;
+  cpputest::String type_;
   bool isConstObject_;
   union
   {
@@ -219,8 +218,8 @@ class MockNamedValueListNode
 public:
   MockNamedValueListNode(MockNamedValue* newValue);
 
-  cpputest::SimpleString getName() const;
-  cpputest::SimpleString getType() const;
+  cpputest::String getName() const;
+  cpputest::String getType() const;
 
   MockNamedValueListNode* next();
   MockNamedValue* item();
@@ -243,7 +242,7 @@ public:
   void add(MockNamedValue* newValue);
   void clear();
 
-  MockNamedValue* getValueByName(const cpputest::SimpleString& name);
+  MockNamedValue* getValueByName(const cpputest::String& name);
 
 private:
   MockNamedValueListNode* head_;
@@ -264,16 +263,15 @@ public:
   MockNamedValueComparatorsAndCopiersRepository();
   virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
-  virtual void installComparator(const cpputest::SimpleString& name,
+  virtual void installComparator(const cpputest::String& name,
                                  MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::SimpleString& name,
+  virtual void installCopier(const cpputest::String& name,
                              MockNamedValueCopier& copier);
   virtual void installComparatorsAndCopiers(
     const MockNamedValueComparatorsAndCopiersRepository& repository);
   virtual MockNamedValueComparator* getComparatorForType(
-    const cpputest::SimpleString& name);
-  virtual MockNamedValueCopier* getCopierForType(
-    const cpputest::SimpleString& name);
+    const cpputest::String& name);
+  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
 
   void clear();
 };

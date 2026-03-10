@@ -40,7 +40,7 @@ static int sequenceNumber;
 class DummyPlugin : public cpputest::TestPlugin
 {
 public:
-  DummyPlugin(const cpputest::SimpleString& name)
+  DummyPlugin(const cpputest::String& name)
     : TestPlugin(name)
     , preAction(0)
     , preActionSequence(0)
@@ -72,14 +72,14 @@ public:
 class DummyPluginWhichAcceptsParameters : public DummyPlugin
 {
 public:
-  DummyPluginWhichAcceptsParameters(const cpputest::SimpleString& name)
+  DummyPluginWhichAcceptsParameters(const cpputest::String& name)
     : DummyPlugin(name)
   {
   }
 
   virtual bool parseArguments(int ac, const char* const* av, int index) override
   {
-    cpputest::SimpleString argument(av[index]);
+    cpputest::String argument(av[index]);
     if (argument == "-paccept")
       return true;
     return TestPlugin::parseArguments(ac, av, index);

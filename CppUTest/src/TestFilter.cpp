@@ -36,7 +36,7 @@ TestFilter::TestFilter()
 {
 }
 
-TestFilter::TestFilter(const SimpleString& filter)
+TestFilter::TestFilter(const String& filter)
   : strictMatching_(false)
   , invertMatching_(false)
   , next_(nullptr)
@@ -78,7 +78,7 @@ TestFilter::invertMatching()
 }
 
 bool
-TestFilter::match(const SimpleString& name) const
+TestFilter::match(const String& name) const
 {
   bool matches = false;
 
@@ -104,10 +104,10 @@ TestFilter::operator!=(const TestFilter& filter) const
   return !(filter == *this);
 }
 
-SimpleString
+String
 TestFilter::asString() const
 {
-  SimpleString textFilter =
+  String textFilter =
     StringFromFormat("TestFilter: \"%s\"", filter_.asCharString());
   if (strictMatching_ && invertMatching_)
     textFilter += " with strict, invert matching";
@@ -119,7 +119,7 @@ TestFilter::asString() const
   return textFilter;
 }
 
-SimpleString
+String
 StringFrom(const TestFilter& filter)
 {
   return filter.asString();

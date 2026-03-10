@@ -28,7 +28,7 @@
 #ifndef D_TestPlugin_h
 #define D_TestPlugin_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 namespace cpputest {
 
@@ -38,7 +38,7 @@ class TestResult;
 class TestPlugin
 {
 public:
-  TestPlugin(const SimpleString& name);
+  TestPlugin(const String& name);
   virtual ~TestPlugin();
 
   virtual void preTestAction(TestShell&, TestResult&) {}
@@ -58,22 +58,22 @@ public:
   virtual bool parseAllArguments(int ac, char** av, int index);
 
   virtual TestPlugin* addPlugin(TestPlugin*);
-  virtual TestPlugin* removePluginByName(const SimpleString& name);
+  virtual TestPlugin* removePluginByName(const String& name);
   virtual TestPlugin* getNext();
 
   virtual void disable();
   virtual void enable();
   virtual bool isEnabled();
 
-  const SimpleString& getName();
-  TestPlugin* getPluginByName(const SimpleString& name);
+  const String& getName();
+  TestPlugin* getPluginByName(const String& name);
 
 protected:
   TestPlugin(TestPlugin* next_);
 
 private:
   TestPlugin* next_;
-  SimpleString name_;
+  String name_;
   bool enabled_;
 };
 
@@ -91,7 +91,7 @@ CppUTestStore(void** location);
 class SetPointerPlugin : public TestPlugin
 {
 public:
-  SetPointerPlugin(const SimpleString& name);
+  SetPointerPlugin(const String& name);
   virtual void postTestAction(TestShell&, TestResult&) override;
 
   enum

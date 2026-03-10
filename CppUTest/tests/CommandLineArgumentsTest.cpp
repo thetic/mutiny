@@ -27,14 +27,14 @@
 
 #include "CppUTest/CommandLineArguments.h"
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestHarness.h"
 #include "CppUTest/TestRegistry.h"
 
 class OptionsPlugin : public cpputest::TestPlugin
 {
 public:
-  OptionsPlugin(const cpputest::SimpleString& name)
+  OptionsPlugin(const cpputest::String& name)
     : TestPlugin(name)
   {
   }
@@ -560,7 +560,7 @@ TEST(CommandLineArguments, checkDefaultArguments)
   CHECK(nullptr == args->getGroupFilters());
   CHECK(nullptr == args->getNameFilters());
   CHECK(args->isEclipseOutput());
-  CHECK(cpputest::SimpleString("") == args->getPackageName());
+  CHECK(cpputest::String("") == args->getPackageName());
   CHECK(!args->isCrashingOnFail());
   CHECK(args->isRethrowingExceptions());
 }
@@ -575,7 +575,7 @@ TEST(CommandLineArguments, checkContinuousIntegrationMode)
   CHECK(nullptr == args->getGroupFilters());
   CHECK(nullptr == args->getNameFilters());
   CHECK(args->isEclipseOutput());
-  CHECK(cpputest::SimpleString("") == args->getPackageName());
+  CHECK(cpputest::String("") == args->getPackageName());
   CHECK(!args->isCrashingOnFail());
   CHECK_FALSE(args->isRethrowingExceptions());
 }
@@ -585,7 +585,7 @@ TEST(CommandLineArguments, setPackageName)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-k", "package" };
   CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::SimpleString("package"), args->getPackageName());
+  CHECK_EQUAL(cpputest::String("package"), args->getPackageName());
 }
 
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
@@ -611,7 +611,7 @@ TEST(CommandLineArguments, lastParameterFieldMissing)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-k" };
   CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::SimpleString(""), args->getPackageName());
+  CHECK_EQUAL(cpputest::String(""), args->getPackageName());
 }
 
 TEST(CommandLineArguments, setOptRun)

@@ -98,7 +98,7 @@ The failure of one of these macros causes the current test to immediately exit
 
 Customize `CHECK_EQUAL` to work with your types that support `operator==()`
 
-- Create the function: `SimpleString StringFrom(const yourType&)`
+- Create the function: `String StringFrom(const yourType&)`
 
 The Extensions directory has a few of these.
 

@@ -42,7 +42,7 @@ public:
   virtual ~MyComparator() override {}
 
   virtual bool isEqual(const void*, const void*) override { return false; }
-  virtual SimpleString valueToString(const void*) override { return ""; }
+  virtual String valueToString(const void*) override { return ""; }
 };
 
 class MyCopier : public MockNamedValueCopier

@@ -75,7 +75,7 @@ CommandLineArguments::parse(TestPlugin* plugin)
 {
   bool correctParameters = true;
   for (int i = 1; i < ac_; i++) {
-    SimpleString argument = av_[i];
+    String argument = av_[i];
 
     if (argument == "-h") {
       needHelp_ = true;
@@ -341,11 +341,11 @@ CommandLineArguments::setRepeatCount(int ac, const char* const* av, int& i)
 {
   repeat_ = 0;
 
-  SimpleString repeatParameter(av[i]);
+  String repeatParameter(av[i]);
   if (repeatParameter.size() > 2)
-    repeat_ = static_cast<size_t>(SimpleString::AtoI(av[i] + 2));
+    repeat_ = static_cast<size_t>(String::AtoI(av[i] + 2));
   else if (i + 1 < ac) {
-    repeat_ = static_cast<size_t>(SimpleString::AtoI(av[i + 1]));
+    repeat_ = static_cast<size_t>(String::AtoI(av[i + 1]));
     if (repeat_ != 0)
       i++;
   }
@@ -362,12 +362,12 @@ CommandLineArguments::setShuffle(int ac, const char* const* av, int& i)
   if (shuffleSeed_ == 0)
     shuffleSeed_++;
 
-  SimpleString shuffleParameter = av[i];
+  String shuffleParameter = av[i];
   if (shuffleParameter.size() > 2) {
     shufflingPreSeeded_ = true;
-    shuffleSeed_ = SimpleString::AtoU(av[i] + 2);
+    shuffleSeed_ = String::AtoU(av[i] + 2);
   } else if (i + 1 < ac) {
-    unsigned int parsedParameter = SimpleString::AtoU(av[i + 1]);
+    unsigned int parsedParameter = String::AtoU(av[i + 1]);
     if (parsedParameter != 0) {
       shufflingPreSeeded_ = true;
       shuffleSeed_ = parsedParameter;
@@ -377,14 +377,14 @@ CommandLineArguments::setShuffle(int ac, const char* const* av, int& i)
   return (shuffleSeed_ != 0);
 }
 
-SimpleString
+String
 CommandLineArguments::getParameterField(int ac,
                                         const char* const* av,
                                         int& i,
-                                        const SimpleString& parameterName)
+                                        const String& parameterName)
 {
   size_t parameterLength = parameterName.size();
-  SimpleString parameter(av[i]);
+  String parameter(av[i]);
   if (parameter.size() > parameterLength)
     return av[i] + parameterLength;
   else if (i + 1 < ac)
@@ -403,12 +403,12 @@ bool
 CommandLineArguments::addGroupDotNameFilter(int ac,
                                             const char* const* av,
                                             int& i,
-                                            const SimpleString& parameterName,
+                                            const String& parameterName,
                                             bool strict,
                                             bool exclude)
 {
-  SimpleString groupDotName = getParameterField(ac, av, i, parameterName);
-  SimpleStringCollection collection;
+  String groupDotName = getParameterField(ac, av, i, parameterName);
+  StringCollection collection;
   groupDotName.split(".", collection);
 
   if (collection.size() != 2)
@@ -510,8 +510,8 @@ CommandLineArguments::addTestToRunBasedOnVerboseOutput(
   int& index,
   const char* parameterName)
 {
-  SimpleString wholename = getParameterField(ac, av, index, parameterName);
-  SimpleString testname = wholename.subStringFromTill(',', ')');
+  String wholename = getParameterField(ac, av, index, parameterName);
+  String testname = wholename.subStringFromTill(',', ')');
   testname = testname.subString(2);
   TestFilter* namefilter = new TestFilter(testname);
   TestFilter* groupfilter =
@@ -525,7 +525,7 @@ CommandLineArguments::addTestToRunBasedOnVerboseOutput(
 void
 CommandLineArguments::setPackageName(int ac, const char* const* av, int& i)
 {
-  SimpleString packageName = getParameterField(ac, av, i, "-k");
+  String packageName = getParameterField(ac, av, i, "-k");
   if (packageName.size() == 0)
     return;
 
@@ -535,7 +535,7 @@ CommandLineArguments::setPackageName(int ac, const char* const* av, int& i)
 bool
 CommandLineArguments::setOutputType(int ac, const char* const* av, int& i)
 {
-  SimpleString outputType = getParameterField(ac, av, i, "-o");
+  String outputType = getParameterField(ac, av, i, "-o");
   if (outputType.size() == 0)
     return false;
 
@@ -573,7 +573,7 @@ CommandLineArguments::isTeamCityOutput() const
   return outputType_ == OUTPUT_TEAMCITY;
 }
 
-const SimpleString&
+const String&
 CommandLineArguments::getPackageName() const
 {
   return packageName_;

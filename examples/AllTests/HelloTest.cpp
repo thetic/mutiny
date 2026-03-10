@@ -32,7 +32,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-static cpputest::SimpleString* buffer;
+static cpputest::String* buffer;
 
 TEST_GROUP(HelloWorld) {
 static int
@@ -47,7 +47,7 @@ output_method(const char* output, ...)
 void
 setup() override
 {
-  buffer = new cpputest::SimpleString();
+  buffer = new cpputest::String();
   UT_PTR_SET(PrintFormated, &output_method);
 }
 void

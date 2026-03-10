@@ -28,7 +28,7 @@
 #ifndef D_CommandLineArguments_H
 #define D_CommandLineArguments_H
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestFilter.h"
 #include "CppUTest/TestOutput.h"
 
@@ -62,7 +62,7 @@ public:
   bool isJUnitOutput() const;
   bool isEclipseOutput() const;
   bool isTeamCityOutput() const;
-  const SimpleString& getPackageName() const;
+  const String& getPackageName() const;
   const char* usage() const;
   const char* help() const;
 
@@ -95,19 +95,19 @@ private:
   TestFilter* groupFilters_;
   TestFilter* nameFilters_;
   OutputType outputType_;
-  SimpleString packageName_;
+  String packageName_;
 
-  SimpleString getParameterField(int ac,
-                                 const char* const* av,
-                                 int& i,
-                                 const SimpleString& parameterName);
+  String getParameterField(int ac,
+                           const char* const* av,
+                           int& i,
+                           const String& parameterName);
   void setRepeatCount(int ac, const char* const* av, int& index);
   bool setShuffle(int ac, const char* const* av, int& index);
   void addGroupFilter(int ac, const char* const* av, int& index);
   bool addGroupDotNameFilter(int ac,
                              const char* const* av,
                              int& index,
-                             const SimpleString& parameterName,
+                             const String& parameterName,
                              bool strict,
                              bool exclude);
   void addStrictGroupFilter(int ac, const char* const* av, int& index);

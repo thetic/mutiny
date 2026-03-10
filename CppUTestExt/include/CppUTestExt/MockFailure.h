@@ -71,7 +71,7 @@ public:
 protected:
   void addExpectationsAndCallHistory(const MockExpectedCallsList& expectations);
   void addExpectationsAndCallHistoryRelatedTo(
-    const cpputest::SimpleString& function,
+    const cpputest::String& function,
     const MockExpectedCallsList& expectations);
 };
 
@@ -87,7 +87,7 @@ class MockUnexpectedCallHappenedFailure : public MockFailure
 {
 public:
   MockUnexpectedCallHappenedFailure(cpputest::TestShell* test,
-                                    const cpputest::SimpleString& name,
+                                    const cpputest::String& name,
                                     const MockExpectedCallsList& expectations);
 };
 
@@ -103,7 +103,7 @@ class MockUnexpectedInputParameterFailure : public MockFailure
 public:
   MockUnexpectedInputParameterFailure(
     cpputest::TestShell* test,
-    const cpputest::SimpleString& functionName,
+    const cpputest::String& functionName,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations);
 };
@@ -113,7 +113,7 @@ class MockUnexpectedOutputParameterFailure : public MockFailure
 public:
   MockUnexpectedOutputParameterFailure(
     cpputest::TestShell* test,
-    const cpputest::SimpleString& functionName,
+    const cpputest::String& functionName,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations);
 };
@@ -123,7 +123,7 @@ class MockExpectedParameterDidntHappenFailure : public MockFailure
 public:
   MockExpectedParameterDidntHappenFailure(
     cpputest::TestShell* test,
-    const cpputest::SimpleString& functionName,
+    const cpputest::String& functionName,
     const MockExpectedCallsList& allExpectations,
     const MockExpectedCallsList& matchingExpectations);
 };
@@ -132,21 +132,21 @@ class MockNoWayToCompareCustomTypeFailure : public MockFailure
 {
 public:
   MockNoWayToCompareCustomTypeFailure(cpputest::TestShell* test,
-                                      cpputest::SimpleString typeName);
+                                      cpputest::String typeName);
 };
 
 class MockNoWayToCopyCustomTypeFailure : public MockFailure
 {
 public:
   MockNoWayToCopyCustomTypeFailure(cpputest::TestShell* test,
-                                   cpputest::SimpleString typeName);
+                                   cpputest::String typeName);
 };
 
 class MockUnexpectedObjectFailure : public MockFailure
 {
 public:
   MockUnexpectedObjectFailure(cpputest::TestShell* test,
-                              const cpputest::SimpleString& functionName,
+                              const cpputest::String& functionName,
                               const void* expected,
                               const MockExpectedCallsList& expectations);
 };
@@ -156,7 +156,7 @@ class MockExpectedObjectDidntHappenFailure : public MockFailure
 public:
   MockExpectedObjectDidntHappenFailure(
     cpputest::TestShell* test,
-    const cpputest::SimpleString& functionName,
+    const cpputest::String& functionName,
     const MockExpectedCallsList& expectations);
 };
 

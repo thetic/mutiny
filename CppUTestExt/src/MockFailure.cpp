@@ -108,7 +108,7 @@ MockFailure::addExpectationsAndCallHistory(
 
 void
 MockFailure::addExpectationsAndCallHistoryRelatedTo(
-  const SimpleString& name,
+  const String& name,
   const MockExpectedCallsList& expectations)
 {
   MockExpectedCallsList expectationsForFunction;
@@ -138,15 +138,14 @@ MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
 
 MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
   cpputest::TestShell* test,
-  const SimpleString& name,
+  const String& name,
   const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   unsigned int amountOfActualCalls =
     expectations.amountOfActualCallsFulfilledFor(name);
   if (amountOfActualCalls > 0) {
-    SimpleString ordinalNumber =
-      StringFromOrdinalNumber(amountOfActualCalls + 1);
+    String ordinalNumber = StringFromOrdinalNumber(amountOfActualCalls + 1);
     message_ = StringFromFormat(
       "Mock Failure: Unexpected additional (%s) call to function: ",
       ordinalNumber.asCharString());
@@ -174,7 +173,7 @@ MockCallOrderFailure::MockCallOrderFailure(
 
 MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
   cpputest::TestShell* test,
-  const SimpleString& functionName,
+  const String& functionName,
   MockNamedValue parameter,
   const MockExpectedCallsList& expectations)
   : MockFailure(test)
@@ -218,7 +217,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
 
 MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
   cpputest::TestShell* test,
-  const SimpleString& functionName,
+  const String& functionName,
   MockNamedValue parameter,
   const MockExpectedCallsList& expectations)
   : MockFailure(test)
@@ -260,7 +259,7 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
 MockExpectedParameterDidntHappenFailure::
   MockExpectedParameterDidntHappenFailure(
     cpputest::TestShell* test,
-    const SimpleString& functionName,
+    const String& functionName,
     const MockExpectedCallsList& allExpectations,
     const MockExpectedCallsList& matchingExpectations)
   : MockFailure(test)
@@ -281,7 +280,7 @@ MockExpectedParameterDidntHappenFailure::
 
 MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
   cpputest::TestShell* test,
-  SimpleString typeName)
+  String typeName)
   : MockFailure(test)
 {
   message_ = StringFromFormat("MockFailure: No way to compare type <%s>. "
@@ -291,7 +290,7 @@ MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
 
 MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
   cpputest::TestShell* test,
-  SimpleString typeName)
+  String typeName)
   : MockFailure(test)
 {
   message_ = StringFromFormat("MockFailure: No way to copy type <%s>. Please "
@@ -301,7 +300,7 @@ MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
 
 MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
   cpputest::TestShell* test,
-  const SimpleString& functionName,
+  const String& functionName,
   const void* actual,
   const MockExpectedCallsList& expectations)
   : MockFailure(test)
@@ -316,7 +315,7 @@ MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
 
 MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
   cpputest::TestShell* test,
-  const SimpleString& functionName,
+  const String& functionName,
   const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {

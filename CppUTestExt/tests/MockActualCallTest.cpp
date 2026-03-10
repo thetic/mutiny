@@ -228,7 +228,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
     "mem_buffer", mem_buffer, sizeof(mem_buffer));
   actual.withParameterOfType("int", "named_type", &const_value);
 
-  SimpleString expectedString("\nFunction name:func");
+  String expectedString("\nFunction name:func");
   expectedString += " withCallOrder:1";
   expectedString += " onObject:0x";
   expectedString += HexStringFrom(&value);

@@ -296,7 +296,7 @@ TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
 class MyTestPluginDummy : public cpputest::TestPlugin
 {
 public:
-  MyTestPluginDummy(const cpputest::SimpleString& name)
+  MyTestPluginDummy(const cpputest::String& name)
     : TestPlugin(name)
   {
   }
@@ -335,7 +335,7 @@ TEST(TestRegistry,
   myRegistry->addTest(test4);
 
   myRegistry->listTestGroupNames(*result);
-  cpputest::SimpleString s = output->getOutput();
+  cpputest::String s = output->getOutput();
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.asCharString());
 }
 
@@ -353,7 +353,7 @@ TEST(TestRegistry,
   myRegistry->addTest(test3);
 
   myRegistry->listTestGroupAndCaseNames(*result);
-  cpputest::SimpleString s = output->getOutput();
+  cpputest::String s = output->getOutput();
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a",
                s.asCharString());
 }
@@ -378,7 +378,7 @@ TEST(TestRegistry,
   myRegistry->addTest(test3);
 
   myRegistry->listTestLocations(*result);
-  cpputest::SimpleString s = output->getOutput();
+  cpputest::String s = output->getOutput();
   STRCMP_EQUAL("GROUP_A.test_aa.cpptest_simple/my_tests/"
                "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"

@@ -171,18 +171,18 @@ TestTestingFixture::hasTestFailed()
 }
 
 void
-TestTestingFixture::assertPrintContains(const SimpleString& contains)
+TestTestingFixture::assertPrintContains(const String& contains)
 {
   STRCMP_CONTAINS(contains.asCharString(), getOutput().asCharString());
 }
 
 void
-TestTestingFixture::assertPrintContainsNot(const SimpleString& contains)
+TestTestingFixture::assertPrintContainsNot(const String& contains)
 {
   CHECK(!getOutput().contains(contains));
 }
 
-const SimpleString&
+const String&
 TestTestingFixture::getOutput()
 {
   return output_->getOutput();

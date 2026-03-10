@@ -38,7 +38,7 @@ namespace extensions {
 class MockSupportPlugin : public cpputest::TestPlugin
 {
 public:
-  MockSupportPlugin(const cpputest::SimpleString& name = "MockSupportPLugin");
+  MockSupportPlugin(const cpputest::String& name = "MockSupportPLugin");
   virtual ~MockSupportPlugin() override;
 
   virtual void preTestAction(cpputest::TestShell&,
@@ -46,9 +46,9 @@ public:
   virtual void postTestAction(cpputest::TestShell&,
                               cpputest::TestResult&) override;
 
-  virtual void installComparator(const cpputest::SimpleString& name,
+  virtual void installComparator(const cpputest::String& name,
                                  MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::SimpleString& name,
+  virtual void installCopier(const cpputest::String& name,
                              MockNamedValueCopier& copier);
 
   void clear();

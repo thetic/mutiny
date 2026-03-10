@@ -85,14 +85,14 @@ PlatformSpecificGetWorkingEnvironment()
 }
 }
 
-static cpputest::SimpleString
+static cpputest::String
 TimeStringImplementation()
 {
   time_t tm = time(NULL);
   return ctime(&tm);
 }
 
-cpputest::SimpleString
+cpputest::String
 GetPlatformSpecificTimeString() = TimeStringImplementation;
 
 int

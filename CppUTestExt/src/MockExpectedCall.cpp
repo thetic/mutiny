@@ -36,19 +36,19 @@ MockExpectedCall::MockExpectedCall() {}
 
 MockExpectedCall::~MockExpectedCall() {}
 
-SimpleString
+String
 StringFrom(const MockNamedValue& parameter)
 {
   return parameter.toString();
 }
 
 void
-MockCheckedExpectedCall::setName(const SimpleString& name)
+MockCheckedExpectedCall::setName(const String& name)
 {
   functionName_ = name;
 }
 
-SimpleString
+String
 MockCheckedExpectedCall::getName() const
 {
   return functionName_;
@@ -97,14 +97,14 @@ MockCheckedExpectedCall::~MockCheckedExpectedCall()
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withName(const SimpleString& name)
+MockCheckedExpectedCall::withName(const String& name)
 {
   setName(name);
   return *this;
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withBoolParameter(const SimpleString& name, bool value)
+MockCheckedExpectedCall::withBoolParameter(const String& name, bool value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
   inputParameters_->add(newParameter);
@@ -113,7 +113,7 @@ MockCheckedExpectedCall::withBoolParameter(const SimpleString& name, bool value)
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withUnsignedIntParameter(const SimpleString& name,
+MockCheckedExpectedCall::withUnsignedIntParameter(const String& name,
                                                   unsigned int value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -123,7 +123,7 @@ MockCheckedExpectedCall::withUnsignedIntParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withIntParameter(const SimpleString& name, int value)
+MockCheckedExpectedCall::withIntParameter(const String& name, int value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
   inputParameters_->add(newParameter);
@@ -132,7 +132,7 @@ MockCheckedExpectedCall::withIntParameter(const SimpleString& name, int value)
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withLongIntParameter(const SimpleString& name,
+MockCheckedExpectedCall::withLongIntParameter(const String& name,
                                               long int value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -142,7 +142,7 @@ MockCheckedExpectedCall::withLongIntParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withUnsignedLongIntParameter(const SimpleString& name,
+MockCheckedExpectedCall::withUnsignedLongIntParameter(const String& name,
                                                       unsigned long int value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -152,7 +152,7 @@ MockCheckedExpectedCall::withUnsignedLongIntParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withLongLongIntParameter(const SimpleString& name,
+MockCheckedExpectedCall::withLongLongIntParameter(const String& name,
                                                   long long value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -163,7 +163,7 @@ MockCheckedExpectedCall::withLongLongIntParameter(const SimpleString& name,
 
 MockExpectedCall&
 MockCheckedExpectedCall::withUnsignedLongLongIntParameter(
-  const SimpleString& name,
+  const String& name,
   unsigned long long value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -173,8 +173,7 @@ MockCheckedExpectedCall::withUnsignedLongLongIntParameter(
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
-                                             double value)
+MockCheckedExpectedCall::withDoubleParameter(const String& name, double value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
   inputParameters_->add(newParameter);
@@ -183,7 +182,7 @@ MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
+MockCheckedExpectedCall::withDoubleParameter(const String& name,
                                              double value,
                                              double tolerance)
 {
@@ -194,7 +193,7 @@ MockCheckedExpectedCall::withDoubleParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withStringParameter(const SimpleString& name,
+MockCheckedExpectedCall::withStringParameter(const String& name,
                                              const char* value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -204,8 +203,7 @@ MockCheckedExpectedCall::withStringParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withPointerParameter(const SimpleString& name,
-                                              void* value)
+MockCheckedExpectedCall::withPointerParameter(const String& name, void* value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
   inputParameters_->add(newParameter);
@@ -214,7 +212,7 @@ MockCheckedExpectedCall::withPointerParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withConstPointerParameter(const SimpleString& name,
+MockCheckedExpectedCall::withConstPointerParameter(const String& name,
                                                    const void* value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -224,7 +222,7 @@ MockCheckedExpectedCall::withConstPointerParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withFunctionPointerParameter(const SimpleString& name,
+MockCheckedExpectedCall::withFunctionPointerParameter(const String& name,
                                                       void (*value)())
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -234,7 +232,7 @@ MockCheckedExpectedCall::withFunctionPointerParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withMemoryBufferParameter(const SimpleString& name,
+MockCheckedExpectedCall::withMemoryBufferParameter(const String& name,
                                                    const unsigned char* value,
                                                    size_t size)
 {
@@ -245,8 +243,8 @@ MockCheckedExpectedCall::withMemoryBufferParameter(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withParameterOfType(const SimpleString& type,
-                                             const SimpleString& name,
+MockCheckedExpectedCall::withParameterOfType(const String& type,
+                                             const String& name,
                                              const void* value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
@@ -256,7 +254,7 @@ MockCheckedExpectedCall::withParameterOfType(const SimpleString& type,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withOutputParameterReturning(const SimpleString& name,
+MockCheckedExpectedCall::withOutputParameterReturning(const String& name,
                                                       const void* value,
                                                       size_t size)
 {
@@ -268,10 +266,9 @@ MockCheckedExpectedCall::withOutputParameterReturning(const SimpleString& name,
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withOutputParameterOfTypeReturning(
-  const SimpleString& type,
-  const SimpleString& name,
-  const void* value)
+MockCheckedExpectedCall::withOutputParameterOfTypeReturning(const String& type,
+                                                            const String& name,
+                                                            const void* value)
 {
   MockNamedValue* newParameter = new MockExpectedFunctionParameter(name);
   outputParameters_->add(newParameter);
@@ -280,41 +277,41 @@ MockCheckedExpectedCall::withOutputParameterOfTypeReturning(
 }
 
 MockExpectedCall&
-MockCheckedExpectedCall::withUnmodifiedOutputParameter(const SimpleString& name)
+MockCheckedExpectedCall::withUnmodifiedOutputParameter(const String& name)
 {
   return withOutputParameterReturning(name, nullptr, 0);
 }
 
-SimpleString
-MockCheckedExpectedCall::getInputParameterType(const SimpleString& name)
+String
+MockCheckedExpectedCall::getInputParameterType(const String& name)
 {
   MockNamedValue* p = inputParameters_->getValueByName(name);
   return (p) ? p->getType() : cpputest::StringFrom("");
 }
 
 bool
-MockCheckedExpectedCall::hasInputParameterWithName(const SimpleString& name)
+MockCheckedExpectedCall::hasInputParameterWithName(const String& name)
 {
   MockNamedValue* p = inputParameters_->getValueByName(name);
   return p != nullptr;
 }
 
 bool
-MockCheckedExpectedCall::hasOutputParameterWithName(const SimpleString& name)
+MockCheckedExpectedCall::hasOutputParameterWithName(const String& name)
 {
   MockNamedValue* p = outputParameters_->getValueByName(name);
   return p != nullptr;
 }
 
 MockNamedValue
-MockCheckedExpectedCall::getInputParameter(const SimpleString& name)
+MockCheckedExpectedCall::getInputParameter(const String& name)
 {
   MockNamedValue* p = inputParameters_->getValueByName(name);
   return (p) ? *p : MockNamedValue("");
 }
 
 MockNamedValue
-MockCheckedExpectedCall::getOutputParameter(const SimpleString& name)
+MockCheckedExpectedCall::getOutputParameter(const String& name)
 {
   MockNamedValue* p = outputParameters_->getValueByName(name);
   return (p) ? *p : MockNamedValue("");
@@ -406,7 +403,7 @@ MockCheckedExpectedCall::resetActualCallMatchingState()
 }
 
 void
-MockCheckedExpectedCall::inputParameterWasPassed(const SimpleString& name)
+MockCheckedExpectedCall::inputParameterWasPassed(const String& name)
 {
   for (MockNamedValueListNode* p = inputParameters_->begin(); p;
        p = p->next()) {
@@ -416,7 +413,7 @@ MockCheckedExpectedCall::inputParameterWasPassed(const SimpleString& name)
 }
 
 void
-MockCheckedExpectedCall::outputParameterWasPassed(const SimpleString& name)
+MockCheckedExpectedCall::outputParameterWasPassed(const String& name)
 {
   for (MockNamedValueListNode* p = outputParameters_->begin(); p;
        p = p->next()) {
@@ -425,8 +422,8 @@ MockCheckedExpectedCall::outputParameterWasPassed(const SimpleString& name)
   }
 }
 
-SimpleString
-MockCheckedExpectedCall::getInputParameterValueString(const SimpleString& name)
+String
+MockCheckedExpectedCall::getInputParameterValueString(const String& name)
 {
   MockNamedValue* p = inputParameters_->getValueByName(name);
   return (p) ? StringFrom(*p) : cpputest::StringFrom("failed");
@@ -446,10 +443,10 @@ MockCheckedExpectedCall::hasOutputParameter(const MockNamedValue& parameter)
   return (p) ? p->compatibleForCopying(parameter) : ignoreOtherParameters_;
 }
 
-SimpleString
+String
 MockCheckedExpectedCall::callToString()
 {
-  SimpleString str;
+  String str;
   if (isSpecificObjectExpected_)
     str = StringFromFormat("(object address: %p)::", objectPtr_);
 
@@ -508,10 +505,10 @@ MockCheckedExpectedCall::callToString()
   return str;
 }
 
-SimpleString
+String
 MockCheckedExpectedCall::missingParametersToString()
 {
-  SimpleString str;
+  String str;
   MockNamedValueListNode* p;
 
   for (p = inputParameters_->begin(); p; p = p->next()) {
@@ -534,7 +531,7 @@ MockCheckedExpectedCall::missingParametersToString()
 }
 
 bool
-MockCheckedExpectedCall::relatesTo(const SimpleString& functionName)
+MockCheckedExpectedCall::relatesTo(const String& functionName)
 {
   return functionName == getName();
 }
@@ -552,7 +549,7 @@ MockCheckedExpectedCall::item(MockNamedValueListNode* node)
 }
 
 MockCheckedExpectedCall::MockExpectedFunctionParameter::
-  MockExpectedFunctionParameter(const SimpleString& name)
+  MockExpectedFunctionParameter(const String& name)
   : MockNamedValue(name)
   , matchesActualCall_(false)
 {

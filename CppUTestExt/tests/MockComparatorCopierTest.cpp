@@ -62,7 +62,7 @@ public:
       static_cast<const MyTypeForTesting*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  virtual SimpleString valueToString(const void* object) override
+  virtual String valueToString(const void* object) override
   {
     const MyTypeForTesting* obj = static_cast<const MyTypeForTesting*>(object);
     return StringFrom(*(obj->value));
@@ -142,7 +142,7 @@ myTypeIsEqual(const void* object1, const void* object2)
          static_cast<const MyTypeForTesting*>(object2)->value;
 }
 
-static SimpleString
+static String
 myTypeValueToString(const void* object)
 {
   return StringFrom(static_cast<const MyTypeForTesting*>(object)->value);
@@ -717,7 +717,7 @@ class StubComparator : public MockNamedValueComparator
 {
 public:
   virtual bool isEqual(const void*, const void*) override { return true; }
-  virtual SimpleString valueToString(const void*) override { return ""; }
+  virtual String valueToString(const void*) override { return ""; }
 };
 
 struct SomeClass

@@ -46,11 +46,11 @@ struct JUnitTestCaseResultNode
   {
   }
 
-  SimpleString name_;
+  String name_;
   size_t execTime_;
   TestFailure* failure_;
   bool ignored_;
-  SimpleString file_;
+  String file_;
   size_t lineNumber_;
   size_t checkCount_;
   JUnitTestCaseResultNode* next_;
@@ -74,7 +74,7 @@ struct JUnitTestGroupResult
   size_t totalCheckCount_;
   size_t startTime_;
   size_t groupExecTime_;
-  SimpleString group_;
+  String group_;
   JUnitTestCaseResultNode* head_;
   JUnitTestCaseResultNode* tail_;
 };
@@ -83,8 +83,8 @@ struct JUnitTestOutputImpl
 {
   JUnitTestGroupResult results_;
   PlatformSpecificFile file_;
-  SimpleString package_;
-  SimpleString stdOutput_;
+  String package_;
+  String stdOutput_;
 };
 
 JUnitTestOutput::JUnitTestOutput()
@@ -167,10 +167,10 @@ JUnitTestOutput::printCurrentTestStarted(const TestShell& test)
   }
 }
 
-SimpleString
-JUnitTestOutput::createFileName(const SimpleString& group)
+String
+JUnitTestOutput::createFileName(const String& group)
 {
-  SimpleString fileName = "cpputest_";
+  String fileName = "cpputest_";
   if (!impl_->package_.isEmpty()) {
     fileName += impl_->package_;
     fileName += "_";
@@ -179,13 +179,13 @@ JUnitTestOutput::createFileName(const SimpleString& group)
   return encodeFileName(fileName) + ".xml";
 }
 
-SimpleString
-JUnitTestOutput::encodeFileName(const SimpleString& fileName)
+String
+JUnitTestOutput::encodeFileName(const String& fileName)
 {
   // special character list based on: https://en.wikipedia.org/wiki/Filename
   static const char* const forbiddenCharacters = "/\\?%*:|\"<>";
 
-  SimpleString result = fileName;
+  String result = fileName;
   for (const char* sym = forbiddenCharacters; *sym; ++sym) {
     result.replace(*sym, '_');
   }
@@ -193,7 +193,7 @@ JUnitTestOutput::encodeFileName(const SimpleString& fileName)
 }
 
 void
-JUnitTestOutput::setPackageName(const SimpleString& package)
+JUnitTestOutput::setPackageName(const String& package)
 {
   if (impl_ != nullptr) {
     impl_->package_ = package;
@@ -209,7 +209,7 @@ JUnitTestOutput::writeXmlHeader()
 void
 JUnitTestOutput::writeTestSuiteSummary()
 {
-  SimpleString buf = StringFromFormat(
+  String buf = StringFromFormat(
     "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
     "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
     static_cast<int>(impl_->results_.failureCount_),
@@ -228,10 +228,10 @@ JUnitTestOutput::writeProperties()
   writeToFile("</properties>\n");
 }
 
-SimpleString
-JUnitTestOutput::encodeXmlText(const SimpleString& textbody)
+String
+JUnitTestOutput::encodeXmlText(const String& textbody)
 {
-  SimpleString buf = textbody.asCharString();
+  String buf = textbody.asCharString();
   buf.replace("&", "&amp;");
   buf.replace("\"", "&quot;");
   buf.replace("<", "&lt;");
@@ -247,7 +247,7 @@ JUnitTestOutput::writeTestCases()
   JUnitTestCaseResultNode* cur = impl_->results_.head_;
 
   while (cur) {
-    SimpleString buf = StringFromFormat(
+    String buf = StringFromFormat(
       "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
       "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
       impl_->package_.asCharString(),
@@ -276,7 +276,7 @@ JUnitTestOutput::writeTestCases()
 void
 JUnitTestOutput::writeFailure(JUnitTestCaseResultNode* node)
 {
-  SimpleString buf = StringFromFormat(
+  String buf = StringFromFormat(
     "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
     node->failure_->getFileName().asCharString(),
     static_cast<int>(node->failure_->getFailureLineNumber()),
@@ -343,13 +343,13 @@ JUnitTestOutput::printFailure(const TestFailure& failure)
 }
 
 void
-JUnitTestOutput::openFileForWrite(const SimpleString& fileName)
+JUnitTestOutput::openFileForWrite(const String& fileName)
 {
   impl_->file_ = PlatformSpecificFOpen(fileName.asCharString(), "w");
 }
 
 void
-JUnitTestOutput::writeToFile(const SimpleString& buffer)
+JUnitTestOutput::writeToFile(const String& buffer)
 {
   PlatformSpecificFPuts(buffer.asCharString(), impl_->file_);
 }

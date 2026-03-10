@@ -43,7 +43,7 @@ namespace extensions {
 
 bool IEEE754ExceptionsPlugin::inexactDisabled_ = true;
 
-IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const SimpleString& name)
+IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const String& name)
   : TestPlugin(name)
 {
 }
@@ -124,7 +124,7 @@ IEEE754ExceptionsPlugin::ieee754Check(cpputest::TestShell& test,
 
 bool IEEE754ExceptionsPlugin::inexactDisabled_ = true;
 
-IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const SimpleString& name)
+IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const String& name)
   : TestPlugin(name)
 {
 }

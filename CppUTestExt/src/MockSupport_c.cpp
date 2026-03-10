@@ -103,9 +103,9 @@ public:
   {
     return equal_(object1, object2) != 0;
   }
-  virtual SimpleString valueToString(const void* object) override
+  virtual String valueToString(const void* object) override
   {
-    return SimpleString(toString_(object));
+    return String(toString_(object));
   }
 
   MockCFunctionComparatorNode* next_;
@@ -688,58 +688,57 @@ static MockValue_c
 getMockValueCFromNamedValue(const MockNamedValue& namedValue)
 {
   MockValue_c returnValue;
-  if (SimpleString::StrCmp(namedValue.getType().asCharString(), "bool") == 0) {
+  if (String::StrCmp(namedValue.getType().asCharString(), "bool") == 0) {
     returnValue.type = MOCKVALUETYPE_BOOL;
     returnValue.value.boolValue = namedValue.getBoolValue() ? 1 : 0;
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(), "int") ==
-             0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(), "int") == 0) {
     returnValue.type = MOCKVALUETYPE_INTEGER;
     returnValue.value.intValue = namedValue.getIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "unsigned int") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "unsigned int") == 0) {
     returnValue.type = MOCKVALUETYPE_UNSIGNED_INTEGER;
     returnValue.value.unsignedIntValue = namedValue.getUnsignedIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "long int") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(), "long int") ==
+             0) {
     returnValue.type = MOCKVALUETYPE_LONG_INTEGER;
     returnValue.value.longIntValue = namedValue.getLongIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "unsigned long int") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "unsigned long int") == 0) {
     returnValue.type = MOCKVALUETYPE_UNSIGNED_LONG_INTEGER;
     returnValue.value.unsignedLongIntValue =
       namedValue.getUnsignedLongIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "long long int") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "long long int") == 0) {
     returnValue.type = MOCKVALUETYPE_LONG_LONG_INTEGER;
     returnValue.value.longLongIntValue = namedValue.getLongLongIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "unsigned long long int") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "unsigned long long int") == 0) {
     returnValue.type = MOCKVALUETYPE_UNSIGNED_LONG_LONG_INTEGER;
     returnValue.value.unsignedLongLongIntValue =
       namedValue.getUnsignedLongLongIntValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "double") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(), "double") ==
+             0) {
     returnValue.type = MOCKVALUETYPE_DOUBLE;
     returnValue.value.doubleValue = namedValue.getDoubleValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "const char*") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "const char*") == 0) {
     returnValue.type = MOCKVALUETYPE_STRING;
     returnValue.value.stringValue = namedValue.getStringValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "void*") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(), "void*") ==
+             0) {
     returnValue.type = MOCKVALUETYPE_POINTER;
     returnValue.value.pointerValue = namedValue.getPointerValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "const void*") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "const void*") == 0) {
     returnValue.type = MOCKVALUETYPE_CONST_POINTER;
     returnValue.value.constPointerValue = namedValue.getConstPointerValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "void (*)()") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "void (*)()") == 0) {
     returnValue.type = MOCKVALUETYPE_FUNCTIONPOINTER;
     returnValue.value.functionPointerValue =
       namedValue.getFunctionPointerValue();
-  } else if (SimpleString::StrCmp(namedValue.getType().asCharString(),
-                                  "const unsigned char*") == 0) {
+  } else if (String::StrCmp(namedValue.getType().asCharString(),
+                            "const unsigned char*") == 0) {
     returnValue.type = MOCKVALUETYPE_MEMORYBUFFER;
     returnValue.value.memoryBufferValue = namedValue.getMemoryBuffer();
   } else if (namedValue.isConstObject()) {

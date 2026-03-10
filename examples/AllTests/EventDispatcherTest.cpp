@@ -61,7 +61,7 @@ public:
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  virtual cpputest::SimpleString valueToString(const void* object) override
+  virtual cpputest::String valueToString(const void* object) override
   {
     return cpputest::StringFrom(static_cast<const Event*>(object)->type);
   }

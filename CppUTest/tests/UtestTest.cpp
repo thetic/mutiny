@@ -510,7 +510,7 @@ class NullParameterTest : public cpputest::TestShell
 TEST(UtestMyOwn, NullParameters)
 {
   NullParameterTest nullTest; /* Bug fix tests for creating a test without a
-                                 name, fix in SimpleString */
+                                 name, fix in String */
   cpputest::TestFilter emptyFilter;
   CHECK(nullTest.shouldRun(&emptyFilter, &emptyFilter));
 }

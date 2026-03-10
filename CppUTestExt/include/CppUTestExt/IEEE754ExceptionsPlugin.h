@@ -45,7 +45,7 @@ class IEEE754ExceptionsPlugin : public cpputest::TestPlugin
 {
 public:
   IEEE754ExceptionsPlugin(
-    const cpputest::SimpleString& name = "IEEE754ExceptionsPlugin");
+    const cpputest::String& name = "IEEE754ExceptionsPlugin");
 
   virtual void preTestAction(cpputest::TestShell& test,
                              cpputest::TestResult& result) override;

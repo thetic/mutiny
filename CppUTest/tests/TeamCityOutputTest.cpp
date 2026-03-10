@@ -13,10 +13,10 @@ public:
 
   void flush() override { output = ""; }
 
-  const cpputest::SimpleString& getOutput() { return output; }
+  const cpputest::String& getOutput() { return output; }
 
 private:
-  cpputest::SimpleString output;
+  cpputest::String output;
 };
 
 static unsigned long millisTime;

@@ -28,7 +28,7 @@
 #ifndef TESTFILTER_H_
 #define TESTFILTER_H_
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 namespace cpputest {
 
@@ -37,12 +37,12 @@ class TestFilter
 public:
   TestFilter();
   TestFilter(const char* filter);
-  TestFilter(const SimpleString& filter);
+  TestFilter(const String& filter);
 
   TestFilter* add(TestFilter* filter);
   TestFilter* getNext() const;
 
-  bool match(const SimpleString& name) const;
+  bool match(const String& name) const;
 
   void strictMatching();
   void invertMatching();
@@ -50,16 +50,16 @@ public:
   bool operator==(const TestFilter& filter) const;
   bool operator!=(const TestFilter& filter) const;
 
-  SimpleString asString() const;
+  String asString() const;
 
 private:
-  SimpleString filter_;
+  String filter_;
   bool strictMatching_;
   bool invertMatching_;
   TestFilter* next_;
 };
 
-SimpleString
+String
 StringFrom(const TestFilter& filter);
 
 } // namespace cpputest

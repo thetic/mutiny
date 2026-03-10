@@ -28,7 +28,7 @@
 #ifndef D_TestMemoryAllocator_h
 #define D_TestMemoryAllocator_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 namespace cpputest {
 

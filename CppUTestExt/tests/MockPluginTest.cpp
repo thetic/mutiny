@@ -108,7 +108,7 @@ public:
   {
     return object1 == object2;
   }
-  SimpleString valueToString(const void*) override { return "string"; }
+  String valueToString(const void*) override { return "string"; }
 };
 
 TEST(MockPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)

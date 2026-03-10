@@ -256,7 +256,7 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->addExpectedCall(call2);
   list->addExpectedCall(call3);
 
-  SimpleString expectedString;
+  String expectedString;
   expectedString = StringFromFormat("%s\n%s",
                                     call1->callToString().asCharString(),
                                     call2->callToString().asCharString());
@@ -273,7 +273,7 @@ TEST(MockExpectedCallsList, callsWithMissingParametersToString)
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
 
-  SimpleString expectedString;
+  String expectedString;
   expectedString =
     StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
                      call1->callToString().asCharString(),
@@ -296,7 +296,7 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
 
-  SimpleString expectedString;
+  String expectedString;
   expectedString = StringFromFormat("%s\n%s",
                                     call1->callToString().asCharString(),
                                     call2->callToString().asCharString());

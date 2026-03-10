@@ -40,24 +40,21 @@ class MockSupport;
 
 /* This allows access to "the global" mocking support for easier testing */
 MockSupport&
-mock(const cpputest::SimpleString& mockName = "",
+mock(const cpputest::String& mockName = "",
      MockFailureReporter* failureReporterForThisCall = nullptr);
 
 class MockSupport
 {
 public:
-  MockSupport(const cpputest::SimpleString& mockName = "");
+  MockSupport(const cpputest::String& mockName = "");
   virtual ~MockSupport();
 
   virtual void strictOrder();
-  virtual MockExpectedCall& expectOneCall(
-    const cpputest::SimpleString& functionName);
-  virtual void expectNoCall(const cpputest::SimpleString& functionName);
-  virtual MockExpectedCall& expectNCalls(
-    unsigned int amount,
-    const cpputest::SimpleString& functionName);
-  virtual MockActualCall& actualCall(
-    const cpputest::SimpleString& functionName);
+  virtual MockExpectedCall& expectOneCall(const cpputest::String& functionName);
+  virtual void expectNoCall(const cpputest::String& functionName);
+  virtual MockExpectedCall& expectNCalls(unsigned int amount,
+                                         const cpputest::String& functionName);
+  virtual MockActualCall& actualCall(const cpputest::String& functionName);
   virtual MockActualCall& actualCall(const char* functionName);
   virtual bool hasReturnValue();
   virtual MockNamedValue returnValue();
@@ -90,26 +87,26 @@ public:
   virtual void (*returnFunctionPointerValueOrDefault(void (*defaultValue)()))();
   virtual void (*functionPointerReturnValue())();
 
-  bool hasData(const cpputest::SimpleString& name);
-  void setData(const cpputest::SimpleString& name, bool value);
-  void setData(const cpputest::SimpleString& name, int value);
-  void setData(const cpputest::SimpleString& name, unsigned int value);
-  void setData(const cpputest::SimpleString& name, long int value);
-  void setData(const cpputest::SimpleString& name, unsigned long int value);
-  void setData(const cpputest::SimpleString& name, const char* value);
-  void setData(const cpputest::SimpleString& name, double value);
-  void setData(const cpputest::SimpleString& name, void* value);
-  void setData(const cpputest::SimpleString& name, const void* value);
-  void setData(const cpputest::SimpleString& name, void (*value)());
-  void setDataObject(const cpputest::SimpleString& name,
-                     const cpputest::SimpleString& type,
+  bool hasData(const cpputest::String& name);
+  void setData(const cpputest::String& name, bool value);
+  void setData(const cpputest::String& name, int value);
+  void setData(const cpputest::String& name, unsigned int value);
+  void setData(const cpputest::String& name, long int value);
+  void setData(const cpputest::String& name, unsigned long int value);
+  void setData(const cpputest::String& name, const char* value);
+  void setData(const cpputest::String& name, double value);
+  void setData(const cpputest::String& name, void* value);
+  void setData(const cpputest::String& name, const void* value);
+  void setData(const cpputest::String& name, void (*value)());
+  void setDataObject(const cpputest::String& name,
+                     const cpputest::String& type,
                      void* value);
-  void setDataConstObject(const cpputest::SimpleString& name,
-                          const cpputest::SimpleString& type,
+  void setDataConstObject(const cpputest::String& name,
+                          const cpputest::String& type,
                           const void* value);
-  MockNamedValue getData(const cpputest::SimpleString& name);
+  MockNamedValue getData(const cpputest::String& name);
 
-  MockSupport* getMockSupportScope(const cpputest::SimpleString& name);
+  MockSupport* getMockSupportScope(const cpputest::String& name);
 
   const char* getTraceOutput();
   /*
@@ -138,16 +135,16 @@ public:
   virtual void setActiveReporter(MockFailureReporter* activeReporter);
   virtual void setDefaultComparatorsAndCopiersRepository();
 
-  virtual void installComparator(const cpputest::SimpleString& typeName,
+  virtual void installComparator(const cpputest::String& typeName,
                                  MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::SimpleString& typeName,
+  virtual void installCopier(const cpputest::String& typeName,
                              MockNamedValueCopier& copier);
   virtual void installComparatorsAndCopiers(
     const MockNamedValueComparatorsAndCopiersRepository& repository);
   virtual void removeAllComparatorsAndCopiers();
 
 protected:
-  MockSupport* clone(const cpputest::SimpleString& mockName);
+  MockSupport* clone(const cpputest::String& mockName);
   virtual MockCheckedActualCall* createActualCall();
   virtual void failTest(MockFailure& failure);
   void countCheck();
@@ -166,7 +163,7 @@ private:
   MockNamedValueComparatorsAndCopiersRepository
     comparatorsAndCopiersRepository_;
   MockNamedValueList data_;
-  const cpputest::SimpleString mockName_;
+  const cpputest::String mockName_;
 
   bool tracing_;
 
@@ -175,15 +172,14 @@ private:
   void failTestWithExpectedCallsNotFulfilled();
   void failTestWithOutOfOrderCalls();
 
-  MockNamedValue* retrieveDataFromStore(const cpputest::SimpleString& name);
+  MockNamedValue* retrieveDataFromStore(const cpputest::String& name);
 
   MockSupport* getMockSupport(MockNamedValueListNode* node);
 
-  bool callIsIgnored(const cpputest::SimpleString& functionName);
+  bool callIsIgnored(const cpputest::String& functionName);
   bool hasCallsOutOfOrder();
 
-  cpputest::SimpleString appendScopeToName(
-    const cpputest::SimpleString& functionName);
+  cpputest::String appendScopeToName(const cpputest::String& functionName);
 };
 
 } // namespace extensions

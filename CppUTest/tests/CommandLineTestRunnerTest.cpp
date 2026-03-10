@@ -40,7 +40,7 @@ public:
   bool returnValue;
   int amountOfPlugins;
 
-  DummyPluginWhichCountsThePlugins(const cpputest::SimpleString& name,
+  DummyPluginWhichCountsThePlugins(const cpputest::String& name,
                                    cpputest::TestRegistry* registry)
     : TestPlugin(name)
     , returnValue(true)
@@ -85,8 +85,7 @@ public:
     return fakeConsoleOutputWhichIsReallyABuffer;
   }
 
-  cpputest::TestOutput* createJUnitOutput(
-    const cpputest::SimpleString&) override
+  cpputest::TestOutput* createJUnitOutput(const cpputest::String&) override
   {
     fakeJUnitOutputWhichIsReallyABuffer_ = new cpputest::StringBufferTestOutput;
     return fakeJUnitOutputWhichIsReallyABuffer_;
@@ -122,7 +121,7 @@ teardown() override
   delete test1;
 }
 
-cpputest::SimpleString
+cpputest::String
 runAndGetOutput(const int argc, const char* argv[])
 {
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
@@ -270,7 +269,7 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
     2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  cpputest::SimpleStringCollection stringCollection;
+  cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
     .split("\n", stringCollection);
   STRCMP_CONTAINS("test2", stringCollection[0].asCharString());
@@ -286,7 +285,7 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
     3, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  cpputest::SimpleStringCollection stringCollection;
+  cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
     .split("\n", stringCollection);
   STRCMP_CONTAINS("test1", stringCollection[0].asCharString());
@@ -343,7 +342,7 @@ TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
   registry.addTest(anotherTest);
 
   const char* argv[] = { "tests.exe", "-s" };
-  cpputest::SimpleString text = runAndGetOutput(2, argv);
+  cpputest::String text = runAndGetOutput(2, argv);
   STRCMP_CONTAINS("shuffling enabled with seed:", text.asCharString());
 
   delete anotherTest;
@@ -352,7 +351,7 @@ TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
 {
   const char* argv[] = { "tests.exe", "-s2", "-v" };
-  cpputest::SimpleString text = runAndGetOutput(3, argv);
+  cpputest::String text = runAndGetOutput(3, argv);
   STRCMP_CONTAINS("shuffling enabled with seed: 2", text.asCharString());
 }
 
@@ -407,8 +406,8 @@ struct FakeOutput
 
   static void fclose_fake(PlatformSpecificFile) {}
 
-  cpputest::SimpleString file;
-  cpputest::SimpleString console;
+  cpputest::String file;
+  cpputest::String console;
 
   static FakeOutput* currentFake;
 

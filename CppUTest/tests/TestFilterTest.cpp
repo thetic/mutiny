@@ -159,7 +159,7 @@ TEST(TestFilter, listOfFilters)
 TEST(TestFilter, constructors)
 {
   cpputest::TestFilter filter1;
-  cpputest::TestFilter filter2(cpputest::SimpleString("a"));
+  cpputest::TestFilter filter2(cpputest::String("a"));
   cpputest::TestFilter filter3("a");
   CHECK(filter1.getNext() == nullptr);
   CHECK(filter2.getNext() == nullptr);

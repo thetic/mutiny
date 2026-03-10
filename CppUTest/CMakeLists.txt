@@ -3,7 +3,7 @@ add_library(CppUTest
         src/TestHarness_c.cpp
         src/TestRegistry.cpp
         src/CommandLineTestRunner.cpp
-        src/SimpleString.cpp
+        src/String.cpp
         src/TestMemoryAllocator.cpp
         src/TestResult.cpp
         src/JUnitTestOutput.cpp
@@ -25,7 +25,7 @@ target_sources(CppUTest
             include/CppUTest/JUnitTestOutput.h
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions_c.h
-            include/CppUTest/SimpleString.h
+            include/CppUTest/String.h
             include/CppUTest/TeamCityTestOutput.h
             include/CppUTest/TestFailure.h
             include/CppUTest/TestFilter.h

@@ -158,7 +158,7 @@ CommandLineTestRunner::createTeamCityOutput()
 }
 
 TestOutput*
-CommandLineTestRunner::createJUnitOutput(const SimpleString& packageName)
+CommandLineTestRunner::createJUnitOutput(const String& packageName)
 {
   JUnitTestOutput* junitOutput = new JUnitTestOutput;
   if (junitOutput != nullptr) {

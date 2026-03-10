@@ -20,7 +20,7 @@ add_executable(CppUTestTests
     TestFailureNaNTest.cpp
     TestFailureTest.cpp
     TestResultTest.cpp
-    SimpleStringTest.cpp
+    StringTest.cpp
     TestOutputTest.cpp
     TestRegistryTest.cpp
     TestFilterTest.cpp

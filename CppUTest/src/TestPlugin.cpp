@@ -31,7 +31,7 @@
 
 namespace cpputest {
 
-TestPlugin::TestPlugin(const SimpleString& name)
+TestPlugin::TestPlugin(const String& name)
   : next_(NullTestPlugin::instance())
   , name_(name)
   , enabled_(true)
@@ -86,14 +86,14 @@ TestPlugin::parseAllArguments(int ac, const char* const* av, int index)
   return false;
 }
 
-const SimpleString&
+const String&
 TestPlugin::getName()
 {
   return name_;
 }
 
 TestPlugin*
-TestPlugin::getPluginByName(const SimpleString& name)
+TestPlugin::getPluginByName(const String& name)
 {
   if (name == name_)
     return this;
@@ -108,7 +108,7 @@ TestPlugin::getNext()
   return next_;
 }
 TestPlugin*
-TestPlugin::removePluginByName(const SimpleString& name)
+TestPlugin::removePluginByName(const String& name)
 {
   TestPlugin* removed = nullptr;
   if (next_ && next_->getName() == name) {
@@ -147,7 +147,7 @@ struct cpputest_pair
 static int pointerTableIndex;
 static cpputest_pair setlist[SetPointerPlugin::MAX_SET];
 
-SetPointerPlugin::SetPointerPlugin(const SimpleString& name)
+SetPointerPlugin::SetPointerPlugin(const String& name)
   : TestPlugin(name)
 {
   pointerTableIndex = 0;

@@ -298,28 +298,28 @@ TestShell::countTests()
   return next_ ? next_->countTests() + 1 : 1;
 }
 
-SimpleString
+String
 TestShell::getMacroName() const
 {
   return "TEST";
 }
 
-const SimpleString
+const String
 TestShell::getName() const
 {
-  return SimpleString(name_);
+  return String(name_);
 }
 
-const SimpleString
+const String
 TestShell::getGroup() const
 {
-  return SimpleString(group_);
+  return String(group_);
 }
 
-SimpleString
+String
 TestShell::getFormattedName() const
 {
-  SimpleString formattedName(getMacroName());
+  String formattedName(getMacroName());
   formattedName += "(";
   formattedName += group_;
   formattedName += ", ";
@@ -376,10 +376,10 @@ TestShell::setTestName(const char* testName)
   name_ = testName;
 }
 
-const SimpleString
+const String
 TestShell::getFile() const
 {
-  return SimpleString(file_);
+  return String(file_);
 }
 
 size_t
@@ -479,7 +479,7 @@ TestShell::assertCstrEqual(const char* expected,
       StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
   }
-  if (SimpleString::StrCmp(expected, actual) != 0) {
+  if (String::StrCmp(expected, actual) != 0) {
     addFailure(
       StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
@@ -503,7 +503,7 @@ TestShell::assertCstrNEqual(const char* expected,
       StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
   }
-  if (SimpleString::StrNCmp(expected, actual, length) != 0) {
+  if (String::StrNCmp(expected, actual, length) != 0) {
     addFailure(
       StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
@@ -525,7 +525,7 @@ TestShell::assertCstrNoCaseEqual(const char* expected,
       this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
   }
-  if (!SimpleString(expected).equalsNoCase(actual)) {
+  if (!String(expected).equalsNoCase(actual)) {
     addFailure(StringEqualNoCaseFailure(
       this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
@@ -547,7 +547,7 @@ TestShell::assertCstrContains(const char* expected,
       ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
   }
-  if (!SimpleString(actual).contains(expected)) {
+  if (!String(actual).contains(expected)) {
     addFailure(
       ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
@@ -569,7 +569,7 @@ TestShell::assertCstrNoCaseContains(const char* expected,
       ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
   }
-  if (!SimpleString(actual).containsNoCase(expected)) {
+  if (!String(actual).containsNoCase(expected)) {
     addFailure(
       ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
@@ -737,7 +737,7 @@ TestShell::assertBinaryEqual(const void* expected,
                                   text));
     testTerminator.exitCurrentTest();
   }
-  if (SimpleString::MemCmp(expected, actual, length) != 0) {
+  if (String::MemCmp(expected, actual, length) != 0) {
     addFailure(BinaryEqualFailure(this,
                                   fileName,
                                   lineNumber,
@@ -785,8 +785,8 @@ TestShell::assertEquals(bool failed,
 
 void
 TestShell::assertEquals(bool failed,
-                        SimpleString expected,
-                        SimpleString actual,
+                        String expected,
+                        String actual,
                         const char* text,
                         const char* file,
                         size_t line,
@@ -797,10 +797,10 @@ TestShell::assertEquals(bool failed,
     addFailure(CheckEqualFailure(
       this, file, line, expected.asCharString(), actual.asCharString(), text));
     {
-      SimpleString e(static_cast<SimpleString&&>(expected));
+      String e(static_cast<String&&>(expected));
     }
     {
-      SimpleString a(static_cast<SimpleString&&>(actual));
+      String a(static_cast<String&&>(actual));
     }
     testTerminator.exitCurrentTest();
   }
@@ -826,7 +826,7 @@ TestShell::assertCompare(bool comparison,
 void
 TestShell::print(const char* text, const char* fileName, size_t lineNumber)
 {
-  SimpleString stringToPrint = "\n";
+  String stringToPrint = "\n";
   stringToPrint += fileName;
   stringToPrint += ":";
   stringToPrint += StringFrom(lineNumber);
@@ -836,9 +836,7 @@ TestShell::print(const char* text, const char* fileName, size_t lineNumber)
 }
 
 void
-TestShell::print(const SimpleString& text,
-                 const char* fileName,
-                 size_t lineNumber)
+TestShell::print(const String& text, const char* fileName, size_t lineNumber)
 {
   print(text.asCharString(), fileName, lineNumber);
 }
@@ -1137,7 +1135,7 @@ IgnoredTestShell::willRun() const
   return false;
 }
 
-SimpleString
+String
 IgnoredTestShell::getMacroName() const
 {
   if (runIgnored_)

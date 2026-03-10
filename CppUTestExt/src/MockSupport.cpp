@@ -41,8 +41,7 @@ namespace extensions {
 static MockSupport global_mock;
 
 MockSupport&
-mock(const SimpleString& mockName,
-     MockFailureReporter* failureReporterForThisCall)
+mock(const String& mockName, MockFailureReporter* failureReporterForThisCall)
 {
   MockSupport& mock_support =
     (mockName != "") ? *global_mock.getMockSupportScope(mockName) : global_mock;
@@ -51,7 +50,7 @@ mock(const SimpleString& mockName,
   return mock_support;
 }
 
-MockSupport::MockSupport(const SimpleString& mockName)
+MockSupport::MockSupport(const String& mockName)
   : actualCallOrder_(0)
   , expectedCallOrder_(0)
   , strictOrdering_(false)
@@ -100,7 +99,7 @@ MockSupport::setDefaultComparatorsAndCopiersRepository()
 }
 
 void
-MockSupport::installComparator(const SimpleString& typeName,
+MockSupport::installComparator(const String& typeName,
                                MockNamedValueComparator& comparator)
 {
   comparatorsAndCopiersRepository_.installComparator(typeName, comparator);
@@ -111,8 +110,7 @@ MockSupport::installComparator(const SimpleString& typeName,
 }
 
 void
-MockSupport::installCopier(const SimpleString& typeName,
-                           MockNamedValueCopier& copier)
+MockSupport::installCopier(const String& typeName, MockNamedValueCopier& copier)
 {
   comparatorsAndCopiersRepository_.installCopier(typeName, copier);
 
@@ -173,8 +171,8 @@ MockSupport::strictOrder()
   strictOrdering_ = true;
 }
 
-SimpleString
-MockSupport::appendScopeToName(const SimpleString& functionName)
+String
+MockSupport::appendScopeToName(const String& functionName)
 {
   if (mockName_.isEmpty())
     return functionName;
@@ -182,19 +180,19 @@ MockSupport::appendScopeToName(const SimpleString& functionName)
 }
 
 MockExpectedCall&
-MockSupport::expectOneCall(const SimpleString& functionName)
+MockSupport::expectOneCall(const String& functionName)
 {
   return expectNCalls(1, functionName);
 }
 
 void
-MockSupport::expectNoCall(const SimpleString& functionName)
+MockSupport::expectNoCall(const String& functionName)
 {
   expectNCalls(0, functionName);
 }
 
 MockExpectedCall&
-MockSupport::expectNCalls(unsigned int amount, const SimpleString& functionName)
+MockSupport::expectNCalls(unsigned int amount, const String& functionName)
 {
   if (!enabled_)
     return MockIgnoredExpectedCall::instance();
@@ -220,7 +218,7 @@ MockSupport::createActualCall()
 }
 
 bool
-MockSupport::callIsIgnored(const SimpleString& functionName)
+MockSupport::callIsIgnored(const String& functionName)
 {
   return ignoreOtherCalls_ &&
          !expectations_.hasExpectationWithName(functionName);
@@ -229,7 +227,7 @@ MockSupport::callIsIgnored(const SimpleString& functionName)
 MockActualCall&
 MockSupport::actualCall(const char* functionName)
 {
-  SimpleString scopeFunctionName = appendScopeToName(functionName);
+  String scopeFunctionName = appendScopeToName(functionName);
 
   if (lastActualFunctionCall_) {
     lastActualFunctionCall_->checkExpectations();
@@ -247,14 +245,14 @@ MockSupport::actualCall(const char* functionName)
   }
 
   MockCheckedActualCall* call = createActualCall();
-  call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
+  call->setNameAndCheck(static_cast<String&&>(scopeFunctionName));
   return *call;
 }
 
 MockActualCall&
-MockSupport::actualCall(const SimpleString& functionName)
+MockSupport::actualCall(const String& functionName)
 {
-  SimpleString scopeFunctionName = appendScopeToName(functionName);
+  String scopeFunctionName = appendScopeToName(functionName);
 
   if (lastActualFunctionCall_) {
     lastActualFunctionCall_->checkExpectations();
@@ -272,7 +270,7 @@ MockSupport::actualCall(const SimpleString& functionName)
   }
 
   MockCheckedActualCall* call = createActualCall();
-  call->setNameAndCheck(static_cast<SimpleString&&>(scopeFunctionName));
+  call->setNameAndCheck(static_cast<String&&>(scopeFunctionName));
   return *call;
 }
 
@@ -428,13 +426,13 @@ MockSupport::checkExpectations()
 }
 
 bool
-MockSupport::hasData(const SimpleString& name)
+MockSupport::hasData(const String& name)
 {
   return data_.getValueByName(name) != nullptr;
 }
 
 MockNamedValue*
-MockSupport::retrieveDataFromStore(const SimpleString& name)
+MockSupport::retrieveDataFromStore(const String& name)
 {
   MockNamedValue* newData = data_.getValueByName(name);
   if (newData == nullptr) {
@@ -445,87 +443,85 @@ MockSupport::retrieveDataFromStore(const SimpleString& name)
 }
 
 void
-MockSupport::setData(const SimpleString& name, bool value)
+MockSupport::setData(const String& name, bool value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, unsigned int value)
+MockSupport::setData(const String& name, unsigned int value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, int value)
+MockSupport::setData(const String& name, int value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, long int value)
+MockSupport::setData(const String& name, long int value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, unsigned long int value)
+MockSupport::setData(const String& name, unsigned long int value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, const char* value)
+MockSupport::setData(const String& name, const char* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, double value)
+MockSupport::setData(const String& name, double value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, void* value)
+MockSupport::setData(const String& name, void* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, const void* value)
+MockSupport::setData(const String& name, const void* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setData(const SimpleString& name, void (*value)())
+MockSupport::setData(const String& name, void (*value)())
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setValue(value);
 }
 
 void
-MockSupport::setDataObject(const SimpleString& name,
-                           const SimpleString& type,
-                           void* value)
+MockSupport::setDataObject(const String& name, const String& type, void* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setObjectPointer(type, value);
 }
 
 void
-MockSupport::setDataConstObject(const SimpleString& name,
-                                const SimpleString& type,
+MockSupport::setDataConstObject(const String& name,
+                                const String& type,
                                 const void* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
@@ -533,7 +529,7 @@ MockSupport::setDataConstObject(const SimpleString& name,
 }
 
 MockNamedValue
-MockSupport::getData(const SimpleString& name)
+MockSupport::getData(const String& name)
 {
   MockNamedValue* value = data_.getValueByName(name);
   if (value == nullptr)
@@ -542,7 +538,7 @@ MockSupport::getData(const SimpleString& name)
 }
 
 MockSupport*
-MockSupport::clone(const SimpleString& mockName)
+MockSupport::clone(const String& mockName)
 {
   MockSupport* newMock = new MockSupport(mockName);
   newMock->setMockFailureStandardReporter(standardReporter_);
@@ -561,9 +557,9 @@ MockSupport::clone(const SimpleString& mockName)
 }
 
 MockSupport*
-MockSupport::getMockSupportScope(const SimpleString& name)
+MockSupport::getMockSupportScope(const String& name)
 {
-  SimpleString mockingSupportName = MOCK_SUPPORT_SCOPE_PREFIX;
+  String mockingSupportName = MOCK_SUPPORT_SCOPE_PREFIX;
   mockingSupportName += name;
 
   if (hasData(mockingSupportName)) {

@@ -84,10 +84,10 @@ TestRegistry::runAllTests(TestResult& result)
 void
 TestRegistry::listTestGroupNames(TestResult& result)
 {
-  SimpleString groupList;
+  String groupList;
 
   for (TestShell* test = tests_; test != nullptr; test = test->getNext()) {
-    SimpleString gname;
+    String gname;
     gname += "#";
     gname += test->getGroup();
     gname += "#";
@@ -108,11 +108,11 @@ TestRegistry::listTestGroupNames(TestResult& result)
 void
 TestRegistry::listTestGroupAndCaseNames(TestResult& result)
 {
-  SimpleString groupAndNameList;
+  String groupAndNameList;
 
   for (TestShell* test = tests_; test != nullptr; test = test->getNext()) {
     if (testShouldRun(test, result)) {
-      SimpleString groupAndName;
+      String groupAndName;
       groupAndName += "#";
       groupAndName += test->getGroup();
       groupAndName += ".";
@@ -137,10 +137,10 @@ TestRegistry::listTestGroupAndCaseNames(TestResult& result)
 void
 TestRegistry::listTestLocations(TestResult& result)
 {
-  SimpleString testLocations;
+  String testLocations;
 
   for (TestShell* test = tests_; test != nullptr; test = test->getNext()) {
-    SimpleString testLocation;
+    String testLocation;
     testLocation += test->getGroup();
     testLocation += ".";
     testLocation += test->getName();
@@ -244,13 +244,13 @@ TestRegistry::getFirstPlugin()
 }
 
 TestPlugin*
-TestRegistry::getPluginByName(const SimpleString& name)
+TestRegistry::getPluginByName(const String& name)
 {
   return firstPlugin_->getPluginByName(name);
 }
 
 void
-TestRegistry::removePluginByName(const SimpleString& name)
+TestRegistry::removePluginByName(const String& name)
 {
   if (firstPlugin_->removePluginByName(name) == firstPlugin_)
     firstPlugin_ = firstPlugin_->getNext();
@@ -301,7 +301,7 @@ TestRegistry::getTestWithNext(TestShell* test)
 }
 
 TestShell*
-TestRegistry::findTestWithName(const SimpleString& name)
+TestRegistry::findTestWithName(const String& name)
 {
   TestShell* current = tests_;
   while (current) {
@@ -313,7 +313,7 @@ TestRegistry::findTestWithName(const SimpleString& name)
 }
 
 TestShell*
-TestRegistry::findTestWithGroup(const SimpleString& group)
+TestRegistry::findTestWithGroup(const String& group)
 {
   TestShell* current = tests_;
   while (current) {

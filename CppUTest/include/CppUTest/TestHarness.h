@@ -28,7 +28,7 @@
 #ifndef D_TestHarness_h
 #define D_TestHarness_h
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 #include "CppUTest/TestFailure.h"
 #include "CppUTest/TestPlugin.h"
 #include "CppUTest/TestResult.h"

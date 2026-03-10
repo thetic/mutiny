@@ -113,7 +113,7 @@ checkUnexpectedNthCallMessage(unsigned int count, const char* expectedOrdinal)
   MockUnexpectedCallHappenedFailure failure(
     UtestShell::getCurrent(), "bar", callList);
 
-  SimpleString expectedMessage =
+  String expectedMessage =
     StringFromFormat("Mock Failure: Unexpected additional (%s) call to "
                      "function: bar\n\tEXPECTED",
                      expectedOrdinal);

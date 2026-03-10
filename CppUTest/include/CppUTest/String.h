@@ -35,8 +35,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef D_SimpleString_h
-#define D_SimpleString_h
+#ifndef D_String_h
+#define D_String_h
 
 #include <stdarg.h>
 #include <stddef.h>
@@ -60,56 +60,53 @@
 
 namespace cpputest {
 
-class SimpleStringCollection;
+class StringCollection;
 class TestMemoryAllocator;
 
-class SimpleString
+class String
 {
-  friend bool operator==(const SimpleString& left, const SimpleString& right);
-  friend bool operator!=(const SimpleString& left, const SimpleString& right);
+  friend bool operator==(const String& left, const String& right);
+  friend bool operator!=(const String& left, const String& right);
 
 public:
-  SimpleString(const char* value = "");
-  SimpleString(const char* value, size_t repeatCount);
-  SimpleString(const SimpleString& other);
-  SimpleString(SimpleString&& other) noexcept;
-  ~SimpleString();
+  String(const char* value = "");
+  String(const char* value, size_t repeatCount);
+  String(const String& other);
+  String(String&& other) noexcept;
+  ~String();
 
-  SimpleString& operator=(const SimpleString& other);
-  SimpleString& operator=(SimpleString&& other) noexcept;
-  SimpleString operator+(const SimpleString&) const;
-  SimpleString& operator+=(const SimpleString&);
-  SimpleString& operator+=(const char*);
+  String& operator=(const String& other);
+  String& operator=(String&& other) noexcept;
+  String operator+(const String&) const;
+  String& operator+=(const String&);
+  String& operator+=(const char*);
 
   static const size_t npos = static_cast<size_t>(-1);
 
   char at(size_t pos) const;
   size_t find(char ch) const;
-  bool contains(const SimpleString& other) const;
-  bool containsNoCase(const SimpleString& other) const;
-  bool startsWith(const SimpleString& other) const;
-  bool endsWith(const SimpleString& other) const;
-  void split(const SimpleString& split,
-             SimpleStringCollection& outCollection) const;
-  bool equalsNoCase(const SimpleString& str) const;
+  bool contains(const String& other) const;
+  bool containsNoCase(const String& other) const;
+  bool startsWith(const String& other) const;
+  bool endsWith(const String& other) const;
+  void split(const String& split, StringCollection& outCollection) const;
+  bool equalsNoCase(const String& str) const;
 
   void replace(char to, char with);
   void replace(const char* to, const char* with);
 
-  SimpleString lowerCase() const;
-  SimpleString subString(size_t beginPos) const;
-  SimpleString subString(size_t beginPos, size_t amount) const;
-  SimpleString subStringFromTill(char startChar, char lastExcludedChar) const;
+  String lowerCase() const;
+  String subString(size_t beginPos) const;
+  String subString(size_t beginPos, size_t amount) const;
+  String subStringFromTill(char startChar, char lastExcludedChar) const;
 
-  SimpleString printable() const;
+  String printable() const;
 
   const char* asCharString() const;
   size_t size() const;
   bool isEmpty() const;
 
-  static void padStringsToSameLength(SimpleString& str1,
-                                     SimpleString& str2,
-                                     char ch);
+  static void padStringsToSameLength(String& str1, String& str2, char ch);
 
   static TestMemoryAllocator* getStringAllocator();
   static void setStringAllocator(TestMemoryAllocator* allocator);
@@ -123,7 +120,7 @@ public:
 
 private:
   size_t findFrom(size_t starting_position, char ch) const;
-  size_t count(const SimpleString& str) const;
+  size_t count(const String& str) const;
   static size_t StrLen(const char*);
   static char* StrNCpy(char* s1, const char* s2, size_t n);
   static const char* StrStr(const char* s1, const char* s2);
@@ -142,7 +139,7 @@ private:
   void copyBufferToNewInternalBuffer(const char* otherBuffer);
   void copyBufferToNewInternalBuffer(const char* otherBuffer,
                                      size_t bufferSize);
-  void copyBufferToNewInternalBuffer(const SimpleString& otherBuffer);
+  void copyBufferToNewInternalBuffer(const String& otherBuffer);
 
   char* buffer_;
   size_t bufferSize_;
@@ -160,72 +157,72 @@ private:
   size_t getPrintableSize() const;
 };
 
-class SimpleStringCollection
+class StringCollection
 {
 public:
-  SimpleStringCollection();
-  ~SimpleStringCollection();
+  StringCollection();
+  ~StringCollection();
 
   void allocate(size_t size);
 
   size_t size() const;
-  SimpleString& operator[](size_t index);
+  String& operator[](size_t index);
 
 private:
-  SimpleString* collection_;
-  SimpleString empty_;
+  String* collection_;
+  String empty_;
   size_t size_;
 
-  void operator=(SimpleStringCollection&);
-  SimpleStringCollection(SimpleStringCollection&);
+  void operator=(StringCollection&);
+  StringCollection(StringCollection&);
 };
 
-SimpleString
+String
 StringFrom(bool value);
-SimpleString
+String
 StringFrom(const void* value);
-SimpleString
+String
 StringFrom(void (*value)());
-SimpleString
+String
 StringFrom(char value);
-SimpleString
+String
 StringFrom(const char* value);
-SimpleString
+String
 StringFromOrNull(const char* value);
-SimpleString
+String
 StringFrom(int value);
-SimpleString
+String
 StringFrom(unsigned int value);
-SimpleString
+String
 StringFrom(long value);
-SimpleString
+String
 StringFrom(unsigned long value);
-SimpleString
+String
 StringFrom(long long value);
-SimpleString
+String
 StringFrom(unsigned long long value);
-SimpleString
+String
 HexStringFrom(unsigned int value);
-SimpleString
+String
 HexStringFrom(int value);
-SimpleString
+String
 HexStringFrom(signed char value);
-SimpleString
+String
 HexStringFrom(long value);
-SimpleString
+String
 HexStringFrom(unsigned long value);
-SimpleString
+String
 HexStringFrom(long long value);
-SimpleString
+String
 HexStringFrom(unsigned long long value);
-SimpleString
+String
 HexStringFrom(const void* value);
-SimpleString
+String
 HexStringFrom(void (*value)());
-SimpleString
+String
 StringFrom(double value, int precision = 6);
-SimpleString
-StringFrom(const SimpleString& other);
+String
+StringFrom(const String& other);
 #ifndef __has_attribute
 #define CPPUTEST_HAS_ATTRIBUTE(x) 0
 #else
@@ -245,50 +242,50 @@ StringFrom(const SimpleString& other);
   format_parameter,                                                            \
   other_parameters) /* type, format_parameter, other_parameters */
 #endif
-SimpleString
+String
 StringFromFormat(const char* format, ...)
   CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
-SimpleString
+String
 VStringFromFormat(const char* format, va_list args);
-SimpleString
+String
 StringFromBinary(const unsigned char* value, size_t size);
-SimpleString
+String
 StringFromBinaryOrNull(const unsigned char* value, size_t size);
-SimpleString
+String
 StringFromBinaryWithSize(const unsigned char* value, size_t size);
-SimpleString
+String
 StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
-SimpleString
+String
 StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount);
-SimpleString
+String
 StringFromOrdinalNumber(unsigned int number);
-SimpleString
+String
 BracketsFormattedHexStringFrom(int value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(unsigned int value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(long value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(unsigned long value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(long long value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(unsigned long long value);
-SimpleString
+String
 BracketsFormattedHexStringFrom(signed char value);
-SimpleString
-BracketsFormattedHexString(SimpleString hexString);
-SimpleString
+String
+BracketsFormattedHexString(String hexString);
+String
 PrintableStringFromOrNull(const char* expected);
 
 #if CPPUTEST_USE_STD_CPP_LIB
-SimpleString
+String
 StringFrom(const std::nullptr_t value);
 #endif
 
 #if CPPUTEST_USE_STD_CPP_LIB
 
-SimpleString
+String
 StringFrom(const std::string& other);
 
 #endif

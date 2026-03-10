@@ -37,7 +37,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "CppUTest/SimpleString.h"
+#include "CppUTest/String.h"
 
 namespace cpputest {
 
@@ -90,19 +90,17 @@ public:
   static WorkingEnvironment getWorkingEnvironment();
 
 protected:
-  virtual void printEclipseErrorInFileOnLine(SimpleString file,
-                                             size_t lineNumber);
-  virtual void printVisualStudioErrorInFileOnLine(SimpleString file,
+  virtual void printEclipseErrorInFileOnLine(String file, size_t lineNumber);
+  virtual void printVisualStudioErrorInFileOnLine(String file,
                                                   size_t lineNumber);
 
   virtual void printProgressIndicator();
   void printFileAndLineForTestAndFailure(const TestFailure& failure);
   void printFileAndLineForFailure(const TestFailure& failure);
-  void printFailureInTest(SimpleString testName);
-  void printFailureMessage(SimpleString reason);
-  void printErrorInFileOnLineFormattedForWorkingEnvironment(
-    SimpleString testFile,
-    size_t lineNumber);
+  void printFailureInTest(String testName);
+  void printFailureMessage(String reason);
+  void printErrorInFileOnLineFormattedForWorkingEnvironment(String testFile,
+                                                            size_t lineNumber);
 
   TestOutput(const TestOutput&);
   TestOutput& operator=(const TestOutput&);
@@ -161,10 +159,10 @@ public:
 
   void flush() override { output = ""; }
 
-  const SimpleString& getOutput() { return output; }
+  const String& getOutput() { return output; }
 
 protected:
-  SimpleString output;
+  String output;
 
 private:
   StringBufferTestOutput(const StringBufferTestOutput&);

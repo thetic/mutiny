@@ -1085,15 +1085,14 @@ TEST(UnitTestMacros, PrintPrintsWhateverPrintPrints)
 }
 
 static void
-methodThatOnlyPrintsUsingSimpleStringFromFormat_()
+methodThatOnlyPrintsUsingStringFromFormat_()
 {
   UT_PRINT(cpputest::StringFromFormat("Hello %s %d", "World!", 2009));
 }
 
-TEST(UnitTestMacros,
-     PrintPrintsSimpleStringsForExampleThoseReturnedByFromString)
+TEST(UnitTestMacros, PrintPrintsStringsForExampleThoseReturnedByFromString)
 {
-  fixture.runTestWithMethod(methodThatOnlyPrintsUsingSimpleStringFromFormat_);
+  fixture.runTestWithMethod(methodThatOnlyPrintsUsingStringFromFormat_);
   fixture.assertPrintContains("Hello World! 2009");
 }
 

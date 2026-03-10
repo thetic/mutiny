@@ -254,14 +254,14 @@ TestOutput::printFileAndLineForFailure(const TestFailure& failure)
 }
 
 void
-TestOutput::printFailureInTest(SimpleString testName)
+TestOutput::printFailureInTest(String testName)
 {
   print(" Failure in ");
   print(testName.asCharString());
 }
 
 void
-TestOutput::printFailureMessage(SimpleString reason)
+TestOutput::printFailureMessage(String reason)
 {
   print("\n");
   print("\t");
@@ -271,7 +271,7 @@ TestOutput::printFailureMessage(SimpleString reason)
 
 void
 TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(
-  SimpleString file,
+  String file,
   size_t lineNumber)
 {
   if (TestOutput::getWorkingEnvironment() == TestOutput::visualStudio)
@@ -281,7 +281,7 @@ TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(
 }
 
 void
-TestOutput::printEclipseErrorInFileOnLine(SimpleString file, size_t lineNumber)
+TestOutput::printEclipseErrorInFileOnLine(String file, size_t lineNumber)
 {
   print("\n");
   print(file.asCharString());
@@ -292,8 +292,7 @@ TestOutput::printEclipseErrorInFileOnLine(SimpleString file, size_t lineNumber)
 }
 
 void
-TestOutput::printVisualStudioErrorInFileOnLine(SimpleString file,
-                                               size_t lineNumber)
+TestOutput::printVisualStudioErrorInFileOnLine(String file, size_t lineNumber)
 {
   print("\n");
   print(file.asCharString());

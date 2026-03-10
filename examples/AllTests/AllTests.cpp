@@ -40,7 +40,7 @@ public:
     return object1 == object2;
   }
 
-  virtual cpputest::SimpleString valueToString(const void* object) override
+  virtual cpputest::String valueToString(const void* object) override
   {
     return cpputest::StringFrom(object);
   }

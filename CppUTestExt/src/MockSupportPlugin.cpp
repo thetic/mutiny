@@ -61,7 +61,7 @@ public:
   virtual cpputest::TestShell* getTestToFail() override { return &test_; }
 };
 
-MockSupportPlugin::MockSupportPlugin(const SimpleString& name)
+MockSupportPlugin::MockSupportPlugin(const String& name)
   : TestPlugin(name)
 {
 }
@@ -96,14 +96,14 @@ MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
 }
 
 void
-MockSupportPlugin::installComparator(const SimpleString& name,
+MockSupportPlugin::installComparator(const String& name,
                                      MockNamedValueComparator& comparator)
 {
   repository_.installComparator(name, comparator);
 }
 
 void
-MockSupportPlugin::installCopier(const SimpleString& name,
+MockSupportPlugin::installCopier(const String& name,
                                  MockNamedValueCopier& copier)
 {
   repository_.installCopier(name, copier);

@@ -227,7 +227,7 @@
   do {                                                                         \
     bool success = (first)relop(second);                                       \
     if (!success) {                                                            \
-      cpputest::SimpleString conditionString;                                  \
+      cpputest::String conditionString;                                        \
       conditionString += cpputest::StringFrom(first);                          \
       conditionString += " ";                                                  \
       conditionString += #relop;                                               \
@@ -541,8 +541,8 @@
 #if CPPUTEST_HAVE_EXCEPTIONS
 #define CHECK_THROWS(expected, expression)                                     \
   do {                                                                         \
-    cpputest::SimpleString failure_msg("expected to throw " #expected          \
-                                       "\nbut threw nothing");                 \
+    cpputest::String failure_msg("expected to throw " #expected                \
+                                 "\nbut threw nothing");                       \
     bool caught_expected = false;                                              \
     try {                                                                      \
       (expression);                                                            \
