@@ -30,19 +30,19 @@ static void (*fp2)();
 
 TEST_GROUP(SetPointerPluginTest)
 {
-  SetPointerPlugin* plugin_;
-  TestRegistry* myRegistry_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  cpputest::SetPointerPlugin* plugin_;
+  cpputest::TestRegistry* myRegistry_;
+  cpputest::StringBufferTestOutput* output_;
+  cpputest::TestResult* result_;
 
   void setup() override
   {
-    myRegistry_ = new TestRegistry();
-    plugin_ = new SetPointerPlugin("TestSetPlugin");
+    myRegistry_ = new cpputest::TestRegistry();
+    plugin_ = new cpputest::SetPointerPlugin("TestSetPlugin");
     myRegistry_->setCurrentRegistry(myRegistry_);
     myRegistry_->installPlugin(plugin_);
-    output_ = new StringBufferTestOutput();
-    result_ = new TestResult(*output_);
+    output_ = new cpputest::StringBufferTestOutput();
+    result_ = new cpputest::TestResult(*output_);
   }
 
   void teardown() override
@@ -55,7 +55,7 @@ TEST_GROUP(SetPointerPluginTest)
   }
 };
 
-class FunctionPointerUtest : public Utest
+class FunctionPointerUtest : public cpputest::Test
 {
 public:
   void setup() override
@@ -71,10 +71,13 @@ public:
   }
 };
 
-class FunctionPointerUtestShell : public UtestShell
+class FunctionPointerUtestShell : public cpputest::TestShell
 {
 public:
-  virtual Utest* createTest() override { return new FunctionPointerUtest(); }
+  virtual cpputest::Test* createTest() override
+  {
+    return new FunctionPointerUtest();
+  }
 };
 
 TEST(SetPointerPluginTest, installTwoFunctionPointer)
@@ -92,7 +95,7 @@ TEST(SetPointerPluginTest, installTwoFunctionPointer)
   delete tst;
 }
 
-class MaxFunctionPointerUtest : public Utest
+class MaxFunctionPointerUtest : public cpputest::Test
 {
 public:
   int numOfFpSets;
@@ -109,7 +112,7 @@ public:
   }
 };
 
-class MaxFunctionPointerUtestShell : public UtestShell
+class MaxFunctionPointerUtestShell : public cpputest::TestShell
 {
 public:
   int numOfFpSets;
@@ -118,7 +121,7 @@ public:
   {
   }
 
-  virtual Utest* createTest() override
+  virtual cpputest::Test* createTest() override
   {
     return new MaxFunctionPointerUtest(numOfFpSets);
   }
@@ -127,7 +130,7 @@ public:
 TEST(SetPointerPluginTest, installTooMuchFunctionPointer)
 {
   MaxFunctionPointerUtestShell* tst =
-      new MaxFunctionPointerUtestShell(SetPointerPlugin::MAX_SET + 1);
+      new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::MAX_SET + 1);
   myRegistry_->addTest(tst);
 
   myRegistry_->runAllTests(*result_);
@@ -140,17 +143,17 @@ static double orig_double = 3.0;
 static double* orig_double_ptr = &orig_double;
 static double stub_double = 4.0;
 
-class SetDoublePointerUtest : public Utest
+class SetDoublePointerUtest : public cpputest::Test
 {
 public:
   void setup() override { UT_PTR_SET(orig_double_ptr, &stub_double); }
   void testBody() override { CHECK(orig_double_ptr == &stub_double); }
 };
 
-class SetDoublePointerUtestShell : public UtestShell
+class SetDoublePointerUtestShell : public cpputest::TestShell
 {
 public:
-  Utest* createTest() override { return new SetDoublePointerUtest(); }
+  cpputest::Test* createTest() override { return new SetDoublePointerUtest(); }
 };
 
 TEST(SetPointerPluginTest, doublePointer)

@@ -14,6 +14,7 @@ add_executable(CppUTestTests
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     JUnitTestOutput.test.cpp
+    SetPointerPlugin.test.cpp
     TestPlugin.test.cpp
     Preprocessor.test.cpp
     TeamCityTestOutput.test.cpp
