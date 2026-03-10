@@ -1119,11 +1119,6 @@ functionThatReturnsAValue()
   POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);
   MEMCMP_EQUAL_TEXT("THIS", "THIS", 5, "Shouldn't fail");
-  BITS_EQUAL(0x01, static_cast<unsigned char>(0x01), 0xFF);
-  BITS_EQUAL(0x0001, static_cast<unsigned short>(0x0001), 0xFFFF);
-  BITS_EQUAL(0x00000001, static_cast<unsigned long>(0x00000001), 0xFFFFFFFF);
-  BITS_EQUAL_TEXT(
-      0x01, static_cast<unsigned char>(0x01), 0xFF, "Shouldn't fail");
   return 0;
 }
 
@@ -1246,68 +1241,6 @@ TEST(UnitTestMacros, MEMCMP_EQUAL_TEXTBehavesAsAProperMacro)
 IGNORE_TEST(UnitTestMacros, MEMCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   MEMCMP_EQUAL_TEXT("TEST", "test", 5, "Failed because it failed");
-}
-
-TEST(UnitTestMacros, BITS_EQUALBehavesAsAProperMacro)
-{
-  if (false)
-    BITS_EQUAL(0x00, 0xFF, 0xFF);
-  else
-    BITS_EQUAL(0x00, 0x00, 0xFF);
-}
-
-IGNORE_TEST(UnitTestMacros, BITS_EQUALWorksInAnIgnoredTest)
-{
-  BITS_EQUAL(0x00, 0xFF, 0xFF);
-}
-
-static void
-BITS_EQUALFailingTestMethodWithUnequalInput_()
-{
-  BITS_EQUAL(0x00, 0xFF, 0xFF);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UnitTestMacros, BITS_EQUALFailureWithUnequalInput)
-{
-  fixture.runTestWithMethod(BITS_EQUALFailingTestMethodWithUnequalInput_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("00000000>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("11111111>");
-}
-
-TEST(UnitTestMacros, BITS_EQUALZeroMaskEqual)
-{
-  BITS_EQUAL(0x00, 0xFF, 0x00);
-}
-
-static void
-failingTestMethodWithBITS_EQUAL_TEXT_()
-{
-  BITS_EQUAL_TEXT(0x00, 0xFFFFFFFF, 0xFF, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UnitTestMacros, FailureWithBITS_EQUAL_TEXT)
-{
-  fixture.runTestWithMethod(failingTestMethodWithBITS_EQUAL_TEXT_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "expected <xxxxxxxx xxxxxxxx xxxxxxxx 00000000>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "but was  <xxxxxxxx xxxxxxxx xxxxxxxx 11111111>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(UnitTestMacros, BITS_EQUAL_TEXTBehavesAsAProperMacro)
-{
-  if (false)
-    BITS_EQUAL_TEXT(0x00, 0xFF, 0xFF, "Failed because it failed");
-  else
-    BITS_EQUAL_TEXT(0x00, 0x00, 0xFF, "Failed because it failed");
-}
-
-IGNORE_TEST(UnitTestMacros, BITS_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  BITS_EQUAL_TEXT(0x00, 0xFF, 0xFF, "Failed because it failed");
 }
 
 enum class ScopedIntEnum

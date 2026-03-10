@@ -459,18 +459,6 @@
         expected, actual, size, text, file, line);                             \
   } while (0)
 
-#define BITS_EQUAL(expected, actual, mask)                                     \
-  BITS_LOCATION(expected, actual, mask, nullptr, __FILE__, __LINE__)
-
-#define BITS_EQUAL_TEXT(expected, actual, mask, text)                          \
-  BITS_LOCATION(expected, actual, mask, text, __FILE__, __LINE__)
-
-#define BITS_LOCATION(expected, actual, mask, text, file, line)                \
-  do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertBitsEqual(                        \
-        expected, actual, mask, sizeof(actual), text, file, line);             \
-  } while (0) // NOLINT(bugprone-sizeof-expression)
-
 #define ENUMS_EQUAL_INT(expected, actual)                                      \
   ENUMS_EQUAL_TYPE(int, expected, actual)
 

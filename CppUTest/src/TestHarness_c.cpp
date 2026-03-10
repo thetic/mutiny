@@ -250,25 +250,6 @@ CHECK_EQUAL_C_MEMCMP_LOCATION(const void* expected,
 }
 
 void
-CHECK_EQUAL_C_BITS_LOCATION(unsigned int expected,
-    unsigned int actual,
-    unsigned int mask,
-    size_t size,
-    const char* text,
-    const char* fileName,
-    size_t lineNumber)
-{
-  cpputest::TestShell::getCurrent()->assertBitsEqual(expected,
-      actual,
-      mask,
-      size,
-      text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
-}
-
-void
 FAIL_TEXT_C_LOCATION(const char* text, const char* fileName, size_t lineNumber)
 {
   cpputest::TestShell::getCurrent()->fail(text,

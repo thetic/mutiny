@@ -265,14 +265,6 @@ public:
       const char* fileName,
       size_t lineNumber,
       const TestTerminator& testTerminator = getCurrentTestTerminator());
-  virtual void assertBitsEqual(unsigned long expected,
-      unsigned long actual,
-      unsigned long mask,
-      size_t byteCount,
-      const char* text,
-      const char* fileName,
-      size_t lineNumber,
-      const TestTerminator& testTerminator = getCurrentTestTerminator());
   virtual void assertCompare(bool comparison,
       const char* checkString,
       const char* comparisonString,

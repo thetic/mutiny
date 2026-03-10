@@ -750,24 +750,6 @@ TestShell::assertBinaryEqual(const void* expected,
 }
 
 void
-TestShell::assertBitsEqual(unsigned long expected,
-    unsigned long actual,
-    unsigned long mask,
-    size_t byteCount,
-    const char* text,
-    const char* fileName,
-    size_t lineNumber,
-    const TestTerminator& testTerminator)
-{
-  getTestResult()->countCheck();
-  if ((expected & mask) != (actual & mask)) {
-    addFailure(BitsEqualFailure(
-        this, fileName, lineNumber, expected, actual, mask, byteCount, text));
-    testTerminator.exitCurrentTest();
-  }
-}
-
-void
 TestShell::assertEquals(bool failed,
     const char* expected,
     const char* actual,

@@ -273,19 +273,6 @@ public:
       const String& text);
 };
 
-class BitsEqualFailure : public TestFailure
-{
-public:
-  BitsEqualFailure(TestShell* test,
-      const char* fileName,
-      size_t lineNumber,
-      unsigned long expected,
-      unsigned long actual,
-      unsigned long mask,
-      size_t byteCount,
-      const String& text);
-};
-
 class FeatureUnsupportedFailure : public TestFailure
 {
 public:

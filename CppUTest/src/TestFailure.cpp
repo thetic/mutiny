@@ -532,23 +532,6 @@ BinaryEqualFailure::BinaryEqualFailure(TestShell* test,
   }
 }
 
-BitsEqualFailure::BitsEqualFailure(TestShell* test,
-    const char* fileName,
-    size_t lineNumber,
-    unsigned long expected,
-    unsigned long actual,
-    unsigned long mask,
-    size_t byteCount,
-    const String& text)
-  : TestFailure(test, fileName, lineNumber)
-{
-  message_ = createUserText(text);
-
-  message_ +=
-      createButWasString(StringFromMaskedBits(expected, mask, byteCount),
-          StringFromMaskedBits(actual, mask, byteCount));
-}
-
 FeatureUnsupportedFailure::FeatureUnsupportedFailure(TestShell* test,
     const char* fileName,
     size_t lineNumber,

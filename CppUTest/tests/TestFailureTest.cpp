@@ -508,68 +508,6 @@ TEST(TestFailure, BinaryEqualExpectedNull)
   FAILURE_EQUAL("expected <(null)>\n\tbut was  <00 00 00 00 00 00 01>", f);
 }
 
-TEST(TestFailure, BitsEqualWithText)
-{
-  cpputest::BitsEqualFailure f(test,
-      failFileName,
-      failLineNumber,
-      0x0001,
-      0x0003,
-      0x00FF,
-      2 * 8 / CHAR_BIT,
-      "text");
-  FAILURE_EQUAL(
-      "Message: text\n"
-      "\texpected <xxxxxxxx 00000001>\n\tbut was  <xxxxxxxx 00000011>",
-      f);
-}
-
-#if (CHAR_BIT == 16)
-TEST(TestFailure, BitsEqualChar)
-{
-  cpputest::BitsEqualFailure f(
-      test, failFileName, failLineNumber, 0x01, 0x03, 0xFF, sizeof(char), "");
-  FAILURE_EQUAL(
-      "expected <xxxxxxxx 00000001>\n\tbut was  <xxxxxxxx 00000011>", f);
-}
-#elif (CHAR_BIT == 8)
-TEST(TestFailure, BitsEqualChar)
-{
-  cpputest::BitsEqualFailure f(
-      test, failFileName, failLineNumber, 0x01, 0x03, 0xFF, sizeof(char), "");
-  FAILURE_EQUAL("expected <00000001>\n\tbut was  <00000011>", f);
-}
-#endif
-
-TEST(TestFailure, BitsEqual16Bit)
-{
-  cpputest::BitsEqualFailure f(test,
-      failFileName,
-      failLineNumber,
-      0x0001,
-      0x0003,
-      0xFFFF,
-      2 * 8 / CHAR_BIT,
-      "");
-  FAILURE_EQUAL(
-      "expected <00000000 00000001>\n\tbut was  <00000000 00000011>", f);
-}
-
-TEST(TestFailure, BitsEqual32Bit)
-{
-  cpputest::BitsEqualFailure f(test,
-      failFileName,
-      failLineNumber,
-      0x00000001,
-      0x00000003,
-      0xFFFFFFFF,
-      4 * 8 / CHAR_BIT,
-      "");
-  FAILURE_EQUAL("expected <00000000 00000000 00000000 00000001>\n\tbut was  "
-                "<00000000 00000000 00000000 00000011>",
-      f);
-}
-
 TEST(TestFailure, FeatureUnsupported)
 {
   cpputest::FeatureUnsupportedFailure f(

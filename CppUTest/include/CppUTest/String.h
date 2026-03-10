@@ -286,9 +286,6 @@ String
 StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
 
 String
-StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount);
-
-String
 StringFromOrdinalNumber(unsigned int number);
 
 String

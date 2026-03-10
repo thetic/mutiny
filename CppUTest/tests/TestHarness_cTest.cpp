@@ -591,45 +591,6 @@ TEST(TestHarness_c, checkMemcmpText)
 }
 
 static void
-failBitsMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_BITS(0x0001, static_cast<unsigned short>(0x0003), 0xFFFF);
-}
-
-TEST(TestHarness_c, checkBits)
-{
-  CHECK_EQUAL_C_BITS(0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF);
-  fixture->setTestFunction(failBitsMethod_);
-  fixture->runAllTests();
-  fixture->assertPrintContains(
-      "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
-  fixture->assertPrintContains("arness_c");
-  CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failBitsTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_BITS_TEXT(
-      0x0001, static_cast<unsigned short>(0x0003), 0xFFFF, "BitsTestText");
-}
-
-TEST(TestHarness_c, checkBitsText)
-{
-  CHECK_EQUAL_C_BITS_TEXT(
-      0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF, "Text");
-  fixture->setTestFunction(failBitsTextMethod_);
-  fixture->runAllTests();
-  fixture->assertPrintContains(
-      "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
-  fixture->assertPrintContains("arness_c");
-  fixture->assertPrintContains("Message: BitsTestText");
-  CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
 failTextMethod_()
 {
   HasTheDestructorBeenCalledChecker checker;

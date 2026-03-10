@@ -124,14 +124,6 @@
   CHECK_EQUAL_C_MEMCMP_LOCATION(                                               \
       expected, actual, size, text, __FILE__, __LINE__)
 
-#define CHECK_EQUAL_C_BITS(expected, actual, mask)                             \
-  CHECK_EQUAL_C_BITS_LOCATION(                                                 \
-      expected, actual, mask, sizeof(actual), NULL, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_BITS_TEXT(expected, actual, mask, text)                  \
-  CHECK_EQUAL_C_BITS_LOCATION(                                                 \
-      expected, actual, mask, sizeof(actual), text, __FILE__, __LINE__)
-
 #define FAIL_TEXT_C(text) FAIL_TEXT_C_LOCATION(text, __FILE__, __LINE__)
 
 #define FAIL_C() FAIL_C_LOCATION(__FILE__, __LINE__)
@@ -272,13 +264,6 @@ extern "C"
       size_t lineNumber);
   void CHECK_EQUAL_C_MEMCMP_LOCATION(const void* expected,
       const void* actual,
-      size_t size,
-      const char* text,
-      const char* fileName,
-      size_t lineNumber);
-  void CHECK_EQUAL_C_BITS_LOCATION(unsigned int expected,
-      unsigned int actual,
-      unsigned int mask,
       size_t size,
       const char* text,
       const char* fileName,
