@@ -46,8 +46,8 @@ public:
   virtual void postTestAction(TestShell&, TestResult&) {}
 
   virtual bool parseArguments(int /* ac */,
-                              const char* const* /* av */,
-                              int /* index */)
+      const char* const* /* av */,
+      int /* index */)
   {
     return false;
   }
@@ -108,9 +108,9 @@ public:
   NullTestPlugin();
 
   virtual void runAllPreTestAction(TestShell& test,
-                                   TestResult& result) override;
+      TestResult& result) override;
   virtual void runAllPostTestAction(TestShell& test,
-                                    TestResult& result) override;
+      TestResult& result) override;
 
   static NullTestPlugin* instance();
 };

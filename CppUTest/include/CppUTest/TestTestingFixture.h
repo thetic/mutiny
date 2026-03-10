@@ -66,8 +66,8 @@ public:
   void assertPrintContains(const String& contains);
   void assertPrintContainsNot(const String& contains);
   void checkTestFailsWithProperTestLocation(const char* text,
-                                            const char* file,
-                                            size_t line);
+      const char* file,
+      size_t line);
 
   static void lineExecutedAfterCheck();
 

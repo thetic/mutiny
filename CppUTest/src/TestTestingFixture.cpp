@@ -202,26 +202,26 @@ TestTestingFixture::lineExecutedAfterCheck()
 
 void
 TestTestingFixture::checkTestFailsWithProperTestLocation(const char* text,
-                                                         const char* file,
-                                                         size_t line)
+    const char* file,
+    size_t line)
 {
   if (getFailureCount() != 1)
     FAIL_LOCATION(
-      StringFromFormat(
-        "Expected one test failure, but got %d amount of test failures",
-        static_cast<int>(getFailureCount()))
-        .asCharString(),
-      file,
-      line);
+        StringFromFormat(
+            "Expected one test failure, but got %d amount of test failures",
+            static_cast<int>(getFailureCount()))
+            .asCharString(),
+        file,
+        line);
 
   STRCMP_CONTAINS_LOCATION(
-    text, output_->getOutput().asCharString(), "", file, line);
+      text, output_->getOutput().asCharString(), "", file, line);
 
   if (lineOfCodeExecutedAfterCheck)
     FAIL_LOCATION("The test should jump/throw on failure and not execute the "
                   "next line. However, the next line was executed.",
-                  file,
-                  line);
+        file,
+        line);
 }
 
 } // namespace cpputest

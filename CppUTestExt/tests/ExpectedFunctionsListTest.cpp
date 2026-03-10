@@ -144,7 +144,7 @@ TEST(MockExpectedCallsList, onlyKeepExpectationsRelatedTo)
 }
 
 TEST(MockExpectedCallsList,
-     removeAllExpectationsExceptThisThatRelateToTheWoleList)
+    removeAllExpectationsExceptThisThatRelateToTheWoleList)
 {
   call1->withName("relate");
   call2->withName("relate");
@@ -214,7 +214,7 @@ TEST(MockExpectedCallsList, addPotentiallyMatchingExpectationsWithEmptyList)
 }
 
 TEST(MockExpectedCallsList,
-     addPotentiallyMatchingExpectationsMultipleUnmatchedExpectations)
+    addPotentiallyMatchingExpectationsMultipleUnmatchedExpectations)
 {
   call2->callWasMade(1);
   list->addExpectedCall(call1);
@@ -258,10 +258,10 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
 
   String expectedString;
   expectedString = StringFromFormat("%s\n%s",
-                                    call1->callToString().asCharString(),
-                                    call2->callToString().asCharString());
+      call1->callToString().asCharString(),
+      call2->callToString().asCharString());
   STRCMP_EQUAL(expectedString.asCharString(),
-               list->unfulfilledCallsToString().asCharString());
+      list->unfulfilledCallsToString().asCharString());
 }
 
 TEST(MockExpectedCallsList, callsWithMissingParametersToString)
@@ -274,15 +274,13 @@ TEST(MockExpectedCallsList, callsWithMissingParametersToString)
   list->addExpectedCall(call2);
 
   String expectedString;
-  expectedString =
-    StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
-                     call1->callToString().asCharString(),
-                     call1->missingParametersToString().asCharString(),
-                     call2->callToString().asCharString(),
-                     call2->missingParametersToString().asCharString());
-  STRCMP_EQUAL(
-    expectedString.asCharString(),
-    list->callsWithMissingParametersToString("-", "#").asCharString());
+  expectedString = StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
+      call1->callToString().asCharString(),
+      call1->missingParametersToString().asCharString(),
+      call2->callToString().asCharString(),
+      call2->missingParametersToString().asCharString());
+  STRCMP_EQUAL(expectedString.asCharString(),
+      list->callsWithMissingParametersToString("-", "#").asCharString());
 }
 
 TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
@@ -298,10 +296,10 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
 
   String expectedString;
   expectedString = StringFromFormat("%s\n%s",
-                                    call1->callToString().asCharString(),
-                                    call2->callToString().asCharString());
+      call1->callToString().asCharString(),
+      call2->callToString().asCharString());
   STRCMP_EQUAL(expectedString.asCharString(),
-               list->fulfilledCallsToString().asCharString());
+      list->fulfilledCallsToString().asCharString());
 }
 
 TEST(MockExpectedCallsList, removeOneFinalizedMatchingExpectationFromEmptyList)
@@ -325,7 +323,7 @@ TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_emptyList)
 }
 
 TEST(MockExpectedCallsList,
-     hasFinalizedMatchingExpectations_listHasNonMatchingCalls)
+    hasFinalizedMatchingExpectations_listHasNonMatchingCalls)
 {
   call1->withParameter("param", 0);
   call2->withParameter("param", 0);
@@ -338,7 +336,7 @@ TEST(MockExpectedCallsList,
 }
 
 TEST(MockExpectedCallsList,
-     hasFinalizedMatchingExpectations_listHasMatchingButNotFinalizedCall)
+    hasFinalizedMatchingExpectations_listHasMatchingButNotFinalizedCall)
 {
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
@@ -349,7 +347,7 @@ TEST(MockExpectedCallsList,
 }
 
 TEST(MockExpectedCallsList,
-     hasFinalizedMatchingExpectations_listHasFinalizedCallThatIgnoresParameters)
+    hasFinalizedMatchingExpectations_listHasFinalizedCallThatIgnoresParameters)
 {
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
@@ -361,9 +359,8 @@ TEST(MockExpectedCallsList,
   CHECK(list->hasFinalizedMatchingExpectations());
 }
 
-TEST(
-  MockExpectedCallsList,
-  hasFinalizedMatchingExpectations_listHasFinalizedCallThatDoesntIgnoreParameters)
+TEST(MockExpectedCallsList,
+    hasFinalizedMatchingExpectations_listHasFinalizedCallThatDoesntIgnoreParameters)
 {
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);

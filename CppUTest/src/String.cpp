@@ -61,9 +61,9 @@ String::allocStringBuffer(size_t _size, const char* file, size_t line)
 
 void
 String::deallocStringBuffer(char* str,
-                            size_t size,
-                            const char* file,
-                            size_t line)
+    size_t size,
+    const char* file,
+    size_t line)
 {
   getStringAllocator()->free_memory(str, size, file, line);
 }
@@ -139,7 +139,7 @@ String::StrNCmp(const char* s1, const char* s2, size_t n)
     ++s2;
   }
   return n ? *reinterpret_cast<const unsigned char*>(s1) -
-               *reinterpret_cast<const unsigned char*>(s2)
+                 *reinterpret_cast<const unsigned char*>(s2)
            : 0;
 }
 
@@ -213,7 +213,7 @@ String::setInternalBufferAsEmptyString()
 
 void
 String::copyBufferToNewInternalBuffer(const char* otherBuffer,
-                                      size_t bufferSize)
+    size_t bufferSize)
 {
   deallocateInternalBuffer();
 
@@ -440,8 +440,9 @@ String::replace(const char* to, const char* with)
 String
 String::printable() const
 {
-  static const char* shortEscapeCodes[] = { "\\a", "\\b", "\\t", "\\n",
-                                            "\\v", "\\f", "\\r" };
+  static const char* shortEscapeCodes[] = {
+    "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r"
+  };
 
   String result;
   result.setInternalBufferToNewBuffer(getPrintableSize() + 1);
@@ -452,8 +453,8 @@ String::printable() const
     char c = buffer_[i];
     if (isControlWithShortEscapeSequence(c)) {
       StrNCpy(&result.buffer_[j],
-              shortEscapeCodes[static_cast<unsigned char>(c - '\a')],
-              2);
+          shortEscapeCodes[static_cast<unsigned char>(c - '\a')],
+          2);
       j += 2;
     } else if (isControl(c)) {
       String hexEscapeCode = StringFromFormat("\\x%02X ", c);
@@ -922,18 +923,18 @@ VStringFromFormat(const char* format, va_list args)
   String resultString;
 
   size_t size = static_cast<size_t>(PlatformSpecificVSNprintf(
-    defaultBuffer, sizeOfdefaultBuffer, format, args));
+      defaultBuffer, sizeOfdefaultBuffer, format, args));
   if (size < sizeOfdefaultBuffer) {
     resultString = String(defaultBuffer);
   } else {
     size_t newBufferSize = size + 1;
     char* newBuffer = String::getStringAllocator()->alloc_memory(
-      newBufferSize, __FILE__, __LINE__);
+        newBufferSize, __FILE__, __LINE__);
     PlatformSpecificVSNprintf(newBuffer, newBufferSize, format, argsCopy);
     resultString = String(newBuffer);
 
     String::getStringAllocator()->free_memory(
-      newBuffer, newBufferSize, __FILE__, __LINE__);
+        newBuffer, newBufferSize, __FILE__, __LINE__);
   }
   va_end(argsCopy);
   return resultString;
@@ -961,8 +962,8 @@ StringFromBinaryOrNull(const unsigned char* value, size_t size)
 String
 StringFromBinaryWithSize(const unsigned char* value, size_t size)
 {
-  String result =
-    StringFromFormat("Size = %u | HexContents = ", static_cast<unsigned>(size));
+  String result = StringFromFormat(
+      "Size = %u | HexContents = ", static_cast<unsigned>(size));
   size_t displayedSize = ((size > 128) ? 128 : size);
   result += StringFromBinaryOrNull(value, displayedSize);
   if (size > displayedSize) {
@@ -982,10 +983,10 @@ StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount)
 {
   String result;
   size_t bitCount = (byteCount > sizeof(unsigned long))
-                      ? (sizeof(unsigned long) * CHAR_BIT)
-                      : (byteCount * CHAR_BIT);
+                        ? (sizeof(unsigned long) * CHAR_BIT)
+                        : (byteCount * CHAR_BIT);
   const unsigned long msbMask =
-    (static_cast<unsigned long>(1) << (bitCount - 1));
+      (static_cast<unsigned long>(1) << (bitCount - 1));
 
   for (size_t i = 0; i < bitCount; i++) {
     if (mask & msbMask) {

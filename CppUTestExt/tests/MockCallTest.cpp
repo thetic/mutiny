@@ -58,7 +58,7 @@ TEST(MockCallTest, expectASingleCallThatHappens)
 {
   mock().expectOneCall("func");
   MockCheckedActualCall& actualCall =
-    static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
+      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
   actualCall.checkExpectations();
   CHECK(!mock().expectedCallsLeft());
 }
@@ -75,7 +75,7 @@ TEST(MockCallTest, expectAMultiCallThatHappensTheExpectedTimes)
   mock().expectNCalls(2, "func");
   mock().actualCall("func");
   MockCheckedActualCall& actualCall =
-    static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
+      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
   actualCall.checkExpectations();
   CHECK(!mock().expectedCallsLeft());
 }
@@ -84,7 +84,7 @@ TEST(MockCallTest, expectAMultiCallThatDoesntHappenTheExpectedTimes)
 {
   mock().expectNCalls(2, "func");
   MockCheckedActualCall& actualCall =
-    static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
+      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
   actualCall.checkExpectations();
   CHECK(mock().expectedCallsLeft());
   mock().clear();
@@ -96,8 +96,8 @@ TEST(MockCallTest, checkExpectationsClearsTheExpectations)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foobar");
-  MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(),
-                                                      expectations);
+  MockExpectedCallsDidntHappenFailure expectedFailure(
+      mockFailureTest(), expectations);
 
   mock().expectOneCall("foobar");
   mock().checkExpectations();
@@ -113,8 +113,8 @@ TEST(MockCallTest, expectOneCallInScopeButNotHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("scope::foobar");
-  MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(),
-                                                      expectations);
+  MockExpectedCallsDidntHappenFailure expectedFailure(
+      mockFailureTest(), expectations);
 
   mock("scope").expectOneCall("foobar");
   mock().checkExpectations();
@@ -128,7 +128,7 @@ TEST(MockCallTest, unexpectedCallHappened)
 
   MockExpectedCallsListForTest emptyExpectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "func", emptyExpectations);
+      mockFailureTest(), "func", emptyExpectations);
 
   mock().actualCall("func");
 
@@ -141,7 +141,7 @@ TEST(MockCallTest, unexpectedScopeCallHappened)
 
   MockExpectedCallsListForTest emptyExpectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "scope::func", emptyExpectations);
+      mockFailureTest(), "scope::func", emptyExpectations);
 
   mock("scope").actualCall("func");
 
@@ -154,7 +154,7 @@ TEST(MockCallTest, expectOneCallInOneScopeButActualCallInAnotherScope)
 
   MockExpectedCallsListForTest emptyExpectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "class::foo", emptyExpectations);
+      mockFailureTest(), "class::foo", emptyExpectations);
 
   mock("scope").expectOneCall("foo");
   mock("class").actualCall("foo");
@@ -169,7 +169,7 @@ TEST(MockCallTest, expectOneCallInScopeButActualCallInGlobal)
 
   MockExpectedCallsListForTest emptyExpectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "foo", emptyExpectations);
+      mockFailureTest(), "foo", emptyExpectations);
 
   mock("scope").expectOneCall("foo");
   mock().actualCall("foo");
@@ -195,7 +195,7 @@ TEST(MockCallTest, expectOneCallHoweverMultipleHappened)
   expectations.addFunction("foo")->callWasMade(1);
   expectations.addFunction("foo")->callWasMade(2);
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "foo", expectations);
+      mockFailureTest(), "foo", expectations);
 
   mock().expectOneCall("foo");
   mock().expectOneCall("foo");
@@ -213,7 +213,7 @@ TEST(MockCallTest, expectNoCallThatHappened)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "lazy", expectations);
+      mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
   mock().actualCall("lazy");
@@ -229,7 +229,7 @@ TEST(MockCallTest, expectNoCallDoesntInfluenceExpectOneCall)
   expectations.addFunction(0, "lazy");
   expectations.addFunction("influence")->callWasMade(1);
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "lazy", expectations);
+      mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
   mock().expectOneCall("influence");
@@ -246,7 +246,7 @@ TEST(MockCallTest, expectNoCallOnlyFailureOnceWhenMultipleHappened)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "lazy", expectations);
+      mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
   mock().actualCall("lazy");
@@ -261,7 +261,7 @@ TEST(MockCallTest, ignoreOtherCallsExceptForTheUnExpectedOne)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "lazy", expectations);
+      mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
   mock().ignoreOtherCalls();
@@ -280,7 +280,7 @@ TEST(MockCallTest, expectNoCallInScopeThatHappened)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "scope::lazy");
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "scope::lazy", expectations);
+      mockFailureTest(), "scope::lazy", expectations);
 
   mock("scope").expectNoCall("lazy");
   mock("scope").actualCall("lazy");
@@ -294,7 +294,7 @@ TEST(MockCallTest, expectNoCallInScopeButActualCallInAnotherScope)
 
   MockExpectedCallsListForTest expectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "scope2::lazy", expectations);
+      mockFailureTest(), "scope2::lazy", expectations);
 
   mock("scope1").expectNoCall("lazy");
   mock("scope2").actualCall("lazy");
@@ -308,7 +308,7 @@ TEST(MockCallTest, expectNoCallInScopeButActualCallInGlobal)
 
   MockExpectedCallsListForTest expectations;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "lazy", expectations);
+      mockFailureTest(), "lazy", expectations);
 
   mock("scope1").expectNoCall("lazy");
   mock().actualCall("lazy");
@@ -332,7 +332,7 @@ TEST(MockCallTest, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->callWasMade(1);
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "foo", expectations);
+      mockFailureTest(), "foo", expectations);
 
   mock().expectOneCall("foo");
   mock().ignoreOtherCalls();
@@ -349,8 +349,8 @@ TEST(MockCallTest, ignoreOtherStillFailsIfExpectedOneDidntHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo");
-  MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(),
-                                                      expectations);
+  MockExpectedCallsDidntHappenFailure expectedFailure(
+      mockFailureTest(), expectations);
 
   mock().expectOneCall("foo");
   mock().ignoreOtherCalls();
@@ -430,7 +430,7 @@ TEST(MockCallTest, OnObjectFails)
   mock().actualCall("boo").onObject(objectPtr2);
 
   MockUnexpectedObjectFailure expectedFailure(
-    mockFailureTest(), "boo", objectPtr2, expectations);
+      mockFailureTest(), "boo", objectPtr2, expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -449,7 +449,7 @@ TEST(MockCallTest, OnObjectExpectedButNotCalled)
   mock().actualCall("boo");
 
   MockExpectedObjectDidntHappenFailure expectedFailure(
-    mockFailureTest(), "boo", expectations);
+      mockFailureTest(), "boo", expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
   mock().checkExpectations();
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
@@ -469,8 +469,8 @@ TEST(MockCallTest, expectNCalls_NotFulfilled)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(2, "boo")->callWasMade(1);
-  MockExpectedCallsDidntHappenFailure expectedFailure(mockFailureTest(),
-                                                      expectations);
+  MockExpectedCallsDidntHappenFailure expectedFailure(
+      mockFailureTest(), expectations);
 
   mock().expectNCalls(2, "boo");
   mock().actualCall("boo");
@@ -491,9 +491,9 @@ TEST(MockCallTest, shouldntFailTwice)
   mock().checkExpectations();
 
   CHECK(!MockFailureReporterForTest::getReporter()->mockFailureString.contains(
-    "bar"));
+      "bar"));
   CHECK(MockFailureReporterForTest::getReporter()->mockFailureString.contains(
-    "boo"));
+      "boo"));
 }
 
 TEST(MockCallTest, shouldReturnDefaultWhenThereIsntAnythingToReturn)

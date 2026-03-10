@@ -80,11 +80,11 @@
 
 #define CHECK_EQUAL_C_REAL(expected, actual, threshold)                        \
   CHECK_EQUAL_C_REAL_LOCATION(                                                 \
-    expected, actual, threshold, NULL, __FILE__, __LINE__)
+      expected, actual, threshold, NULL, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_C_REAL_TEXT(expected, actual, threshold, text)             \
   CHECK_EQUAL_C_REAL_LOCATION(                                                 \
-    expected, actual, threshold, text, __FILE__, __LINE__)
+      expected, actual, threshold, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_C_CHAR(expected, actual)                                   \
   CHECK_EQUAL_C_CHAR_LOCATION(expected, actual, NULL, __FILE__, __LINE__)
@@ -118,19 +118,19 @@
 
 #define CHECK_EQUAL_C_MEMCMP(expected, actual, size)                           \
   CHECK_EQUAL_C_MEMCMP_LOCATION(                                               \
-    expected, actual, size, NULL, __FILE__, __LINE__)
+      expected, actual, size, NULL, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_C_MEMCMP_TEXT(expected, actual, size, text)                \
   CHECK_EQUAL_C_MEMCMP_LOCATION(                                               \
-    expected, actual, size, text, __FILE__, __LINE__)
+      expected, actual, size, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_C_BITS(expected, actual, mask)                             \
   CHECK_EQUAL_C_BITS_LOCATION(                                                 \
-    expected, actual, mask, sizeof(actual), NULL, __FILE__, __LINE__)
+      expected, actual, mask, sizeof(actual), NULL, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_C_BITS_TEXT(expected, actual, mask, text)                  \
   CHECK_EQUAL_C_BITS_LOCATION(                                                 \
-    expected, actual, mask, sizeof(actual), text, __FILE__, __LINE__)
+      expected, actual, mask, sizeof(actual), text, __FILE__, __LINE__)
 
 #define FAIL_TEXT_C(text) FAIL_TEXT_C_LOCATION(text, __FILE__, __LINE__)
 
@@ -205,93 +205,93 @@ extern "C"
 
   /* CHECKS that can be used from C code */
   void CHECK_EQUAL_C_BOOL_LOCATION(int expected,
-                                   int actual,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      int actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_INT_LOCATION(int expected,
-                                  int actual,
-                                  const char* text,
-                                  const char* fileName,
-                                  size_t lineNumber);
+      int actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_UINT_LOCATION(unsigned int expected,
-                                   unsigned int actual,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      unsigned int actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_LONG_LOCATION(long expected,
-                                   long actual,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      long actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_ULONG_LOCATION(unsigned long expected,
-                                    unsigned long actual,
-                                    const char* text,
-                                    const char* fileName,
-                                    size_t lineNumber);
+      unsigned long actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_LONGLONG_LOCATION(long long expected,
-                                       long long actual,
-                                       const char* text,
-                                       const char* fileName,
-                                       size_t lineNumber);
+      long long actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_ULONGLONG_LOCATION(unsigned long long expected,
-                                        unsigned long long actual,
-                                        const char* text,
-                                        const char* fileName,
-                                        size_t lineNumber);
+      unsigned long long actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_REAL_LOCATION(double expected,
-                                   double actual,
-                                   double threshold,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      double actual,
+      double threshold,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_CHAR_LOCATION(char expected,
-                                   char actual,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      char actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_UBYTE_LOCATION(unsigned char expected,
-                                    unsigned char actual,
-                                    const char* text,
-                                    const char* fileName,
-                                    size_t lineNumber);
+      unsigned char actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_SBYTE_LOCATION(signed char expected,
-                                    signed char actual,
-                                    const char* text,
-                                    const char* fileName,
-                                    size_t lineNumber);
+      signed char actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_STRING_LOCATION(const char* expected,
-                                     const char* actual,
-                                     const char* text,
-                                     const char* fileName,
-                                     size_t lineNumber);
+      const char* actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_POINTER_LOCATION(const void* expected,
-                                      const void* actual,
-                                      const char* text,
-                                      const char* fileName,
-                                      size_t lineNumber);
+      const void* actual,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_MEMCMP_LOCATION(const void* expected,
-                                     const void* actual,
-                                     size_t size,
-                                     const char* text,
-                                     const char* fileName,
-                                     size_t lineNumber);
+      const void* actual,
+      size_t size,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void CHECK_EQUAL_C_BITS_LOCATION(unsigned int expected,
-                                   unsigned int actual,
-                                   unsigned int mask,
-                                   size_t size,
-                                   const char* text,
-                                   const char* fileName,
-                                   size_t lineNumber);
+      unsigned int actual,
+      unsigned int mask,
+      size_t size,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
   void FAIL_TEXT_C_LOCATION(const char* text,
-                            const char* fileName,
-                            size_t lineNumber);
+      const char* fileName,
+      size_t lineNumber);
   void FAIL_C_LOCATION(const char* fileName, size_t lineNumber);
   void CHECK_C_LOCATION(int condition,
-                        const char* conditionString,
-                        const char* text,
-                        const char* fileName,
-                        size_t lineNumber);
+      const char* conditionString,
+      const char* text,
+      const char* fileName,
+      size_t lineNumber);
 
 #ifdef __cplusplus
 }

@@ -55,7 +55,7 @@ VisualCppRestoreJumpBuffer()
 }
 
 int (*PlatformSpecificSetJmp)(void (*function)(void*),
-                              void* data) = VisualCppSetJmp;
+    void* data) = VisualCppSetJmp;
 void (*PlatformSpecificLongJmp)(void) = VisualCppLongJmp;
 void (*PlatformSpecificRestoreJumpBuffer)(void) = VisualCppRestoreJumpBuffer;
 
@@ -83,7 +83,7 @@ VisualCppTimeInMillis()
     return (unsigned long)timeGetTime();
 #else
 #if !defined(_WIN32_WINNT) || !defined(_WIN32_WINNT_VISTA) ||                  \
-  (_WIN32_WINNT < _WIN32_WINNT_VISTA)
+    (_WIN32_WINNT < _WIN32_WINNT_VISTA)
     return (unsigned long)GetTickCount();
 #else
     return (unsigned long)GetTickCount64();
@@ -133,9 +133,9 @@ VisualCppVSNprintf(char* str, size_t size, const char* format, va_list args)
 }
 
 int (*PlatformSpecificVSNprintf)(char* str,
-                                 size_t size,
-                                 const char* format,
-                                 va_list va_args_list) = VisualCppVSNprintf;
+    size_t size,
+    const char* format,
+    va_list va_args_list) = VisualCppVSNprintf;
 
 static PlatformSpecificFile
 VisualCppFOpen(const char* filename, const char* flag)
@@ -159,10 +159,9 @@ VisualCppFClose(PlatformSpecificFile file)
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 PlatformSpecificFile (*PlatformSpecificFOpen)(const char* filename,
-                                              const char* flag) =
-  VisualCppFOpen;
+    const char* flag) = VisualCppFOpen;
 void (*PlatformSpecificFPuts)(const char* str,
-                              PlatformSpecificFile file) = VisualCppFPuts;
+    PlatformSpecificFile file) = VisualCppFPuts;
 void (*PlatformSpecificFClose)(PlatformSpecificFile file) = VisualCppFClose;
 
 static void

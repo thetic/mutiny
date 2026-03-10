@@ -60,15 +60,15 @@ setup() override
   result = new cpputest::TestResult(*mock);
   result->setTotalExecutionTime(10);
   millisTime = 0;
-  UT_PTR_SET(GetPlatformSpecificTimeInMillis,
-             MockGetPlatformSpecificTimeInMillis);
+  UT_PTR_SET(
+      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
   cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
 }
 void
 teardown() override
 {
   cpputest::TestOutput::setWorkingEnvironment(
-    cpputest::TestOutput::detectEnvironment);
+      cpputest::TestOutput::detectEnvironment);
   delete printer;
   delete tst;
   delete f;
@@ -130,7 +130,7 @@ TEST(TestOutput, PrintTestALot)
     printer->printCurrentTestEnded(*result);
   }
   STRCMP_EQUAL("..................................................\n..........",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
@@ -147,10 +147,10 @@ TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
     printer->printCurrentTestEnded(*result);
   }
   STRCMP_EQUAL(
-    "..................................................\n.........."
-    "\nOK (60 tests, 60 ran, 0 checks, 0 ignored, 0 filtered out, 10 ms)\n\n"
-    "..................................................\n..........",
-    mock->getOutput().asCharString());
+      "..................................................\n.........."
+      "\nOK (60 tests, 60 ran, 0 checks, 0 ignored, 0 filtered out, 10 ms)\n\n"
+      "..................................................\n..........",
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, SetProgressIndicator)
@@ -188,7 +188,7 @@ TEST(TestOutput, printColorWithSuccess)
   printer->printTestsEnded(*result);
   STRCMP_EQUAL("\n\033[32;1mOK (1 tests, 1 ran, 0 checks, 0 ignored, 0 "
                "filtered out, 10 ms)\033[m\n\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, printColorWithFailures)
@@ -201,7 +201,7 @@ TEST(TestOutput, printColorWithFailures)
   STRCMP_EQUAL("\n\033[31;1mErrors (1 failures, 1 tests, 1 ran, 0 checks, 0 "
                "ignored, 0 filtered out, 10 ms)"
                "\033[m\n\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, PrintTestRun)
@@ -220,7 +220,7 @@ TEST(TestOutput, PrintWithFailureInSameFile)
 {
   printer->printFailure(*f2);
   STRCMP_EQUAL("\nfile:20: error: Failure in TEST(group, test)\n\tmessage\n\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, PrintFailureWithFailInDifferentFile)
@@ -242,7 +242,7 @@ TEST(TestOutput, PrintFailureWithFailInHelper)
 TEST(TestOutput, PrintInVisualStudioFormat)
 {
   cpputest::TestOutput::setWorkingEnvironment(
-    cpputest::TestOutput::visualStudio);
+      cpputest::TestOutput::visualStudio);
   printer->printFailure(*f3);
   const char* expected = "\nfile(10): error: Failure in TEST(group, test)"
                          "\nfile(2): error:\n\tmessage\n\n";
@@ -266,8 +266,8 @@ TEST(TestOutput, printTestsEnded)
   result->countRun();
   printer->printTestsEnded(*result);
   STRCMP_EQUAL(
-    "\nOK (1 tests, 3 ran, 1 checks, 2 ignored, 0 filtered out, 10 ms)\n\n",
-    mock->getOutput().asCharString());
+      "\nOK (1 tests, 3 ran, 1 checks, 2 ignored, 0 filtered out, 10 ms)\n\n",
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, printTestsEndedWithFailures)
@@ -277,7 +277,7 @@ TEST(TestOutput, printTestsEndedWithFailures)
   printer->printTestsEnded(*result);
   STRCMP_EQUAL("\nErrors (1 failures, 0 tests, 0 ran, 0 checks, 0 ignored, 0 "
                "filtered out, 10 ms)\n\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
@@ -286,12 +286,13 @@ TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
   printer->flush();
   printer->printTestsEnded(*result);
   STRCMP_EQUAL(
-    "\nErrors (ran nothing, 1 tests, 0 ran, 0 checks, 0 ignored, 0 filtered "
-    "out, 10 ms)\n"
-    "Note: test run failed because no tests were run or ignored. Assuming "
-    "something went wrong. "
-    "This often happens because of linking errors or typos in test filter.\n\n",
-    mock->getOutput().asCharString());
+      "\nErrors (ran nothing, 1 tests, 0 ran, 0 checks, 0 ignored, 0 filtered "
+      "out, 10 ms)\n"
+      "Note: test run failed because no tests were run or ignored. Assuming "
+      "something went wrong. "
+      "This often happens because of linking errors or typos in test "
+      "filter.\n\n",
+      mock->getOutput().asCharString());
 }
 
 class CompositeTestOutputTestStringBufferTestOutput
@@ -303,19 +304,19 @@ public:
   virtual void printTestsEnded(const cpputest::TestResult& result) override
   {
     output += cpputest::StringFromFormat(
-      "Test End %d\n", static_cast<int>(result.getTestCount()));
+        "Test End %d\n", static_cast<int>(result.getTestCount()));
   }
 
   void printCurrentGroupStarted(const cpputest::TestShell& test) override
   {
-    output += cpputest::StringFromFormat("Group %s Start\n",
-                                         test.getGroup().asCharString());
+    output += cpputest::StringFromFormat(
+        "Group %s Start\n", test.getGroup().asCharString());
   }
 
   void printCurrentGroupEnded(const cpputest::TestResult& res) override
   {
-    output += cpputest::StringFromFormat("Group End %d\n",
-                                         static_cast<int>(res.getTestCount()));
+    output += cpputest::StringFromFormat(
+        "Group End %d\n", static_cast<int>(res.getTestCount()));
   }
 
   virtual void printCurrentTestStarted(const cpputest::TestShell&) override
@@ -381,10 +382,10 @@ TEST(CompositeTestOutput, CurrentGroupStartedAndEnded)
 {
   compositeOutput.printCurrentGroupStarted(*test);
   compositeOutput.printCurrentGroupEnded(*result);
-  STRCMP_EQUAL("Group Group Start\nGroup End 0\n",
-               output1->getOutput().asCharString());
-  STRCMP_EQUAL("Group Group Start\nGroup End 0\n",
-               output2->getOutput().asCharString());
+  STRCMP_EQUAL(
+      "Group Group Start\nGroup End 0\n", output1->getOutput().asCharString());
+  STRCMP_EQUAL(
+      "Group Group Start\nGroup End 0\n", output2->getOutput().asCharString());
 }
 
 TEST(CompositeTestOutput, PrintBuffer)
@@ -441,14 +442,14 @@ TEST(CompositeTestOutput, color)
 TEST(CompositeTestOutput, PrintTestFailure)
 {
   cpputest::TestOutput::WorkingEnvironment previousEnvironment =
-    cpputest::TestOutput::getWorkingEnvironment();
+      cpputest::TestOutput::getWorkingEnvironment();
   cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
   cpputest::TestFailure failure(test, "file", 10, "failed");
   compositeOutput.printFailure(failure);
   STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
-               output1->getOutput().asCharString());
+      output1->getOutput().asCharString());
   STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
-               output2->getOutput().asCharString());
+      output2->getOutput().asCharString());
   cpputest::TestOutput::setWorkingEnvironment(previousEnvironment);
 }
 

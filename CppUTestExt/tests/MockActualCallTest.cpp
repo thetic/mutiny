@@ -68,7 +68,7 @@ TEST(MockCheckedActualCall, unExpectedCall)
   actualCall.withName("unexpected");
 
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "unexpected", *list);
+      mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -78,7 +78,7 @@ TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
   actualCall.withName("unexpected").withParameter("bar", 0);
 
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "unexpected", *list);
+      mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -88,7 +88,7 @@ TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
   actualCall.withName("unexpected").withOutputParameter("bar", nullptr);
 
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "unexpected", *list);
+      mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -100,7 +100,7 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
   actualCall.withName("unexpected").onObject(&object);
 
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "unexpected", *list);
+      mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 
   CHECK(actualCall
@@ -108,13 +108,13 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
 }
 
 TEST(MockCheckedActualCall,
-     actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
+    actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
   MockCheckedActualCall actualCall(1, reporter, *emptyList);
   actualCall.withName("noreturn").withCallOrder(0).returnValue();
 
   MockUnexpectedCallHappenedFailure expectedFailure(
-    mockFailureTest(), "noreturn", *list);
+      mockFailureTest(), "noreturn", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -131,7 +131,7 @@ TEST(MockCheckedActualCall, unExpectedParameterName)
   parameter.setValue(1);
 
   MockUnexpectedInputParameterFailure expectedFailure(
-    mockFailureTest(), "func", parameter, *list);
+      mockFailureTest(), "func", parameter, *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
@@ -192,11 +192,11 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   CHECK(nullptr == actual.returnConstPointerValue());
   CHECK(reinterpret_cast<const void*>(0x2) ==
         actual.returnConstPointerValueOrDefault(
-          reinterpret_cast<const void*>(0x2)));
+            reinterpret_cast<const void*>(0x2)));
   CHECK(nullptr == actual.returnFunctionPointerValue());
   CHECK(reinterpret_cast<void (*)()>(1) ==
         actual.returnFunctionPointerValueOrDefault(
-          reinterpret_cast<void (*)()>(0x1)));
+            reinterpret_cast<void (*)()>(0x1)));
   CHECK_FALSE(actual.hasReturnValue());
   CHECK(actual.returnValue().equals(MockNamedValue("")));
 }
@@ -214,18 +214,18 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 
   actual.withBoolParameter("bool", true);
   actual.withUnsignedIntParameter("unsigned_int", static_cast<unsigned int>(1));
-  actual.withUnsignedLongIntParameter("unsigned_long",
-                                      static_cast<unsigned long>(1));
+  actual.withUnsignedLongIntParameter(
+      "unsigned_long", static_cast<unsigned long>(1));
   actual.withLongIntParameter("long_int", static_cast<long int>(1));
-  actual.withLongLongIntParameter("long_long_int",
-                                  static_cast<long long int>(1));
+  actual.withLongLongIntParameter(
+      "long_long_int", static_cast<long long int>(1));
   actual.withUnsignedLongLongIntParameter(
-    "unsigned_long_long_int", static_cast<unsigned long long int>(1));
+      "unsigned_long_long_int", static_cast<unsigned long long int>(1));
   actual.withPointerParameter("pointer", &value);
   actual.withConstPointerParameter("const_pointer", &const_value);
   actual.withFunctionPointerParameter("function_pointer", function_value);
   actual.withMemoryBufferParameter(
-    "mem_buffer", mem_buffer, sizeof(mem_buffer));
+      "mem_buffer", mem_buffer, sizeof(mem_buffer));
   actual.withParameterOfType("int", "named_type", &const_value);
 
   String expectedString("\nFunction name:func");
@@ -275,10 +275,10 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
         actual.returnPointerValueOrDefault(static_cast<void*>(nullptr)));
   CHECK(nullptr == actual.returnConstPointerValue());
   CHECK(nullptr == actual.returnConstPointerValueOrDefault(
-                     static_cast<const void*>(nullptr)));
+                       static_cast<const void*>(nullptr)));
   CHECK(nullptr == actual.returnFunctionPointerValue());
   CHECK(nullptr == actual.returnFunctionPointerValueOrDefault(
-                     static_cast<void (*)()>(nullptr)));
+                       static_cast<void (*)()>(nullptr)));
 }
 
 TEST(MockCheckedActualCall, MockActualCallTraceClear)

@@ -43,8 +43,9 @@ static MockSupport global_mock;
 MockSupport&
 mock(const String& mockName, MockFailureReporter* failureReporterForThisCall)
 {
-  MockSupport& mock_support =
-    (mockName != "") ? *global_mock.getMockSupportScope(mockName) : global_mock;
+  MockSupport& mock_support = (mockName != "")
+                                  ? *global_mock.getMockSupportScope(mockName)
+                                  : global_mock;
   mock_support.setActiveReporter(failureReporterForThisCall);
   mock_support.setDefaultComparatorsAndCopiersRepository();
   return mock_support;
@@ -95,12 +96,12 @@ void
 MockSupport::setDefaultComparatorsAndCopiersRepository()
 {
   MockNamedValue::setDefaultComparatorsAndCopiersRepository(
-    &comparatorsAndCopiersRepository_);
+      &comparatorsAndCopiersRepository_);
 }
 
 void
 MockSupport::installComparator(const String& typeName,
-                               MockNamedValueComparator& comparator)
+    MockNamedValueComparator& comparator)
 {
   comparatorsAndCopiersRepository_.installComparator(typeName, comparator);
 
@@ -121,7 +122,7 @@ MockSupport::installCopier(const String& typeName, MockNamedValueCopier& copier)
 
 void
 MockSupport::installComparatorsAndCopiers(
-  const MockNamedValueComparatorsAndCopiersRepository& repository)
+    const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
   comparatorsAndCopiersRepository_.installComparatorsAndCopiers(repository);
 
@@ -213,7 +214,7 @@ MockCheckedActualCall*
 MockSupport::createActualCall()
 {
   lastActualFunctionCall_ = new MockCheckedActualCall(
-    ++actualCallOrder_, activeReporter_, expectations_);
+      ++actualCallOrder_, activeReporter_, expectations_);
   return lastActualFunctionCall_;
 }
 
@@ -356,8 +357,8 @@ MockSupport::failTestWithExpectedCallsNotFulfilled()
     if (getMockSupport(p))
       expectationsList.addExpectations(getMockSupport(p)->expectations_);
 
-  MockExpectedCallsDidntHappenFailure failure(activeReporter_->getTestToFail(),
-                                              expectationsList);
+  MockExpectedCallsDidntHappenFailure failure(
+      activeReporter_->getTestToFail(), expectationsList);
   failTest(failure);
 }
 
@@ -371,8 +372,8 @@ MockSupport::failTestWithOutOfOrderCalls()
     if (getMockSupport(p))
       expectationsList.addExpectations(getMockSupport(p)->expectations_);
 
-  MockCallOrderFailure failure(activeReporter_->getTestToFail(),
-                               expectationsList);
+  MockCallOrderFailure failure(
+      activeReporter_->getTestToFail(), expectationsList);
   failTest(failure);
 }
 
@@ -521,8 +522,8 @@ MockSupport::setDataObject(const String& name, const String& type, void* value)
 
 void
 MockSupport::setDataConstObject(const String& name,
-                                const String& type,
-                                const void* value)
+    const String& type,
+    const void* value)
 {
   MockNamedValue* newData = retrieveDataFromStore(name);
   newData->setConstObjectPointer(type, value);
@@ -563,10 +564,10 @@ MockSupport::getMockSupportScope(const String& name)
   mockingSupportName += name;
 
   if (hasData(mockingSupportName)) {
-    STRCMP_EQUAL("MockSupport",
-                 getData(mockingSupportName).getType().asCharString());
+    STRCMP_EQUAL(
+        "MockSupport", getData(mockingSupportName).getType().asCharString());
     return static_cast<MockSupport*>(
-      getData(mockingSupportName).getObjectPointer());
+        getData(mockingSupportName).getObjectPointer());
   }
 
   MockSupport* newMock = clone(name);
@@ -708,7 +709,7 @@ MockSupport::returnLongLongIntValueOrDefault(long long defaultValue)
 
 unsigned long long
 MockSupport::returnUnsignedLongLongIntValueOrDefault(
-  unsigned long long defaultValue)
+    unsigned long long defaultValue)
 {
   if (hasReturnValue()) {
     return unsignedLongLongIntReturnValue();
@@ -747,7 +748,7 @@ MockSupport::returnConstPointerValueOrDefault(const void* defaultValue)
 }
 
 void (
-  *MockSupport::returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
+    *MockSupport::returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
 {
   if (hasReturnValue()) {
     return functionPointerReturnValue();

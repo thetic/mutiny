@@ -87,10 +87,10 @@ TEST(UtestShell, compareDoublesInf)
   CHECK(!cpputest::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01));
   CHECK(cpputest::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY)));
   CHECK(cpputest::doubles_equal(
-    static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01));
+      static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01));
   CHECK(cpputest::doubles_equal(static_cast<double>(INFINITY),
-                                static_cast<double>(INFINITY),
-                                static_cast<double>(INFINITY)));
+      static_cast<double>(INFINITY),
+      static_cast<double>(INFINITY)));
 }
 #endif
 
@@ -244,7 +244,7 @@ TEST(UtestShell, TestStopsAfterUnknownExceptionIsThrown)
   fixture.runAllTests();
   LONGS_EQUAL(1, fixture.getFailureCount());
   fixture.assertPrintContains(
-    "Unexpected exception of unknown type was thrown");
+      "Unexpected exception of unknown type was thrown");
   LONGS_EQUAL(0, stopAfterFailure);
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
@@ -285,7 +285,7 @@ TEST(UtestShell, UnknownExceptionIsRethrownIfEnabled)
   CHECK_TRUE(exceptionRethrown);
   LONGS_EQUAL(1, fixture.getFailureCount());
   fixture.assertPrintContains(
-    "Unexpected exception of unknown type was thrown");
+      "Unexpected exception of unknown type was thrown");
   LONGS_EQUAL(0, stopAfterFailure);
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
@@ -315,7 +315,7 @@ TEST(UtestShell, TestStopsAfterStandardExceptionIsThrown)
   fixture.assertPrintContains("' was thrown: exception text");
 #else
   fixture.assertPrintContains(
-    "Unexpected exception of unknown type was thrown");
+      "Unexpected exception of unknown type was thrown");
 #endif
   LONGS_EQUAL(0, stopAfterFailure);
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
@@ -355,15 +355,15 @@ TEST(UtestShell, veryVebose)
 
   cpputest::TestResult result(normalOutput);
   shell.runOneTestInCurrentProcess(&plugin, result);
-  STRCMP_CONTAINS("\n------ before runTest",
-                  normalOutput.getOutput().asCharString());
+  STRCMP_CONTAINS(
+      "\n------ before runTest", normalOutput.getOutput().asCharString());
 }
 
 class defaultUtestShell : public cpputest::TestShell
 {};
 
 TEST(UtestShell,
-     this_test_covers_the_UtestShell_createTest_and_Utest_testBody_methods)
+    this_test_covers_the_UtestShell_createTest_and_Utest_testBody_methods)
 {
   defaultUtestShell shell;
   fixture.addTest(&shell);
@@ -438,7 +438,7 @@ TEST(IgnoredUtestShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
 }
 
 TEST(IgnoredUtestShell,
-     runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
+    runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
 {
   normalUtestShell.setRunIgnored();
   fixture.runAllTests();
@@ -453,17 +453,17 @@ TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
   ignoredTest.setRunIgnored();
   fixture.runAllTests();
   STRCMP_EQUAL("TEST(TestGroup, TestName)",
-               ignoredTest.getFormattedName().asCharString());
+      ignoredTest.getFormattedName().asCharString());
 }
 
 TEST(IgnoredUtestShell,
-     runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
+    runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
 {
   ignoredTest.setGroupName("TestGroup");
   ignoredTest.setTestName("TestName");
   fixture.runAllTests();
   STRCMP_EQUAL("IGNORE_TEST(TestGroup, TestName)",
-               ignoredTest.getFormattedName().asCharString());
+      ignoredTest.getFormattedName().asCharString());
 }
 
 TEST(IgnoredUtestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
@@ -536,13 +536,13 @@ public:
 };
 
 TEST_GROUP(
-  CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks) {
+    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks) {
 AllocateAndDeallocateInConstructorAndDestructor dummy;
 };
 
 TEST(
-  CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks,
-  testInTestGroupName)
+    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks,
+    testInTestGroupName)
 {
   dummy.allocateMoreMemory();
 }
@@ -600,7 +600,7 @@ TEST(UtestShellPointerArrayTest, testsAreInOrder)
 }
 
 TEST(UtestShellPointerArrayTest,
-     relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
+    relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 {
   cpputest::TestShellPointerArray tests(test0);
   tests.relinkTestsInOrder();

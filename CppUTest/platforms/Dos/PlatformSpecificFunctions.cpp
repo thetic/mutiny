@@ -104,9 +104,9 @@ DosVSNprintf(char* str, size_t size, const char* format, va_list args)
 unsigned long (*GetPlatformSpecificTimeInMillis)() = DosTimeInMillis;
 const char* (*GetPlatformSpecificTimeString)() = DosTimeString;
 int (*PlatformSpecificVSNprintf)(char*,
-                                 size_t,
-                                 const char*,
-                                 va_list) = DosVSNprintf;
+    size_t,
+    const char*,
+    va_list) = DosVSNprintf;
 
 PlatformSpecificFile
 DosFOpen(const char* filename, const char* flag)
@@ -127,10 +127,10 @@ DosFClose(PlatformSpecificFile file)
 }
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
-PlatformSpecificFile (*PlatformSpecificFOpen)(const char* filename,
-                                              const char* flag) = DosFOpen;
+PlatformSpecificFile (
+    *PlatformSpecificFOpen)(const char* filename, const char* flag) = DosFOpen;
 void (*PlatformSpecificFPuts)(const char* str,
-                              PlatformSpecificFile file) = DosFPuts;
+    PlatformSpecificFile file) = DosFPuts;
 void (*PlatformSpecificFClose)(PlatformSpecificFile file) = DosFClose;
 
 static void
@@ -174,9 +174,8 @@ DosMemset(void* mem, int c, size_t size)
 void* (*PlatformSpecificMalloc)(size_t size) = DosMalloc;
 void* (*PlatformSpecificRealloc)(void* memory, size_t size) = DosRealloc;
 void (*PlatformSpecificFree)(void* memory) = DosFree;
-void* (*PlatformSpecificMemCpy)(void* s1,
-                                const void* s2,
-                                size_t size) = DosMemCpy;
+void* (
+    *PlatformSpecificMemCpy)(void* s1, const void* s2, size_t size) = DosMemCpy;
 void* (*PlatformSpecificMemset)(void* mem, int c, size_t size) = DosMemset;
 
 static void

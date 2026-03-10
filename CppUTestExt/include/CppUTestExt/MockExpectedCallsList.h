@@ -46,7 +46,7 @@ public:
 
   virtual unsigned int size() const;
   virtual unsigned int amountOfActualCallsFulfilledFor(
-    const cpputest::String& name) const;
+      const cpputest::String& name) const;
   virtual unsigned int amountOfUnfulfilledExpectations() const;
   virtual bool hasUnfulfilledExpectations() const;
   virtual bool hasFinalizedMatchingExpectations() const;
@@ -58,21 +58,21 @@ public:
   virtual void addExpectedCall(MockCheckedExpectedCall* call);
   virtual void addExpectations(const MockExpectedCallsList& list);
   virtual void addExpectationsRelatedTo(const cpputest::String& name,
-                                        const MockExpectedCallsList& list);
+      const MockExpectedCallsList& list);
 
   virtual void onlyKeepOutOfOrderExpectations();
   virtual void addPotentiallyMatchingExpectations(
-    const MockExpectedCallsList& list);
+      const MockExpectedCallsList& list);
 
   virtual void onlyKeepExpectationsRelatedTo(const cpputest::String& name);
   virtual void onlyKeepExpectationsWithInputParameter(
-    const MockNamedValue& parameter);
+      const MockNamedValue& parameter);
   virtual void onlyKeepExpectationsWithInputParameterName(
-    const cpputest::String& name);
+      const cpputest::String& name);
   virtual void onlyKeepExpectationsWithOutputParameter(
-    const MockNamedValue& parameter);
+      const MockNamedValue& parameter);
   virtual void onlyKeepExpectationsWithOutputParameterName(
-    const cpputest::String& name);
+      const cpputest::String& name);
   virtual void onlyKeepExpectationsOnObject(const void* objectPtr);
   virtual void onlyKeepUnmatchingExpectations();
 
@@ -86,12 +86,12 @@ public:
   virtual void outputParameterWasPassed(const cpputest::String& parameterName);
 
   virtual cpputest::String unfulfilledCallsToString(
-    const cpputest::String& linePrefix = "") const;
+      const cpputest::String& linePrefix = "") const;
   virtual cpputest::String fulfilledCallsToString(
-    const cpputest::String& linePrefix = "") const;
+      const cpputest::String& linePrefix = "") const;
   virtual cpputest::String callsWithMissingParametersToString(
-    const cpputest::String& linePrefix,
-    const cpputest::String& missingParametersPrefix) const;
+      const cpputest::String& linePrefix,
+      const cpputest::String& missingParametersPrefix) const;
 
 protected:
   virtual void pruneEmptyNodeFromList();

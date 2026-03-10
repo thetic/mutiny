@@ -37,10 +37,8 @@
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 
-TEST_GROUP_C_WRAPPER(TestGroupInC){
-  TEST_GROUP_C_SETUP_WRAPPER(TestGroupInC)
-    TEST_GROUP_C_TEARDOWN_WRAPPER(TestGroupInC)
-};
+TEST_GROUP_C_WRAPPER(TestGroupInC){ TEST_GROUP_C_SETUP_WRAPPER(TestGroupInC)
+      TEST_GROUP_C_TEARDOWN_WRAPPER(TestGroupInC) };
 
 TEST_C_WRAPPER(TestGroupInC, checkThatTheTestHasRun)
 IGNORE_TEST_C_WRAPPER(TestGroupInC, ignoreMacroForCFile)
@@ -485,7 +483,7 @@ TEST(TestHarness_c, checkString)
   fixture->runAllTests();
 
   cpputest::StringEqualFailure failure(
-    cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
+      cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
   fixture->assertPrintContains(failure.getMessage());
   fixture->assertPrintContains("arness_c");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
@@ -505,7 +503,7 @@ TEST(TestHarness_c, checkStringText)
   fixture->runAllTests();
 
   cpputest::StringEqualFailure failure(
-    cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
+      cpputest::TestShell::getCurrent(), "file", 1, "Hello", "Hello World", "");
   fixture->assertPrintContains(failure.getMessage());
   fixture->assertPrintContains("arness_c");
   fixture->assertPrintContains("Message: StringTestText");
@@ -534,7 +532,7 @@ failPointerTextMethod_()
 {
   HasTheDestructorBeenCalledChecker checker;
   CHECK_EQUAL_C_POINTER_TEXT(
-    nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
+      nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
 }
 
 TEST(TestHarness_c, checkPointerText)
@@ -564,7 +562,7 @@ TEST(TestHarness_c, checkMemcmp)
   fixture->setTestFunction(failMemcmpMethod_);
   fixture->runAllTests();
   fixture->assertPrintContains(
-    "expected <00 01 02 03>\n\tbut was  <00 01 03 03>");
+      "expected <00 01 02 03>\n\tbut was  <00 01 03 03>");
   fixture->assertPrintContains("arness_c");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
@@ -577,7 +575,7 @@ failMemcmpTextMethod_()
   unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
 
   CHECK_EQUAL_C_MEMCMP_TEXT(
-    expectedData, actualData, sizeof(expectedData), "MemcmpTestText");
+      expectedData, actualData, sizeof(expectedData), "MemcmpTestText");
 }
 
 TEST(TestHarness_c, checkMemcmpText)
@@ -586,7 +584,7 @@ TEST(TestHarness_c, checkMemcmpText)
   fixture->setTestFunction(failMemcmpTextMethod_);
   fixture->runAllTests();
   fixture->assertPrintContains(
-    "expected <00 01 02 03>\n\tbut was  <00 01 03 03>");
+      "expected <00 01 02 03>\n\tbut was  <00 01 03 03>");
   fixture->assertPrintContains("arness_c");
   fixture->assertPrintContains("Message: MemcmpTestText");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
@@ -605,7 +603,7 @@ TEST(TestHarness_c, checkBits)
   fixture->setTestFunction(failBitsMethod_);
   fixture->runAllTests();
   fixture->assertPrintContains(
-    "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
+      "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
   fixture->assertPrintContains("arness_c");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
@@ -615,17 +613,17 @@ failBitsTextMethod_()
 {
   HasTheDestructorBeenCalledChecker checker;
   CHECK_EQUAL_C_BITS_TEXT(
-    0x0001, static_cast<unsigned short>(0x0003), 0xFFFF, "BitsTestText");
+      0x0001, static_cast<unsigned short>(0x0003), 0xFFFF, "BitsTestText");
 }
 
 TEST(TestHarness_c, checkBitsText)
 {
   CHECK_EQUAL_C_BITS_TEXT(
-    0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF, "Text");
+      0xABCD, static_cast<unsigned short>(0xABCD), 0xFFFF, "Text");
   fixture->setTestFunction(failBitsTextMethod_);
   fixture->runAllTests();
   fixture->assertPrintContains(
-    "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
+      "expected <00000000 00000001>\n\tbut was  <00000000 00000011>");
   fixture->assertPrintContains("arness_c");
   fixture->assertPrintContains("Message: BitsTestText");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);

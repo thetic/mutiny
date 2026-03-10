@@ -70,7 +70,7 @@ MockFailureReporterForTest::clearReporter()
 MockFailureReporterInstaller::MockFailureReporterInstaller()
 {
   mock().setMockFailureStandardReporter(
-    MockFailureReporterForTest::getReporter());
+      MockFailureReporterForTest::getReporter());
 }
 
 MockFailureReporterInstaller::~MockFailureReporterInstaller()
@@ -99,8 +99,8 @@ CLEAR_MOCK_FAILURE()
 
 void
 CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
-                                     const char* file,
-                                     size_t line)
+    const char* file,
+    size_t line)
 {
   String expectedFailureString = expectedFailure.getMessage();
   String actualFailureString = mockFailureString();
@@ -143,7 +143,7 @@ MockExpectedCallsListForTest::addFunction(const String& name)
 
 MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
-                                          const String& name)
+    const String& name)
 {
   MockCheckedExpectedCall* newCall = new MockCheckedExpectedCall(numCalls);
   newCall->withName(name);
@@ -153,7 +153,7 @@ MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
 
 MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunctionOrdered(const String& name,
-                                                 unsigned int order)
+    unsigned int order)
 {
   MockCheckedExpectedCall* newCall = addFunction(name);
   newCall->withCallOrder(order);

@@ -43,12 +43,12 @@ setup() override
   f = new cpputest::TestFailure(tst, "failfile", 20, "failure message");
   f2 = new cpputest::TestFailure(tst, "file", 20, "message");
   f3 = new cpputest::TestFailure(
-    tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
+      tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
   result = new cpputest::TestResult(*mock);
   result->setTotalExecutionTime(10);
   millisTime = 0;
-  UT_PTR_SET(GetPlatformSpecificTimeInMillis,
-             MockGetPlatformSpecificTimeInMillis);
+  UT_PTR_SET(
+      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
 }
 void
 teardown() override
@@ -66,7 +66,7 @@ TEST(TeamCityOutputTest, PrintGroupStarted)
 {
   result->currentGroupStarted(tst);
   STRCMP_EQUAL("##teamcity[testSuiteStarted name='group']\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TeamCityOutputTest, PrintGroupStartedAndEnded)
@@ -88,7 +88,7 @@ TEST(TeamCityOutputTest, PrintTestStarted)
 {
   tcout->printCurrentTestStarted(*tst);
   STRCMP_EQUAL("##teamcity[testStarted name='test']\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TeamCityOutputTest, PrintTestStartedAndEnded)
@@ -98,7 +98,7 @@ TEST(TeamCityOutputTest, PrintTestStartedAndEnded)
   result->currentTestEnded(tst);
   STRCMP_EQUAL("##teamcity[testStarted name='test']\n##teamcity[testFinished "
                "name='test' duration='42']\n",
-               mock->getOutput().asCharString());
+      mock->getOutput().asCharString());
 }
 
 TEST(TeamCityOutputTest, PrintTestEndedButNotStarted)
@@ -114,7 +114,7 @@ TEST(TeamCityOutputTest, PrintTestIgnored)
                          "##teamcity[testFinished name='test' duration='41']\n";
 
   cpputest::IgnoredTestShell* itst =
-    new cpputest::IgnoredTestShell("group", "test", "file", 10);
+      new cpputest::IgnoredTestShell("group", "test", "file", 10);
   result->currentTestStarted(itst);
   millisTime = 41;
   result->currentTestEnded(itst);
@@ -180,8 +180,8 @@ TEST(TeamCityOutputTest, TestNameEscaped_End)
   result->currentTestStarted(tst);
   result->currentTestEnded(tst);
   const char* expected =
-    "##teamcity[testStarted name='|'|[|]|n|r']\n"
-    "##teamcity[testFinished name='|'|[|]|n|r' duration='0']\n";
+      "##teamcity[testStarted name='|'|[|]|n|r']\n"
+      "##teamcity[testFinished name='|'|[|]|n|r' duration='0']\n";
   STRCMP_EQUAL(expected, mock->getOutput().asCharString());
 }
 

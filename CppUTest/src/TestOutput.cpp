@@ -32,11 +32,11 @@
 namespace cpputest {
 
 TestOutput::WorkingEnvironment TestOutput::workingEnvironment_ =
-  TestOutput::detectEnvironment;
+    TestOutput::detectEnvironment;
 
 void
 TestOutput::setWorkingEnvironment(
-  TestOutput::WorkingEnvironment workEnvironment)
+    TestOutput::WorkingEnvironment workEnvironment)
 {
   workingEnvironment_ = workEnvironment;
 }
@@ -202,10 +202,11 @@ TestOutput::printTestsEnded(const TestResult& result)
     print("\033[m");
   }
   if (isFailure && failureCount == 0) {
-    print(
-      "\nNote: test run failed because no tests were run or ignored. Assuming "
-      "something went wrong. "
-      "This often happens because of linking errors or typos in test filter.");
+    print("\nNote: test run failed because no tests were run or ignored. "
+          "Assuming "
+          "something went wrong. "
+          "This often happens because of linking errors or typos in test "
+          "filter.");
   }
   print("\n\n");
 
@@ -239,17 +240,17 @@ void
 TestOutput::printFileAndLineForTestAndFailure(const TestFailure& failure)
 {
   printErrorInFileOnLineFormattedForWorkingEnvironment(
-    failure.getTestFileName(), failure.getTestLineNumber());
+      failure.getTestFileName(), failure.getTestLineNumber());
   printFailureInTest(failure.getTestName());
   printErrorInFileOnLineFormattedForWorkingEnvironment(
-    failure.getFileName(), failure.getFailureLineNumber());
+      failure.getFileName(), failure.getFailureLineNumber());
 }
 
 void
 TestOutput::printFileAndLineForFailure(const TestFailure& failure)
 {
   printErrorInFileOnLineFormattedForWorkingEnvironment(
-    failure.getFileName(), failure.getFailureLineNumber());
+      failure.getFileName(), failure.getFailureLineNumber());
   printFailureInTest(failure.getTestName());
 }
 
@@ -270,9 +271,8 @@ TestOutput::printFailureMessage(String reason)
 }
 
 void
-TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(
-  String file,
-  size_t lineNumber)
+TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(String file,
+    size_t lineNumber)
 {
   if (TestOutput::getWorkingEnvironment() == TestOutput::visualStudio)
     printVisualStudioErrorInFileOnLine(file, lineNumber);

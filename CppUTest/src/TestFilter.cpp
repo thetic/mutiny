@@ -108,7 +108,7 @@ String
 TestFilter::asString() const
 {
   String textFilter =
-    StringFromFormat("TestFilter: \"%s\"", filter_.asCharString());
+      StringFromFormat("TestFilter: \"%s\"", filter_.asCharString());
   if (strictMatching_ && invertMatching_)
     textFilter += " with strict, invert matching";
   else if (strictMatching_)

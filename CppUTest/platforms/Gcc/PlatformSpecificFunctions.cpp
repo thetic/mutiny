@@ -90,9 +90,9 @@ PlatformSpecificRestoreJumpBufferImplementation()
 
 void (*PlatformSpecificLongJmp)() = PlatformSpecificLongJmpImplementation;
 int (*PlatformSpecificSetJmp)(void (*)(void*),
-                              void*) = PlatformSpecificSetJmpImplementation;
+    void*) = PlatformSpecificSetJmpImplementation;
 void (*PlatformSpecificRestoreJumpBuffer)() =
-  PlatformSpecificRestoreJumpBufferImplementation;
+    PlatformSpecificRestoreJumpBufferImplementation;
 
 ///////////// Time in millis
 
@@ -138,9 +138,9 @@ const char* (*GetPlatformSpecificTimeString)() = TimeStringImplementation;
 #pragma clang diagnostic ignored "-Wused-but-marked-unused"
 #endif
 int (*PlatformSpecificVSNprintf)(char* str,
-                                 size_t size,
-                                 const char* format,
-                                 va_list va_args_list) = vsnprintf;
+    size_t size,
+    const char* format,
+    va_list va_args_list) = vsnprintf;
 
 static PlatformSpecificFile
 PlatformSpecificFOpenImplementation(const char* filename, const char* flag)
@@ -174,12 +174,12 @@ PlatformSpecificFlushImplementation()
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 
-PlatformSpecificFile (*PlatformSpecificFOpen)(const char*, const char*) =
-  PlatformSpecificFOpenImplementation;
-void (*PlatformSpecificFPuts)(const char*, PlatformSpecificFile) =
-  PlatformSpecificFPutsImplementation;
-void (*PlatformSpecificFClose)(PlatformSpecificFile) =
-  PlatformSpecificFCloseImplementation;
+PlatformSpecificFile (*PlatformSpecificFOpen)(const char*,
+    const char*) = PlatformSpecificFOpenImplementation;
+void (*PlatformSpecificFPuts)(const char*,
+    PlatformSpecificFile) = PlatformSpecificFPutsImplementation;
+void (*PlatformSpecificFClose)(
+    PlatformSpecificFile) = PlatformSpecificFCloseImplementation;
 
 void (*PlatformSpecificFlush)() = PlatformSpecificFlushImplementation;
 
@@ -193,7 +193,7 @@ void* (*PlatformSpecificMemset)(void*, int, size_t) = memset;
  * in GCC's own (macro) implementation of isnan() and isinf().
  */
 #if defined(__GNUC__) &&                                                       \
-  (__GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ > 8))
+    (__GNUC__ >= 5 || (__GNUC__ == 4 && __GNUC_MINOR__ > 8))
 #pragma GCC diagnostic ignored "-Wfloat-conversion"
 #endif
 
@@ -214,7 +214,7 @@ void (*PlatformSpecificSrand)(unsigned int) = srand;
 int (*PlatformSpecificRand)(void) = rand;
 int (*PlatformSpecificIsNan)(double) = IsNanImplementation;
 int (*PlatformSpecificIsInf)(double) = IsInfImplementation;
-int (*PlatformSpecificAtExit)(void (*func)(void)) =
-  atexit; /// this was undefined before
+int (*PlatformSpecificAtExit)(
+    void (*func)(void)) = atexit; /// this was undefined before
 
 void (*PlatformSpecificAbort)(void) = abort;

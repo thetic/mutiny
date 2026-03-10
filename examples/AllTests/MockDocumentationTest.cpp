@@ -80,7 +80,7 @@ public:
 TEST(MockDocumentation, SimpleScenarioObject)
 {
   ClassFromProductionCode* object =
-    new ClassFromProductionCodeMock; /* create mock instead of real thing */
+      new ClassFromProductionCodeMock; /* create mock instead of real thing */
 
   mock().expectOneCall("importantFunction").onObject(object);
   object->importantFunction();
@@ -94,20 +94,20 @@ parameters_function(int p1, const char* p2)
 {
   void* object = reinterpret_cast<void*>(1);
   mock()
-    .actualCall("function")
-    .onObject(object)
-    .withParameter("p1", p1)
-    .withParameter("p2", p2);
+      .actualCall("function")
+      .onObject(object)
+      .withParameter("p1", p1)
+      .withParameter("p2", p2);
 }
 
 TEST(MockDocumentation, parameters)
 {
   void* object = reinterpret_cast<void*>(1);
   mock()
-    .expectOneCall("function")
-    .onObject(object)
-    .withParameter("p1", 2)
-    .withParameter("p2", "hah");
+      .expectOneCall("function")
+      .onObject(object)
+      .withParameter("p1", 2)
+      .withParameter("p2", "hah");
   parameters_function(2, "hah");
 }
 
@@ -130,8 +130,8 @@ TEST(MockDocumentation, ObjectParameters)
   MyTypeComparator comparator;
   mock().installComparator("myType", comparator);
   mock()
-    .expectOneCall("function")
-    .withParameterOfType("myType", "parameterName", object);
+      .expectOneCall("function")
+      .withParameterOfType("myType", "parameterName", object);
   mock().clear();
   mock().removeAllComparatorsAndCopiers();
 }
@@ -153,7 +153,7 @@ TEST(MockDocumentation, setData)
   ClassFromProductionCode* pobject;
   int value = mock().getData("importantValue").getIntValue();
   pobject = static_cast<ClassFromProductionCode*>(
-    mock().getData("importantObject").getObjectPointer());
+      mock().getData("importantObject").getObjectPointer());
 
   LONGS_EQUAL(10, value);
   POINTERS_EQUAL(pobject, &object);
@@ -204,21 +204,21 @@ TEST(MockDocumentation, CInterface)
   void* object = reinterpret_cast<void*>(0x1);
 
   mock_c()
-    ->expectOneCall("foo")
-    ->withIntParameters("integer", 10)
-    ->andReturnDoubleValue(1.11);
+      ->expectOneCall("foo")
+      ->withIntParameters("integer", 10)
+      ->andReturnDoubleValue(1.11);
   double d = mock_c()
-               ->actualCall("foo")
-               ->withIntParameters("integer", 10)
-               ->returnValue()
-               .value.doubleValue;
+                 ->actualCall("foo")
+                 ->withIntParameters("integer", 10)
+                 ->returnValue()
+                 .value.doubleValue;
   DOUBLES_EQUAL(1.11, d, 0.00001);
 
   mock_c()->installComparator("type", equalMethod, toStringMethod);
   mock_scope_c("scope")->expectOneCall("bar")->withParameterOfType(
-    "type", "name", object);
+      "type", "name", object);
   mock_scope_c("scope")->actualCall("bar")->withParameterOfType(
-    "type", "name", object);
+      "type", "name", object);
   mock_c()->removeAllComparatorsAndCopiers();
 
   mock_c()->setIntData("important", 10);

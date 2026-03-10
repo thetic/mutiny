@@ -13,20 +13,20 @@ foo(const char* param_string, int param_int)
 {
   /* Tell CppUTest Mocking what we mock. Also return recorded value */
   return mock()
-    .actualCall("Foo")
-    .withParameter("param_string", param_string)
-    .withParameter("param_int", param_int)
-    .returnValue()
-    .getIntValue();
+      .actualCall("Foo")
+      .withParameter("param_string", param_string)
+      .withParameter("param_int", param_int)
+      .returnValue()
+      .getIntValue();
 }
 
 static void
 bar(double param_double, const char* param_string)
 {
   mock()
-    .actualCall("Bar")
-    .withParameter("param_double", param_double)
-    .withParameter("param_string", param_string);
+      .actualCall("Bar")
+      .withParameter("param_double", param_double)
+      .withParameter("param_string", param_string);
 }
 
 /* Production code calls to the methods we stubbed */
@@ -63,10 +63,10 @@ TEST(MockCheatSheet, foo)
 {
   /* Record 2 calls to Foo. Return different values on each call */
   mock()
-    .expectOneCall("Foo")
-    .withParameter("param_string", "value_string")
-    .withParameter("param_int", 10)
-    .andReturnValue(30);
+      .expectOneCall("Foo")
+      .withParameter("param_string", "value_string")
+      .withParameter("param_int", 10)
+      .andReturnValue(30);
   mock().expectOneCall("Foo").ignoreOtherParameters().andReturnValue(50);
 
   /* Call production code */
@@ -77,9 +77,9 @@ TEST(MockCheatSheet, bar)
 {
   /* Expect 2 calls on Bar. Check only one parameter */
   mock()
-    .expectNCalls(2, "Bar")
-    .withParameter("param_double", 1.5)
-    .ignoreOtherParameters();
+      .expectNCalls(2, "Bar")
+      .withParameter("param_double", 1.5)
+      .ignoreOtherParameters();
 
   /* And the production code call */
   productionCodeBarCalls();

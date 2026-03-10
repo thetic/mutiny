@@ -64,7 +64,7 @@ TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
 }
 
 TEST(ComparatorsAndCopiersRepository,
-     ComparatorAndCopierByTheSameNameShouldBothBeFound)
+    ComparatorAndCopierByTheSameNameShouldBothBeFound)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -77,7 +77,7 @@ TEST(ComparatorsAndCopiersRepository,
 }
 
 TEST(ComparatorsAndCopiersRepository,
-     InstallComparatorsAndCopiersFromRepository)
+    InstallComparatorsAndCopiersFromRepository)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -115,7 +115,7 @@ TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->setValue(0.2);
   DOUBLES_EQUAL(
-    MockNamedValue::defaultDoubleTolerance, value->getDoubleTolerance(), 0.0);
+      MockNamedValue::defaultDoubleTolerance, value->getDoubleTolerance(), 0.0);
 }
 
 TEST(MockNamedValue, GivenToleranceUsed)

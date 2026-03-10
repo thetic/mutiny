@@ -45,12 +45,12 @@ class IEEE754ExceptionsPlugin : public cpputest::TestPlugin
 {
 public:
   IEEE754ExceptionsPlugin(
-    const cpputest::String& name = "IEEE754ExceptionsPlugin");
+      const cpputest::String& name = "IEEE754ExceptionsPlugin");
 
   virtual void preTestAction(cpputest::TestShell& test,
-                             cpputest::TestResult& result) override;
+      cpputest::TestResult& result) override;
   virtual void postTestAction(cpputest::TestShell& test,
-                              cpputest::TestResult& result) override;
+      cpputest::TestResult& result) override;
 
   static void disableInexact(void);
   static void enableInexact(void);
@@ -61,9 +61,9 @@ public:
 
 private:
   void ieee754Check(cpputest::TestShell& test,
-                    cpputest::TestResult& result,
-                    int flag,
-                    const char* text);
+      cpputest::TestResult& result,
+      int flag,
+      const char* text);
   static bool inexactDisabled_;
 };
 

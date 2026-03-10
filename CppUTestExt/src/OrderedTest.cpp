@@ -105,11 +105,11 @@ OrderedTestShell::getNextOrderedTest()
 }
 
 OrderedTestInstaller::OrderedTestInstaller(OrderedTestShell& test,
-                                           const char* groupName,
-                                           const char* testName,
-                                           const char* fileName,
-                                           size_t lineNumber,
-                                           int level)
+    const char* groupName,
+    const char* testName,
+    const char* fileName,
+    size_t lineNumber,
+    int level)
 {
   test.setTestName(testName);
   test.setGroupName(groupName);
@@ -134,7 +134,7 @@ OrderedTestInstaller::addOrderedTestInOrder(OrderedTestShell* test)
 
 void
 OrderedTestInstaller::addOrderedTestInOrderNotAtHeadPosition(
-  OrderedTestShell* test)
+    OrderedTestShell* test)
 {
   OrderedTestShell* current = OrderedTestShell::getOrderedTestHead();
   while (current->getNextOrderedTest()) {

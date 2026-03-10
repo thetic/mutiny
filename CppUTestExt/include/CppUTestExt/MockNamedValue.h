@@ -69,7 +69,7 @@ public:
   typedef cpputest::String (*valueToStringFunction)(const void*);
 
   MockFunctionComparator(isEqualFunction equal,
-                         valueToStringFunction valToString)
+      valueToStringFunction valToString)
     : equal_(equal)
     , valueToString_(valToString)
   {
@@ -137,7 +137,7 @@ public:
   virtual void setValue(const char* value);
   virtual void setMemoryBuffer(const unsigned char* value, size_t size);
   virtual void setConstObjectPointer(const cpputest::String& type,
-                                     const void* objectPtr);
+      const void* objectPtr);
   virtual void setObjectPointer(const cpputest::String& type, void* objectPtr);
   virtual void setSize(size_t size);
 
@@ -174,7 +174,7 @@ public:
   virtual MockNamedValueCopier* getCopier() const;
 
   static void setDefaultComparatorsAndCopiersRepository(
-    MockNamedValueComparatorsAndCopiersRepository* repository);
+      MockNamedValueComparatorsAndCopiersRepository* repository);
   static MockNamedValueComparatorsAndCopiersRepository*
   getDefaultComparatorsAndCopiersRepository();
 
@@ -264,13 +264,13 @@ public:
   virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
   virtual void installComparator(const cpputest::String& name,
-                                 MockNamedValueComparator& comparator);
+      MockNamedValueComparator& comparator);
   virtual void installCopier(const cpputest::String& name,
-                             MockNamedValueCopier& copier);
+      MockNamedValueCopier& copier);
   virtual void installComparatorsAndCopiers(
-    const MockNamedValueComparatorsAndCopiersRepository& repository);
+      const MockNamedValueComparatorsAndCopiersRepository& repository);
   virtual MockNamedValueComparator* getComparatorForType(
-    const cpputest::String& name);
+      const cpputest::String& name);
   virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
 
   void clear();

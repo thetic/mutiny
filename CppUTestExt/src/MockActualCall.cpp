@@ -51,10 +51,9 @@ MockCheckedActualCall::getName() const
   return functionName_;
 }
 
-MockCheckedActualCall::MockCheckedActualCall(
-  unsigned int callOrder,
-  MockFailureReporter* reporter,
-  const MockExpectedCallsList& allExpectations)
+MockCheckedActualCall::MockCheckedActualCall(unsigned int callOrder,
+    MockFailureReporter* reporter,
+    const MockExpectedCallsList& allExpectations)
   : callOrder_(callOrder)
   , reporter_(reporter)
   , state_(CALL_SUCCEED)
@@ -64,7 +63,7 @@ MockCheckedActualCall::MockCheckedActualCall(
   , outputParameterExpectations_(nullptr)
 {
   potentiallyMatchingExpectations_.addPotentiallyMatchingExpectations(
-    allExpectations);
+      allExpectations);
 }
 
 MockCheckedActualCall::~MockCheckedActualCall()
@@ -95,10 +94,10 @@ MockCheckedActualCall::failWith(MockFailure failure)
 
 void
 MockCheckedActualCall::copyOutputParameters(
-  MockCheckedExpectedCall* expectedCall)
+    MockCheckedExpectedCall* expectedCall)
 {
   for (MockOutputParametersListNode* p = outputParameterExpectations_; p;
-       p = p->next_) {
+      p = p->next_) {
     MockNamedValue outputParameter = expectedCall->getOutputParameter(p->name_);
     MockNamedValueCopier* copier = outputParameter.getCopier();
     if (copier) {
@@ -110,7 +109,7 @@ MockCheckedActualCall::copyOutputParameters(
       PlatformSpecificMemCpy(p->ptr_, data, size);
     } else if (outputParameter.getName() != "") {
       failWith(MockNoWayToCopyCustomTypeFailure(
-        getTest(), expectedCall->getOutputParameter(p->name_).getType()));
+          getTest(), expectedCall->getOutputParameter(p->name_).getType()));
     }
   }
 }
@@ -121,14 +120,14 @@ MockCheckedActualCall::completeCallWhenMatchIsFound()
   // Expectations that don't ignore parameters have higher fulfillment
   // preference than those that ignore parameters
 
-  matchingExpectation_ =
-    potentiallyMatchingExpectations_.removeFirstFinalizedMatchingExpectation();
+  matchingExpectation_ = potentiallyMatchingExpectations_
+                             .removeFirstFinalizedMatchingExpectation();
   if (matchingExpectation_) {
     copyOutputParameters(matchingExpectation_);
     callHasSucceeded();
   } else {
     MockCheckedExpectedCall* matchingExpectationWithIgnoredParameters =
-      potentiallyMatchingExpectations_.getFirstMatchingExpectation();
+        potentiallyMatchingExpectations_.getFirstMatchingExpectation();
     if (matchingExpectationWithIgnoredParameters) {
       copyOutputParameters(matchingExpectationWithIgnoredParameters);
     }
@@ -160,7 +159,7 @@ MockCheckedActualCall::setNameAndCheck(String name)
   potentiallyMatchingExpectations_.onlyKeepExpectationsRelatedTo(functionName_);
   if (potentiallyMatchingExpectations_.isEmpty()) {
     failWith(MockUnexpectedCallHappenedFailure(
-      getTest(), functionName_, allExpectations_));
+        getTest(), functionName_, allExpectations_));
     return;
   }
 
@@ -191,14 +190,13 @@ MockCheckedActualCall::checkInputParameter(MockNamedValue actualParameter)
   discardCurrentlyMatchingExpectations();
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithInputParameter(
-    actualParameter);
+      actualParameter);
 
   if (potentiallyMatchingExpectations_.isEmpty()) {
-    MockUnexpectedInputParameterFailure failure(
-      getTest(),
-      getName(),
-      static_cast<MockNamedValue&&>(actualParameter),
-      allExpectations_);
+    MockUnexpectedInputParameterFailure failure(getTest(),
+        getName(),
+        static_cast<MockNamedValue&&>(actualParameter),
+        allExpectations_);
     {
       MockNamedValue freed(static_cast<MockNamedValue&&>(actualParameter));
     }
@@ -207,7 +205,7 @@ MockCheckedActualCall::checkInputParameter(MockNamedValue actualParameter)
   }
 
   potentiallyMatchingExpectations_.parameterWasPassed(
-    actualParameter.getName());
+      actualParameter.getName());
   completeCallWhenMatchIsFound();
 }
 
@@ -222,14 +220,13 @@ MockCheckedActualCall::checkOutputParameter(MockNamedValue outputParameter)
   discardCurrentlyMatchingExpectations();
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithOutputParameter(
-    outputParameter);
+      outputParameter);
 
   if (potentiallyMatchingExpectations_.isEmpty()) {
-    MockUnexpectedOutputParameterFailure failure(
-      getTest(),
-      getName(),
-      static_cast<MockNamedValue&&>(outputParameter),
-      allExpectations_);
+    MockUnexpectedOutputParameterFailure failure(getTest(),
+        getName(),
+        static_cast<MockNamedValue&&>(outputParameter),
+        allExpectations_);
     {
       MockNamedValue freed(static_cast<MockNamedValue&&>(outputParameter));
     }
@@ -238,7 +235,7 @@ MockCheckedActualCall::checkOutputParameter(MockNamedValue outputParameter)
   }
 
   potentiallyMatchingExpectations_.outputParameterWasPassed(
-    outputParameter.getName());
+      outputParameter.getName());
   completeCallWhenMatchIsFound();
 }
 
@@ -253,7 +250,7 @@ MockCheckedActualCall::withBoolParameter(const String& name, bool value)
 
 MockActualCall&
 MockCheckedActualCall::withUnsignedIntParameter(const String& name,
-                                                unsigned int value)
+    unsigned int value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -272,7 +269,7 @@ MockCheckedActualCall::withIntParameter(const String& name, int value)
 
 MockActualCall&
 MockCheckedActualCall::withUnsignedLongIntParameter(const String& name,
-                                                    unsigned long int value)
+    unsigned long int value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -290,9 +287,8 @@ MockCheckedActualCall::withLongIntParameter(const String& name, long int value)
 }
 
 MockActualCall&
-MockCheckedActualCall::withUnsignedLongLongIntParameter(
-  const String& name,
-  unsigned long long value)
+MockCheckedActualCall::withUnsignedLongLongIntParameter(const String& name,
+    unsigned long long value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -302,7 +298,7 @@ MockCheckedActualCall::withUnsignedLongLongIntParameter(
 
 MockActualCall&
 MockCheckedActualCall::withLongLongIntParameter(const String& name,
-                                                long long value)
+    long long value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -321,7 +317,7 @@ MockCheckedActualCall::withDoubleParameter(const String& name, double value)
 
 MockActualCall&
 MockCheckedActualCall::withStringParameter(const String& name,
-                                           const char* value)
+    const char* value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -340,7 +336,7 @@ MockCheckedActualCall::withPointerParameter(const String& name, void* value)
 
 MockActualCall&
 MockCheckedActualCall::withConstPointerParameter(const String& name,
-                                                 const void* value)
+    const void* value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -350,7 +346,7 @@ MockCheckedActualCall::withConstPointerParameter(const String& name,
 
 MockActualCall&
 MockCheckedActualCall::withFunctionPointerParameter(const String& name,
-                                                    void (*value)())
+    void (*value)())
 {
   MockNamedValue actualParameter(name);
   actualParameter.setValue(value);
@@ -360,8 +356,8 @@ MockCheckedActualCall::withFunctionPointerParameter(const String& name,
 
 MockActualCall&
 MockCheckedActualCall::withMemoryBufferParameter(const String& name,
-                                                 const unsigned char* value,
-                                                 size_t size)
+    const unsigned char* value,
+    size_t size)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setMemoryBuffer(value, size);
@@ -371,8 +367,8 @@ MockCheckedActualCall::withMemoryBufferParameter(const String& name,
 
 MockActualCall&
 MockCheckedActualCall::withParameterOfType(const String& type,
-                                           const String& name,
-                                           const void* value)
+    const String& name,
+    const void* value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setConstObjectPointer(type, value);
@@ -402,8 +398,8 @@ MockCheckedActualCall::withOutputParameter(const String& name, void* output)
 
 MockActualCall&
 MockCheckedActualCall::withOutputParameterOfType(const String& type,
-                                                 const String& name,
-                                                 void* output)
+    const String& name,
+    void* output)
 {
   addOutputParameter(name, type, output);
 
@@ -416,8 +412,8 @@ MockCheckedActualCall::withOutputParameterOfType(const String& type,
 
 MockActualCall&
 MockCheckedActualCall::withMemoryBufferParameter(const char* name,
-                                                 const unsigned char* value,
-                                                 size_t size)
+    const unsigned char* value,
+    size_t size)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setMemoryBuffer(value, size);
@@ -427,8 +423,8 @@ MockCheckedActualCall::withMemoryBufferParameter(const char* name,
 
 MockActualCall&
 MockCheckedActualCall::withParameterOfType(const char* typeName,
-                                           const char* name,
-                                           const void* value)
+    const char* name,
+    const void* value)
 {
   MockNamedValue actualParameter(name);
   actualParameter.setConstObjectPointer(typeName, value);
@@ -438,8 +434,8 @@ MockCheckedActualCall::withParameterOfType(const char* typeName,
     {
       MockNamedValue freed(static_cast<MockNamedValue&&>(actualParameter));
     }
-    failWith(MockNoWayToCompareCustomTypeFailure(getTest(),
-                                                 static_cast<String&&>(type)));
+    failWith(MockNoWayToCompareCustomTypeFailure(
+        getTest(), static_cast<String&&>(type)));
     return *this;
   }
   checkInputParameter(static_cast<MockNamedValue&&>(actualParameter));
@@ -480,7 +476,7 @@ MockCheckedActualCall::checkExpectations()
          "expectations when checking expectations. This cannot happen.");
 
   matchingExpectation_ =
-    potentiallyMatchingExpectations_.removeFirstMatchingExpectation();
+      potentiallyMatchingExpectations_.removeFirstMatchingExpectation();
   if (matchingExpectation_) {
     matchingExpectation_->finalizeActualCallMatch();
     callHasSucceeded();
@@ -490,15 +486,14 @@ MockCheckedActualCall::checkExpectations()
   }
 
   if (potentiallyMatchingExpectations_
-        .hasUnmatchingExpectationsBecauseOfMissingParameters()) {
-    failWith(MockExpectedParameterDidntHappenFailure(
-      getTest(),
-      getName(),
-      allExpectations_,
-      potentiallyMatchingExpectations_));
+          .hasUnmatchingExpectationsBecauseOfMissingParameters()) {
+    failWith(MockExpectedParameterDidntHappenFailure(getTest(),
+        getName(),
+        allExpectations_,
+        potentiallyMatchingExpectations_));
   } else {
     failWith(MockExpectedObjectDidntHappenFailure(
-      getTest(), getName(), allExpectations_));
+        getTest(), getName(), allExpectations_));
   }
 }
 
@@ -555,7 +550,7 @@ MockCheckedActualCall::returnUnsignedLongIntValue()
 
 unsigned long int
 MockCheckedActualCall::returnUnsignedLongIntValueOrDefault(
-  unsigned long int default_value)
+    unsigned long int default_value)
 {
   if (!hasReturnValue()) {
     return default_value;
@@ -586,7 +581,7 @@ MockCheckedActualCall::returnUnsignedLongLongIntValue()
 
 unsigned long long
 MockCheckedActualCall::returnUnsignedLongLongIntValueOrDefault(
-  unsigned long long default_value)
+    unsigned long long default_value)
 {
   if (!hasReturnValue()) {
     return default_value;
@@ -632,7 +627,7 @@ MockCheckedActualCall::returnUnsignedIntValue()
 
 unsigned int
 MockCheckedActualCall::returnUnsignedIntValueOrDefault(
-  unsigned int default_value)
+    unsigned int default_value)
 {
   if (!hasReturnValue()) {
     return default_value;
@@ -663,7 +658,7 @@ MockCheckedActualCall::returnConstPointerValue()
 
 const void*
 MockCheckedActualCall::returnConstPointerValueOrDefault(
-  const void* default_value)
+    const void* default_value)
 {
   if (!hasReturnValue()) {
     return default_value;
@@ -677,7 +672,7 @@ void (*MockCheckedActualCall::returnFunctionPointerValue())()
 }
 
 void (*MockCheckedActualCall::returnFunctionPointerValueOrDefault(
-  void (*default_value)()))()
+    void (*default_value)()))()
 {
   if (!hasReturnValue()) {
     return default_value;
@@ -720,7 +715,7 @@ MockCheckedActualCall::onObject(const void* objectPtr)
 
   if ((!matchingExpectation_) && potentiallyMatchingExpectations_.isEmpty()) {
     failWith(MockUnexpectedObjectFailure(
-      getTest(), getName(), objectPtr, allExpectations_));
+        getTest(), getName(), objectPtr, allExpectations_));
     return *this;
   }
 
@@ -735,11 +730,11 @@ MockCheckedActualCall::onObject(const void* objectPtr)
 
 void
 MockCheckedActualCall::addOutputParameter(const String& name,
-                                          const String& type,
-                                          void* ptr)
+    const String& type,
+    void* ptr)
 {
   MockOutputParametersListNode* newNode =
-    new MockOutputParametersListNode(name, type, ptr);
+      new MockOutputParametersListNode(name, type, ptr);
 
   if (outputParameterExpectations_ == nullptr)
     outputParameterExpectations_ = newNode;
@@ -802,11 +797,11 @@ MockActualCallTrace::withBoolParameter(const String& name, bool value)
 
 MockActualCall&
 MockActualCallTrace::withUnsignedIntParameter(const String& name,
-                                              unsigned int value)
+    unsigned int value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
@@ -815,17 +810,17 @@ MockActualCallTrace::withIntParameter(const String& name, int value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
 MockActualCall&
 MockActualCallTrace::withUnsignedLongIntParameter(const String& name,
-                                                  unsigned long int value)
+    unsigned long int value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
@@ -834,27 +829,27 @@ MockActualCallTrace::withLongIntParameter(const String& name, long int value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
 MockActualCall&
 MockActualCallTrace::withUnsignedLongLongIntParameter(const String& name,
-                                                      unsigned long long value)
+    unsigned long long value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
 MockActualCall&
 MockActualCallTrace::withLongLongIntParameter(const String& name,
-                                              long long value)
+    long long value)
 {
   addParameterName(name);
   traceBuffer_ +=
-    cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
   return *this;
 }
 
@@ -884,7 +879,7 @@ MockActualCallTrace::withPointerParameter(const String& name, void* value)
 
 MockActualCall&
 MockActualCallTrace::withConstPointerParameter(const String& name,
-                                               const void* value)
+    const void* value)
 {
   addParameterName(name);
   traceBuffer_ += cpputest::StringFrom(value);
@@ -893,7 +888,7 @@ MockActualCallTrace::withConstPointerParameter(const String& name,
 
 MockActualCall&
 MockActualCallTrace::withFunctionPointerParameter(const String& name,
-                                                  void (*value)())
+    void (*value)())
 {
   addParameterName(name);
   traceBuffer_ += cpputest::StringFrom(value);
@@ -902,8 +897,8 @@ MockActualCallTrace::withFunctionPointerParameter(const String& name,
 
 MockActualCall&
 MockActualCallTrace::withMemoryBufferParameter(const String& name,
-                                               const unsigned char* value,
-                                               size_t size)
+    const unsigned char* value,
+    size_t size)
 {
   addParameterName(name);
   traceBuffer_ += StringFromBinaryWithSizeOrNull(value, size);
@@ -912,8 +907,8 @@ MockActualCallTrace::withMemoryBufferParameter(const String& name,
 
 MockActualCall&
 MockActualCallTrace::withParameterOfType(const String& typeName,
-                                         const String& name,
-                                         const void* value)
+    const String& name,
+    const void* value)
 {
   traceBuffer_ += " ";
   traceBuffer_ += typeName;
@@ -924,16 +919,16 @@ MockActualCallTrace::withParameterOfType(const String& typeName,
 
 MockActualCall&
 MockActualCallTrace::withMemoryBufferParameter(const char* name,
-                                               const unsigned char* value,
-                                               size_t size)
+    const unsigned char* value,
+    size_t size)
 {
   return withMemoryBufferParameter(String(name), value, size);
 }
 
 MockActualCall&
 MockActualCallTrace::withParameterOfType(const char* typeName,
-                                         const char* name,
-                                         const void* value)
+    const char* name,
+    const void* value)
 {
   return withParameterOfType(String(typeName), String(name), value);
 }
@@ -948,8 +943,8 @@ MockActualCallTrace::withOutputParameter(const String& name, void* output)
 
 MockActualCall&
 MockActualCallTrace::withOutputParameterOfType(const String& typeName,
-                                               const String& name,
-                                               void* output)
+    const String& name,
+    void* output)
 {
   traceBuffer_ += " ";
   traceBuffer_ += typeName;

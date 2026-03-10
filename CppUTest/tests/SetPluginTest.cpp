@@ -126,7 +126,7 @@ public:
 TEST(SetPointerPluginTest, installTooMuchFunctionPointer)
 {
   MaxFunctionPointerUtestShell* tst =
-    new MaxFunctionPointerUtestShell(SetPointerPlugin::MAX_SET + 1);
+      new MaxFunctionPointerUtestShell(SetPointerPlugin::MAX_SET + 1);
   myRegistry_->addTest(tst);
 
   myRegistry_->runAllTests(*result_);

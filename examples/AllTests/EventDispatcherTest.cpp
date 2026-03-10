@@ -39,17 +39,17 @@ public:
   virtual void notify(const Event& event, int timeOutInSeconds) override
   {
     mock()
-      .actualCall("notify")
-      .onObject(this)
-      .withParameterOfType("Event", "event", static_cast<const void*>(&event))
-      .withParameter("timeOutInSeconds", timeOutInSeconds);
+        .actualCall("notify")
+        .onObject(this)
+        .withParameterOfType("Event", "event", static_cast<const void*>(&event))
+        .withParameter("timeOutInSeconds", timeOutInSeconds);
   }
   virtual void notifyRegistration(EventObserver* newObserver) override
   {
     mock()
-      .actualCall("notifyRegistration")
-      .onObject(this)
-      .withParameter("newObserver", newObserver);
+        .actualCall("notifyRegistration")
+        .onObject(this)
+        .withParameter("newObserver", newObserver);
   }
 };
 
@@ -96,10 +96,10 @@ TEST(EventDispatcher, EventWithoutRegistrationsResultsIntoNoCalls)
 TEST(EventDispatcher, EventWithRegistrationForEventResultsIntoCallback)
 {
   mock()
-    .expectOneCall("notify")
-    .onObject(&observer)
-    .withParameterOfType("Event", "event", &event)
-    .withParameter("timeOutInSeconds", 10);
+      .expectOneCall("notify")
+      .onObject(&observer)
+      .withParameterOfType("Event", "event", &event)
+      .withParameter("timeOutInSeconds", 10);
   event.type = IMPORTANT_EVENT;
 
   dispatcher->registerObserver(IMPORTANT_EVENT, &observer);
@@ -114,22 +114,22 @@ TEST(EventDispatcher, DifferentEventWithRegistrationDoesNotResultIntoCallback)
 }
 
 TEST(EventDispatcher,
-     RegisterTwoObserversResultIntoTwoCallsAndARegistrationNotification)
+    RegisterTwoObserversResultIntoTwoCallsAndARegistrationNotification)
 {
   mock()
-    .expectOneCall("notify")
-    .onObject(&observer)
-    .withParameterOfType("Event", "event", &event)
-    .withParameter("timeOutInSeconds", 10);
+      .expectOneCall("notify")
+      .onObject(&observer)
+      .withParameterOfType("Event", "event", &event)
+      .withParameter("timeOutInSeconds", 10);
   mock()
-    .expectOneCall("notify")
-    .onObject(&observer2)
-    .withParameterOfType("Event", "event", &event)
-    .withParameter("timeOutInSeconds", 10);
+      .expectOneCall("notify")
+      .onObject(&observer2)
+      .withParameterOfType("Event", "event", &event)
+      .withParameter("timeOutInSeconds", 10);
   mock()
-    .expectOneCall("notifyRegistration")
-    .onObject(&observer)
-    .withParameter("newObserver", &observer2);
+      .expectOneCall("notifyRegistration")
+      .onObject(&observer)
+      .withParameter("newObserver", &observer2);
 
   event.type = IMPORTANT_EVENT;
   dispatcher->registerObserver(IMPORTANT_EVENT, &observer);

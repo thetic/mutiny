@@ -1,5 +1,7 @@
 ---
 BasedOnStyle: Mozilla
+AlignAfterOpenBracket: DontAlign
+ContinuationIndentWidth: 4
 Standard: Cpp11
 SortIncludes: CaseSensitive
 IncludeBlocks: Regroup

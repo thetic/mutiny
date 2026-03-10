@@ -170,15 +170,15 @@ TEST(MockSupportTest, tracing)
   mock().tracing(true);
 
   mock()
-    .actualCall("boo")
-    .withParameter("double", 1.0)
-    .withParameter("int", 1)
-    .withParameter("string", "string");
+      .actualCall("boo")
+      .withParameter("double", 1.0)
+      .withParameter("int", 1)
+      .withParameter("string", "string");
   mock("scope")
-    .actualCall("foo")
-    .withParameter("double", 1.0)
-    .withParameter("int", 1)
-    .withParameter("string", "string");
+      .actualCall("foo")
+      .withParameter("double", 1.0)
+      .withParameter("int", 1)
+      .withParameter("string", "string");
   mock().checkExpectations();
 
   STRCMP_CONTAINS("boo", mock().getTraceOutput());
@@ -214,7 +214,7 @@ CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
 {
   MockExpectedCallsList list;
   MockUnexpectedCallHappenedFailure expectedFailure(
-    UtestShell::getCurrent(), "unexpected", list);
+      UtestShell::getCurrent(), "unexpected", list);
   mock().actualCall("boo");
   CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
 }
@@ -222,14 +222,14 @@ CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
 TEST(MockSupportTestWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 {
   mock().setMockFailureStandardReporter(
-    MockFailureReporterForTest::getReporter());
+      MockFailureReporterForTest::getReporter());
   fixture.setTestFunction(
-    CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_);
+      CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_);
   fixture.runAllTests();
   fixture.assertPrintContains("MockFailures are different.");
   fixture.assertPrintContains("Expected MockFailure:");
   fixture.assertPrintContains(
-    "Mock Failure: Unexpected call to function: unexpected");
+      "Mock Failure: Unexpected call to function: unexpected");
   fixture.assertPrintContains("Actual MockFailure:");
   fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
 }
@@ -244,7 +244,7 @@ CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_()
 TEST(MockSupportTestWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 {
   mock().setMockFailureStandardReporter(
-    MockFailureReporterForTest::getReporter());
+      MockFailureReporterForTest::getReporter());
   fixture.setTestFunction(CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_);
   fixture.runAllTests();
   fixture.assertPrintContains("Unexpected mock failure:");
@@ -281,7 +281,7 @@ TEST(MockSupportTestWithFixture, shouldCrashOnFailure)
 }
 
 TEST(MockSupportTestWithFixture,
-     ShouldNotCrashOnFailureAfterCrashMethodWasReset)
+    ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 {
   cpputestHasCrashed = false;
   UtestShell::setCrashMethod(crashMethod);

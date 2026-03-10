@@ -126,9 +126,9 @@ private:
   static const char* StrStr(const char* s1, const char* s2);
   static char* allocStringBuffer(size_t size, const char* file, size_t line);
   static void deallocStringBuffer(char* str,
-                                  size_t size,
-                                  const char* file,
-                                  size_t line);
+      size_t size,
+      const char* file,
+      size_t line);
 
   const char* getBuffer() const;
 
@@ -138,7 +138,7 @@ private:
   void setInternalBufferTo(char* buffer, size_t bufferSize);
   void copyBufferToNewInternalBuffer(const char* otherBuffer);
   void copyBufferToNewInternalBuffer(const char* otherBuffer,
-                                     size_t bufferSize);
+      size_t bufferSize);
   void copyBufferToNewInternalBuffer(const String& otherBuffer);
 
   char* buffer_;
@@ -237,14 +237,13 @@ StringFrom(const String& other);
 #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters)        \
   __attribute__((format(type, format_parameter, other_parameters)))
 #else
-#define CPPUTEST_CHECK_FORMAT(                                                 \
-  type,                                                                        \
-  format_parameter,                                                            \
-  other_parameters) /* type, format_parameter, other_parameters */
+#define CPPUTEST_CHECK_FORMAT(type,                                            \
+    format_parameter,                                                          \
+    other_parameters) /* type, format_parameter, other_parameters */
 #endif
 String
 StringFromFormat(const char* format, ...)
-  CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
+    CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
 String
 VStringFromFormat(const char* format, va_list args);
 String

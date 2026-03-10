@@ -53,7 +53,7 @@ protected:
   virtual TestOutput* createJUnitOutput(const String& packageName);
   virtual TestOutput* createConsoleOutput();
   virtual TestOutput* createCompositeOutput(TestOutput* outputOne,
-                                            TestOutput* outputTwo);
+      TestOutput* outputTwo);
 
   TestOutput* output_;
 

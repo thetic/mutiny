@@ -302,11 +302,11 @@ public:
   }
   virtual ~MyTestPluginDummy() override {}
   virtual void runAllPreTestAction(cpputest::TestShell&,
-                                   cpputest::TestResult&) override
+      cpputest::TestResult&) override
   {
   }
   virtual void runAllPostTestAction(cpputest::TestShell&,
-                                    cpputest::TestResult&) override
+      cpputest::TestResult&) override
   {
   }
 };
@@ -323,7 +323,7 @@ TEST(TestRegistry, ResetPluginsWorks)
 }
 
 TEST(TestRegistry,
-     listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
+    listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
 {
   test1->setGroupName("GROUP_1");
   myRegistry->addTest(test1);
@@ -340,7 +340,7 @@ TEST(TestRegistry,
 }
 
 TEST(TestRegistry,
-     listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+    listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->setGroupName("GROUP_A");
   test1->setTestName("test_a");
@@ -354,12 +354,12 @@ TEST(TestRegistry,
 
   myRegistry->listTestGroupAndCaseNames(*result);
   cpputest::String s = output->getOutput();
-  STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a",
-               s.asCharString());
+  STRCMP_EQUAL(
+      "GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.asCharString());
 }
 
 TEST(TestRegistry,
-     listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+    listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->setGroupName("GROUP_A");
   test1->setTestName("test_a");
@@ -383,7 +383,7 @@ TEST(TestRegistry,
                "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
                "testa.cpp.100\n",
-               s.asCharString());
+      s.asCharString());
 }
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)

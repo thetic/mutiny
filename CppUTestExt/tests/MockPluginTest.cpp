@@ -74,7 +74,7 @@ TEST(MockPlugin, checkExpectationsAndClearAtEnd)
   plugin.postTestAction(*test, *result);
 
   STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(),
-                  output.getOutput().asCharString());
+      output.getOutput().asCharString());
   LONGS_EQUAL(0, mock().expectedCallsLeft());
   CHECK_NO_MOCK_FAILURE();
 }
@@ -85,19 +85,19 @@ TEST(MockPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("differentScope::foobar")
-    ->onObject(reinterpret_cast<void*>(1));
+      ->onObject(reinterpret_cast<void*>(1));
   MockExpectedObjectDidntHappenFailure expectedFailure(
-    test, "differentScope::foobar", expectations);
+      test, "differentScope::foobar", expectations);
 
   mock("differentScope")
-    .expectOneCall("foobar")
-    .onObject(reinterpret_cast<void*>(1));
+      .expectOneCall("foobar")
+      .onObject(reinterpret_cast<void*>(1));
   mock("differentScope").actualCall("foobar");
 
   plugin.postTestAction(*test, *result);
 
   STRCMP_CONTAINS(expectedFailure.getMessage().asCharString(),
-                  output.getOutput().asCharString());
+      output.getOutput().asCharString());
   CHECK_NO_MOCK_FAILURE();
 }
 
@@ -142,7 +142,7 @@ TEST(MockPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
   DummyCopier copier;
   plugin.installCopier("myType", copier);
   mock().expectOneCall("foo").withOutputParameterOfTypeReturning(
-    "myType", "name", nullptr);
+      "myType", "name", nullptr);
   mock().actualCall("foo").withOutputParameterOfType("myType", "name", nullptr);
 
   MockNoWayToCopyCustomTypeFailure failure(test, "myType");
@@ -152,7 +152,7 @@ TEST(MockPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
 }
 
 TEST(MockPlugin,
-     preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
+    preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
 {
   DummyComparator comparator;
   DummyComparator comparator2;
@@ -161,12 +161,12 @@ TEST(MockPlugin,
 
   plugin.preTestAction(*test, *result);
   mock().expectOneCall("foo").withParameterOfType(
-    "myType", "name", &comparator);
+      "myType", "name", &comparator);
   mock().expectOneCall("foo").withParameterOfType(
-    "myOtherType", "name", &comparator);
+      "myOtherType", "name", &comparator);
   mock().actualCall("foo").withParameterOfType("myType", "name", &comparator);
   mock().actualCall("foo").withParameterOfType(
-    "myOtherType", "name", &comparator);
+      "myOtherType", "name", &comparator);
 
   mock().checkExpectations();
   LONGS_EQUAL(0, result->getFailureCount());

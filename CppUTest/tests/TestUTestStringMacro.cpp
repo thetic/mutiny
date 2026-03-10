@@ -165,7 +165,7 @@ STRCMP_NOCASE_CONTAINSWithExpectedIsNULLTestMethod_()
 TEST(UnitTestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINSAndExpectedIsNULL)
 {
   fixture.runTestWithMethod(
-    STRCMP_NOCASE_CONTAINSWithExpectedIsNULLTestMethod_);
+      STRCMP_NOCASE_CONTAINSWithExpectedIsNULLTestMethod_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <>");
 }
 
@@ -435,14 +435,14 @@ TEST(UnitTestStringMacros, STRCMP_NOCASE_CONTAINS_TEXTBehavesAsProperMacro)
 {
   if (false)
     STRCMP_NOCASE_CONTAINS_TEXT(
-      "never", "executed", "Failed because it failed");
+        "never", "executed", "Failed because it failed");
   else
     STRCMP_NOCASE_CONTAINS_TEXT(
-      "hello", "HELLO WORLD", "Failed because it failed");
+        "hello", "HELLO WORLD", "Failed because it failed");
 }
 
 IGNORE_TEST(UnitTestStringMacros,
-            STRCMP_NO_CASE_CONTAINS_TEXTWorksInAnIgnoredTest)
+    STRCMP_NO_CASE_CONTAINS_TEXTWorksInAnIgnoredTest)
 {
   STRCMP_NOCASE_CONTAINS_TEXT("Hello", "World", "Failed because it failed");
 }

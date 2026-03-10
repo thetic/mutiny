@@ -50,15 +50,15 @@ public:
   virtual bool isEqual(const void* object1, const void* object2) override
   {
     const TypeForTestingExpectedFunctionCall* obj1 =
-      static_cast<const TypeForTestingExpectedFunctionCall*>(object1);
+        static_cast<const TypeForTestingExpectedFunctionCall*>(object1);
     const TypeForTestingExpectedFunctionCall* obj2 =
-      static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
+        static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
   virtual String valueToString(const void* object) override
   {
     const TypeForTestingExpectedFunctionCall* obj =
-      static_cast<const TypeForTestingExpectedFunctionCall*>(object);
+        static_cast<const TypeForTestingExpectedFunctionCall*>(object);
     return StringFrom(*(obj->value));
   }
 };
@@ -69,9 +69,9 @@ public:
   virtual void copy(void* dst_, const void* src_) override
   {
     TypeForTestingExpectedFunctionCall* dst =
-      static_cast<TypeForTestingExpectedFunctionCall*>(dst_);
+        static_cast<TypeForTestingExpectedFunctionCall*>(dst_);
     const TypeForTestingExpectedFunctionCall* src =
-      static_cast<const TypeForTestingExpectedFunctionCall*>(src_);
+        static_cast<const TypeForTestingExpectedFunctionCall*>(src_);
     *(dst->value) = *(src->value);
   }
 };
@@ -102,7 +102,7 @@ TEST(MockNamedValueHandlerRepository, installComparator)
 TEST(MockNamedValueHandlerRepository, installMultipleComparators)
 {
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
-    comparator3;
+      comparator3;
   MockNamedValueComparatorsAndCopiersRepository repository;
   repository.installComparator("type1", comparator1);
   repository.installComparator("type2", comparator2);
@@ -142,7 +142,7 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
 {
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
-    comparator3;
+      comparator3;
   MockNamedValueComparatorsAndCopiersRepository repository;
   repository.installCopier("type1", copier1);
   repository.installComparator("type1", comparator1);
@@ -165,7 +165,7 @@ void
 setup() override
 {
   originalComparatorRepository =
-    MockNamedValue::getDefaultComparatorsAndCopiersRepository();
+      MockNamedValue::getDefaultComparatorsAndCopiersRepository();
   call = new MockCheckedExpectedCall(1);
   call->withName("funcName");
 }
@@ -173,7 +173,7 @@ void
 teardown() override
 {
   MockNamedValue::setDefaultComparatorsAndCopiersRepository(
-    originalComparatorRepository);
+      originalComparatorRepository);
   delete call;
   CHECK_NO_MOCK_FAILURE();
   MockFailureReporterForTest::clearReporter();
@@ -192,12 +192,12 @@ TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
   const String paramName = "paramName";
   unsigned int value = 356;
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("unsigned int",
-               call->getInputParameterType(paramName).asCharString());
+  STRCMP_EQUAL(
+      "unsigned int", call->getInputParameterType(paramName).asCharString());
   LONGS_EQUAL(value, call->getInputParameter(paramName).getUnsignedIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> unsigned int paramName: <356 (0x164)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithIntegerParameter)
@@ -209,7 +209,7 @@ TEST(MockExpectedCall, callWithIntegerParameter)
   LONGS_EQUAL(value, call->getInputParameter(paramName).getIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> int paramName: <2 (0x2)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithBooleanParameter)
@@ -221,7 +221,7 @@ TEST(MockExpectedCall, callWithBooleanParameter)
   CHECK_EQUAL(value, call->getInputParameter(paramName).getBoolValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> bool paramName: <true>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
@@ -230,12 +230,12 @@ TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
   unsigned long value = 888;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("unsigned long int",
-               call->getInputParameterType(paramName).asCharString());
-  LONGS_EQUAL(value,
-              call->getInputParameter(paramName).getUnsignedLongIntValue());
+      call->getInputParameterType(paramName).asCharString());
+  LONGS_EQUAL(
+      value, call->getInputParameter(paramName).getUnsignedLongIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> unsigned long int paramName: <888 (0x378)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithLongIntegerParameter)
@@ -243,12 +243,12 @@ TEST(MockExpectedCall, callWithLongIntegerParameter)
   const String paramName = "paramName";
   long value = 777;
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("long int",
-               call->getInputParameterType(paramName).asCharString());
+  STRCMP_EQUAL(
+      "long int", call->getInputParameterType(paramName).asCharString());
   LONGS_EQUAL(value, call->getInputParameter(paramName).getLongIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> long int paramName: <777 (0x309)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
@@ -257,12 +257,12 @@ TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
   unsigned long long value = 888;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("unsigned long long int",
-               call->getInputParameterType(paramName).asCharString());
+      call->getInputParameterType(paramName).asCharString());
   UNSIGNED_LONGLONGS_EQUAL(
-    value, call->getInputParameter(paramName).getUnsignedLongLongIntValue());
+      value, call->getInputParameter(paramName).getUnsignedLongLongIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> unsigned long long int paramName: <888 (0x378)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithLongLongIntegerParameter)
@@ -270,13 +270,13 @@ TEST(MockExpectedCall, callWithLongLongIntegerParameter)
   const String paramName = "paramName";
   long long value = 777;
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("long long int",
-               call->getInputParameterType(paramName).asCharString());
-  LONGLONGS_EQUAL(value,
-                  call->getInputParameter(paramName).getLongLongIntValue());
+  STRCMP_EQUAL(
+      "long long int", call->getInputParameterType(paramName).asCharString());
+  LONGLONGS_EQUAL(
+      value, call->getInputParameter(paramName).getLongLongIntValue());
   CHECK(call->hasInputParameterWithName(paramName));
   STRCMP_CONTAINS("funcName -> long long int paramName: <777 (0x309)>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithDoubleParameter)
@@ -286,9 +286,9 @@ TEST(MockExpectedCall, callWithDoubleParameter)
   call->withParameter(paramName, value);
   STRCMP_EQUAL("double", call->getInputParameterType(paramName).asCharString());
   DOUBLES_EQUAL(
-    value, call->getInputParameter(paramName).getDoubleValue(), 0.0);
+      value, call->getInputParameter(paramName).getDoubleValue(), 0.0);
   STRCMP_CONTAINS("funcName -> double paramName: <1.2>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
@@ -299,11 +299,11 @@ TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
   call->withParameter(paramName, value, tolerance);
   STRCMP_EQUAL("double", call->getInputParameterType(paramName).asCharString());
   DOUBLES_EQUAL(
-    value, call->getInputParameter(paramName).getDoubleValue(), 0.0);
+      value, call->getInputParameter(paramName).getDoubleValue(), 0.0);
   DOUBLES_EQUAL(
-    tolerance, call->getInputParameter(paramName).getDoubleTolerance(), 0.0);
+      tolerance, call->getInputParameter(paramName).getDoubleTolerance(), 0.0);
   STRCMP_CONTAINS("funcName -> double paramName: <1.2>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithStringParameter)
@@ -311,11 +311,11 @@ TEST(MockExpectedCall, callWithStringParameter)
   const String paramName = "paramName";
   const char* value = "hello world";
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("const char*",
-               call->getInputParameterType(paramName).asCharString());
+  STRCMP_EQUAL(
+      "const char*", call->getInputParameterType(paramName).asCharString());
   STRCMP_EQUAL(value, call->getInputParameter(paramName).getStringValue());
   STRCMP_CONTAINS("funcName -> const char* paramName: <hello world>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithPointerParameter)
@@ -326,7 +326,7 @@ TEST(MockExpectedCall, callWithPointerParameter)
   STRCMP_EQUAL("void*", call->getInputParameterType(paramName).asCharString());
   POINTERS_EQUAL(value, call->getInputParameter(paramName).getPointerValue());
   STRCMP_CONTAINS("funcName -> void* paramName: <0x123>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithConstPointerParameter)
@@ -334,12 +334,12 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
   const String paramName = "paramName";
   const void* value = reinterpret_cast<const void*>(0x345);
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("const void*",
-               call->getInputParameterType(paramName).asCharString());
-  POINTERS_EQUAL(value,
-                 call->getInputParameter(paramName).getConstPointerValue());
+  STRCMP_EQUAL(
+      "const void*", call->getInputParameterType(paramName).asCharString());
+  POINTERS_EQUAL(
+      value, call->getInputParameter(paramName).getConstPointerValue());
   STRCMP_CONTAINS("funcName -> const void* paramName: <0x345>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithFunctionPointerParameter)
@@ -347,12 +347,12 @@ TEST(MockExpectedCall, callWithFunctionPointerParameter)
   const String paramName = "paramName";
   void (*value)() = reinterpret_cast<void (*)()>(0xdead);
   call->withParameter(paramName, value);
-  STRCMP_EQUAL("void (*)()",
-               call->getInputParameterType(paramName).asCharString());
+  STRCMP_EQUAL(
+      "void (*)()", call->getInputParameterType(paramName).asCharString());
   FUNCTIONPOINTERS_EQUAL(
-    value, call->getInputParameter(paramName).getFunctionPointerValue());
+      value, call->getInputParameter(paramName).getFunctionPointerValue());
   STRCMP_CONTAINS("funcName -> void (*)() paramName: <0xdead>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithMemoryBuffer)
@@ -361,12 +361,12 @@ TEST(MockExpectedCall, callWithMemoryBuffer)
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
   call->withParameter(paramName, value, sizeof(value));
   STRCMP_EQUAL("const unsigned char*",
-               call->getInputParameterType(paramName).asCharString());
+      call->getInputParameterType(paramName).asCharString());
   POINTERS_EQUAL(value, call->getInputParameter(paramName).getMemoryBuffer());
   LONGS_EQUAL(sizeof(value), call->getInputParameter(paramName).getSize());
   STRCMP_CONTAINS("funcName -> const unsigned char* paramName: <Size = 3 | "
                   "HexContents = 12 FE A1>",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithObjectParameter)
@@ -374,13 +374,13 @@ TEST(MockExpectedCall, callWithObjectParameter)
   const String paramName = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->withParameterOfType("ClassName", paramName, value);
-  POINTERS_EQUAL(value,
-                 call->getInputParameter(paramName).getConstObjectPointer());
-  STRCMP_EQUAL("ClassName",
-               call->getInputParameterType(paramName).asCharString());
+  POINTERS_EQUAL(
+      value, call->getInputParameter(paramName).getConstObjectPointer());
+  STRCMP_EQUAL(
+      "ClassName", call->getInputParameterType(paramName).asCharString());
   STRCMP_CONTAINS("funcName -> ClassName paramName: <No comparator found for "
                   "type: \"ClassName\">",
-                  call->callToString().asCharString());
+      call->callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callWithObjectParameterUnequalComparison)
@@ -393,7 +393,7 @@ TEST(MockExpectedCall, callWithObjectParameterUnequalComparison)
 }
 
 TEST(MockExpectedCall,
-     callWithObjectParameterEqualComparisonButFailsWithoutRepository)
+    callWithObjectParameterEqualComparisonButFailsWithoutRepository)
 {
   TypeForTestingExpectedFunctionCall type(1), equalType(1);
   MockNamedValue parameter("name");
@@ -403,7 +403,7 @@ TEST(MockExpectedCall,
 }
 
 TEST(MockExpectedCall,
-     callWithObjectParameterEqualComparisonButFailsWithoutComparator)
+    callWithObjectParameterEqualComparisonButFailsWithoutComparator)
 {
   MockNamedValueComparatorsAndCopiersRepository repository;
   MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
@@ -439,8 +439,8 @@ TEST(MockExpectedCall, getParameterValueOfObjectType)
 
   TypeForTestingExpectedFunctionCall type(1);
   call->withParameterOfType("type", "name", &type);
-  POINTERS_EQUAL(&type,
-                 call->getInputParameter("name").getConstObjectPointer());
+  POINTERS_EQUAL(
+      &type, call->getInputParameter("name").getConstObjectPointer());
   STRCMP_EQUAL("1", call->getInputParameterValueString("name").asCharString());
 }
 
@@ -449,7 +449,7 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
   TypeForTestingExpectedFunctionCall type(1);
   call->withParameterOfType("type", "name", &type);
   STRCMP_EQUAL("No comparator found for type: \"type\"",
-               call->getInputParameterValueString("name").asCharString());
+      call->getInputParameterValueString("name").asCharString());
 }
 
 TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
@@ -459,7 +459,7 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
   MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
   call->withParameterOfType("type", "name", &type);
   STRCMP_EQUAL("No comparator found for type: \"type\"",
-               call->getInputParameterValueString("name").asCharString());
+      call->getInputParameterValueString("name").asCharString());
 }
 
 TEST(MockExpectedCall, callWithTwoUnsignedIntegerParameter)
@@ -470,15 +470,13 @@ TEST(MockExpectedCall, callWithTwoUnsignedIntegerParameter)
   call->withParameter("unsigned-integer1", expected_value);
   call->withParameter("unsigned-integer2", another_expected_value);
   STRCMP_EQUAL("unsigned int",
-               call->getInputParameterType("unsigned-integer1").asCharString());
+      call->getInputParameterType("unsigned-integer1").asCharString());
   STRCMP_EQUAL("unsigned int",
-               call->getInputParameterType("unsigned-integer2").asCharString());
-  LONGS_EQUAL(
-    expected_value,
-    call->getInputParameter("unsigned-integer1").getUnsignedIntValue());
-  LONGS_EQUAL(
-    another_expected_value,
-    call->getInputParameter("unsigned-integer2").getUnsignedIntValue());
+      call->getInputParameterType("unsigned-integer2").asCharString());
+  LONGS_EQUAL(expected_value,
+      call->getInputParameter("unsigned-integer1").getUnsignedIntValue());
+  LONGS_EQUAL(another_expected_value,
+      call->getInputParameter("unsigned-integer2").getUnsignedIntValue());
 }
 
 TEST(MockExpectedCall, callWithTwoIntegerParameter)
@@ -490,10 +488,10 @@ TEST(MockExpectedCall, callWithTwoIntegerParameter)
   call->withParameter("integer2", another_expected_value);
   STRCMP_EQUAL("int", call->getInputParameterType("integer1").asCharString());
   STRCMP_EQUAL("int", call->getInputParameterType("integer2").asCharString());
-  LONGS_EQUAL(expected_value,
-              call->getInputParameter("integer1").getIntValue());
+  LONGS_EQUAL(
+      expected_value, call->getInputParameter("integer1").getIntValue());
   LONGS_EQUAL(another_expected_value,
-              call->getInputParameter("integer2").getIntValue());
+      call->getInputParameter("integer2").getIntValue());
 }
 
 TEST(MockExpectedCall, callWithThreeDifferentParameter)
@@ -502,12 +500,12 @@ TEST(MockExpectedCall, callWithThreeDifferentParameter)
   call->withParameter("string", "hello world");
   call->withParameter("double", 0.12);
   STRCMP_EQUAL("int", call->getInputParameterType("integer").asCharString());
-  STRCMP_EQUAL("const char*",
-               call->getInputParameterType("string").asCharString());
+  STRCMP_EQUAL(
+      "const char*", call->getInputParameterType("string").asCharString());
   STRCMP_EQUAL("double", call->getInputParameterType("double").asCharString());
   LONGS_EQUAL(1, call->getInputParameter("integer").getIntValue());
-  STRCMP_EQUAL("hello world",
-               call->getInputParameter("string").getStringValue());
+  STRCMP_EQUAL(
+      "hello world", call->getInputParameter("string").getStringValue());
   DOUBLES_EQUAL(0.12, call->getInputParameter("double").getDoubleValue(), 0.05);
 }
 
@@ -536,7 +534,7 @@ TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 }
 
 TEST(MockExpectedCall,
-     multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
+    multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
 {
   MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
@@ -546,7 +544,7 @@ TEST(MockExpectedCall,
 }
 
 TEST(MockExpectedCall,
-     multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
+    multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
 {
   MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
@@ -558,7 +556,7 @@ TEST(MockExpectedCall,
 }
 
 TEST(MockExpectedCall,
-     multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
+    multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
 {
   MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
@@ -604,17 +602,17 @@ TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
   MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   STRCMP_EQUAL("name -> no parameters (expected 1 call, called 0 times)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall,
-     toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
+    toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
 {
   MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> no parameters (expected 2 calls, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
@@ -624,7 +622,7 @@ TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
   expectedCall.callWasMade(1);
   expectedCall.callWasMade(2);
   STRCMP_EQUAL("name -> no parameters (expected 2 calls, called 2 times)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForIgnoredParameters)
@@ -633,8 +631,8 @@ TEST(MockExpectedCall, toStringForIgnoredParameters)
   expectedCall.withName("name");
   expectedCall.ignoreOtherParameters();
   STRCMP_EQUAL(
-    "name -> all parameters ignored (expected 1 call, called 0 times)",
-    expectedCall.callToString().asCharString());
+      "name -> all parameters ignored (expected 1 call, called 0 times)",
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForMultipleInputParameters)
@@ -651,7 +649,7 @@ TEST(MockExpectedCall, toStringForMultipleInputParameters)
   STRCMP_EQUAL("name -> const char* string: <value>, int integer: <10 (0xa)>, "
                "unsigned int unsigned-integer: <7 (0x7)> "
                "(expected 1 call, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
@@ -666,12 +664,12 @@ TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
   expectedCall.withParameter("integer", int_value);
   expectedCall.withParameter("unsigned-integer", uint_value);
   expectedCall.withOutputParameterReturning(
-    "buffer", buffer_value, sizeof(buffer_value));
+      "buffer", buffer_value, sizeof(buffer_value));
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> const char* string: <value>, int integer: <10 (0xa)>, "
                "unsigned int unsigned-integer: <7 (0x7)>, "
                "const void* buffer: <output> (expected 1 call, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForMultipleOutputParameters)
@@ -681,13 +679,13 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
   MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withOutputParameterReturning(
-    "buffer1", buffer_value, sizeof(buffer_value));
+      "buffer1", buffer_value, sizeof(buffer_value));
   expectedCall.withOutputParameterReturning(
-    "buffer2", buffer_value, sizeof(buffer_value));
+      "buffer2", buffer_value, sizeof(buffer_value));
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> const void* buffer1: <output>, const void* buffer2: "
                "<output> (expected 1 call, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
@@ -697,8 +695,8 @@ TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
   expectedCall.withUnmodifiedOutputParameter("buffer1");
   expectedCall.callWasMade(1);
   STRCMP_EQUAL(
-    "name -> const void* buffer1: <output> (expected 1 call, called 1 time)",
-    expectedCall.callToString().asCharString());
+      "name -> const void* buffer1: <output> (expected 1 call, called 1 time)",
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForParameterAndIgnored)
@@ -710,7 +708,7 @@ TEST(MockExpectedCall, toStringForParameterAndIgnored)
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> const char* string: <value>, other parameters are "
                "ignored (expected 1 call, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForCallOrderSingle)
@@ -721,7 +719,7 @@ TEST(MockExpectedCall, toStringForCallOrderSingle)
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> expected call order: <2> -> no parameters (expected 1 "
                "call, called 1 time)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, toStringForCallOrderMultiple)
@@ -736,7 +734,7 @@ TEST(MockExpectedCall, toStringForCallOrderMultiple)
   expectedCall.callWasMade(9);
   STRCMP_EQUAL("name -> expected calls order: <5..9> -> no parameters "
                "(expected 5 calls, called 5 times)",
-               expectedCall.callToString().asCharString());
+      expectedCall.callToString().asCharString());
 }
 
 TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
@@ -824,7 +822,7 @@ TEST(MockExpectedCall, hasOutputParameterOfType)
 {
   TypeForTestingExpectedFunctionCall object(6789);
   call->withOutputParameterOfTypeReturning(
-    "TypeForTestingExpectedFunctionCall", "foo", &object);
+      "TypeForTestingExpectedFunctionCall", "foo", &object);
   MockNamedValue foo("foo");
   foo.setConstObjectPointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK(call->hasOutputParameter(foo));
@@ -834,7 +832,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
 {
   TypeForTestingExpectedFunctionCall object(543);
   call->withParameterOfType(
-    "TypeForTestingExpectedFunctionCall", "foo", &object);
+      "TypeForTestingExpectedFunctionCall", "foo", &object);
   MockNamedValue foo("foo");
   foo.setConstObjectPointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->hasOutputParameter(foo));
@@ -844,7 +842,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
 {
   TypeForTestingExpectedFunctionCall object(543);
   call->withOutputParameterOfTypeReturning(
-    "TypeForTestingExpectedFunctionCall", "foo", &object);
+      "TypeForTestingExpectedFunctionCall", "foo", &object);
   MockNamedValue foo("foo");
   foo.setConstObjectPointer("OtherTypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->hasOutputParameter(foo));
@@ -864,11 +862,11 @@ TEST(MockIgnoredExpectedCall, worksAsItShould)
   ignored.withIntParameter("bla", static_cast<int>(1));
   ignored.withUnsignedIntParameter("foo", static_cast<unsigned int>(1));
   ignored.withLongIntParameter("hey", static_cast<long int>(1));
-  ignored.withUnsignedLongIntParameter("bah",
-                                       static_cast<unsigned long int>(1));
+  ignored.withUnsignedLongIntParameter(
+      "bah", static_cast<unsigned long int>(1));
   ignored.withLongLongIntParameter("yo", static_cast<long long int>(1));
   ignored.withUnsignedLongLongIntParameter(
-    "grr", static_cast<unsigned long long int>(1));
+      "grr", static_cast<unsigned long long int>(1));
   ignored.withDoubleParameter("hah", static_cast<double>(1.1f));
   ignored.withDoubleParameter("gah", 2.1, 0.3);
   ignored.withStringParameter("goo", "hello");
@@ -876,12 +874,12 @@ TEST(MockIgnoredExpectedCall, worksAsItShould)
   ignored.withConstPointerParameter("woo", static_cast<const void*>(nullptr));
   ignored.withFunctionPointerParameter("fop", static_cast<void (*)()>(nullptr));
   ignored.withMemoryBufferParameter(
-    "waa", static_cast<const unsigned char*>(nullptr), 0);
+      "waa", static_cast<const unsigned char*>(nullptr), 0);
   ignored.withParameterOfType(
-    "mytype", "top", static_cast<const void*>(nullptr));
+      "mytype", "top", static_cast<const void*>(nullptr));
   ignored.withOutputParameterReturning("bar", static_cast<void*>(nullptr), 1);
   ignored.withOutputParameterOfTypeReturning(
-    "mytype", "bar", static_cast<const void*>(nullptr));
+      "mytype", "bar", static_cast<const void*>(nullptr));
   ignored.withUnmodifiedOutputParameter("unmod");
   ignored.ignoreOtherParameters();
   ignored.andReturnValue(true);

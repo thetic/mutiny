@@ -70,7 +70,7 @@ void
 InstallOrderedTest(OrderedTestShell& test, int level)
 {
   OrderedTestInstaller(
-    test, "testgroup", "testname", __FILE__, __LINE__, level);
+      test, "testgroup", "testname", __FILE__, __LINE__, level);
 }
 
 void
@@ -95,7 +95,7 @@ secondTest()
 TEST(TestOrderedTest, TestInstallerSetsFields)
 {
   OrderedTestInstaller installer(
-    orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
+      orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
   STRCMP_EQUAL("testgroup", orderedTest.getGroup().asCharString());
   STRCMP_EQUAL("testname", orderedTest.getName().asCharString());
   STRCMP_EQUAL("this.cpp", orderedTest.getFile().asCharString());
@@ -184,7 +184,7 @@ void
 setup() override
 {
   OrderedTestTestingFixture::checkRun(
-    TestRegistry::getCurrentRegistry()->getCurrentRepetition());
+      TestRegistry::getCurrentRegistry()->getCurrentRepetition());
 }
 };
 

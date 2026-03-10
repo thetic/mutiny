@@ -41,7 +41,7 @@ class MockSupport;
 /* This allows access to "the global" mocking support for easier testing */
 MockSupport&
 mock(const cpputest::String& mockName = "",
-     MockFailureReporter* failureReporterForThisCall = nullptr);
+    MockFailureReporter* failureReporterForThisCall = nullptr);
 
 class MockSupport
 {
@@ -53,7 +53,7 @@ public:
   virtual MockExpectedCall& expectOneCall(const cpputest::String& functionName);
   virtual void expectNoCall(const cpputest::String& functionName);
   virtual MockExpectedCall& expectNCalls(unsigned int amount,
-                                         const cpputest::String& functionName);
+      const cpputest::String& functionName);
   virtual MockActualCall& actualCall(const cpputest::String& functionName);
   virtual MockActualCall& actualCall(const char* functionName);
   virtual bool hasReturnValue();
@@ -67,14 +67,14 @@ public:
   virtual long int returnLongIntValueOrDefault(long int defaultValue);
   virtual unsigned long int unsignedLongIntReturnValue();
   virtual unsigned long int returnUnsignedLongIntValueOrDefault(
-    unsigned long int defaultValue);
+      unsigned long int defaultValue);
   virtual long long longLongIntReturnValue();
   virtual long long returnLongLongIntValueOrDefault(long long defaultValue);
   virtual unsigned long long unsignedLongLongIntReturnValue();
   virtual unsigned long long returnUnsignedLongLongIntValueOrDefault(
-    unsigned long long defaultValue);
+      unsigned long long defaultValue);
   virtual unsigned int returnUnsignedIntValueOrDefault(
-    unsigned int defaultValue);
+      unsigned int defaultValue);
   virtual const char* stringReturnValue();
   virtual const char* returnStringValueOrDefault(const char* defaultValue);
   virtual double returnDoubleValueOrDefault(double defaultValue);
@@ -82,7 +82,7 @@ public:
   virtual void* pointerReturnValue();
   virtual void* returnPointerValueOrDefault(void* defaultValue);
   virtual const void* returnConstPointerValueOrDefault(
-    const void* defaultValue);
+      const void* defaultValue);
   virtual const void* constPointerReturnValue();
   virtual void (*returnFunctionPointerValueOrDefault(void (*defaultValue)()))();
   virtual void (*functionPointerReturnValue())();
@@ -99,11 +99,11 @@ public:
   void setData(const cpputest::String& name, const void* value);
   void setData(const cpputest::String& name, void (*value)());
   void setDataObject(const cpputest::String& name,
-                     const cpputest::String& type,
-                     void* value);
+      const cpputest::String& type,
+      void* value);
   void setDataConstObject(const cpputest::String& name,
-                          const cpputest::String& type,
-                          const void* value);
+      const cpputest::String& type,
+      const void* value);
   MockNamedValue getData(const cpputest::String& name);
 
   MockSupport* getMockSupportScope(const cpputest::String& name);
@@ -136,11 +136,11 @@ public:
   virtual void setDefaultComparatorsAndCopiersRepository();
 
   virtual void installComparator(const cpputest::String& typeName,
-                                 MockNamedValueComparator& comparator);
+      MockNamedValueComparator& comparator);
   virtual void installCopier(const cpputest::String& typeName,
-                             MockNamedValueCopier& copier);
+      MockNamedValueCopier& copier);
   virtual void installComparatorsAndCopiers(
-    const MockNamedValueComparatorsAndCopiersRepository& repository);
+      const MockNamedValueComparatorsAndCopiersRepository& repository);
   virtual void removeAllComparatorsAndCopiers();
 
 protected:
@@ -161,7 +161,7 @@ private:
   bool enabled_;
   MockCheckedActualCall* lastActualFunctionCall_;
   MockNamedValueComparatorsAndCopiersRepository
-    comparatorsAndCopiersRepository_;
+      comparatorsAndCopiersRepository_;
   MockNamedValueList data_;
   const cpputest::String mockName_;
 

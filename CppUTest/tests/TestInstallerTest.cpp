@@ -45,7 +45,7 @@ setup() override
   myRegistry = new cpputest::TestRegistry();
   myRegistry->setCurrentRegistry(myRegistry);
   testInstaller = new cpputest::TestInstaller(
-    shell, "TestInstaller", "test", __FILE__, __LINE__);
+      shell, "TestInstaller", "test", __FILE__, __LINE__);
 }
 void
 teardown() override

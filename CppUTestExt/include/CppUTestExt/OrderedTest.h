@@ -62,11 +62,11 @@ class OrderedTestInstaller
 {
 public:
   explicit OrderedTestInstaller(OrderedTestShell& test,
-                                const char* groupName,
-                                const char* testName,
-                                const char* fileName,
-                                size_t lineNumber,
-                                int level);
+      const char* groupName,
+      const char* testName,
+      const char* fileName,
+      size_t lineNumber,
+      int level);
   virtual ~OrderedTestInstaller();
 
 private:
@@ -81,7 +81,7 @@ private:
   /* declarations for compilers */                                             \
   class TEST_##testGroup##_##testName##_TestShell;                             \
   extern TEST_##testGroup##_##testName##_TestShell                             \
-    TEST_##testGroup##_##testName##_Instance;                                  \
+      TEST_##testGroup##_##testName##_Instance;                                \
   class TEST_##testGroup##_##testName##_Test                                   \
     : public TEST_GROUP_##CppUTestGroup##testGroup                             \
   {                                                                            \
@@ -101,13 +101,13 @@ private:
     }                                                                          \
   } TEST_##testGroup##_##testName##_Instance;                                  \
   static cpputest::extensions::OrderedTestInstaller                            \
-    TEST_##testGroup##_##testName##_Installer(                                 \
-      TEST_##testGroup##_##testName##_Instance,                                \
-      #testGroup,                                                              \
-      #testName,                                                               \
-      __FILE__,                                                                \
-      __LINE__,                                                                \
-      testLevel);                                                              \
+      TEST_##testGroup##_##testName##_Installer(                               \
+          TEST_##testGroup##_##testName##_Instance,                            \
+          #testGroup,                                                          \
+          #testName,                                                           \
+          __FILE__,                                                            \
+          __LINE__,                                                            \
+          testLevel);                                                          \
   void TEST_##testGroup##_##testName##_Test::testBody()
 
 #define TEST_ORDERED_C_WRAPPER(group_name, test_name, testLevel)               \

@@ -45,7 +45,7 @@ void
 setup() override
 {
   test = new cpputest::TestShell(
-    "groupname", "testname", failFileName, failLineNumber - 1);
+      "groupname", "testname", failFileName, failLineNumber - 1);
 }
 void
 teardown() override
@@ -55,80 +55,95 @@ teardown() override
 };
 #define FAILURE_EQUAL(a, b)                                                    \
   STRCMP_EQUAL_LOCATION(                                                       \
-    a, (b).getMessage().asCharString(), "", __FILE__, __LINE__)
+      a, (b).getMessage().asCharString(), "", __FILE__, __LINE__)
 
 TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
 {
-  cpputest::DoublesEqualFailure f(
-    test, failFileName, failLineNumber, static_cast<double>(NAN), 2.0, 3.0, "");
+  cpputest::DoublesEqualFailure f(test,
+      failFileName,
+      failLineNumber,
+      static_cast<double>(NAN),
+      2.0,
+      3.0,
+      "");
   FAILURE_EQUAL("expected <Nan - Not a number>\n"
                 "\tbut was  <2> threshold used was <3>\n"
                 "\tCannot make comparisons with Nan",
-                f);
+      f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualActualIsNaN)
 {
-  cpputest::DoublesEqualFailure f(
-    test, failFileName, failLineNumber, 1.0, static_cast<double>(NAN), 3.0, "");
+  cpputest::DoublesEqualFailure f(test,
+      failFileName,
+      failLineNumber,
+      1.0,
+      static_cast<double>(NAN),
+      3.0,
+      "");
   FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <Nan - Not a number> threshold used was <3>\n"
                 "\tCannot make comparisons with Nan",
-                f);
+      f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualThresholdIsNaN)
 {
-  cpputest::DoublesEqualFailure f(
-    test, failFileName, failLineNumber, 1.0, 2.0, static_cast<double>(NAN), "");
+  cpputest::DoublesEqualFailure f(test,
+      failFileName,
+      failLineNumber,
+      1.0,
+      2.0,
+      static_cast<double>(NAN),
+      "");
   FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <2> threshold used was <Nan - Not a number>\n"
                 "\tCannot make comparisons with Nan",
-                f);
+      f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualExpectedIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-                                  failFileName,
-                                  failLineNumber,
-                                  static_cast<double>(INFINITY),
-                                  2.0,
-                                  3.0,
-                                  "");
+      failFileName,
+      failLineNumber,
+      static_cast<double>(INFINITY),
+      2.0,
+      3.0,
+      "");
   FAILURE_EQUAL("expected <Inf - Infinity>\n"
                 "\tbut was  <2> threshold used was <3>",
-                f);
+      f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualActualIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-                                  failFileName,
-                                  failLineNumber,
-                                  1.0,
-                                  static_cast<double>(INFINITY),
-                                  3.0,
-                                  "");
+      failFileName,
+      failLineNumber,
+      1.0,
+      static_cast<double>(INFINITY),
+      3.0,
+      "");
   FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <Inf - Infinity> threshold used was <3>",
-                f);
+      f);
 }
 
 TEST(TestFailureNanAndInf, DoublesEqualThresholdIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-                                  failFileName,
-                                  failLineNumber,
-                                  1.0,
-                                  static_cast<double>(NAN),
-                                  static_cast<double>(INFINITY),
-                                  "");
+      failFileName,
+      failLineNumber,
+      1.0,
+      static_cast<double>(NAN),
+      static_cast<double>(INFINITY),
+      "");
   FAILURE_EQUAL(
-    "expected <1>\n"
-    "\tbut was  <Nan - Not a number> threshold used was <Inf - Infinity>\n"
-    "\tCannot make comparisons with Nan",
-    f);
+      "expected <1>\n"
+      "\tbut was  <Nan - Not a number> threshold used was <Inf - Infinity>\n"
+      "\tCannot make comparisons with Nan",
+      f);
 }
 
 #endif

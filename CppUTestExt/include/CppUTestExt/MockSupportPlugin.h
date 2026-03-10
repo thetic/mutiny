@@ -42,14 +42,14 @@ public:
   virtual ~MockSupportPlugin() override;
 
   virtual void preTestAction(cpputest::TestShell&,
-                             cpputest::TestResult&) override;
+      cpputest::TestResult&) override;
   virtual void postTestAction(cpputest::TestShell&,
-                              cpputest::TestResult&) override;
+      cpputest::TestResult&) override;
 
   virtual void installComparator(const cpputest::String& name,
-                                 MockNamedValueComparator& comparator);
+      MockNamedValueComparator& comparator);
   virtual void installCopier(const cpputest::String& name,
-                             MockNamedValueCopier& copier);
+      MockNamedValueCopier& copier);
 
   void clear();
 

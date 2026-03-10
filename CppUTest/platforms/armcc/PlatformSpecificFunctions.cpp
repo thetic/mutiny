@@ -78,9 +78,9 @@ PlatformSpecificRestoreJumpBufferImplementation()
 
 void (*PlatformSpecificLongJmp)() = PlatformSpecificLongJmpImplementation;
 int (*PlatformSpecificSetJmp)(void (*)(void*),
-                              void*) = PlatformSpecificSetJmpImplementation;
+    void*) = PlatformSpecificSetJmpImplementation;
 void (*PlatformSpecificRestoreJumpBuffer)() =
-  PlatformSpecificRestoreJumpBufferImplementation;
+    PlatformSpecificRestoreJumpBufferImplementation;
 
 ///////////// Time in millis
 /*
@@ -107,9 +107,9 @@ unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
 const char* (*GetPlatformSpecificTimeString)() = DummyTimeStringImplementation;
 
 int (*PlatformSpecificVSNprintf)(char* str,
-                                 size_t size,
-                                 const char* format,
-                                 va_list args) = vsnprintf;
+    size_t size,
+    const char* format,
+    va_list args) = vsnprintf;
 
 static PlatformSpecificFile
 PlatformSpecificFOpenImplementation(const char* filename, const char* flag)
@@ -136,12 +136,12 @@ PlatformSpecificFlushImplementation()
 }
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
-PlatformSpecificFile (*PlatformSpecificFOpen)(const char*, const char*) =
-  PlatformSpecificFOpenImplementation;
-void (*PlatformSpecificFPuts)(const char*, PlatformSpecificFile) =
-  PlatformSpecificFPutsImplementation;
-void (*PlatformSpecificFClose)(PlatformSpecificFile) =
-  PlatformSpecificFCloseImplementation;
+PlatformSpecificFile (*PlatformSpecificFOpen)(const char*,
+    const char*) = PlatformSpecificFOpenImplementation;
+void (*PlatformSpecificFPuts)(const char*,
+    PlatformSpecificFile) = PlatformSpecificFPutsImplementation;
+void (*PlatformSpecificFClose)(
+    PlatformSpecificFile) = PlatformSpecificFCloseImplementation;
 
 void (*PlatformSpecificFlush)() = PlatformSpecificFlushImplementation;
 

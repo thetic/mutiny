@@ -50,14 +50,14 @@ public:
   }
 
   virtual void preTestAction(cpputest::TestShell&,
-                             cpputest::TestResult&) override
+      cpputest::TestResult&) override
   {
     preAction++;
     preActionSequence = sequenceNumber++;
   }
 
   virtual void postTestAction(cpputest::TestShell&,
-                              cpputest::TestResult&) override
+      cpputest::TestResult&) override
   {
     postAction++;
     postActionSequence = sequenceNumber++;
@@ -197,9 +197,9 @@ TEST(PluginTest, ParseArgumentsForUnknownArgumentsFails)
 {
   registry->installPlugin(secondPlugin);
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
-  CHECK(registry->getFirstPlugin()->parseAllArguments(
-          2, const_cast<char**>(cmd_line), 0) ==
-        false); /* cover non-const wrapper, too */
+  CHECK(registry->getFirstPlugin()->parseAllArguments(2,
+            const_cast<char**>(cmd_line),
+            0) == false); /* cover non-const wrapper, too */
 }
 
 TEST(PluginTest, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
@@ -207,5 +207,5 @@ TEST(PluginTest, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
   registry->installPlugin(secondPlugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };
   CHECK(registry->getFirstPlugin()->parseAllArguments(
-    2, const_cast<char**>(cmd_line), 0)); /* cover non-const wrapper, too */
+      2, const_cast<char**>(cmd_line), 0)); /* cover non-const wrapper, too */
 }

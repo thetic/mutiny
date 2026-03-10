@@ -122,7 +122,7 @@ TEST(TestFilter, stringFromWithStrictMatching)
   cpputest::TestFilter filter("filter");
   filter.strictMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict matching",
-               StringFrom(filter).asCharString());
+      StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, stringFromWithInvertMatching)
@@ -130,7 +130,7 @@ TEST(TestFilter, stringFromWithInvertMatching)
   cpputest::TestFilter filter("filter");
   filter.invertMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with invert matching",
-               StringFrom(filter).asCharString());
+      StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, stringFromWithStrictInvertMatching)
@@ -139,7 +139,7 @@ TEST(TestFilter, stringFromWithStrictInvertMatching)
   filter.strictMatching();
   filter.invertMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict, invert matching",
-               StringFrom(filter).asCharString());
+      StringFrom(filter).asCharString());
 }
 
 TEST(TestFilter, listOfFilters)

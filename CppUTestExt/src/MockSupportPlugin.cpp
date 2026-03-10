@@ -97,14 +97,14 @@ MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
 
 void
 MockSupportPlugin::installComparator(const String& name,
-                                     MockNamedValueComparator& comparator)
+    MockNamedValueComparator& comparator)
 {
   repository_.installComparator(name, comparator);
 }
 
 void
 MockSupportPlugin::installCopier(const String& name,
-                                 MockNamedValueCopier& copier)
+    MockNamedValueCopier& copier)
 {
   repository_.installCopier(name, copier);
 }

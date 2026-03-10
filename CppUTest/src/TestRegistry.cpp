@@ -130,7 +130,7 @@ TestRegistry::listTestGroupAndCaseNames(TestResult& result)
 
   if (groupAndNameList.endsWith(" "))
     groupAndNameList =
-      groupAndNameList.subString(0, groupAndNameList.size() - 1);
+        groupAndNameList.subString(0, groupAndNameList.size() - 1);
   result.print(groupAndNameList.asCharString());
 }
 
@@ -148,7 +148,7 @@ TestRegistry::listTestLocations(TestResult& result)
     testLocation += test->getFile();
     testLocation += ".";
     testLocation +=
-      StringFromFormat("%d\n", static_cast<int>(test->getLineNumber()));
+        StringFromFormat("%d\n", static_cast<int>(test->getLineNumber()));
 
     testLocations += testLocation;
   }
@@ -264,7 +264,7 @@ TestRegistry::countPlugins()
 {
   int count = 0;
   for (TestPlugin* plugin = firstPlugin_; plugin != NullTestPlugin::instance();
-       plugin = plugin->getNext())
+      plugin = plugin->getNext())
     count++;
   return count;
 }

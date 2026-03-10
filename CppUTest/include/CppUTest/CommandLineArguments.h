@@ -98,18 +98,18 @@ private:
   String packageName_;
 
   String getParameterField(int ac,
-                           const char* const* av,
-                           int& i,
-                           const String& parameterName);
+      const char* const* av,
+      int& i,
+      const String& parameterName);
   void setRepeatCount(int ac, const char* const* av, int& index);
   bool setShuffle(int ac, const char* const* av, int& index);
   void addGroupFilter(int ac, const char* const* av, int& index);
   bool addGroupDotNameFilter(int ac,
-                             const char* const* av,
-                             int& index,
-                             const String& parameterName,
-                             bool strict,
-                             bool exclude);
+      const char* const* av,
+      int& index,
+      const String& parameterName,
+      bool strict,
+      bool exclude);
   void addStrictGroupFilter(int ac, const char* const* av, int& index);
   void addExcludeGroupFilter(int ac, const char* const* av, int& index);
   void addExcludeStrictGroupFilter(int ac, const char* const* av, int& index);
@@ -118,9 +118,9 @@ private:
   void addExcludeNameFilter(int ac, const char* const* av, int& index);
   void addExcludeStrictNameFilter(int ac, const char* const* av, int& index);
   void addTestToRunBasedOnVerboseOutput(int ac,
-                                        const char* const* av,
-                                        int& index,
-                                        const char* parameterName);
+      const char* const* av,
+      int& index,
+      const char* parameterName);
   bool setOutputType(int ac, const char* const* av, int& index);
   void setPackageName(int ac, const char* const* av, int& index);
 

@@ -106,16 +106,16 @@ CommandLineArguments::parse(TestPlugin* plugin)
       addGroupFilter(ac_, av_, i);
     else if (argument.startsWith("-t"))
       correctParameters =
-        addGroupDotNameFilter(ac_, av_, i, "-t", false, false);
+          addGroupDotNameFilter(ac_, av_, i, "-t", false, false);
     else if (argument.startsWith("-st"))
       correctParameters =
-        addGroupDotNameFilter(ac_, av_, i, "-st", true, false);
+          addGroupDotNameFilter(ac_, av_, i, "-st", true, false);
     else if (argument.startsWith("-xt"))
       correctParameters =
-        addGroupDotNameFilter(ac_, av_, i, "-xt", false, true);
+          addGroupDotNameFilter(ac_, av_, i, "-xt", false, true);
     else if (argument.startsWith("-xst"))
       correctParameters =
-        addGroupDotNameFilter(ac_, av_, i, "-xst", true, true);
+          addGroupDotNameFilter(ac_, av_, i, "-xst", true, true);
     else if (argument.startsWith("-sg"))
       addStrictGroupFilter(ac_, av_, i);
     else if (argument.startsWith("-xg"))
@@ -379,9 +379,9 @@ CommandLineArguments::setShuffle(int ac, const char* const* av, int& i)
 
 String
 CommandLineArguments::getParameterField(int ac,
-                                        const char* const* av,
-                                        int& i,
-                                        const String& parameterName)
+    const char* const* av,
+    int& i,
+    const String& parameterName)
 {
   size_t parameterLength = parameterName.size();
   String parameter(av[i]);
@@ -401,11 +401,11 @@ CommandLineArguments::addGroupFilter(int ac, const char* const* av, int& i)
 
 bool
 CommandLineArguments::addGroupDotNameFilter(int ac,
-                                            const char* const* av,
-                                            int& i,
-                                            const String& parameterName,
-                                            bool strict,
-                                            bool exclude)
+    const char* const* av,
+    int& i,
+    const String& parameterName,
+    bool strict,
+    bool exclude)
 {
   String groupDotName = getParameterField(ac, av, i, parameterName);
   StringCollection collection;
@@ -415,7 +415,7 @@ CommandLineArguments::addGroupDotNameFilter(int ac,
     return false;
 
   TestFilter* groupFilter =
-    new TestFilter(collection[0].subString(0, collection[0].size() - 1));
+      new TestFilter(collection[0].subString(0, collection[0].size() - 1));
   TestFilter* nameFilter = new TestFilter(collection[1]);
   if (strict) {
     groupFilter->strictMatching();
@@ -432,8 +432,8 @@ CommandLineArguments::addGroupDotNameFilter(int ac,
 
 void
 CommandLineArguments::addStrictGroupFilter(int ac,
-                                           const char* const* av,
-                                           int& i)
+    const char* const* av,
+    int& i)
 {
   TestFilter* groupFilter = new TestFilter(getParameterField(ac, av, i, "-sg"));
   groupFilter->strictMatching();
@@ -442,8 +442,8 @@ CommandLineArguments::addStrictGroupFilter(int ac,
 
 void
 CommandLineArguments::addExcludeGroupFilter(int ac,
-                                            const char* const* av,
-                                            int& i)
+    const char* const* av,
+    int& i)
 {
   TestFilter* groupFilter = new TestFilter(getParameterField(ac, av, i, "-xg"));
   groupFilter->invertMatching();
@@ -452,11 +452,11 @@ CommandLineArguments::addExcludeGroupFilter(int ac,
 
 void
 CommandLineArguments::addExcludeStrictGroupFilter(int ac,
-                                                  const char* const* av,
-                                                  int& i)
+    const char* const* av,
+    int& i)
 {
   TestFilter* groupFilter =
-    new TestFilter(getParameterField(ac, av, i, "-xsg"));
+      new TestFilter(getParameterField(ac, av, i, "-xsg"));
   groupFilter->strictMatching();
   groupFilter->invertMatching();
   groupFilters_ = groupFilter->add(groupFilters_);
@@ -471,51 +471,50 @@ CommandLineArguments::addNameFilter(int ac, const char* const* av, int& i)
 
 void
 CommandLineArguments::addStrictNameFilter(int ac,
-                                          const char* const* av,
-                                          int& index)
+    const char* const* av,
+    int& index)
 {
   TestFilter* nameFilter =
-    new TestFilter(getParameterField(ac, av, index, "-sn"));
+      new TestFilter(getParameterField(ac, av, index, "-sn"));
   nameFilter->strictMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
 CommandLineArguments::addExcludeNameFilter(int ac,
-                                           const char* const* av,
-                                           int& index)
+    const char* const* av,
+    int& index)
 {
   TestFilter* nameFilter =
-    new TestFilter(getParameterField(ac, av, index, "-xn"));
+      new TestFilter(getParameterField(ac, av, index, "-xn"));
   nameFilter->invertMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
 CommandLineArguments::addExcludeStrictNameFilter(int ac,
-                                                 const char* const* av,
-                                                 int& index)
+    const char* const* av,
+    int& index)
 {
   TestFilter* nameFilter =
-    new TestFilter(getParameterField(ac, av, index, "-xsn"));
+      new TestFilter(getParameterField(ac, av, index, "-xsn"));
   nameFilter->invertMatching();
   nameFilter->strictMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
-CommandLineArguments::addTestToRunBasedOnVerboseOutput(
-  int ac,
-  const char* const* av,
-  int& index,
-  const char* parameterName)
+CommandLineArguments::addTestToRunBasedOnVerboseOutput(int ac,
+    const char* const* av,
+    int& index,
+    const char* parameterName)
 {
   String wholename = getParameterField(ac, av, index, parameterName);
   String testname = wholename.subStringFromTill(',', ')');
   testname = testname.subString(2);
   TestFilter* namefilter = new TestFilter(testname);
   TestFilter* groupfilter =
-    new TestFilter(wholename.subStringFromTill(wholename.at(0), ','));
+      new TestFilter(wholename.subStringFromTill(wholename.at(0), ','));
   namefilter->strictMatching();
   groupfilter->strictMatching();
   groupFilters_ = groupfilter->add(groupFilters_);

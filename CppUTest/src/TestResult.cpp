@@ -58,15 +58,15 @@ TestResult::currentGroupStarted(TestShell* test)
 {
   output_.printCurrentGroupStarted(*test);
   currentGroupTimeStarted_ =
-    static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
 void
 TestResult::currentGroupEnded(TestShell* /*test*/)
 {
   currentGroupTotalExecutionTime_ =
-    static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
-    currentGroupTimeStarted_;
+      static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+      currentGroupTimeStarted_;
   output_.printCurrentGroupEnded(*this);
 }
 
@@ -75,7 +75,7 @@ TestResult::currentTestStarted(TestShell* test)
 {
   output_.printCurrentTestStarted(*test);
   currentTestTimeStarted_ =
-    static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 }
 
 void
@@ -94,8 +94,8 @@ void
 TestResult::currentTestEnded(TestShell* /*test*/)
 {
   currentTestTotalExecutionTime_ =
-    static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
-    currentTestTimeStarted_;
+      static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+      currentTestTimeStarted_;
   output_.printCurrentTestEnded(*this);
 }
 

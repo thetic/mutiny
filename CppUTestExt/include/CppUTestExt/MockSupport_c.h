@@ -82,35 +82,34 @@ extern "C"
   {
     MockActualCall_c* (*withBoolParameters)(const char* name, int value);
     MockActualCall_c* (*withIntParameters)(const char* name, int value);
-    MockActualCall_c* (*withUnsignedIntParameters)(const char* name,
-                                                   unsigned int value);
-    MockActualCall_c* (*withLongIntParameters)(const char* name,
-                                               long int value);
+    MockActualCall_c* (
+        *withUnsignedIntParameters)(const char* name, unsigned int value);
+    MockActualCall_c* (
+        *withLongIntParameters)(const char* name, long int value);
     MockActualCall_c* (*withUnsignedLongIntParameters)(const char* name,
-                                                       unsigned long int value);
-    MockActualCall_c* (*withLongLongIntParameters)(const char* name,
-                                                   long long value);
-    MockActualCall_c* (*withUnsignedLongLongIntParameters)(
-      const char* name,
-      unsigned long long value);
+        unsigned long int value);
+    MockActualCall_c* (
+        *withLongLongIntParameters)(const char* name, long long value);
+    MockActualCall_c* (*withUnsignedLongLongIntParameters)(const char* name,
+        unsigned long long value);
     MockActualCall_c* (*withDoubleParameters)(const char* name, double value);
-    MockActualCall_c* (*withStringParameters)(const char* name,
-                                              const char* value);
+    MockActualCall_c* (
+        *withStringParameters)(const char* name, const char* value);
     MockActualCall_c* (*withPointerParameters)(const char* name, void* value);
-    MockActualCall_c* (*withConstPointerParameters)(const char* name,
-                                                    const void* value);
-    MockActualCall_c* (*withFunctionPointerParameters)(const char* name,
-                                                       void (*value)(void));
+    MockActualCall_c* (
+        *withConstPointerParameters)(const char* name, const void* value);
+    MockActualCall_c* (
+        *withFunctionPointerParameters)(const char* name, void (*value)(void));
     MockActualCall_c* (*withMemoryBufferParameter)(const char* name,
-                                                   const unsigned char* value,
-                                                   size_t size);
+        const unsigned char* value,
+        size_t size);
     MockActualCall_c* (*withParameterOfType)(const char* type,
-                                             const char* name,
-                                             const void* value);
+        const char* name,
+        const void* value);
     MockActualCall_c* (*withOutputParameter)(const char* name, void* value);
     MockActualCall_c* (*withOutputParameterOfType)(const char* type,
-                                                   const char* name,
-                                                   void* value);
+        const char* name,
+        void* value);
     int (*hasReturnValue)(void);
     MockValue_c (*returnValue)(void);
     int (*boolReturnValue)(void);
@@ -123,12 +122,12 @@ extern "C"
     long int (*returnLongIntValueOrDefault)(long int defaultValue);
     unsigned long int (*unsignedLongIntReturnValue)(void);
     unsigned long int (*returnUnsignedLongIntValueOrDefault)(
-      unsigned long int defaultValue);
+        unsigned long int defaultValue);
     long long (*longLongIntReturnValue)(void);
     long long (*returnLongLongIntValueOrDefault)(long long defaultValue);
     unsigned long long (*unsignedLongLongIntReturnValue)(void);
     unsigned long long (*returnUnsignedLongLongIntValueOrDefault)(
-      unsigned long long defaultValue);
+        unsigned long long defaultValue);
     const char* (*stringReturnValue)(void);
     const char* (*returnStringValueOrDefault)(const char* defaultValue);
     double (*doubleReturnValue)(void);
@@ -139,7 +138,7 @@ extern "C"
     const void* (*returnConstPointerValueOrDefault)(const void* defaultValue);
     void (*(*functionPointerReturnValue)(void))(void);
     void (*(*returnFunctionPointerValueOrDefault)(void (*defaultValue)(void)))(
-      void);
+        void);
   };
 
   typedef struct SMockExpectedCall_c MockExpectedCall_c;
@@ -147,42 +146,39 @@ extern "C"
   {
     MockExpectedCall_c* (*withBoolParameters)(const char* name, int value);
     MockExpectedCall_c* (*withIntParameters)(const char* name, int value);
-    MockExpectedCall_c* (*withUnsignedIntParameters)(const char* name,
-                                                     unsigned int value);
-    MockExpectedCall_c* (*withLongIntParameters)(const char* name,
-                                                 long int value);
-    MockExpectedCall_c* (*withUnsignedLongIntParameters)(
-      const char* name,
-      unsigned long int value);
-    MockExpectedCall_c* (*withLongLongIntParameters)(const char* name,
-                                                     long long value);
-    MockExpectedCall_c* (*withUnsignedLongLongIntParameters)(
-      const char* name,
-      unsigned long long value);
+    MockExpectedCall_c* (
+        *withUnsignedIntParameters)(const char* name, unsigned int value);
+    MockExpectedCall_c* (
+        *withLongIntParameters)(const char* name, long int value);
+    MockExpectedCall_c* (*withUnsignedLongIntParameters)(const char* name,
+        unsigned long int value);
+    MockExpectedCall_c* (
+        *withLongLongIntParameters)(const char* name, long long value);
+    MockExpectedCall_c* (*withUnsignedLongLongIntParameters)(const char* name,
+        unsigned long long value);
     MockExpectedCall_c* (*withDoubleParameters)(const char* name, double value);
     MockExpectedCall_c* (*withDoubleParametersAndTolerance)(const char* name,
-                                                            double value,
-                                                            double tolerance);
-    MockExpectedCall_c* (*withStringParameters)(const char* name,
-                                                const char* value);
+        double value,
+        double tolerance);
+    MockExpectedCall_c* (
+        *withStringParameters)(const char* name, const char* value);
     MockExpectedCall_c* (*withPointerParameters)(const char* name, void* value);
-    MockExpectedCall_c* (*withConstPointerParameters)(const char* name,
-                                                      const void* value);
-    MockExpectedCall_c* (*withFunctionPointerParameters)(const char* name,
-                                                         void (*value)(void));
+    MockExpectedCall_c* (
+        *withConstPointerParameters)(const char* name, const void* value);
+    MockExpectedCall_c* (
+        *withFunctionPointerParameters)(const char* name, void (*value)(void));
     MockExpectedCall_c* (*withMemoryBufferParameter)(const char* name,
-                                                     const unsigned char* value,
-                                                     size_t size);
+        const unsigned char* value,
+        size_t size);
     MockExpectedCall_c* (*withParameterOfType)(const char* type,
-                                               const char* name,
-                                               const void* value);
+        const char* name,
+        const void* value);
     MockExpectedCall_c* (*withOutputParameterReturning)(const char* name,
-                                                        const void* value,
-                                                        size_t size);
-    MockExpectedCall_c* (*withOutputParameterOfTypeReturning)(
-      const char* type,
-      const char* name,
-      const void* value);
+        const void* value,
+        size_t size);
+    MockExpectedCall_c* (*withOutputParameterOfTypeReturning)(const char* type,
+        const char* name,
+        const void* value);
     MockExpectedCall_c* (*withUnmodifiedOutputParameter)(const char* name);
     MockExpectedCall_c* (*ignoreOtherParameters)(void);
 
@@ -191,10 +187,10 @@ extern "C"
     MockExpectedCall_c* (*andReturnIntValue)(int value);
     MockExpectedCall_c* (*andReturnLongIntValue)(long int value);
     MockExpectedCall_c* (*andReturnUnsignedLongIntValue)(
-      unsigned long int value);
+        unsigned long int value);
     MockExpectedCall_c* (*andReturnLongLongIntValue)(long long value);
     MockExpectedCall_c* (*andReturnUnsignedLongLongIntValue)(
-      unsigned long long value);
+        unsigned long long value);
     MockExpectedCall_c* (*andReturnDoubleValue)(double value);
     MockExpectedCall_c* (*andReturnStringValue)(const char* value);
     MockExpectedCall_c* (*andReturnPointerValue)(void* value);
@@ -202,8 +198,8 @@ extern "C"
     MockExpectedCall_c* (*andReturnFunctionPointerValue)(void (*value)(void));
   };
 
-  typedef int (*MockTypeEqualFunction_c)(const void* object1,
-                                         const void* object2);
+  typedef int (
+      *MockTypeEqualFunction_c)(const void* object1, const void* object2);
   typedef const char* (*MockTypeValueToStringFunction_c)(const void* object1);
   typedef void (*MockTypeCopyFunction_c)(void* dst, const void* src);
 
@@ -227,12 +223,12 @@ extern "C"
     long int (*returnLongIntValueOrDefault)(long int defaultValue);
     unsigned long int (*unsignedLongIntReturnValue)(void);
     unsigned long int (*returnUnsignedLongIntValueOrDefault)(
-      unsigned long int defaultValue);
+        unsigned long int defaultValue);
     long long (*longLongIntReturnValue)(void);
     long long (*returnLongLongIntValueOrDefault)(long long defaultValue);
     unsigned long long (*unsignedLongLongIntReturnValue)(void);
     unsigned long long (*returnUnsignedLongLongIntValueOrDefault)(
-      unsigned long long defaultValue);
+        unsigned long long defaultValue);
     const char* (*stringReturnValue)(void);
     const char* (*returnStringValueOrDefault)(const char* defaultValue);
     double (*doubleReturnValue)(void);
@@ -243,7 +239,7 @@ extern "C"
     const void* (*returnConstPointerValueOrDefault)(const void* defaultValue);
     void (*(*functionPointerReturnValue)(void))(void);
     void (*(*returnFunctionPointerValueOrDefault)(void (*defaultValue)(void)))(
-      void);
+        void);
 
     void (*setBoolData)(const char* name, int value);
     void (*setIntData)(const char* name, int value);
@@ -257,8 +253,8 @@ extern "C"
     void (*setFunctionPointerData)(const char* name, void (*value)(void));
     void (*setDataObject)(const char* name, const char* type, void* value);
     void (*setDataConstObject)(const char* name,
-                               const char* type,
-                               const void* value);
+        const char* type,
+        const void* value);
     MockValue_c (*getData)(const char* name);
 
     void (*disable)(void);
@@ -272,8 +268,8 @@ extern "C"
     void (*crashOnFailure)(unsigned shouldCrash);
 
     void (*installComparator)(const char* typeName,
-                              MockTypeEqualFunction_c isEqual,
-                              MockTypeValueToStringFunction_c valueToString);
+        MockTypeEqualFunction_c isEqual,
+        MockTypeValueToStringFunction_c valueToString);
     void (*installCopier)(const char* typeName, MockTypeCopyFunction_c copier);
     void (*removeAllComparatorsAndCopiers)(void);
   };

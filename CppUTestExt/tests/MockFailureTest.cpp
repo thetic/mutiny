@@ -111,14 +111,14 @@ checkUnexpectedNthCallMessage(unsigned int count, const char* expectedOrdinal)
   }
 
   MockUnexpectedCallHappenedFailure failure(
-    UtestShell::getCurrent(), "bar", callList);
+      UtestShell::getCurrent(), "bar", callList);
 
   String expectedMessage =
-    StringFromFormat("Mock Failure: Unexpected additional (%s) call to "
-                     "function: bar\n\tEXPECTED",
-                     expectedOrdinal);
-  STRCMP_CONTAINS(expectedMessage.asCharString(),
-                  failure.getMessage().asCharString());
+      StringFromFormat("Mock Failure: Unexpected additional (%s) call to "
+                       "function: bar\n\tEXPECTED",
+          expectedOrdinal);
+  STRCMP_CONTAINS(
+      expectedMessage.asCharString(), failure.getMessage().asCharString());
 }
 };
 
@@ -127,40 +127,40 @@ TEST(MockFailureTest, noErrorFailureSomethingGoneWrong)
   MockFailure failure(UtestShell::getCurrent());
   STRCMP_EQUAL("Test failed with MockFailure without an error! Something went "
                "seriously wrong.",
-               failure.getMessage().asCharString());
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, unexpectedCallHappened)
 {
   MockUnexpectedCallHappenedFailure failure(
-    UtestShell::getCurrent(), "foobar", *list);
+      UtestShell::getCurrent(), "foobar", *list);
   STRCMP_EQUAL("Mock Failure: Unexpected call to function: foobar\n"
                "\tEXPECTED calls that WERE NOT fulfilled:\n"
                "\t\t<none>\n"
                "\tEXPECTED calls that WERE fulfilled:\n"
                "\t\t<none>",
-               failure.getMessage().asCharString());
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, expectedCallDidNotHappen)
 {
   call1->withName("foobar");
-  call2->withName("world").withParameter("boo", 2).withParameter("hello",
-                                                                 "world");
+  call2->withName("world").withParameter("boo", 2).withParameter(
+      "hello", "world");
   call3->withName("haphaphap");
   call3->callWasMade(1);
   addThreeCallsToList();
 
   MockExpectedCallsDidntHappenFailure failure(UtestShell::getCurrent(), *list);
   STRCMP_EQUAL(
-    "Mock Failure: Expected call WAS NOT fulfilled.\n"
-    "\tEXPECTED calls that WERE NOT fulfilled:\n"
-    "\t\tfoobar -> no parameters (expected 1 call, called 0 times)\n"
-    "\t\tworld -> int boo: <2 (0x2)>, const char* hello: <world> (expected 1 "
-    "call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled:\n"
-    "\t\thaphaphap -> no parameters (expected 1 call, called 1 time)",
-    failure.getMessage().asCharString());
+      "Mock Failure: Expected call WAS NOT fulfilled.\n"
+      "\tEXPECTED calls that WERE NOT fulfilled:\n"
+      "\t\tfoobar -> no parameters (expected 1 call, called 0 times)\n"
+      "\t\tworld -> int boo: <2 (0x2)>, const char* hello: <world> (expected 1 "
+      "call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled:\n"
+      "\t\thaphaphap -> no parameters (expected 1 call, called 1 time)",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockUnexpectedNthAdditionalCallFailure)
@@ -188,17 +188,17 @@ TEST(MockFailureTest, MockUnexpectedInputParameterFailure)
   actualParameter.setValue(2);
 
   MockUnexpectedInputParameterFailure failure(
-    UtestShell::getCurrent(), "foo", actualParameter, *list);
+      UtestShell::getCurrent(), "foo", actualParameter, *list);
   STRCMP_EQUAL(
-    "Mock Failure: Unexpected parameter name to function \"foo\": bar\n"
-    "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-    "\t\tfoo -> int boo: <2 (0x2)> (expected 1 call, called 0 times)\n"
-    "\t\tfoo -> double boo: <3.3> (expected 1 call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-    "\t\t<none>\n"
-    "\tACTUAL unexpected parameter passed to function: foo\n"
-    "\t\tint bar: <2 (0x2)>",
-    failure.getMessage().asCharString());
+      "Mock Failure: Unexpected parameter name to function \"foo\": bar\n"
+      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+      "\t\tfoo -> int boo: <2 (0x2)> (expected 1 call, called 0 times)\n"
+      "\t\tfoo -> double boo: <3.3> (expected 1 call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+      "\t\t<none>\n"
+      "\tACTUAL unexpected parameter passed to function: foo\n"
+      "\t\tint bar: <2 (0x2)>",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
@@ -206,9 +206,9 @@ TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
   int out1 = 0;
   int out2 = 0;
   call1->withName("foo").withOutputParameterReturning(
-    "boo", &out1, sizeof(out1));
+      "boo", &out1, sizeof(out1));
   call2->withName("foo").withOutputParameterReturning(
-    "boo", &out2, sizeof(out2));
+      "boo", &out2, sizeof(out2));
   call3->withName("unrelated");
   addThreeCallsToList();
 
@@ -216,24 +216,25 @@ TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
   actualParameter.setValue(reinterpret_cast<void*>(0x123));
 
   MockUnexpectedOutputParameterFailure failure(
-    UtestShell::getCurrent(), "foo", actualParameter, *list);
+      UtestShell::getCurrent(), "foo", actualParameter, *list);
   STRCMP_EQUAL(
-    "Mock Failure: Unexpected output parameter name to function \"foo\": bar\n"
-    "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-    "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
-    "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-    "\t\t<none>\n"
-    "\tACTUAL unexpected output parameter passed to function: foo\n"
-    "\t\tvoid* bar",
-    failure.getMessage().asCharString());
+      "Mock Failure: Unexpected output parameter name to function \"foo\": "
+      "bar\n"
+      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+      "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
+      "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+      "\t\t<none>\n"
+      "\tACTUAL unexpected output parameter passed to function: foo\n"
+      "\t\tvoid* bar",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockUnexpectedUnmodifiedOutputParameterFailure)
 {
   int out1 = 0;
   call1->withName("foo").withOutputParameterReturning(
-    "boo", &out1, sizeof(out1));
+      "boo", &out1, sizeof(out1));
   call2->withName("foo").withUnmodifiedOutputParameter("boo");
   call3->withName("unrelated");
   addThreeCallsToList();
@@ -242,17 +243,18 @@ TEST(MockFailureTest, MockUnexpectedUnmodifiedOutputParameterFailure)
   actualParameter.setValue(reinterpret_cast<void*>(0x123));
 
   MockUnexpectedOutputParameterFailure failure(
-    UtestShell::getCurrent(), "foo", actualParameter, *list);
+      UtestShell::getCurrent(), "foo", actualParameter, *list);
   STRCMP_EQUAL(
-    "Mock Failure: Unexpected output parameter name to function \"foo\": bar\n"
-    "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-    "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
-    "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-    "\t\t<none>\n"
-    "\tACTUAL unexpected output parameter passed to function: foo\n"
-    "\t\tvoid* bar",
-    failure.getMessage().asCharString());
+      "Mock Failure: Unexpected output parameter name to function \"foo\": "
+      "bar\n"
+      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+      "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
+      "\t\tfoo -> const void* boo: <output> (expected 1 call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+      "\t\t<none>\n"
+      "\tACTUAL unexpected output parameter passed to function: foo\n"
+      "\t\tvoid* bar",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockUnexpectedParameterValueFailure)
@@ -266,18 +268,19 @@ TEST(MockFailureTest, MockUnexpectedParameterValueFailure)
   actualParameter.setValue(20);
 
   MockUnexpectedInputParameterFailure failure(
-    UtestShell::getCurrent(), "foo", actualParameter, *list);
+      UtestShell::getCurrent(), "foo", actualParameter, *list);
   STRCMP_EQUAL(
-    "Mock Failure: Unexpected parameter value to parameter \"boo\" to function "
-    "\"foo\": <20 (0x14)>\n"
-    "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-    "\t\tfoo -> int boo: <2 (0x2)> (expected 1 call, called 0 times)\n"
-    "\t\tfoo -> int boo: <10 (0xa)> (expected 1 call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-    "\t\t<none>\n"
-    "\tACTUAL unexpected parameter passed to function: foo\n"
-    "\t\tint boo: <20 (0x14)>",
-    failure.getMessage().asCharString());
+      "Mock Failure: Unexpected parameter value to parameter \"boo\" to "
+      "function "
+      "\"foo\": <20 (0x14)>\n"
+      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+      "\t\tfoo -> int boo: <2 (0x2)> (expected 1 call, called 0 times)\n"
+      "\t\tfoo -> int boo: <10 (0xa)> (expected 1 call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+      "\t\t<none>\n"
+      "\tACTUAL unexpected parameter passed to function: foo\n"
+      "\t\tint boo: <20 (0x14)>",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockExpectedParameterDidntHappenFailure)
@@ -289,9 +292,9 @@ TEST(MockFailureTest, MockExpectedParameterDidntHappenFailure)
   call2->inputParameterWasPassed("bar");
   call2->inputParameterWasPassed("boo");
   call3->withName("foo")
-    .withParameter("bar", 2)
-    .withParameter("boo", "blah")
-    .withParameter("baa", 0u);
+      .withParameter("bar", 2)
+      .withParameter("boo", "blah")
+      .withParameter("baa", 0u);
   call3->inputParameterWasPassed("bar");
   call4->withName("foo").withParameter("bar", 20);
   call5->withName("unrelated");
@@ -302,35 +305,38 @@ TEST(MockFailureTest, MockExpectedParameterDidntHappenFailure)
   matchingCalls.addExpectedCall(call3);
 
   MockExpectedParameterDidntHappenFailure failure(
-    UtestShell::getCurrent(), "foo", *list, matchingCalls);
+      UtestShell::getCurrent(), "foo", *list, matchingCalls);
   STRCMP_EQUAL(
-    "Mock Failure: Expected parameter for function \"foo\" did not happen.\n"
-    "\tEXPECTED calls with MISSING parameters related to function: foo\n"
-    "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <str> (expected 1 call, "
-    "called 0 times)\n"
-    "\t\t\tMISSING parameters: const char* boo\n"
-    "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <blah>, unsigned int baa: "
-    "<0 (0x0)> (expected 1 call, called 0 times)\n"
-    "\t\t\tMISSING parameters: const char* boo, unsigned int baa\n"
-    "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-    "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <str> (expected 1 call, "
-    "called 0 times)\n"
-    "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <blah>, unsigned int baa: "
-    "<0 (0x0)> (expected 1 call, called 0 times)\n"
-    "\t\tfoo -> int bar: <20 (0x14)> (expected 1 call, called 0 times)\n"
-    "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-    "\t\tfoo -> int bar: <10 (0xa)>, const char* boo: <bleh> (expected 1 call, "
-    "called 1 time)",
-    failure.getMessage().asCharString());
+      "Mock Failure: Expected parameter for function \"foo\" did not happen.\n"
+      "\tEXPECTED calls with MISSING parameters related to function: foo\n"
+      "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <str> (expected 1 call, "
+      "called 0 times)\n"
+      "\t\t\tMISSING parameters: const char* boo\n"
+      "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <blah>, unsigned int "
+      "baa: "
+      "<0 (0x0)> (expected 1 call, called 0 times)\n"
+      "\t\t\tMISSING parameters: const char* boo, unsigned int baa\n"
+      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+      "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <str> (expected 1 call, "
+      "called 0 times)\n"
+      "\t\tfoo -> int bar: <2 (0x2)>, const char* boo: <blah>, unsigned int "
+      "baa: "
+      "<0 (0x0)> (expected 1 call, called 0 times)\n"
+      "\t\tfoo -> int bar: <20 (0x14)> (expected 1 call, called 0 times)\n"
+      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+      "\t\tfoo -> int bar: <10 (0xa)>, const char* boo: <bleh> (expected 1 "
+      "call, "
+      "called 1 time)",
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockNoWayToCompareCustomTypeFailure)
 {
-  MockNoWayToCompareCustomTypeFailure failure(UtestShell::getCurrent(),
-                                              "myType");
+  MockNoWayToCompareCustomTypeFailure failure(
+      UtestShell::getCurrent(), "myType");
   STRCMP_EQUAL("MockFailure: No way to compare type <myType>. Please install a "
                "MockNamedValueComparator.",
-               failure.getMessage().asCharString());
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockUnexpectedObjectFailure)
@@ -343,22 +349,24 @@ TEST(MockFailureTest, MockUnexpectedObjectFailure)
   addThreeCallsToList();
 
   MockUnexpectedObjectFailure failure(
-    UtestShell::getCurrent(), "foo", reinterpret_cast<void*>(0x1), *list);
+      UtestShell::getCurrent(), "foo", reinterpret_cast<void*>(0x1), *list);
   STRCMP_EQUAL(
-    StringFromFormat(
-      "MockFailure: Function called on an unexpected object: foo\n"
-      "\tActual object for call has address: <%p>\n"
-      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-      "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called "
-      "0 times)\n"
-      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-      "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called "
-      "1 time)",
-      reinterpret_cast<void*>(0x01),
-      reinterpret_cast<void*>(0x02),
-      reinterpret_cast<void*>(0x03))
-      .asCharString(),
-    failure.getMessage().asCharString());
+      StringFromFormat(
+          "MockFailure: Function called on an unexpected object: foo\n"
+          "\tActual object for call has address: <%p>\n"
+          "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+          "\t\t(object address: %p)::foo -> no parameters (expected 1 call, "
+          "called "
+          "0 times)\n"
+          "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+          "\t\t(object address: %p)::foo -> no parameters (expected 1 call, "
+          "called "
+          "1 time)",
+          reinterpret_cast<void*>(0x01),
+          reinterpret_cast<void*>(0x02),
+          reinterpret_cast<void*>(0x03))
+          .asCharString(),
+      failure.getMessage().asCharString());
 }
 
 TEST(MockFailureTest, MockExpectedObjectDidntHappenFailure)
@@ -371,19 +379,22 @@ TEST(MockFailureTest, MockExpectedObjectDidntHappenFailure)
   addThreeCallsToList();
 
   MockExpectedObjectDidntHappenFailure failure(
-    UtestShell::getCurrent(), "foo", *list);
+      UtestShell::getCurrent(), "foo", *list);
   STRCMP_EQUAL(
-    StringFromFormat(
-      "Mock Failure: Expected call on object for function \"foo\" but it did "
-      "not happen.\n"
-      "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
-      "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called "
-      "0 times)\n"
-      "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
-      "\t\t(object address: %p)::foo -> no parameters (expected 1 call, called "
-      "1 time)",
-      reinterpret_cast<void*>(0x2),
-      reinterpret_cast<void*>(0x3))
-      .asCharString(),
-    failure.getMessage().asCharString());
+      StringFromFormat(
+          "Mock Failure: Expected call on object for function \"foo\" but it "
+          "did "
+          "not happen.\n"
+          "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
+          "\t\t(object address: %p)::foo -> no parameters (expected 1 call, "
+          "called "
+          "0 times)\n"
+          "\tEXPECTED calls that WERE fulfilled related to function: foo\n"
+          "\t\t(object address: %p)::foo -> no parameters (expected 1 call, "
+          "called "
+          "1 time)",
+          reinterpret_cast<void*>(0x2),
+          reinterpret_cast<void*>(0x3))
+          .asCharString(),
+      failure.getMessage().asCharString());
 }

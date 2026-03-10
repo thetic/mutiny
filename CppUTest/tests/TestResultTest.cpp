@@ -48,8 +48,8 @@ setup() override
   mock = new cpputest::StringBufferTestOutput();
   printer = mock;
   res = new cpputest::TestResult(*printer);
-  UT_PTR_SET(GetPlatformSpecificTimeInMillis,
-             MockGetPlatformSpecificTimeInMillis);
+  UT_PTR_SET(
+      GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
 }
 void
 teardown() override
@@ -84,7 +84,7 @@ TEST(TestResult, ResultIsNotOkIfFailures)
   res->countTest();
   res->countRun();
   res->addFailure(cpputest::TestFailure(cpputest::TestShell::getCurrent(),
-                                        cpputest::StringFrom("dummy message")));
+      cpputest::StringFrom("dummy message")));
   CHECK_TRUE(res->isFailure());
 }
 

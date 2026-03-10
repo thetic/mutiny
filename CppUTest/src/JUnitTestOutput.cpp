@@ -151,7 +151,7 @@ JUnitTestOutput::printCurrentTestStarted(const TestShell& test)
   impl_->results_.testCount_++;
   impl_->results_.group_ = test.getGroup();
   impl_->results_.startTime_ =
-    static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
 
   if (impl_->results_.tail_ == nullptr) {
     impl_->results_.head_ = impl_->results_.tail_ = new JUnitTestCaseResultNode;
@@ -210,14 +210,14 @@ void
 JUnitTestOutput::writeTestSuiteSummary()
 {
   String buf = StringFromFormat(
-    "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
-    "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
-    static_cast<int>(impl_->results_.failureCount_),
-    impl_->results_.group_.asCharString(),
-    static_cast<int>(impl_->results_.testCount_),
-    static_cast<int>(impl_->results_.groupExecTime_ / 1000),
-    static_cast<int>(impl_->results_.groupExecTime_ % 1000),
-    GetPlatformSpecificTimeString());
+      "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
+      "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
+      static_cast<int>(impl_->results_.failureCount_),
+      impl_->results_.group_.asCharString(),
+      static_cast<int>(impl_->results_.testCount_),
+      static_cast<int>(impl_->results_.groupExecTime_ / 1000),
+      static_cast<int>(impl_->results_.groupExecTime_ % 1000),
+      GetPlatformSpecificTimeString());
   writeToFile(buf.asCharString());
 }
 
@@ -248,17 +248,17 @@ JUnitTestOutput::writeTestCases()
 
   while (cur) {
     String buf = StringFromFormat(
-      "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
-      "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
-      impl_->package_.asCharString(),
-      impl_->package_.isEmpty() ? "" : ".",
-      impl_->results_.group_.asCharString(),
-      cur->name_.asCharString(),
-      static_cast<int>(cur->checkCount_ - impl_->results_.totalCheckCount_),
-      static_cast<int>(cur->execTime_ / 1000),
-      static_cast<int>(cur->execTime_ % 1000),
-      cur->file_.asCharString(),
-      static_cast<int>(cur->lineNumber_));
+        "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
+        "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
+        impl_->package_.asCharString(),
+        impl_->package_.isEmpty() ? "" : ".",
+        impl_->results_.group_.asCharString(),
+        cur->name_.asCharString(),
+        static_cast<int>(cur->checkCount_ - impl_->results_.totalCheckCount_),
+        static_cast<int>(cur->execTime_ / 1000),
+        static_cast<int>(cur->execTime_ % 1000),
+        cur->file_.asCharString(),
+        static_cast<int>(cur->lineNumber_));
     writeToFile(buf.asCharString());
 
     impl_->results_.totalCheckCount_ = cur->checkCount_;
@@ -277,10 +277,10 @@ void
 JUnitTestOutput::writeFailure(JUnitTestCaseResultNode* node)
 {
   String buf = StringFromFormat(
-    "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
-    node->failure_->getFileName().asCharString(),
-    static_cast<int>(node->failure_->getFailureLineNumber()),
-    encodeXmlText(node->failure_->getMessage()).asCharString());
+      "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
+      node->failure_->getFileName().asCharString(),
+      static_cast<int>(node->failure_->getFailureLineNumber()),
+      encodeXmlText(node->failure_->getMessage()).asCharString());
   writeToFile(buf.asCharString());
   writeToFile("</failure>\n");
 }

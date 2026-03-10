@@ -56,7 +56,7 @@ IEEE754ExceptionsPlugin::preTestAction(cpputest::TestShell&, TestResult&)
 
 void
 IEEE754ExceptionsPlugin::postTestAction(cpputest::TestShell& test,
-                                        TestResult& result)
+    TestResult& result)
 {
   if (!test.hasFailed()) {
     IEEE754_CHECK_CLEAR(test, result, FE_DIVBYZERO);
@@ -105,9 +105,9 @@ IEEE754ExceptionsPlugin::checkIeee754DivByZeroExceptionFlag()
 
 void
 IEEE754ExceptionsPlugin::ieee754Check(cpputest::TestShell& test,
-                                      TestResult& result,
-                                      int flag,
-                                      const char* text)
+    TestResult& result,
+    int flag,
+    const char* text)
 {
   result.countCheck();
   if (inexactDisabled_)
@@ -115,7 +115,7 @@ IEEE754ExceptionsPlugin::ieee754Check(cpputest::TestShell& test,
   if (fetestexcept(flag)) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
     CheckFailure failure(
-      &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text);
+        &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text);
     result.addFailure(failure);
   }
 }
@@ -175,9 +175,9 @@ IEEE754ExceptionsPlugin::checkIeee754DivByZeroExceptionFlag()
 
 void
 IEEE754ExceptionsPlugin::ieee754Check(cpputest::TestShell&,
-                                      TestResult&,
-                                      int,
-                                      const char*)
+    TestResult&,
+    int,
+    const char*)
 {
 }
 

@@ -49,8 +49,8 @@ CommandLineTestRunner::RunAllTests(int ac, const char* const* av)
 }
 
 CommandLineTestRunner::CommandLineTestRunner(int ac,
-                                             const char* const* av,
-                                             TestRegistry* registry)
+    const char* const* av,
+    TestRegistry* registry)
   : output_(nullptr)
   , arguments_(nullptr)
   , registry_(registry)
@@ -147,8 +147,8 @@ CommandLineTestRunner::runAllTests()
       failedExecutionCount++;
     }
   }
-  return static_cast<int>(failedTestCount != 0 ? failedTestCount
-                                               : failedExecutionCount);
+  return static_cast<int>(
+      failedTestCount != 0 ? failedTestCount : failedExecutionCount);
 }
 
 TestOutput*
@@ -175,7 +175,7 @@ CommandLineTestRunner::createConsoleOutput()
 
 TestOutput*
 CommandLineTestRunner::createCompositeOutput(TestOutput* outputOne,
-                                             TestOutput* outputTwo)
+    TestOutput* outputTwo)
 {
   CompositeTestOutput* composite = new CompositeTestOutput;
   composite->setOutputOne(outputOne);
@@ -188,8 +188,8 @@ CommandLineTestRunner::parseArguments(TestPlugin* plugin)
 {
   if (!arguments_->parse(plugin)) {
     output_ = createConsoleOutput();
-    output_->print((arguments_->needHelp()) ? arguments_->help()
-                                            : arguments_->usage());
+    output_->print(
+        (arguments_->needHelp()) ? arguments_->help() : arguments_->usage());
     return false;
   }
 

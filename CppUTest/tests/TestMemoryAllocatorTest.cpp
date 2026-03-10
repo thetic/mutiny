@@ -64,11 +64,11 @@ TEST(TestMemoryAllocatorTest, SetCurrentNewAllocator)
 TEST(TestMemoryAllocatorTest, SetCurrentNewAllocatorToDefault)
 {
   cpputest::TestMemoryAllocator* originalAllocator =
-    cpputest::getCurrentNewAllocator();
+      cpputest::getCurrentNewAllocator();
 
   cpputest::setCurrentNewAllocatorToDefault();
-  POINTERS_EQUAL(cpputest::defaultNewAllocator(),
-                 cpputest::getCurrentNewAllocator());
+  POINTERS_EQUAL(
+      cpputest::defaultNewAllocator(), cpputest::getCurrentNewAllocator());
 
   setCurrentNewAllocator(originalAllocator);
 }
@@ -80,7 +80,7 @@ TEST(TestMemoryAllocatorTest, SetCurrentNewArrayAllocator)
   POINTERS_EQUAL(allocator, cpputest::getCurrentNewArrayAllocator());
   cpputest::setCurrentNewArrayAllocatorToDefault();
   POINTERS_EQUAL(cpputest::defaultNewArrayAllocator(),
-                 cpputest::getCurrentNewArrayAllocator());
+      cpputest::getCurrentNewArrayAllocator());
 }
 
 TEST(TestMemoryAllocatorTest, SetCurrentMallocAllocator)
@@ -90,28 +90,28 @@ TEST(TestMemoryAllocatorTest, SetCurrentMallocAllocator)
   POINTERS_EQUAL(allocator, cpputest::getCurrentMallocAllocator());
   cpputest::setCurrentMallocAllocatorToDefault();
   POINTERS_EQUAL(cpputest::defaultMallocAllocator(),
-                 cpputest::getCurrentMallocAllocator());
+      cpputest::getCurrentMallocAllocator());
 }
 
 TEST(TestMemoryAllocatorTest, MemoryAllocation)
 {
   allocator = new cpputest::TestMemoryAllocator();
   allocator->free_memory(
-    allocator->alloc_memory(100, "file", 1), 100, "file", 1);
+      allocator->alloc_memory(100, "file", 1), 100, "file", 1);
 }
 
 TEST(TestMemoryAllocatorTest, MallocNames)
 {
-  STRCMP_EQUAL("Standard Malloc Allocator",
-               cpputest::defaultMallocAllocator()->name());
+  STRCMP_EQUAL(
+      "Standard Malloc Allocator", cpputest::defaultMallocAllocator()->name());
   STRCMP_EQUAL("malloc", cpputest::defaultMallocAllocator()->alloc_name());
   STRCMP_EQUAL("free", cpputest::defaultMallocAllocator()->free_name());
 }
 
 TEST(TestMemoryAllocatorTest, NewNames)
 {
-  STRCMP_EQUAL("Standard New Allocator",
-               cpputest::defaultNewAllocator()->name());
+  STRCMP_EQUAL(
+      "Standard New Allocator", cpputest::defaultNewAllocator()->name());
   STRCMP_EQUAL("new", cpputest::defaultNewAllocator()->alloc_name());
   STRCMP_EQUAL("delete", cpputest::defaultNewAllocator()->free_name());
 }
@@ -119,7 +119,7 @@ TEST(TestMemoryAllocatorTest, NewNames)
 TEST(TestMemoryAllocatorTest, NewArrayNames)
 {
   STRCMP_EQUAL("Standard New [] Allocator",
-               cpputest::defaultNewArrayAllocator()->name());
+      cpputest::defaultNewArrayAllocator()->name());
   STRCMP_EQUAL("new []", cpputest::defaultNewArrayAllocator()->alloc_name());
   STRCMP_EQUAL("delete []", cpputest::defaultNewArrayAllocator()->free_name());
 }

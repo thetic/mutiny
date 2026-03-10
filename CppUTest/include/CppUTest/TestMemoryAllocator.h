@@ -65,15 +65,15 @@ class TestMemoryAllocator
 {
 public:
   TestMemoryAllocator(const char* name_str = "generic",
-                      const char* alloc_name_str = "alloc",
-                      const char* free_name_str = "free");
+      const char* alloc_name_str = "alloc",
+      const char* free_name_str = "free");
   virtual ~TestMemoryAllocator();
 
   virtual char* alloc_memory(size_t size, const char* file, size_t line);
   virtual void free_memory(char* memory,
-                           size_t size,
-                           const char* file,
-                           size_t line);
+      size_t size,
+      const char* file,
+      size_t line);
 
   virtual const char* name() const;
   virtual const char* alloc_name() const;

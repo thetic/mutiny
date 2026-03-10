@@ -40,8 +40,8 @@ public:
   }
   ~OptionsPlugin() override {}
   bool parseArguments(int /*ac*/,
-                      const char* const* /*av*/,
-                      int /*index*/) override
+      const char* const* /*av*/,
+      int /*index*/) override
   {
     return true;
   }
@@ -251,7 +251,7 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
 }
 
 TEST(CommandLineArguments,
-     setCompleteExcludeStrictGroupDotNameFilterInvalidArgument)
+    setCompleteExcludeStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "groupname" };
@@ -439,7 +439,7 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe",
-                         "IGNORE_TEST(testgroup, testname) - stuff" };
+    "IGNORE_TEST(testgroup, testname) - stuff" };
   CHECK(newArgumentParser(argc, argv));
 
   cpputest::TestFilter nameFilter("testname");
@@ -523,14 +523,15 @@ TEST(CommandLineArguments, weirdParamatersReturnsFalse)
 TEST(CommandLineArguments, printUsage)
 {
   STRCMP_EQUAL(
-    "use -h for more extensive help\n"
-    "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] "
-    "[-ci]\n"
-    "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
-    "[-t|st|xt|xst <groupName>.<testName>]...\n"
-    "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, <testName>)\"]...\n"
-    "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n",
-    args->usage());
+      "use -h for more extensive help\n"
+      "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] [-e] "
+      "[-ci]\n"
+      "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
+      "[-t|st|xt|xst <groupName>.<testName>]...\n"
+      "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
+      "<testName>)\"]...\n"
+      "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n",
+      args->usage());
 }
 
 TEST(CommandLineArguments, helpPrintsTheHelp)
@@ -591,19 +592,25 @@ TEST(CommandLineArguments, setPackageName)
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
 {
   int argc = 10;
-  const char* argv[] = { "tests.exe", "-sggroup1", "-xntest1",  "-sggroup2",
-                         "-sntest2",  "-sntest3",  "-sggroup3", "-sntest4",
-                         "-sggroup4", "-sntest5" };
+  const char* argv[] = { "tests.exe",
+    "-sggroup1",
+    "-xntest1",
+    "-sggroup2",
+    "-sntest2",
+    "-sntest3",
+    "-sggroup3",
+    "-sntest4",
+    "-sggroup4",
+    "-sntest5" };
   CHECK(newArgumentParser(argc, argv));
   cpputest::TestFilter nameFilter("test1");
   nameFilter.invertMatching();
   cpputest::TestFilter groupFilter("group1");
   groupFilter.strictMatching();
+  CHECK_EQUAL(nameFilter,
+      *args->getNameFilters()->getNext()->getNext()->getNext()->getNext());
   CHECK_EQUAL(
-    nameFilter,
-    *args->getNameFilters()->getNext()->getNext()->getNext()->getNext());
-  CHECK_EQUAL(groupFilter,
-              *args->getGroupFilters()->getNext()->getNext()->getNext());
+      groupFilter, *args->getGroupFilters()->getNext()->getNext()->getNext());
 }
 
 TEST(CommandLineArguments, lastParameterFieldMissing)

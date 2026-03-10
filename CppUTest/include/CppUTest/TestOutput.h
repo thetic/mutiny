@@ -92,7 +92,7 @@ public:
 protected:
   virtual void printEclipseErrorInFileOnLine(String file, size_t lineNumber);
   virtual void printVisualStudioErrorInFileOnLine(String file,
-                                                  size_t lineNumber);
+      size_t lineNumber);
 
   virtual void printProgressIndicator();
   void printFileAndLineForTestAndFailure(const TestFailure& failure);
@@ -100,7 +100,7 @@ protected:
   void printFailureInTest(String testName);
   void printFailureMessage(String reason);
   void printErrorInFileOnLineFormattedForWorkingEnvironment(String testFile,
-                                                            size_t lineNumber);
+      size_t lineNumber);
 
   TestOutput(const TestOutput&);
   TestOutput& operator=(const TestOutput&);

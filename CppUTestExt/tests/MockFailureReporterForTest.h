@@ -69,8 +69,8 @@ void
 CLEAR_MOCK_FAILURE();
 void
 CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
-                                     const char* file,
-                                     size_t line);
+    const char* file,
+    size_t line);
 void
 CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line);
 
@@ -80,9 +80,9 @@ public:
   ~MockExpectedCallsListForTest() override;
   MockCheckedExpectedCall* addFunction(const String& name);
   MockCheckedExpectedCall* addFunction(unsigned int numCalls,
-                                       const String& name);
+      const String& name);
   MockCheckedExpectedCall* addFunctionOrdered(const String& name,
-                                              unsigned int order);
+      unsigned int order);
 };
 
 #endif

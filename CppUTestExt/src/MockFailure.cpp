@@ -91,14 +91,14 @@ MockFailureReporter::getTestToFail()
 
 MockFailure::MockFailure(cpputest::TestShell* test)
   : TestFailure(test,
-                "Test failed with MockFailure without an error! Something went "
-                "seriously wrong.")
+        "Test failed with MockFailure without an error! Something went "
+        "seriously wrong.")
 {
 }
 
 void
 MockFailure::addExpectationsAndCallHistory(
-  const MockExpectedCallsList& expectations)
+    const MockExpectedCallsList& expectations)
 {
   message_ += "\tEXPECTED calls that WERE NOT fulfilled:\n";
   message_ += expectations.unfulfilledCallsToString("\t\t");
@@ -107,9 +107,8 @@ MockFailure::addExpectationsAndCallHistory(
 }
 
 void
-MockFailure::addExpectationsAndCallHistoryRelatedTo(
-  const String& name,
-  const MockExpectedCallsList& expectations)
+MockFailure::addExpectationsAndCallHistoryRelatedTo(const String& name,
+    const MockExpectedCallsList& expectations)
 {
   MockExpectedCallsList expectationsForFunction;
   expectationsForFunction.addExpectationsRelatedTo(name, expectations);
@@ -128,8 +127,8 @@ MockFailure::addExpectationsAndCallHistoryRelatedTo(
 }
 
 MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
-  cpputest::TestShell* test,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   message_ = "Mock Failure: Expected call WAS NOT fulfilled.\n";
@@ -137,18 +136,18 @@ MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
 }
 
 MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
-  cpputest::TestShell* test,
-  const String& name,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const String& name,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   unsigned int amountOfActualCalls =
-    expectations.amountOfActualCallsFulfilledFor(name);
+      expectations.amountOfActualCallsFulfilledFor(name);
   if (amountOfActualCalls > 0) {
     String ordinalNumber = StringFromOrdinalNumber(amountOfActualCalls + 1);
     message_ = StringFromFormat(
-      "Mock Failure: Unexpected additional (%s) call to function: ",
-      ordinalNumber.asCharString());
+        "Mock Failure: Unexpected additional (%s) call to function: ",
+        ordinalNumber.asCharString());
   } else {
     message_ = "Mock Failure: Unexpected call to function: ";
   }
@@ -157,9 +156,8 @@ MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
   addExpectationsAndCallHistory(expectations);
 }
 
-MockCallOrderFailure::MockCallOrderFailure(
-  cpputest::TestShell* test,
-  const MockExpectedCallsList& expectations)
+MockCallOrderFailure::MockCallOrderFailure(cpputest::TestShell* test,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   MockExpectedCallsList expectationsForOutOfOrder;
@@ -172,17 +170,17 @@ MockCallOrderFailure::MockCallOrderFailure(
 }
 
 MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
-  cpputest::TestShell* test,
-  const String& functionName,
-  MockNamedValue parameter,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const String& functionName,
+    MockNamedValue parameter,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   MockExpectedCallsList expectationsForFunctionWithParameterName;
   expectationsForFunctionWithParameterName.addExpectationsRelatedTo(
-    functionName, expectations);
+      functionName, expectations);
   expectationsForFunctionWithParameterName
-    .onlyKeepExpectationsWithInputParameterName(parameter.getName());
+      .onlyKeepExpectationsWithInputParameterName(parameter.getName());
 
   if (expectationsForFunctionWithParameterName.isEmpty()) {
     message_ = "Mock Failure: Unexpected parameter name to function \"";
@@ -216,17 +214,17 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
 }
 
 MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
-  cpputest::TestShell* test,
-  const String& functionName,
-  MockNamedValue parameter,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const String& functionName,
+    MockNamedValue parameter,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   MockExpectedCallsList expectationsForFunctionWithParameterName;
   expectationsForFunctionWithParameterName.addExpectationsRelatedTo(
-    functionName, expectations);
+      functionName, expectations);
   expectationsForFunctionWithParameterName
-    .onlyKeepExpectationsWithOutputParameterName(parameter.getName());
+      .onlyKeepExpectationsWithOutputParameterName(parameter.getName());
 
   if (expectationsForFunctionWithParameterName.isEmpty()) {
     message_ = "Mock Failure: Unexpected output parameter name to function \"";
@@ -257,11 +255,10 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
 }
 
 MockExpectedParameterDidntHappenFailure::
-  MockExpectedParameterDidntHappenFailure(
-    cpputest::TestShell* test,
-    const String& functionName,
-    const MockExpectedCallsList& allExpectations,
-    const MockExpectedCallsList& matchingExpectations)
+    MockExpectedParameterDidntHappenFailure(cpputest::TestShell* test,
+        const String& functionName,
+        const MockExpectedCallsList& allExpectations,
+        const MockExpectedCallsList& matchingExpectations)
   : MockFailure(test)
 {
   message_ = "Mock Failure: Expected parameter for function \"";
@@ -272,56 +269,56 @@ MockExpectedParameterDidntHappenFailure::
   message_ += functionName;
   message_ += "\n";
   message_ += matchingExpectations.callsWithMissingParametersToString(
-    "\t\t", "\tMISSING parameters: ");
+      "\t\t", "\tMISSING parameters: ");
   message_ += "\n";
 
   addExpectationsAndCallHistoryRelatedTo(functionName, allExpectations);
 }
 
 MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
-  cpputest::TestShell* test,
-  String typeName)
+    cpputest::TestShell* test,
+    String typeName)
   : MockFailure(test)
 {
   message_ = StringFromFormat("MockFailure: No way to compare type <%s>. "
                               "Please install a MockNamedValueComparator.",
-                              typeName.asCharString());
+      typeName.asCharString());
 }
 
 MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
-  cpputest::TestShell* test,
-  String typeName)
+    cpputest::TestShell* test,
+    String typeName)
   : MockFailure(test)
 {
   message_ = StringFromFormat("MockFailure: No way to copy type <%s>. Please "
                               "install a MockNamedValueCopier.",
-                              typeName.asCharString());
+      typeName.asCharString());
 }
 
 MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
-  cpputest::TestShell* test,
-  const String& functionName,
-  const void* actual,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const String& functionName,
+    const void* actual,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   message_ = StringFromFormat(
-    "MockFailure: Function called on an unexpected object: %s\n"
-    "\tActual object for call has address: <%p>\n",
-    functionName.asCharString(),
-    actual);
+      "MockFailure: Function called on an unexpected object: %s\n"
+      "\tActual object for call has address: <%p>\n",
+      functionName.asCharString(),
+      actual);
   addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
 
 MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
-  cpputest::TestShell* test,
-  const String& functionName,
-  const MockExpectedCallsList& expectations)
+    cpputest::TestShell* test,
+    const String& functionName,
+    const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
   message_ = StringFromFormat("Mock Failure: Expected call on object for "
                               "function \"%s\" but it did not happen.\n",
-                              functionName.asCharString());
+      functionName.asCharString());
   addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
 

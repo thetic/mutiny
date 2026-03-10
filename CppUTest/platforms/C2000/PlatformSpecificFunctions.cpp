@@ -99,9 +99,9 @@ C2000TimeInMillis()
   time_t t = time((time_t*)0);
   struct tm* ptm = gmtime(&t);
   unsigned long result =
-    (unsigned long)((ptm->tm_sec + ptm->tm_min * (time_t)60 +
-                     ptm->tm_hour * (time_t)3600) *
-                    (time_t)1000);
+      (unsigned long)((ptm->tm_sec + ptm->tm_min * (time_t)60 +
+                          ptm->tm_hour * (time_t)3600) *
+                      (time_t)1000);
   return result;
 }
 
@@ -117,14 +117,14 @@ const char* (*GetPlatformSpecificTimeString)() = TimeStringImplementation;
 
 int
 vsnprintf(char*,
-          size_t,
-          const char*,
-          va_list); // not std::vsnprintf()
+    size_t,
+    const char*,
+    va_list); // not std::vsnprintf()
 
 int (*PlatformSpecificVSNprintf)(char*,
-                                 size_t,
-                                 const char*,
-                                 va_list) = vsnprintf;
+    size_t,
+    const char*,
+    va_list) = vsnprintf;
 
 PlatformSpecificFile
 C2000FOpen(const char* filename, const char* flag)
@@ -155,9 +155,9 @@ C2000FClose(PlatformSpecificFile file)
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 PlatformSpecificFile (*PlatformSpecificFOpen)(const char* filename,
-                                              const char* flag) = C2000FOpen;
+    const char* flag) = C2000FOpen;
 void (*PlatformSpecificFPuts)(const char* str,
-                              PlatformSpecificFile file) = C2000FPuts;
+    PlatformSpecificFile file) = C2000FPuts;
 void (*PlatformSpecificFClose)(PlatformSpecificFile file) = C2000FClose;
 
 static void
@@ -206,8 +206,8 @@ void* (*PlatformSpecificMalloc)(size_t size) = C2000Malloc;
 void* (*PlatformSpecificRealloc)(void* memory, size_t size) = C2000Realloc;
 void (*PlatformSpecificFree)(void* memory) = C2000Free;
 void* (*PlatformSpecificMemCpy)(void* s1,
-                                const void* s2,
-                                size_t size) = C2000MemCpy;
+    const void* s2,
+    size_t size) = C2000MemCpy;
 void* (*PlatformSpecificMemset)(void* mem, int c, size_t size) = C2000Memset;
 
 /*

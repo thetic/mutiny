@@ -41,7 +41,7 @@ public:
   int amountOfPlugins;
 
   DummyPluginWhichCountsThePlugins(const cpputest::String& name,
-                                   cpputest::TestRegistry* registry)
+      cpputest::TestRegistry* registry)
     : TestPlugin(name)
     , returnValue(true)
     , amountOfPlugins(0)
@@ -69,8 +69,8 @@ public:
   cpputest::StringBufferTestOutput* fakeTCOutputWhichIsReallyABuffer;
 
   CommandLineTestRunnerWithStringBufferOutput(int argc,
-                                              const char* const* argv,
-                                              cpputest::TestRegistry* registry)
+      const char* const* argv,
+      cpputest::TestRegistry* registry)
     : CommandLineTestRunner(argc, argv, registry)
     , fakeJUnitOutputWhichIsReallyABuffer_(nullptr)
     , fakeConsoleOutputWhichIsReallyABuffer(nullptr)
@@ -81,7 +81,7 @@ public:
   cpputest::TestOutput* createConsoleOutput() override
   {
     fakeConsoleOutputWhichIsReallyABuffer =
-      new cpputest::StringBufferTestOutput;
+        new cpputest::StringBufferTestOutput;
     return fakeConsoleOutputWhichIsReallyABuffer;
   }
 
@@ -111,7 +111,7 @@ setup() override
   test2 = new cpputest::TestShell("group2", "test2", "file2", 2);
   registry.addTest(test1);
   pluginCountingPlugin =
-    new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
+      new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
 }
 void
 teardown() override
@@ -125,10 +125,10 @@ cpputest::String
 runAndGetOutput(const int argc, const char* argv[])
 {
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    argc, argv, &registry);
+      argc, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
   return commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer
-    ->getOutput();
+      ->getOutput();
 }
 };
 
@@ -139,7 +139,7 @@ TEST(CommandLineTestRunner, OnePluginGetsInstalledDuringTheRunningTheTests)
   registry.installPlugin(pluginCountingPlugin);
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
   registry.removePluginByName("PluginCountingPlugin");
 
@@ -148,12 +148,12 @@ TEST(CommandLineTestRunner, OnePluginGetsInstalledDuringTheRunningTheTests)
 }
 
 TEST(CommandLineTestRunner,
-     NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
+    NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
 {
   const char* argv[] = { "tests.exe", "-fdskjnfkds" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
   LONGS_EQUAL(0, registry.countPlugins());
@@ -164,7 +164,7 @@ TEST(CommandLineTestRunner, ReturnsOneWhenTheArgumentsAreInvalid)
   const char* argv[] = { "tests.exe", "-some-invalid=parameter" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   int returned = commandLineTestRunner.runAllTestsMain();
 
   LONGS_EQUAL(1, returned);
@@ -175,14 +175,13 @@ TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelp)
   const char* argv[] = { "tests.exe", "-h" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   int returned = commandLineTestRunner.runAllTestsMain();
 
   LONGS_EQUAL(1, returned);
-  STRCMP_CONTAINS(
-    "Thanks for using CppUTest.",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("Thanks for using CppUTest.",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)
@@ -190,7 +189,7 @@ TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)
   const char* argv[] = { "tests.exe" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    1, argv, &registry);
+      1, argv, &registry);
   int returned = commandLineTestRunner.runAllTestsMain();
 
   LONGS_EQUAL(0, returned);
@@ -201,7 +200,7 @@ TEST(CommandLineTestRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
   const char* argv[] = { "tests.exe", "-g", "NoSuchGroup" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    3, argv, &registry);
+      3, argv, &registry);
   int returned = commandLineTestRunner.runAllTestsMain();
 
   LONGS_EQUAL(1, returned);
@@ -211,7 +210,7 @@ TEST(CommandLineTestRunner, TeamcityOutputEnabled)
 {
   const char* argv[] = { "tests.exe", "-oteamcity" };
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
   CHECK(commandLineTestRunner.fakeTCOutputWhichIsReallyABuffer != nullptr);
 }
@@ -221,7 +220,7 @@ TEST(CommandLineTestRunner, JunitOutputEnabled)
   const char* argv[] = { "tests.exe", "-ojunit" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
   CHECK(commandLineTestRunner.fakeJUnitOutputWhichIsReallyABuffer_ != nullptr);
 }
@@ -231,16 +230,14 @@ TEST(CommandLineTestRunner, JunitOutputAndVerboseEnabled)
   const char* argv[] = { "tests.exe", "-ojunit", "-v" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    3, argv, &registry);
+      3, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
-  STRCMP_CONTAINS(
-    "TEST(group1, test1)",
-    commandLineTestRunner.fakeJUnitOutputWhichIsReallyABuffer_->getOutput()
-      .asCharString());
-  STRCMP_CONTAINS(
-    "TEST(group1, test1)",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("TEST(group1, test1)",
+      commandLineTestRunner.fakeJUnitOutputWhichIsReallyABuffer_->getOutput()
+          .asCharString());
+  STRCMP_CONTAINS("TEST(group1, test1)",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
@@ -248,16 +245,14 @@ TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
   const char* argv[] = { "tests.exe", "-vv" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
-  STRCMP_CONTAINS(
-    "TEST(group1, test1)",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
-  STRCMP_CONTAINS(
-    "destroyTest",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("TEST(group1, test1)",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
+  STRCMP_CONTAINS("destroyTest",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
@@ -266,12 +261,12 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
 
   registry.addTest(test2);
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
   cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-    .split("\n", stringCollection);
+      .split("\n", stringCollection);
   STRCMP_CONTAINS("test2", stringCollection[0].asCharString());
   STRCMP_CONTAINS("test1", stringCollection[1].asCharString());
 }
@@ -282,12 +277,12 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
 
   registry.addTest(test2);
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    3, argv, &registry);
+      3, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
   cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-    .split("\n", stringCollection);
+      .split("\n", stringCollection);
   STRCMP_CONTAINS("test1", stringCollection[0].asCharString());
   STRCMP_CONTAINS("test2", stringCollection[1].asCharString());
 }
@@ -297,13 +292,12 @@ TEST(CommandLineTestRunner, listTestGroupNamesShouldWorkProperly)
   const char* argv[] = { "tests.exe", "-lg" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  STRCMP_CONTAINS(
-    "group",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("group",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
@@ -311,13 +305,12 @@ TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
   const char* argv[] = { "tests.exe", "-ln" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  STRCMP_CONTAINS(
-    "group1.test1",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("group1.test1",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
@@ -325,20 +318,19 @@ TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
   const char* argv[] = { "tests.exe", "-ll" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  STRCMP_CONTAINS(
-    "group1.test1",
-    commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .asCharString());
+  STRCMP_CONTAINS("group1.test1",
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
+          .asCharString());
 }
 
 TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 {
   // more than 1 item in test list ensures that shuffle algorithm calls rand_()
   cpputest::TestShell* anotherTest =
-    new cpputest::TestShell("group", "test2", "file", 1);
+      new cpputest::TestShell("group", "test2", "file", 1);
   registry.addTest(anotherTest);
 
   const char* argv[] = { "tests.exe", "-s" };
@@ -436,7 +428,7 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   fakeOutput.restoreOriginals();
 
   STRCMP_CONTAINS("<testcase classname=\"package.group1\" name=\"test1\"",
-                  fakeOutput.file.asCharString());
+      fakeOutput.file.asCharString());
   STRCMP_CONTAINS("TEST(group1, test1)", fakeOutput.console.asCharString());
 }
 
@@ -457,13 +449,13 @@ TEST(CommandLineTestRunner, realTeamCityOutputShouldBeCreatedAndWorkProperly)
   fakeOutput.restoreOriginals();
 
   STRCMP_CONTAINS("##teamcity[testSuiteStarted name='group1'",
-                  fakeOutput.console.asCharString());
-  STRCMP_CONTAINS("##teamcity[testStarted name='test1'",
-                  fakeOutput.console.asCharString());
+      fakeOutput.console.asCharString());
+  STRCMP_CONTAINS(
+      "##teamcity[testStarted name='test1'", fakeOutput.console.asCharString());
   STRCMP_CONTAINS("##teamcity[testFinished name='test1'",
-                  fakeOutput.console.asCharString());
+      fakeOutput.console.asCharString());
   STRCMP_CONTAINS("##teamcity[testSuiteFinished name='group1'",
-                  fakeOutput.console.asCharString());
+      fakeOutput.console.asCharString());
 }
 
 class RunIgnoredTest : public cpputest::Test
@@ -479,9 +471,9 @@ class RunIgnoredUtestShell : public cpputest::IgnoredTestShell
 {
 public:
   RunIgnoredUtestShell(const char* groupName,
-                       const char* testName,
-                       const char* fileName,
-                       size_t lineNumber)
+      const char* testName,
+      const char* fileName,
+      size_t lineNumber)
     : IgnoredTestShell(groupName, testName, fileName, lineNumber)
   {
   }
@@ -499,7 +491,7 @@ setup() override
   runIgnoredTest = new RunIgnoredUtestShell("group", "test", "file", 1);
   registry.addTest(runIgnoredTest);
   pluginCountingPlugin =
-    new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
+      new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
 }
 void
 teardown() override
@@ -515,7 +507,7 @@ TEST(RunIgnoredTest, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
   const char* argv[] = { "tests.exe" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    1, argv, &registry);
+      1, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
   CHECK_FALSE(RunIgnoredTest::Checker);
@@ -526,7 +518,7 @@ TEST(RunIgnoredTest, IgnoreTestWillGetRunIfOptionSpecified)
   const char* argv[] = { "tests.exe", "-ri" };
 
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-    2, argv, &registry);
+      2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
   CHECK_TRUE(RunIgnoredTest::Checker);

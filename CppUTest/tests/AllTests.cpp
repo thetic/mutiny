@@ -39,7 +39,7 @@ main(int ac, char** av)
     LONGS_EQUAL(1, 1);
 
     returnValue = cpputest::CommandLineTestRunner::RunAllTests(
-      ac, av); /* cover alternate method */
+        ac, av); /* cover alternate method */
   }
 
   return returnValue;
