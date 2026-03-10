@@ -25,6 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "IEEE754PluginTest_c.h"
+
 #include "CppUTestExt/IEEE754ExceptionsPlugin.h"
 
 #include "CppUTest/CommandLineTestRunner.h"
@@ -32,22 +34,21 @@
 #include "CppUTest/TestRegistry.h"
 #include "CppUTest/TestTestingFixture.h"
 
-#if CPPUTEST_HAVE_FENV
-
-#include "IEEE754PluginTest_c.h"
-
 using namespace cpputest;
 using namespace cpputest::extensions;
 
 TEST_GROUP(FE_with_Plugin) {
 TestTestingFixture fixture;
 IEEE754ExceptionsPlugin ieee754Plugin;
+
 void
 setup(void) override
 {
   fixture.installPlugin(&ieee754Plugin);
 }
 };
+
+#if CPPUTEST_HAVE_FENV
 
 TEST(FE_with_Plugin, should_fail_when_FE_DIVBYZERO_is_set)
 {
@@ -130,6 +131,8 @@ TEST(FE_with_Plugin, should_not_fail_again_when_test_has_already_failed)
   LONGS_EQUAL(1, fixture.getFailureCount());
 }
 
+#endif
+
 static IEEE754ExceptionsPlugin ip;
 
 TEST_GROUP(IEEE754ExceptionsPlugin2) {
@@ -144,5 +147,3 @@ IGNORE_TEST(IEEE754ExceptionsPlugin2, should_not_fail_in_ignored_test)
 {
   set_everything_c();
 }
-
-#endif
