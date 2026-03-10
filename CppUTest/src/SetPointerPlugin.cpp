@@ -26,7 +26,7 @@
  */
 #include "CppUTest/SetPointerPlugin.hpp"
 
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestShell.hpp"
 #include "CppUTest/UtestMacros.hpp"
 
 namespace cpputest {

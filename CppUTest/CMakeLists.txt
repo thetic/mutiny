@@ -16,11 +16,17 @@ target_sources(CppUTest
         src/TestHarness.cpp
         src/TestMemoryAllocator.cpp
         src/TestOutput.cpp
+        src/ExecFunctionTestShell.cpp
+        src/IgnoredTestShell.cpp
+        src/Test.cpp
+        src/TestInstaller.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
         src/TestResult.cpp
+        src/TestShell.cpp
+        src/TestShellPointerArray.cpp
+        src/TestTerminator.cpp
         src/TestTestingFixture.cpp
-        src/Utest.cpp
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
@@ -47,8 +53,11 @@ target_sources(CppUTest
             include/CppUTest/TestRegistry.hpp
             include/CppUTest/TestResult.hpp
             include/CppUTest/TestTerminator.hpp
+            include/CppUTest/IgnoredTestShell.hpp
+            include/CppUTest/Test.hpp
+            include/CppUTest/TestShell.hpp
+            include/CppUTest/TestShellPointerArray.hpp
             include/CppUTest/TestTestingFixture.hpp
-            include/CppUTest/Utest.hpp
             include/CppUTest/UtestMacros.hpp
 )
 

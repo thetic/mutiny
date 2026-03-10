@@ -25,18 +25,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
-
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
+
+#include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
-#endif
+
+namespace cpputest {
+
+TestInstaller::TestInstaller(TestShell& shell,
+    const char* groupName,
+    const char* testName,
+    const char* fileName,
+    size_t lineNumber)
+{
+  shell.setGroupName(groupName);
+  shell.setTestName(testName);
+  shell.setFileName(fileName);
+  shell.setLineNumber(lineNumber);
+  TestRegistry::getCurrentRegistry()->addTest(&shell);
+}
+
+TestInstaller::~TestInstaller() {}
+
+void
+TestInstaller::unDo()
+{
+  TestRegistry::getCurrentRegistry()->unDoLastAddTest();
+}
+
+} // namespace cpputest

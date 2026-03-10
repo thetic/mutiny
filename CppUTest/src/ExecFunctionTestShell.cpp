@@ -25,18 +25,59 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#include "CppUTest/ExecFunctionTestShell.hpp"
 
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
-#endif
+namespace cpputest {
+
+ExecFunctionTestShell::~ExecFunctionTestShell() {}
+
+//////////////////// ExecFunction
+
+ExecFunction::ExecFunction() {}
+
+ExecFunction::~ExecFunction() {}
+
+ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(
+    void (*testFunction)())
+  : testFunction_(testFunction)
+{
+}
+
+ExecFunctionWithoutParameters::~ExecFunctionWithoutParameters() {}
+
+void
+ExecFunctionWithoutParameters::exec()
+{
+  if (testFunction_)
+    testFunction_();
+}
+
+//////////////////// ExecFunctionTest
+
+ExecFunctionTest::ExecFunctionTest(ExecFunctionTestShell* shell)
+  : shell_(shell)
+{
+}
+
+void
+ExecFunctionTest::testBody()
+{
+  if (shell_->testFunction_)
+    shell_->testFunction_->exec();
+}
+
+void
+ExecFunctionTest::setup()
+{
+  if (shell_->setup_)
+    shell_->setup_();
+}
+
+void
+ExecFunctionTest::teardown()
+{
+  if (shell_->teardown_)
+    shell_->teardown_();
+}
+
+} // namespace cpputest

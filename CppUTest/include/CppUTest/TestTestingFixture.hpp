@@ -30,7 +30,7 @@
 
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestShell.hpp"
 
 namespace cpputest {
 

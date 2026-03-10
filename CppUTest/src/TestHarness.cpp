@@ -27,7 +27,7 @@
 
 #include "CppUTest/TestHarness.h"
 
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/TestShell.hpp"
 
 void
 CHECK_EQUAL_C_BOOL_LOCATION(int expected,

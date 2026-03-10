@@ -25,18 +25,54 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#include "CppUTest/TestTerminator.hpp"
 
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
+
+namespace cpputest {
+
+TestTerminator::~TestTerminator() {}
+
+void
+NormalTestTerminator::exitCurrentTest() const
+{
+#if CPPUTEST_HAVE_EXCEPTIONS
+  throw FailedException();
+#else
+  TestTerminatorWithoutExceptions().exitCurrentTest();
 #endif
+}
+
+NormalTestTerminator::~NormalTestTerminator() {}
+
+void
+TestTerminatorWithoutExceptions::exitCurrentTest() const
+{
+  PlatformSpecificLongJmp();
+}
+
+TestTerminatorWithoutExceptions::~TestTerminatorWithoutExceptions() {}
+
+void
+CrashingTestTerminator::exitCurrentTest() const
+{
+  TestShell::crash();
+  NormalTestTerminator::exitCurrentTest();
+}
+
+CrashingTestTerminator::~CrashingTestTerminator() {}
+
+void
+CrashingTestTerminatorWithoutExceptions::exitCurrentTest() const
+{
+  TestShell::crash();
+  TestTerminatorWithoutExceptions::exitCurrentTest();
+}
+
+CrashingTestTerminatorWithoutExceptions::
+    ~CrashingTestTerminatorWithoutExceptions()
+{
+}
+
+} // namespace cpputest

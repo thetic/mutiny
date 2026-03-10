@@ -25,11 +25,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// This file contains the Test class along with the macros which make effective
-// in the harness.
-
-#ifndef D_UTest_h
-#define D_UTest_h
+#ifndef D_TestShell_h
+#define D_TestShell_h
 
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestTerminator.hpp"
@@ -67,22 +64,6 @@ class TestFilter;
 
 bool
 doubles_equal(double d1, double d2, double threshold);
-
-//////////////////// Test
-
-class TestShell;
-
-class Test
-{
-public:
-  Test();
-  virtual ~Test();
-  virtual void run();
-
-  virtual void setup();
-  virtual void teardown();
-  virtual void testBody();
-};
 
 //////////////////// TestShell
 
@@ -258,8 +239,8 @@ public:
 
   virtual void setRunIgnored();
 
-  virtual Test* createTest();
-  virtual void destroyTest(Test* test);
+  virtual class Test* createTest();
+  virtual void destroyTest(class Test* test);
 
   virtual void runOneTest(TestPlugin* plugin, TestResult& result);
   virtual void runOneTestInCurrentProcess(TestPlugin* plugin,
@@ -308,52 +289,6 @@ class FailedException
 {
 public:
   int dummy_;
-};
-
-//////////////////// IgnoredTestShell
-
-class IgnoredTestShell : public TestShell
-{
-public:
-  IgnoredTestShell();
-  virtual ~IgnoredTestShell() override;
-  explicit IgnoredTestShell(const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber);
-  virtual bool willRun() const override;
-  virtual void setRunIgnored() override;
-
-protected:
-  virtual String getMacroName() const override;
-  virtual void runOneTest(TestPlugin* plugin, TestResult& result) override;
-
-private:
-  IgnoredTestShell(const IgnoredTestShell&);
-  IgnoredTestShell& operator=(const IgnoredTestShell&);
-
-  bool runIgnored_;
-};
-
-//////////////////// TestShellPointerArray
-
-class TestShellPointerArray
-{
-public:
-  TestShellPointerArray(TestShell* firstTest);
-  ~TestShellPointerArray();
-
-  void shuffle(size_t seed);
-  void reverse();
-  void relinkTestsInOrder();
-  TestShell* getFirstTest() const;
-  TestShell* get(size_t index) const;
-
-private:
-  void swap(size_t index1, size_t index2);
-
-  TestShell** arrayOfTests_;
-  size_t count_;
 };
 
 } // namespace cpputest

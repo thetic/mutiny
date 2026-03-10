@@ -29,8 +29,10 @@ add_executable(CppUTestTests
     TestHarness.test.c
     TestInstaller.test.cpp
     TestMemoryAllocator.test.cpp
+    IgnoredTestShell.test.cpp
+    TestShell.test.cpp
+    TestShellPointerArray.test.cpp
     UtestMacros.test.cpp
-    Utest.test.cpp
     UtestStringMacros.test.cpp
 )
 

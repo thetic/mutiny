@@ -25,18 +25,36 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#ifndef D_IgnoredTestShell_h
+#define D_IgnoredTestShell_h
 
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
 #include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
+
+namespace cpputest {
+
+class IgnoredTestShell : public TestShell
+{
+public:
+  IgnoredTestShell();
+  virtual ~IgnoredTestShell() override;
+  explicit IgnoredTestShell(const char* groupName,
+      const char* testName,
+      const char* fileName,
+      size_t lineNumber);
+  virtual bool willRun() const override;
+  virtual void setRunIgnored() override;
+
+protected:
+  virtual String getMacroName() const override;
+  virtual void runOneTest(TestPlugin* plugin, TestResult& result) override;
+
+private:
+  IgnoredTestShell(const IgnoredTestShell&);
+  IgnoredTestShell& operator=(const IgnoredTestShell&);
+
+  bool runIgnored_;
+};
+
+} // namespace cpputest
+
 #endif

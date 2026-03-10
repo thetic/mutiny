@@ -28,7 +28,8 @@
 #ifndef D_ExecFunctionTestShell_h
 #define D_ExecFunctionTestShell_h
 
-#include "CppUTest/Utest.hpp"
+#include "CppUTest/Test.hpp"
+#include "CppUTest/TestShell.hpp"
 
 namespace cpputest {
 

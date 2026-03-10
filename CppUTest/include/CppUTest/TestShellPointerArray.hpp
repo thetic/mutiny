@@ -25,18 +25,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#ifndef D_TestShellPointerArray_h
+#define D_TestShellPointerArray_h
 
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
+#include <stddef.h>
+
+namespace cpputest {
+
+class TestShell;
+
+class TestShellPointerArray
+{
+public:
+  TestShellPointerArray(TestShell* firstTest);
+  ~TestShellPointerArray();
+
+  void shuffle(size_t seed);
+  void reverse();
+  void relinkTestsInOrder();
+  TestShell* getFirstTest() const;
+  TestShell* get(size_t index) const;
+
+private:
+  void swap(size_t index1, size_t index2);
+
+  TestShell** arrayOfTests_;
+  size_t count_;
+};
+
+} // namespace cpputest
+
 #endif

@@ -25,18 +25,62 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
-
 #include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
+
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestResult.hpp"
-#include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
-#endif
+
+namespace cpputest {
+
+IgnoredTestShell::IgnoredTestShell()
+  : runIgnored_(false)
+{
+}
+
+IgnoredTestShell::IgnoredTestShell(const char* groupName,
+    const char* testName,
+    const char* fileName,
+    size_t lineNumber)
+  : TestShell(groupName, testName, fileName, lineNumber)
+  , runIgnored_(false)
+{
+}
+
+IgnoredTestShell::~IgnoredTestShell() {}
+
+bool
+IgnoredTestShell::willRun() const
+{
+  if (runIgnored_)
+    return TestShell::willRun();
+
+  return false;
+}
+
+String
+IgnoredTestShell::getMacroName() const
+{
+  if (runIgnored_)
+    return "TEST";
+
+  return "IGNORE_TEST";
+}
+
+void
+IgnoredTestShell::runOneTest(TestPlugin* plugin, TestResult& result)
+{
+  if (runIgnored_) {
+    TestShell::runOneTest(plugin, result);
+    return;
+  }
+
+  result.countIgnored();
+}
+
+void
+IgnoredTestShell::setRunIgnored()
+{
+  runIgnored_ = true;
+}
+
+} // namespace cpputest

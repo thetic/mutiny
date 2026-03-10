@@ -25,18 +25,23 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#ifndef D_Test_h
+#define D_Test_h
 
-#include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestInstaller.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/TestShell.hpp"
-#include "CppUTest/TestShellPointerArray.hpp"
-#include "CppUTest/UtestMacros.hpp"
+namespace cpputest {
+
+class Test
+{
+public:
+  Test();
+  virtual ~Test();
+  virtual void run();
+
+  virtual void setup();
+  virtual void teardown();
+  virtual void testBody();
+};
+
+} // namespace cpputest
+
 #endif
