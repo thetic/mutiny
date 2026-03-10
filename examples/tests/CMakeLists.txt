@@ -19,7 +19,7 @@ target_compile_options(ExampleTests
 
 target_link_libraries(ExampleTests
     PRIVATE
-        ApplicationLib
+        ExampleLib
         CppUTest::CppUTestExt
 )
 

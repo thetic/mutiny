@@ -8,5 +8,24 @@ endif()
 
 include(CTest)
 
-add_subdirectory(AllTests)
-add_subdirectory(ApplicationLib)
+add_library(ExampleLib
+    src/CircularBuffer.cpp
+    src/EventDispatcher.cpp
+    src/hello.c
+    src/Printer.cpp
+)
+
+target_sources(ExampleLib
+    PUBLIC
+    FILE_SET HEADERS
+        BASE_DIRS include
+        FILES
+            include/CircularBuffer.h
+            include/EventDispatcher.h
+            include/hello.h
+            include/Printer.h
+)
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
