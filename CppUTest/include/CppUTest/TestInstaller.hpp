@@ -25,44 +25,32 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_MockNamedValueComparatorsAndCopiersRepository_h
-#define D_MockNamedValueComparatorsAndCopiersRepository_h
+#ifndef D_TestInstaller_h
+#define D_TestInstaller_h
 
-#include "CppUTestExt/MockNamedValueComparator.hpp"
-#include "CppUTestExt/MockNamedValueCopier.hpp"
+#include <stddef.h>
 
 namespace cpputest {
-namespace extensions {
 
-/*
- * MockParameterComparatorRepository is a class which stores comparators and
- * copiers which can be used for comparing non-native types
- *
- */
+class TestShell;
 
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
+class TestInstaller
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
-
 public:
-  MockNamedValueComparatorsAndCopiersRepository();
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
+  explicit TestInstaller(TestShell& shell,
+      const char* groupName,
+      const char* testName,
+      const char* fileName,
+      size_t lineNumber);
+  virtual ~TestInstaller();
 
-  virtual void installComparator(const cpputest::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
-      MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
-      const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
+  void unDo();
 
-  void clear();
+private:
+  TestInstaller(const TestInstaller&);
+  TestInstaller& operator=(const TestInstaller&);
 };
 
-} // namespace extensions
 } // namespace cpputest
 
 #endif

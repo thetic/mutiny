@@ -29,6 +29,7 @@
 #define D_MockNamedValue_h
 
 #include "CppUTestExt/MockNamedValueComparator.hpp"
+#include "CppUTestExt/MockNamedValueCopier.hpp"
 
 namespace cpputest {
 namespace extensions {

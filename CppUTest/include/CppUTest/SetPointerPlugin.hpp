@@ -25,44 +25,42 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_MockNamedValueComparatorsAndCopiersRepository_h
-#define D_MockNamedValueComparatorsAndCopiersRepository_h
+#ifndef D_SetPointerPlugin_h
+#define D_SetPointerPlugin_h
 
-#include "CppUTestExt/MockNamedValueComparator.hpp"
-#include "CppUTestExt/MockNamedValueCopier.hpp"
+#include "CppUTest/TestPlugin.hpp"
 
 namespace cpputest {
-namespace extensions {
 
-/*
- * MockParameterComparatorRepository is a class which stores comparators and
- * copiers which can be used for comparing non-native types
- *
- */
+///////////////////////////////////////////////////////////////////////////////
+//
+// SetPointerPlugin
+//
+// This is a very small plugin_ that resets pointers to their original value.
+//
+///////////////////////////////////////////////////////////////////////////////
 
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
+void
+CppUTestStore(void** location);
+
+class SetPointerPlugin : public TestPlugin
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
-
 public:
-  MockNamedValueComparatorsAndCopiersRepository();
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
+  SetPointerPlugin(const String& name);
+  virtual void postTestAction(TestShell&, TestResult&) override;
 
-  virtual void installComparator(const cpputest::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
-      MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
-      const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
-
-  void clear();
+  enum
+  {
+    MAX_SET = 32
+  };
 };
 
-} // namespace extensions
 } // namespace cpputest
+
+#define UT_PTR_SET(a, b)                                                       \
+  do {                                                                         \
+    cpputest::CppUTestStore(reinterpret_cast<void**>(&(a)));                   \
+    (a) = b;                                                                   \
+  } while (0)
 
 #endif

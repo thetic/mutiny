@@ -32,6 +32,7 @@
 #define D_UTest_h
 
 #include "CppUTest/String.hpp"
+#include "CppUTest/TestTerminator.hpp"
 
 #ifdef __cplusplus
 #ifndef CPPUTEST_HAVE_EXCEPTIONS
@@ -63,7 +64,6 @@ class TestResult;
 class TestPlugin;
 class TestFailure;
 class TestFilter;
-class TestTerminator;
 
 bool
 doubles_equal(double d1, double d2, double threshold);
@@ -82,44 +82,6 @@ public:
   virtual void setup();
   virtual void teardown();
   virtual void testBody();
-};
-
-//////////////////// TestTerminator
-
-class TestTerminator
-{
-public:
-  virtual void exitCurrentTest() const = 0;
-  virtual ~TestTerminator();
-};
-
-class NormalTestTerminator : public TestTerminator
-{
-public:
-  virtual void exitCurrentTest() const override;
-  virtual ~NormalTestTerminator() override;
-};
-
-class TestTerminatorWithoutExceptions : public TestTerminator
-{
-public:
-  virtual void exitCurrentTest() const override;
-  virtual ~TestTerminatorWithoutExceptions() override;
-};
-
-class CrashingTestTerminator : public NormalTestTerminator
-{
-public:
-  virtual void exitCurrentTest() const override;
-  virtual ~CrashingTestTerminator() override;
-};
-
-class CrashingTestTerminatorWithoutExceptions
-  : public TestTerminatorWithoutExceptions
-{
-public:
-  virtual void exitCurrentTest() const override;
-  virtual ~CrashingTestTerminatorWithoutExceptions() override;
 };
 
 //////////////////// TestShell
@@ -340,65 +302,6 @@ private:
   static bool rethrowExceptions_;
 };
 
-//////////////////// ExecFunctionTest
-
-class ExecFunctionTestShell;
-
-class ExecFunctionTest : public Test
-{
-public:
-  ExecFunctionTest(ExecFunctionTestShell* shell);
-  void testBody() override;
-  virtual void setup() override;
-  virtual void teardown() override;
-
-private:
-  ExecFunctionTestShell* shell_;
-};
-
-//////////////////// ExecFunction
-
-class ExecFunction
-{
-public:
-  ExecFunction();
-  virtual ~ExecFunction();
-
-  virtual void exec() = 0;
-};
-
-class ExecFunctionWithoutParameters : public ExecFunction
-{
-public:
-  void (*testFunction_)();
-
-  ExecFunctionWithoutParameters(void (*testFunction)());
-  virtual ~ExecFunctionWithoutParameters() override;
-
-  virtual void exec() override;
-};
-
-//////////////////// ExecFunctionTestShell
-
-class ExecFunctionTestShell : public TestShell
-{
-public:
-  void (*setup_)();
-  void (*teardown_)();
-  ExecFunction* testFunction_;
-
-  ExecFunctionTestShell(void (*set)() = nullptr, void (*tear)() = nullptr)
-    : TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1)
-    , setup_(set)
-    , teardown_(tear)
-    , testFunction_(nullptr)
-  {
-  }
-
-  Test* createTest() override { return new ExecFunctionTest(this); }
-  virtual ~ExecFunctionTestShell() override;
-};
-
 //////////////////// FailedException
 
 class FailedException
@@ -453,25 +356,9 @@ private:
   size_t count_;
 };
 
-//////////////////// TestInstaller
-
-class TestInstaller
-{
-public:
-  explicit TestInstaller(TestShell& shell,
-      const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber);
-  virtual ~TestInstaller();
-
-  void unDo();
-
-private:
-  TestInstaller(const TestInstaller&);
-  TestInstaller& operator=(const TestInstaller&);
-};
-
 } // namespace cpputest
+
+#include "CppUTest/ExecFunctionTestShell.hpp"
+#include "CppUTest/TestInstaller.hpp"
 
 #endif

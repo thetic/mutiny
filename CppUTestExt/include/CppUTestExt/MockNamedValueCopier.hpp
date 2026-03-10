@@ -25,41 +25,40 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_MockNamedValueComparatorsAndCopiersRepository_h
-#define D_MockNamedValueComparatorsAndCopiersRepository_h
-
-#include "CppUTestExt/MockNamedValueComparator.hpp"
-#include "CppUTestExt/MockNamedValueCopier.hpp"
+#ifndef D_MockNamedValueCopier_h
+#define D_MockNamedValueCopier_h
 
 namespace cpputest {
 namespace extensions {
 
 /*
- * MockParameterComparatorRepository is a class which stores comparators and
- * copiers which can be used for comparing non-native types
- *
+ * MockNamedValueCopier is an interface that needs to be used when creating
+ * Copiers. This is needed when copying values of non-native type.
  */
 
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
+class MockNamedValueCopier
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
-
 public:
-  MockNamedValueComparatorsAndCopiersRepository();
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
+  MockNamedValueCopier() {}
+  virtual ~MockNamedValueCopier() {}
 
-  virtual void installComparator(const cpputest::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
-      MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
-      const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
+  virtual void copy(void* out, const void* in) = 0;
+};
 
-  void clear();
+class MockFunctionCopier : public MockNamedValueCopier
+{
+public:
+  typedef void (*copyFunction)(void*, const void*);
+
+  MockFunctionCopier(copyFunction copier)
+    : copier_(copier)
+  {
+  }
+
+  virtual void copy(void* dst, const void* src) override { copier_(dst, src); }
+
+private:
+  copyFunction copier_;
 };
 
 } // namespace extensions

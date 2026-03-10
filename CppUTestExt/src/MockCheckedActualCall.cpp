@@ -26,6 +26,7 @@
  */
 
 #include "CppUTestExt/MockCheckedActualCall.hpp"
+
 #include "CppUTestExt/MockCheckedExpectedCall.hpp"
 #include "CppUTestExt/MockFailure.hpp"
 

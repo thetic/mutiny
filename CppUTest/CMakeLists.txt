@@ -27,9 +27,11 @@ target_sources(CppUTest
             include/CppUTest/CommandLineTestRunner.hpp
             include/CppUTest/CompositeTestOutput.hpp
             include/CppUTest/ConsoleTestOutput.hpp
+            include/CppUTest/ExecFunctionTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions.hpp
+            include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp
             include/CppUTest/TeamCityTestOutput.hpp
@@ -37,11 +39,13 @@ target_sources(CppUTest
             include/CppUTest/TestFilter.hpp
             include/CppUTest/TestHarness.h
             include/CppUTest/TestHarness.hpp
+            include/CppUTest/TestInstaller.hpp
             include/CppUTest/TestMemoryAllocator.hpp
             include/CppUTest/TestOutput.hpp
             include/CppUTest/TestPlugin.hpp
             include/CppUTest/TestRegistry.hpp
             include/CppUTest/TestResult.hpp
+            include/CppUTest/TestTerminator.hpp
             include/CppUTest/TestTestingFixture.hpp
             include/CppUTest/Utest.hpp
             include/CppUTest/UtestMacros.hpp

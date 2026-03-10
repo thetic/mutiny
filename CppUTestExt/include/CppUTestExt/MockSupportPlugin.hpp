@@ -30,6 +30,7 @@
 
 #include "CppUTestExt/MockNamedValueComparator.hpp"
 #include "CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppUTestExt/MockNamedValueCopier.hpp"
 
 #include "CppUTest/TestPlugin.hpp"
 

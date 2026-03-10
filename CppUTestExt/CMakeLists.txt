@@ -6,8 +6,10 @@ target_sources(CppUTestExt
         src/MockActualCall.cpp
         src/MockActualCallTrace.cpp
         src/MockCheckedActualCall.cpp
+        src/MockCheckedExpectedCall.cpp
         src/MockExpectedCall.cpp
         src/MockExpectedCallsList.cpp
+        src/MockIgnoredExpectedCall.cpp
         src/MockFailure.cpp
         src/MockNamedValue.cpp
         src/MockNamedValueComparatorsAndCopiersRepository.cpp
@@ -27,9 +29,11 @@ target_sources(CppUTestExt
             include/CppUTestExt/MockExpectedCall.hpp
             include/CppUTestExt/MockExpectedCallsList.hpp
             include/CppUTestExt/MockFailure.hpp
+            include/CppUTestExt/MockIgnoredExpectedCall.hpp
             include/CppUTestExt/MockNamedValue.hpp
             include/CppUTestExt/MockNamedValueComparator.hpp
             include/CppUTestExt/MockNamedValueComparatorsAndCopiersRepository.hpp
+            include/CppUTestExt/MockNamedValueCopier.hpp
             include/CppUTestExt/MockNamedValueList.hpp
             include/CppUTestExt/MockSupport.h
             include/CppUTestExt/MockSupport.hpp

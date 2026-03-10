@@ -1,7 +1,8 @@
+#include "CppUTest/SetPointerPlugin.hpp"
+
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 static void

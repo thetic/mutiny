@@ -25,44 +25,70 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef D_MockNamedValueComparatorsAndCopiersRepository_h
-#define D_MockNamedValueComparatorsAndCopiersRepository_h
+#ifndef D_ExecFunctionTestShell_h
+#define D_ExecFunctionTestShell_h
 
-#include "CppUTestExt/MockNamedValueComparator.hpp"
-#include "CppUTestExt/MockNamedValueCopier.hpp"
+#include "CppUTest/Utest.hpp"
 
 namespace cpputest {
-namespace extensions {
 
-/*
- * MockParameterComparatorRepository is a class which stores comparators and
- * copiers which can be used for comparing non-native types
- *
- */
+class ExecFunctionTestShell;
 
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
+class ExecFunctionTest : public Test
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
-
 public:
-  MockNamedValueComparatorsAndCopiersRepository();
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
+  ExecFunctionTest(ExecFunctionTestShell* shell);
+  void testBody() override;
+  virtual void setup() override;
+  virtual void teardown() override;
 
-  virtual void installComparator(const cpputest::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
-      MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
-      const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
-
-  void clear();
+private:
+  ExecFunctionTestShell* shell_;
 };
 
-} // namespace extensions
+//////////////////// ExecFunction
+
+class ExecFunction
+{
+public:
+  ExecFunction();
+  virtual ~ExecFunction();
+
+  virtual void exec() = 0;
+};
+
+class ExecFunctionWithoutParameters : public ExecFunction
+{
+public:
+  void (*testFunction_)();
+
+  ExecFunctionWithoutParameters(void (*testFunction)());
+  virtual ~ExecFunctionWithoutParameters() override;
+
+  virtual void exec() override;
+};
+
+//////////////////// ExecFunctionTestShell
+
+class ExecFunctionTestShell : public TestShell
+{
+public:
+  void (*setup_)();
+  void (*teardown_)();
+  ExecFunction* testFunction_;
+
+  ExecFunctionTestShell(void (*set)() = nullptr, void (*tear)() = nullptr)
+    : TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1)
+    , setup_(set)
+    , teardown_(tear)
+    , testFunction_(nullptr)
+  {
+  }
+
+  Test* createTest() override { return new ExecFunctionTest(this); }
+  virtual ~ExecFunctionTestShell() override;
+};
+
 } // namespace cpputest
 
 #endif
