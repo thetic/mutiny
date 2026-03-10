@@ -1,6 +1,6 @@
 add_library(CppUTest
         src/CommandLineArguments.cpp
-        src/TestHarness_c.cpp
+        src/TestHarness.cpp
         src/TestRegistry.cpp
         src/CommandLineTestRunner.cpp
         src/String.cpp

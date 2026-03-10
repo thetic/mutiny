@@ -3,7 +3,6 @@ add_library(CppUTestExt STATIC
     src/MockFailure.cpp
     src/MockSupportPlugin.cpp
     src/MockActualCall.cpp
-    src/MockSupport_c.cpp
     src/MockExpectedCall.cpp
     src/MockNamedValue.cpp
     src/OrderedTest.cpp

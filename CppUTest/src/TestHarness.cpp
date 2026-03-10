@@ -26,6 +26,7 @@
  */
 
 #include "CppUTest/TestHarness.h"
+
 #include "CppUTest/Utest.hpp"
 
 void
