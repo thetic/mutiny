@@ -111,7 +111,7 @@ CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
     error += expectedFailureString;
     error += "\nActual MockFailure:\n\t";
     error += actualFailureString;
-    FAIL_LOCATION(error.asCharString(), file, line);
+    FAIL_LOCATION(error.c_str(), file, line);
   }
 }
 
@@ -122,7 +122,7 @@ CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line)
     String error = "Unexpected mock failure:\n";
     error += mockFailureString();
     CLEAR_MOCK_FAILURE();
-    FAIL_LOCATION(error.asCharString(), file, line);
+    FAIL_LOCATION(error.c_str(), file, line);
   }
   CLEAR_MOCK_FAILURE();
 }

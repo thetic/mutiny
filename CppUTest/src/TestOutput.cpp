@@ -80,19 +80,19 @@ TestOutput::print(const char* str)
 void
 TestOutput::print(long n)
 {
-  print(StringFrom(n).asCharString());
+  print(StringFrom(n).c_str());
 }
 
 void
 TestOutput::print(size_t n)
 {
-  print(StringFrom(n).asCharString());
+  print(StringFrom(n).c_str());
 }
 
 void
 TestOutput::printDouble(double d)
 {
-  print(StringFrom(d).asCharString());
+  print(StringFrom(d).c_str());
 }
 
 TestOutput&
@@ -113,7 +113,7 @@ void
 TestOutput::printCurrentTestStarted(const TestShell& test)
 {
   if (verbose_ > level_quiet)
-    print(test.getFormattedName().asCharString());
+    print(test.getFormattedName().c_str());
 
   if (test.willRun()) {
     setProgressIndicator(".");
@@ -258,7 +258,7 @@ void
 TestOutput::printFailureInTest(String testName)
 {
   print(" Failure in ");
-  print(testName.asCharString());
+  print(testName.c_str());
 }
 
 void
@@ -266,7 +266,7 @@ TestOutput::printFailureMessage(String reason)
 {
   print("\n");
   print("\t");
-  print(reason.asCharString());
+  print(reason.c_str());
   print("\n\n");
 }
 
@@ -284,7 +284,7 @@ void
 TestOutput::printEclipseErrorInFileOnLine(String file, size_t lineNumber)
 {
   print("\n");
-  print(file.asCharString());
+  print(file.c_str());
   print(":");
   print(lineNumber);
   print(":");
@@ -295,7 +295,7 @@ void
 TestOutput::printVisualStudioErrorInFileOnLine(String file, size_t lineNumber)
 {
   print("\n");
-  print(file.asCharString());
+  print(file.c_str());
   print("(");
   print(lineNumber);
   print("):");

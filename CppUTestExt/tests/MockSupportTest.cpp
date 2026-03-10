@@ -91,7 +91,7 @@ TEST(MockSupportTest, dataCanBeChanged)
 TEST(MockSupportTest, uninitializedData)
 {
   LONGS_EQUAL(0, mock().getData("nonexisting").getIntValue());
-  STRCMP_EQUAL("int", mock().getData("nonexisting").getType().asCharString());
+  STRCMP_EQUAL("int", mock().getData("nonexisting").getType().c_str());
 }
 
 TEST(MockSupportTest, setMultipleData)
@@ -154,7 +154,7 @@ TEST(MockSupportTest, setDataObject)
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().setDataObject("data", "type", ptr);
   POINTERS_EQUAL(ptr, mock().getData("data").getObjectPointer());
-  STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
+  STRCMP_EQUAL("type", mock().getData("data").getType().c_str());
 }
 
 TEST(MockSupportTest, setDataConstObject)
@@ -162,7 +162,7 @@ TEST(MockSupportTest, setDataConstObject)
   void* ptr = reinterpret_cast<void*>(0x011);
   mock().setDataConstObject("data", "type", ptr);
   POINTERS_EQUAL(ptr, mock().getData("data").getConstObjectPointer());
-  STRCMP_EQUAL("type", mock().getData("data").getType().asCharString());
+  STRCMP_EQUAL("type", mock().getData("data").getType().c_str());
 }
 
 TEST(MockSupportTest, tracing)

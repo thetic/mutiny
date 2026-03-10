@@ -257,11 +257,10 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->addExpectedCall(call3);
 
   String expectedString;
-  expectedString = StringFromFormat("%s\n%s",
-      call1->callToString().asCharString(),
-      call2->callToString().asCharString());
-  STRCMP_EQUAL(expectedString.asCharString(),
-      list->unfulfilledCallsToString().asCharString());
+  expectedString = StringFromFormat(
+      "%s\n%s", call1->callToString().c_str(), call2->callToString().c_str());
+  STRCMP_EQUAL(
+      expectedString.c_str(), list->unfulfilledCallsToString().c_str());
 }
 
 TEST(MockExpectedCallsList, callsWithMissingParametersToString)
@@ -275,12 +274,12 @@ TEST(MockExpectedCallsList, callsWithMissingParametersToString)
 
   String expectedString;
   expectedString = StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
-      call1->callToString().asCharString(),
-      call1->missingParametersToString().asCharString(),
-      call2->callToString().asCharString(),
-      call2->missingParametersToString().asCharString());
-  STRCMP_EQUAL(expectedString.asCharString(),
-      list->callsWithMissingParametersToString("-", "#").asCharString());
+      call1->callToString().c_str(),
+      call1->missingParametersToString().c_str(),
+      call2->callToString().c_str(),
+      call2->missingParametersToString().c_str());
+  STRCMP_EQUAL(expectedString.c_str(),
+      list->callsWithMissingParametersToString("-", "#").c_str());
 }
 
 TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
@@ -295,11 +294,9 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
   list->addExpectedCall(call2);
 
   String expectedString;
-  expectedString = StringFromFormat("%s\n%s",
-      call1->callToString().asCharString(),
-      call2->callToString().asCharString());
-  STRCMP_EQUAL(expectedString.asCharString(),
-      list->fulfilledCallsToString().asCharString());
+  expectedString = StringFromFormat(
+      "%s\n%s", call1->callToString().c_str(), call2->callToString().c_str());
+  STRCMP_EQUAL(expectedString.c_str(), list->fulfilledCallsToString().c_str());
 }
 
 TEST(MockExpectedCallsList, removeOneFinalizedMatchingExpectationFromEmptyList)
@@ -314,7 +311,7 @@ TEST(MockExpectedCallsList, getOneMatchingExpectationFromEmptyList)
 
 TEST(MockExpectedCallsList, toStringOnEmptyList)
 {
-  STRCMP_EQUAL("<none>", list->unfulfilledCallsToString().asCharString());
+  STRCMP_EQUAL("<none>", list->unfulfilledCallsToString().c_str());
 }
 
 TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_emptyList)

@@ -147,7 +147,7 @@ MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
     String ordinalNumber = StringFromOrdinalNumber(amountOfActualCalls + 1);
     message_ = StringFromFormat(
         "Mock Failure: Unexpected additional (%s) call to function: ",
-        ordinalNumber.asCharString());
+        ordinalNumber.c_str());
   } else {
     message_ = "Mock Failure: Unexpected call to function: ";
   }
@@ -182,7 +182,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
   expectationsForFunctionWithParameterName
       .onlyKeepExpectationsWithInputParameterName(parameter.getName());
 
-  if (expectationsForFunctionWithParameterName.isEmpty()) {
+  if (expectationsForFunctionWithParameterName.empty()) {
     message_ = "Mock Failure: Unexpected parameter name to function \"";
     message_ += functionName;
     message_ += "\": ";
@@ -226,7 +226,7 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
   expectationsForFunctionWithParameterName
       .onlyKeepExpectationsWithOutputParameterName(parameter.getName());
 
-  if (expectationsForFunctionWithParameterName.isEmpty()) {
+  if (expectationsForFunctionWithParameterName.empty()) {
     message_ = "Mock Failure: Unexpected output parameter name to function \"";
     message_ += functionName;
     message_ += "\": ";
@@ -282,7 +282,7 @@ MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
 {
   message_ = StringFromFormat("MockFailure: No way to compare type <%s>. "
                               "Please install a MockNamedValueComparator.",
-      typeName.asCharString());
+      typeName.c_str());
 }
 
 MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
@@ -292,7 +292,7 @@ MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
 {
   message_ = StringFromFormat("MockFailure: No way to copy type <%s>. Please "
                               "install a MockNamedValueCopier.",
-      typeName.asCharString());
+      typeName.c_str());
 }
 
 MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
@@ -305,7 +305,7 @@ MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
   message_ = StringFromFormat(
       "MockFailure: Function called on an unexpected object: %s\n"
       "\tActual object for call has address: <%p>\n",
-      functionName.asCharString(),
+      functionName.c_str(),
       actual);
   addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
@@ -318,7 +318,7 @@ MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
 {
   message_ = StringFromFormat("Mock Failure: Expected call on object for "
                               "function \"%s\" but it did not happen.\n",
-      functionName.asCharString());
+      functionName.c_str());
   addExpectationsAndCallHistoryRelatedTo(functionName, expectations);
 }
 

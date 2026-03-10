@@ -67,7 +67,7 @@ MockExpectedCallsList::size() const
 }
 
 bool
-MockExpectedCallsList::isEmpty() const
+MockExpectedCallsList::empty() const
 {
   return head_ == nullptr;
 }

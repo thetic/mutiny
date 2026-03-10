@@ -171,7 +171,7 @@ String
 JUnitTestOutput::createFileName(const String& group)
 {
   String fileName = "cpputest_";
-  if (!impl_->package_.isEmpty()) {
+  if (!impl_->package_.empty()) {
     fileName += impl_->package_;
     fileName += "_";
   }
@@ -213,12 +213,12 @@ JUnitTestOutput::writeTestSuiteSummary()
       "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
       "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
       static_cast<int>(impl_->results_.failureCount_),
-      impl_->results_.group_.asCharString(),
+      impl_->results_.group_.c_str(),
       static_cast<int>(impl_->results_.testCount_),
       static_cast<int>(impl_->results_.groupExecTime_ / 1000),
       static_cast<int>(impl_->results_.groupExecTime_ % 1000),
       GetPlatformSpecificTimeString());
-  writeToFile(buf.asCharString());
+  writeToFile(buf.c_str());
 }
 
 void
@@ -231,7 +231,7 @@ JUnitTestOutput::writeProperties()
 String
 JUnitTestOutput::encodeXmlText(const String& textbody)
 {
-  String buf = textbody.asCharString();
+  String buf = textbody.c_str();
   buf.replace("&", "&amp;");
   buf.replace("\"", "&quot;");
   buf.replace("<", "&lt;");
@@ -250,16 +250,16 @@ JUnitTestOutput::writeTestCases()
     String buf = StringFromFormat(
         "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
         "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
-        impl_->package_.asCharString(),
-        impl_->package_.isEmpty() ? "" : ".",
-        impl_->results_.group_.asCharString(),
-        cur->name_.asCharString(),
+        impl_->package_.c_str(),
+        impl_->package_.empty() ? "" : ".",
+        impl_->results_.group_.c_str(),
+        cur->name_.c_str(),
         static_cast<int>(cur->checkCount_ - impl_->results_.totalCheckCount_),
         static_cast<int>(cur->execTime_ / 1000),
         static_cast<int>(cur->execTime_ % 1000),
-        cur->file_.asCharString(),
+        cur->file_.c_str(),
         static_cast<int>(cur->lineNumber_));
-    writeToFile(buf.asCharString());
+    writeToFile(buf.c_str());
 
     impl_->results_.totalCheckCount_ = cur->checkCount_;
 
@@ -278,10 +278,10 @@ JUnitTestOutput::writeFailure(JUnitTestCaseResultNode* node)
 {
   String buf = StringFromFormat(
       "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
-      node->failure_->getFileName().asCharString(),
+      node->failure_->getFileName().c_str(),
       static_cast<int>(node->failure_->getFailureLineNumber()),
-      encodeXmlText(node->failure_->getMessage()).asCharString());
-  writeToFile(buf.asCharString());
+      encodeXmlText(node->failure_->getMessage()).c_str());
+  writeToFile(buf.c_str());
   writeToFile("</failure>\n");
 }
 
@@ -345,13 +345,13 @@ JUnitTestOutput::printFailure(const TestFailure& failure)
 void
 JUnitTestOutput::openFileForWrite(const String& fileName)
 {
-  impl_->file_ = PlatformSpecificFOpen(fileName.asCharString(), "w");
+  impl_->file_ = PlatformSpecificFOpen(fileName.c_str(), "w");
 }
 
 void
 JUnitTestOutput::writeToFile(const String& buffer)
 {
-  PlatformSpecificFPuts(buffer.asCharString(), impl_->file_);
+  PlatformSpecificFPuts(buffer.c_str(), impl_->file_);
 }
 
 void

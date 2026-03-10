@@ -181,7 +181,7 @@ TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelp)
   LONGS_EQUAL(1, returned);
   STRCMP_CONTAINS("Thanks for using CppUTest.",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)
@@ -234,10 +234,10 @@ TEST(CommandLineTestRunner, JunitOutputAndVerboseEnabled)
   commandLineTestRunner.runAllTestsMain();
   STRCMP_CONTAINS("TEST(group1, test1)",
       commandLineTestRunner.fakeJUnitOutputWhichIsReallyABuffer_->getOutput()
-          .asCharString());
+          .c_str());
   STRCMP_CONTAINS("TEST(group1, test1)",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
@@ -249,10 +249,10 @@ TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
   commandLineTestRunner.runAllTestsMain();
   STRCMP_CONTAINS("TEST(group1, test1)",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
   STRCMP_CONTAINS("destroyTest",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
@@ -267,8 +267,8 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
   cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
       .split("\n", stringCollection);
-  STRCMP_CONTAINS("test2", stringCollection[0].asCharString());
-  STRCMP_CONTAINS("test1", stringCollection[1].asCharString());
+  STRCMP_CONTAINS("test2", stringCollection[0].c_str());
+  STRCMP_CONTAINS("test1", stringCollection[1].c_str());
 }
 
 TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
@@ -283,8 +283,8 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
   cpputest::StringCollection stringCollection;
   commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
       .split("\n", stringCollection);
-  STRCMP_CONTAINS("test1", stringCollection[0].asCharString());
-  STRCMP_CONTAINS("test2", stringCollection[1].asCharString());
+  STRCMP_CONTAINS("test1", stringCollection[0].c_str());
+  STRCMP_CONTAINS("test2", stringCollection[1].c_str());
 }
 
 TEST(CommandLineTestRunner, listTestGroupNamesShouldWorkProperly)
@@ -297,7 +297,7 @@ TEST(CommandLineTestRunner, listTestGroupNamesShouldWorkProperly)
 
   STRCMP_CONTAINS("group",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
@@ -310,7 +310,7 @@ TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 
   STRCMP_CONTAINS("group1.test1",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
@@ -323,7 +323,7 @@ TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
 
   STRCMP_CONTAINS("group1.test1",
       commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-          .asCharString());
+          .c_str());
 }
 
 TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
@@ -335,7 +335,7 @@ TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 
   const char* argv[] = { "tests.exe", "-s" };
   cpputest::String text = runAndGetOutput(2, argv);
-  STRCMP_CONTAINS("shuffling enabled with seed:", text.asCharString());
+  STRCMP_CONTAINS("shuffling enabled with seed:", text.c_str());
 
   delete anotherTest;
 }
@@ -344,7 +344,7 @@ TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
 {
   const char* argv[] = { "tests.exe", "-s2", "-v" };
   cpputest::String text = runAndGetOutput(3, argv);
-  STRCMP_CONTAINS("shuffling enabled with seed: 2", text.asCharString());
+  STRCMP_CONTAINS("shuffling enabled with seed: 2", text.c_str());
 }
 
 typedef PlatformSpecificFile (*FOpenFunc)(const char*, const char*);
@@ -428,8 +428,8 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   fakeOutput.restoreOriginals();
 
   STRCMP_CONTAINS("<testcase classname=\"package.group1\" name=\"test1\"",
-      fakeOutput.file.asCharString());
-  STRCMP_CONTAINS("TEST(group1, test1)", fakeOutput.console.asCharString());
+      fakeOutput.file.c_str());
+  STRCMP_CONTAINS("TEST(group1, test1)", fakeOutput.console.c_str());
 }
 
 TEST(CommandLineTestRunner, realTeamCityOutputShouldBeCreatedAndWorkProperly)
@@ -448,14 +448,14 @@ TEST(CommandLineTestRunner, realTeamCityOutputShouldBeCreatedAndWorkProperly)
 
   fakeOutput.restoreOriginals();
 
-  STRCMP_CONTAINS("##teamcity[testSuiteStarted name='group1'",
-      fakeOutput.console.asCharString());
   STRCMP_CONTAINS(
-      "##teamcity[testStarted name='test1'", fakeOutput.console.asCharString());
-  STRCMP_CONTAINS("##teamcity[testFinished name='test1'",
-      fakeOutput.console.asCharString());
-  STRCMP_CONTAINS("##teamcity[testSuiteFinished name='group1'",
-      fakeOutput.console.asCharString());
+      "##teamcity[testSuiteStarted name='group1'", fakeOutput.console.c_str());
+  STRCMP_CONTAINS(
+      "##teamcity[testStarted name='test1'", fakeOutput.console.c_str());
+  STRCMP_CONTAINS(
+      "##teamcity[testFinished name='test1'", fakeOutput.console.c_str());
+  STRCMP_CONTAINS(
+      "##teamcity[testSuiteFinished name='group1'", fakeOutput.console.c_str());
 }
 
 class RunIgnoredTest : public cpputest::Test

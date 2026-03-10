@@ -121,7 +121,7 @@ TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 TEST(MockNamedValue, GivenToleranceUsed)
 {
   value->setValue(0.2, 3.2);
-  STRCMP_EQUAL("double", value->getType().asCharString());
+  STRCMP_EQUAL("double", value->getType().c_str());
   DOUBLES_EQUAL(0.2, value->getDoubleValue(), 0.0);
   DOUBLES_EQUAL(3.2, value->getDoubleTolerance(), 0.0);
 }

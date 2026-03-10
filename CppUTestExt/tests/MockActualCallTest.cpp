@@ -247,7 +247,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expectedString += " mem_buffer:Size = 2 | HexContents = FE 15";
   expectedString += " int named_type:0x";
   expectedString += HexStringFrom(&const_value);
-  STRCMP_EQUAL(expectedString.asCharString(), actual.getTraceOutput());
+  STRCMP_EQUAL(expectedString.c_str(), actual.getTraceOutput());
 
   CHECK_FALSE(actual.hasReturnValue());
   CHECK(actual.returnValue().equals(MockNamedValue("")));

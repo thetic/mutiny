@@ -60,5 +60,5 @@ teardown() override
 TEST(HelloWorld, PrintOk)
 {
   printHelloWorld();
-  STRCMP_EQUAL("Hello World!\n", buffer->asCharString());
+  STRCMP_EQUAL("Hello World!\n", buffer->c_str());
 }

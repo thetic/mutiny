@@ -71,9 +71,9 @@ String::deallocStringBuffer(char* str,
 char*
 String::getEmptyString() const
 {
-  char* empty = allocStringBuffer(1, __FILE__, __LINE__);
-  empty[0] = '\0';
-  return empty;
+  char* buf = allocStringBuffer(1, __FILE__, __LINE__);
+  buf[0] = '\0';
+  return buf;
 }
 
 // does not support + or - prefixes
@@ -345,17 +345,17 @@ String::startsWith(const String& other) const
 bool
 String::endsWith(const String& other) const
 {
-  size_t length = size();
-  size_t other_length = other.size();
+  size_t len = size();
+  size_t other_len = other.size();
 
-  if (other_length == 0)
+  if (other_len == 0)
     return true;
-  if (length == 0)
+  if (len == 0)
     return false;
-  if (length < other_length)
+  if (len < other_len)
     return false;
 
-  return StrCmp(getBuffer() + length - other_length, other.getBuffer()) == 0;
+  return StrCmp(getBuffer() + len - other_len, other.getBuffer()) == 0;
 }
 
 size_t
@@ -388,7 +388,7 @@ String::split(const String& delimiter, StringCollection& col) const
   for (size_t i = 0; i < num; ++i) {
     prev = str;
     str = StrStr(str, delimiter.getBuffer()) + 1;
-    col[i] = String(prev).subString(0, size_t(str - prev));
+    col[i] = String(prev).substr(0, size_t(str - prev));
   }
   if (extraEndToken) {
     col[num] = str;
@@ -458,7 +458,7 @@ String::printable() const
       j += 2;
     } else if (isControl(c)) {
       String hexEscapeCode = StringFromFormat("\\x%02X ", c);
-      StrNCpy(&result.buffer_[j], hexEscapeCode.asCharString(), 4);
+      StrNCpy(&result.buffer_[j], hexEscapeCode.c_str(), 4);
       j += 4;
     } else {
       result.buffer_[j] = c;
@@ -501,7 +501,7 @@ String::lowerCase() const
 }
 
 const char*
-String::asCharString() const
+String::c_str() const
 {
   return getBuffer();
 }
@@ -513,7 +513,7 @@ String::size() const
 }
 
 bool
-String::isEmpty() const
+String::empty() const
 {
   return size() == 0;
 }
@@ -526,7 +526,7 @@ String::~String()
 bool
 operator==(const String& left, const String& right)
 {
-  return 0 == String::StrCmp(left.asCharString(), right.asCharString());
+  return 0 == String::StrCmp(left.c_str(), right.c_str());
 }
 
 bool
@@ -583,7 +583,7 @@ String::padStringsToSameLength(String& str1, String& str2, char padCharacter)
 }
 
 String
-String::subString(size_t beginPos, size_t amount) const
+String::substr(size_t beginPos, size_t amount) const
 {
   if (beginPos > size() - 1)
     return "";
@@ -597,9 +597,9 @@ String::subString(size_t beginPos, size_t amount) const
 }
 
 String
-String::subString(size_t beginPos) const
+String::substr(size_t beginPos) const
 {
-  return subString(beginPos, npos);
+  return substr(beginPos, npos);
 }
 
 char
@@ -617,8 +617,8 @@ String::find(char ch) const
 size_t
 String::findFrom(size_t starting_position, char ch) const
 {
-  size_t length = size();
-  for (size_t i = starting_position; i < length; i++)
+  size_t len = size();
+  for (size_t i = starting_position; i < len; i++)
     if (at(i) == ch)
       return i;
   return npos;
@@ -633,9 +633,9 @@ String::subStringFromTill(char startChar, char lastExcludedChar) const
 
   size_t endPos = findFrom(beginPos, lastExcludedChar);
   if (endPos == npos)
-    return subString(beginPos);
+    return substr(beginPos);
 
-  return subString(beginPos, endPos - beginPos);
+  return substr(beginPos, endPos - beginPos);
 }
 
 char*
@@ -743,7 +743,7 @@ HexStringFrom(signed char value)
   String result = StringFromFormat("%x", value);
   if (value < 0) {
     size_t size = result.size();
-    result = result.subString(size - (CHAR_BIT / 4));
+    result = result.substr(size - (CHAR_BIT / 4));
   }
   return result;
 }
@@ -948,7 +948,7 @@ StringFromBinary(const unsigned char* value, size_t size)
   for (size_t i = 0; i < size; i++) {
     result += StringFromFormat("%02X ", value[i]);
   }
-  result = result.subString(0, result.size() - 1);
+  result = result.substr(0, result.size() - 1);
 
   return result;
 }

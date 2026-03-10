@@ -471,9 +471,9 @@ MockCheckedExpectedCall::callToString()
 
     for (p = inputParameters_->begin(); p; p = p->next()) {
       str += StringFromFormat("%s %s: <%s>",
-          p->getType().asCharString(),
-          p->getName().asCharString(),
-          getInputParameterValueString(p->getName()).asCharString());
+          p->getType().c_str(),
+          p->getName().c_str(),
+          getInputParameterValueString(p->getName()).c_str());
       if (p->next())
         str += ", ";
     }
@@ -483,9 +483,8 @@ MockCheckedExpectedCall::callToString()
     }
 
     for (p = outputParameters_->begin(); p; p = p->next()) {
-      str += StringFromFormat("%s %s: <output>",
-          p->getType().asCharString(),
-          p->getName().asCharString());
+      str += StringFromFormat(
+          "%s %s: <output>", p->getType().c_str(), p->getName().c_str());
       if (p->next())
         str += ", ";
     }
@@ -513,16 +512,16 @@ MockCheckedExpectedCall::missingParametersToString()
     if (!item(p)->isMatchingActualCall()) {
       if (str != "")
         str += ", ";
-      str += StringFromFormat(
-          "%s %s", p->getType().asCharString(), p->getName().asCharString());
+      str +=
+          StringFromFormat("%s %s", p->getType().c_str(), p->getName().c_str());
     }
   }
   for (p = outputParameters_->begin(); p; p = p->next()) {
     if (!item(p)->isMatchingActualCall()) {
       if (str != "")
         str += ", ";
-      str += StringFromFormat(
-          "%s %s", p->getType().asCharString(), p->getName().asCharString());
+      str +=
+          StringFromFormat("%s %s", p->getType().c_str(), p->getName().c_str());
     }
   }
   return str;

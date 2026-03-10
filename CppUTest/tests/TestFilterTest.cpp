@@ -114,7 +114,7 @@ TEST(TestFilter, notEqual)
 TEST(TestFilter, stringFrom)
 {
   cpputest::TestFilter filter("filter");
-  STRCMP_EQUAL("TestFilter: \"filter\"", StringFrom(filter).asCharString());
+  STRCMP_EQUAL("TestFilter: \"filter\"", StringFrom(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictMatching)
@@ -122,7 +122,7 @@ TEST(TestFilter, stringFromWithStrictMatching)
   cpputest::TestFilter filter("filter");
   filter.strictMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict matching",
-      StringFrom(filter).asCharString());
+      StringFrom(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithInvertMatching)
@@ -130,7 +130,7 @@ TEST(TestFilter, stringFromWithInvertMatching)
   cpputest::TestFilter filter("filter");
   filter.invertMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with invert matching",
-      StringFrom(filter).asCharString());
+      StringFrom(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictInvertMatching)
@@ -139,7 +139,7 @@ TEST(TestFilter, stringFromWithStrictInvertMatching)
   filter.strictMatching();
   filter.invertMatching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict, invert matching",
-      StringFrom(filter).asCharString());
+      StringFrom(filter).c_str());
 }
 
 TEST(TestFilter, listOfFilters)
@@ -150,9 +150,9 @@ TEST(TestFilter, listOfFilters)
   listOfFilters = first.add(listOfFilters);
   listOfFilters = secnd.add(listOfFilters);
   cpputest::TestFilter* current = listOfFilters;
-  STRCMP_EQUAL("TestFilter: \"bar\"", StringFrom(*current).asCharString());
+  STRCMP_EQUAL("TestFilter: \"bar\"", StringFrom(*current).c_str());
   current = current->getNext();
-  STRCMP_EQUAL("TestFilter: \"foo\"", StringFrom(*current).asCharString());
+  STRCMP_EQUAL("TestFilter: \"foo\"", StringFrom(*current).c_str());
   POINTERS_EQUAL(nullptr, current->getNext());
 }
 

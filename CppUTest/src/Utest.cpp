@@ -794,12 +794,8 @@ TestShell::assertEquals(bool failed,
 {
   getTestResult()->countCheck();
   if (failed) {
-    addFailure(CheckEqualFailure(this,
-        file,
-        line,
-        expected.asCharString(),
-        actual.asCharString(),
-        text));
+    addFailure(CheckEqualFailure(
+        this, file, line, expected.c_str(), actual.c_str(), text));
     {
       String e(static_cast<String&&>(expected));
     }
@@ -836,13 +832,13 @@ TestShell::print(const char* text, const char* fileName, size_t lineNumber)
   stringToPrint += StringFrom(lineNumber);
   stringToPrint += " ";
   stringToPrint += text;
-  getTestResult()->print(stringToPrint.asCharString());
+  getTestResult()->print(stringToPrint.c_str());
 }
 
 void
 TestShell::print(const String& text, const char* fileName, size_t lineNumber)
 {
-  print(text.asCharString(), fileName, lineNumber);
+  print(text.c_str(), fileName, lineNumber);
 }
 
 void

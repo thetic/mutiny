@@ -60,7 +60,7 @@ public:
   const char* line(size_t lineNumber)
   {
     buffer_.split("\n", linesOfFile_);
-    return linesOfFile_[lineNumber - 1].asCharString();
+    return linesOfFile_[lineNumber - 1].c_str();
   }
 
   const char* lineFromTheBack(size_t lineNumberFromTheBack)
@@ -724,7 +724,7 @@ TEST(JUnitOutputTest, twoTestGroupsWriteToTwoDifferentFiles)
 TEST(JUnitOutputTest, testGroupWithWeirdName)
 {
   STRCMP_EQUAL("cpputest_group_weird_name.xml",
-      junitOutput->createFileName("group/weird/name").asCharString());
+      junitOutput->createFileName("group/weird/name").c_str());
 }
 
 TEST(JUnitOutputTest, TestCaseBlockWithAPackageName)

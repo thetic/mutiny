@@ -53,7 +53,7 @@ public:
   virtual bool hasUnmatchingExpectationsBecauseOfMissingParameters() const;
   virtual bool hasExpectationWithName(const cpputest::String& name) const;
   virtual bool hasCallsOutOfOrder() const;
-  virtual bool isEmpty() const;
+  virtual bool empty() const;
 
   virtual void addExpectedCall(MockCheckedExpectedCall* call);
   virtual void addExpectations(const MockExpectedCallsList& list);

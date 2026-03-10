@@ -336,7 +336,7 @@ TEST(TestRegistry,
 
   myRegistry->listTestGroupNames(*result);
   cpputest::String s = output->getOutput();
-  STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.asCharString());
+  STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
 TEST(TestRegistry,
@@ -354,8 +354,7 @@ TEST(TestRegistry,
 
   myRegistry->listTestGroupAndCaseNames(*result);
   cpputest::String s = output->getOutput();
-  STRCMP_EQUAL(
-      "GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.asCharString());
+  STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
 TEST(TestRegistry,
@@ -383,7 +382,7 @@ TEST(TestRegistry,
                "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
                "testa.cpp.100\n",
-      s.asCharString());
+      s.c_str());
 }
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)

@@ -160,9 +160,8 @@ TestFailure::isInHelperFunction() const
 String
 TestFailure::createButWasString(const String& expected, const String& actual)
 {
-  return StringFromFormat("expected <%s>\n\tbut was  <%s>",
-      expected.asCharString(),
-      actual.asCharString());
+  return StringFromFormat(
+      "expected <%s>\n\tbut was  <%s>", expected.c_str(), actual.c_str());
 }
 
 String
@@ -183,12 +182,12 @@ TestFailure::createDifferenceAtPosString(const String& actual,
 
   result += "\n";
   result += StringFromFormat("\t%s%s>\n",
-      differentString.asCharString(),
-      actualString.subString(offset, extraCharactersWindow).asCharString());
+      differentString.c_str(),
+      actualString.substr(offset, extraCharactersWindow).c_str());
 
   result += StringFromFormat("\t%s^",
       String(" ", (differentString.size() + halfOfExtraCharactersWindow))
-          .asCharString());
+          .c_str());
   return result;
 }
 
@@ -196,7 +195,7 @@ String
 TestFailure::createUserText(const String& text)
 {
   String userMessage = "";
-  if (!text.isEmpty()) {
+  if (!text.empty()) {
     // This is a kludge to turn off "Message: " for this case.
     // I don't think "Message: " adds anything, as you get to see the
     // message. I propose we remove "Message: " lead in
@@ -267,8 +266,8 @@ CheckEqualFailure::CheckEqualFailure(TestShell* test,
 {
   message_ = createUserText(text);
 
-  String printableExpected = PrintableStringFromOrNull(expected.asCharString());
-  String printableActual = PrintableStringFromOrNull(actual.asCharString());
+  String printableExpected = PrintableStringFromOrNull(expected.c_str());
+  String printableActual = PrintableStringFromOrNull(actual.c_str());
 
   message_ += createButWasString(printableExpected, printableActual);
 
@@ -310,9 +309,8 @@ ContainsFailure::ContainsFailure(TestShell* test,
 {
   message_ = createUserText(text);
 
-  message_ += StringFromFormat("actual <%s>\n\tdid not contain  <%s>",
-      actual.asCharString(),
-      expected.asCharString());
+  message_ += StringFromFormat(
+      "actual <%s>\n\tdid not contain  <%s>", actual.c_str(), expected.c_str());
 }
 
 CheckFailure::CheckFailure(TestShell* test,
@@ -563,7 +561,7 @@ FeatureUnsupportedFailure::FeatureUnsupportedFailure(TestShell* test,
   message_ += StringFromFormat(
       "The feature \"%s\" is not supported in this environment or with the "
       "feature set selected when building the library.",
-      featureName.asCharString());
+      featureName.c_str());
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
@@ -596,7 +594,7 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test,
   : TestFailure(test,
 #if CPPUTEST_HAVE_RTTI
         StringFromFormat("Unexpected exception of type '%s' was thrown: %s",
-            getExceptionTypeName(e).asCharString(),
+            getExceptionTypeName(e).c_str(),
             e.what())
 #else
         "Unexpected exception of unknown type was thrown."

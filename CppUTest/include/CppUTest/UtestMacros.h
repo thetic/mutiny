@@ -200,8 +200,8 @@
             file,                                                              \
             line);                                                             \
       cpputest::TestShell::getCurrent()->assertEquals(true,                    \
-          cpputest::StringFrom(expected).asCharString(),                       \
-          cpputest::StringFrom(actual).asCharString(),                         \
+          cpputest::StringFrom(expected).c_str(),                              \
+          cpputest::StringFrom(actual).c_str(),                                \
           text,                                                                \
           file,                                                                \
           line);                                                               \
@@ -234,7 +234,7 @@
       conditionString += cpputest::StringFrom(second);                         \
       cpputest::TestShell::getCurrent()->assertCompare(false,                  \
           "CHECK_COMPARE",                                                     \
-          conditionString.asCharString(),                                      \
+          conditionString.c_str(),                                             \
           text,                                                                \
           __FILE__,                                                            \
           __LINE__);                                                           \
@@ -494,8 +494,8 @@
         static_cast<underlying_type>(actual);                                  \
     if (expected_underlying_value != actual_underlying_value) {                \
       cpputest::TestShell::getCurrent()->assertEquals(true,                    \
-          cpputest::StringFrom(expected_underlying_value).asCharString(),      \
-          cpputest::StringFrom(actual_underlying_value).asCharString(),        \
+          cpputest::StringFrom(expected_underlying_value).c_str(),             \
+          cpputest::StringFrom(actual_underlying_value).c_str(),               \
           text,                                                                \
           file,                                                                \
           line);                                                               \
@@ -551,7 +551,7 @@
     }                                                                          \
     if (!caught_expected) {                                                    \
       cpputest::TestShell::getCurrent()->fail(                                 \
-          failure_msg.asCharString(), __FILE__, __LINE__);                     \
+          failure_msg.c_str(), __FILE__, __LINE__);                            \
     } else {                                                                   \
       cpputest::TestShell::getCurrent()->countCheck();                         \
     }                                                                          \

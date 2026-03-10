@@ -157,7 +157,7 @@ MockCheckedActualCall::setNameAndCheck(String name)
   setState(CALL_IN_PROGRESS);
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsRelatedTo(functionName_);
-  if (potentiallyMatchingExpectations_.isEmpty()) {
+  if (potentiallyMatchingExpectations_.empty()) {
     failWith(MockUnexpectedCallHappenedFailure(
         getTest(), functionName_, allExpectations_));
     return;
@@ -192,7 +192,7 @@ MockCheckedActualCall::checkInputParameter(MockNamedValue actualParameter)
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithInputParameter(
       actualParameter);
 
-  if (potentiallyMatchingExpectations_.isEmpty()) {
+  if (potentiallyMatchingExpectations_.empty()) {
     MockUnexpectedInputParameterFailure failure(getTest(),
         getName(),
         static_cast<MockNamedValue&&>(actualParameter),
@@ -222,7 +222,7 @@ MockCheckedActualCall::checkOutputParameter(MockNamedValue outputParameter)
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithOutputParameter(
       outputParameter);
 
-  if (potentiallyMatchingExpectations_.isEmpty()) {
+  if (potentiallyMatchingExpectations_.empty()) {
     MockUnexpectedOutputParameterFailure failure(getTest(),
         getName(),
         static_cast<MockNamedValue&&>(outputParameter),
@@ -698,7 +698,7 @@ MockCheckedActualCall::returnStringValue()
 bool
 MockCheckedActualCall::hasReturnValue()
 {
-  return !returnValue().getName().isEmpty();
+  return !returnValue().getName().empty();
 }
 
 MockActualCall&
@@ -713,7 +713,7 @@ MockCheckedActualCall::onObject(const void* objectPtr)
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsOnObject(objectPtr);
 
-  if ((!matchingExpectation_) && potentiallyMatchingExpectations_.isEmpty()) {
+  if ((!matchingExpectation_) && potentiallyMatchingExpectations_.empty()) {
     failWith(MockUnexpectedObjectFailure(
         getTest(), getName(), objectPtr, allExpectations_));
     return *this;
@@ -1124,7 +1124,7 @@ MockActualCallTrace::clear()
 const char*
 MockActualCallTrace::getTraceOutput()
 {
-  return traceBuffer_.asCharString();
+  return traceBuffer_.c_str();
 }
 
 MockActualCallTrace* MockActualCallTrace::instance_ = nullptr;

@@ -415,7 +415,7 @@ CommandLineArguments::addGroupDotNameFilter(int ac,
     return false;
 
   TestFilter* groupFilter =
-      new TestFilter(collection[0].subString(0, collection[0].size() - 1));
+      new TestFilter(collection[0].substr(0, collection[0].size() - 1));
   TestFilter* nameFilter = new TestFilter(collection[1]);
   if (strict) {
     groupFilter->strictMatching();
@@ -511,7 +511,7 @@ CommandLineArguments::addTestToRunBasedOnVerboseOutput(int ac,
 {
   String wholename = getParameterField(ac, av, index, parameterName);
   String testname = wholename.subStringFromTill(',', ')');
-  testname = testname.subString(2);
+  testname = testname.substr(2);
   TestFilter* namefilter = new TestFilter(testname);
   TestFilter* groupfilter =
       new TestFilter(wholename.subStringFromTill(wholename.at(0), ','));

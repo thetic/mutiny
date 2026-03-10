@@ -51,8 +51,7 @@ teardown() override
 }
 };
 #define FAILURE_EQUAL(a, b)                                                    \
-  STRCMP_EQUAL_LOCATION(                                                       \
-      a, (b).getMessage().asCharString(), "", __FILE__, __LINE__)
+  STRCMP_EQUAL_LOCATION(a, (b).getMessage().c_str(), "", __FILE__, __LINE__)
 
 TEST(TestFailure, CreateFailure)
 {
@@ -66,7 +65,7 @@ TEST(TestFailure, GetTestFileAndLineFromFailure)
 {
   cpputest::TestFailure f1(
       test, failFileName, failLineNumber, "the failure message");
-  STRCMP_EQUAL(failFileName, f1.getTestFileName().asCharString());
+  STRCMP_EQUAL(failFileName, f1.getTestFileName().c_str());
   LONGS_EQUAL(1, f1.getTestLineNumber());
 }
 
@@ -595,10 +594,9 @@ TEST(TestFailure, UnexpectedExceptionFailure_StandardException)
   std::runtime_error e("Some error");
   cpputest::UnexpectedExceptionFailure f(test, e);
 #if CPPUTEST_HAVE_RTTI
-  STRCMP_CONTAINS(
-      "Unexpected exception of type '", f.getMessage().asCharString());
-  STRCMP_CONTAINS("runtime_error", f.getMessage().asCharString());
-  STRCMP_CONTAINS("' was thrown: Some error", f.getMessage().asCharString());
+  STRCMP_CONTAINS("Unexpected exception of type '", f.getMessage().c_str());
+  STRCMP_CONTAINS("runtime_error", f.getMessage().c_str());
+  STRCMP_CONTAINS("' was thrown: Some error", f.getMessage().c_str());
 #else
   FAILURE_EQUAL("Unexpected exception of unknown type was thrown.", f);
 #endif

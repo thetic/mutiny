@@ -96,9 +96,9 @@ TEST(TestOrderedTest, TestInstallerSetsFields)
 {
   OrderedTestInstaller installer(
       orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
-  STRCMP_EQUAL("testgroup", orderedTest.getGroup().asCharString());
-  STRCMP_EQUAL("testname", orderedTest.getName().asCharString());
-  STRCMP_EQUAL("this.cpp", orderedTest.getFile().asCharString());
+  STRCMP_EQUAL("testgroup", orderedTest.getGroup().c_str());
+  STRCMP_EQUAL("testname", orderedTest.getName().c_str());
+  STRCMP_EQUAL("this.cpp", orderedTest.getFile().c_str());
   LONGS_EQUAL(10, orderedTest.getLineNumber());
   LONGS_EQUAL(5, orderedTest.getLevel());
 }

@@ -54,8 +54,7 @@ teardown() override
 }
 };
 #define FAILURE_EQUAL(a, b)                                                    \
-  STRCMP_EQUAL_LOCATION(                                                       \
-      a, (b).getMessage().asCharString(), "", __FILE__, __LINE__)
+  STRCMP_EQUAL_LOCATION(a, (b).getMessage().c_str(), "", __FILE__, __LINE__)
 
 TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
 {

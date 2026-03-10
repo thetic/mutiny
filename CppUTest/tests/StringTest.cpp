@@ -179,11 +179,11 @@ TEST(String, CompareNoCaseWithCaseNotEqual)
   CHECK(!s1.equalsNoCase(s2));
 }
 
-TEST(String, asCharString)
+TEST(String, c_str)
 {
   cpputest::String s1("hello");
 
-  STRCMP_EQUAL("hello", s1.asCharString());
+  STRCMP_EQUAL("hello", s1.c_str());
 }
 
 TEST(String, Size)
@@ -197,8 +197,8 @@ TEST(String, lowerCase)
 {
   cpputest::String s1("AbCdEfG1234");
   cpputest::String s2(s1.lowerCase());
-  STRCMP_EQUAL("abcdefg1234", s2.asCharString());
-  STRCMP_EQUAL("AbCdEfG1234", s1.asCharString());
+  STRCMP_EQUAL("abcdefg1234", s2.c_str());
+  STRCMP_EQUAL("AbCdEfG1234", s1.c_str());
 }
 
 TEST(String, printable)
@@ -206,11 +206,11 @@ TEST(String, printable)
   cpputest::String s1("ABC\01\06\a\n\r\b\t\v\f\x0E\x1F\x7F"
                       "abc");
   cpputest::String s2(s1.printable());
-  STRCMP_EQUAL("ABC\\x01\\x06\\a\\n\\r\\b\\t\\v\\f\\x0E\\x1F\\x7Fabc",
-      s2.asCharString());
+  STRCMP_EQUAL(
+      "ABC\\x01\\x06\\a\\n\\r\\b\\t\\v\\f\\x0E\\x1F\\x7Fabc", s2.c_str());
   STRCMP_EQUAL("ABC\01\06\a\n\r\b\t\v\f\x0E\x1F\x7F"
                "abc",
-      s1.asCharString());
+      s1.c_str());
 }
 
 TEST(String, Addition)
@@ -278,13 +278,13 @@ TEST(String, split)
   hi.split("\n", collection);
 
   LONGS_EQUAL(7, collection.size());
-  STRCMP_EQUAL("hello\n", collection[0].asCharString());
-  STRCMP_EQUAL("world\n", collection[1].asCharString());
-  STRCMP_EQUAL("how\n", collection[2].asCharString());
-  STRCMP_EQUAL("do\n", collection[3].asCharString());
-  STRCMP_EQUAL("you\n", collection[4].asCharString());
-  STRCMP_EQUAL("do\n", collection[5].asCharString());
-  STRCMP_EQUAL("\n", collection[6].asCharString());
+  STRCMP_EQUAL("hello\n", collection[0].c_str());
+  STRCMP_EQUAL("world\n", collection[1].c_str());
+  STRCMP_EQUAL("how\n", collection[2].c_str());
+  STRCMP_EQUAL("do\n", collection[3].c_str());
+  STRCMP_EQUAL("you\n", collection[4].c_str());
+  STRCMP_EQUAL("do\n", collection[5].c_str());
+  STRCMP_EQUAL("\n", collection[6].c_str());
 }
 
 TEST(String, splitNoTokenOnTheEnd)
@@ -294,9 +294,9 @@ TEST(String, splitNoTokenOnTheEnd)
 
   string.split(" ", collection);
   LONGS_EQUAL(3, collection.size());
-  STRCMP_EQUAL("Bah ", collection[0].asCharString());
-  STRCMP_EQUAL("Yah ", collection[1].asCharString());
-  STRCMP_EQUAL("oops", collection[2].asCharString());
+  STRCMP_EQUAL("Bah ", collection[0].c_str());
+  STRCMP_EQUAL("Yah ", collection[1].c_str());
+  STRCMP_EQUAL("oops", collection[2].c_str());
 }
 
 TEST(String, endsWith)
@@ -319,94 +319,94 @@ TEST(String, replaceCharWithChar)
 {
   cpputest::String str("abcabcabca");
   str.replace('a', 'b');
-  STRCMP_EQUAL("bbcbbcbbcb", str.asCharString());
+  STRCMP_EQUAL("bbcbbcbbcb", str.c_str());
 }
 
 TEST(String, replaceEmptyStringWithEmptyString)
 {
   cpputest::String str;
   str.replace("", "");
-  STRCMP_EQUAL("", str.asCharString());
+  STRCMP_EQUAL("", str.c_str());
 }
 
 TEST(String, replaceWholeString)
 {
   cpputest::String str("boo");
   str.replace("boo", "");
-  STRCMP_EQUAL("", str.asCharString());
+  STRCMP_EQUAL("", str.c_str());
 }
 
 TEST(String, replaceStringWithString)
 {
   cpputest::String str("boo baa boo baa boo");
   str.replace("boo", "boohoo");
-  STRCMP_EQUAL("boohoo baa boohoo baa boohoo", str.asCharString());
+  STRCMP_EQUAL("boohoo baa boohoo baa boohoo", str.c_str());
 }
 
 TEST(String, subStringFromEmptyString)
 {
   cpputest::String str("");
-  STRCMP_EQUAL("", str.subString(0, 1).asCharString());
+  STRCMP_EQUAL("", str.substr(0, 1).c_str());
 }
 
 TEST(String, subStringFromSmallString)
 {
   cpputest::String str("H");
-  STRCMP_EQUAL("H", str.subString(0, 1).asCharString());
+  STRCMP_EQUAL("H", str.substr(0, 1).c_str());
 }
 
 TEST(String, subStringFromPos0)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("Hello", str.subString(0, 5).asCharString());
+  STRCMP_EQUAL("Hello", str.substr(0, 5).c_str());
 }
 
 TEST(String, subStringFromPos1)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("ello ", str.subString(1, 5).asCharString());
+  STRCMP_EQUAL("ello ", str.substr(1, 5).c_str());
 }
 
 TEST(String, subStringFromPos5WithAmountLargerThanString)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("World", str.subString(6, 10).asCharString());
+  STRCMP_EQUAL("World", str.substr(6, 10).c_str());
 }
 
 TEST(String, subStringFromPos6ToEndOfString)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("World", str.subString(6).asCharString());
+  STRCMP_EQUAL("World", str.substr(6).c_str());
 }
 
 TEST(String, subStringBeginPosOutOfBounds)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("", str.subString(13, 5).asCharString());
+  STRCMP_EQUAL("", str.substr(13, 5).c_str());
 }
 
 TEST(String, subStringFromTillNormal)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("Hello", str.subStringFromTill('H', ' ').asCharString());
+  STRCMP_EQUAL("Hello", str.subStringFromTill('H', ' ').c_str());
 }
 
 TEST(String, subStringFromTillOutOfBounds)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("World", str.subStringFromTill('W', '!').asCharString());
+  STRCMP_EQUAL("World", str.subStringFromTill('W', '!').c_str());
 }
 
 TEST(String, subStringFromTillStartDoesntExist)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("", str.subStringFromTill('!', ' ').asCharString());
+  STRCMP_EQUAL("", str.subStringFromTill('!', ' ').c_str());
 }
 
 TEST(String, subStringFromTillWhenTheEndAppearsBeforeTheStart)
 {
   cpputest::String str("Hello World");
-  STRCMP_EQUAL("World", str.subStringFromTill('W', 'H').asCharString());
+  STRCMP_EQUAL("World", str.subStringFromTill('W', 'H').c_str());
 }
 
 TEST(String, findNormal)
@@ -426,20 +426,19 @@ TEST(String, at)
 TEST(String, ContainsNull)
 {
   cpputest::String s(nullptr);
-  STRCMP_EQUAL("", s.asCharString());
+  STRCMP_EQUAL("", s.c_str());
 }
 
 TEST(String, NULLReportsNullString)
 {
   STRCMP_EQUAL("(null)",
-      cpputest::StringFromOrNull(static_cast<char*>(nullptr)).asCharString());
+      cpputest::StringFromOrNull(static_cast<char*>(nullptr)).c_str());
 }
 
 TEST(String, NULLReportsNullStringPrintable)
 {
   STRCMP_EQUAL("(null)",
-      cpputest::PrintableStringFromOrNull(static_cast<char*>(nullptr))
-          .asCharString());
+      cpputest::PrintableStringFromOrNull(static_cast<char*>(nullptr)).c_str());
 }
 
 TEST(String, Booleans)
@@ -453,31 +452,31 @@ TEST(String, Booleans)
 TEST(String, Pointers)
 {
   cpputest::String s(cpputest::StringFrom(reinterpret_cast<void*>(0x1234)));
-  STRCMP_EQUAL("0x1234", s.asCharString());
+  STRCMP_EQUAL("0x1234", s.c_str());
 }
 
 TEST(String, FunctionPointers)
 {
   cpputest::String s(
       cpputest::StringFrom(reinterpret_cast<void (*)()>(0x1234)));
-  STRCMP_EQUAL("0x1234", s.asCharString());
+  STRCMP_EQUAL("0x1234", s.c_str());
 }
 
 TEST(String, Characters)
 {
   cpputest::String s(cpputest::StringFrom('a'));
-  STRCMP_EQUAL("a", s.asCharString());
+  STRCMP_EQUAL("a", s.c_str());
 }
 
 TEST(String, NegativeSignedBytes)
 {
-  STRCMP_EQUAL("-15",
-      cpputest::StringFrom(static_cast<signed char>(-15)).asCharString());
+  STRCMP_EQUAL(
+      "-15", cpputest::StringFrom(static_cast<signed char>(-15)).c_str());
 }
 
 TEST(String, PositiveSignedBytes)
 {
-  STRCMP_EQUAL("4", cpputest::StringFrom(4).asCharString());
+  STRCMP_EQUAL("4", cpputest::StringFrom(4).c_str());
 }
 
 TEST(String, LongInts)
@@ -509,7 +508,7 @@ TEST(String, UnsignedLongLongInts)
 TEST(String, Doubles)
 {
   cpputest::String s(cpputest::StringFrom(1.2));
-  STRCMP_EQUAL("1.2", s.asCharString());
+  STRCMP_EQUAL("1.2", s.c_str());
 }
 
 static int
@@ -522,27 +521,26 @@ TEST(String, NaN)
 {
   UT_PTR_SET(PlatformSpecificIsNan, alwaysTrue);
   cpputest::String s(cpputest::StringFrom(0.0));
-  STRCMP_EQUAL("Nan - Not a number", s.asCharString());
+  STRCMP_EQUAL("Nan - Not a number", s.c_str());
 }
 
 TEST(String, Inf)
 {
   UT_PTR_SET(PlatformSpecificIsInf, alwaysTrue);
   cpputest::String s(cpputest::StringFrom(0.0));
-  STRCMP_EQUAL("Inf - Infinity", s.asCharString());
+  STRCMP_EQUAL("Inf - Infinity", s.c_str());
 }
 
 TEST(String, SmallDoubles)
 {
   cpputest::String s(cpputest::StringFrom(1.2e-10));
-  STRCMP_CONTAINS("1.2e", s.asCharString());
+  STRCMP_CONTAINS("1.2e", s.c_str());
 }
 
 TEST(String, Sizes)
 {
   size_t size = 10;
-  STRCMP_EQUAL(
-      "10", cpputest::StringFrom(static_cast<int>(size)).asCharString());
+  STRCMP_EQUAL("10", cpputest::StringFrom(static_cast<int>(size)).c_str());
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
@@ -550,36 +548,36 @@ TEST(String, Sizes)
 TEST(String, nullptr_type)
 {
   cpputest::String s(cpputest::StringFrom(nullptr));
-  STRCMP_EQUAL("(null)", s.asCharString());
+  STRCMP_EQUAL("(null)", s.c_str());
 }
 
 #endif
 
 TEST(String, HexStrings)
 {
-  STRCMP_EQUAL("f3",
-      cpputest::HexStringFrom(static_cast<signed char>(-13)).asCharString());
+  STRCMP_EQUAL(
+      "f3", cpputest::HexStringFrom(static_cast<signed char>(-13)).c_str());
 
   cpputest::String h1 = cpputest::HexStringFrom(0xffffL);
-  STRCMP_EQUAL("ffff", h1.asCharString());
+  STRCMP_EQUAL("ffff", h1.c_str());
 
   cpputest::String h15 = cpputest::HexStringFrom(0xffffLL);
-  STRCMP_EQUAL("ffff", h15.asCharString());
+  STRCMP_EQUAL("ffff", h15.c_str());
 
   cpputest::String h2 =
       cpputest::HexStringFrom(reinterpret_cast<void*>(0xfffeL));
-  STRCMP_EQUAL("fffe", h2.asCharString());
+  STRCMP_EQUAL("fffe", h2.c_str());
 
   cpputest::String h3 =
       cpputest::HexStringFrom(reinterpret_cast<void (*)()>(0xfffdL));
-  STRCMP_EQUAL("fffd", h3.asCharString());
+  STRCMP_EQUAL("fffd", h3.c_str());
 }
 
 TEST(String, StringFromFormat)
 {
   cpputest::String h1 =
       cpputest::StringFromFormat("%s %s! %d", "Hello", "World", 2009);
-  STRCMP_EQUAL("Hello World! 2009", h1.asCharString());
+  STRCMP_EQUAL("Hello World! 2009", h1.c_str());
 }
 
 TEST(String, StringFromFormatpointer)
@@ -589,15 +587,15 @@ TEST(String, StringFromFormatpointer)
   cpputest::String h1 =
       cpputest::StringFromFormat("%p", reinterpret_cast<void*>(1));
   if (h1.size() == 3)
-    STRCMP_EQUAL("0x1", h1.asCharString());
+    STRCMP_EQUAL("0x1", h1.c_str());
   else if (h1.size() == 8)
-    STRCMP_EQUAL("00000001", h1.asCharString());
+    STRCMP_EQUAL("00000001", h1.c_str());
   else if (h1.size() == 9)
-    STRCMP_EQUAL("0000:0001", h1.asCharString());
+    STRCMP_EQUAL("0000:0001", h1.c_str());
   else if (h1.size() == 16)
-    STRCMP_EQUAL("0000000000000001", h1.asCharString());
+    STRCMP_EQUAL("0000000000000001", h1.c_str());
   else if (h1.size() == 1)
-    STRCMP_EQUAL("1", h1.asCharString());
+    STRCMP_EQUAL("1", h1.c_str());
   else
     FAIL("Off %p behavior");
 }
@@ -614,7 +612,7 @@ TEST(String, StringFromFormatLarge)
 
 TEST(String, StringFromConstString)
 {
-  STRCMP_EQUAL("bla", StringFrom(cpputest::String("bla")).asCharString());
+  STRCMP_EQUAL("bla", StringFrom(cpputest::String("bla")).c_str());
 }
 
 static int
@@ -652,8 +650,8 @@ TEST(String, PadStringsToSameLengthString1Larger)
   cpputest::String str2("222");
 
   cpputest::String::padStringsToSameLength(str1, str2, '4');
-  STRCMP_EQUAL("441", str1.asCharString());
-  STRCMP_EQUAL("222", str2.asCharString());
+  STRCMP_EQUAL("441", str1.c_str());
+  STRCMP_EQUAL("222", str2.c_str());
 }
 
 TEST(String, PadStringsToSameLengthString2Larger)
@@ -662,8 +660,8 @@ TEST(String, PadStringsToSameLengthString2Larger)
   cpputest::String str2("");
 
   cpputest::String::padStringsToSameLength(str1, str2, ' ');
-  STRCMP_EQUAL("    ", str1.asCharString());
-  STRCMP_EQUAL("    ", str2.asCharString());
+  STRCMP_EQUAL("    ", str1.c_str());
+  STRCMP_EQUAL("    ", str2.c_str());
 }
 
 TEST(String, PadStringsToSameLengthWithSameLengthStrings)
@@ -672,8 +670,8 @@ TEST(String, PadStringsToSameLengthWithSameLengthStrings)
   cpputest::String str2("123");
 
   cpputest::String::padStringsToSameLength(str1, str2, ' ');
-  STRCMP_EQUAL("123", str1.asCharString());
-  STRCMP_EQUAL("123", str2.asCharString());
+  STRCMP_EQUAL("123", str1.c_str());
+  STRCMP_EQUAL("123", str2.c_str());
 }
 
 TEST(String, NullParameters2)
@@ -686,7 +684,7 @@ TEST(String, CollectionReadOutOfBoundsReturnsEmptyString)
 {
   cpputest::StringCollection col;
   col.allocate(3);
-  STRCMP_EQUAL("", col[3].asCharString());
+  STRCMP_EQUAL("", col[3].c_str());
 }
 
 TEST(String, CollectionWritingToEmptyString)
@@ -694,7 +692,7 @@ TEST(String, CollectionWritingToEmptyString)
   cpputest::StringCollection col;
   col.allocate(3);
   col[3] = cpputest::String("HAH");
-  STRCMP_EQUAL("", col[3].asCharString());
+  STRCMP_EQUAL("", col[3].c_str());
 }
 
 #if defined(__LP64__) || defined(_LP64) ||                                     \
@@ -706,7 +704,7 @@ TEST(String, 64BitAddressPrintsCorrectly)
   char* p = reinterpret_cast<char*>(0x0012345678901234LL);
   cpputest::String expected("0x12345678901234");
   cpputest::String actual = cpputest::StringFrom(static_cast<void*>(p));
-  STRCMP_EQUAL(expected.asCharString(), actual.asCharString());
+  STRCMP_EQUAL(expected.c_str(), actual.c_str());
 }
 
 #if !defined(_WIN64)
@@ -716,7 +714,7 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
   long value = -1;
 
   STRCMP_EQUAL("(0xffffffffffffffff)",
-      cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 
 #else
@@ -725,8 +723,8 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
 {
   long value = -1;
 
-  STRCMP_EQUAL("(0xffffffff)",
-      cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+  STRCMP_EQUAL(
+      "(0xffffffff)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 
 #endif
@@ -740,8 +738,8 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
 {
   long value = -1;
 
-  STRCMP_EQUAL("(0xffffffff)",
-      cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+  STRCMP_EQUAL(
+      "(0xffffffff)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 #endif
 
@@ -770,7 +768,7 @@ TEST(String, fromStdString)
   std::string s("hello");
   cpputest::String s1(cpputest::StringFrom(s));
 
-  STRCMP_EQUAL("hello", s1.asCharString());
+  STRCMP_EQUAL("hello", s1.c_str());
 }
 
 TEST(String, CHECK_EQUAL_unsigned_long)
@@ -890,13 +888,12 @@ TEST(String, Binary)
   const unsigned char value[] = { 0x00, 0x01, 0x2A, 0xFF };
   const char expectedString[] = "00 01 2A FF";
 
-  STRCMP_EQUAL(expectedString,
-      cpputest::StringFromBinary(value, sizeof(value)).asCharString());
-  STRCMP_EQUAL(expectedString,
-      cpputest::StringFromBinaryOrNull(value, sizeof(value)).asCharString());
-  STRCMP_EQUAL("", cpputest::StringFromBinary(value, 0).asCharString());
   STRCMP_EQUAL(
-      "(null)", cpputest::StringFromBinaryOrNull(nullptr, 0).asCharString());
+      expectedString, cpputest::StringFromBinary(value, sizeof(value)).c_str());
+  STRCMP_EQUAL(expectedString,
+      cpputest::StringFromBinaryOrNull(value, sizeof(value)).c_str());
+  STRCMP_EQUAL("", cpputest::StringFromBinary(value, 0).c_str());
+  STRCMP_EQUAL("(null)", cpputest::StringFromBinaryOrNull(nullptr, 0).c_str());
 }
 
 TEST(String, BinaryWithSize)
@@ -905,14 +902,13 @@ TEST(String, BinaryWithSize)
   const char expectedString[] = "Size = 3 | HexContents = 12 FE A1";
 
   STRCMP_EQUAL(expectedString,
-      cpputest::StringFromBinaryWithSize(value, sizeof(value)).asCharString());
+      cpputest::StringFromBinaryWithSize(value, sizeof(value)).c_str());
   STRCMP_EQUAL(expectedString,
-      cpputest::StringFromBinaryWithSizeOrNull(value, sizeof(value))
-          .asCharString());
+      cpputest::StringFromBinaryWithSizeOrNull(value, sizeof(value)).c_str());
   STRCMP_EQUAL("Size = 0 | HexContents = ",
-      cpputest::StringFromBinaryWithSize(value, 0).asCharString());
-  STRCMP_EQUAL("(null)",
-      cpputest::StringFromBinaryWithSizeOrNull(nullptr, 0).asCharString());
+      cpputest::StringFromBinaryWithSize(value, 0).c_str());
+  STRCMP_EQUAL(
+      "(null)", cpputest::StringFromBinaryWithSizeOrNull(nullptr, 0).c_str());
 }
 
 TEST(String, BinaryWithSizeLargerThan128)
@@ -922,7 +918,7 @@ TEST(String, BinaryWithSizeLargerThan128)
   value[128] = 0xff;
 
   STRCMP_CONTAINS("00 ...",
-      cpputest::StringFromBinaryWithSize(value, sizeof(value)).asCharString());
+      cpputest::StringFromBinaryWithSize(value, sizeof(value)).c_str());
 }
 
 TEST(String, MemCmp)
@@ -949,109 +945,103 @@ TEST(String, MemCmpFirstLastNotMatching)
 TEST(String, MaskedBitsChar)
 {
   STRCMP_EQUAL("xxxxxxxx xxxxxxxx",
-      cpputest::StringFromMaskedBits(0x00, 0x00, 1).asCharString());
+      cpputest::StringFromMaskedBits(0x00, 0x00, 1).c_str());
   STRCMP_EQUAL("xxxxxxxx 00000000",
-      cpputest::StringFromMaskedBits(0x00, 0xFF, 1).asCharString());
+      cpputest::StringFromMaskedBits(0x00, 0xFF, 1).c_str());
   STRCMP_EQUAL("xxxxxxxx 11111111",
-      cpputest::StringFromMaskedBits(0xFF, 0xFF, 1).asCharString());
+      cpputest::StringFromMaskedBits(0xFF, 0xFF, 1).c_str());
   STRCMP_EQUAL("xxxxxxxx 1xxxxxxx",
-      cpputest::StringFromMaskedBits(0x80, 0x80, 1).asCharString());
+      cpputest::StringFromMaskedBits(0x80, 0x80, 1).c_str());
   STRCMP_EQUAL("xxxxxxxx xxxxxxx1",
-      cpputest::StringFromMaskedBits(0x01, 0x01, 1).asCharString());
+      cpputest::StringFromMaskedBits(0x01, 0x01, 1).c_str());
   STRCMP_EQUAL("xxxxxxxx 11xx11xx",
-      cpputest::StringFromMaskedBits(0xFF, 0xCC, 1).asCharString());
+      cpputest::StringFromMaskedBits(0xFF, 0xCC, 1).c_str());
 }
 #elif (CHAR_BIT == 8)
 TEST(String, MaskedBitsChar)
 {
   STRCMP_EQUAL(
-      "xxxxxxxx", cpputest::StringFromMaskedBits(0x00, 0x00, 1).asCharString());
+      "xxxxxxxx", cpputest::StringFromMaskedBits(0x00, 0x00, 1).c_str());
   STRCMP_EQUAL(
-      "00000000", cpputest::StringFromMaskedBits(0x00, 0xFF, 1).asCharString());
+      "00000000", cpputest::StringFromMaskedBits(0x00, 0xFF, 1).c_str());
   STRCMP_EQUAL(
-      "11111111", cpputest::StringFromMaskedBits(0xFF, 0xFF, 1).asCharString());
+      "11111111", cpputest::StringFromMaskedBits(0xFF, 0xFF, 1).c_str());
   STRCMP_EQUAL(
-      "1xxxxxxx", cpputest::StringFromMaskedBits(0x80, 0x80, 1).asCharString());
+      "1xxxxxxx", cpputest::StringFromMaskedBits(0x80, 0x80, 1).c_str());
   STRCMP_EQUAL(
-      "xxxxxxx1", cpputest::StringFromMaskedBits(0x01, 0x01, 1).asCharString());
+      "xxxxxxx1", cpputest::StringFromMaskedBits(0x01, 0x01, 1).c_str());
   STRCMP_EQUAL(
-      "11xx11xx", cpputest::StringFromMaskedBits(0xFF, 0xCC, 1).asCharString());
+      "11xx11xx", cpputest::StringFromMaskedBits(0xFF, 0xCC, 1).c_str());
 }
 #endif
 
 TEST(String, MaskedBits16Bit)
 {
   STRCMP_EQUAL("xxxxxxxx xxxxxxxx",
-      cpputest::StringFromMaskedBits(0x0000, 0x0000, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0x0000, 0x0000, 2 * 8 / CHAR_BIT).c_str());
   STRCMP_EQUAL("00000000 00000000",
-      cpputest::StringFromMaskedBits(0x0000, 0xFFFF, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0x0000, 0xFFFF, 2 * 8 / CHAR_BIT).c_str());
   STRCMP_EQUAL("11111111 11111111",
-      cpputest::StringFromMaskedBits(0xFFFF, 0xFFFF, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0xFFFF, 0xFFFF, 2 * 8 / CHAR_BIT).c_str());
   STRCMP_EQUAL("1xxxxxxx xxxxxxxx",
-      cpputest::StringFromMaskedBits(0x8000, 0x8000, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0x8000, 0x8000, 2 * 8 / CHAR_BIT).c_str());
   STRCMP_EQUAL("xxxxxxxx xxxxxxx1",
-      cpputest::StringFromMaskedBits(0x0001, 0x0001, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0x0001, 0x0001, 2 * 8 / CHAR_BIT).c_str());
   STRCMP_EQUAL("11xx11xx 11xx11xx",
-      cpputest::StringFromMaskedBits(0xFFFF, 0xCCCC, 2 * 8 / CHAR_BIT)
-          .asCharString());
+      cpputest::StringFromMaskedBits(0xFFFF, 0xCCCC, 2 * 8 / CHAR_BIT).c_str());
 }
 
 TEST(String, MaskedBits32Bit)
 {
   STRCMP_EQUAL("xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx",
       cpputest::StringFromMaskedBits(0x00000000, 0x00000000, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
   STRCMP_EQUAL("00000000 00000000 00000000 00000000",
       cpputest::StringFromMaskedBits(0x00000000, 0xFFFFFFFF, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
   STRCMP_EQUAL("11111111 11111111 11111111 11111111",
       cpputest::StringFromMaskedBits(0xFFFFFFFF, 0xFFFFFFFF, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
   STRCMP_EQUAL("1xxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx",
       cpputest::StringFromMaskedBits(0x80000000, 0x80000000, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
   STRCMP_EQUAL("xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxx1",
       cpputest::StringFromMaskedBits(0x00000001, 0x00000001, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
   STRCMP_EQUAL("11xx11xx 11xx11xx 11xx11xx 11xx11xx",
       cpputest::StringFromMaskedBits(0xFFFFFFFF, 0xCCCCCCCC, 4 * 8 / CHAR_BIT)
-          .asCharString());
+          .c_str());
 }
 
 TEST(String, StringFromOrdinalNumberOnes)
 {
-  STRCMP_EQUAL("2nd", cpputest::StringFromOrdinalNumber(2).asCharString());
-  STRCMP_EQUAL("3rd", cpputest::StringFromOrdinalNumber(3).asCharString());
-  STRCMP_EQUAL("4th", cpputest::StringFromOrdinalNumber(4).asCharString());
-  STRCMP_EQUAL("5th", cpputest::StringFromOrdinalNumber(5).asCharString());
-  STRCMP_EQUAL("6th", cpputest::StringFromOrdinalNumber(6).asCharString());
-  STRCMP_EQUAL("7th", cpputest::StringFromOrdinalNumber(7).asCharString());
+  STRCMP_EQUAL("2nd", cpputest::StringFromOrdinalNumber(2).c_str());
+  STRCMP_EQUAL("3rd", cpputest::StringFromOrdinalNumber(3).c_str());
+  STRCMP_EQUAL("4th", cpputest::StringFromOrdinalNumber(4).c_str());
+  STRCMP_EQUAL("5th", cpputest::StringFromOrdinalNumber(5).c_str());
+  STRCMP_EQUAL("6th", cpputest::StringFromOrdinalNumber(6).c_str());
+  STRCMP_EQUAL("7th", cpputest::StringFromOrdinalNumber(7).c_str());
 }
 
 TEST(String, StringFromOrdinalNumberTens)
 {
-  STRCMP_EQUAL("10th", cpputest::StringFromOrdinalNumber(10).asCharString());
-  STRCMP_EQUAL("11th", cpputest::StringFromOrdinalNumber(11).asCharString());
-  STRCMP_EQUAL("12th", cpputest::StringFromOrdinalNumber(12).asCharString());
-  STRCMP_EQUAL("13th", cpputest::StringFromOrdinalNumber(13).asCharString());
-  STRCMP_EQUAL("14th", cpputest::StringFromOrdinalNumber(14).asCharString());
-  STRCMP_EQUAL("18th", cpputest::StringFromOrdinalNumber(18).asCharString());
+  STRCMP_EQUAL("10th", cpputest::StringFromOrdinalNumber(10).c_str());
+  STRCMP_EQUAL("11th", cpputest::StringFromOrdinalNumber(11).c_str());
+  STRCMP_EQUAL("12th", cpputest::StringFromOrdinalNumber(12).c_str());
+  STRCMP_EQUAL("13th", cpputest::StringFromOrdinalNumber(13).c_str());
+  STRCMP_EQUAL("14th", cpputest::StringFromOrdinalNumber(14).c_str());
+  STRCMP_EQUAL("18th", cpputest::StringFromOrdinalNumber(18).c_str());
 }
 
 TEST(String, StringFromOrdinalNumberOthers)
 {
-  STRCMP_EQUAL("21st", cpputest::StringFromOrdinalNumber(21).asCharString());
-  STRCMP_EQUAL("22nd", cpputest::StringFromOrdinalNumber(22).asCharString());
-  STRCMP_EQUAL("23rd", cpputest::StringFromOrdinalNumber(23).asCharString());
-  STRCMP_EQUAL("24th", cpputest::StringFromOrdinalNumber(24).asCharString());
-  STRCMP_EQUAL("32nd", cpputest::StringFromOrdinalNumber(32).asCharString());
-  STRCMP_EQUAL("100th", cpputest::StringFromOrdinalNumber(100).asCharString());
-  STRCMP_EQUAL("101st", cpputest::StringFromOrdinalNumber(101).asCharString());
+  STRCMP_EQUAL("21st", cpputest::StringFromOrdinalNumber(21).c_str());
+  STRCMP_EQUAL("22nd", cpputest::StringFromOrdinalNumber(22).c_str());
+  STRCMP_EQUAL("23rd", cpputest::StringFromOrdinalNumber(23).c_str());
+  STRCMP_EQUAL("24th", cpputest::StringFromOrdinalNumber(24).c_str());
+  STRCMP_EQUAL("32nd", cpputest::StringFromOrdinalNumber(32).c_str());
+  STRCMP_EQUAL("100th", cpputest::StringFromOrdinalNumber(100).c_str());
+  STRCMP_EQUAL("101st", cpputest::StringFromOrdinalNumber(101).c_str());
 }
 
 TEST(String, BracketsFormattedHexStringFromForSignedChar)
@@ -1059,7 +1049,7 @@ TEST(String, BracketsFormattedHexStringFromForSignedChar)
   signed char value = 'c';
 
   STRCMP_EQUAL(
-      "(0x63)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x63)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 
 TEST(String, BracketsFormattedHexStringFromForUnsignedInt)
@@ -1067,7 +1057,7 @@ TEST(String, BracketsFormattedHexStringFromForUnsignedInt)
   unsigned int value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 
 TEST(String, BracketsFormattedHexStringFromForUnsignedLong)
@@ -1075,7 +1065,7 @@ TEST(String, BracketsFormattedHexStringFromForUnsignedLong)
   unsigned long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 
 #if (INT_MAX == 0x7fff)
@@ -1083,15 +1073,14 @@ TEST(String, BracketsFormattedHexStringFromForInt)
 {
   int value = -1;
 
-  STRCMP_EQUAL(
-      "(0xffff)", BracketsFormattedHexStringFrom(value).asCharString());
+  STRCMP_EQUAL("(0xffff)", BracketsFormattedHexStringFrom(value).c_str());
 }
 #else
 TEST(String, BracketsFormattedHexStringFromForInt)
 {
   int value = -1;
-  STRCMP_EQUAL("(0xffffffff)",
-      cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+  STRCMP_EQUAL(
+      "(0xffffffff)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 #endif
 
@@ -1100,19 +1089,19 @@ TEST(String, BracketsFormattedHexStringFromForLong)
   long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 TEST(String, BracketsFormattedHexStringFromForLongLong)
 {
   long long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }
 TEST(String, BracketsFormattedHexStringFromForULongLong)
 {
   unsigned long long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).asCharString());
+      "(0x1)", cpputest::BracketsFormattedHexStringFrom(value).c_str());
 }

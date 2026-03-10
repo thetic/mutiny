@@ -58,6 +58,17 @@
 #endif
 #endif
 
+#ifndef __has_attribute
+#define CPPUTEST_HAS_ATTRIBUTE(x) 0
+#else
+#define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
+#endif
+#if defined(__MINGW32__)
+#define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
+#else
+#define CPPUTEST_CHECK_FORMAT_TYPE printf
+#endif
+
 namespace cpputest {
 
 class StringCollection;
@@ -96,15 +107,16 @@ public:
   void replace(const char* to, const char* with);
 
   String lowerCase() const;
-  String subString(size_t beginPos) const;
-  String subString(size_t beginPos, size_t amount) const;
+  String substr(size_t beginPos) const;
+  String substr(size_t beginPos, size_t amount) const;
   String subStringFromTill(char startChar, char lastExcludedChar) const;
 
   String printable() const;
 
-  const char* asCharString() const;
+  const char* c_str() const;
   size_t size() const;
-  bool isEmpty() const;
+  size_t length() const { return size(); }
+  bool empty() const;
 
   static void padStringsToSameLength(String& str1, String& str2, char ch);
 
@@ -179,114 +191,139 @@ private:
 
 String
 StringFrom(bool value);
+
 String
 StringFrom(const void* value);
+
 String
 StringFrom(void (*value)());
+
 String
 StringFrom(char value);
+
 String
 StringFrom(const char* value);
+
 String
 StringFromOrNull(const char* value);
+
 String
 StringFrom(int value);
+
 String
 StringFrom(unsigned int value);
+
 String
 StringFrom(long value);
+
 String
 StringFrom(unsigned long value);
+
 String
 StringFrom(long long value);
+
 String
 StringFrom(unsigned long long value);
+
 String
 HexStringFrom(unsigned int value);
+
 String
 HexStringFrom(int value);
+
 String
 HexStringFrom(signed char value);
+
 String
 HexStringFrom(long value);
+
 String
 HexStringFrom(unsigned long value);
+
 String
 HexStringFrom(long long value);
+
 String
 HexStringFrom(unsigned long long value);
+
 String
 HexStringFrom(const void* value);
+
 String
 HexStringFrom(void (*value)());
+
 String
 StringFrom(double value, int precision = 6);
+
 String
 StringFrom(const String& other);
-#ifndef __has_attribute
-#define CPPUTEST_HAS_ATTRIBUTE(x) 0
-#else
-#define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
-#endif
-#if defined(__MINGW32__)
-#define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
-#else
-#define CPPUTEST_CHECK_FORMAT_TYPE printf
-#endif
+
 #if CPPUTEST_HAS_ATTRIBUTE(format)
 #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters)        \
   __attribute__((format(type, format_parameter, other_parameters)))
 #else
-#define CPPUTEST_CHECK_FORMAT(type,                                            \
-    format_parameter,                                                          \
+#define CPPUTEST_CHECK_FORMAT(type, format_parameter,
+
     other_parameters) /* type, format_parameter, other_parameters */
 #endif
 String
 StringFromFormat(const char* format, ...)
     CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
+
 String
 VStringFromFormat(const char* format, va_list args);
+
 String
 StringFromBinary(const unsigned char* value, size_t size);
+
 String
 StringFromBinaryOrNull(const unsigned char* value, size_t size);
+
 String
 StringFromBinaryWithSize(const unsigned char* value, size_t size);
+
 String
 StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
+
 String
 StringFromMaskedBits(unsigned long value, unsigned long mask, size_t byteCount);
+
 String
 StringFromOrdinalNumber(unsigned int number);
+
 String
 BracketsFormattedHexStringFrom(int value);
+
 String
 BracketsFormattedHexStringFrom(unsigned int value);
+
 String
 BracketsFormattedHexStringFrom(long value);
+
 String
 BracketsFormattedHexStringFrom(unsigned long value);
+
 String
 BracketsFormattedHexStringFrom(long long value);
+
 String
 BracketsFormattedHexStringFrom(unsigned long long value);
+
 String
 BracketsFormattedHexStringFrom(signed char value);
+
 String
 BracketsFormattedHexString(String hexString);
+
 String
 PrintableStringFromOrNull(const char* expected);
 
 #if CPPUTEST_USE_STD_CPP_LIB
 String
 StringFrom(const std::nullptr_t value);
-#endif
-
-#if CPPUTEST_USE_STD_CPP_LIB
 
 String
 StringFrom(const std::string& other);
-
 #endif
 
 } // namespace cpputest

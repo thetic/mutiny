@@ -119,7 +119,7 @@ teardown() override
 
 TEST(PluginTest, PluginHasName)
 {
-  STRCMP_EQUAL(GENERIC_PLUGIN, firstPlugin->getName().asCharString());
+  STRCMP_EQUAL(GENERIC_PLUGIN, firstPlugin->getName().c_str());
 }
 
 TEST(PluginTest, InstallPlugin)
