@@ -10,8 +10,11 @@
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 
-TEST_GROUP_C_WRAPPER(TestHarnessC){ TEST_GROUP_C_SETUP_WRAPPER(TestHarnessC)
-      TEST_GROUP_C_TEARDOWN_WRAPPER(TestHarnessC) };
+TEST_GROUP_C_WRAPPER(TestHarnessC)
+{
+  TEST_GROUP_C_SETUP_WRAPPER(TestHarnessC)
+  TEST_GROUP_C_TEARDOWN_WRAPPER(TestHarnessC)
+};
 
 TEST_C_WRAPPER(TestHarnessC, checkThatTheTestHasRun)
 IGNORE_TEST_C_WRAPPER(TestHarnessC, ignoreMacroForCFile)
