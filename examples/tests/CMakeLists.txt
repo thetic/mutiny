@@ -3,7 +3,8 @@ add_executable(ExampleTests
     CircularBuffer.test.cpp
     EventDispatcher.test.cpp
     FEDemo.test.cpp
-    Hello.test.cpp
+    hello.test.cpp
+    hello.test.c
     MockDocumentation.test.cpp
     Printer.test.cpp
 )

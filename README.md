@@ -263,32 +263,56 @@ cpputest_discover_tests(trying_CppUtest)
 
 ## Testing C Code
 
-CppUTest can be used to test C code. A few things to keep in mind:
+CppUTest supports writing tests in pure C using a two-file pattern: a `.test.c`
+file for the C tests and a `.test.cpp` wrapper that wires them into the C++ runner.
 
-### Using `extern "C"`
+### The `.test.c` file
 
-Wrap C headers and declarations in `extern "C"` in your `.cpp` test files:
+Include `"CppUTest/TestHarness.h"` and use the C-specific macros:
 
-```cpp
-extern "C" {
-    #include "hello.h"
+```c
+#include "CppUTest/TestHarness.h"
+#include "mymodule.h"
 
-    extern HelloWorldApi theRealHelloWorldApi;
+TEST_GROUP_C_SETUP(MyGroup)
+{
+  /* runs before each test */
+}
+
+TEST_GROUP_C_TEARDOWN(MyGroup)
+{
+  /* runs after each test */
+}
+
+TEST_C(MyGroup, SomeTest)
+{
+  CHECK_EQUAL_C_INT(42, mymodule_compute());
 }
 ```
 
-Use `TestHarness_c.h` (not `TestHarness.h`) when writing tests in C — it
-provides C-compatible versions of the `CHECK` macros.
+Available typed assertion macros: `CHECK_C()`, `CHECK_EQUAL_C_INT()`,
+`CHECK_EQUAL_C_UINT()`, `CHECK_EQUAL_C_LONG()`, `CHECK_EQUAL_C_STRING()`,
+`CHECK_EQUAL_C_REAL()`, `CHECK_EQUAL_C_POINTER()`, `CHECK_EQUAL_C_MEMCMP()`,
+and more (see `CppUTest/TestHarness.h`).
 
-### C++ keywords in C code
+### The companion `.test.cpp` wrapper
 
-If a C file uses a C++ keyword (e.g. `bool`) as an identifier, `#define` it
-away inside the `extern "C"` block:
+Create a `.test.cpp` file that bridges the C functions into the C++ test runner:
 
 ```cpp
-extern "C" {
-#define bool helloBool
-#include "hello.h"
-#undef bool
-}
+#include "CppUTest/TestHarness.h"
+
+TEST_GROUP_C_WRAPPER(MyGroup)
+{
+  TEST_GROUP_C_SETUP_WRAPPER(MyGroup)
+  TEST_GROUP_C_TEARDOWN_WRAPPER(MyGroup)
+};
+
+TEST_C_WRAPPER(MyGroup, SomeTest)
 ```
+
+Both files must be compiled together into the same test executable. CMake
+handles this automatically — just list both in `add_executable()`.
+
+See `examples/` for a complete working example (`hello.test.c` /
+`hello.test.cpp`).
