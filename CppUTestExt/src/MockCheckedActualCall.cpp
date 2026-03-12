@@ -167,9 +167,6 @@ MockCheckedActualCall::checkInputParameter(MockNamedValue actualParameter)
         getName(),
         static_cast<MockNamedValue&&>(actualParameter),
         allExpectations_);
-    {
-      MockNamedValue freed(static_cast<MockNamedValue&&>(actualParameter));
-    }
     failWith(static_cast<MockFailure&&>(failure));
     return;
   }
@@ -197,9 +194,6 @@ MockCheckedActualCall::checkOutputParameter(MockNamedValue outputParameter)
         getName(),
         static_cast<MockNamedValue&&>(outputParameter),
         allExpectations_);
-    {
-      MockNamedValue freed(static_cast<MockNamedValue&&>(outputParameter));
-    }
     failWith(static_cast<MockFailure&&>(failure));
     return;
   }
