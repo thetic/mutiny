@@ -1,5 +1,5 @@
 add_executable(CppUTestExtTests
-    AllTests.cpp
+    main.cpp
     IEEE754ExceptionsPlugin.test.c
     IEEE754ExceptionsPlugin.test.cpp
     MockCall.test.cpp

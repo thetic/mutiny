@@ -88,18 +88,6 @@
       __LINE__);                                                               \
   void IGNORE##testGroup##_##testName##_Test::testBody()
 
-#define IMPORT_TEST_GROUP(testGroup)                                           \
-  extern int externTestGroup##testGroup;                                       \
-  extern int* p##testGroup;                                                    \
-  int* p##testGroup = &externTestGroup##testGroup
-
-#define CPPUTEST_DEFAULT_MAIN                                                  \
-  /*#include <CppUTest/CommandLineTestRunner.h>*/                              \
-  int main(int argc, char** argv)                                              \
-  {                                                                            \
-    return cpputest::CommandLineTestRunner::RunAllTests(argc, argv);           \
-  }
-
 // Different checking macros
 
 #define CHECK(condition)                                                       \

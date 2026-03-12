@@ -31,5 +31,3 @@ main(int argc, char** argv)
   cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&ieee754Plugin);
   return cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
 }
-
-#include "AllTests.hpp"

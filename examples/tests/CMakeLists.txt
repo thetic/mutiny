@@ -1,5 +1,5 @@
 add_executable(ExampleTests
-    AllTests.cpp
+    main.cpp
     CircularBuffer.test.cpp
     EventDispatcher.test.cpp
     FEDemo.test.cpp
