@@ -1,7 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.hpp"
 
 int
-main(int ac, char** av)
+main(int argc, char** argv)
 {
   int returnValue = 0;
 
@@ -12,7 +12,7 @@ main(int ac, char** av)
     LONGS_EQUAL(1, 1);
 
     returnValue = cpputest::CommandLineTestRunner::RunAllTests(
-        ac, av); /* cover alternate method */
+        argc, argv); /* cover alternate method */
   }
 
   return returnValue;

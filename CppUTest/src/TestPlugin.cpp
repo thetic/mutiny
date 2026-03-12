@@ -44,18 +44,18 @@ TestPlugin::runAllPostTestAction(TestShell& test, TestResult& result)
 }
 
 bool
-TestPlugin::parseAllArguments(int ac, char** av, int index)
+TestPlugin::parseAllArguments(int argc, char** argv, int index)
 {
-  return parseAllArguments(ac, const_cast<const char* const*>(av), index);
+  return parseAllArguments(argc, const_cast<const char* const*>(argv), index);
 }
 
 bool
-TestPlugin::parseAllArguments(int ac, const char* const* av, int index)
+TestPlugin::parseAllArguments(int argc, const char* const* argv, int index)
 {
-  if (parseArguments(ac, av, index))
+  if (parseArguments(argc, argv, index))
     return true;
   if (next_)
-    return next_->parseAllArguments(ac, av, index);
+    return next_->parseAllArguments(argc, argv, index);
   return false;
 }
 

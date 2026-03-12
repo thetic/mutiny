@@ -4,7 +4,7 @@
 #include "CppUTest/TestRegistry.hpp"
 
 int
-main(int ac, const char* const* av)
+main(int argc, const char* const* argv)
 {
   int result = 0;
 
@@ -12,7 +12,7 @@ main(int ac, const char* const* av)
     cpputest::extensions::MockSupportPlugin mockPlugin;
     cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
 
-    result = cpputest::CommandLineTestRunner::RunAllTests(ac, av);
+    result = cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
   }
 
   return result;

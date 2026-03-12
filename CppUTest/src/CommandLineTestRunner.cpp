@@ -11,26 +11,26 @@
 namespace cpputest {
 
 int
-CommandLineTestRunner::RunAllTests(int ac, char** av)
+CommandLineTestRunner::RunAllTests(int argc, char** argv)
 {
-  return RunAllTests(ac, reinterpret_cast<const char* const*>(av));
+  return RunAllTests(argc, reinterpret_cast<const char* const*>(argv));
 }
 
 int
-CommandLineTestRunner::RunAllTests(int ac, const char* const* av)
+CommandLineTestRunner::RunAllTests(int argc, const char* const* argv)
 {
-  CommandLineTestRunner runner(ac, av, TestRegistry::getCurrentRegistry());
+  CommandLineTestRunner runner(argc, argv, TestRegistry::getCurrentRegistry());
   return runner.runAllTestsMain();
 }
 
-CommandLineTestRunner::CommandLineTestRunner(int ac,
-    const char* const* av,
+CommandLineTestRunner::CommandLineTestRunner(int argc,
+    const char* const* argv,
     TestRegistry* registry)
   : output_(nullptr)
   , arguments_(nullptr)
   , registry_(registry)
 {
-  arguments_ = new CommandLineArguments(ac, av);
+  arguments_ = new CommandLineArguments(argc, argv);
 }
 
 CommandLineTestRunner::~CommandLineTestRunner()

@@ -13,10 +13,12 @@ class TestRegistry;
 class CommandLineTestRunner
 {
 public:
-  static int RunAllTests(int ac, const char* const* av);
-  static int RunAllTests(int ac, char** av);
+  static int RunAllTests(int argc, const char* const* argv);
+  static int RunAllTests(int argc, char** argv);
 
-  CommandLineTestRunner(int ac, const char* const* av, TestRegistry* registry);
+  CommandLineTestRunner(int argc,
+      const char* const* argv,
+      TestRegistry* registry);
   virtual ~CommandLineTestRunner();
 
   int runAllTestsMain();

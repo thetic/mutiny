@@ -51,12 +51,14 @@ public:
   {
   }
 
-  virtual bool parseArguments(int ac, const char* const* av, int index) override
+  virtual bool parseArguments(int argc,
+      const char* const* argv,
+      int index) override
   {
-    cpputest::String argument(av[index]);
+    cpputest::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
-    return TestPlugin::parseArguments(ac, av, index);
+    return TestPlugin::parseArguments(argc, argv, index);
   }
 };
 

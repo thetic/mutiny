@@ -28,10 +28,10 @@ You can use `cmake --install build` if you want to install CppUTest system-wide.
 
 Then to get started, you'll need to do the following:
 
-* Add the include path to the Makefile. Something like:
-    * `CPPFLAGS += -I$(CPPUTEST_HOME)/include`
-* Add the library linking to your Makefile. Something like:
-    * `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt`
+- Add the include path to the Makefile. Something like:
+  - `CPPFLAGS += -I$(CPPUTEST_HOME)/include`
+- Add the library linking to your Makefile. Something like:
+  - `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt`
 
 After this, you can write your first test:
 
@@ -54,47 +54,47 @@ $ vcpkg install cpputest (More information: https://github.com/microsoft/vcpkg)
 
 ## Command line switches
 
-* `-h` help, shows the latest help, including the parameters we've implemented after updating this README page.
-* `-v` verbose, print each test name as it runs
-* `-r#` repeat the tests some number of times, default is one, default if # is not specified is 2.
-* `-s#` random shuffle the test execution order. # is an integer used for seeding the random number generator. # is optional, and if omitted, the seed value is chosen automatically, which results in a different order every time. The seed value is printed to console to make it possible to reproduce a previously generated execution order. Handy for detecting problems related to dependencies between tests.
-* `-ri` run ignored tests as if they are not ignored.
-* `-g` group only run test whose group contains the substring group
-* `-n` name only run test whose name contains the substring name
-* `-f` crash on fail, run the tests as normal but, when a test fails, crash rather than report the failure in the normal way
+- `-h` help, shows the latest help, including the parameters we've implemented after updating this README page.
+- `-v` verbose, print each test name as it runs
+- `-r#` repeat the tests some number of times, default is one, default if # is not specified is 2.
+- `-s#` random shuffle the test execution order. # is an integer used for seeding the random number generator. # is optional, and if omitted, the seed value is chosen automatically, which results in a different order every time. The seed value is printed to console to make it possible to reproduce a previously generated execution order. Handy for detecting problems related to dependencies between tests.
+- `-ri` run ignored tests as if they are not ignored.
+- `-g` group only run test whose group contains the substring group
+- `-n` name only run test whose name contains the substring name
+- `-f` crash on fail, run the tests as normal but, when a test fails, crash rather than report the failure in the normal way
 
 ## Test Macros
 
-* `TEST(group, name)` - define a test
-* `IGNORE_TEST(group, name)` - turn off the execution of a test
-* `TEST_GROUP(group)` - Declare a test group to which certain tests belong. This will also create the link needed from another library.
-* `TEST_GROUP_BASE(group, base)` - Same as `TEST_GROUP`, just use a different base class than Utest
-* `TEST_SETUP()` - Declare a void setup method in a `TEST_GROUP` - this is the same as declaring void `setup()`
-* `TEST_TEARDOWN()` - Declare a void setup method in a `TEST_GROUP`
-* `IMPORT_TEST_GROUP(group)` - Export the name of a test group so it can be linked in from a library. Needs to be done in `main`.
+- `TEST(group, name)` - define a test
+- `IGNORE_TEST(group, name)` - turn off the execution of a test
+- `TEST_GROUP(group)` - Declare a test group to which certain tests belong. This will also create the link needed from another library.
+- `TEST_GROUP_BASE(group, base)` - Same as `TEST_GROUP`, just use a different base class than Utest
+- `TEST_SETUP()` - Declare a void setup method in a `TEST_GROUP` - this is the same as declaring void `setup()`
+- `TEST_TEARDOWN()` - Declare a void setup method in a `TEST_GROUP`
+- `IMPORT_TEST_GROUP(group)` - Export the name of a test group so it can be linked in from a library. Needs to be done in `main`.
 
 ## Set up and tear down support
 
-* Each `TEST_GROUP` may contain a `setup` and/or a `teardown` method.
-* `setup()` is called prior to each `TEST` body and `teardown()` is called after the test body.
+- Each `TEST_GROUP` may contain a `setup` and/or a `teardown` method.
+- `setup()` is called prior to each `TEST` body and `teardown()` is called after the test body.
 
 ## Assertion Macros
 
 The failure of one of these macros causes the current test to immediately exit
 
-* `CHECK(boolean condition)` - checks any boolean result
-* `CHECK_TRUE(boolean condition)` - checks for true
-* `CHECK_FALSE(boolean condition)` - checks for false
-* `CHECK_EQUAL(expected, actual)` - checks for equality between entities using `==`. So if you have a class that supports `operator==()` you can use this macro to compare two instances.
-* `STRCMP_EQUAL(expected, actual)` - check const `char*` strings for equality using `strcmp`
-* `LONGS_EQUAL(expected, actual)` - Compares two numbers
-* `BYTES_EQUAL(expected, actual)` - Compares two numbers, eight bits wide
-* `POINTERS_EQUAL(expected, actual)` - Compares two `const void *`
-* `DOUBLES_EQUAL(expected, actual, tolerance)` - Compares two doubles within some tolerance
-* `ENUMS_EQUAL_INT(excepted, actual)` - Compares two enums which their underlying type is `int`
-* `ENUMS_EQUAL_TYPE(underlying_type, excepted, actual)` - Compares two enums which they have the same underlying type
-* `FAIL(text)` - always fails
-* `TEST_EXIT` - Exit the test without failure - useful for contract testing (implementing an assert fake)
+- `CHECK(boolean condition)` - checks any boolean result
+- `CHECK_TRUE(boolean condition)` - checks for true
+- `CHECK_FALSE(boolean condition)` - checks for false
+- `CHECK_EQUAL(expected, actual)` - checks for equality between entities using `==`. So if you have a class that supports `operator==()` you can use this macro to compare two instances.
+- `STRCMP_EQUAL(expected, actual)` - check const `char*` strings for equality using `strcmp`
+- `LONGS_EQUAL(expected, actual)` - Compares two numbers
+- `BYTES_EQUAL(expected, actual)` - Compares two numbers, eight bits wide
+- `POINTERS_EQUAL(expected, actual)` - Compares two `const void *`
+- `DOUBLES_EQUAL(expected, actual, tolerance)` - Compares two doubles within some tolerance
+- `ENUMS_EQUAL_INT(excepted, actual)` - Compares two enums which their underlying type is `int`
+- `ENUMS_EQUAL_TYPE(underlying_type, excepted, actual)` - Compares two enums which they have the same underlying type
+- `FAIL(text)` - always fails
+- `TEST_EXIT` - Exit the test without failure - useful for contract testing (implementing an assert fake)
 
 Customize `CHECK_EQUAL` to work with your types that support `operator==()`
 
@@ -104,18 +104,18 @@ The Extensions directory has a few of these.
 
 ## Building default checks with TestPlugin
 
-* CppUTest can support extra checking functionality by inserting TestPlugins
-* TestPlugin is derived from the TestPlugin class and can be inserted in the TestRegistry via the installPlugin method.
-* TestPlugins can be used for, for example, system stability and resource handling like files, memory or network connection clean-up.
+- CppUTest can support extra checking functionality by inserting TestPlugins
+- TestPlugin is derived from the TestPlugin class and can be inserted in the TestRegistry via the installPlugin method.
+- TestPlugins can be used for, for example, system stability and resource handling like files, memory or network connection clean-up.
 
 Example of a main with a TestPlugin:
 
 ```cpp
-int main(int ac, char** av)
+int main(int argc, char** argv)
 {
    LogPlugin logPlugin;
    TestRegistry::getCurrentRegistry()->installPlugin(&logPlugin);
-   int result = CommandLineTestRunner::RunAllTests(ac, av);
+   int result = CommandLineTestRunner::RunAllTests(argc, argv);
    TestRegistry::getCurrentRegistry()->resetPlugins();
    return result;
 }

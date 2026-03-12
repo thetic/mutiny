@@ -18,17 +18,12 @@ public:
 
   virtual void postTestAction(TestShell&, TestResult&) {}
 
-  virtual bool parseArguments(int /* ac */,
-      const char* const* /* av */,
-      int /* index */)
-  {
-    return false;
-  }
+  virtual bool parseArguments(int, const char* const*, int) { return false; }
 
   virtual void runAllPreTestAction(TestShell&, TestResult&);
   virtual void runAllPostTestAction(TestShell&, TestResult&);
-  virtual bool parseAllArguments(int ac, const char* const* av, int index);
-  virtual bool parseAllArguments(int ac, char** av, int index);
+  virtual bool parseAllArguments(int argc, const char* const* argv, int index);
+  virtual bool parseAllArguments(int argc, char** argv, int index);
 
   virtual TestPlugin* addPlugin(TestPlugin*);
   virtual TestPlugin* removePluginByName(const String& name);

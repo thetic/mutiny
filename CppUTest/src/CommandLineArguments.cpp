@@ -5,9 +5,9 @@
 
 namespace cpputest {
 
-CommandLineArguments::CommandLineArguments(int ac, const char* const* av)
-  : ac_(ac)
-  , av_(av)
+CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
+  : ac_(argc)
+  , av_(argv)
   , needHelp_(false)
   , verbose_(false)
   , veryVerbose_(false)
@@ -310,15 +310,15 @@ CommandLineArguments::getNameFilters() const
 }
 
 void
-CommandLineArguments::setRepeatCount(int ac, const char* const* av, int& i)
+CommandLineArguments::setRepeatCount(int argc, const char* const* argv, int& i)
 {
   repeat_ = 0;
 
-  String repeatParameter(av[i]);
+  String repeatParameter(argv[i]);
   if (repeatParameter.size() > 2)
-    repeat_ = static_cast<size_t>(String::AtoI(av[i] + 2));
-  else if (i + 1 < ac) {
-    repeat_ = static_cast<size_t>(String::AtoI(av[i + 1]));
+    repeat_ = static_cast<size_t>(String::AtoI(argv[i] + 2));
+  else if (i + 1 < argc) {
+    repeat_ = static_cast<size_t>(String::AtoI(argv[i + 1]));
     if (repeat_ != 0)
       i++;
   }
@@ -328,19 +328,19 @@ CommandLineArguments::setRepeatCount(int ac, const char* const* av, int& i)
 }
 
 bool
-CommandLineArguments::setShuffle(int ac, const char* const* av, int& i)
+CommandLineArguments::setShuffle(int argc, const char* const* argv, int& i)
 {
   shuffling_ = true;
   shuffleSeed_ = static_cast<unsigned int>(GetPlatformSpecificTimeInMillis());
   if (shuffleSeed_ == 0)
     shuffleSeed_++;
 
-  String shuffleParameter = av[i];
+  String shuffleParameter = argv[i];
   if (shuffleParameter.size() > 2) {
     shufflingPreSeeded_ = true;
-    shuffleSeed_ = String::AtoU(av[i] + 2);
-  } else if (i + 1 < ac) {
-    unsigned int parsedParameter = String::AtoU(av[i + 1]);
+    shuffleSeed_ = String::AtoU(argv[i] + 2);
+  } else if (i + 1 < argc) {
+    unsigned int parsedParameter = String::AtoU(argv[i + 1]);
     if (parsedParameter != 0) {
       shufflingPreSeeded_ = true;
       shuffleSeed_ = parsedParameter;
@@ -351,36 +351,37 @@ CommandLineArguments::setShuffle(int ac, const char* const* av, int& i)
 }
 
 String
-CommandLineArguments::getParameterField(int ac,
-    const char* const* av,
+CommandLineArguments::getParameterField(int argc,
+    const char* const* argv,
     int& i,
     const String& parameterName)
 {
   size_t parameterLength = parameterName.size();
-  String parameter(av[i]);
+  String parameter(argv[i]);
   if (parameter.size() > parameterLength)
-    return av[i] + parameterLength;
-  else if (i + 1 < ac)
-    return av[++i];
+    return argv[i] + parameterLength;
+  else if (i + 1 < argc)
+    return argv[++i];
   return "";
 }
 
 void
-CommandLineArguments::addGroupFilter(int ac, const char* const* av, int& i)
+CommandLineArguments::addGroupFilter(int argc, const char* const* argv, int& i)
 {
-  TestFilter* groupFilter = new TestFilter(getParameterField(ac, av, i, "-g"));
+  TestFilter* groupFilter =
+      new TestFilter(getParameterField(argc, argv, i, "-g"));
   groupFilters_ = groupFilter->add(groupFilters_);
 }
 
 bool
-CommandLineArguments::addGroupDotNameFilter(int ac,
-    const char* const* av,
+CommandLineArguments::addGroupDotNameFilter(int argc,
+    const char* const* argv,
     int& i,
     const String& parameterName,
     bool strict,
     bool exclude)
 {
-  String groupDotName = getParameterField(ac, av, i, parameterName);
+  String groupDotName = getParameterField(argc, argv, i, parameterName);
   StringCollection collection;
   groupDotName.split(".", collection);
 
@@ -404,85 +405,88 @@ CommandLineArguments::addGroupDotNameFilter(int ac,
 }
 
 void
-CommandLineArguments::addStrictGroupFilter(int ac,
-    const char* const* av,
-    int& i)
-{
-  TestFilter* groupFilter = new TestFilter(getParameterField(ac, av, i, "-sg"));
-  groupFilter->strictMatching();
-  groupFilters_ = groupFilter->add(groupFilters_);
-}
-
-void
-CommandLineArguments::addExcludeGroupFilter(int ac,
-    const char* const* av,
-    int& i)
-{
-  TestFilter* groupFilter = new TestFilter(getParameterField(ac, av, i, "-xg"));
-  groupFilter->invertMatching();
-  groupFilters_ = groupFilter->add(groupFilters_);
-}
-
-void
-CommandLineArguments::addExcludeStrictGroupFilter(int ac,
-    const char* const* av,
+CommandLineArguments::addStrictGroupFilter(int argc,
+    const char* const* argv,
     int& i)
 {
   TestFilter* groupFilter =
-      new TestFilter(getParameterField(ac, av, i, "-xsg"));
+      new TestFilter(getParameterField(argc, argv, i, "-sg"));
+  groupFilter->strictMatching();
+  groupFilters_ = groupFilter->add(groupFilters_);
+}
+
+void
+CommandLineArguments::addExcludeGroupFilter(int argc,
+    const char* const* argv,
+    int& i)
+{
+  TestFilter* groupFilter =
+      new TestFilter(getParameterField(argc, argv, i, "-xg"));
+  groupFilter->invertMatching();
+  groupFilters_ = groupFilter->add(groupFilters_);
+}
+
+void
+CommandLineArguments::addExcludeStrictGroupFilter(int argc,
+    const char* const* argv,
+    int& i)
+{
+  TestFilter* groupFilter =
+      new TestFilter(getParameterField(argc, argv, i, "-xsg"));
   groupFilter->strictMatching();
   groupFilter->invertMatching();
   groupFilters_ = groupFilter->add(groupFilters_);
 }
 
 void
-CommandLineArguments::addNameFilter(int ac, const char* const* av, int& i)
+CommandLineArguments::addNameFilter(int argc, const char* const* argv, int& i)
 {
-  TestFilter* nameFilter = new TestFilter(getParameterField(ac, av, i, "-n"));
+  TestFilter* nameFilter =
+      new TestFilter(getParameterField(argc, argv, i, "-n"));
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
-CommandLineArguments::addStrictNameFilter(int ac,
-    const char* const* av,
+CommandLineArguments::addStrictNameFilter(int argc,
+    const char* const* argv,
     int& index)
 {
   TestFilter* nameFilter =
-      new TestFilter(getParameterField(ac, av, index, "-sn"));
+      new TestFilter(getParameterField(argc, argv, index, "-sn"));
   nameFilter->strictMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
-CommandLineArguments::addExcludeNameFilter(int ac,
-    const char* const* av,
+CommandLineArguments::addExcludeNameFilter(int argc,
+    const char* const* argv,
     int& index)
 {
   TestFilter* nameFilter =
-      new TestFilter(getParameterField(ac, av, index, "-xn"));
+      new TestFilter(getParameterField(argc, argv, index, "-xn"));
   nameFilter->invertMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
-CommandLineArguments::addExcludeStrictNameFilter(int ac,
-    const char* const* av,
+CommandLineArguments::addExcludeStrictNameFilter(int argc,
+    const char* const* argv,
     int& index)
 {
   TestFilter* nameFilter =
-      new TestFilter(getParameterField(ac, av, index, "-xsn"));
+      new TestFilter(getParameterField(argc, argv, index, "-xsn"));
   nameFilter->invertMatching();
   nameFilter->strictMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
 void
-CommandLineArguments::addTestToRunBasedOnVerboseOutput(int ac,
-    const char* const* av,
+CommandLineArguments::addTestToRunBasedOnVerboseOutput(int argc,
+    const char* const* argv,
     int& index,
     const char* parameterName)
 {
-  String wholename = getParameterField(ac, av, index, parameterName);
+  String wholename = getParameterField(argc, argv, index, parameterName);
   String testname = wholename.subStringFromTill(',', ')');
   testname = testname.substr(2);
   TestFilter* namefilter = new TestFilter(testname);
@@ -495,9 +499,9 @@ CommandLineArguments::addTestToRunBasedOnVerboseOutput(int ac,
 }
 
 void
-CommandLineArguments::setPackageName(int ac, const char* const* av, int& i)
+CommandLineArguments::setPackageName(int argc, const char* const* argv, int& i)
 {
-  String packageName = getParameterField(ac, av, i, "-k");
+  String packageName = getParameterField(argc, argv, i, "-k");
   if (packageName.size() == 0)
     return;
 
@@ -505,9 +509,9 @@ CommandLineArguments::setPackageName(int ac, const char* const* av, int& i)
 }
 
 bool
-CommandLineArguments::setOutputType(int ac, const char* const* av, int& i)
+CommandLineArguments::setOutputType(int argc, const char* const* argv, int& i)
 {
-  String outputType = getParameterField(ac, av, i, "-o");
+  String outputType = getParameterField(argc, argv, i, "-o");
   if (outputType.size() == 0)
     return false;
 

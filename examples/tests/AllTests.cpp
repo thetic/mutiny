@@ -20,7 +20,7 @@ public:
 };
 
 int
-main(int ac, char** av)
+main(int argc, char** argv)
 {
   MyDummyComparator dummyComparator;
   cpputest::extensions::MockSupportPlugin mockPlugin;
@@ -29,7 +29,7 @@ main(int ac, char** av)
   mockPlugin.installComparator("MyDummyType", dummyComparator);
   cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
   cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&ieee754Plugin);
-  return cpputest::CommandLineTestRunner::RunAllTests(ac, av);
+  return cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
 }
 
 #include "AllTests.hpp"

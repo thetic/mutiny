@@ -12,12 +12,7 @@ public:
   {
   }
   ~OptionsPlugin() override {}
-  bool parseArguments(int /*ac*/,
-      const char* const* /*av*/,
-      int /*index*/) override
-  {
-    return true;
-  }
+  bool parseArguments(int, const char* const*, int) override { return true; }
 };
 
 TEST_GROUP(CommandLineArguments)

@@ -12,7 +12,7 @@ class TestPlugin;
 class CommandLineArguments
 {
 public:
-  explicit CommandLineArguments(int ac, const char* const* av);
+  explicit CommandLineArguments(int argc, const char* const* argv);
   virtual ~CommandLineArguments();
 
   bool parse(TestPlugin* plugin);
@@ -70,32 +70,36 @@ private:
   OutputType outputType_;
   String packageName_;
 
-  String getParameterField(int ac,
-      const char* const* av,
+  String getParameterField(int argc,
+      const char* const* argv,
       int& i,
       const String& parameterName);
-  void setRepeatCount(int ac, const char* const* av, int& index);
-  bool setShuffle(int ac, const char* const* av, int& index);
-  void addGroupFilter(int ac, const char* const* av, int& index);
-  bool addGroupDotNameFilter(int ac,
-      const char* const* av,
+  void setRepeatCount(int argc, const char* const* argv, int& index);
+  bool setShuffle(int argc, const char* const* argv, int& index);
+  void addGroupFilter(int argc, const char* const* argv, int& index);
+  bool addGroupDotNameFilter(int argc,
+      const char* const* argv,
       int& index,
       const String& parameterName,
       bool strict,
       bool exclude);
-  void addStrictGroupFilter(int ac, const char* const* av, int& index);
-  void addExcludeGroupFilter(int ac, const char* const* av, int& index);
-  void addExcludeStrictGroupFilter(int ac, const char* const* av, int& index);
-  void addNameFilter(int ac, const char* const* av, int& index);
-  void addStrictNameFilter(int ac, const char* const* av, int& index);
-  void addExcludeNameFilter(int ac, const char* const* av, int& index);
-  void addExcludeStrictNameFilter(int ac, const char* const* av, int& index);
-  void addTestToRunBasedOnVerboseOutput(int ac,
-      const char* const* av,
+  void addStrictGroupFilter(int argc, const char* const* argv, int& index);
+  void addExcludeGroupFilter(int argc, const char* const* argv, int& index);
+  void addExcludeStrictGroupFilter(int argc,
+      const char* const* argv,
+      int& index);
+  void addNameFilter(int argc, const char* const* argv, int& index);
+  void addStrictNameFilter(int argc, const char* const* argv, int& index);
+  void addExcludeNameFilter(int argc, const char* const* argv, int& index);
+  void addExcludeStrictNameFilter(int argc,
+      const char* const* argv,
+      int& index);
+  void addTestToRunBasedOnVerboseOutput(int argc,
+      const char* const* argv,
       int& index,
       const char* parameterName);
-  bool setOutputType(int ac, const char* const* av, int& index);
-  void setPackageName(int ac, const char* const* av, int& index);
+  bool setOutputType(int argc, const char* const* argv, int& index);
+  void setPackageName(int argc, const char* const* argv, int& index);
 
   CommandLineArguments(const CommandLineArguments&);
   CommandLineArguments& operator=(const CommandLineArguments&);
