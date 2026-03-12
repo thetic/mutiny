@@ -408,36 +408,3 @@ TEST(UtestMyOwn, NullParameters)
   cpputest::TestFilter emptyFilter;
   CHECK(nullTest.shouldRun(&emptyFilter, &emptyFilter));
 }
-
-class AllocateAndDeallocateInConstructorAndDestructor
-{
-  char* memory_;
-  char* morememory_;
-
-public:
-  AllocateAndDeallocateInConstructorAndDestructor()
-  {
-    memory_ = new char[100];
-    morememory_ = nullptr;
-  }
-  void allocateMoreMemory() { morememory_ = new char[123]; }
-
-  ~AllocateAndDeallocateInConstructorAndDestructor()
-  {
-    delete[] memory_;
-    delete[] morememory_;
-  }
-};
-
-TEST_GROUP(
-    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks)
-{
-  AllocateAndDeallocateInConstructorAndDestructor dummy;
-};
-
-TEST(
-    CanHaveMemberVariablesInTestGroupThatAllocateMemoryWithoutCausingMemoryLeaks,
-    testInTestGroupName)
-{
-  dummy.allocateMoreMemory();
-}

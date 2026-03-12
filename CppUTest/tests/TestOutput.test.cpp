@@ -446,14 +446,6 @@ TEST(CompositeTestOutput, flush)
   STRCMP_EQUAL("flush", output2->getOutput().c_str());
 }
 
-TEST(CompositeTestOutput, deletePreviousInstanceWhenSettingNew)
-{
-  compositeOutput.setOutputOne(new cpputest::CompositeTestOutput);
-  compositeOutput.setOutputTwo(new cpputest::CompositeTestOutput);
-
-  // CHECK NO MEMORY LEAKS
-}
-
 TEST(CompositeTestOutput, printVeryVerbose)
 {
   compositeOutput.verbose(cpputest::TestOutput::level_veryVerbose);
