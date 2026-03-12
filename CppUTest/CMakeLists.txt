@@ -12,6 +12,7 @@ target_sources(CppUTest
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
+        src/StringCollection.cpp
         src/TeamCityTestOutput.cpp
         src/Test.cpp
         src/TestFailure.cpp
@@ -41,6 +42,7 @@ target_sources(CppUTest
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp
+            include/CppUTest/StringCollection.hpp
             include/CppUTest/TeamCityTestOutput.hpp
             include/CppUTest/Test.hpp
             include/CppUTest/TestFailure.hpp

@@ -44,7 +44,6 @@
 
 namespace cpputest {
 
-class StringCollection;
 class TestMemoryAllocator;
 
 class String
@@ -72,7 +71,6 @@ public:
   bool contains(const String& other) const;
   bool startsWith(const String& other) const;
   bool endsWith(const String& other) const;
-  void split(const String& split, StringCollection& outCollection) const;
 
   void replace(char to, char with);
   void replace(const char* to, const char* with);
@@ -95,8 +93,6 @@ private:
   size_t findFrom(size_t starting_position, char ch) const;
   size_t count(const String& str) const;
 
-  const char* getBuffer() const;
-
   void deallocateInternalBuffer();
   void setInternalBufferAsEmptyString();
   void setInternalBufferToNewBuffer(size_t bufferSize);
@@ -116,25 +112,8 @@ private:
   size_t getPrintableSize() const;
 };
 
-class StringCollection
-{
-public:
-  StringCollection();
-  ~StringCollection();
-
-  void allocate(size_t size);
-
-  size_t size() const;
-  String& operator[](size_t index);
-
-private:
-  String* collection_;
-  String empty_;
-  size_t size_;
-
-  void operator=(StringCollection&);
-  StringCollection(StringCollection&);
-};
+const char*
+StrStr(const char* s1, const char* s2);
 
 void
 padStringsToSameLength(String& str1, String& str2, char ch);

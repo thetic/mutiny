@@ -2,6 +2,7 @@
 
 #include "CppUTest/JUnitTestOutput.hpp"
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
@@ -235,9 +236,9 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
       2, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  cpputest::StringCollection stringCollection;
-  commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .split("\n", stringCollection);
+  cpputest::StringCollection stringCollection(
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput(),
+      '\n');
   STRCMP_CONTAINS("test2", stringCollection[0].c_str());
   STRCMP_CONTAINS("test1", stringCollection[1].c_str());
 }
@@ -251,9 +252,9 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
       3, argv, &registry);
   commandLineTestRunner.runAllTestsMain();
 
-  cpputest::StringCollection stringCollection;
-  commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput()
-      .split("\n", stringCollection);
+  cpputest::StringCollection stringCollection(
+      commandLineTestRunner.fakeConsoleOutputWhichIsReallyABuffer->getOutput(),
+      '\n');
   STRCMP_CONTAINS("test1", stringCollection[0].c_str());
   STRCMP_CONTAINS("test2", stringCollection[1].c_str());
 }

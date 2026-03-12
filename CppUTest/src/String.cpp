@@ -27,8 +27,6 @@ size_t
 StrLen(const char*);
 char*
 StrNCpy(char* s1, const char* s2, size_t n);
-const char*
-StrStr(const char* s1, const char* s2);
 char*
 allocStringBuffer(size_t size, const char* file, size_t line);
 void
@@ -245,12 +243,6 @@ String::copyBufferToNewInternalBuffer(const char* otherBuffer)
   copyBufferToNewInternalBuffer(otherBuffer, StrLen(otherBuffer) + 1);
 }
 
-const char*
-String::getBuffer() const
-{
-  return buffer_;
-}
-
 String::String(const char* otherBuffer)
   : buffer_(nullptr)
   , bufferSize_(0)
@@ -280,7 +272,7 @@ String::String(const String& other)
   : buffer_(nullptr)
   , bufferSize_(0)
 {
-  copyBufferToNewInternalBuffer(other.getBuffer());
+  copyBufferToNewInternalBuffer(other.c_str());
 }
 
 String::String(String&& other) noexcept
@@ -315,7 +307,7 @@ String::operator=(const String& other)
 bool
 String::contains(const String& other) const
 {
-  return StrStr(getBuffer(), other.getBuffer()) != nullptr;
+  return StrStr(c_str(), other.c_str()) != nullptr;
 }
 
 bool
@@ -326,7 +318,7 @@ String::startsWith(const String& other) const
   else if (size() == 0)
     return false;
   else
-    return StrStr(getBuffer(), other.getBuffer()) == getBuffer();
+    return StrStr(c_str(), other.c_str()) == c_str();
 }
 
 bool
@@ -342,44 +334,25 @@ String::endsWith(const String& other) const
   if (len < other_len)
     return false;
 
-  return StrCmp(getBuffer() + len - other_len, other.getBuffer()) == 0;
+  return StrCmp(c_str() + len - other_len, other.c_str()) == 0;
 }
 
 size_t
 String::count(const String& substr) const
 {
   size_t num = 0;
-  const char* str = getBuffer();
+  const char* str = c_str();
   const char* strpart = nullptr;
   if (*str) {
-    strpart = StrStr(str, substr.getBuffer());
+    strpart = StrStr(str, substr.c_str());
   }
   while (*str && strpart) {
     str = strpart;
     str++;
     num++;
-    strpart = StrStr(str, substr.getBuffer());
+    strpart = StrStr(str, substr.c_str());
   }
   return num;
-}
-
-void
-String::split(const String& delimiter, StringCollection& col) const
-{
-  size_t num = count(delimiter);
-  size_t extraEndToken = (endsWith(delimiter)) ? 0 : 1U;
-  col.allocate(num + extraEndToken);
-
-  const char* str = getBuffer();
-  const char* prev;
-  for (size_t i = 0; i < num; ++i) {
-    prev = str;
-    str = StrStr(str, delimiter.getBuffer()) + 1;
-    col[i] = String(prev).substr(0, size_t(str - prev));
-  }
-  if (extraEndToken) {
-    col[num] = str;
-  }
 }
 
 void
@@ -387,7 +360,7 @@ String::replace(char to, char with)
 {
   size_t s = size();
   for (size_t i = 0; i < s; i++) {
-    if (getBuffer()[i] == to)
+    if (c_str()[i] == to)
       buffer_[i] = with;
   }
 }
@@ -408,12 +381,12 @@ String::replace(const char* to, const char* with)
   if (newsize > 1) {
     char* newbuf = allocStringBuffer(newsize, __FILE__, __LINE__);
     for (size_t i = 0, j = 0; i < len;) {
-      if (StrNCmp(&getBuffer()[i], to, tolen) == 0) {
+      if (StrNCmp(&c_str()[i], to, tolen) == 0) {
         StrNCpy(&newbuf[j], with, withlen + 1);
         j += withlen;
         i += tolen;
       } else {
-        newbuf[j] = getBuffer()[i];
+        newbuf[j] = c_str()[i];
         j++;
         i++;
       }
@@ -478,13 +451,13 @@ String::getPrintableSize() const
 const char*
 String::c_str() const
 {
-  return getBuffer();
+  return buffer_;
 }
 
 size_t
 String::size() const
 {
-  return StrLen(getBuffer());
+  return StrLen(c_str());
 }
 
 bool
@@ -513,15 +486,15 @@ operator!=(const String& left, const String& right)
 String
 String::operator+(const String& rhs) const
 {
-  String t(getBuffer());
-  t += rhs.getBuffer();
+  String t(c_str());
+  t += rhs.c_str();
   return t;
 }
 
 String&
 String::operator+=(const String& rhs)
 {
-  return operator+=(rhs.getBuffer());
+  return operator+=(rhs.c_str());
 }
 
 String&
@@ -530,7 +503,7 @@ String::operator+=(const char* rhs)
   size_t originalSize = this->size();
   size_t additionalStringSize = StrLen(rhs) + 1;
   size_t sizeOfNewString = originalSize + additionalStringSize;
-  char* tbuffer = copyToNewBuffer(this->getBuffer(), sizeOfNewString);
+  char* tbuffer = copyToNewBuffer(this->c_str(), sizeOfNewString);
   StrNCpy(tbuffer + originalSize, rhs, additionalStringSize);
 
   setInternalBufferTo(tbuffer, sizeOfNewString);
@@ -557,7 +530,7 @@ String::substr(size_t beginPos, size_t amount) const
   if (beginPos > size() - 1)
     return "";
 
-  String newString = getBuffer() + beginPos;
+  String newString = c_str() + beginPos;
 
   if (newString.size() > amount)
     newString.buffer_[amount] = '\0';
@@ -574,7 +547,7 @@ String::substr(size_t beginPos) const
 char
 String::at(size_t pos) const
 {
-  return getBuffer()[pos];
+  return c_str()[pos];
 }
 
 size_t
@@ -964,43 +937,6 @@ StringFromOrdinalNumber(unsigned int number)
   }
 
   return StringFromFormat("%u%s", number, suffix);
-}
-
-StringCollection::StringCollection()
-{
-  collection_ = nullptr;
-  size_ = 0;
-}
-
-void
-StringCollection::allocate(size_t _size)
-{
-  delete[] collection_;
-
-  size_ = _size;
-  collection_ = new String[size_];
-}
-
-StringCollection::~StringCollection()
-{
-  delete[] (collection_);
-}
-
-size_t
-StringCollection::size() const
-{
-  return size_;
-}
-
-String&
-StringCollection::operator[](size_t index)
-{
-  if (index >= size_) {
-    empty_ = "";
-    return empty_;
-  }
-
-  return collection_[index];
 }
 
 } // namespace cpputest

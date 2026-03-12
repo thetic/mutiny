@@ -1,6 +1,7 @@
 #include "CppUTest/CommandLineArguments.hpp"
 
 #include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
@@ -382,8 +383,7 @@ CommandLineArguments::addGroupDotNameFilter(int argc,
     bool exclude)
 {
   String groupDotName = getParameterField(argc, argv, i, parameterName);
-  StringCollection collection;
-  groupDotName.split(".", collection);
+  StringCollection collection(groupDotName, '.');
 
   if (collection.size() != 2)
     return false;

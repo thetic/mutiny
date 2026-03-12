@@ -9,6 +9,7 @@ add_executable(CppUTestTests
     Preprocessor.test.cpp
     SetPointerPlugin.test.cpp
     String.test.cpp
+    StringCollection.test.cpp
     TeamCityTestOutput.test.cpp
     TestFailure.test.cpp
     TestFailureNaN.test.cpp

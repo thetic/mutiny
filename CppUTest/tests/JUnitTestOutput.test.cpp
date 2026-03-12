@@ -2,6 +2,7 @@
 
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/String.hpp"
+#include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
 
@@ -33,7 +34,7 @@ public:
 
   const char* line(size_t lineNumber)
   {
-    buffer_.split("\n", linesOfFile_);
+    linesOfFile_.splitString(buffer_, '\n');
     return linesOfFile_[lineNumber - 1].c_str();
   }
 
@@ -44,7 +45,7 @@ public:
 
   size_t amountOfLines()
   {
-    buffer_.split("\n", linesOfFile_);
+    linesOfFile_.splitString(buffer_, '\n');
     return linesOfFile_.size();
   }
 
