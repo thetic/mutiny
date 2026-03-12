@@ -11,7 +11,7 @@
         "CMAKE_CXX_EXTENSIONS": false,
         "CMAKE_C_EXTENSIONS": false,
         "CMAKE_OPTIMIZE_DEPENDENCIES": true,
-        "CMAKE_PROJECT_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
+        "CMAKE_PROJECT_CppUTest_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
         "CMAKE_VERIFY_INTERFACE_HEADER_SETS": true
       }
     },

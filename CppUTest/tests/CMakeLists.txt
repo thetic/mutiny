@@ -1,43 +1,36 @@
-add_library(CppUTestTests_main OBJECT
-    AllTests.cpp
-)
-
-target_link_libraries(CppUTestTests_main
-    PUBLIC CppUTest
-)
-
-include(CppUTest)
-
 add_executable(CppUTestTests
+    AllTests.cpp
     CheatSheet.test.cpp
-    Compatibility.test.cpp
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
+    Compatibility.test.cpp
+    IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp
-    SetPointerPlugin.test.cpp
-    TestPlugin.test.cpp
     Preprocessor.test.cpp
-    TeamCityTestOutput.test.cpp
-    TestFailureNaN.test.cpp
-    TestFailure.test.cpp
-    TestResult.test.cpp
+    SetPointerPlugin.test.cpp
     String.test.cpp
-    TestOutput.test.cpp
-    TestRegistry.test.cpp
+    TeamCityTestOutput.test.cpp
+    TestFailure.test.cpp
+    TestFailureNaN.test.cpp
     TestFilter.test.cpp
-    TestHarness.test.cpp
     TestHarness.test.c
+    TestHarness.test.cpp
     TestInstaller.test.cpp
     TestMemoryAllocator.test.cpp
-    IgnoredTestShell.test.cpp
+    TestOutput.test.cpp
+    TestPlugin.test.cpp
+    TestRegistry.test.cpp
+    TestResult.test.cpp
     TestShell.test.cpp
     TestShellPointerArray.test.cpp
     UtestMacros.test.cpp
     UtestStringMacros.test.cpp
 )
 
-cpputest_discover_tests(CppUTestTests)
-
 target_link_libraries(CppUTestTests
-    PRIVATE CppUTestTests_main
+    PRIVATE CppUTest
 )
+
+include(CppUTest)
+
+cpputest_discover_tests(CppUTestTests)

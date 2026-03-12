@@ -6,20 +6,20 @@ target_sources(CppUTest
         src/CommandLineTestRunner.cpp
         src/CompositeTestOutput.cpp
         src/ConsoleTestOutput.cpp
+        src/ExecFunctionTestShell.cpp
+        src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
         src/TeamCityTestOutput.cpp
+        src/Test.cpp
         src/TestFailure.cpp
         src/TestFilter.cpp
         src/TestHarness.cpp
+        src/TestInstaller.cpp
         src/TestMemoryAllocator.cpp
         src/TestOutput.cpp
-        src/ExecFunctionTestShell.cpp
-        src/IgnoredTestShell.cpp
-        src/Test.cpp
-        src/TestInstaller.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
         src/TestResult.cpp
@@ -35,6 +35,7 @@ target_sources(CppUTest
             include/CppUTest/CompositeTestOutput.hpp
             include/CppUTest/ConsoleTestOutput.hpp
             include/CppUTest/ExecFunctionTestShell.hpp
+            include/CppUTest/IgnoredTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
             include/CppUTest/PlatformSpecificFunctions.hpp
@@ -42,6 +43,7 @@ target_sources(CppUTest
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp
             include/CppUTest/TeamCityTestOutput.hpp
+            include/CppUTest/Test.hpp
             include/CppUTest/TestFailure.hpp
             include/CppUTest/TestFilter.hpp
             include/CppUTest/TestHarness.h
@@ -52,11 +54,9 @@ target_sources(CppUTest
             include/CppUTest/TestPlugin.hpp
             include/CppUTest/TestRegistry.hpp
             include/CppUTest/TestResult.hpp
-            include/CppUTest/TestTerminator.hpp
-            include/CppUTest/IgnoredTestShell.hpp
-            include/CppUTest/Test.hpp
             include/CppUTest/TestShell.hpp
             include/CppUTest/TestShellPointerArray.hpp
+            include/CppUTest/TestTerminator.hpp
             include/CppUTest/TestTestingFixture.hpp
             include/CppUTest/UtestMacros.hpp
 )
