@@ -1,7 +1,7 @@
 #include "CppUTest/CommandLineTestRunner.hpp"
 
 #include "CppUTest/JUnitTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"

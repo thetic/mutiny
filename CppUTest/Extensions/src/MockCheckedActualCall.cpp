@@ -3,7 +3,7 @@
 #include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 #include "CppUTest/Extensions/MockFailure.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {

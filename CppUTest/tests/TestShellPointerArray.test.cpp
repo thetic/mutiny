@@ -1,7 +1,7 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
 #include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 
 static int

@@ -1,4 +1,4 @@
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include "CppUTest/TestHarness.hpp"
 
@@ -21,14 +21,6 @@ static int jmp_buf_index = 0;
 static char buffer[BUFFER_SIZE]; /* "never used" warning is OK */
 static int idx = 0;
 #endif
-
-namespace cpputest {
-TestOutput::WorkingEnvironment
-PlatformSpecificGetWorkingEnvironment()
-{
-  return TestOutput::eclipse;
-}
-}
 
 static int
 C2000SetJmp(void (*function)(void* data), void* data)

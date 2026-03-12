@@ -1,4 +1,4 @@
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include "CppUTest/TestHarness.hpp"
 
@@ -58,14 +58,6 @@ int (*PlatformSpecificSetJmp)(void (*function)(void*),
     void* data) = VisualCppSetJmp;
 void (*PlatformSpecificLongJmp)(void) = VisualCppLongJmp;
 void (*PlatformSpecificRestoreJumpBuffer)(void) = VisualCppRestoreJumpBuffer;
-
-namespace cpputest {
-TestOutput::WorkingEnvironment
-PlatformSpecificGetWorkingEnvironment()
-{
-  return TestOutput::visualStudio;
-}
-}
 
 ///////////// Time in millis
 

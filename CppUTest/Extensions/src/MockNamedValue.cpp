@@ -2,8 +2,8 @@
 
 #include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestShell.hpp"
+#include "CppUTest/UtestMacros.hpp"
 
 namespace cpputest {
 namespace extensions {

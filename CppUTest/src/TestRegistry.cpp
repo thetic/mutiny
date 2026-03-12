@@ -1,6 +1,5 @@
 #include "CppUTest/TestRegistry.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {

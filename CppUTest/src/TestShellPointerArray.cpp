@@ -1,6 +1,6 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestShell.hpp"
 
 namespace cpputest {

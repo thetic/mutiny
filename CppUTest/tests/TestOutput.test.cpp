@@ -1,7 +1,7 @@
 #include "CppUTest/TestOutput.hpp"
 
 #include "CppUTest/CompositeTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
@@ -37,12 +37,9 @@ TEST_GROUP(TestOutput)
     millisTime = 0;
     UT_PTR_SET(
         GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
-    cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
   }
   void teardown() override
   {
-    cpputest::TestOutput::setWorkingEnvironment(
-        cpputest::TestOutput::detectEnvironment);
     delete printer;
     delete tst;
     delete f;
@@ -209,16 +206,6 @@ TEST(TestOutput, PrintFailureWithFailInHelper)
   printer->printFailure(*f3);
   const char* expected = "\nfile:10: error: Failure in TEST(group, test)"
                          "\nfile:2: error:\n\tmessage\n\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
-}
-
-TEST(TestOutput, PrintInVisualStudioFormat)
-{
-  cpputest::TestOutput::setWorkingEnvironment(
-      cpputest::TestOutput::visualStudio);
-  printer->printFailure(*f3);
-  const char* expected = "\nfile(10): error: Failure in TEST(group, test)"
-                         "\nfile(2): error:\n\tmessage\n\n";
   STRCMP_EQUAL(expected, mock->getOutput().c_str());
 }
 
@@ -413,16 +400,12 @@ TEST(CompositeTestOutput, color)
 
 TEST(CompositeTestOutput, PrintTestFailure)
 {
-  cpputest::TestOutput::WorkingEnvironment previousEnvironment =
-      cpputest::TestOutput::getWorkingEnvironment();
-  cpputest::TestOutput::setWorkingEnvironment(cpputest::TestOutput::eclipse);
   cpputest::TestFailure failure(test, "file", 10, "failed");
   compositeOutput.printFailure(failure);
   STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
       output1->getOutput().c_str());
   STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
       output2->getOutput().c_str());
-  cpputest::TestOutput::setWorkingEnvironment(previousEnvironment);
 }
 
 TEST(CompositeTestOutput, PrintTestRun)

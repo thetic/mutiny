@@ -1,6 +1,6 @@
 #include "CppUTest/CommandLineArguments.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {

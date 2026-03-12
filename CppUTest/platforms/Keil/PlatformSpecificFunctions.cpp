@@ -1,4 +1,4 @@
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include "CppUTest/TestHarness.hpp"
 
@@ -15,14 +15,6 @@
 
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
-
-namespace cpputest {
-TestOutput::WorkingEnvironment
-PlatformSpecificGetWorkingEnvironment()
-{
-  return TestOutput::eclipse;
-}
-}
 
 static int
 PlatformSpecificSetJmpImplementation(void (*function)(void* data), void* data)

@@ -1,4 +1,4 @@
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 
 #include "CppUTest/TestHarness.hpp"
 
@@ -50,14 +50,6 @@ TimeInMillisImplementation()
 }
 
 unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
-
-namespace cpputest {
-TestOutput::WorkingEnvironment
-PlatformSpecificGetWorkingEnvironment()
-{
-  return TestOutput::eclipse;
-}
-}
 
 static cpputest::String
 TimeStringImplementation()

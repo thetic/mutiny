@@ -2,7 +2,6 @@
 
 #include "TestHarness_cTestCFile.h"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"

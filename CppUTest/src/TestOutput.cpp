@@ -1,27 +1,8 @@
 #include "CppUTest/TestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
-
-TestOutput::WorkingEnvironment TestOutput::workingEnvironment_ =
-    TestOutput::detectEnvironment;
-
-void
-TestOutput::setWorkingEnvironment(
-    TestOutput::WorkingEnvironment workEnvironment)
-{
-  workingEnvironment_ = workEnvironment;
-}
-
-TestOutput::WorkingEnvironment
-TestOutput::getWorkingEnvironment()
-{
-  if (workingEnvironment_ == TestOutput::detectEnvironment)
-    return PlatformSpecificGetWorkingEnvironment();
-  return workingEnvironment_;
-}
 
 TestOutput::TestOutput()
   : dotCount_(0)
@@ -248,31 +229,11 @@ void
 TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(String file,
     size_t lineNumber)
 {
-  if (TestOutput::getWorkingEnvironment() == TestOutput::visualStudio)
-    printVisualStudioErrorInFileOnLine(file, lineNumber);
-  else
-    printEclipseErrorInFileOnLine(file, lineNumber);
-}
-
-void
-TestOutput::printEclipseErrorInFileOnLine(String file, size_t lineNumber)
-{
   print("\n");
   print(file.c_str());
   print(":");
   print(lineNumber);
   print(":");
-  print(" error:");
-}
-
-void
-TestOutput::printVisualStudioErrorInFileOnLine(String file, size_t lineNumber)
-{
-  print("\n");
-  print(file.c_str());
-  print("(");
-  print(lineNumber);
-  print("):");
   print(" error:");
 }
 

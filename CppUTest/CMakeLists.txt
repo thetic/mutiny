@@ -38,7 +38,6 @@ target_sources(CppUTest
             include/CppUTest/IgnoredTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
-            include/CppUTest/PlatformSpecificFunctions.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp

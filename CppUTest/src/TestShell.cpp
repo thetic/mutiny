@@ -1,7 +1,7 @@
 #include "CppUTest/TestShell.hpp"
 
 #include "CppUTest/ConsoleTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/Test.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestPlugin.hpp"
