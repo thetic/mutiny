@@ -141,18 +141,6 @@ TEST(String, Size)
   LONGS_EQUAL(6, s1.size());
 }
 
-TEST(String, printable)
-{
-  cpputest::String s1("ABC\01\06\a\n\r\b\t\v\f\x0E\x1F\x7F"
-                      "abc");
-  cpputest::String s2(s1.printable());
-  STRCMP_EQUAL(
-      "ABC\\x01\\x06\\a\\n\\r\\b\\t\\v\\f\\x0E\\x1F\\x7Fabc", s2.c_str());
-  STRCMP_EQUAL("ABC\01\06\a\n\r\b\t\v\f\x0E\x1F\x7F"
-               "abc",
-      s1.c_str());
-}
-
 TEST(String, Addition)
 {
   cpputest::String s1("hello!");
@@ -344,12 +332,6 @@ TEST(String, NULLReportsNullString)
 {
   STRCMP_EQUAL("(null)",
       cpputest::StringFromOrNull(static_cast<char*>(nullptr)).c_str());
-}
-
-TEST(String, NULLReportsNullStringPrintable)
-{
-  STRCMP_EQUAL("(null)",
-      cpputest::PrintableStringFromOrNull(static_cast<char*>(nullptr)).c_str());
 }
 
 TEST(String, Booleans)

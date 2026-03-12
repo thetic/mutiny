@@ -15,6 +15,64 @@
 #endif
 
 namespace cpputest {
+namespace {
+size_t
+getPrintableSize(String const& str)
+{
+  size_t str_size = str.size();
+  size_t printable_str_size = str_size;
+
+  for (size_t i = 0; i < str_size; i++) {
+    char c = str.c_str()[i];
+    if (isControlWithShortEscapeSequence(c)) {
+      printable_str_size += 1;
+    } else if (isControl(c)) {
+      printable_str_size += 3;
+    }
+  }
+
+  return printable_str_size;
+}
+
+String
+Printable(String const& str)
+{
+  static const char* shortEscapeCodes[] = {
+    "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r"
+  };
+
+  String result;
+  result.reserve(getPrintableSize(str) + 1);
+
+  size_t str_size = str.size();
+  size_t j = 0;
+  for (size_t i = 0; i < str_size; i++) {
+    char c = str.c_str()[i];
+    if (isControlWithShortEscapeSequence(c)) {
+      StrNCpy(&result.data()[j],
+          shortEscapeCodes[static_cast<unsigned char>(c - '\a')],
+          2);
+      j += 2;
+    } else if (isControl(c)) {
+      String hexEscapeCode = StringFromFormat("\\x%02X ", c);
+      StrNCpy(&result.data()[j], hexEscapeCode.c_str(), 4);
+      j += 4;
+    } else {
+      result.data()[j] = c;
+      j++;
+    }
+  }
+  result.data()[j] = 0;
+
+  return result;
+}
+
+String
+PrintableStringFromOrNull(const char* expected)
+{
+  return (expected) ? Printable(StringFrom(expected)) : StringFrom("(null)");
+}
+}
 
 TestFailure::TestFailure(TestShell* test,
     const char* fileName,

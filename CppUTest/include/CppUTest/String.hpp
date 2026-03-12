@@ -79,12 +79,13 @@ public:
   String substr(size_t beginPos, size_t amount) const;
   String subStringFromTill(char startChar, char lastExcludedChar) const;
 
-  String printable() const;
-
   const char* c_str() const;
+  char* data();
   size_t size() const;
   size_t length() const { return size(); }
+  size_t capacity() const { return bufferSize_; }
   bool empty() const;
+  void reserve(size_t bufferSize);
 
   static TestMemoryAllocator* getStringAllocator();
   static void setStringAllocator(TestMemoryAllocator* allocator);
@@ -95,7 +96,6 @@ private:
 
   void deallocateInternalBuffer();
   void setInternalBufferAsEmptyString();
-  void setInternalBufferToNewBuffer(size_t bufferSize);
   void setInternalBufferTo(char* buffer, size_t bufferSize);
   void copyBufferToNewInternalBuffer(const char* otherBuffer);
   void copyBufferToNewInternalBuffer(const char* otherBuffer,
@@ -108,10 +108,14 @@ private:
   static TestMemoryAllocator* stringAllocator_;
 
   char* getEmptyString() const;
-
-  size_t getPrintableSize() const;
 };
 
+bool
+isControl(char ch);
+bool
+isControlWithShortEscapeSequence(char ch);
+char*
+StrNCpy(char* s1, const char* s2, size_t n);
 const char*
 StrStr(const char* s1, const char* s2);
 
@@ -252,9 +256,6 @@ BracketsFormattedHexStringFrom(signed char value);
 
 String
 BracketsFormattedHexString(String hexString);
-
-String
-PrintableStringFromOrNull(const char* expected);
 
 #if CPPUTEST_USE_STD_CPP_LIB
 String

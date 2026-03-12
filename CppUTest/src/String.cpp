@@ -18,15 +18,9 @@ static bool
 isSpace(char ch);
 static bool
 isUpper(char ch);
-static bool
-isControl(char ch);
-static bool
-isControlWithShortEscapeSequence(char ch);
 
 size_t
 StrLen(const char*);
-char*
-StrNCpy(char* s1, const char* s2, size_t n);
 char*
 allocStringBuffer(size_t size, const char* file, size_t line);
 void
@@ -213,7 +207,7 @@ String::copyBufferToNewInternalBuffer(const char* otherBuffer,
 }
 
 void
-String::setInternalBufferToNewBuffer(size_t bufferSize)
+String::reserve(size_t bufferSize)
 {
   deallocateInternalBuffer();
 
@@ -258,7 +252,7 @@ String::String(const char* other, size_t repeatCount)
   , bufferSize_(0)
 {
   size_t otherStringLength = StrLen(other);
-  setInternalBufferToNewBuffer(otherStringLength * repeatCount + 1);
+  reserve(otherStringLength * repeatCount + 1);
 
   char* next = buffer_;
   for (size_t i = 0; i < repeatCount; i++) {
@@ -397,59 +391,14 @@ String::replace(const char* to, const char* with)
     setInternalBufferAsEmptyString();
 }
 
-String
-String::printable() const
-{
-  static const char* shortEscapeCodes[] = {
-    "\\a", "\\b", "\\t", "\\n", "\\v", "\\f", "\\r"
-  };
-
-  String result;
-  result.setInternalBufferToNewBuffer(getPrintableSize() + 1);
-
-  size_t str_size = size();
-  size_t j = 0;
-  for (size_t i = 0; i < str_size; i++) {
-    char c = buffer_[i];
-    if (isControlWithShortEscapeSequence(c)) {
-      StrNCpy(&result.buffer_[j],
-          shortEscapeCodes[static_cast<unsigned char>(c - '\a')],
-          2);
-      j += 2;
-    } else if (isControl(c)) {
-      String hexEscapeCode = StringFromFormat("\\x%02X ", c);
-      StrNCpy(&result.buffer_[j], hexEscapeCode.c_str(), 4);
-      j += 4;
-    } else {
-      result.buffer_[j] = c;
-      j++;
-    }
-  }
-  result.buffer_[j] = 0;
-
-  return result;
-}
-
-size_t
-String::getPrintableSize() const
-{
-  size_t str_size = size();
-  size_t printable_str_size = str_size;
-
-  for (size_t i = 0; i < str_size; i++) {
-    char c = buffer_[i];
-    if (isControlWithShortEscapeSequence(c)) {
-      printable_str_size += 1;
-    } else if (isControl(c)) {
-      printable_str_size += 3;
-    }
-  }
-
-  return printable_str_size;
-}
-
 const char*
 String::c_str() const
+{
+  return buffer_;
+}
+
+char*
+String::data()
 {
   return buffer_;
 }
@@ -635,12 +584,6 @@ String
 StringFromOrNull(const char* expected)
 {
   return (expected) ? StringFrom(expected) : StringFrom("(null)");
-}
-
-String
-PrintableStringFromOrNull(const char* expected)
-{
-  return (expected) ? StringFrom(expected).printable() : StringFrom("(null)");
 }
 
 String
