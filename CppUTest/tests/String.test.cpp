@@ -316,10 +316,10 @@ TEST(String, findNormal)
   LONGS_EQUAL(cpputest::String::npos, str.find('!'));
 }
 
-TEST(String, at)
+TEST(String, index)
 {
   cpputest::String str("Hello World");
-  BYTES_EQUAL('H', str.at(0));
+  BYTES_EQUAL('H', str[0]);
 }
 
 TEST(String, ContainsNull)

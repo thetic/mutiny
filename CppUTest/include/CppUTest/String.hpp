@@ -13,22 +13,9 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#ifdef __cplusplus
-#ifndef CPPUTEST_USE_STD_CPP_LIB
-#define CPPUTEST_USE_STD_CPP_LIB 1
-#endif
+
 #if CPPUTEST_USE_STD_CPP_LIB
-#include <cstddef>
 #include <string>
-#endif
-#endif
-/* Kludge to get a va_copy in VC++ V6 and in GCC 98 */
-#ifndef va_copy
-#ifdef __GNUC__
-#define va_copy __va_copy
-#else
-#define va_copy(copy, original) copy = original;
-#endif
 #endif
 
 #ifndef __has_attribute
@@ -36,6 +23,7 @@
 #else
 #define CPPUTEST_HAS_ATTRIBUTE(x) __has_attribute(x)
 #endif
+
 #if defined(__MINGW32__)
 #define CPPUTEST_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
 #else
@@ -66,7 +54,8 @@ public:
 
   static const size_t npos = static_cast<size_t>(-1);
 
-  char at(size_t pos) const;
+  char& operator[](size_t pos) { return data()[pos]; }
+  const char& operator[](size_t pos) const { return c_str()[pos]; }
   size_t find(char ch) const;
   bool contains(const String& other) const;
   bool startsWith(const String& other) const;
@@ -266,5 +255,8 @@ StringFrom(const std::string& other);
 #endif
 
 } // namespace cpputest
+
+#undef CPPUTEST_HAS_ATTRIBUTE
+#undef CPPUTEST_CHECK_FORMAT_TYPE
 
 #endif

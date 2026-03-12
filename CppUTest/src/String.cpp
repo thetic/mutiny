@@ -493,12 +493,6 @@ String::substr(size_t beginPos) const
   return substr(beginPos, npos);
 }
 
-char
-String::at(size_t pos) const
-{
-  return c_str()[pos];
-}
-
 size_t
 String::find(char ch) const
 {
@@ -510,7 +504,7 @@ String::findFrom(size_t starting_position, char ch) const
 {
   size_t len = size();
   for (size_t i = starting_position; i < len; i++)
-    if (at(i) == ch)
+    if (c_str()[i] == ch)
       return i;
   return npos;
 }

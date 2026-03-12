@@ -303,12 +303,11 @@ CheckEqualFailure::CheckEqualFailure(TestShell* test,
   message_ += createButWasString(printableExpected, printableActual);
 
   size_t failStart;
-  for (failStart = 0; actual.at(failStart) == expected.at(failStart);
-      failStart++)
+  for (failStart = 0; actual[failStart] == expected[failStart]; failStart++)
     ;
   size_t failStartPrintable;
-  for (failStartPrintable = 0; printableActual.at(failStartPrintable) ==
-                               printableExpected.at(failStartPrintable);
+  for (failStartPrintable = 0; printableActual[failStartPrintable] ==
+                               printableExpected[failStartPrintable];
       failStartPrintable++)
     ;
   message_ += createDifferenceAtPosString(
@@ -499,8 +498,8 @@ StringEqualFailure::StringEqualFailure(TestShell* test,
     for (failStart = 0; actual[failStart] == expected[failStart]; failStart++)
       ;
     size_t failStartPrintable;
-    for (failStartPrintable = 0; printableActual.at(failStartPrintable) ==
-                                 printableExpected.at(failStartPrintable);
+    for (failStartPrintable = 0; printableActual[failStartPrintable] ==
+                                 printableExpected[failStartPrintable];
         failStartPrintable++)
       ;
     message_ += createDifferenceAtPosString(
@@ -529,9 +528,8 @@ StringEqualNoCaseFailure::StringEqualNoCaseFailure(TestShell* test,
         failStart++)
       ;
     size_t failStartPrintable;
-    for (failStartPrintable = 0;
-        ToLower(printableActual.at(failStartPrintable)) ==
-        ToLower(printableExpected.at(failStartPrintable));
+    for (failStartPrintable = 0; ToLower(printableActual[failStartPrintable]) ==
+                                 ToLower(printableExpected[failStartPrintable]);
         failStartPrintable++)
       ;
     message_ += createDifferenceAtPosString(
