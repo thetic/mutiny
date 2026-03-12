@@ -40,12 +40,7 @@ install(
     DESTINATION "${CPPUTEST_CONFIG_DEST}"
 )
 install(
-    FILES ${PROJECT_SOURCE_DIR}/cmake/Scripts/CppUTestBuildTimeDiscoverTests.cmake
-    DESTINATION "${CPPUTEST_CONFIG_DEST}/Scripts"
-)
-install(
     FILES
-        ${PROJECT_SOURCE_DIR}/cmake/Modules/CppUTestBuildTimeDiscoverTests.cmake
         ${PROJECT_SOURCE_DIR}/cmake/Modules/CppUTest.cmake
         ${PROJECT_SOURCE_DIR}/cmake/Modules/_CppUTestDiscovery.cmake
     DESTINATION "${CPPUTEST_CONFIG_DEST}/Modules"
