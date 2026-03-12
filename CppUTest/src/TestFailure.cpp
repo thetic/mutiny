@@ -324,7 +324,7 @@ LongsEqualFailure::LongsEqualFailure(TestShell* test,
   String aDecimal = StringFrom(actual);
   String eDecimal = StringFrom(expected);
 
-  String::padStringsToSameLength(aDecimal, eDecimal, ' ');
+  padStringsToSameLength(aDecimal, eDecimal, ' ');
 
   String actualReported =
       aDecimal + " " + BracketsFormattedHexStringFrom(actual);
@@ -346,7 +346,7 @@ UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(TestShell* test,
   String aDecimal = StringFrom(actual);
   String eDecimal = StringFrom(expected);
 
-  String::padStringsToSameLength(aDecimal, eDecimal, ' ');
+  padStringsToSameLength(aDecimal, eDecimal, ' ');
 
   String actualReported =
       aDecimal + " " + BracketsFormattedHexStringFrom(actual);
@@ -369,7 +369,7 @@ LongLongsEqualFailure::LongLongsEqualFailure(TestShell* test,
   String aDecimal = StringFrom(actual);
   String eDecimal = StringFrom(expected);
 
-  String::padStringsToSameLength(aDecimal, eDecimal, ' ');
+  padStringsToSameLength(aDecimal, eDecimal, ' ');
 
   String actualReported =
       aDecimal + " " + BracketsFormattedHexStringFrom(actual);
@@ -391,7 +391,7 @@ UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(TestShell* test,
   String aDecimal = StringFrom(actual);
   String eDecimal = StringFrom(expected);
 
-  String::padStringsToSameLength(aDecimal, eDecimal, ' ');
+  padStringsToSameLength(aDecimal, eDecimal, ' ');
 
   String actualReported =
       aDecimal + " " + BracketsFormattedHexStringFrom(actual);
@@ -413,7 +413,7 @@ SignedBytesEqualFailure::SignedBytesEqualFailure(TestShell* test,
   String aDecimal = StringFrom(static_cast<int>(actual));
   String eDecimal = StringFrom(static_cast<int>(expected));
 
-  String::padStringsToSameLength(aDecimal, eDecimal, ' ');
+  padStringsToSameLength(aDecimal, eDecimal, ' ');
 
   String actualReported =
       aDecimal + " " + BracketsFormattedHexStringFrom(actual);
@@ -466,14 +466,14 @@ StringEqualNoCaseFailure::StringEqualNoCaseFailure(TestShell* test,
   message_ += createButWasString(printableExpected, printableActual);
   if ((expected) && (actual)) {
     size_t failStart;
-    for (failStart = 0; String::ToLower(actual[failStart]) ==
-                        String::ToLower(expected[failStart]);
+    for (failStart = 0;
+        ToLower(actual[failStart]) == ToLower(expected[failStart]);
         failStart++)
       ;
     size_t failStartPrintable;
     for (failStartPrintable = 0;
-        String::ToLower(printableActual.at(failStartPrintable)) ==
-        String::ToLower(printableExpected.at(failStartPrintable));
+        ToLower(printableActual.at(failStartPrintable)) ==
+        ToLower(printableExpected.at(failStartPrintable));
         failStartPrintable++)
       ;
     message_ += createDifferenceAtPosString(

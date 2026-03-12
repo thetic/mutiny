@@ -621,7 +621,7 @@ TEST(String, PadStringsToSameLengthString1Larger)
   cpputest::String str1("1");
   cpputest::String str2("222");
 
-  cpputest::String::padStringsToSameLength(str1, str2, '4');
+  padStringsToSameLength(str1, str2, '4');
   STRCMP_EQUAL("441", str1.c_str());
   STRCMP_EQUAL("222", str2.c_str());
 }
@@ -631,7 +631,7 @@ TEST(String, PadStringsToSameLengthString2Larger)
   cpputest::String str1("    ");
   cpputest::String str2("");
 
-  cpputest::String::padStringsToSameLength(str1, str2, ' ');
+  padStringsToSameLength(str1, str2, ' ');
   STRCMP_EQUAL("    ", str1.c_str());
   STRCMP_EQUAL("    ", str2.c_str());
 }
@@ -641,7 +641,7 @@ TEST(String, PadStringsToSameLengthWithSameLengthStrings)
   cpputest::String str1("123");
   cpputest::String str2("123");
 
-  cpputest::String::padStringsToSameLength(str1, str2, ' ');
+  padStringsToSameLength(str1, str2, ' ');
   STRCMP_EQUAL("123", str1.c_str());
   STRCMP_EQUAL("123", str2.c_str());
 }
@@ -767,59 +767,59 @@ TEST(String, StrCmp)
   char empty[] = "";
   char blabla[] = "blabla";
   char bla[] = "bla";
-  CHECK(cpputest::String::StrCmp(empty, empty) == 0);
-  CHECK(cpputest::String::StrCmp(bla, blabla) == -static_cast<int>('b'));
-  CHECK(cpputest::String::StrCmp(blabla, bla) == 'b');
-  CHECK(cpputest::String::StrCmp(bla, empty) == 'b');
-  CHECK(cpputest::String::StrCmp(empty, bla) == -static_cast<int>('b'));
-  CHECK(cpputest::String::StrCmp(bla, bla) == 0);
+  CHECK(cpputest::StrCmp(empty, empty) == 0);
+  CHECK(cpputest::StrCmp(bla, blabla) == -static_cast<int>('b'));
+  CHECK(cpputest::StrCmp(blabla, bla) == 'b');
+  CHECK(cpputest::StrCmp(bla, empty) == 'b');
+  CHECK(cpputest::StrCmp(empty, bla) == -static_cast<int>('b'));
+  CHECK(cpputest::StrCmp(bla, bla) == 0);
 }
 
 TEST(String, StrNCmp_equal)
 {
-  int result = cpputest::String::StrNCmp("teststring", "tests", 5);
+  int result = cpputest::StrNCmp("teststring", "tests", 5);
   LONGS_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_should_always_return_0_when_n_is_0)
 {
-  int result = cpputest::String::StrNCmp("a", "b", 0);
+  int result = cpputest::StrNCmp("a", "b", 0);
   LONGS_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_s1_smaller)
 {
-  int result = cpputest::String::StrNCmp("testing", "tests", 7);
+  int result = cpputest::StrNCmp("testing", "tests", 7);
   LONGS_EQUAL('i' - 's', result);
 }
 
 TEST(String, StrNCmp_s1_larger)
 {
-  int result = cpputest::String::StrNCmp("teststring", "tester", 7);
+  int result = cpputest::StrNCmp("teststring", "tester", 7);
   LONGS_EQUAL('s' - 'e', result);
 }
 
 TEST(String, StrNCmp_n_too_large)
 {
-  int result = cpputest::String::StrNCmp("teststring", "teststring", 20);
+  int result = cpputest::StrNCmp("teststring", "teststring", 20);
   LONGS_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_s1_empty)
 {
-  int result = cpputest::String::StrNCmp("", "foo", 2);
+  int result = cpputest::StrNCmp("", "foo", 2);
   LONGS_EQUAL(0 - 'f', result);
 }
 
 TEST(String, StrNCmp_s2_empty)
 {
-  int result = cpputest::String::StrNCmp("foo", "", 2);
+  int result = cpputest::StrNCmp("foo", "", 2);
   LONGS_EQUAL('f', result);
 }
 
 TEST(String, StrNCmp_s1_and_s2_empty)
 {
-  int result = cpputest::String::StrNCmp("", "", 2);
+  int result = cpputest::StrNCmp("", "", 2);
   LONGS_EQUAL(0, result);
 }
 
@@ -828,33 +828,33 @@ TEST(String, AtoI)
   char max_short_str[] = "32767";
   char min_short_str[] = "-32768";
 
-  CHECK(12345 == cpputest::String::AtoI("012345"));
-  CHECK(6789 == cpputest::String::AtoI("6789"));
-  CHECK(12345 == cpputest::String::AtoI("12345/"));
-  CHECK(12345 == cpputest::String::AtoI("12345:"));
-  CHECK(-12345 == cpputest::String::AtoI("-12345"));
-  CHECK(123 == cpputest::String::AtoI("\t \r\n123"));
-  CHECK(123 == cpputest::String::AtoI("123-foo"));
-  CHECK(0 == cpputest::String::AtoI("-foo"));
-  CHECK(-32768 == cpputest::String::AtoI(min_short_str));
-  CHECK(32767 == cpputest::String::AtoI(max_short_str));
+  CHECK(12345 == cpputest::AtoI("012345"));
+  CHECK(6789 == cpputest::AtoI("6789"));
+  CHECK(12345 == cpputest::AtoI("12345/"));
+  CHECK(12345 == cpputest::AtoI("12345:"));
+  CHECK(-12345 == cpputest::AtoI("-12345"));
+  CHECK(123 == cpputest::AtoI("\t \r\n123"));
+  CHECK(123 == cpputest::AtoI("123-foo"));
+  CHECK(0 == cpputest::AtoI("-foo"));
+  CHECK(-32768 == cpputest::AtoI(min_short_str));
+  CHECK(32767 == cpputest::AtoI(max_short_str));
 }
 
 TEST(String, AtoU)
 {
   char max_short_str[] = "65535";
-  CHECK(12345 == cpputest::String::AtoU("012345"));
-  CHECK(6789 == cpputest::String::AtoU("6789"));
-  CHECK(12345 == cpputest::String::AtoU("12345/"));
-  CHECK(12345 == cpputest::String::AtoU("12345:"));
-  CHECK(123 == cpputest::String::AtoU("\t \r\n123"));
-  CHECK(123 == cpputest::String::AtoU("123-foo"));
-  CHECK(65535 == cpputest::String::AtoU(max_short_str));
-  CHECK(0 == cpputest::String::AtoU("foo"));
-  CHECK(0 == cpputest::String::AtoU("-foo"));
-  CHECK(0 == cpputest::String::AtoU("+1"));
-  CHECK(0 == cpputest::String::AtoU("-1"));
-  CHECK(0 == cpputest::String::AtoU("0"));
+  CHECK(12345 == cpputest::AtoU("012345"));
+  CHECK(6789 == cpputest::AtoU("6789"));
+  CHECK(12345 == cpputest::AtoU("12345/"));
+  CHECK(12345 == cpputest::AtoU("12345:"));
+  CHECK(123 == cpputest::AtoU("\t \r\n123"));
+  CHECK(123 == cpputest::AtoU("123-foo"));
+  CHECK(65535 == cpputest::AtoU(max_short_str));
+  CHECK(0 == cpputest::AtoU("foo"));
+  CHECK(0 == cpputest::AtoU("-foo"));
+  CHECK(0 == cpputest::AtoU("+1"));
+  CHECK(0 == cpputest::AtoU("-1"));
+  CHECK(0 == cpputest::AtoU("0"));
 }
 
 TEST(String, Binary)
@@ -900,10 +900,10 @@ TEST(String, MemCmp)
   unsigned char smaller[] = { 0x00, 0x01, 0x2A, 0xFF };
   unsigned char greater[] = { 0x00, 0x01, 0xFF, 0xFF };
 
-  LONGS_EQUAL(0, cpputest::String::MemCmp(smaller, smaller, sizeof(smaller)));
-  CHECK(cpputest::String::MemCmp(smaller, greater, sizeof(smaller)) < 0);
-  CHECK(cpputest::String::MemCmp(greater, smaller, sizeof(smaller)) > 0);
-  LONGS_EQUAL(0, cpputest::String::MemCmp(nullptr, nullptr, 0));
+  LONGS_EQUAL(0, cpputest::MemCmp(smaller, smaller, sizeof(smaller)));
+  CHECK(cpputest::MemCmp(smaller, greater, sizeof(smaller)) < 0);
+  CHECK(cpputest::MemCmp(greater, smaller, sizeof(smaller)) > 0);
+  LONGS_EQUAL(0, cpputest::MemCmp(nullptr, nullptr, 0));
 }
 
 TEST(String, MemCmpFirstLastNotMatching)
@@ -911,8 +911,8 @@ TEST(String, MemCmpFirstLastNotMatching)
   unsigned char base[] = { 0x00, 0x01, 0x2A, 0xFF };
   unsigned char firstNotMatching[] = { 0x01, 0x01, 0x2A, 0xFF };
   unsigned char lastNotMatching[] = { 0x00, 0x01, 0x2A, 0x00 };
-  CHECK(0 != cpputest::String::MemCmp(base, firstNotMatching, sizeof(base)));
-  CHECK(0 != cpputest::String::MemCmp(base, lastNotMatching, sizeof(base)));
+  CHECK(0 != cpputest::MemCmp(base, firstNotMatching, sizeof(base)));
+  CHECK(0 != cpputest::MemCmp(base, lastNotMatching, sizeof(base)));
 }
 
 TEST(String, StringFromOrdinalNumberOnes)

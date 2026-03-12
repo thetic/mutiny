@@ -505,7 +505,7 @@ MockNamedValue::equals(const MockNamedValue& p) const
     if (size_ != p.size_) {
       return false;
     }
-    return String::MemCmp(value_.memoryBufferValue_,
+    return MemCmp(value_.memoryBufferValue_,
                p.value_.memoryBufferValue_,
                size_) == 0;
   }

@@ -435,7 +435,7 @@ TestShell::assertCstrEqual(const char* expected,
         StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
   }
-  if (String::StrCmp(expected, actual) != 0) {
+  if (StrCmp(expected, actual) != 0) {
     addFailure(
         StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
@@ -459,7 +459,7 @@ TestShell::assertCstrNEqual(const char* expected,
         StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
   }
-  if (String::StrNCmp(expected, actual, length) != 0) {
+  if (StrNCmp(expected, actual, length) != 0) {
     addFailure(
         StringEqualFailure(this, fileName, lineNumber, expected, actual, text));
     testTerminator.exitCurrentTest();
@@ -693,7 +693,7 @@ TestShell::assertBinaryEqual(const void* expected,
         text));
     testTerminator.exitCurrentTest();
   }
-  if (String::MemCmp(expected, actual, length) != 0) {
+  if (MemCmp(expected, actual, length) != 0) {
     addFailure(BinaryEqualFailure(this,
         fileName,
         lineNumber,

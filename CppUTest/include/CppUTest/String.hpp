@@ -91,29 +91,12 @@ public:
   size_t length() const { return size(); }
   bool empty() const;
 
-  static void padStringsToSameLength(String& str1, String& str2, char ch);
-
   static TestMemoryAllocator* getStringAllocator();
   static void setStringAllocator(TestMemoryAllocator* allocator);
-
-  static int AtoI(const char* str);
-  static unsigned AtoU(const char* str);
-  static int StrCmp(const char* s1, const char* s2);
-  static int StrNCmp(const char* s1, const char* s2, size_t n);
-  static char ToLower(char ch);
-  static int MemCmp(const void* s1, const void* s2, size_t n);
 
 private:
   size_t findFrom(size_t starting_position, char ch) const;
   size_t count(const String& str) const;
-  static size_t StrLen(const char*);
-  static char* StrNCpy(char* s1, const char* s2, size_t n);
-  static const char* StrStr(const char* s1, const char* s2);
-  static char* allocStringBuffer(size_t size, const char* file, size_t line);
-  static void deallocStringBuffer(char* str,
-      size_t size,
-      const char* file,
-      size_t line);
 
   const char* getBuffer() const;
 
@@ -132,12 +115,6 @@ private:
   static TestMemoryAllocator* stringAllocator_;
 
   char* getEmptyString() const;
-  static char* copyToNewBuffer(const char* bufferToCopy, size_t bufferSize);
-  static bool isDigit(char ch);
-  static bool isSpace(char ch);
-  static bool isUpper(char ch);
-  static bool isControl(char ch);
-  static bool isControlWithShortEscapeSequence(char ch);
 
   size_t getPrintableSize() const;
 };
@@ -161,6 +138,21 @@ private:
   void operator=(StringCollection&);
   StringCollection(StringCollection&);
 };
+
+void
+padStringsToSameLength(String& str1, String& str2, char ch);
+int
+AtoI(const char* str);
+unsigned
+AtoU(const char* str);
+int
+StrCmp(const char* s1, const char* s2);
+int
+StrNCmp(const char* s1, const char* s2, size_t n);
+char
+ToLower(char ch);
+int
+MemCmp(const void* s1, const void* s2, size_t n);
 
 String
 StringFrom(bool value);

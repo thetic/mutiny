@@ -10,6 +10,29 @@
 
 namespace cpputest {
 
+static char*
+copyToNewBuffer(const char* bufferToCopy, size_t bufferSize);
+static bool
+isDigit(char ch);
+static bool
+isSpace(char ch);
+static bool
+isUpper(char ch);
+static bool
+isControl(char ch);
+static bool
+isControlWithShortEscapeSequence(char ch);
+
+size_t
+StrLen(const char*);
+char*
+StrNCpy(char* s1, const char* s2, size_t n);
+const char*
+StrStr(const char* s1, const char* s2);
+char*
+allocStringBuffer(size_t size, const char* file, size_t line);
+void
+deallocStringBuffer(char* str, size_t size, const char* file, size_t line);
 TestMemoryAllocator* String::stringAllocator_ = nullptr;
 
 TestMemoryAllocator*
@@ -27,18 +50,15 @@ String::setStringAllocator(TestMemoryAllocator* allocator)
 }
 
 char*
-String::allocStringBuffer(size_t _size, const char* file, size_t line)
+allocStringBuffer(size_t _size, const char* file, size_t line)
 {
-  return getStringAllocator()->alloc_memory(_size, file, line);
+  return String::getStringAllocator()->alloc_memory(_size, file, line);
 }
 
 void
-String::deallocStringBuffer(char* str,
-    size_t size,
-    const char* file,
-    size_t line)
+deallocStringBuffer(char* str, size_t size, const char* file, size_t line)
 {
-  getStringAllocator()->free_memory(str, size, file, line);
+  String::getStringAllocator()->free_memory(str, size, file, line);
 }
 
 char*
@@ -51,7 +71,7 @@ String::getEmptyString() const
 
 // does not support + or - prefixes
 unsigned
-String::AtoU(const char* str)
+AtoU(const char* str)
 {
   while (isSpace(*str))
     str++;
@@ -65,7 +85,7 @@ String::AtoU(const char* str)
 }
 
 int
-String::AtoI(const char* str)
+AtoI(const char* str)
 {
   while (isSpace(*str))
     str++;
@@ -83,7 +103,7 @@ String::AtoI(const char* str)
 }
 
 int
-String::StrCmp(const char* s1, const char* s2)
+StrCmp(const char* s1, const char* s2)
 {
   while (*s1 && *s1 == *s2) {
     ++s1;
@@ -94,7 +114,7 @@ String::StrCmp(const char* s1, const char* s2)
 }
 
 size_t
-String::StrLen(const char* str)
+StrLen(const char* str)
 {
   size_t n = static_cast<size_t>(-1);
   do
@@ -104,7 +124,7 @@ String::StrLen(const char* str)
 }
 
 int
-String::StrNCmp(const char* s1, const char* s2, size_t n)
+StrNCmp(const char* s1, const char* s2, size_t n)
 {
   while (n && *s1 && *s1 == *s2) {
     --n;
@@ -117,7 +137,7 @@ String::StrNCmp(const char* s1, const char* s2, size_t n)
 }
 
 char*
-String::StrNCpy(char* s1, const char* s2, size_t n)
+StrNCpy(char* s1, const char* s2, size_t n)
 {
   char* result = s1;
 
@@ -132,7 +152,7 @@ String::StrNCpy(char* s1, const char* s2, size_t n)
 }
 
 const char*
-String::StrStr(const char* s1, const char* s2)
+StrStr(const char* s1, const char* s2)
 {
   if (!*s2)
     return s1;
@@ -143,14 +163,14 @@ String::StrStr(const char* s1, const char* s2)
 }
 
 char
-String::ToLower(char ch)
+ToLower(char ch)
 {
   return isUpper(ch) ? static_cast<char>(static_cast<int>(ch) + ('a' - 'A'))
                      : ch;
 }
 
 int
-String::MemCmp(const void* s1, const void* s2, size_t n)
+MemCmp(const void* s1, const void* s2, size_t n)
 {
   const unsigned char* p1 = static_cast<const unsigned char*>(s1);
   const unsigned char* p2 = static_cast<const unsigned char*>(s2);
@@ -499,7 +519,7 @@ String::~String()
 bool
 operator==(const String& left, const String& right)
 {
-  return 0 == String::StrCmp(left.c_str(), right.c_str());
+  return 0 == StrCmp(left.c_str(), right.c_str());
 }
 
 bool
@@ -542,7 +562,7 @@ String::operator+=(const char* rhs)
 }
 
 void
-String::padStringsToSameLength(String& str1, String& str2, char padCharacter)
+padStringsToSameLength(String& str1, String& str2, char padCharacter)
 {
   if (str1.size() > str2.size()) {
     padStringsToSameLength(str2, str1, padCharacter);
@@ -612,7 +632,7 @@ String::subStringFromTill(char startChar, char lastExcludedChar) const
 }
 
 char*
-String::copyToNewBuffer(const char* bufferToCopy, size_t bufferSize)
+copyToNewBuffer(const char* bufferToCopy, size_t bufferSize)
 {
   char* newBuffer = allocStringBuffer(bufferSize, __FILE__, __LINE__);
   StrNCpy(newBuffer, bufferToCopy, bufferSize);
@@ -621,31 +641,31 @@ String::copyToNewBuffer(const char* bufferToCopy, size_t bufferSize)
 }
 
 bool
-String::isDigit(char ch)
+isDigit(char ch)
 {
   return '0' <= ch && '9' >= ch;
 }
 
 bool
-String::isSpace(char ch)
+isSpace(char ch)
 {
   return (ch == ' ') || (0x08 < ch && 0x0E > ch);
 }
 
 bool
-String::isUpper(char ch)
+isUpper(char ch)
 {
   return 'A' <= ch && 'Z' >= ch;
 }
 
 bool
-String::isControl(char ch)
+isControl(char ch)
 {
   return ch < ' ' || ch == char(0x7F);
 }
 
 bool
-String::isControlWithShortEscapeSequence(char ch)
+isControlWithShortEscapeSequence(char ch)
 {
   return '\a' <= ch && '\r' >= ch;
 }
