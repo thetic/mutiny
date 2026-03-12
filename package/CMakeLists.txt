@@ -1,6 +1,7 @@
 set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
 set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/CppUTest/include")
+set(MODULES_DIR "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
 # Pkg-config file.
 set(prefix "${CMAKE_INSTALL_PREFIX}")
@@ -52,7 +53,7 @@ install(
 configure_package_config_file(CppUTestConfig.cmake.build.in
     ${PROJECT_BINARY_DIR}/CppUTestConfig.cmake
     INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
-    PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR
+    PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR MODULES_DIR
 )
 write_basic_package_version_file(
     ${PROJECT_BINARY_DIR}/CppUTestConfigVersion.cmake
