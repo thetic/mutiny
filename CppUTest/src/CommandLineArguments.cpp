@@ -74,47 +74,47 @@ CommandLineArguments::parse(TestPlugin* plugin)
       crashOnFail_ = true;
     else if ((argument == "-e") || (argument == "-ci"))
       rethrowExceptions_ = false;
-    else if (argument.startsWith("-r"))
+    else if (stringStartsWith(argument, "-r"))
       setRepeatCount(ac_, av_, i);
-    else if (argument.startsWith("-g"))
+    else if (stringStartsWith(argument, "-g"))
       addGroupFilter(ac_, av_, i);
-    else if (argument.startsWith("-t"))
+    else if (stringStartsWith(argument, "-t"))
       correctParameters =
           addGroupDotNameFilter(ac_, av_, i, "-t", false, false);
-    else if (argument.startsWith("-st"))
+    else if (stringStartsWith(argument, "-st"))
       correctParameters =
           addGroupDotNameFilter(ac_, av_, i, "-st", true, false);
-    else if (argument.startsWith("-xt"))
+    else if (stringStartsWith(argument, "-xt"))
       correctParameters =
           addGroupDotNameFilter(ac_, av_, i, "-xt", false, true);
-    else if (argument.startsWith("-xst"))
+    else if (stringStartsWith(argument, "-xst"))
       correctParameters =
           addGroupDotNameFilter(ac_, av_, i, "-xst", true, true);
-    else if (argument.startsWith("-sg"))
+    else if (stringStartsWith(argument, "-sg"))
       addStrictGroupFilter(ac_, av_, i);
-    else if (argument.startsWith("-xg"))
+    else if (stringStartsWith(argument, "-xg"))
       addExcludeGroupFilter(ac_, av_, i);
-    else if (argument.startsWith("-xsg"))
+    else if (stringStartsWith(argument, "-xsg"))
       addExcludeStrictGroupFilter(ac_, av_, i);
-    else if (argument.startsWith("-n"))
+    else if (stringStartsWith(argument, "-n"))
       addNameFilter(ac_, av_, i);
-    else if (argument.startsWith("-sn"))
+    else if (stringStartsWith(argument, "-sn"))
       addStrictNameFilter(ac_, av_, i);
-    else if (argument.startsWith("-xn"))
+    else if (stringStartsWith(argument, "-xn"))
       addExcludeNameFilter(ac_, av_, i);
-    else if (argument.startsWith("-xsn"))
+    else if (stringStartsWith(argument, "-xsn"))
       addExcludeStrictNameFilter(ac_, av_, i);
-    else if (argument.startsWith("-s"))
+    else if (stringStartsWith(argument, "-s"))
       correctParameters = setShuffle(ac_, av_, i);
-    else if (argument.startsWith("TEST("))
+    else if (stringStartsWith(argument, "TEST("))
       addTestToRunBasedOnVerboseOutput(ac_, av_, i, "TEST(");
-    else if (argument.startsWith("IGNORE_TEST("))
+    else if (stringStartsWith(argument, "IGNORE_TEST("))
       addTestToRunBasedOnVerboseOutput(ac_, av_, i, "IGNORE_TEST(");
-    else if (argument.startsWith("-o"))
+    else if (stringStartsWith(argument, "-o"))
       correctParameters = setOutputType(ac_, av_, i);
-    else if (argument.startsWith("-p"))
+    else if (stringStartsWith(argument, "-p"))
       correctParameters = plugin->parseAllArguments(ac_, av_, i);
-    else if (argument.startsWith("-k"))
+    else if (stringStartsWith(argument, "-k"))
       setPackageName(ac_, av_, i);
     else
       correctParameters = false;

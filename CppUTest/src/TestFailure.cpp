@@ -230,7 +230,7 @@ TestFailure::createUserText(const String& text)
     // This is a kludge to turn off "Message: " for this case.
     // I don't think "Message: " adds anything, as you get to see the
     // message. I propose we remove "Message: " lead in
-    if (!text.startsWith("LONGS_EQUAL"))
+    if (!stringStartsWith(text, "LONGS_EQUAL"))
       userMessage += "Message: ";
     userMessage += text;
     userMessage += "\n\t";

@@ -57,9 +57,6 @@ public:
   char& operator[](size_t pos) { return data()[pos]; }
   const char& operator[](size_t pos) const { return c_str()[pos]; }
   size_t find(char ch) const;
-  bool contains(const String& other) const;
-  bool startsWith(const String& other) const;
-  bool endsWith(const String& other) const;
 
   void replace(char to, char with);
   void replace(const char* to, const char* with);
@@ -98,6 +95,13 @@ private:
 
   char* getEmptyString() const;
 };
+
+bool
+stringContains(const String& str, const String& substr);
+bool
+stringStartsWith(const String& str, const String& prefix);
+bool
+stringEndsWith(const String& str, const String& suffix);
 
 bool
 isControl(char ch);

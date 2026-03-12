@@ -38,7 +38,7 @@ StringCollection::splitString(String const& string, char d)
   auto delimiter = StringFrom(d);
 
   size_t num = countSubstr(string, delimiter);
-  size_t extraEndToken = (string.endsWith(delimiter)) ? 0 : 1U;
+  size_t extraEndToken = (stringEndsWith(string, delimiter)) ? 0 : 1U;
   allocate(num + extraEndToken);
 
   const char* str = string.c_str();

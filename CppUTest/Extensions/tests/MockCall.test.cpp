@@ -463,10 +463,10 @@ TEST(MockCall, shouldntFailTwice)
   mock().actualCall("bar");
   mock().checkExpectations();
 
-  CHECK(!MockFailureReporterForTest::getReporter()->mockFailureString.contains(
-      "bar"));
-  CHECK(MockFailureReporterForTest::getReporter()->mockFailureString.contains(
-      "boo"));
+  CHECK(!stringContains(
+      MockFailureReporterForTest::getReporter()->mockFailureString, "bar"));
+  CHECK(stringContains(
+      MockFailureReporterForTest::getReporter()->mockFailureString, "boo"));
 }
 
 TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)

@@ -299,27 +299,27 @@ String::operator=(const String& other)
 }
 
 bool
-String::contains(const String& other) const
+stringContains(const String& str, const String& substr)
 {
-  return StrStr(c_str(), other.c_str()) != nullptr;
+  return StrStr(str.c_str(), substr.c_str()) != nullptr;
 }
 
 bool
-String::startsWith(const String& other) const
+stringStartsWith(const String& str, const String& prefix)
 {
-  if (other.size() == 0)
+  if (prefix.size() == 0)
     return true;
-  else if (size() == 0)
+  else if (str.size() == 0)
     return false;
   else
-    return StrStr(c_str(), other.c_str()) == c_str();
+    return StrStr(str.c_str(), prefix.c_str()) == str.c_str();
 }
 
 bool
-String::endsWith(const String& other) const
+stringEndsWith(const String& str, const String& suffix)
 {
-  size_t len = size();
-  size_t other_len = other.size();
+  size_t len = str.size();
+  size_t other_len = suffix.size();
 
   if (other_len == 0)
     return true;
@@ -328,7 +328,7 @@ String::endsWith(const String& other) const
   if (len < other_len)
     return false;
 
-  return StrCmp(c_str() + len - other_len, other.c_str()) == 0;
+  return StrCmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
 }
 
 size_t

@@ -481,7 +481,7 @@ TestShell::assertCstrContains(const char* expected,
         ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
   }
-  if (!String(actual).contains(expected)) {
+  if (!stringContains(actual, expected)) {
     addFailure(
         ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());

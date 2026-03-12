@@ -153,7 +153,7 @@ TestTestingFixture::assertPrintContains(const String& contains)
 void
 TestTestingFixture::assertPrintContainsNot(const String& contains)
 {
-  CHECK(!getOutput().contains(contains));
+  CHECK(!stringContains(getOutput(), contains));
 }
 
 const String&

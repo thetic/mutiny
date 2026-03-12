@@ -676,7 +676,7 @@ TEST(UtestMacros, FailureWithLONGS_EQUALShowsSymbolicParameters)
       "LONGS_EQUAL(MONDAY, day_of_the_week) failed");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2 (0x2)>");
-  CHECK_FALSE(fixture.getOutput().contains("Message: "));
+  CHECK_FALSE(stringContains(fixture.getOutput(), "Message: "));
 }
 
 TEST(UtestMacros, LONGS_EQUALBehavesAsProperMacro)

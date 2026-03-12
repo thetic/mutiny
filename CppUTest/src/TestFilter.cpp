@@ -58,7 +58,7 @@ TestFilter::match(const String& name) const
   if (strictMatching_)
     matches = name == filter_;
   else
-    matches = name.contains(filter_);
+    matches = stringContains(name, filter_);
 
   return invertMatching_ ? !matches : matches;
 }

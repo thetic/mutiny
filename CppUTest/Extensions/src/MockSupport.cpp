@@ -556,7 +556,7 @@ MockSupport*
 MockSupport::getMockSupport(MockNamedValueListNode* node)
 {
   if (node->getType() == "MockSupport" &&
-      node->getName().contains(MOCK_SUPPORT_SCOPE_PREFIX))
+      stringContains(node->getName(), MOCK_SUPPORT_SCOPE_PREFIX))
     return static_cast<MockSupport*>(node->item()->getObjectPointer());
   return nullptr;
 }

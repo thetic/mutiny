@@ -169,7 +169,7 @@ TEST(String, Concatenation)
   CHECK_EQUAL(s5, s4);
 }
 
-TEST(String, Contains)
+TEST(String, stringContains)
 {
   cpputest::String s("hello!");
   cpputest::String empty("");
@@ -178,14 +178,14 @@ TEST(String, Contains)
   cpputest::String mid("l");
   cpputest::String notPartOfString("xxxx");
 
-  CHECK(s.contains(empty));
-  CHECK(s.contains(beginning));
-  CHECK(s.contains(end));
-  CHECK(s.contains(mid));
-  CHECK(!s.contains(notPartOfString));
+  CHECK(stringContains(s, empty));
+  CHECK(stringContains(s, beginning));
+  CHECK(stringContains(s, end));
+  CHECK(stringContains(s, mid));
+  CHECK(!stringContains(s, notPartOfString));
 
-  CHECK(empty.contains(empty));
-  CHECK(!empty.contains(s));
+  CHECK(stringContains(empty, empty));
+  CHECK(!stringContains(empty, s));
 }
 
 TEST(String, startsWith)
@@ -193,25 +193,25 @@ TEST(String, startsWith)
   cpputest::String hi("Hi you!");
   cpputest::String part("Hi");
   cpputest::String diff("Hrrm Hi you! ffdsfd");
-  CHECK(hi.startsWith(part));
-  CHECK(!part.startsWith(hi));
-  CHECK(!diff.startsWith(hi));
+  CHECK(stringStartsWith(hi, part));
+  CHECK(!stringStartsWith(part, hi));
+  CHECK(!stringStartsWith(diff, hi));
 }
 
-TEST(String, endsWith)
+TEST(String, stringEndsWith)
 {
   cpputest::String str("Hello World");
-  CHECK(str.endsWith("World"));
-  CHECK(!str.endsWith("Worl"));
-  CHECK(!str.endsWith("Hello"));
+  CHECK(stringEndsWith(str, "World"));
+  CHECK(!stringEndsWith(str, "Worl"));
+  CHECK(!stringEndsWith(str, "Hello"));
   cpputest::String str2("ah");
-  CHECK(str2.endsWith("ah"));
-  CHECK(!str2.endsWith("baah"));
+  CHECK(stringEndsWith(str2, "ah"));
+  CHECK(!stringEndsWith(str2, "baah"));
   cpputest::String str3("");
-  CHECK(!str3.endsWith("baah"));
+  CHECK(!stringEndsWith(str3, "baah"));
 
   cpputest::String str4("ha ha ha ha");
-  CHECK(str4.endsWith("ha"));
+  CHECK(stringEndsWith(str4, "ha"));
 }
 
 TEST(String, replaceCharWithChar)
