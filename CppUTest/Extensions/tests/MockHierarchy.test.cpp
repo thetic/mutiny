@@ -2,8 +2,7 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 TEST_GROUP(MockHierarchy)
 {
@@ -12,8 +11,8 @@ TEST_GROUP(MockHierarchy)
 
 TEST(MockHierarchy, getMockSupportScope)
 {
-  MockSupport* mock1 = mock().getMockSupportScope("name");
-  MockSupport* mock2 = mock().getMockSupportScope("differentName");
+  auto* mock1 = mock().getMockSupportScope("name");
+  auto* mock2 = mock().getMockSupportScope("differentName");
 
   CHECK(!mock().hasData("name"));
   CHECK(mock1 != mock2);
@@ -75,7 +74,7 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchically)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("first::foobar");
   expectations.addFunction("second::helloworld");
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock("first").expectOneCall("foobar");
@@ -108,7 +107,7 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("first::foobar")->withParameter("boo", 1);
-  MockExpectedParameterDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedParameterDidntHappenFailure expectedFailure(
       mockFailureTest(), "first::foobar", expectations, expectations);
 
   mock("first").expectOneCall("foobar").withParameter("boo", 1);
@@ -125,7 +124,7 @@ TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 
   mock("differentScope").actualCall("foobar");
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "differentScope::foobar", expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }

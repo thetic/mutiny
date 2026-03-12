@@ -2,18 +2,17 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-using UtestShell = cpputest::TestShell;
+using cpputest::extensions::mock;
 
 void
-MockFailureReporterForTest::failTest(MockFailure failure)
+MockFailureReporterForTest::failTest(cpputest::extensions::MockFailure failure)
 {
   mockFailureString = failure.getMessage();
 }
 
 void
-MockFailureReporterForTest::reportFailure(const MockFailure& failure)
+MockFailureReporterForTest::reportFailure(
+    const cpputest::extensions::MockFailure& failure)
 {
   mockFailureString = failure.getMessage();
 }
@@ -54,13 +53,13 @@ MockFailureReporterInstaller::~MockFailureReporterInstaller()
   MockFailureReporterForTest::clearReporter();
 }
 
-UtestShell*
+cpputest::TestShell*
 mockFailureTest()
 {
   return MockFailureReporterForTest::getReporter()->getTestToFail();
 }
 
-String
+cpputest::String
 mockFailureString()
 {
   return MockFailureReporterForTest::getReporter()->mockFailureString;
@@ -73,15 +72,16 @@ CLEAR_MOCK_FAILURE()
 }
 
 void
-CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
+CHECK_EXPECTED_MOCK_FAILURE_LOCATION(
+    const cpputest::extensions::MockFailure& expectedFailure,
     const char* file,
     size_t line)
 {
-  String expectedFailureString = expectedFailure.getMessage();
-  String actualFailureString = mockFailureString();
+  cpputest::String expectedFailureString = expectedFailure.getMessage();
+  cpputest::String actualFailureString = mockFailureString();
   CLEAR_MOCK_FAILURE();
   if (expectedFailureString != actualFailureString) {
-    String error = "MockFailures are different.\n";
+    cpputest::String error = "MockFailures are different.\n";
     error += "Expected MockFailure:\n\t";
     error += expectedFailureString;
     error += "\nActual MockFailure:\n\t";
@@ -94,7 +94,7 @@ void
 CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line)
 {
   if (mockFailureString() != "") {
-    String error = "Unexpected mock failure:\n";
+    cpputest::String error = "Unexpected mock failure:\n";
     error += mockFailureString();
     CLEAR_MOCK_FAILURE();
     FAIL_LOCATION(error.c_str(), file, line);
@@ -107,30 +107,32 @@ MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
   deleteAllExpectationsAndClearList();
 }
 
-MockCheckedExpectedCall*
-MockExpectedCallsListForTest::addFunction(const String& name)
+cpputest::extensions::MockCheckedExpectedCall*
+MockExpectedCallsListForTest::addFunction(const cpputest::String& name)
 {
-  MockCheckedExpectedCall* newCall = new MockCheckedExpectedCall;
+  cpputest::extensions::MockCheckedExpectedCall* newCall =
+      new cpputest::extensions::MockCheckedExpectedCall;
   newCall->withName(name);
   addExpectedCall(newCall);
   return newCall;
 }
 
-MockCheckedExpectedCall*
+cpputest::extensions::MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
-    const String& name)
+    const cpputest::String& name)
 {
-  MockCheckedExpectedCall* newCall = new MockCheckedExpectedCall(numCalls);
+  cpputest::extensions::MockCheckedExpectedCall* newCall =
+      new cpputest::extensions::MockCheckedExpectedCall(numCalls);
   newCall->withName(name);
   addExpectedCall(newCall);
   return newCall;
 }
 
-MockCheckedExpectedCall*
-MockExpectedCallsListForTest::addFunctionOrdered(const String& name,
+cpputest::extensions::MockCheckedExpectedCall*
+MockExpectedCallsListForTest::addFunctionOrdered(const cpputest::String& name,
     unsigned int order)
 {
-  MockCheckedExpectedCall* newCall = addFunction(name);
+  cpputest::extensions::MockCheckedExpectedCall* newCall = addFunction(name);
   newCall->withCallOrder(order);
   return newCall;
 }

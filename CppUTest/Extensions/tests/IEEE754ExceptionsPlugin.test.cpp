@@ -7,13 +7,10 @@
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-
 TEST_GROUP(IEEE754ExceptionsPlugin)
 {
-  TestTestingFixture fixture;
-  IEEE754ExceptionsPlugin ieee754Plugin;
+  cpputest::TestTestingFixture fixture;
+  cpputest::extensions::IEEE754ExceptionsPlugin ieee754Plugin;
 
   void setup(void) override { fixture.installPlugin(&ieee754Plugin); }
 };
@@ -43,7 +40,7 @@ TEST(IEEE754ExceptionsPlugin, should_fail_when_FE_UNDERFLOW_is_set)
 
 TEST(IEEE754ExceptionsPlugin, should_fail_when_FE_INEXACT_is_set_and_enabled)
 {
-  IEEE754ExceptionsPlugin::enableInexact();
+  cpputest::extensions::IEEE754ExceptionsPlugin::enableInexact();
   fixture.setTestFunction(set_inexact_c);
   fixture.runAllTests();
   fixture.assertPrintContains("IEEE754_CHECK_CLEAR(FE_INEXACT) failed");
@@ -52,8 +49,8 @@ TEST(IEEE754ExceptionsPlugin, should_fail_when_FE_INEXACT_is_set_and_enabled)
 TEST(IEEE754ExceptionsPlugin,
     should_succeed_when_FE_INEXACT_is_set_and_disabled)
 {
-  IEEE754ExceptionsPlugin::enableInexact();
-  IEEE754ExceptionsPlugin::disableInexact();
+  cpputest::extensions::IEEE754ExceptionsPlugin::enableInexact();
+  cpputest::extensions::IEEE754ExceptionsPlugin::disableInexact();
   fixture.setTestFunction(set_inexact_c);
   fixture.runAllTests();
   fixture.assertPrintContains("OK");
@@ -62,12 +59,12 @@ TEST(IEEE754ExceptionsPlugin,
 TEST(IEEE754ExceptionsPlugin,
     should_succeed_with_5_checks_when_no_flags_are_set)
 {
-  IEEE754ExceptionsPlugin::enableInexact();
+  cpputest::extensions::IEEE754ExceptionsPlugin::enableInexact();
   fixture.setTestFunction(set_nothing_c);
   fixture.runAllTests();
   fixture.assertPrintContains(
       "OK (1 tests, 1 ran, 5 checks, 0 ignored, 0 filtered out");
-  IEEE754ExceptionsPlugin::disableInexact();
+  cpputest::extensions::IEEE754ExceptionsPlugin::disableInexact();
 }
 
 TEST(IEEE754ExceptionsPlugin, should_check_five_times_when_all_flags_are_set)
@@ -96,23 +93,27 @@ TEST(IEEE754ExceptionsPlugin,
 {
   fixture.setTestFunction(set_everything_but_already_failed);
   fixture.runAllTests();
-  CHECK(IEEE754ExceptionsPlugin::checkIeee754OverflowExceptionFlag());
-  CHECK(IEEE754ExceptionsPlugin::checkIeee754UnderflowExceptionFlag());
-  CHECK(IEEE754ExceptionsPlugin::checkIeee754InexactExceptionFlag());
-  CHECK(IEEE754ExceptionsPlugin::checkIeee754DivByZeroExceptionFlag());
+  CHECK(cpputest::extensions::IEEE754ExceptionsPlugin::
+          checkIeee754OverflowExceptionFlag());
+  CHECK(cpputest::extensions::IEEE754ExceptionsPlugin::
+          checkIeee754UnderflowExceptionFlag());
+  CHECK(cpputest::extensions::IEEE754ExceptionsPlugin::
+          checkIeee754InexactExceptionFlag());
+  CHECK(cpputest::extensions::IEEE754ExceptionsPlugin::
+          checkIeee754DivByZeroExceptionFlag());
   LONGS_EQUAL(1, fixture.getCheckCount());
   LONGS_EQUAL(1, fixture.getFailureCount());
 }
 
 #endif
 
-static IEEE754ExceptionsPlugin ip;
+static cpputest::extensions::IEEE754ExceptionsPlugin ip;
 
 TEST_GROUP(IEEE754ExceptionsPlugin2)
 {
   void setup(void) override
   {
-    TestRegistry::getCurrentRegistry()->installPlugin(&ip);
+    cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&ip);
   }
 };
 

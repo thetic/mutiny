@@ -9,22 +9,21 @@
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 TEST_GROUP(MockSupportPlugin)
 {
-  StringBufferTestOutput output;
+  cpputest::StringBufferTestOutput output;
 
-  UtestShell* test;
-  TestResult* result;
+  cpputest::TestShell* test;
+  cpputest::TestResult* result;
 
-  MockSupportPlugin plugin;
+  cpputest::extensions::MockSupportPlugin plugin;
 
   void setup() override
   {
-    test = new UtestShell("group", "name", "file", 1);
-    result = new TestResult(output);
+    test = new cpputest::TestShell("group", "name", "file", 1);
+    result = new cpputest::TestResult(output);
   }
 
   void teardown() override
@@ -42,7 +41,8 @@ TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foobar");
-  MockExpectedCallsDidntHappenFailure expectedFailure(test, expectations);
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
+      test, expectations);
 
   mock().expectOneCall("foobar");
 
@@ -61,7 +61,7 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("differentScope::foobar")
       ->onObject(reinterpret_cast<void*>(1));
-  MockExpectedObjectDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedObjectDidntHappenFailure expectedFailure(
       test, "differentScope::foobar", expectations);
 
   mock("differentScope")
@@ -76,14 +76,14 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   CHECK_NO_MOCK_FAILURE();
 }
 
-class DummyComparator : public MockNamedValueComparator
+class DummyComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
   bool isEqual(const void* object1, const void* object2) override
   {
     return object1 == object2;
   }
-  String valueToString(const void*) override { return "string"; }
+  cpputest::String valueToString(const void*) override { return "string"; }
 };
 
 TEST(MockSupportPlugin,
@@ -96,13 +96,14 @@ TEST(MockSupportPlugin,
   mock().expectOneCall("foo").withParameterOfType("myType", "name", nullptr);
   mock().actualCall("foo").withParameterOfType("myType", "name", nullptr);
 
-  MockNoWayToCompareCustomTypeFailure failure(test, "myType");
+  cpputest::extensions::MockNoWayToCompareCustomTypeFailure failure(
+      test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
 }
 
-class DummyCopier : public MockNamedValueCopier
+class DummyCopier : public cpputest::extensions::MockNamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -121,7 +122,8 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
       "myType", "name", nullptr);
   mock().actualCall("foo").withOutputParameterOfType("myType", "name", nullptr);
 
-  MockNoWayToCopyCustomTypeFailure failure(test, "myType");
+  cpputest::extensions::MockNoWayToCopyCustomTypeFailure failure(
+      test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
@@ -159,7 +161,7 @@ failTwiceFunction_()
 
 TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
   fixture.installPlugin(&plugin);
   fixture.setTestFunction(failTwiceFunction_);
   fixture.runAllTests();

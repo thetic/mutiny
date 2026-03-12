@@ -4,23 +4,20 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-
 TEST_GROUP(ComparatorsAndCopiersRepository)
 {};
 
-class MyComparator : public MockNamedValueComparator
+class MyComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
   MyComparator() {}
   virtual ~MyComparator() override {}
 
   virtual bool isEqual(const void*, const void*) override { return false; }
-  virtual String valueToString(const void*) override { return ""; }
+  virtual cpputest::String valueToString(const void*) override { return ""; }
 };
 
-class MyCopier : public MockNamedValueCopier
+class MyCopier : public cpputest::extensions::MockNamedValueCopier
 {
 public:
   MyCopier() {}
@@ -32,7 +29,8 @@ public:
 TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
 {
   MyCopier copier;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installCopier("MyType", copier);
   POINTERS_EQUAL(&copier, repository.getCopierForType("MyType"));
   repository.clear();
@@ -43,7 +41,8 @@ TEST(ComparatorsAndCopiersRepository,
 {
   MyComparator comparator;
   MyCopier copier;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installCopier("MyType", copier);
   repository.installComparator("MyType", comparator);
   POINTERS_EQUAL(&comparator, repository.getComparatorForType("MyType"));
@@ -56,8 +55,8 @@ TEST(ComparatorsAndCopiersRepository,
 {
   MyComparator comparator;
   MyCopier copier;
-  MockNamedValueComparatorsAndCopiersRepository source;
-  MockNamedValueComparatorsAndCopiersRepository target;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository source;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository target;
 
   source.installCopier("MyType", copier);
   source.installComparator("MyType", comparator);
@@ -73,8 +72,11 @@ TEST(ComparatorsAndCopiersRepository,
 
 TEST_GROUP(MockNamedValue)
 {
-  MockNamedValue* value;
-  void setup() override { value = new MockNamedValue("param"); }
+  cpputest::extensions::MockNamedValue* value;
+  void setup() override
+  {
+    value = new cpputest::extensions::MockNamedValue("param");
+  }
 
   void teardown() override { delete value; }
 };
@@ -82,8 +84,9 @@ TEST_GROUP(MockNamedValue)
 TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->setValue(0.2);
-  DOUBLES_EQUAL(
-      MockNamedValue::defaultDoubleTolerance, value->getDoubleTolerance(), 0.0);
+  DOUBLES_EQUAL(cpputest::extensions::MockNamedValue::defaultDoubleTolerance,
+      value->getDoubleTolerance(),
+      0.0);
 }
 
 TEST(MockNamedValue, GivenToleranceUsed)
@@ -97,7 +100,7 @@ TEST(MockNamedValue, GivenToleranceUsed)
 TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 {
   value->setValue(5.0, 0.4);
-  MockNamedValue other("param2");
+  cpputest::extensions::MockNamedValue other("param2");
   other.setValue(5.3);
 
   CHECK_TRUE(value->equals(other));
@@ -106,7 +109,7 @@ TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 TEST(MockNamedValue, DoublesNotEqualIfOutsideTolerance)
 {
   value->setValue(5.0, 0.4);
-  MockNamedValue other("param2");
+  cpputest::extensions::MockNamedValue other("param2");
   other.setValue(5.5);
 
   CHECK_FALSE(value->equals(other));

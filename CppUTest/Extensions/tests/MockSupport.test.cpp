@@ -9,8 +9,7 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 TEST_GROUP(MockSupport)
 {
@@ -173,7 +172,7 @@ TEST(MockSupport, tracingWorksHierarchically)
 
 TEST_GROUP(MockSupportWithFixture)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
 
   void teardown() override
   {
@@ -185,9 +184,9 @@ TEST_GROUP(MockSupportWithFixture)
 static void
 CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
 {
-  MockExpectedCallsList list;
-  MockUnexpectedCallHappenedFailure expectedFailure(
-      UtestShell::getCurrent(), "unexpected", list);
+  MockExpectedCallsListForTest::MockExpectedCallsList list;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
+      cpputest::TestShell::getCurrent(), "unexpected", list);
   mock().actualCall("boo");
   CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
 }
@@ -242,7 +241,7 @@ TEST(MockSupportWithFixture, shouldCrashOnFailure)
 {
   cpputestHasCrashed = false;
   mock().crashOnFailure(true);
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestShell::setCrashMethod(crashMethod);
   fixture.setTestFunction(unexpectedCallTestFunction_);
 
   fixture.runAllTests();
@@ -250,15 +249,15 @@ TEST(MockSupportWithFixture, shouldCrashOnFailure)
   CHECK(cpputestHasCrashed);
 
   mock().crashOnFailure(false);
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 {
   cpputestHasCrashed = false;
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestShell::setCrashMethod(crashMethod);
   fixture.setTestFunction(unexpectedCallTestFunction_);
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::resetCrashMethod();
 
   fixture.runAllTests();
 
@@ -269,16 +268,16 @@ TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 TEST(MockSupportWithFixture, shouldCrashOnFailureWithCppUTestSetting)
 {
   cpputestHasCrashed = false;
-  UtestShell::setCrashOnFail();
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestShell::setCrashOnFail();
+  cpputest::TestShell::setCrashMethod(crashMethod);
   fixture.setTestFunction(unexpectedCallTestFunction_);
 
   fixture.runAllTests();
 
   CHECK(cpputestHasCrashed);
 
-  UtestShell::restoreDefaultTestTerminator();
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::restoreDefaultTestTerminator();
+  cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)

@@ -3,8 +3,8 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
+using cpputest::extensions::MockCheckedActualCall;
 
 TEST_GROUP(MockCall)
 {
@@ -30,8 +30,8 @@ TEST(MockCall, checkExpectationsDoesntFail)
 TEST(MockCall, expectASingleCallThatHappens)
 {
   mock().expectOneCall("func");
-  MockCheckedActualCall& actualCall =
-      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
+  auto& actualCall = static_cast<cpputest::extensions::MockCheckedActualCall&>(
+      mock().actualCall("func"));
   actualCall.checkExpectations();
   CHECK(!mock().expectedCallsLeft());
 }
@@ -47,7 +47,7 @@ TEST(MockCall, expectAMultiCallThatHappensTheExpectedTimes)
 {
   mock().expectNCalls(2, "func");
   mock().actualCall("func");
-  MockCheckedActualCall& actualCall =
+  auto& actualCall =
       static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
   actualCall.checkExpectations();
   CHECK(!mock().expectedCallsLeft());
@@ -69,7 +69,7 @@ TEST(MockCall, checkExpectationsClearsTheExpectations)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foobar");
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().expectOneCall("foobar");
@@ -86,7 +86,7 @@ TEST(MockCall, expectOneCallInScopeButNotHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("scope::foobar");
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock("scope").expectOneCall("foobar");
@@ -100,7 +100,7 @@ TEST(MockCall, unexpectedCallHappened)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest emptyExpectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "func", emptyExpectations);
 
   mock().actualCall("func");
@@ -113,7 +113,7 @@ TEST(MockCall, unexpectedScopeCallHappened)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest emptyExpectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "scope::func", emptyExpectations);
 
   mock("scope").actualCall("func");
@@ -126,7 +126,7 @@ TEST(MockCall, expectOneCallInOneScopeButActualCallInAnotherScope)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest emptyExpectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "class::foo", emptyExpectations);
 
   mock("scope").expectOneCall("foo");
@@ -141,7 +141,7 @@ TEST(MockCall, expectOneCallInScopeButActualCallInGlobal)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest emptyExpectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "foo", emptyExpectations);
 
   mock("scope").expectOneCall("foo");
@@ -167,7 +167,7 @@ TEST(MockCall, expectOneCallHoweverMultipleHappened)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->callWasMade(1);
   expectations.addFunction("foo")->callWasMade(2);
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "foo", expectations);
 
   mock().expectOneCall("foo");
@@ -185,7 +185,7 @@ TEST(MockCall, expectNoCallThatHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
@@ -201,7 +201,7 @@ TEST(MockCall, expectNoCallDoesntInfluenceExpectOneCall)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
   expectations.addFunction("influence")->callWasMade(1);
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
@@ -218,7 +218,7 @@ TEST(MockCall, expectNoCallOnlyFailureOnceWhenMultipleHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
@@ -233,7 +233,7 @@ TEST(MockCall, ignoreOtherCallsExceptForTheUnExpectedOne)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "lazy");
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "lazy", expectations);
 
   mock().expectNoCall("lazy");
@@ -252,7 +252,7 @@ TEST(MockCall, expectNoCallInScopeThatHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(0, "scope::lazy");
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "scope::lazy", expectations);
 
   mock("scope").expectNoCall("lazy");
@@ -266,7 +266,7 @@ TEST(MockCall, expectNoCallInScopeButActualCallInAnotherScope)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest expectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "scope2::lazy", expectations);
 
   mock("scope1").expectNoCall("lazy");
@@ -280,7 +280,7 @@ TEST(MockCall, expectNoCallInScopeButActualCallInGlobal)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest expectations;
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "lazy", expectations);
 
   mock("scope1").expectNoCall("lazy");
@@ -304,7 +304,7 @@ TEST(MockCall, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->callWasMade(1);
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "foo", expectations);
 
   mock().expectOneCall("foo");
@@ -322,7 +322,7 @@ TEST(MockCall, ignoreOtherStillFailsIfExpectedOneDidntHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo");
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().expectOneCall("foo");
@@ -402,7 +402,7 @@ TEST(MockCall, OnObjectFails)
   mock().expectOneCall("boo").onObject(objectPtr);
   mock().actualCall("boo").onObject(objectPtr2);
 
-  MockUnexpectedObjectFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedObjectFailure expectedFailure(
       mockFailureTest(), "boo", objectPtr2, expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
@@ -421,7 +421,7 @@ TEST(MockCall, OnObjectExpectedButNotCalled)
   mock().actualCall("boo");
   mock().actualCall("boo");
 
-  MockExpectedObjectDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedObjectDidntHappenFailure expectedFailure(
       mockFailureTest(), "boo", expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
   mock().checkExpectations();
@@ -442,7 +442,7 @@ TEST(MockCall, expectNCalls_NotFulfilled)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction(2, "boo")->callWasMade(1);
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().expectNCalls(2, "boo");
@@ -471,7 +471,7 @@ TEST(MockCall, shouldntFailTwice)
 
 TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
 {
-  CHECK(mock().returnValue().equals(MockNamedValue("")));
+  CHECK(mock().returnValue().equals(cpputest::extensions::MockNamedValue("")));
 }
 
 IGNORE_TEST(MockCall, testForPerformanceProfiling)
@@ -494,7 +494,7 @@ mocksAreCountedAsChecksTestFunction_()
 
 TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
   fixture.setTestFunction(mocksAreCountedAsChecksTestFunction_);
   fixture.runAllTests();
   LONGS_EQUAL(3, fixture.getCheckCount());

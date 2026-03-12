@@ -7,23 +7,20 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-
 TEST_GROUP(MockExpectedCallsList)
 {
-  MockExpectedCallsList* list;
-  MockCheckedExpectedCall* call1;
-  MockCheckedExpectedCall* call2;
-  MockCheckedExpectedCall* call3;
-  MockCheckedExpectedCall* call4;
+  MockExpectedCallsListForTest::MockExpectedCallsList* list;
+  cpputest::extensions::MockCheckedExpectedCall* call1;
+  cpputest::extensions::MockCheckedExpectedCall* call2;
+  cpputest::extensions::MockCheckedExpectedCall* call3;
+  cpputest::extensions::MockCheckedExpectedCall* call4;
   void setup() override
   {
-    list = new MockExpectedCallsList;
-    call1 = new MockCheckedExpectedCall;
-    call2 = new MockCheckedExpectedCall;
-    call3 = new MockCheckedExpectedCall;
-    call4 = new MockCheckedExpectedCall;
+    list = new MockExpectedCallsListForTest::MockExpectedCallsList;
+    call1 = new cpputest::extensions::MockCheckedExpectedCall;
+    call2 = new cpputest::extensions::MockCheckedExpectedCall;
+    call3 = new cpputest::extensions::MockCheckedExpectedCall;
+    call4 = new cpputest::extensions::MockCheckedExpectedCall;
     call1->withName("foo");
     call2->withName("bar");
     call3->withName("boo");
@@ -87,8 +84,8 @@ TEST(MockExpectedCallsList, listWithUnFulfilledExpectationHasNoUnfillfilledOnes)
 
 TEST(MockExpectedCallsList, deleteAllExpectationsAndClearList)
 {
-  list->addExpectedCall(new MockCheckedExpectedCall);
-  list->addExpectedCall(new MockCheckedExpectedCall);
+  list->addExpectedCall(new cpputest::extensions::MockCheckedExpectedCall);
+  list->addExpectedCall(new cpputest::extensions::MockCheckedExpectedCall);
   list->deleteAllExpectationsAndClearList();
 }
 
@@ -163,7 +160,7 @@ TEST(MockExpectedCallsList, onlyKeepExpectationsWithInputParameterName)
 
 TEST(MockExpectedCallsList, onlyKeepExpectationsWithInputParameter)
 {
-  MockNamedValue parameter("diffname");
+  cpputest::extensions::MockNamedValue parameter("diffname");
   parameter.setValue(1);
   call1->withName("func").withParameter("param", 1);
   call2->withName("func").withParameter("diffname", 1);
@@ -181,7 +178,7 @@ TEST(MockExpectedCallsList, onlyKeepExpectationsWithInputParameter)
 
 TEST(MockExpectedCallsList, addPotentiallyMatchingExpectationsWithEmptyList)
 {
-  MockExpectedCallsList newList;
+  MockExpectedCallsListForTest::MockExpectedCallsList newList;
   newList.addPotentiallyMatchingExpectations(*list);
   LONGS_EQUAL(0, newList.size());
 }
@@ -193,7 +190,7 @@ TEST(MockExpectedCallsList,
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
   list->addExpectedCall(call3);
-  MockExpectedCallsList newList;
+  MockExpectedCallsListForTest::MockExpectedCallsList newList;
   newList.addPotentiallyMatchingExpectations(*list);
   LONGS_EQUAL(2, newList.size());
 }
@@ -229,8 +226,8 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->addExpectedCall(call2);
   list->addExpectedCall(call3);
 
-  String expectedString;
-  expectedString = StringFromFormat(
+  cpputest::String expectedString;
+  expectedString = cpputest::StringFromFormat(
       "%s\n%s", call1->callToString().c_str(), call2->callToString().c_str());
   STRCMP_EQUAL(
       expectedString.c_str(), list->unfulfilledCallsToString().c_str());
@@ -245,8 +242,8 @@ TEST(MockExpectedCallsList, callsWithMissingParametersToString)
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
 
-  String expectedString;
-  expectedString = StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
+  cpputest::String expectedString;
+  expectedString = cpputest::StringFromFormat("-%s\n-#%s\n-%s\n-#%s",
       call1->callToString().c_str(),
       call1->missingParametersToString().c_str(),
       call2->callToString().c_str(),
@@ -266,8 +263,8 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
   list->addExpectedCall(call1);
   list->addExpectedCall(call2);
 
-  String expectedString;
-  expectedString = StringFromFormat(
+  cpputest::String expectedString;
+  expectedString = cpputest::StringFromFormat(
       "%s\n%s", call1->callToString().c_str(), call2->callToString().c_str());
   STRCMP_EQUAL(expectedString.c_str(), list->fulfilledCallsToString().c_str());
 }

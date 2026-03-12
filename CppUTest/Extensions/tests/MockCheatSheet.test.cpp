@@ -2,8 +2,7 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 /* Stubbed out product code using linker, function pointer, or overriding */
 static int

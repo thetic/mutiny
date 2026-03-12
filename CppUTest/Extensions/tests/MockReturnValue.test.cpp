@@ -2,8 +2,7 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 TEST_GROUP(MockReturnValue)
 {
@@ -32,7 +31,7 @@ TEST(MockReturnValue, UnsignedIntegerReturnValue)
 
   mock().expectOneCall("foo").andReturnValue(expected_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   LONGS_EQUAL(expected_value, actual_call.returnValue().getUnsignedIntValue());
   LONGS_EQUAL(expected_value, actual_call.returnUnsignedIntValue());
@@ -433,7 +432,7 @@ TEST(MockReturnValue, BooleanReturnValue)
 {
   bool expected_value = true;
   mock().expectOneCall("foo").andReturnValue(true);
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   CHECK_EQUAL(expected_value, actual_call.returnValue().getBoolValue());
   CHECK_EQUAL(expected_value, actual_call.returnBoolValue());
@@ -495,7 +494,7 @@ TEST(MockReturnValue, IntegerReturnValue)
 {
   int expected_value = 1;
   mock().expectOneCall("foo").andReturnValue(1);
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   LONGS_EQUAL(expected_value, actual_call.returnValue().getIntValue());
   LONGS_EQUAL(expected_value, actual_call.returnIntValue());
@@ -558,7 +557,7 @@ TEST(MockReturnValue, LongIntegerReturnValue)
   long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   LONGS_EQUAL(expected_value, actual_call.returnValue().getLongIntValue());
   LONGS_EQUAL(expected_value, actual_call.returnLongIntValue());
   LONGS_EQUAL(expected_value, mock().returnValue().getLongIntValue());
@@ -619,7 +618,7 @@ TEST(MockReturnValue, UnsignedLongIntegerReturnValue)
   unsigned long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   LONGS_EQUAL(
       expected_value, actual_call.returnValue().getUnsignedLongIntValue());
   LONGS_EQUAL(expected_value, actual_call.returnUnsignedLongIntValue());
@@ -683,7 +682,7 @@ TEST(MockReturnValue, LongLongIntegerReturnValue)
   long long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   LONGLONGS_EQUAL(
       expected_value, actual_call.returnValue().getLongLongIntValue());
   LONGLONGS_EQUAL(expected_value, actual_call.returnLongLongIntValue());
@@ -747,7 +746,7 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValue)
   unsigned long long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   UNSIGNED_LONGLONGS_EQUAL(
       expected_value, actual_call.returnValue().getUnsignedLongLongIntValue());
   UNSIGNED_LONGLONGS_EQUAL(
@@ -872,7 +871,7 @@ TEST(MockReturnValue,
 TEST(MockReturnValue, StringReturnValue)
 {
   mock().expectOneCall("foo").andReturnValue("hello world");
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   STRCMP_EQUAL("hello world", actual_call.returnValue().getStringValue());
   STRCMP_EQUAL("hello world", actual_call.returnStringValue());
@@ -884,7 +883,7 @@ TEST(MockReturnValue, DoubleReturnValue)
   double expected_return_value = 7.8;
   mock().expectOneCall("foo").andReturnValue(expected_return_value);
 
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   DOUBLES_EQUAL(
       expected_return_value, actual_call.returnValue().getDoubleValue(), 0.05);
   DOUBLES_EQUAL(expected_return_value, actual_call.returnDoubleValue(), 0.05);
@@ -970,7 +969,7 @@ TEST(MockReturnValue, PointerReturnValue)
 {
   void* ptr = reinterpret_cast<void*>(0x00107);
   mock().expectOneCall("foo").andReturnValue(ptr);
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   POINTERS_EQUAL(ptr, actual_call.returnValue().getPointerValue());
   POINTERS_EQUAL(ptr, actual_call.returnPointerValue());
@@ -981,7 +980,7 @@ TEST(MockReturnValue, ConstPointerReturnValue)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001074);
   mock().expectOneCall("foo").andReturnValue(ptr);
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
   POINTERS_EQUAL(ptr, actual_call.returnValue().getConstPointerValue());
   POINTERS_EQUAL(ptr, actual_call.returnConstPointerValue());
   POINTERS_EQUAL(ptr, mock().constPointerReturnValue());
@@ -991,7 +990,7 @@ TEST(MockReturnValue, FunctionPointerReturnValue)
 {
   void (*ptr)() = reinterpret_cast<void (*)()>(0x00107);
   mock().expectOneCall("foo").andReturnValue(ptr);
-  MockActualCall& actual_call = mock().actualCall("foo");
+  cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 
   FUNCTIONPOINTERS_EQUAL(
       ptr, actual_call.returnValue().getFunctionPointerValue());

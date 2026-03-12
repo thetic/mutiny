@@ -2,8 +2,7 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
+using cpputest::extensions::mock;
 
 TEST_GROUP(MockParameter)
 {
@@ -267,9 +266,9 @@ TEST(MockParameter,
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter(
       "parameter", static_cast<long>(-1));
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue(static_cast<unsigned long>(-1));
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", static_cast<long>(-1));
@@ -287,9 +286,9 @@ TEST(MockParameter,
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter(
       "parameter", static_cast<unsigned long>(-1));
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue(static_cast<long>(-1));
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter(
@@ -321,9 +320,9 @@ TEST(MockParameter, doubleParameterNotEqualIfOutsideTolerance)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", 100.0);
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue(106.0);
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", 100.0, 5.0);
@@ -391,9 +390,9 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToContents)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter(
       "parameter", memBuffer1, sizeof(memBuffer1));
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setMemoryBuffer(memBuffer2, sizeof(memBuffer2));
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter(
@@ -414,9 +413,9 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToSize)
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter(
       "parameter", memBuffer1, sizeof(memBuffer1));
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setMemoryBuffer(memBuffer2, sizeof(memBuffer2));
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter(
@@ -433,9 +432,9 @@ TEST(MockParameter, expectOneStringParameterAndValueFails)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", "string");
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue("different");
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", "string");
@@ -451,9 +450,9 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToParameterName)
   unsigned int value = 7;
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", value);
-  MockNamedValue parameter("different");
+  cpputest::extensions::MockNamedValue parameter("different");
   parameter.setValue(value);
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", value);
@@ -468,9 +467,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToParameterName)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", 10);
-  MockNamedValue parameter("different");
+  cpputest::extensions::MockNamedValue parameter("different");
   parameter.setValue(10);
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", 10);
@@ -487,9 +486,9 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToValue)
   unsigned int expected_value = actual_value + 1;
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", expected_value);
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue(actual_value);
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", expected_value);
@@ -504,9 +503,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToValue)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", 10);
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue(8);
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", 10);
@@ -521,9 +520,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToTypes)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("parameter", 10);
-  MockNamedValue parameter("parameter");
+  cpputest::extensions::MockNamedValue parameter("parameter");
   parameter.setValue("heh");
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().expectOneCall("foo").withParameter("parameter", 10);
@@ -571,7 +570,7 @@ TEST(MockParameter, calledWithoutParameters)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("p1", 1);
-  MockExpectedParameterDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedParameterDidntHappenFailure expectedFailure(
       mockFailureTest(), "foo", expectations, expectations);
 
   mock().expectOneCall("foo").withParameter("p1", 1);
@@ -605,7 +604,7 @@ TEST(MockParameter, ignoreOtherParametersButExpectedParameterDidntHappen)
   expectations.addFunction("foo")
       ->withParameter("p1", 1)
       .ignoreOtherParameters();
-  MockExpectedParameterDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedParameterDidntHappenFailure expectedFailure(
       mockFailureTest(), "foo", expectations, expectations);
 
   mock().expectOneCall("foo").withParameter("p1", 1).ignoreOtherParameters();
@@ -643,13 +642,14 @@ TEST(MockParameter, ignoreOtherParametersMultipleCallsButOneDidntHappen)
   MockFailureReporterInstaller failureReporterInstaller;
 
   MockExpectedCallsListForTest expectations;
-  MockCheckedExpectedCall* call = expectations.addFunction("boo");
+  cpputest::extensions::MockCheckedExpectedCall* call =
+      expectations.addFunction("boo");
   call->ignoreOtherParameters();
   call->callWasMade(1);
   call->finalizeActualCallMatch();
   call->ignoreOtherParameters();
   expectations.addFunction("boo")->ignoreOtherParameters();
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().expectOneCall("boo").ignoreOtherParameters();
@@ -666,7 +666,7 @@ TEST(MockParameter, newCallStartsWhileNotAllParametersWerePassed)
 
   MockExpectedCallsListForTest expectations;
   expectations.addFunction("foo")->withParameter("p1", 1);
-  MockExpectedParameterDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedParameterDidntHappenFailure expectedFailure(
       mockFailureTest(), "foo", expectations, expectations);
 
   mock().expectOneCall("foo").withParameter("p1", 1);
@@ -715,7 +715,7 @@ TEST(MockParameter, noActualCallForOutputParameter)
 
   expectations.addFunction("foo")->withOutputParameterReturning(
       "output", &output, sizeof(output));
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().checkExpectations();
@@ -730,7 +730,7 @@ TEST(MockParameter, noActualCallForUnmodifiedOutputParameter)
   mock().expectOneCall("foo").withUnmodifiedOutputParameter("output");
 
   expectations.addFunction("foo")->withUnmodifiedOutputParameter("output");
-  MockExpectedCallsDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
       mockFailureTest(), expectations);
 
   mock().checkExpectations();
@@ -747,9 +747,9 @@ TEST(MockParameter, unexpectedOutputParameter)
   mock().actualCall("foo").withOutputParameter("parameterName", &param);
 
   expectations.addFunction("foo");
-  MockNamedValue parameter("parameterName");
+  cpputest::extensions::MockNamedValue parameter("parameterName");
   parameter.setValue(&param);
-  MockUnexpectedOutputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedOutputParameterFailure expectedFailure(
       mockFailureTest(), "foo", parameter, expectations);
 
   mock().checkExpectations();
@@ -768,7 +768,7 @@ TEST(MockParameter, outputParameterMissing)
 
   expectations.addFunction("foo")->withOutputParameterReturning(
       "output", &output, sizeof(output));
-  MockExpectedParameterDidntHappenFailure expectedFailure(
+  cpputest::extensions::MockExpectedParameterDidntHappenFailure expectedFailure(
       mockFailureTest(), "foo", expectations, expectations);
 
   mock().checkExpectations();

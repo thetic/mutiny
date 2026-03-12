@@ -10,19 +10,16 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-
 TEST_GROUP(MockCheckedActualCall)
 {
-  MockExpectedCallsList* emptyList;
-  MockExpectedCallsList* list;
-  MockFailureReporter* reporter;
+  MockExpectedCallsListForTest::MockExpectedCallsList* emptyList;
+  MockExpectedCallsListForTest::MockExpectedCallsList* list;
+  cpputest::extensions::MockFailureReporter* reporter;
 
   void setup() override
   {
-    emptyList = new MockExpectedCallsList;
-    list = new MockExpectedCallsList;
+    emptyList = new MockExpectedCallsListForTest::MockExpectedCallsList;
+    list = new MockExpectedCallsListForTest::MockExpectedCallsList;
     reporter = MockFailureReporterForTest::getReporter();
   }
 
@@ -39,30 +36,33 @@ TEST_GROUP(MockCheckedActualCall)
 
 TEST(MockCheckedActualCall, unExpectedCall)
 {
-  MockCheckedActualCall actualCall(1, reporter, *emptyList);
+  cpputest::extensions::MockCheckedActualCall actualCall(
+      1, reporter, *emptyList);
   actualCall.withName("unexpected");
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
 {
-  MockCheckedActualCall actualCall(1, reporter, *emptyList);
+  cpputest::extensions::MockCheckedActualCall actualCall(
+      1, reporter, *emptyList);
   actualCall.withName("unexpected").withParameter("bar", 0);
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
 {
-  MockCheckedActualCall actualCall(1, reporter, *emptyList);
+  cpputest::extensions::MockCheckedActualCall actualCall(
+      1, reporter, *emptyList);
   actualCall.withName("unexpected").withOutputParameter("bar", nullptr);
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
@@ -71,10 +71,11 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
 {
   int object = 0;
 
-  MockCheckedActualCall actualCall(1, reporter, *emptyList);
+  cpputest::extensions::MockCheckedActualCall actualCall(
+      1, reporter, *emptyList);
   actualCall.withName("unexpected").onObject(&object);
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 
@@ -85,35 +86,36 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
 TEST(MockCheckedActualCall,
     actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
-  MockCheckedActualCall actualCall(1, reporter, *emptyList);
+  cpputest::extensions::MockCheckedActualCall actualCall(
+      1, reporter, *emptyList);
   actualCall.withName("noreturn").withCallOrder(0).returnValue();
 
-  MockUnexpectedCallHappenedFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
       mockFailureTest(), "noreturn", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockCheckedActualCall, unExpectedParameterName)
 {
-  MockCheckedExpectedCall call1;
+  cpputest::extensions::MockCheckedExpectedCall call1;
   call1.withName("func");
   list->addExpectedCall(&call1);
 
-  MockCheckedActualCall actualCall(1, reporter, *list);
+  cpputest::extensions::MockCheckedActualCall actualCall(1, reporter, *list);
   actualCall.withName("func").withParameter("integer", 1);
 
-  MockNamedValue parameter("integer");
+  cpputest::extensions::MockNamedValue parameter("integer");
   parameter.setValue(1);
 
-  MockUnexpectedInputParameterFailure expectedFailure(
+  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
       mockFailureTest(), "func", parameter, *list);
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
 TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 {
-  MockCheckedExpectedCall* call1 = new MockCheckedExpectedCall();
-  MockCheckedExpectedCall* call2 = new MockCheckedExpectedCall();
+  auto* call1 = new cpputest::extensions::MockCheckedExpectedCall();
+  auto* call2 = new cpputest::extensions::MockCheckedExpectedCall();
   call1->withName("func");
   call2->withName("func");
   list->addExpectedCall(call1);
@@ -121,13 +123,13 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 
   LONGS_EQUAL(2, list->amountOfUnfulfilledExpectations());
 
-  MockCheckedActualCall actualCall1(1, reporter, *list);
+  cpputest::extensions::MockCheckedActualCall actualCall1(1, reporter, *list);
   actualCall1.withName("func");
   actualCall1.checkExpectations();
 
   LONGS_EQUAL(1, list->amountOfUnfulfilledExpectations());
 
-  MockCheckedActualCall actualCall2(2, reporter, *list);
+  cpputest::extensions::MockCheckedActualCall actualCall2(2, reporter, *list);
   actualCall2.withName("func");
   actualCall2.checkExpectations();
 
@@ -138,7 +140,7 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 
 TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
 {
-  MockIgnoredActualCall actual;
+  cpputest::extensions::MockIgnoredActualCall actual;
   actual.withName("func");
   actual.withCallOrder(1);
 
@@ -173,7 +175,7 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
         actual.returnFunctionPointerValueOrDefault(
             reinterpret_cast<void (*)()>(0x1)));
   CHECK_FALSE(actual.hasReturnValue());
-  CHECK(actual.returnValue().equals(MockNamedValue("")));
+  CHECK(actual.returnValue().equals(cpputest::extensions::MockNamedValue("")));
 }
 
 TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
@@ -182,7 +184,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   const int const_value = 1;
   const unsigned char mem_buffer[] = { 0xFE, 0x15 };
   void (*function_value)() = reinterpret_cast<void (*)()>(0xDEAD);
-  MockActualCallTrace actual;
+  cpputest::extensions::MockActualCallTrace actual;
   actual.withName("func");
   actual.withCallOrder(1);
   actual.onObject(&value);
@@ -203,10 +205,10 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
       "mem_buffer", mem_buffer, sizeof(mem_buffer));
   actual.withParameterOfType("int", "named_type", &const_value);
 
-  String expectedString("\nFunction name:func");
+  cpputest::String expectedString("\nFunction name:func");
   expectedString += " withCallOrder:1";
   expectedString += " onObject:0x";
-  expectedString += HexStringFrom(&value);
+  expectedString += cpputest::HexStringFrom(&value);
   expectedString += " bool:true";
   expectedString += " unsigned_int:1 (0x1)";
   expectedString += " unsigned_long:1 (0x1)";
@@ -214,18 +216,18 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expectedString += " long_long_int:1 (0x1)";
   expectedString += " unsigned_long_long_int:1 (0x1)";
   expectedString += " pointer:0x";
-  expectedString += HexStringFrom(&value);
+  expectedString += cpputest::HexStringFrom(&value);
   expectedString += " const_pointer:0x";
-  expectedString += HexStringFrom(&const_value);
+  expectedString += cpputest::HexStringFrom(&const_value);
   expectedString += " function_pointer:0x";
-  expectedString += HexStringFrom(function_value);
+  expectedString += cpputest::HexStringFrom(function_value);
   expectedString += " mem_buffer:Size = 2 | HexContents = FE 15";
   expectedString += " int named_type:0x";
-  expectedString += HexStringFrom(&const_value);
+  expectedString += cpputest::HexStringFrom(&const_value);
   STRCMP_EQUAL(expectedString.c_str(), actual.getTraceOutput());
 
   CHECK_FALSE(actual.hasReturnValue());
-  CHECK(actual.returnValue().equals(MockNamedValue("")));
+  CHECK(actual.returnValue().equals(cpputest::extensions::MockNamedValue("")));
   CHECK(false == actual.returnBoolValue());
   CHECK(false == actual.returnBoolValueOrDefault(true));
   CHECK(0 == actual.returnLongIntValue());
@@ -258,7 +260,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 
 TEST(MockCheckedActualCall, MockActualCallTraceClear)
 {
-  MockActualCallTrace actual;
+  cpputest::extensions::MockActualCallTrace actual;
   actual.withName("func");
   actual.clear();
   STRCMP_EQUAL("", actual.getTraceOutput());

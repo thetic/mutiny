@@ -6,9 +6,6 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-
 class TypeForTestingExpectedFunctionCall
 {
 public:
@@ -18,7 +15,7 @@ public:
 };
 
 class TypeForTestingExpectedFunctionCallComparator
-  : public MockNamedValueComparator
+  : public cpputest::extensions::MockNamedValueComparator
 {
 public:
   virtual bool isEqual(const void* object1, const void* object2) override
@@ -29,15 +26,16 @@ public:
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  virtual String valueToString(const void* object) override
+  virtual cpputest::String valueToString(const void* object) override
   {
     const TypeForTestingExpectedFunctionCall* obj =
         static_cast<const TypeForTestingExpectedFunctionCall*>(object);
-    return StringFrom(*(obj->value));
+    return cpputest::StringFrom(*(obj->value));
   }
 };
 
-class TypeForTestingExpectedFunctionCallCopier : public MockNamedValueCopier
+class TypeForTestingExpectedFunctionCallCopier
+  : public cpputest::extensions::MockNamedValueCopier
 {
 public:
   virtual void copy(void* dst_, const void* src_) override
@@ -61,14 +59,16 @@ TEST_GROUP(MockNamedValueHandlerRepository)
 
 TEST(MockNamedValueHandlerRepository, getComparatorForNonExistingName)
 {
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   POINTERS_EQUAL(nullptr, repository.getComparatorForType("typeName"));
 }
 
 TEST(MockNamedValueHandlerRepository, installComparator)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installComparator("typeName", comparator);
   POINTERS_EQUAL(&comparator, repository.getComparatorForType("typeName"));
 }
@@ -77,7 +77,8 @@ TEST(MockNamedValueHandlerRepository, installMultipleComparators)
 {
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installComparator("type1", comparator1);
   repository.installComparator("type2", comparator2);
   repository.installComparator("type3", comparator3);
@@ -88,14 +89,16 @@ TEST(MockNamedValueHandlerRepository, installMultipleComparators)
 
 TEST(MockNamedValueHandlerRepository, getCopierForNonExistingName)
 {
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   POINTERS_EQUAL(nullptr, repository.getCopierForType("typeName"));
 }
 
 TEST(MockNamedValueHandlerRepository, installCopier)
 {
   TypeForTestingExpectedFunctionCallCopier copier;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installCopier("typeName", copier);
   POINTERS_EQUAL(&copier, repository.getCopierForType("typeName"));
 }
@@ -103,7 +106,8 @@ TEST(MockNamedValueHandlerRepository, installCopier)
 TEST(MockNamedValueHandlerRepository, installMultipleCopiers)
 {
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installCopier("type1", copier1);
   repository.installCopier("type2", copier2);
   repository.installCopier("type3", copier3);
@@ -117,7 +121,8 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  MockNamedValueComparatorsAndCopiersRepository repository;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
   repository.installCopier("type1", copier1);
   repository.installComparator("type1", comparator1);
   repository.installCopier("type2", copier2);
@@ -134,19 +139,20 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
 
 TEST_GROUP(MockExpectedCall)
 {
-  MockCheckedExpectedCall* call;
-  MockNamedValueComparatorsAndCopiersRepository* originalComparatorRepository;
+  cpputest::extensions::MockCheckedExpectedCall* call;
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository*
+      originalComparatorRepository;
   void setup() override
   {
-    originalComparatorRepository =
-        MockNamedValue::getDefaultComparatorsAndCopiersRepository();
-    call = new MockCheckedExpectedCall(1);
+    originalComparatorRepository = cpputest::extensions::MockNamedValue::
+        getDefaultComparatorsAndCopiersRepository();
+    call = new cpputest::extensions::MockCheckedExpectedCall(1);
     call->withName("funcName");
   }
   void teardown() override
   {
-    MockNamedValue::setDefaultComparatorsAndCopiersRepository(
-        originalComparatorRepository);
+    cpputest::extensions::MockNamedValue::
+        setDefaultComparatorsAndCopiersRepository(originalComparatorRepository);
     delete call;
     CHECK_NO_MOCK_FAILURE();
     MockFailureReporterForTest::clearReporter();
@@ -162,7 +168,7 @@ TEST(MockExpectedCall, callWithoutParameterSetOrNotFound)
 
 TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   unsigned int value = 356;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("unsigned int", call->getInputParameterType(paramName).c_str());
@@ -174,7 +180,7 @@ TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
 
 TEST(MockExpectedCall, callWithIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   int value = 2;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("int", call->getInputParameterType(paramName).c_str());
@@ -186,7 +192,7 @@ TEST(MockExpectedCall, callWithIntegerParameter)
 
 TEST(MockExpectedCall, callWithBooleanParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   bool value = true;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("bool", call->getInputParameterType(paramName).c_str());
@@ -198,7 +204,7 @@ TEST(MockExpectedCall, callWithBooleanParameter)
 
 TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   unsigned long value = 888;
   call->withParameter(paramName, value);
   STRCMP_EQUAL(
@@ -212,7 +218,7 @@ TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithLongIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   long value = 777;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("long int", call->getInputParameterType(paramName).c_str());
@@ -224,7 +230,7 @@ TEST(MockExpectedCall, callWithLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   unsigned long long value = 888;
   call->withParameter(paramName, value);
   STRCMP_EQUAL(
@@ -238,7 +244,7 @@ TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithLongLongIntegerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   long long value = 777;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("long long int", call->getInputParameterType(paramName).c_str());
@@ -251,7 +257,7 @@ TEST(MockExpectedCall, callWithLongLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithDoubleParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   double value = 1.2;
   call->withParameter(paramName, value);
   STRCMP_EQUAL("double", call->getInputParameterType(paramName).c_str());
@@ -263,7 +269,7 @@ TEST(MockExpectedCall, callWithDoubleParameter)
 
 TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   double value = 1.2;
   double tolerance = 0.2;
   call->withParameter(paramName, value, tolerance);
@@ -278,7 +284,7 @@ TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
 
 TEST(MockExpectedCall, callWithStringParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   const char* value = "hello world";
   call->withParameter(paramName, value);
   STRCMP_EQUAL("const char*", call->getInputParameterType(paramName).c_str());
@@ -289,7 +295,7 @@ TEST(MockExpectedCall, callWithStringParameter)
 
 TEST(MockExpectedCall, callWithPointerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->withParameter(paramName, value);
   STRCMP_EQUAL("void*", call->getInputParameterType(paramName).c_str());
@@ -300,7 +306,7 @@ TEST(MockExpectedCall, callWithPointerParameter)
 
 TEST(MockExpectedCall, callWithConstPointerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   const void* value = reinterpret_cast<const void*>(0x345);
   call->withParameter(paramName, value);
   STRCMP_EQUAL("const void*", call->getInputParameterType(paramName).c_str());
@@ -312,7 +318,7 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
 
 TEST(MockExpectedCall, callWithFunctionPointerParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   void (*value)() = reinterpret_cast<void (*)()>(0xdead);
   call->withParameter(paramName, value);
   STRCMP_EQUAL("void (*)()", call->getInputParameterType(paramName).c_str());
@@ -324,7 +330,7 @@ TEST(MockExpectedCall, callWithFunctionPointerParameter)
 
 TEST(MockExpectedCall, callWithMemoryBuffer)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
   call->withParameter(paramName, value, sizeof(value));
   STRCMP_EQUAL(
@@ -338,7 +344,7 @@ TEST(MockExpectedCall, callWithMemoryBuffer)
 
 TEST(MockExpectedCall, callWithObjectParameter)
 {
-  const String paramName = "paramName";
+  const cpputest::String paramName = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->withParameterOfType("ClassName", paramName, value);
   POINTERS_EQUAL(
@@ -352,7 +358,7 @@ TEST(MockExpectedCall, callWithObjectParameter)
 TEST(MockExpectedCall, callWithObjectParameterUnequalComparison)
 {
   TypeForTestingExpectedFunctionCall type(1), unequalType(2);
-  MockNamedValue parameter("name");
+  cpputest::extensions::MockNamedValue parameter("name");
   parameter.setConstObjectPointer("type", &unequalType);
   call->withParameterOfType("type", "name", &type);
   CHECK(!call->hasInputParameter(parameter));
@@ -362,7 +368,7 @@ TEST(MockExpectedCall,
     callWithObjectParameterEqualComparisonButFailsWithoutRepository)
 {
   TypeForTestingExpectedFunctionCall type(1), equalType(1);
-  MockNamedValue parameter("name");
+  cpputest::extensions::MockNamedValue parameter("name");
   parameter.setConstObjectPointer("type", &equalType);
   call->withParameterOfType("type", "name", &type);
   CHECK(!call->hasInputParameter(parameter));
@@ -371,11 +377,13 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     callWithObjectParameterEqualComparisonButFailsWithoutComparator)
 {
-  MockNamedValueComparatorsAndCopiersRepository repository;
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
+  cpputest::extensions::MockNamedValue::
+      setDefaultComparatorsAndCopiersRepository(&repository);
 
   TypeForTestingExpectedFunctionCall type(1), equalType(1);
-  MockNamedValue parameter("name");
+  cpputest::extensions::MockNamedValue parameter("name");
   parameter.setConstObjectPointer("type", &equalType);
   call->withParameterOfType("type", "name", &type);
   CHECK(!call->hasInputParameter(parameter));
@@ -384,12 +392,14 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall, callWithObjectParameterEqualComparison)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  MockNamedValueComparatorsAndCopiersRepository repository;
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
+  cpputest::extensions::MockNamedValue::
+      setDefaultComparatorsAndCopiersRepository(&repository);
   repository.installComparator("type", comparator);
 
   TypeForTestingExpectedFunctionCall type(1), equalType(1);
-  MockNamedValue parameter("name");
+  cpputest::extensions::MockNamedValue parameter("name");
   parameter.setConstObjectPointer("type", &equalType);
 
   call->withParameterOfType("type", "name", &type);
@@ -399,8 +409,10 @@ TEST(MockExpectedCall, callWithObjectParameterEqualComparison)
 TEST(MockExpectedCall, getParameterValueOfObjectType)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  MockNamedValueComparatorsAndCopiersRepository repository;
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
+  cpputest::extensions::MockNamedValue::
+      setDefaultComparatorsAndCopiersRepository(&repository);
   repository.installComparator("type", comparator);
 
   TypeForTestingExpectedFunctionCall type(1);
@@ -421,8 +433,10 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
 TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
 {
   TypeForTestingExpectedFunctionCall type(1);
-  MockNamedValueComparatorsAndCopiersRepository repository;
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(&repository);
+  cpputest::extensions::MockNamedValueComparatorsAndCopiersRepository
+      repository;
+  cpputest::extensions::MockNamedValue::
+      setDefaultComparatorsAndCopiersRepository(&repository);
   call->withParameterOfType("type", "name", &type);
   STRCMP_EQUAL("No comparator found for type: \"type\"",
       call->getInputParameterValueString("name").c_str());
@@ -476,7 +490,7 @@ TEST(MockExpectedCall, callWithThreeDifferentParameter)
 
 TEST(MockExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   CHECK(!expectedCall.isFulfilled());
   CHECK(expectedCall.canMatchActualCalls());
@@ -484,7 +498,7 @@ TEST(MockExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 
 TEST(MockExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.callWasMade(1);
   CHECK(expectedCall.isFulfilled());
   CHECK(!expectedCall.canMatchActualCalls());
@@ -492,7 +506,7 @@ TEST(MockExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
 
 TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(2);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
   CHECK(!expectedCall.isFulfilled());
   CHECK(expectedCall.canMatchActualCalls());
@@ -501,7 +515,7 @@ TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 TEST(MockExpectedCall,
     multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(2);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   CHECK(!expectedCall.isFulfilled());
@@ -511,7 +525,7 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(3);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   expectedCall.callWasMade(2);
@@ -523,7 +537,7 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
 {
-  MockCheckedExpectedCall expectedCall(3);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   expectedCall.callWasMade(2);
@@ -535,20 +549,20 @@ TEST(MockExpectedCall,
 
 TEST(MockExpectedCall, callsWithoutParameterAlwaysMatch)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   CHECK(expectedCall.isMatchingActualCall());
 }
 
 TEST(MockExpectedCall, callsWithParameterNotFulfilledDontMatch)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withParameter("para", 1);
   CHECK(!expectedCall.isMatchingActualCall());
 }
 
 TEST(MockExpectedCall, callsWithParameterFulfilledDoMatch)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withParameter("para", 1);
   expectedCall.inputParameterWasPassed("para");
   CHECK(expectedCall.isMatchingActualCall());
@@ -556,7 +570,7 @@ TEST(MockExpectedCall, callsWithParameterFulfilledDoMatch)
 
 TEST(MockExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withParameter("para", 1).withParameter("two", 2);
   expectedCall.inputParameterWasPassed("para");
   CHECK(!expectedCall.isMatchingActualCall());
@@ -564,7 +578,7 @@ TEST(MockExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
 
 TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   STRCMP_EQUAL("name -> no parameters (expected 1 call, called 0 times)",
       expectedCall.callToString().c_str());
@@ -573,7 +587,7 @@ TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
 TEST(MockExpectedCall,
     toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
 {
-  MockCheckedExpectedCall expectedCall(2);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   STRCMP_EQUAL("name -> no parameters (expected 2 calls, called 1 time)",
@@ -582,7 +596,7 @@ TEST(MockExpectedCall,
 
 TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
 {
-  MockCheckedExpectedCall expectedCall(2);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(2);
   expectedCall.withName("name");
   expectedCall.callWasMade(1);
   expectedCall.callWasMade(2);
@@ -592,7 +606,7 @@ TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
 
 TEST(MockExpectedCall, toStringForIgnoredParameters)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.ignoreOtherParameters();
   STRCMP_EQUAL(
@@ -605,7 +619,7 @@ TEST(MockExpectedCall, toStringForMultipleInputParameters)
   int int_value = 10;
   unsigned int uint_value = 7;
 
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withParameter("string", "value");
   expectedCall.withParameter("integer", int_value);
@@ -623,7 +637,7 @@ TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
   unsigned int uint_value = 7;
   unsigned char buffer_value[3];
 
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withParameter("string", "value");
   expectedCall.withParameter("integer", int_value);
@@ -641,7 +655,7 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
 {
   unsigned char buffer_value[3];
 
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withOutputParameterReturning(
       "buffer1", buffer_value, sizeof(buffer_value));
@@ -655,7 +669,7 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
 
 TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withUnmodifiedOutputParameter("buffer1");
   expectedCall.callWasMade(1);
@@ -666,7 +680,7 @@ TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
 
 TEST(MockExpectedCall, toStringForParameterAndIgnored)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withParameter("string", "value");
   expectedCall.ignoreOtherParameters();
@@ -678,7 +692,7 @@ TEST(MockExpectedCall, toStringForParameterAndIgnored)
 
 TEST(MockExpectedCall, toStringForCallOrderSingle)
 {
-  MockCheckedExpectedCall expectedCall(1);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(1);
   expectedCall.withName("name");
   expectedCall.withCallOrder(2);
   expectedCall.callWasMade(1);
@@ -689,7 +703,7 @@ TEST(MockExpectedCall, toStringForCallOrderSingle)
 
 TEST(MockExpectedCall, toStringForCallOrderMultiple)
 {
-  MockCheckedExpectedCall expectedCall(5);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(5);
   expectedCall.withName("name");
   expectedCall.withCallOrder(5, 9);
   expectedCall.callWasMade(5);
@@ -713,7 +727,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
 
 TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
 {
-  MockCheckedExpectedCall expectedCall(3);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
   expectedCall.withCallOrder(10, 12);
   expectedCall.callWasMade(9);
@@ -725,7 +739,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
 
 TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooLate)
 {
-  MockCheckedExpectedCall expectedCall(3);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(3);
   expectedCall.withName("name");
   expectedCall.withCallOrder(10, 12);
   expectedCall.callWasMade(11);
@@ -746,7 +760,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledSingle)
 
 TEST(MockExpectedCall, callOrderIsFulfilledMultiple)
 {
-  MockCheckedExpectedCall expectedCall(4);
+  cpputest::extensions::MockCheckedExpectedCall expectedCall(4);
   expectedCall.withName("name");
   expectedCall.withCallOrder(150, 153);
   expectedCall.callWasMade(150);
@@ -761,7 +775,7 @@ TEST(MockExpectedCall, hasOutputParameter)
 {
   const int value = 1;
   call->withOutputParameterReturning("foo", &value, sizeof(value));
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setValue(&value);
   CHECK(call->hasOutputParameter(foo));
 }
@@ -769,7 +783,7 @@ TEST(MockExpectedCall, hasOutputParameter)
 TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
 {
   call->withUnmodifiedOutputParameter("foo");
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setValue(static_cast<const void*>(nullptr));
   foo.setSize(0);
   CHECK(call->hasOutputParameter(foo));
@@ -778,7 +792,7 @@ TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
 TEST(MockExpectedCall, hasNoOutputParameter)
 {
   call->withIntParameter("foo", static_cast<int>(1));
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setValue(static_cast<int>(1));
   CHECK_FALSE(call->hasOutputParameter(foo));
 }
@@ -788,7 +802,7 @@ TEST(MockExpectedCall, hasOutputParameterOfType)
   TypeForTestingExpectedFunctionCall object(6789);
   call->withOutputParameterOfTypeReturning(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setConstObjectPointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK(call->hasOutputParameter(foo));
 }
@@ -798,7 +812,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
   TypeForTestingExpectedFunctionCall object(543);
   call->withParameterOfType(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setConstObjectPointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->hasOutputParameter(foo));
 }
@@ -808,14 +822,14 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
   TypeForTestingExpectedFunctionCall object(543);
   call->withOutputParameterOfTypeReturning(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  MockNamedValue foo("foo");
+  cpputest::extensions::MockNamedValue foo("foo");
   foo.setConstObjectPointer("OtherTypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->hasOutputParameter(foo));
 }
 
 TEST_GROUP(MockIgnoredExpectedCall)
 {
-  MockIgnoredExpectedCall ignored;
+  cpputest::extensions::MockIgnoredExpectedCall ignored;
 };
 
 TEST(MockIgnoredExpectedCall, worksAsItShould)

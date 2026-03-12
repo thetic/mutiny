@@ -757,10 +757,7 @@ MockSupport::hasReturnValue()
   return false;
 }
 
-} // namespace extensions
-} // namespace cpputest
-using namespace cpputest;
-using namespace cpputest::extensions;
+namespace {
 
 typedef void (*cpputest_cpp_function_pointer)(); /* Cl2000 requires cast to C++
                                                     function */
@@ -1985,17 +1982,22 @@ static MockSupport_c gMockSupport = { strictOrder_c,
   installComparator_c,
   installCopier_c,
   removeAllComparatorsAndCopiers_c };
+}
+} // namespace extensions
+} // namespace cpputest
 
 MockSupport_c*
 mock_c()
 {
-  currentMockSupport = &mock("", &failureReporterForC);
-  return &gMockSupport;
+  cpputest::extensions::currentMockSupport =
+      &mock("", &cpputest::extensions::failureReporterForC);
+  return &cpputest::extensions::gMockSupport;
 }
 
 MockSupport_c*
 mock_scope_c(const char* scope)
 {
-  currentMockSupport = &mock(scope, &failureReporterForC);
-  return &gMockSupport;
+  cpputest::extensions::currentMockSupport =
+      &mock(scope, &cpputest::extensions::failureReporterForC);
+  return &cpputest::extensions::gMockSupport;
 }

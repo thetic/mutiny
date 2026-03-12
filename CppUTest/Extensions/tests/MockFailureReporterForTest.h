@@ -3,22 +3,20 @@
 
 #include "CppUTest/Extensions/MockSupport.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-using UtestShell = cpputest::TestShell;
-
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure)                           \
   CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, __FILE__, __LINE__)
 #define CHECK_NO_MOCK_FAILURE()                                                \
   CHECK_NO_MOCK_FAILURE_LOCATION(__FILE__, __LINE__)
 
-class MockFailureReporterForTest : public MockFailureReporter
+class MockFailureReporterForTest
+  : public cpputest::extensions::MockFailureReporter
 {
 public:
-  String mockFailureString;
+  cpputest::String mockFailureString;
 
-  virtual void failTest(MockFailure failure) override;
-  virtual void reportFailure(const MockFailure& failure) override;
+  virtual void failTest(cpputest::extensions::MockFailure failure) override;
+  virtual void reportFailure(
+      const cpputest::extensions::MockFailure& failure) override;
   virtual void exitTest() override;
   static MockFailureReporterForTest* getReporter();
   static void clearReporter();
@@ -34,27 +32,32 @@ public:
   ~MockFailureReporterInstaller();
 };
 
-UtestShell*
+cpputest::TestShell*
 mockFailureTest();
-String
+cpputest::String
 mockFailureString();
 void
 CLEAR_MOCK_FAILURE();
 void
-CHECK_EXPECTED_MOCK_FAILURE_LOCATION(const MockFailure& expectedFailure,
+CHECK_EXPECTED_MOCK_FAILURE_LOCATION(
+    const cpputest::extensions::MockFailure& expectedFailure,
     const char* file,
     size_t line);
 void
 CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line);
 
-class MockExpectedCallsListForTest : public MockExpectedCallsList
+class MockExpectedCallsListForTest
+  : public cpputest::extensions::MockExpectedCallsList
 {
 public:
   ~MockExpectedCallsListForTest() override;
-  MockCheckedExpectedCall* addFunction(const String& name);
-  MockCheckedExpectedCall* addFunction(unsigned int numCalls,
-      const String& name);
-  MockCheckedExpectedCall* addFunctionOrdered(const String& name,
+  cpputest::extensions::MockCheckedExpectedCall* addFunction(
+      const cpputest::String& name);
+  cpputest::extensions::MockCheckedExpectedCall* addFunction(
+      unsigned int numCalls,
+      const cpputest::String& name);
+  cpputest::extensions::MockCheckedExpectedCall* addFunctionOrdered(
+      const cpputest::String& name,
       unsigned int order);
 };
 

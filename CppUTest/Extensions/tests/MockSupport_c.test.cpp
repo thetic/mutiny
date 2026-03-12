@@ -6,10 +6,6 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-using namespace cpputest;
-using namespace cpputest::extensions;
-using UtestShell = cpputest::TestShell;
-
 static void
 dummy_function_for_mock_c_test()
 {
@@ -767,7 +763,7 @@ failedCallToMockC()
 
 MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
 
   fixture.setTestFunction(failedCallToMockC);
   fixture.runAllTests();
@@ -788,8 +784,8 @@ crashMethod()
 TEST_ORDERED(MockSupport_c, shouldCrashOnFailure, 21)
 {
   cpputestHasCrashed = false;
-  TestTestingFixture fixture;
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestTestingFixture fixture;
+  cpputest::TestShell::setCrashMethod(crashMethod);
   mock_c()->crashOnFailure(true);
   fixture.setTestFunction(failedCallToMockC);
 
@@ -797,29 +793,29 @@ TEST_ORDERED(MockSupport_c, shouldCrashOnFailure, 21)
 
   CHECK(cpputestHasCrashed);
 
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::resetCrashMethod();
   mock_c()->crashOnFailure(false);
 }
 
 TEST_ORDERED(MockSupport_c, nextTestShouldNotCrashOnFailure, 22)
 {
   cpputestHasCrashed = false;
-  TestTestingFixture fixture;
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestTestingFixture fixture;
+  cpputest::TestShell::setCrashMethod(crashMethod);
   fixture.setTestFunction(failedCallToMockC);
 
   fixture.runAllTests();
 
   CHECK_FALSE(cpputestHasCrashed);
 
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
 {
   cpputestHasCrashed = false;
-  TestTestingFixture fixture;
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestTestingFixture fixture;
+  cpputest::TestShell::setCrashMethod(crashMethod);
 
   fixture.setTestFunction(failedCallToMockC);
 
@@ -828,15 +824,15 @@ TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
   CHECK_FALSE(cpputestHasCrashed);
   LONGS_EQUAL(1, fixture.getFailureCount());
 
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::resetCrashMethod();
 }
 
 TEST(MockSupport_c, FailWillCrashIfEnabled)
 {
   cpputestHasCrashed = false;
-  TestTestingFixture fixture;
-  UtestShell::setCrashOnFail();
-  UtestShell::setCrashMethod(crashMethod);
+  cpputest::TestTestingFixture fixture;
+  cpputest::TestShell::setCrashOnFail();
+  cpputest::TestShell::setCrashMethod(crashMethod);
 
   fixture.setTestFunction(failedCallToMockC);
 
@@ -845,8 +841,8 @@ TEST(MockSupport_c, FailWillCrashIfEnabled)
   CHECK(cpputestHasCrashed);
   LONGS_EQUAL(1, fixture.getFailureCount());
 
-  UtestShell::restoreDefaultTestTerminator();
-  UtestShell::resetCrashMethod();
+  cpputest::TestShell::restoreDefaultTestTerminator();
+  cpputest::TestShell::resetCrashMethod();
 }
 
 static void
@@ -860,7 +856,7 @@ failingCallToMockCWithParameterOfType_()
 
 TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
   mock_c()->installComparator(
       "typeName", typeNameIsEqual, typeNameValueToString);
   fixture.setTestFunction(failingCallToMockCWithParameterOfType_);
@@ -883,7 +879,7 @@ callToMockCWithOutputParameterOfType_()
 
 TEST(MockSupport_c, successWithOutputParameterOfType)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
   mock_c()->installCopier("intType", typeCopy);
   fixture.setTestFunction(callToMockCWithOutputParameterOfType_);
   fixture.runAllTests();
@@ -905,7 +901,7 @@ failingCallToMockCWithMemoryBuffer_()
 
 TEST(MockSupport_c, expectOneMemBufferParameterAndValueFailsDueToContents)
 {
-  TestTestingFixture fixture;
+  cpputest::TestTestingFixture fixture;
   fixture.setTestFunction(failingCallToMockCWithMemoryBuffer_);
   fixture.runAllTests();
   fixture.assertPrintContains(
