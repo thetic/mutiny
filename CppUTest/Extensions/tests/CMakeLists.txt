@@ -34,8 +34,6 @@ add_executable(CppUTestExtTests
     MockSupport.test.cpp
 )
 
-add_mapfile(CppUTestExtTests)
-
 cpputest_discover_tests(CppUTestExtTests
     DETAILED FALSE
 )

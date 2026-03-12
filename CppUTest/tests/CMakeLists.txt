@@ -36,8 +36,6 @@ add_executable(CppUTestTests
     UtestStringMacros.test.cpp
 )
 
-add_mapfile(CppUTestTests)
-
 cpputest_discover_tests(CppUTestTests)
 
 target_link_libraries(CppUTestTests

@@ -69,29 +69,20 @@ if(CPPUTEST_PLATFORM)
     )
 endif()
 
-if(CPPUTEST_PLATFORM STREQUAL "Iar")
-    target_compile_options(CppUTest
-        PRIVATE
-            --dlib_config full
-    )
-endif()
-
 include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
 
-target_compile_features(CppUTest PUBLIC cxx_std_11)
+target_compile_features(CppUTest
+    INTERFACE c_std_11
+    PUBLIC cxx_std_11
+)
 
 target_compile_definitions(CppUTest
     PUBLIC
         CPPUTEST_USE_STD_CPP_LIB=$<BOOL:${CPPUTEST_USE_STD_CPP_LIB}>
     PRIVATE
         $<$<BOOL:${CPPUTEST_HAVE_GETTIMEOFDAY}>:CPPUTEST_HAVE_GETTIMEOFDAY>
-)
-
-target_link_libraries(CppUTest
-    PRIVATE
-        $<$<BOOL:${WIN32}>:winmm>
 )
 
 add_library(CppUTest::CppUTest ALIAS CppUTest)
