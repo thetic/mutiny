@@ -127,30 +127,6 @@ TEST(String, InEquality)
   CHECK(s1 != s2);
 }
 
-TEST(String, CompareNoCaseWithoutCase)
-{
-  cpputest::String s1("hello");
-  cpputest::String s2("hello");
-
-  CHECK(s1.equalsNoCase(s2));
-}
-
-TEST(String, CompareNoCaseWithCase)
-{
-  cpputest::String s1("hello");
-  cpputest::String s2("HELLO");
-
-  CHECK(s1.equalsNoCase(s2));
-}
-
-TEST(String, CompareNoCaseWithCaseNotEqual)
-{
-  cpputest::String s1("hello");
-  cpputest::String s2("WORLD");
-
-  CHECK(!s1.equalsNoCase(s2));
-}
-
 TEST(String, c_str)
 {
   cpputest::String s1("hello");
@@ -163,14 +139,6 @@ TEST(String, Size)
   cpputest::String s1("hello!");
 
   LONGS_EQUAL(6, s1.size());
-}
-
-TEST(String, lowerCase)
-{
-  cpputest::String s1("AbCdEfG1234");
-  cpputest::String s2(s1.lowerCase());
-  STRCMP_EQUAL("abcdefg1234", s2.c_str());
-  STRCMP_EQUAL("AbCdEfG1234", s1.c_str());
 }
 
 TEST(String, printable)

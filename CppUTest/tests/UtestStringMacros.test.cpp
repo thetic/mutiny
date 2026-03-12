@@ -83,67 +83,6 @@ TEST(UtestStringMacros, FailureWithSTRNCMP_EQUALAndExpectedIsNULL)
 }
 
 static void
-STRCMP_NOCASE_EQUALWithActualIsNULLTestMethod_()
-{
-  STRCMP_NOCASE_EQUAL("ok", nullptr);
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_EQUALAndActualIsNULL)
-{
-  fixture.runTestWithMethod(STRCMP_NOCASE_EQUALWithActualIsNULLTestMethod_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <(null)>");
-}
-
-static void
-STRCMP_NOCASE_EQUALWithExpectedIsNULLTestMethod_()
-{
-  STRCMP_NOCASE_EQUAL(nullptr, "ok");
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_EQUALAndExpectedIsNULL)
-{
-  fixture.runTestWithMethod(STRCMP_NOCASE_EQUALWithExpectedIsNULLTestMethod_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <(null)>");
-}
-
-static void
-STRCMP_NOCASE_EQUALWithUnequalInputTestMethod_()
-{
-  STRCMP_NOCASE_EQUAL("no", "ok");
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_EQUALAndUnequalInput)
-{
-  fixture.runTestWithMethod(STRCMP_NOCASE_EQUALWithUnequalInputTestMethod_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <ok>");
-}
-
-static void
-STRCMP_NOCASE_CONTAINSWithActualIsNULLTestMethod_()
-{
-  STRCMP_NOCASE_CONTAINS("ok", nullptr);
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINSAndActualIsNULL)
-{
-  fixture.runTestWithMethod(STRCMP_NOCASE_CONTAINSWithActualIsNULLTestMethod_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <ok>");
-}
-
-static void
-STRCMP_NOCASE_CONTAINSWithExpectedIsNULLTestMethod_()
-{
-  STRCMP_NOCASE_CONTAINS(nullptr, "ok");
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINSAndExpectedIsNULL)
-{
-  fixture.runTestWithMethod(
-      STRCMP_NOCASE_CONTAINSWithExpectedIsNULLTestMethod_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <>");
-}
-
-static void
 failingTestMethodWithSTRCMP_EQUAL_()
 {
   STRCMP_EQUAL("hello", "hell");
@@ -254,61 +193,6 @@ IGNORE_TEST(UtestStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 }
 
 static void
-failingTestMethodWithSTRCMP_NOCASE_EQUAL_()
-{
-  STRCMP_NOCASE_EQUAL("hello", "Hell");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_EQUAL)
-{
-  fixture.runTestWithMethod(failingTestMethodWithSTRCMP_NOCASE_EQUAL_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <hello>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <Hell>");
-}
-
-TEST(UtestStringMacros, STRCMP_NOCASE_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_NOCASE_EQUAL("1", "2");
-  else
-    STRCMP_NOCASE_EQUAL("1", "1");
-}
-
-IGNORE_TEST(UtestStringMacros, STRCMP_NOCASE_EQUALWorksInAnIgnoredTest)
-{
-  STRCMP_NOCASE_EQUAL("Hello", "World");
-}
-
-static void
-failingTestMethodWithSTRCMP_NOCASE_EQUAL_TEXT_()
-{
-  STRCMP_NOCASE_EQUAL_TEXT("hello", "hell", "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_EQUAL_TEXT)
-{
-  fixture.runTestWithMethod(failingTestMethodWithSTRCMP_NOCASE_EQUAL_TEXT_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <hello>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <hell>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(UtestStringMacros, STRCMP_NOCASE_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_NOCASE_EQUAL_TEXT("1", "2", "Failed because it failed");
-  else
-    STRCMP_NOCASE_EQUAL_TEXT("1", "1", "Failed because it failed");
-}
-
-IGNORE_TEST(UtestStringMacros, STRCMP_NOCASE_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  STRCMP_NOCASE_EQUAL_TEXT("Hello", "World", "Failed because it failed");
-}
-
-static void
 failingTestMethodWithSTRCMP_CONTAINS_()
 {
   STRCMP_CONTAINS("hello", "world");
@@ -361,63 +245,6 @@ TEST(UtestStringMacros, STRCMP_CONTAINS_TEXTBehavesAsProperMacro)
 IGNORE_TEST(UtestStringMacros, STRCMP_CONTAINS_TEXTWorksInAnIgnoredTest)
 {
   STRCMP_CONTAINS_TEXT("Hello", "World", "Failed because it failed");
-}
-
-static void
-failingTestMethodWithSTRCMP_NOCASE_CONTAINS_()
-{
-  STRCMP_NOCASE_CONTAINS("hello", "WORLD");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINS)
-{
-  fixture.runTestWithMethod(failingTestMethodWithSTRCMP_NOCASE_CONTAINS_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("actual <WORLD>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <hello>");
-}
-
-TEST(UtestStringMacros, STRCMP_NOCASE_CONTAINSBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_NOCASE_CONTAINS("never", "executed");
-  else
-    STRCMP_NOCASE_CONTAINS("hello", "HELLO WORLD");
-}
-
-IGNORE_TEST(UtestStringMacros, STRCMP_NO_CASE_CONTAINSWorksInAnIgnoredTest)
-{
-  STRCMP_NOCASE_CONTAINS("Hello", "World");
-}
-
-static void
-failingTestMethodWithSTRCMP_NOCASE_CONTAINS_TEXT_()
-{
-  STRCMP_NOCASE_CONTAINS_TEXT("hello", "WORLD", "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
-TEST(UtestStringMacros, FailureWithSTRCMP_NOCASE_CONTAINS_TEXT)
-{
-  fixture.runTestWithMethod(failingTestMethodWithSTRCMP_NOCASE_CONTAINS_TEXT_);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("actual <WORLD>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <hello>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(UtestStringMacros, STRCMP_NOCASE_CONTAINS_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_NOCASE_CONTAINS_TEXT(
-        "never", "executed", "Failed because it failed");
-  else
-    STRCMP_NOCASE_CONTAINS_TEXT(
-        "hello", "HELLO WORLD", "Failed because it failed");
-}
-
-IGNORE_TEST(UtestStringMacros, STRCMP_NO_CASE_CONTAINS_TEXTWorksInAnIgnoredTest)
-{
-  STRCMP_NOCASE_CONTAINS_TEXT("Hello", "World", "Failed because it failed");
 }
 
 TEST(UtestStringMacros, NFirstCharsComparison)

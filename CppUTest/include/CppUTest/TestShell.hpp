@@ -96,17 +96,7 @@ public:
       const char* fileName,
       size_t lineNumber,
       const TestTerminator& testTerminator = getCurrentTestTerminator());
-  virtual void assertCstrNoCaseEqual(const char* expected,
-      const char* actual,
-      const char* text,
-      const char* fileName,
-      size_t lineNumber);
   virtual void assertCstrContains(const char* expected,
-      const char* actual,
-      const char* text,
-      const char* fileName,
-      size_t lineNumber);
-  virtual void assertCstrNoCaseContains(const char* expected,
       const char* actual,
       const char* text,
       const char* fileName,

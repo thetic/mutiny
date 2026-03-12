@@ -319,12 +319,6 @@ String::contains(const String& other) const
 }
 
 bool
-String::containsNoCase(const String& other) const
-{
-  return lowerCase().contains(other.lowerCase());
-}
-
-bool
 String::startsWith(const String& other) const
 {
   if (other.size() == 0)
@@ -481,18 +475,6 @@ String::getPrintableSize() const
   return printable_str_size;
 }
 
-String
-String::lowerCase() const
-{
-  String str(*this);
-
-  size_t str_size = str.size();
-  for (size_t i = 0; i < str_size; i++)
-    str.buffer_[i] = ToLower(str.getBuffer()[i]);
-
-  return str;
-}
-
 const char*
 String::c_str() const
 {
@@ -520,12 +502,6 @@ bool
 operator==(const String& left, const String& right)
 {
   return 0 == StrCmp(left.c_str(), right.c_str());
-}
-
-bool
-String::equalsNoCase(const String& str) const
-{
-  return lowerCase() == str.lowerCase();
 }
 
 bool

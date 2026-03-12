@@ -70,16 +70,13 @@ public:
   char at(size_t pos) const;
   size_t find(char ch) const;
   bool contains(const String& other) const;
-  bool containsNoCase(const String& other) const;
   bool startsWith(const String& other) const;
   bool endsWith(const String& other) const;
   void split(const String& split, StringCollection& outCollection) const;
-  bool equalsNoCase(const String& str) const;
 
   void replace(char to, char with);
   void replace(const char* to, const char* with);
 
-  String lowerCase() const;
   String substr(size_t beginPos) const;
   String substr(size_t beginPos, size_t amount) const;
   String subStringFromTill(char startChar, char lastExcludedChar) const;

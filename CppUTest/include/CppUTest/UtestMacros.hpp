@@ -229,18 +229,6 @@
         expected, actual, length, text, file, line);                           \
   } while (0)
 
-#define STRCMP_NOCASE_EQUAL(expected, actual)                                  \
-  STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
-
-#define STRCMP_NOCASE_EQUAL_TEXT(expected, actual, text)                       \
-  STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-#define STRCMP_NOCASE_EQUAL_LOCATION(expected, actual, text, file, line)       \
-  do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertCstrNoCaseEqual(                  \
-        expected, actual, text, file, line);                                   \
-  } while (0)
-
 #define STRCMP_CONTAINS(expected, actual)                                      \
   STRCMP_CONTAINS_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
 
@@ -250,18 +238,6 @@
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
     cpputest::TestShell::getCurrent()->assertCstrContains(                     \
-        expected, actual, text, file, line);                                   \
-  } while (0)
-
-#define STRCMP_NOCASE_CONTAINS(expected, actual)                               \
-  STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
-
-#define STRCMP_NOCASE_CONTAINS_TEXT(expected, actual, text)                    \
-  STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-#define STRCMP_NOCASE_CONTAINS_LOCATION(expected, actual, text, file, line)    \
-  do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertCstrNoCaseContains(               \
         expected, actual, text, file, line);                                   \
   } while (0)
 

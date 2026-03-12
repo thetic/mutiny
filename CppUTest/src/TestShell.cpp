@@ -467,28 +467,6 @@ TestShell::assertCstrNEqual(const char* expected,
 }
 
 void
-TestShell::assertCstrNoCaseEqual(const char* expected,
-    const char* actual,
-    const char* text,
-    const char* fileName,
-    size_t lineNumber)
-{
-  getTestResult()->countCheck();
-  if (actual == nullptr && expected == nullptr)
-    return;
-  if (actual == nullptr || expected == nullptr) {
-    addFailure(StringEqualNoCaseFailure(
-        this, fileName, lineNumber, expected, actual, text));
-    exitTest(getCurrentTestTerminator());
-  }
-  if (!String(expected).equalsNoCase(actual)) {
-    addFailure(StringEqualNoCaseFailure(
-        this, fileName, lineNumber, expected, actual, text));
-    exitTest(getCurrentTestTerminator());
-  }
-}
-
-void
 TestShell::assertCstrContains(const char* expected,
     const char* actual,
     const char* text,
@@ -504,28 +482,6 @@ TestShell::assertCstrContains(const char* expected,
     exitTest(getCurrentTestTerminator());
   }
   if (!String(actual).contains(expected)) {
-    addFailure(
-        ContainsFailure(this, fileName, lineNumber, expected, actual, text));
-    exitTest(getCurrentTestTerminator());
-  }
-}
-
-void
-TestShell::assertCstrNoCaseContains(const char* expected,
-    const char* actual,
-    const char* text,
-    const char* fileName,
-    size_t lineNumber)
-{
-  getTestResult()->countCheck();
-  if (actual == nullptr && expected == nullptr)
-    return;
-  if (actual == nullptr || expected == nullptr) {
-    addFailure(
-        ContainsFailure(this, fileName, lineNumber, expected, actual, text));
-    exitTest(getCurrentTestTerminator());
-  }
-  if (!String(actual).containsNoCase(expected)) {
     addFailure(
         ContainsFailure(this, fileName, lineNumber, expected, actual, text));
     exitTest(getCurrentTestTerminator());
