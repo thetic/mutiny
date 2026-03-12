@@ -10,26 +10,26 @@ IncludeCategories:
   - Regex:           '^"[^/"]*"$'
     Priority:        1
     SortPriority:    1
-  # 2. CppUTestExt includes
-  - Regex:           '^"CppUTestExt/'
+  # 2. CppUTest Extensions includes
+  - Regex:           '^"CppUTest/Extensions/'
     Priority:        2
     SortPriority:    2
-  # 3. CppUTest includes
+  # 3. CppUTest core includes
   - Regex:           '^"CppUTest/'
     Priority:        3
     SortPriority:    3
-  # 4. System/POSIX headers (angle-bracket with subdirectory path)
+  # 5. System/POSIX headers (angle-bracket with subdirectory path)
   - Regex:           '^<[^>]*/[^>]*>'
-    Priority:        4
-    SortPriority:    4
-  # 5. C++ standard headers (angle-bracket, no .h extension)
-  - Regex:           '^<[a-zA-Z][^.>]*>'
     Priority:        5
     SortPriority:    5
-  # 6. C standard headers (angle-bracket with .h)
-  - Regex:           '^<[^>]+\.h>'
+  # 6. C++ standard headers (angle-bracket, no .h extension)
+  - Regex:           '^<[a-zA-Z][^.>]*>'
     Priority:        6
     SortPriority:    6
+  # 7. C standard headers (angle-bracket with .h)
+  - Regex:           '^<[^>]+\.h>'
+    Priority:        7
+    SortPriority:    7
 Macros:
   - TEST_GROUP(x)=class x
   - TEST(x,y)=void x()

@@ -1,5 +1,5 @@
-#include "CppUTestExt/IEEE754ExceptionsPlugin.hpp"
-#include "CppUTestExt/MockSupportPlugin.hpp"
+#include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
+#include "CppUTest/Extensions/MockSupportPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/TestPlugin.hpp"

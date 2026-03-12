@@ -21,7 +21,7 @@ target_compile_options(ExampleTests
 target_link_libraries(ExampleTests
     PRIVATE
         ExampleLib
-        CppUTest::CppUTestExt
+        CppUTest::Extensions
 )
 
 include(CppUTest)

@@ -106,6 +106,10 @@ if(PROJECT_IS_TOP_LEVEL)
     )
 endif()
 
+if (CPPUTEST_EXTENSIONS)
+    add_subdirectory(Extensions)
+endif ()
+
 if (CPPUTEST_BUILD_TESTING)
     add_subdirectory(tests)
 endif ()

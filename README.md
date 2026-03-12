@@ -188,7 +188,7 @@ add_executable(example_test ExampleTest.cpp)
 
 target_link_libraries(example_test PRIVATE
     CppUTest::CppUTest
-    CppUTest::CppUTestExt)
+    CppUTest::Extensions)
 ```
 
 ## CMake Integration

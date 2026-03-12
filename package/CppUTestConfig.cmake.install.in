@@ -3,7 +3,16 @@
 set_and_check(CppUTest_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Modules")
 include("${CMAKE_CURRENT_LIST_DIR}/CppUTestTargets.cmake")
-set(CppUTest_LIBRARIES CppUTest CppUTestExt)
+
+if(TARGET CppUTest::Extensions)
+    set(CppUTest_Extensions_FOUND TRUE)
+endif()
+
+set(CppUTest_LIBRARIES CppUTest::CppUTest)
+if(CppUTest_Extensions_FOUND)
+    list(APPEND CppUTest_LIBRARIES CppUTest::Extensions)
+endif()
+
 include("${CMAKE_CURRENT_LIST_DIR}/Modules/CppUTestBuildTimeDiscoverTests.cmake")
 
 check_required_components(CppUTest)

@@ -80,10 +80,6 @@ endfunction()
 
 add_subdirectory(CppUTest)
 
-if (CPPUTEST_EXTENSIONS)
-    add_subdirectory(CppUTestExt)
-endif ()
-
 if (CPPUTEST_EXAMPLES)
   add_subdirectory(examples)
 endif()

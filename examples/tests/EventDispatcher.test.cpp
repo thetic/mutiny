@@ -1,6 +1,6 @@
 #include "EventDispatcher.h"
 
-#include "CppUTestExt/MockSupport.hpp"
+#include "CppUTest/Extensions/MockSupport.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 
