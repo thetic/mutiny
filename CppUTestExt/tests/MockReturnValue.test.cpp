@@ -5,7 +5,7 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockReturnValueTest)
+TEST_GROUP(MockReturnValue)
 {
   void teardown() override
   {
@@ -14,7 +14,7 @@ TEST_GROUP(MockReturnValueTest)
   }
 };
 
-TEST(MockReturnValueTest, hasReturnValue)
+TEST(MockReturnValue, hasReturnValue)
 {
   CHECK(!mock().hasReturnValue());
   mock().expectOneCall("foo");
@@ -26,7 +26,7 @@ TEST(MockReturnValueTest, hasReturnValue)
   CHECK(mock().hasReturnValue());
 }
 
-TEST(MockReturnValueTest, UnsignedIntegerReturnValue)
+TEST(MockReturnValue, UnsignedIntegerReturnValue)
 {
   unsigned int expected_value = 7;
 
@@ -41,7 +41,7 @@ TEST(MockReturnValueTest, UnsignedIntegerReturnValue)
   LONGS_EQUAL(expected_value, mock().unsignedIntReturnValue());
 }
 
-TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsUnsignedInt)
+TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedInt)
 {
   int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -49,7 +49,7 @@ TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsUnsignedInt)
       mock().actualCall("foo").returnValue().getUnsignedIntValue());
 }
 
-TEST(MockReturnValueTest, IntReturnValueCanBeRetrievedAsLongInt)
+TEST(MockReturnValue, IntReturnValueCanBeRetrievedAsLongInt)
 {
   int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -57,7 +57,7 @@ TEST(MockReturnValueTest, IntReturnValueCanBeRetrievedAsLongInt)
       expected_value, mock().actualCall("foo").returnValue().getLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsLongInt)
+TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsLongInt)
 {
   unsigned int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -65,7 +65,7 @@ TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsLongInt)
       expected_value, mock().actualCall("foo").returnValue().getLongIntValue());
 }
 
-TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongInt)
+TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongInt)
 {
   int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -73,8 +73,7 @@ TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongInt)
       mock().actualCall("foo").returnValue().getUnsignedLongIntValue());
 }
 
-TEST(MockReturnValueTest,
-    PositiveLongIntReturnValueCanBeRetrievedAsUnsignedLongInt)
+TEST(MockReturnValue, PositiveLongIntReturnValueCanBeRetrievedAsUnsignedLongInt)
 {
   long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -82,7 +81,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongInt)
+TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongInt)
 {
   unsigned int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -90,8 +89,7 @@ TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongInt)
       mock().actualCall("foo").returnValue().getUnsignedLongIntValue());
 }
 
-TEST(MockReturnValueTest,
-    PositiveIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
+TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
   int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -99,7 +97,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     PositiveLongIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
   long int expected_value = 7;
@@ -108,7 +106,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     PositiveLongLongIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
   long long int expected_value = 7;
@@ -117,8 +115,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
-    UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
+TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
   unsigned int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -126,7 +123,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     UnsignedLongIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
 {
   unsigned long int expected_value = 7;
@@ -135,7 +132,7 @@ TEST(MockReturnValueTest,
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongLongIntReturnValueCanBeRetrieved)
+TEST(MockReturnValue, UnsignedLongLongIntReturnValueCanBeRetrieved)
 {
   unsigned long long int expected_value = 2ULL;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -143,7 +140,7 @@ TEST(MockReturnValueTest, UnsignedLongLongIntReturnValueCanBeRetrieved)
       mock().actualCall("foo").returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsLongLongInt)
+TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsLongLongInt)
 {
   int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -151,7 +148,7 @@ TEST(MockReturnValueTest, PositiveIntReturnValueCanBeRetrievedAsLongLongInt)
       mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, PositiveLongIntReturnValueCanBeRetrievedAsLongLongInt)
+TEST(MockReturnValue, PositiveLongIntReturnValueCanBeRetrievedAsLongLongInt)
 {
   long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -159,7 +156,7 @@ TEST(MockReturnValueTest, PositiveLongIntReturnValueCanBeRetrievedAsLongLongInt)
       mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsLongLongInt)
+TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsLongLongInt)
 {
   unsigned int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -167,7 +164,7 @@ TEST(MockReturnValueTest, UnsignedIntReturnValueCanBeRetrievedAsLongLongInt)
       mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongIntReturnValueCanBeRetrievedAsLongLongInt)
+TEST(MockReturnValue, UnsignedLongIntReturnValueCanBeRetrievedAsLongLongInt)
 {
   unsigned long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -175,7 +172,7 @@ TEST(MockReturnValueTest, UnsignedLongIntReturnValueCanBeRetrievedAsLongLongInt)
       mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, LongLongIntReturnValueCanBeRetrieved)
+TEST(MockReturnValue, LongLongIntReturnValueCanBeRetrieved)
 {
   long long int expected_value = 2LL;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -183,7 +180,7 @@ TEST(MockReturnValueTest, LongLongIntReturnValueCanBeRetrieved)
       mock().actualCall("foo").returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedIntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, UnsignedIntegerReturnValueSetsDifferentValues)
 {
   unsigned int expected_value = 1;
   unsigned int another_expected_value = 2;
@@ -200,7 +197,7 @@ TEST(MockReturnValueTest, UnsignedIntegerReturnValueSetsDifferentValues)
       another_expected_value, mock().returnValue().getUnsignedIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     UnsignedIntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   unsigned int ret_value = 1;
@@ -233,7 +230,7 @@ TEST(MockReturnValueTest,
   LONGS_EQUAL(another_ret_value, mock().returnValue().getUnsignedIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenADoubleReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   double default_return_value = 10.7;
@@ -248,7 +245,7 @@ TEST(MockReturnValueTest,
       0.05);
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoDoubleReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   double default_return_value = 7.7;
@@ -261,7 +258,7 @@ TEST(MockReturnValueTest,
       0.05);
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAUnsignedIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   unsigned int default_return_value = 10;
@@ -274,7 +271,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoUnsignedIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   unsigned int default_return_value = 10;
@@ -286,7 +283,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAUnsignedLongIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   unsigned long int default_return_value = 121487;
@@ -299,7 +296,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoUnsignedLongIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   unsigned long int default_return_value = 7710144;
@@ -311,7 +308,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenALongIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   long int default_return_value = 748797;
@@ -324,7 +321,7 @@ TEST(MockReturnValueTest,
       mock().returnLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoLongIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   long int default_return_value = 123659;
@@ -336,7 +333,7 @@ TEST(MockReturnValueTest,
       mock().returnLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAUnsignedLongLongIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   unsigned long long int default_return_value = 2ULL;
@@ -349,7 +346,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedLongLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoUnsignedLongLongIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   unsigned long long int default_return_value = 2ULL;
@@ -361,7 +358,7 @@ TEST(MockReturnValueTest,
       mock().returnUnsignedLongLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenALongLongIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   long long int default_return_value = 2LL;
@@ -374,7 +371,7 @@ TEST(MockReturnValueTest,
       mock().returnLongLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoLongLongIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   long long int default_return_value = 2LL;
@@ -386,7 +383,7 @@ TEST(MockReturnValueTest,
       mock().returnLongLongIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenABooleanReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   bool default_return_value = true;
@@ -398,7 +395,7 @@ TEST(MockReturnValueTest,
       mock().returnBoolValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoBooleanReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   bool default_return_value = true;
@@ -409,7 +406,7 @@ TEST(MockReturnValueTest,
       mock().returnBoolValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAIntegerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   int default_return_value = 777;
@@ -421,7 +418,7 @@ TEST(MockReturnValueTest,
       mock().returnIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoIntegerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   int default_return_value = 777;
@@ -432,7 +429,7 @@ TEST(MockReturnValueTest,
       mock().returnIntValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest, BooleanReturnValue)
+TEST(MockReturnValue, BooleanReturnValue)
 {
   bool expected_value = true;
   mock().expectOneCall("foo").andReturnValue(true);
@@ -445,7 +442,7 @@ TEST(MockReturnValueTest, BooleanReturnValue)
   CHECK_EQUAL(expected_value, mock().boolReturnValue());
 }
 
-TEST(MockReturnValueTest, BooleanReturnValueSetsDifferentValues)
+TEST(MockReturnValue, BooleanReturnValueSetsDifferentValues)
 {
   bool expected_value = true;
   bool another_expected_value = false;
@@ -461,7 +458,7 @@ TEST(MockReturnValueTest, BooleanReturnValueSetsDifferentValues)
   CHECK_EQUAL(another_expected_value, mock().returnValue().getBoolValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     BooleanReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   bool ret_value = true;
@@ -494,7 +491,7 @@ TEST(MockReturnValueTest,
   CHECK_EQUAL(another_ret_value, mock().returnValue().getBoolValue());
 }
 
-TEST(MockReturnValueTest, IntegerReturnValue)
+TEST(MockReturnValue, IntegerReturnValue)
 {
   int expected_value = 1;
   mock().expectOneCall("foo").andReturnValue(1);
@@ -507,7 +504,7 @@ TEST(MockReturnValueTest, IntegerReturnValue)
   LONGS_EQUAL(expected_value, mock().intReturnValue());
 }
 
-TEST(MockReturnValueTest, IntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, IntegerReturnValueSetsDifferentValues)
 {
   int expected_value = 1;
   int another_expected_value = -1;
@@ -523,7 +520,7 @@ TEST(MockReturnValueTest, IntegerReturnValueSetsDifferentValues)
   LONGS_EQUAL(another_expected_value, mock().returnValue().getIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     IntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   int ret_value = 1;
@@ -556,7 +553,7 @@ TEST(MockReturnValueTest,
   LONGS_EQUAL(another_ret_value, mock().returnValue().getIntValue());
 }
 
-TEST(MockReturnValueTest, LongIntegerReturnValue)
+TEST(MockReturnValue, LongIntegerReturnValue)
 {
   long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -568,7 +565,7 @@ TEST(MockReturnValueTest, LongIntegerReturnValue)
   LONGS_EQUAL(expected_value, mock().longIntReturnValue());
 }
 
-TEST(MockReturnValueTest, LongIntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, LongIntegerReturnValueSetsDifferentValues)
 {
   long int expected_value = 1;
   long int another_expected_value = 2;
@@ -584,7 +581,7 @@ TEST(MockReturnValueTest, LongIntegerReturnValueSetsDifferentValues)
   LONGS_EQUAL(another_expected_value, mock().returnValue().getLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     LongIntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   long int ret_value = 1;
@@ -617,7 +614,7 @@ TEST(MockReturnValueTest,
   LONGS_EQUAL(another_ret_value, mock().returnValue().getLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongIntegerReturnValue)
+TEST(MockReturnValue, UnsignedLongIntegerReturnValue)
 {
   unsigned long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -630,7 +627,7 @@ TEST(MockReturnValueTest, UnsignedLongIntegerReturnValue)
   LONGS_EQUAL(expected_value, mock().unsignedLongIntReturnValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongIntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, UnsignedLongIntegerReturnValueSetsDifferentValues)
 {
   unsigned long int expected_value = 1;
   unsigned long int another_expected_value = 2;
@@ -647,7 +644,7 @@ TEST(MockReturnValueTest, UnsignedLongIntegerReturnValueSetsDifferentValues)
       another_expected_value, mock().returnValue().getUnsignedLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     UnsignedLongIntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   unsigned long int ret_value = 1;
@@ -681,7 +678,7 @@ TEST(MockReturnValueTest,
       another_ret_value, mock().returnValue().getUnsignedLongIntValue());
 }
 
-TEST(MockReturnValueTest, LongLongIntegerReturnValue)
+TEST(MockReturnValue, LongLongIntegerReturnValue)
 {
   long long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -694,7 +691,7 @@ TEST(MockReturnValueTest, LongLongIntegerReturnValue)
   LONGLONGS_EQUAL(expected_value, mock().longLongIntReturnValue());
 }
 
-TEST(MockReturnValueTest, LongLongIntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, LongLongIntegerReturnValueSetsDifferentValues)
 {
   long long int expected_value = 1;
   long long int another_expected_value = 2;
@@ -711,7 +708,7 @@ TEST(MockReturnValueTest, LongLongIntegerReturnValueSetsDifferentValues)
       another_expected_value, mock().returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     LongLongIntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   long long int ret_value = 1;
@@ -745,7 +742,7 @@ TEST(MockReturnValueTest,
       another_ret_value, mock().returnValue().getLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongLongIntegerReturnValue)
+TEST(MockReturnValue, UnsignedLongLongIntegerReturnValue)
 {
   unsigned long long int expected_value = 7;
   mock().expectOneCall("foo").andReturnValue(expected_value);
@@ -761,7 +758,7 @@ TEST(MockReturnValueTest, UnsignedLongLongIntegerReturnValue)
       expected_value, mock().unsignedLongLongIntReturnValue());
 }
 
-TEST(MockReturnValueTest, UnsignedLongLongIntegerReturnValueSetsDifferentValues)
+TEST(MockReturnValue, UnsignedLongLongIntegerReturnValueSetsDifferentValues)
 {
   unsigned long long int expected_value = 1;
   unsigned long long int another_expected_value = 2;
@@ -779,7 +776,7 @@ TEST(MockReturnValueTest, UnsignedLongLongIntegerReturnValueSetsDifferentValues)
       mock().returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     UnsignedLongLongIntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
 {
   unsigned long long int ret_value = 1;
@@ -814,7 +811,7 @@ TEST(MockReturnValueTest,
       another_ret_value, mock().returnValue().getUnsignedLongLongIntValue());
 }
 
-TEST(MockReturnValueTest, MatchingReturnValueOnWhileSignature)
+TEST(MockReturnValue, MatchingReturnValueOnWhileSignature)
 {
   mock().expectOneCall("foo").withParameter("p1", 1).andReturnValue(1);
   mock().expectOneCall("foo").withParameter("p1", 2).andReturnValue(2);
@@ -847,7 +844,7 @@ TEST(MockReturnValueTest, MatchingReturnValueOnWhileSignature)
           .getIntValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAStringReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   const char* default_return_value = "default";
@@ -860,7 +857,7 @@ TEST(MockReturnValueTest,
       mock().returnStringValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoStringReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   const char* default_return_value = "default";
@@ -872,7 +869,7 @@ TEST(MockReturnValueTest,
       mock().returnStringValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest, StringReturnValue)
+TEST(MockReturnValue, StringReturnValue)
 {
   mock().expectOneCall("foo").andReturnValue("hello world");
   MockActualCall& actual_call = mock().actualCall("foo");
@@ -882,7 +879,7 @@ TEST(MockReturnValueTest, StringReturnValue)
   STRCMP_EQUAL("hello world", mock().stringReturnValue());
 }
 
-TEST(MockReturnValueTest, DoubleReturnValue)
+TEST(MockReturnValue, DoubleReturnValue)
 {
   double expected_return_value = 7.8;
   mock().expectOneCall("foo").andReturnValue(expected_return_value);
@@ -894,7 +891,7 @@ TEST(MockReturnValueTest, DoubleReturnValue)
   DOUBLES_EQUAL(expected_return_value, mock().doubleReturnValue(), 0.05);
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAConstPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   const void* default_return_value = reinterpret_cast<void*>(0x7778);
@@ -907,7 +904,7 @@ TEST(MockReturnValueTest,
       mock().returnConstPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoConstPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   const void* default_return_value = reinterpret_cast<void*>(0x11);
@@ -919,7 +916,7 @@ TEST(MockReturnValueTest,
       mock().returnConstPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   void* default_return_value = reinterpret_cast<void*>(0x777);
@@ -932,7 +929,7 @@ TEST(MockReturnValueTest,
       mock().returnPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   void* default_return_value = reinterpret_cast<void*>(0x10);
@@ -944,7 +941,7 @@ TEST(MockReturnValueTest,
       mock().returnPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenAFunctionPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
   void (*default_return_value)() = reinterpret_cast<void (*)()>(0x777);
@@ -957,7 +954,7 @@ TEST(MockReturnValueTest,
       mock().returnFunctionPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     WhenNoFunctionPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
   void (*default_return_value)() = reinterpret_cast<void (*)()>(0x10);
@@ -969,7 +966,7 @@ TEST(MockReturnValueTest,
       mock().returnFunctionPointerValueOrDefault(default_return_value));
 }
 
-TEST(MockReturnValueTest, PointerReturnValue)
+TEST(MockReturnValue, PointerReturnValue)
 {
   void* ptr = reinterpret_cast<void*>(0x00107);
   mock().expectOneCall("foo").andReturnValue(ptr);
@@ -980,7 +977,7 @@ TEST(MockReturnValueTest, PointerReturnValue)
   POINTERS_EQUAL(ptr, mock().pointerReturnValue());
 }
 
-TEST(MockReturnValueTest, ConstPointerReturnValue)
+TEST(MockReturnValue, ConstPointerReturnValue)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001074);
   mock().expectOneCall("foo").andReturnValue(ptr);
@@ -990,7 +987,7 @@ TEST(MockReturnValueTest, ConstPointerReturnValue)
   POINTERS_EQUAL(ptr, mock().constPointerReturnValue());
 }
 
-TEST(MockReturnValueTest, FunctionPointerReturnValue)
+TEST(MockReturnValue, FunctionPointerReturnValue)
 {
   void (*ptr)() = reinterpret_cast<void (*)()>(0x00107);
   mock().expectOneCall("foo").andReturnValue(ptr);
@@ -1002,7 +999,7 @@ TEST(MockReturnValueTest, FunctionPointerReturnValue)
   FUNCTIONPOINTERS_EQUAL(ptr, mock().functionPointerReturnValue());
 }
 
-TEST(MockReturnValueTest,
+TEST(MockReturnValue,
     whenCallingDisabledOrIgnoredActualCallsThenTheyDontReturnPreviousCallsValues)
 {
   mock().expectOneCall("boo").ignoreOtherParameters().andReturnValue(10);

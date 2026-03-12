@@ -5,12 +5,12 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockHierarchyTest)
+TEST_GROUP(MockHierarchy)
 {
   void teardown() override { mock().clear(); }
 };
 
-TEST(MockHierarchyTest, getMockSupportScope)
+TEST(MockHierarchy, getMockSupportScope)
 {
   MockSupport* mock1 = mock().getMockSupportScope("name");
   MockSupport* mock2 = mock().getMockSupportScope("differentName");
@@ -21,7 +21,7 @@ TEST(MockHierarchyTest, getMockSupportScope)
   CHECK(mock1 != &mock());
 }
 
-TEST(MockHierarchyTest, usingTwoMockSupportsByName)
+TEST(MockHierarchy, usingTwoMockSupportsByName)
 {
   mock("first").expectOneCall("boo");
 
@@ -31,7 +31,7 @@ TEST(MockHierarchyTest, usingTwoMockSupportsByName)
   mock("first").clear();
 }
 
-TEST(MockHierarchyTest, EnableDisableWorkHierarchically)
+TEST(MockHierarchy, EnableDisableWorkHierarchically)
 {
   mock("first");
 
@@ -46,7 +46,7 @@ TEST(MockHierarchyTest, EnableDisableWorkHierarchically)
   mock("first").clear();
 }
 
-TEST(MockHierarchyTest,
+TEST(MockHierarchy,
     EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreated)
 {
   mock().disable();
@@ -60,7 +60,7 @@ TEST(MockHierarchyTest,
   mock().clear();
 }
 
-TEST(MockHierarchyTest, ExpectedCallsLeftWorksHierarchically)
+TEST(MockHierarchy, ExpectedCallsLeftWorksHierarchically)
 {
   mock("first").expectOneCall("foobar");
   LONGS_EQUAL(1, mock().expectedCallsLeft());
@@ -68,7 +68,7 @@ TEST(MockHierarchyTest, ExpectedCallsLeftWorksHierarchically)
   mock().clear();
 }
 
-TEST(MockHierarchyTest, checkExpectationsWorksHierarchically)
+TEST(MockHierarchy, checkExpectationsWorksHierarchically)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -85,7 +85,7 @@ TEST(MockHierarchyTest, checkExpectationsWorksHierarchically)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockHierarchyTest, ignoreOtherCallsWorksHierarchically)
+TEST(MockHierarchy, ignoreOtherCallsWorksHierarchically)
 {
   mock("first");
   mock().ignoreOtherCalls();
@@ -94,8 +94,7 @@ TEST(MockHierarchyTest, ignoreOtherCallsWorksHierarchically)
   mock().checkExpectations();
 }
 
-TEST(MockHierarchyTest,
-    ignoreOtherCallsWorksHierarchicallyWhenDynamicallyCreated)
+TEST(MockHierarchy, ignoreOtherCallsWorksHierarchicallyWhenDynamicallyCreated)
 {
   mock().ignoreOtherCalls();
   mock("first").actualCall("boo");
@@ -103,8 +102,7 @@ TEST(MockHierarchyTest,
   mock().checkExpectations();
 }
 
-TEST(MockHierarchyTest,
-    checkExpectationsWorksHierarchicallyForLastCallNotFinished)
+TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -120,7 +118,7 @@ TEST(MockHierarchyTest,
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockHierarchyTest, reporterIsInheritedInHierarchicalMocks)
+TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   MockExpectedCallsListForTest expectations;

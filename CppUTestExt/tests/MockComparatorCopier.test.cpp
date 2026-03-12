@@ -6,7 +6,7 @@ using namespace cpputest;
 using namespace cpputest::extensions;
 using UtestShell = cpputest::TestShell;
 
-TEST_GROUP(MockComparatorCopierTest)
+TEST_GROUP(MockComparatorCopier)
 {
   void teardown() override
   {
@@ -53,7 +53,7 @@ public:
   }
 };
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     customObjectParameterFailsWhenNotHavingAComparisonRepository)
 {
   MockFailureReporterInstaller failureReporterInstaller;
@@ -71,7 +71,7 @@ TEST(MockComparatorCopierTest,
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     customObjectParameterFailsWhenNotHavingACopierRepository)
 {
   MockFailureReporterInstaller failureReporterInstaller;
@@ -90,7 +90,7 @@ TEST(MockComparatorCopierTest,
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockComparatorCopierTest, customObjectParameterSucceeds)
+TEST(MockComparatorCopier, customObjectParameterSucceeds)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
@@ -121,7 +121,7 @@ myTypeValueToString(const void* object)
   return StringFrom(static_cast<const MyTypeForTesting*>(object)->value);
 }
 
-TEST(MockComparatorCopierTest, customObjectWithFunctionComparator)
+TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 {
   MyTypeForTesting object(1);
   MockFunctionComparator comparator(myTypeIsEqual, myTypeValueToString);
@@ -139,7 +139,7 @@ TEST(MockComparatorCopierTest, customObjectWithFunctionComparator)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     customObjectWithFunctionComparatorThatFailsCoversValueToString)
 {
   MockFailureReporterInstaller failureReporterInstaller;
@@ -162,7 +162,7 @@ TEST(MockComparatorCopierTest,
   CHECK_EXPECTED_MOCK_FAILURE_LOCATION(failure, __FILE__, __LINE__);
 }
 
-TEST(MockComparatorCopierTest, customTypeOutputParameterSucceeds)
+TEST(MockComparatorCopier, customTypeOutputParameterSucceeds)
 {
   MyTypeForTesting expectedObject(55);
   MyTypeForTesting actualObject(99);
@@ -185,7 +185,7 @@ TEST(MockComparatorCopierTest, customTypeOutputParameterSucceeds)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, noActualCallForCustomTypeOutputParameter)
+TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -208,7 +208,7 @@ TEST(MockComparatorCopierTest, noActualCallForCustomTypeOutputParameter)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, unexpectedCustomTypeOutputParameter)
+TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -233,7 +233,7 @@ TEST(MockComparatorCopierTest, unexpectedCustomTypeOutputParameter)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, customTypeOutputParameterMissing)
+TEST(MockComparatorCopier, customTypeOutputParameterMissing)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -257,7 +257,7 @@ TEST(MockComparatorCopierTest, customTypeOutputParameterMissing)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, customTypeOutputParameterOfWrongType)
+TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -285,7 +285,7 @@ TEST(MockComparatorCopierTest, customTypeOutputParameterOfWrongType)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, noCopierForCustomTypeOutputParameter)
+TEST(MockComparatorCopier, noCopierForCustomTypeOutputParameter)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -307,7 +307,7 @@ TEST(MockComparatorCopierTest, noCopierForCustomTypeOutputParameter)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockComparatorCopierTest, twoCustomTypeOutputParameters)
+TEST(MockComparatorCopier, twoCustomTypeOutputParameters)
 {
   MyTypeForTesting expectedObject1(545);
   MyTypeForTesting actualObject1(979);
@@ -346,7 +346,7 @@ TEST(MockComparatorCopierTest, twoCustomTypeOutputParameters)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, twoInterleavedCustomTypeOutputParameters)
+TEST(MockComparatorCopier, twoInterleavedCustomTypeOutputParameters)
 {
   MyTypeForTesting expectedObject1(9545);
   MyTypeForTesting actualObject1(79);
@@ -385,7 +385,7 @@ TEST(MockComparatorCopierTest, twoInterleavedCustomTypeOutputParameters)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     twoDifferentCustomTypeOutputParametersInSameFunctionCallSucceeds)
 {
   MyTypeForTesting expectedObject1(11);
@@ -415,7 +415,7 @@ TEST(MockComparatorCopierTest,
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     customTypeOutputAndInputParametersOfSameNameInDifferentFunctionCallsOfSameFunctionSucceeds)
 {
   MyTypeForTesting expectedObject1(911);
@@ -445,7 +445,7 @@ TEST(MockComparatorCopierTest,
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     twoCustomTypeOutputParametersOfSameNameInDifferentFunctionsSucceeds)
 {
   MyTypeForTesting expectedObject1(657);
@@ -475,7 +475,7 @@ TEST(MockComparatorCopierTest,
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     customTypeOutputAndInputParameterOfSameTypeInSameFunctionCall)
 {
   MyTypeForTesting expectedObject1(45);
@@ -506,7 +506,7 @@ TEST(MockComparatorCopierTest,
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, customTypeOutputParameterTraced)
+TEST(MockComparatorCopier, customTypeOutputParameterTraced)
 {
   MyTypeForTesting actualObject(676789);
   MyTypeForTestingCopier copier;
@@ -525,7 +525,7 @@ TEST(MockComparatorCopierTest, customTypeOutputParameterTraced)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, customTypeOutputParameterWithIgnoredParameters)
+TEST(MockComparatorCopier, customTypeOutputParameterWithIgnoredParameters)
 {
   MyTypeForTesting expectedObject(444537909);
   MyTypeForTesting actualObject(98765);
@@ -557,7 +557,7 @@ myTypeCopy(void* dst_, const void* src_)
   *(dst->value) = *(src->value);
 }
 
-TEST(MockComparatorCopierTest, customObjectWithFunctionCopier)
+TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 {
   MyTypeForTesting expectedObject(9874452);
   MyTypeForTesting actualObject(2034);
@@ -580,7 +580,7 @@ TEST(MockComparatorCopierTest, customObjectWithFunctionCopier)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, removingComparatorsWorksHierachically)
+TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -601,7 +601,7 @@ TEST(MockComparatorCopierTest, removingComparatorsWorksHierachically)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockComparatorCopierTest, removingCopiersWorksHierachically)
+TEST(MockComparatorCopier, removingCopiersWorksHierachically)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   MyTypeForTesting object(1);
@@ -620,7 +620,7 @@ TEST(MockComparatorCopierTest, removingCopiersWorksHierachically)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockComparatorCopierTest,
+TEST(MockComparatorCopier,
     installComparatorWorksHierarchicalOnBothExistingAndDynamicallyCreatedMockSupports)
 {
   MyTypeForTesting object(1);
@@ -645,7 +645,7 @@ TEST(MockComparatorCopierTest,
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, installComparatorsWorksHierarchical)
+TEST(MockComparatorCopier, installComparatorsWorksHierarchical)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
@@ -665,7 +665,7 @@ TEST(MockComparatorCopierTest, installComparatorsWorksHierarchical)
   mock().removeAllComparatorsAndCopiers();
 }
 
-TEST(MockComparatorCopierTest, installCopiersWorksHierarchically)
+TEST(MockComparatorCopier, installCopiersWorksHierarchically)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingCopier copier;
@@ -704,7 +704,7 @@ functionWithConstParam(const SomeClass param)
       .withParameterOfType("SomeClass", "param", &param);
 }
 
-TEST(MockComparatorCopierTest, shouldSupportConstParameters)
+TEST(MockComparatorCopier, shouldSupportConstParameters)
 {
   StubComparator comparator;
   mock().installComparator("SomeClass", comparator);

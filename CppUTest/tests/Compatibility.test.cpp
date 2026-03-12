@@ -5,12 +5,12 @@
 
 #include <memory>
 
-TEST_GROUP(StandardCppLibrary)
+TEST_GROUP(Compatibility)
 {};
 
 #if defined(__cplusplus) && __cplusplus >= 201402L
 
-TEST(StandardCppLibrary, UniquePtrConversationToBool)
+TEST(Compatibility, UniquePtrConversationToBool)
 {
   auto const aNull = std::unique_ptr<int>(nullptr);
   CHECK_FALSE(aNull);

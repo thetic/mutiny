@@ -4,7 +4,7 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-TEST_GROUP(IgnoredUtestShell)
+TEST_GROUP(IgnoredTestShell)
 {
   cpputest::TestTestingFixture fixture;
   cpputest::IgnoredTestShell ignoredTest;
@@ -17,20 +17,20 @@ TEST_GROUP(IgnoredUtestShell)
   }
 };
 
-TEST(IgnoredUtestShell, doesIgnoreCount)
+TEST(IgnoredTestShell, doesIgnoreCount)
 {
   fixture.runAllTests();
   LONGS_EQUAL(1, fixture.getIgnoreCount());
 }
 
-TEST(IgnoredUtestShell, printsIGNORE_TESTwhenVerbose)
+TEST(IgnoredTestShell, printsIGNORE_TESTwhenVerbose)
 {
   fixture.setOutputVerbose();
   fixture.runAllTests();
   fixture.assertPrintContains("IGNORE_TEST");
 }
 
-TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
+TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
 {
   ignoredTest.setRunIgnored();
   fixture.runAllTests();
@@ -38,15 +38,14 @@ TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
   LONGS_EQUAL(0, fixture.getIgnoreCount());
 }
 
-TEST(IgnoredUtestShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
+TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
 {
   fixture.runAllTests();
   LONGS_EQUAL(2, fixture.getRunCount());
   LONGS_EQUAL(1, fixture.getIgnoreCount());
 }
 
-TEST(IgnoredUtestShell,
-    runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
+TEST(IgnoredTestShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
 {
   normalUtestShell.setRunIgnored();
   fixture.runAllTests();
@@ -54,7 +53,7 @@ TEST(IgnoredUtestShell,
   LONGS_EQUAL(1, fixture.getIgnoreCount());
 }
 
-TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
+TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
 {
   ignoredTest.setGroupName("TestGroup");
   ignoredTest.setTestName("TestName");
@@ -64,7 +63,7 @@ TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
       "TEST(TestGroup, TestName)", ignoredTest.getFormattedName().c_str());
 }
 
-TEST(IgnoredUtestShell,
+TEST(IgnoredTestShell,
     runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
 {
   ignoredTest.setGroupName("TestGroup");
@@ -74,12 +73,12 @@ TEST(IgnoredUtestShell,
       ignoredTest.getFormattedName().c_str());
 }
 
-TEST(IgnoredUtestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
+TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
 {
   CHECK_FALSE(ignoredTest.willRun());
 }
 
-TEST(IgnoredUtestShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
+TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
 {
   ignoredTest.setRunIgnored();
   CHECK_TRUE(ignoredTest.willRun());

@@ -10,11 +10,11 @@
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 
-TEST_GROUP_C_WRAPPER(TestGroupInC){ TEST_GROUP_C_SETUP_WRAPPER(TestGroupInC)
-      TEST_GROUP_C_TEARDOWN_WRAPPER(TestGroupInC) };
+TEST_GROUP_C_WRAPPER(TestHarnessC){ TEST_GROUP_C_SETUP_WRAPPER(TestHarnessC)
+      TEST_GROUP_C_TEARDOWN_WRAPPER(TestHarnessC) };
 
-TEST_C_WRAPPER(TestGroupInC, checkThatTheTestHasRun)
-IGNORE_TEST_C_WRAPPER(TestGroupInC, ignoreMacroForCFile)
+TEST_C_WRAPPER(TestHarnessC, checkThatTheTestHasRun)
+IGNORE_TEST_C_WRAPPER(TestHarnessC, ignoreMacroForCFile)
 
 /*
  * This test is a bit strange. They use the fact that you can do -r2 for
@@ -22,7 +22,7 @@ IGNORE_TEST_C_WRAPPER(TestGroupInC, ignoreMacroForCFile)
  * therefore we can test whether the setup/teardown is run correctly.
  */
 
-TEST(TestGroupInC, setupHasBeenCalled)
+TEST(TestHarnessC, setupHasBeenCalled)
 {
   test_was_called_in_test_group_in_C++;
   /* Increased in setup, decreased in teardown. So at this point it must be 1
@@ -42,7 +42,7 @@ public:
   }
 };
 
-TEST_GROUP(TestHarness_c)
+TEST_GROUP(TestHarness)
 {
   cpputest::TestTestingFixture* fixture;
   TEST_SETUP()
@@ -60,7 +60,7 @@ failBoolMethod_()
   CHECK_EQUAL_C_BOOL(1, 0);
 }
 
-TEST(TestHarness_c, checkBool)
+TEST(TestHarness, checkBool)
 {
   CHECK_EQUAL_C_BOOL(1, 1);
   CHECK_EQUAL_C_BOOL(1, 2);
@@ -78,7 +78,7 @@ failBoolTextMethod_()
   CHECK_EQUAL_C_BOOL_TEXT(1, 0, "BoolTestText");
 }
 
-TEST(TestHarness_c, checkBoolText)
+TEST(TestHarness, checkBoolText)
 {
   CHECK_EQUAL_C_BOOL_TEXT(1, 1, "Text");
   CHECK_EQUAL_C_BOOL_TEXT(1, 2, "Text");
@@ -97,7 +97,7 @@ failIntMethod_()
   CHECK_EQUAL_C_INT(1, 2);
 }
 
-TEST(TestHarness_c, checkInt)
+TEST(TestHarness, checkInt)
 {
   CHECK_EQUAL_C_INT(2, 2);
   fixture->setTestFunction(failIntMethod_);
@@ -114,7 +114,7 @@ failIntTextMethod_()
   CHECK_EQUAL_C_INT_TEXT(1, 2, "IntTestText");
 }
 
-TEST(TestHarness_c, checkIntText)
+TEST(TestHarness, checkIntText)
 {
   CHECK_EQUAL_C_INT_TEXT(2, 2, "Text");
   fixture->setTestFunction(failIntTextMethod_);
@@ -132,7 +132,7 @@ failUnsignedIntMethod_()
   CHECK_EQUAL_C_UINT(1, 2);
 }
 
-TEST(TestHarness_c, checkUnsignedInt)
+TEST(TestHarness, checkUnsignedInt)
 {
   CHECK_EQUAL_C_UINT(2, 2);
   fixture->setTestFunction(failUnsignedIntMethod_);
@@ -149,7 +149,7 @@ failUnsignedIntTextMethod_()
   CHECK_EQUAL_C_UINT_TEXT(1, 2, "UnsignedIntTestText");
 }
 
-TEST(TestHarness_c, checkUnsignedIntText)
+TEST(TestHarness, checkUnsignedIntText)
 {
   CHECK_EQUAL_C_UINT_TEXT(2, 2, "Text");
   fixture->setTestFunction(failUnsignedIntTextMethod_);
@@ -167,7 +167,7 @@ failLongIntMethod_()
   CHECK_EQUAL_C_LONG(1, 2);
 }
 
-TEST(TestHarness_c, checkLongInt)
+TEST(TestHarness, checkLongInt)
 {
   CHECK_EQUAL_C_LONG(2, 2);
   fixture->setTestFunction(failLongIntMethod_);
@@ -184,7 +184,7 @@ failLongIntTextMethod_()
   CHECK_EQUAL_C_LONG_TEXT(1, 2, "LongIntTestText");
 }
 
-TEST(TestHarness_c, checkLongIntText)
+TEST(TestHarness, checkLongIntText)
 {
   CHECK_EQUAL_C_LONG_TEXT(2, 2, "Text");
   fixture->setTestFunction(failLongIntTextMethod_);
@@ -202,7 +202,7 @@ failUnsignedLongIntMethod_()
   CHECK_EQUAL_C_ULONG(1, 2);
 }
 
-TEST(TestHarness_c, checkUnsignedLongInt)
+TEST(TestHarness, checkUnsignedLongInt)
 {
   CHECK_EQUAL_C_ULONG(2, 2);
   fixture->setTestFunction(failUnsignedLongIntMethod_);
@@ -219,7 +219,7 @@ failUnsignedLongIntTextMethod_()
   CHECK_EQUAL_C_ULONG_TEXT(1, 2, "UnsignedLongIntTestText");
 }
 
-TEST(TestHarness_c, checkUnsignedLongIntText)
+TEST(TestHarness, checkUnsignedLongIntText)
 {
   CHECK_EQUAL_C_ULONG_TEXT(2, 2, "Text");
   fixture->setTestFunction(failUnsignedLongIntTextMethod_);
@@ -237,7 +237,7 @@ failLongLongIntMethod_()
   CHECK_EQUAL_C_LONGLONG(1, 2);
 }
 
-TEST(TestHarness_c, checkLongLongInt)
+TEST(TestHarness, checkLongLongInt)
 {
   CHECK_EQUAL_C_LONGLONG(2, 2);
   fixture->setTestFunction(failLongLongIntMethod_);
@@ -254,7 +254,7 @@ failLongLongIntTextMethod_()
   CHECK_EQUAL_C_LONGLONG_TEXT(1, 2, "LongLongTestText");
 }
 
-TEST(TestHarness_c, checkLongLongIntText)
+TEST(TestHarness, checkLongLongIntText)
 {
   CHECK_EQUAL_C_LONGLONG_TEXT(2, 2, "Text");
   fixture->setTestFunction(failLongLongIntTextMethod_);
@@ -272,7 +272,7 @@ failUnsignedLongLongIntMethod_()
   CHECK_EQUAL_C_ULONGLONG(1, 2);
 }
 
-TEST(TestHarness_c, checkUnsignedLongLongInt)
+TEST(TestHarness, checkUnsignedLongLongInt)
 {
   CHECK_EQUAL_C_ULONGLONG(2, 2);
   fixture->setTestFunction(failUnsignedLongLongIntMethod_);
@@ -289,7 +289,7 @@ failUnsignedLongLongIntTextMethod_()
   CHECK_EQUAL_C_ULONGLONG_TEXT(1, 2, "UnsignedLongLongTestText");
 }
 
-TEST(TestHarness_c, checkUnsignedLongLongIntText)
+TEST(TestHarness, checkUnsignedLongLongIntText)
 {
   CHECK_EQUAL_C_ULONGLONG_TEXT(2, 2, "Text");
   fixture->setTestFunction(failUnsignedLongLongIntTextMethod_);
@@ -307,7 +307,7 @@ failRealMethod_()
   CHECK_EQUAL_C_REAL(1.0, 2.0, 0.5);
 }
 
-TEST(TestHarness_c, checkReal)
+TEST(TestHarness, checkReal)
 {
   CHECK_EQUAL_C_REAL(1.0, 1.1, 0.5);
   fixture->setTestFunction(failRealMethod_);
@@ -324,7 +324,7 @@ failRealTextMethod_()
   CHECK_EQUAL_C_REAL_TEXT(1.0, 2.0, 0.5, "RealTestText");
 }
 
-TEST(TestHarness_c, checkRealText)
+TEST(TestHarness, checkRealText)
 {
   CHECK_EQUAL_C_REAL_TEXT(1.0, 1.1, 0.5, "Text");
   fixture->setTestFunction(failRealTextMethod_);
@@ -342,7 +342,7 @@ failCharMethod_()
   CHECK_EQUAL_C_CHAR('a', 'c');
 }
 
-TEST(TestHarness_c, checkChar)
+TEST(TestHarness, checkChar)
 {
   CHECK_EQUAL_C_CHAR('a', 'a');
   fixture->setTestFunction(failCharMethod_);
@@ -359,7 +359,7 @@ failCharTextMethod_()
   CHECK_EQUAL_C_CHAR_TEXT('a', 'c', "CharTestText");
 }
 
-TEST(TestHarness_c, checkCharText)
+TEST(TestHarness, checkCharText)
 {
   CHECK_EQUAL_C_CHAR_TEXT('a', 'a', "Text");
   fixture->setTestFunction(failCharTextMethod_);
@@ -377,7 +377,7 @@ failUnsignedByteMethod_()
   CHECK_EQUAL_C_UBYTE(254, 253);
 }
 
-TEST(TestHarness_c, checkUnsignedByte)
+TEST(TestHarness, checkUnsignedByte)
 {
   CHECK_EQUAL_C_UBYTE(254, 254);
   fixture->setTestFunction(failUnsignedByteMethod_);
@@ -394,7 +394,7 @@ failUnsignedByteTextMethod_()
   CHECK_EQUAL_C_UBYTE_TEXT(254, 253, "UnsignedByteTestText");
 }
 
-TEST(TestHarness_c, checkUnsignedByteText)
+TEST(TestHarness, checkUnsignedByteText)
 {
   CHECK_EQUAL_C_UBYTE_TEXT(254, 254, "Text");
   fixture->setTestFunction(failUnsignedByteTextMethod_);
@@ -412,7 +412,7 @@ failSignedByteMethod_()
   CHECK_EQUAL_C_SBYTE(-3, -5);
 }
 
-TEST(TestHarness_c, checkSignedByte)
+TEST(TestHarness, checkSignedByte)
 {
   CHECK_EQUAL_C_SBYTE(-3, -3);
   fixture->setTestFunction(failSignedByteMethod_);
@@ -429,7 +429,7 @@ failSignedByteTextMethod_()
   CHECK_EQUAL_C_SBYTE_TEXT(-3, -5, "SignedByteTestText");
 }
 
-TEST(TestHarness_c, checkSignedByteText)
+TEST(TestHarness, checkSignedByteText)
 {
   CHECK_EQUAL_C_SBYTE_TEXT(-3, -3, "Text");
   fixture->setTestFunction(failSignedByteTextMethod_);
@@ -447,7 +447,7 @@ failStringMethod_()
   CHECK_EQUAL_C_STRING("Hello", "Hello World");
 }
 
-TEST(TestHarness_c, checkString)
+TEST(TestHarness, checkString)
 {
   CHECK_EQUAL_C_STRING("Hello", "Hello");
   fixture->setTestFunction(failStringMethod_);
@@ -467,7 +467,7 @@ failStringTextMethod_()
   CHECK_EQUAL_C_STRING_TEXT("Hello", "Hello World", "StringTestText");
 }
 
-TEST(TestHarness_c, checkStringText)
+TEST(TestHarness, checkStringText)
 {
   CHECK_EQUAL_C_STRING_TEXT("Hello", "Hello", "Text");
   fixture->setTestFunction(failStringTextMethod_);
@@ -488,7 +488,7 @@ failPointerMethod_()
   CHECK_EQUAL_C_POINTER(nullptr, reinterpret_cast<void*>(0x1));
 }
 
-TEST(TestHarness_c, checkPointer)
+TEST(TestHarness, checkPointer)
 {
   CHECK_EQUAL_C_POINTER(nullptr, nullptr);
   fixture->setTestFunction(failPointerMethod_);
@@ -506,7 +506,7 @@ failPointerTextMethod_()
       nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
 }
 
-TEST(TestHarness_c, checkPointerText)
+TEST(TestHarness, checkPointerText)
 {
   CHECK_EQUAL_C_POINTER_TEXT(nullptr, nullptr, "Text");
   fixture->setTestFunction(failPointerTextMethod_);
@@ -527,7 +527,7 @@ failMemcmpMethod_()
   CHECK_EQUAL_C_MEMCMP(expectedData, actualData, sizeof(expectedData));
 }
 
-TEST(TestHarness_c, checkMemcmp)
+TEST(TestHarness, checkMemcmp)
 {
   CHECK_EQUAL_C_MEMCMP("TEST", "TEST", 5);
   fixture->setTestFunction(failMemcmpMethod_);
@@ -549,7 +549,7 @@ failMemcmpTextMethod_()
       expectedData, actualData, sizeof(expectedData), "MemcmpTestText");
 }
 
-TEST(TestHarness_c, checkMemcmpText)
+TEST(TestHarness, checkMemcmpText)
 {
   CHECK_EQUAL_C_MEMCMP_TEXT("TEST", "TEST", 5, "Text");
   fixture->setTestFunction(failMemcmpTextMethod_);
@@ -568,7 +568,7 @@ failTextMethod_()
   FAIL_TEXT_C("Booo");
 }
 
-TEST(TestHarness_c, checkFailText)
+TEST(TestHarness, checkFailText)
 {
   fixture->setTestFunction(failTextMethod_);
   fixture->runAllTests();
@@ -584,7 +584,7 @@ failMethod_()
   FAIL_C();
 }
 
-TEST(TestHarness_c, checkFail)
+TEST(TestHarness, checkFail)
 {
   fixture->setTestFunction(failMethod_);
   fixture->runAllTests();
@@ -601,7 +601,7 @@ crashMethod()
   cpputestHasCrashed = true;
 }
 
-TEST(TestHarness_c, doesNotCrashIfNotSetToCrash)
+TEST(TestHarness, doesNotCrashIfNotSetToCrash)
 {
   cpputestHasCrashed = false;
   cpputest::TestShell::setCrashMethod(crashMethod);
@@ -616,7 +616,7 @@ TEST(TestHarness_c, doesNotCrashIfNotSetToCrash)
   cpputest::TestShell::resetCrashMethod();
 }
 
-TEST(TestHarness_c, doesCrashIfSetToCrash)
+TEST(TestHarness, doesCrashIfSetToCrash)
 {
   cpputestHasCrashed = false;
   cpputest::TestShell::setCrashOnFail();
@@ -639,7 +639,7 @@ CheckMethod_()
   CHECK_C(false);
 }
 
-TEST(TestHarness_c, checkCheck)
+TEST(TestHarness, checkCheck)
 {
   CHECK_C(true);
   fixture->setTestFunction(CheckMethod_);
@@ -655,7 +655,7 @@ CheckTextMethod_()
   CHECK_C_TEXT(false, "CheckTestText");
 }
 
-TEST(TestHarness_c, checkCheckText)
+TEST(TestHarness, checkCheckText)
 {
   CHECK_C_TEXT(true, "Text");
   fixture->setTestFunction(CheckTextMethod_);

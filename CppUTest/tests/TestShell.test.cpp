@@ -9,7 +9,7 @@
 
 #include <math.h>
 
-TEST_GROUP(UtestShell)
+TEST_GROUP(TestShell)
 {
   cpputest::TestTestingFixture fixture;
 };
@@ -39,7 +39,7 @@ exitTestMethod_()
   FAIL("Should not get here");
 }
 
-TEST(UtestShell, compareDoubles)
+TEST(TestShell, compareDoubles)
 {
   CHECK(cpputest::doubles_equal(1.0, 1.001, 0.01));
   CHECK(!cpputest::doubles_equal(1.0, 1.1, 0.05));
@@ -48,7 +48,7 @@ TEST(UtestShell, compareDoubles)
 }
 
 #ifdef NAN
-TEST(UtestShell, compareDoublesNaN)
+TEST(TestShell, compareDoublesNaN)
 {
   CHECK(!cpputest::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
   CHECK(!cpputest::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
@@ -57,7 +57,7 @@ TEST(UtestShell, compareDoublesNaN)
 #endif
 
 #ifdef INFINITY
-TEST(UtestShell, compareDoublesInf)
+TEST(TestShell, compareDoublesInf)
 {
   CHECK(!cpputest::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01));
   CHECK(!cpputest::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01));
@@ -70,26 +70,26 @@ TEST(UtestShell, compareDoublesInf)
 }
 #endif
 
-TEST(UtestShell, FailWillIncreaseTheAmountOfChecks)
+TEST(TestShell, FailWillIncreaseTheAmountOfChecks)
 {
   fixture.setTestFunction(failMethod_);
   fixture.runAllTests();
   LONGS_EQUAL(1, fixture.getCheckCount());
 }
 
-TEST(UtestShell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
+TEST(TestShell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 {
   fixture.setTestFunction(passingCheckEqualTestMethod_);
   fixture.runAllTests();
   LONGS_EQUAL(1, fixture.getCheckCount());
 }
 
-IGNORE_TEST(UtestShell, IgnoreTestAccessingFixture)
+IGNORE_TEST(TestShell, IgnoreTestAccessingFixture)
 {
   CHECK(fixture.getCheckCount() == 0);
 }
 
-TEST(UtestShell, MacrosUsedInSetup)
+TEST(TestShell, MacrosUsedInSetup)
 {
   fixture.setSetup(failMethod_);
   fixture.setTestFunction(passingTestMethod_);
@@ -97,7 +97,7 @@ TEST(UtestShell, MacrosUsedInSetup)
   LONGS_EQUAL(1, fixture.getFailureCount());
 }
 
-TEST(UtestShell, MacrosUsedInTearDown)
+TEST(TestShell, MacrosUsedInTearDown)
 {
   fixture.setTeardown(failMethod_);
   fixture.setTestFunction(passingTestMethod_);
@@ -105,7 +105,7 @@ TEST(UtestShell, MacrosUsedInTearDown)
   LONGS_EQUAL(1, fixture.getFailureCount());
 }
 
-TEST(UtestShell, ExitLeavesQuietly)
+TEST(TestShell, ExitLeavesQuietly)
 {
   fixture.setTestFunction(exitTestMethod_);
   fixture.runAllTests();
@@ -120,7 +120,7 @@ crashMethod()
   cpputestHasCrashed = true;
 }
 
-TEST(UtestShell, FailWillNotCrashIfNotEnabled)
+TEST(TestShell, FailWillNotCrashIfNotEnabled)
 {
   cpputestHasCrashed = false;
   cpputest::TestShell::setCrashMethod(crashMethod);
@@ -134,7 +134,7 @@ TEST(UtestShell, FailWillNotCrashIfNotEnabled)
   cpputest::TestShell::resetCrashMethod();
 }
 
-TEST(UtestShell, FailWillCrashIfEnabled)
+TEST(TestShell, FailWillCrashIfEnabled)
 {
   cpputestHasCrashed = false;
   cpputest::TestShell::setCrashOnFail();
@@ -157,7 +157,7 @@ teardownMethod_()
   teardownCalled++;
 }
 
-TEST(UtestShell, TeardownCalledAfterTestFailure)
+TEST(TestShell, TeardownCalledAfterTestFailure)
 {
   teardownCalled = 0;
   fixture.setTeardown(teardownMethod_);
@@ -175,7 +175,7 @@ stopAfterFailureMethod_()
   stopAfterFailure++;
 }
 
-TEST(UtestShell, TestStopsAfterTestFailure)
+TEST(TestShell, TestStopsAfterTestFailure)
 {
   stopAfterFailure = 0;
   fixture.setTestFunction(stopAfterFailureMethod_);
@@ -185,7 +185,7 @@ TEST(UtestShell, TestStopsAfterTestFailure)
   LONGS_EQUAL(0, stopAfterFailure);
 }
 
-TEST(UtestShell, TestStopsAfterSetupFailure)
+TEST(TestShell, TestStopsAfterSetupFailure)
 {
   stopAfterFailure = 0;
   fixture.setSetup(stopAfterFailureMethod_);
@@ -210,7 +210,7 @@ thrownUnknownExceptionMethod_()
   stopAfterFailure++;
 }
 
-TEST(UtestShell, TestStopsAfterUnknownExceptionIsThrown)
+TEST(TestShell, TestStopsAfterUnknownExceptionIsThrown)
 {
   bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
   cpputest::TestShell::setRethrowExceptions(false);
@@ -225,7 +225,7 @@ TEST(UtestShell, TestStopsAfterUnknownExceptionIsThrown)
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
-TEST(UtestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
+TEST(TestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
 {
   bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
   bool exceptionRethrown = false;
@@ -244,7 +244,7 @@ TEST(UtestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
-TEST(UtestShell, UnknownExceptionIsRethrownIfEnabled)
+TEST(TestShell, UnknownExceptionIsRethrownIfEnabled)
 {
   bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
   bool exceptionRethrown = false;
@@ -276,7 +276,7 @@ thrownStandardExceptionMethod_()
   stopAfterFailure++;
 }
 
-TEST(UtestShell, TestStopsAfterStandardExceptionIsThrown)
+TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
 {
   bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
   cpputest::TestShell::setRethrowExceptions(false);
@@ -297,7 +297,7 @@ TEST(UtestShell, TestStopsAfterStandardExceptionIsThrown)
   cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
 }
 
-TEST(UtestShell, StandardExceptionIsRethrownIfEnabled)
+TEST(TestShell, StandardExceptionIsRethrownIfEnabled)
 {
   bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
   bool exceptionRethrown = false;
@@ -322,7 +322,7 @@ TEST(UtestShell, StandardExceptionIsRethrownIfEnabled)
 #endif // CPPUTEST_USE_STD_CPP_LIB
 #endif // CPPUTEST_HAVE_EXCEPTIONS
 
-TEST(UtestShell, veryVebose)
+TEST(TestShell, veryVebose)
 {
   cpputest::TestShell shell("Group", "name", __FILE__, __LINE__);
   cpputest::StringBufferTestOutput normalOutput;
@@ -334,13 +334,13 @@ TEST(UtestShell, veryVebose)
   STRCMP_CONTAINS("\n------ before runTest", normalOutput.getOutput().c_str());
 }
 
-class defaultUtestShell : public cpputest::TestShell
+class defaultTestShell : public cpputest::TestShell
 {};
 
-TEST(UtestShell,
-    this_test_covers_the_UtestShell_createTest_and_Utest_testBody_methods)
+TEST(TestShell,
+    this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods)
 {
-  defaultUtestShell shell;
+  defaultTestShell shell;
   fixture.addTest(&shell);
   fixture.runAllTests();
   LONGS_EQUAL(2, fixture.getTestCount());
@@ -362,7 +362,7 @@ destructorCalledForLocalObjects_()
   FAIL("fail");
 }
 
-TEST(UtestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
+TEST(TestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 {
   fixture.setTestFunction(destructorCalledForLocalObjects_);
   fixture.runAllTests();

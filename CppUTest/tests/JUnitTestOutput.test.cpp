@@ -5,25 +5,25 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
 
-class FileForJUnitOutputTests
+class FileForJUnitTestOutputs
 {
   cpputest::String name_;
   bool isOpen_;
   cpputest::String buffer_;
-  FileForJUnitOutputTests* next_;
+  FileForJUnitTestOutputs* next_;
 
   cpputest::StringCollection linesOfFile_;
 
 public:
-  FileForJUnitOutputTests(const cpputest::String& filename,
-      FileForJUnitOutputTests* next)
+  FileForJUnitTestOutputs(const cpputest::String& filename,
+      FileForJUnitTestOutputs* next)
     : name_(filename)
     , isOpen_(true)
     , next_(next)
   {
   }
 
-  FileForJUnitOutputTests* nextFile() { return next_; }
+  FileForJUnitTestOutputs* nextFile() { return next_; }
 
   cpputest::String name() { return name_; }
 
@@ -53,7 +53,7 @@ public:
 
 class FileSystemForJUnitTestOutputTests
 {
-  FileForJUnitOutputTests* firstFile_;
+  FileForJUnitTestOutputs* firstFile_;
 
 public:
   FileSystemForJUnitTestOutputTests()
@@ -65,22 +65,22 @@ public:
   void clear(void)
   {
     while (firstFile_) {
-      FileForJUnitOutputTests* fileToBeDeleted = firstFile_;
+      FileForJUnitTestOutputs* fileToBeDeleted = firstFile_;
       firstFile_ = firstFile_->nextFile();
       delete fileToBeDeleted;
     }
   }
 
-  FileForJUnitOutputTests* openFile(const cpputest::String& filename)
+  FileForJUnitTestOutputs* openFile(const cpputest::String& filename)
   {
-    firstFile_ = new FileForJUnitOutputTests(filename, firstFile_);
+    firstFile_ = new FileForJUnitTestOutputs(filename, firstFile_);
     return firstFile_;
   }
 
   int amountOfFiles()
   {
     int totalAmountOfFiles = 0;
-    for (FileForJUnitOutputTests* current = firstFile_; current != nullptr;
+    for (FileForJUnitTestOutputs* current = firstFile_; current != nullptr;
         current = current->nextFile())
       totalAmountOfFiles++;
     return totalAmountOfFiles;
@@ -88,13 +88,13 @@ public:
 
   bool fileExists(const char* filename)
   {
-    FileForJUnitOutputTests* searchedFile = file(filename);
+    FileForJUnitTestOutputs* searchedFile = file(filename);
     return (searchedFile != nullptr);
   }
 
-  FileForJUnitOutputTests* file(const char* filename)
+  FileForJUnitTestOutputs* file(const char* filename)
   {
-    for (FileForJUnitOutputTests* current = firstFile_; current != nullptr;
+    for (FileForJUnitTestOutputs* current = firstFile_; current != nullptr;
         current = current->nextFile())
       if (current->name() == filename)
         return current;
@@ -288,7 +288,7 @@ public:
 };
 
 static FileSystemForJUnitTestOutputTests fileSystem;
-static FileForJUnitOutputTests* currentFile = nullptr;
+static FileForJUnitTestOutputs* currentFile = nullptr;
 
 static PlatformSpecificFile
 mockFOpen(const char* filename, const char*)
@@ -302,7 +302,7 @@ static void
 mockFPuts(const char* str, PlatformSpecificFile file)
 {
   if (file == currentFile) {
-    static_cast<FileForJUnitOutputTests*>(file)->write(str);
+    static_cast<FileForJUnitTestOutputs*>(file)->write(str);
   } else {
     originalFPuts(str, file);
   }
@@ -312,15 +312,15 @@ static void
 mockFClose(PlatformSpecificFile file)
 {
   currentFile = nullptr;
-  static_cast<FileForJUnitOutputTests*>(file)->close();
+  static_cast<FileForJUnitTestOutputs*>(file)->close();
 }
 
-TEST_GROUP(JUnitOutputTest)
+TEST_GROUP(JUnitTestOutput)
 {
   cpputest::JUnitTestOutput* junitOutput;
   cpputest::TestResult* result;
   JUnitTestOutputTestRunner* testCaseRunner;
-  FileForJUnitOutputTests* outputFile;
+  FileForJUnitTestOutputs* outputFile;
 
   void setup() override
   {
@@ -342,7 +342,7 @@ TEST_GROUP(JUnitOutputTest)
   }
 };
 
-TEST(JUnitOutputTest, withOneTestGroupAndOneTestOnlyWriteToOneFile)
+TEST(JUnitTestOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
 
@@ -350,7 +350,7 @@ TEST(JUnitOutputTest, withOneTestGroupAndOneTestOnlyWriteToOneFile)
   CHECK(fileSystem.fileExists("cpputest_groupname.xml"));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withReservedCharactersInPackageOrTestGroupUsesUnderscoresForFileName)
 {
   junitOutput->setPackageName("p/a\\c?k%a*g:e|n\"a<m>e.");
@@ -363,7 +363,7 @@ TEST(JUnitOutputTest,
       "cpputest_p_a_c_k_a_g_e_n_a_m_e._g_r_o_u_p_n_a_m_e_h_ere.xml"));
 }
 
-TEST(JUnitOutputTest, withOneTestGroupAndOneTestOutputsValidXMLFiles)
+TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
 
@@ -372,7 +372,7 @@ TEST(JUnitOutputTest, withOneTestGroupAndOneTestOutputsValidXMLFiles)
       "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n", outputFile->line(1));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlocks)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -385,7 +385,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("</testsuite>\n", outputFile->lineFromTheBack(1));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndOneTestFileShouldContainAnEmptyPropertiesBlock)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -395,7 +395,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("</properties>\n", outputFile->line(4));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBlock)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -404,7 +404,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("<system-out></system-out>\n", outputFile->lineFromTheBack(3));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndOneTestFileShouldContainAnEmptyStderrBlock)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -413,7 +413,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("<system-err></system-err>\n", outputFile->lineFromTheBack(2));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock)
 {
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -426,7 +426,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("</testcase>\n", outputFile->line(6));
 }
 
-TEST(JUnitOutputTest,
+TEST(JUnitTestOutput,
     withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndCorrectTestCaseBlock)
 {
   testCaseRunner->start()
@@ -451,7 +451,7 @@ TEST(JUnitOutputTest,
   STRCMP_EQUAL("</testcase>\n", outputFile->line(8));
 }
 
-TEST(JUnitOutputTest, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
+TEST(JUnitTestOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
 {
   testCaseRunner->start()
       .atTime("2013-07-04T22:28:00")
@@ -469,7 +469,7 @@ TEST(JUnitOutputTest, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
       outputFile->line(2));
 }
 
-TEST(JUnitOutputTest, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
+TEST(JUnitTestOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
 {
   testCaseRunner->start()
       .withGroup("twoTestsGroup")
@@ -496,7 +496,7 @@ TEST(JUnitOutputTest, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
   STRCMP_EQUAL("</testcase>\n", outputFile->line(8));
 }
 
-TEST(JUnitOutputTest, withOneTestGroupAndOneFailingTest)
+TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -520,7 +520,7 @@ TEST(JUnitOutputTest, withOneTestGroupAndOneFailingTest)
   STRCMP_EQUAL("</testcase>\n", outputFile->line(8));
 }
 
-TEST(JUnitOutputTest, withTwoTestGroupAndOneFailingTest)
+TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -544,7 +544,7 @@ TEST(JUnitOutputTest, withTwoTestGroupAndOneFailingTest)
       outputFile->line(8));
 }
 
-TEST(JUnitOutputTest, testFailureWithLessThanAndGreaterThanInsideIt)
+TEST(JUnitTestOutput, testFailureWithLessThanAndGreaterThanInsideIt)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -559,7 +559,7 @@ TEST(JUnitOutputTest, testFailureWithLessThanAndGreaterThanInsideIt)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, testFailureWithQuotesInIt)
+TEST(JUnitTestOutput, testFailureWithQuotesInIt)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -574,7 +574,7 @@ TEST(JUnitOutputTest, testFailureWithQuotesInIt)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, testFailureWithNewlineInIt)
+TEST(JUnitTestOutput, testFailureWithNewlineInIt)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -589,7 +589,7 @@ TEST(JUnitOutputTest, testFailureWithNewlineInIt)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, testFailureWithDifferentFileAndLine)
+TEST(JUnitTestOutput, testFailureWithDifferentFileAndLine)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -604,7 +604,7 @@ TEST(JUnitOutputTest, testFailureWithDifferentFileAndLine)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, testFailureWithAmpersandsAndLessThan)
+TEST(JUnitTestOutput, testFailureWithAmpersandsAndLessThan)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -619,7 +619,7 @@ TEST(JUnitOutputTest, testFailureWithAmpersandsAndLessThan)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, testFailureWithAmpersands)
+TEST(JUnitTestOutput, testFailureWithAmpersands)
 {
   testCaseRunner->start()
       .withGroup("testGroupWithFailingTest")
@@ -634,7 +634,7 @@ TEST(JUnitOutputTest, testFailureWithAmpersands)
       outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, aCoupleOfTestFailures)
+TEST(JUnitTestOutput, aCoupleOfTestFailures)
 {
   testCaseRunner->start()
       .withGroup("testGroup")
@@ -657,7 +657,7 @@ TEST(JUnitOutputTest, aCoupleOfTestFailures)
       outputFile->line(16));
 }
 
-TEST(JUnitOutputTest, testFailuresInSeparateGroups)
+TEST(JUnitTestOutput, testFailuresInSeparateGroups)
 {
   testCaseRunner->start()
       .withGroup("testGroup")
@@ -681,7 +681,7 @@ TEST(JUnitOutputTest, testFailuresInSeparateGroups)
       outputFile->line(8));
 }
 
-TEST(JUnitOutputTest, twoTestGroupsWriteToTwoDifferentFiles)
+TEST(JUnitTestOutput, twoTestGroupsWriteToTwoDifferentFiles)
 {
   testCaseRunner->start()
       .withGroup("firstTestGroup")
@@ -694,13 +694,13 @@ TEST(JUnitOutputTest, twoTestGroupsWriteToTwoDifferentFiles)
   CHECK(fileSystem.file("cpputest_secondTestGroup.xml") != nullptr);
 }
 
-TEST(JUnitOutputTest, testGroupWithWeirdName)
+TEST(JUnitTestOutput, testGroupWithWeirdName)
 {
   STRCMP_EQUAL("cpputest_group_weird_name.xml",
       junitOutput->createFileName("group/weird/name").c_str());
 }
 
-TEST(JUnitOutputTest, TestCaseBlockWithAPackageName)
+TEST(JUnitTestOutput, TestCaseBlockWithAPackageName)
 {
   junitOutput->setPackageName("packagename");
   testCaseRunner->start().withGroup("groupname").withTest("testname").end();
@@ -714,7 +714,7 @@ TEST(JUnitOutputTest, TestCaseBlockWithAPackageName)
   STRCMP_EQUAL("</testcase>\n", outputFile->line(6));
 }
 
-TEST(JUnitOutputTest, TestCaseBlockForIgnoredTest)
+TEST(JUnitTestOutput, TestCaseBlockForIgnoredTest)
 {
   junitOutput->setPackageName("packagename");
   testCaseRunner->start()
@@ -732,7 +732,7 @@ TEST(JUnitOutputTest, TestCaseBlockForIgnoredTest)
   STRCMP_EQUAL("</testcase>\n", outputFile->line(7));
 }
 
-TEST(JUnitOutputTest, TestCaseWithTestLocation)
+TEST(JUnitTestOutput, TestCaseWithTestLocation)
 {
   junitOutput->setPackageName("packagename");
   testCaseRunner->start()
@@ -750,7 +750,7 @@ TEST(JUnitOutputTest, TestCaseWithTestLocation)
       outputFile->line(5));
 }
 
-TEST(JUnitOutputTest, MultipleTestCaseWithTestLocations)
+TEST(JUnitTestOutput, MultipleTestCaseWithTestLocations)
 {
   testCaseRunner->start()
       .withGroup("twoTestsGroup")
@@ -774,7 +774,7 @@ TEST(JUnitOutputTest, MultipleTestCaseWithTestLocations)
       outputFile->line(7));
 }
 
-TEST(JUnitOutputTest, TestCaseBlockWithAssertions)
+TEST(JUnitTestOutput, TestCaseBlockWithAssertions)
 {
   junitOutput->setPackageName("packagename");
   testCaseRunner->start()
@@ -791,7 +791,7 @@ TEST(JUnitOutputTest, TestCaseBlockWithAssertions)
       outputFile->line(5));
 }
 
-TEST(JUnitOutputTest, MultipleTestCaseBlocksWithAssertions)
+TEST(JUnitTestOutput, MultipleTestCaseBlocksWithAssertions)
 {
   testCaseRunner->start()
       .withGroup("twoTestsGroup")
@@ -811,7 +811,7 @@ TEST(JUnitOutputTest, MultipleTestCaseBlocksWithAssertions)
       outputFile->line(7));
 }
 
-TEST(JUnitOutputTest, MultipleTestCasesInDifferentGroupsWithAssertions)
+TEST(JUnitTestOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
 {
   testCaseRunner->start()
       .withGroup("groupOne")
@@ -834,7 +834,7 @@ TEST(JUnitOutputTest, MultipleTestCasesInDifferentGroupsWithAssertions)
       outputFile->line(5));
 }
 
-TEST(JUnitOutputTest, UTPRINTOutputInJUnitOutput)
+TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutput)
 {
   testCaseRunner->start()
       .withGroup("groupname")
@@ -847,7 +847,7 @@ TEST(JUnitOutputTest, UTPRINTOutputInJUnitOutput)
       "<system-out>someoutput</system-out>\n", outputFile->lineFromTheBack(3));
 }
 
-TEST(JUnitOutputTest, UTPRINTOutputInJUnitOutputWithSpecials)
+TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutputWithSpecials)
 {
   testCaseRunner->start()
       .withGroup("groupname")

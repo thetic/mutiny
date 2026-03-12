@@ -10,7 +10,7 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockFailureTest)
+TEST_GROUP(MockFailure)
 {
   MockFailureReporter reporter;
 
@@ -91,7 +91,7 @@ TEST_GROUP(MockFailureTest)
   }
 };
 
-TEST(MockFailureTest, noErrorFailureSomethingGoneWrong)
+TEST(MockFailure, noErrorFailureSomethingGoneWrong)
 {
   MockFailure failure(UtestShell::getCurrent());
   STRCMP_EQUAL("Test failed with MockFailure without an error! Something went "
@@ -99,7 +99,7 @@ TEST(MockFailureTest, noErrorFailureSomethingGoneWrong)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, unexpectedCallHappened)
+TEST(MockFailure, unexpectedCallHappened)
 {
   MockUnexpectedCallHappenedFailure failure(
       UtestShell::getCurrent(), "foobar", *list);
@@ -111,7 +111,7 @@ TEST(MockFailureTest, unexpectedCallHappened)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, expectedCallDidNotHappen)
+TEST(MockFailure, expectedCallDidNotHappen)
 {
   call1->withName("foobar");
   call2->withName("world").withParameter("boo", 2).withParameter(
@@ -132,7 +132,7 @@ TEST(MockFailureTest, expectedCallDidNotHappen)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockUnexpectedNthAdditionalCallFailure)
+TEST(MockFailure, MockUnexpectedNthAdditionalCallFailure)
 {
   checkUnexpectedNthCallMessage(2, "2nd");
   checkUnexpectedNthCallMessage(3, "3rd");
@@ -146,7 +146,7 @@ TEST(MockFailureTest, MockUnexpectedNthAdditionalCallFailure)
   checkUnexpectedNthCallMessage(23, "23rd");
 }
 
-TEST(MockFailureTest, MockUnexpectedInputParameterFailure)
+TEST(MockFailure, MockUnexpectedInputParameterFailure)
 {
   call1->withName("foo").withParameter("boo", 2);
   call2->withName("foo").withParameter("boo", 3.3);
@@ -170,7 +170,7 @@ TEST(MockFailureTest, MockUnexpectedInputParameterFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
+TEST(MockFailure, MockUnexpectedOutputParameterFailure)
 {
   int out1 = 0;
   int out2 = 0;
@@ -199,7 +199,7 @@ TEST(MockFailureTest, MockUnexpectedOutputParameterFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockUnexpectedUnmodifiedOutputParameterFailure)
+TEST(MockFailure, MockUnexpectedUnmodifiedOutputParameterFailure)
 {
   int out1 = 0;
   call1->withName("foo").withOutputParameterReturning(
@@ -226,7 +226,7 @@ TEST(MockFailureTest, MockUnexpectedUnmodifiedOutputParameterFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockUnexpectedParameterValueFailure)
+TEST(MockFailure, MockUnexpectedParameterValueFailure)
 {
   call1->withName("foo").withParameter("boo", 2);
   call2->withName("foo").withParameter("boo", 10);
@@ -252,7 +252,7 @@ TEST(MockFailureTest, MockUnexpectedParameterValueFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockExpectedParameterDidntHappenFailure)
+TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
 {
   call1->withName("foo").withParameter("bar", 2).withParameter("boo", "str");
   call1->inputParameterWasPassed("bar");
@@ -299,7 +299,7 @@ TEST(MockFailureTest, MockExpectedParameterDidntHappenFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockNoWayToCompareCustomTypeFailure)
+TEST(MockFailure, MockNoWayToCompareCustomTypeFailure)
 {
   MockNoWayToCompareCustomTypeFailure failure(
       UtestShell::getCurrent(), "myType");
@@ -308,7 +308,7 @@ TEST(MockFailureTest, MockNoWayToCompareCustomTypeFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockUnexpectedObjectFailure)
+TEST(MockFailure, MockUnexpectedObjectFailure)
 {
   call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
   call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));
@@ -338,7 +338,7 @@ TEST(MockFailureTest, MockUnexpectedObjectFailure)
       failure.getMessage().c_str());
 }
 
-TEST(MockFailureTest, MockExpectedObjectDidntHappenFailure)
+TEST(MockFailure, MockExpectedObjectDidntHappenFailure)
 {
   call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
   call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));

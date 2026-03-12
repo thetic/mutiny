@@ -1,11 +1,11 @@
 add_executable(ExampleTests
     AllTests.cpp
-    CircularBufferTest.cpp
-    EventDispatcherTest.cpp
-    FEDemoTest.cpp
-    HelloTest.cpp
-    MockDocumentationTest.cpp
-    PrinterTest.cpp
+    CircularBuffer.test.cpp
+    EventDispatcher.test.cpp
+    FEDemo.test.cpp
+    Hello.test.cpp
+    MockDocumentation.test.cpp
+    Printer.test.cpp
 )
 
 target_include_directories(ExampleTests

@@ -16,7 +16,7 @@ getOne()
   return 1;
 }
 
-TEST_GROUP(UtestShellPointerArrayTest)
+TEST_GROUP(TestShellPointerArray)
 {
   cpputest::TestShell* test0;
   cpputest::TestShell* test1;
@@ -40,14 +40,14 @@ TEST_GROUP(UtestShellPointerArrayTest)
   }
 };
 
-TEST(UtestShellPointerArrayTest, empty)
+TEST(TestShellPointerArray, empty)
 {
   cpputest::TestShellPointerArray tests(nullptr);
   tests.shuffle(0);
   CHECK(nullptr == tests.getFirstTest());
 }
 
-TEST(UtestShellPointerArrayTest, testsAreInOrder)
+TEST(TestShellPointerArray, testsAreInOrder)
 {
   cpputest::TestShellPointerArray tests(test0);
   CHECK(tests.get(0) == test0);
@@ -55,8 +55,7 @@ TEST(UtestShellPointerArrayTest, testsAreInOrder)
   CHECK(tests.get(2) == test2);
 }
 
-TEST(UtestShellPointerArrayTest,
-    relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
+TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 {
   cpputest::TestShellPointerArray tests(test0);
   tests.relinkTestsInOrder();
@@ -65,7 +64,7 @@ TEST(UtestShellPointerArrayTest,
   CHECK(tests.get(2) == test2);
 }
 
-TEST(UtestShellPointerArrayTest, firstTestisNotTheFirstTestWithSeed1234)
+TEST(TestShellPointerArray, firstTestisNotTheFirstTestWithSeed1234)
 {
   UT_PTR_SET(PlatformSpecificRand, getZero);
 
@@ -74,7 +73,7 @@ TEST(UtestShellPointerArrayTest, firstTestisNotTheFirstTestWithSeed1234)
   CHECK(tests.getFirstTest() != test0);
 }
 
-TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningZero)
+TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 {
   UT_PTR_SET(PlatformSpecificRand, getZero);
 
@@ -87,7 +86,7 @@ TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningZero)
 
 // swaps with 4 mod 3 (1) then 4 mod 2 (0): 1, [2], [0] --> [1], [0], 2 --> 0,
 // 1, 2
-TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningOne)
+TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 {
   UT_PTR_SET(PlatformSpecificRand, getOne);
 
@@ -98,7 +97,7 @@ TEST(UtestShellPointerArrayTest, ShuffleListTestWithRandomAlwaysReturningOne)
   CHECK(tests.get(2) == test1);
 }
 
-TEST(UtestShellPointerArrayTest, reverse)
+TEST(TestShellPointerArray, reverse)
 {
   UT_PTR_SET(PlatformSpecificRand, getOne);
 

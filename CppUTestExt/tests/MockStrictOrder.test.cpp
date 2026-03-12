@@ -5,12 +5,12 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockStrictOrderTest)
+TEST_GROUP(MockStrictOrder)
 {
   void teardown() override { mock().clear(); }
 };
 
-TEST(MockStrictOrderTest, OrderObserved)
+TEST(MockStrictOrder, OrderObserved)
 {
   mock().strictOrder();
 
@@ -22,7 +22,7 @@ TEST(MockStrictOrderTest, OrderObserved)
   mock().checkExpectations();
 }
 
-TEST(MockStrictOrderTest, someOrderObserved)
+TEST(MockStrictOrder, someOrderObserved)
 {
   mock().expectOneCall("foo3").withCallOrder(3);
   mock().expectOneCall("foo1");
@@ -34,7 +34,7 @@ TEST(MockStrictOrderTest, someOrderObserved)
   mock().checkExpectations();
 }
 
-TEST(MockStrictOrderTest, orderViolated)
+TEST(MockStrictOrder, orderViolated)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   mock().strictOrder();
@@ -56,7 +56,7 @@ TEST(MockStrictOrderTest, orderViolated)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockStrictOrderTest, orderViolatedWorksHierarchically)
+TEST(MockStrictOrder, orderViolatedWorksHierarchically)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   mock().strictOrder();
@@ -79,7 +79,7 @@ TEST(MockStrictOrderTest, orderViolatedWorksHierarchically)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockStrictOrderTest, orderViolatedWorksWithExtraUnexpectedCall)
+TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   mock().strictOrder();
@@ -105,7 +105,7 @@ TEST(MockStrictOrderTest, orderViolatedWorksWithExtraUnexpectedCall)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockStrictOrderTest, orderViolatedWithinAScope)
+TEST(MockStrictOrder, orderViolatedWithinAScope)
 {
   MockFailureReporterInstaller failureReporterInstaller;
   mock().strictOrder();
@@ -124,7 +124,7 @@ TEST(MockStrictOrderTest, orderViolatedWithinAScope)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockStrictOrderTest, orderNotViolatedAcrossScopes)
+TEST(MockStrictOrder, orderNotViolatedAcrossScopes)
 {
   mock("mock1").strictOrder();
   mock("mock2").strictOrder();
@@ -138,7 +138,7 @@ TEST(MockStrictOrderTest, orderNotViolatedAcrossScopes)
   mock("mock2").checkExpectations();
 }
 
-TEST(MockStrictOrderTest, orderViolatedAcrossScopes)
+TEST(MockStrictOrder, orderViolatedAcrossScopes)
 {
   mock("mock1").strictOrder();
   mock("mock2").strictOrder();
@@ -152,7 +152,7 @@ TEST(MockStrictOrderTest, orderViolatedAcrossScopes)
   mock("mock2").checkExpectations();
 }
 
-TEST(MockStrictOrderTest, orderUsingNCalls)
+TEST(MockStrictOrder, orderUsingNCalls)
 {
   mock().strictOrder();
 

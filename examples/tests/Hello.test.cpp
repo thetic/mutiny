@@ -7,7 +7,7 @@
 
 static cpputest::String* buffer;
 
-TEST_GROUP(HelloWorld)
+TEST_GROUP(Hello)
 {
   static int output_method(const char* output, ...)
   {
@@ -27,7 +27,7 @@ TEST_GROUP(HelloWorld)
   void teardown() override { delete buffer; }
 };
 
-TEST(HelloWorld, PrintOk)
+TEST(Hello, PrintOk)
 {
   printHelloWorld();
   STRCMP_EQUAL("Hello World!\n", buffer->c_str());

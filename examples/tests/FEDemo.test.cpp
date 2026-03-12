@@ -19,18 +19,18 @@ using cpputest::extensions::IEEE754ExceptionsPlugin;
  *
  */
 
-TEST_GROUP(FE_Demo)
+TEST_GROUP(FEDemo)
 {
   void setup() override { IEEE754ExceptionsPlugin::disableInexact(); }
 };
 
-IGNORE_TEST(FE_Demo, should_fail_when_FE_DIVBYZERO_is_set)
+IGNORE_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
 {
   float f = 1.0f;
   CHECK((f /= 0.0f) >= std::numeric_limits<float>::infinity());
 }
 
-IGNORE_TEST(FE_Demo, should_fail_when_FE_UNDERFLOW_is_set)
+IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
 {
   volatile float f = 0.01f;
   while (f > 0.0f)
@@ -38,7 +38,7 @@ IGNORE_TEST(FE_Demo, should_fail_when_FE_UNDERFLOW_is_set)
   CHECK(f == 0.0f);
 }
 
-IGNORE_TEST(FE_Demo, should_fail_when_FE_OVERFLOW_is_set)
+IGNORE_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 {
   volatile float f = 1000.0f;
   while (f < std::numeric_limits<float>::infinity())
@@ -46,7 +46,7 @@ IGNORE_TEST(FE_Demo, should_fail_when_FE_OVERFLOW_is_set)
   CHECK(f >= std::numeric_limits<float>::infinity());
 }
 
-IGNORE_TEST(FE_Demo, should_fail_when_FE_INEXACT_is_set)
+IGNORE_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
 {
   IEEE754ExceptionsPlugin::enableInexact();
   float f = 10.0f;
@@ -55,7 +55,7 @@ IGNORE_TEST(FE_Demo, should_fail_when_FE_INEXACT_is_set)
       static_cast<double>(0.001f));
 }
 
-TEST(FE_Demo, should_succeed_when_no_flags_are_set)
+TEST(FEDemo, should_succeed_when_no_flags_are_set)
 {
   CHECK(5.0f == 15.0f / 3.0f);
 }

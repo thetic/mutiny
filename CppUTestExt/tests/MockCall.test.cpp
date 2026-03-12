@@ -6,7 +6,7 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockCallTest)
+TEST_GROUP(MockCall)
 {
   void teardown() override
   {
@@ -15,19 +15,19 @@ TEST_GROUP(MockCallTest)
   }
 };
 
-TEST(MockCallTest, clear)
+TEST(MockCall, clear)
 {
   mock().expectOneCall("func");
   mock().clear();
   CHECK(!mock().expectedCallsLeft());
 }
 
-TEST(MockCallTest, checkExpectationsDoesntFail)
+TEST(MockCall, checkExpectationsDoesntFail)
 {
   mock().checkExpectations();
 }
 
-TEST(MockCallTest, expectASingleCallThatHappens)
+TEST(MockCall, expectASingleCallThatHappens)
 {
   mock().expectOneCall("func");
   MockCheckedActualCall& actualCall =
@@ -36,14 +36,14 @@ TEST(MockCallTest, expectASingleCallThatHappens)
   CHECK(!mock().expectedCallsLeft());
 }
 
-TEST(MockCallTest, expectASingleCallThatDoesntHappen)
+TEST(MockCall, expectASingleCallThatDoesntHappen)
 {
   mock().expectOneCall("func");
   CHECK(mock().expectedCallsLeft());
   mock().clear();
 }
 
-TEST(MockCallTest, expectAMultiCallThatHappensTheExpectedTimes)
+TEST(MockCall, expectAMultiCallThatHappensTheExpectedTimes)
 {
   mock().expectNCalls(2, "func");
   mock().actualCall("func");
@@ -53,7 +53,7 @@ TEST(MockCallTest, expectAMultiCallThatHappensTheExpectedTimes)
   CHECK(!mock().expectedCallsLeft());
 }
 
-TEST(MockCallTest, expectAMultiCallThatDoesntHappenTheExpectedTimes)
+TEST(MockCall, expectAMultiCallThatDoesntHappenTheExpectedTimes)
 {
   mock().expectNCalls(2, "func");
   MockCheckedActualCall& actualCall =
@@ -63,7 +63,7 @@ TEST(MockCallTest, expectAMultiCallThatDoesntHappenTheExpectedTimes)
   mock().clear();
 }
 
-TEST(MockCallTest, checkExpectationsClearsTheExpectations)
+TEST(MockCall, checkExpectationsClearsTheExpectations)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -79,7 +79,7 @@ TEST(MockCallTest, checkExpectationsClearsTheExpectations)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectOneCallInScopeButNotHappen)
+TEST(MockCall, expectOneCallInScopeButNotHappen)
 {
 
   MockFailureReporterInstaller failureReporterInstaller;
@@ -95,7 +95,7 @@ TEST(MockCallTest, expectOneCallInScopeButNotHappen)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, unexpectedCallHappened)
+TEST(MockCall, unexpectedCallHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -108,7 +108,7 @@ TEST(MockCallTest, unexpectedCallHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, unexpectedScopeCallHappened)
+TEST(MockCall, unexpectedScopeCallHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -121,7 +121,7 @@ TEST(MockCallTest, unexpectedScopeCallHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectOneCallInOneScopeButActualCallInAnotherScope)
+TEST(MockCall, expectOneCallInOneScopeButActualCallInAnotherScope)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -136,7 +136,7 @@ TEST(MockCallTest, expectOneCallInOneScopeButActualCallInAnotherScope)
   mock().clear();
 }
 
-TEST(MockCallTest, expectOneCallInScopeButActualCallInGlobal)
+TEST(MockCall, expectOneCallInScopeButActualCallInGlobal)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -151,7 +151,7 @@ TEST(MockCallTest, expectOneCallInScopeButActualCallInGlobal)
   mock().clear();
 }
 
-TEST(MockCallTest, expectMultipleSingleCallsThatHappen)
+TEST(MockCall, expectMultipleSingleCallsThatHappen)
 {
   mock().expectOneCall("foo");
   mock().expectOneCall("foo");
@@ -160,7 +160,7 @@ TEST(MockCallTest, expectMultipleSingleCallsThatHappen)
   mock().checkExpectations();
 }
 
-TEST(MockCallTest, expectOneCallHoweverMultipleHappened)
+TEST(MockCall, expectOneCallHoweverMultipleHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -179,7 +179,7 @@ TEST(MockCallTest, expectOneCallHoweverMultipleHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallThatHappened)
+TEST(MockCall, expectNoCallThatHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -194,7 +194,7 @@ TEST(MockCallTest, expectNoCallThatHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallDoesntInfluenceExpectOneCall)
+TEST(MockCall, expectNoCallDoesntInfluenceExpectOneCall)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -212,7 +212,7 @@ TEST(MockCallTest, expectNoCallDoesntInfluenceExpectOneCall)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallOnlyFailureOnceWhenMultipleHappened)
+TEST(MockCall, expectNoCallOnlyFailureOnceWhenMultipleHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -227,7 +227,7 @@ TEST(MockCallTest, expectNoCallOnlyFailureOnceWhenMultipleHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, ignoreOtherCallsExceptForTheUnExpectedOne)
+TEST(MockCall, ignoreOtherCallsExceptForTheUnExpectedOne)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -246,7 +246,7 @@ TEST(MockCallTest, ignoreOtherCallsExceptForTheUnExpectedOne)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallInScopeThatHappened)
+TEST(MockCall, expectNoCallInScopeThatHappened)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -261,7 +261,7 @@ TEST(MockCallTest, expectNoCallInScopeThatHappened)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallInScopeButActualCallInAnotherScope)
+TEST(MockCall, expectNoCallInScopeButActualCallInAnotherScope)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -275,7 +275,7 @@ TEST(MockCallTest, expectNoCallInScopeButActualCallInAnotherScope)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNoCallInScopeButActualCallInGlobal)
+TEST(MockCall, expectNoCallInScopeButActualCallInGlobal)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -289,7 +289,7 @@ TEST(MockCallTest, expectNoCallInScopeButActualCallInGlobal)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, ignoreOtherCallsExceptForTheExpectedOne)
+TEST(MockCall, ignoreOtherCallsExceptForTheExpectedOne)
 {
   mock().expectOneCall("foo");
   mock().ignoreOtherCalls();
@@ -298,7 +298,7 @@ TEST(MockCallTest, ignoreOtherCallsExceptForTheExpectedOne)
   mock().clear();
 }
 
-TEST(MockCallTest, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
+TEST(MockCall, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -316,7 +316,7 @@ TEST(MockCallTest, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, ignoreOtherStillFailsIfExpectedOneDidntHappen)
+TEST(MockCall, ignoreOtherStillFailsIfExpectedOneDidntHappen)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -332,7 +332,7 @@ TEST(MockCallTest, ignoreOtherStillFailsIfExpectedOneDidntHappen)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, threeExpectedAndActual)
+TEST(MockCall, threeExpectedAndActual)
 {
   mock().expectOneCall("function1");
   mock().expectOneCall("function2");
@@ -344,7 +344,7 @@ TEST(MockCallTest, threeExpectedAndActual)
   mock().checkExpectations();
 }
 
-TEST(MockCallTest, disableEnable)
+TEST(MockCall, disableEnable)
 {
   mock().disable();
   mock().expectOneCall("function");
@@ -358,28 +358,28 @@ TEST(MockCallTest, disableEnable)
   mock().checkExpectations();
 }
 
-TEST(MockCallTest, OnObject)
+TEST(MockCall, OnObject)
 {
   void* objectPtr = reinterpret_cast<void*>(0x001);
   mock().expectOneCall("boo").onObject(objectPtr);
   mock().actualCall("boo").onObject(objectPtr);
 }
 
-TEST(MockCallTest, OnObjectIgnored_MatchingAlreadyWhenObjectPassed)
+TEST(MockCall, OnObjectIgnored_MatchingAlreadyWhenObjectPassed)
 {
   void* objectPtr = reinterpret_cast<void*>(0x001);
   mock().expectOneCall("boo");
   mock().actualCall("boo").onObject(objectPtr);
 }
 
-TEST(MockCallTest, OnObjectIgnored_NotMatchingYetWhenObjectPassed)
+TEST(MockCall, OnObjectIgnored_NotMatchingYetWhenObjectPassed)
 {
   void* objectPtr = reinterpret_cast<void*>(0x001);
   mock().expectOneCall("boo").withBoolParameter("p", true);
   mock().actualCall("boo").onObject(objectPtr).withBoolParameter("p", true);
 }
 
-TEST(MockCallTest, OnObjectIgnored_InitialMatchDiscarded)
+TEST(MockCall, OnObjectIgnored_InitialMatchDiscarded)
 {
   void* objectPtr1 = reinterpret_cast<void*>(0x001);
   void* objectPtr2 = reinterpret_cast<void*>(0x002);
@@ -390,7 +390,7 @@ TEST(MockCallTest, OnObjectIgnored_InitialMatchDiscarded)
   mock().actualCall("boo").onObject(objectPtr1);
 }
 
-TEST(MockCallTest, OnObjectFails)
+TEST(MockCall, OnObjectFails)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -407,7 +407,7 @@ TEST(MockCallTest, OnObjectFails)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, OnObjectExpectedButNotCalled)
+TEST(MockCall, OnObjectExpectedButNotCalled)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -428,7 +428,7 @@ TEST(MockCallTest, OnObjectExpectedButNotCalled)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, expectNCalls_Fulfilled)
+TEST(MockCall, expectNCalls_Fulfilled)
 {
   mock().expectNCalls(2, "boo");
   mock().actualCall("boo");
@@ -436,7 +436,7 @@ TEST(MockCallTest, expectNCalls_Fulfilled)
   mock().checkExpectations();
 }
 
-TEST(MockCallTest, expectNCalls_NotFulfilled)
+TEST(MockCall, expectNCalls_NotFulfilled)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -452,7 +452,7 @@ TEST(MockCallTest, expectNCalls_NotFulfilled)
   CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
 }
 
-TEST(MockCallTest, shouldntFailTwice)
+TEST(MockCall, shouldntFailTwice)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -469,12 +469,12 @@ TEST(MockCallTest, shouldntFailTwice)
       "boo"));
 }
 
-TEST(MockCallTest, shouldReturnDefaultWhenThereIsntAnythingToReturn)
+TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
 {
   CHECK(mock().returnValue().equals(MockNamedValue("")));
 }
 
-IGNORE_TEST(MockCallTest, testForPerformanceProfiling)
+IGNORE_TEST(MockCall, testForPerformanceProfiling)
 {
   /* TO fix! */
   mock().expectNCalls(2000, "SimpleFunction");
@@ -492,7 +492,7 @@ mocksAreCountedAsChecksTestFunction_()
   mock().clear();
 }
 
-TEST(MockCallTest, mockExpectationShouldIncreaseNumberOfChecks)
+TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
 {
   TestTestingFixture fixture;
   fixture.setTestFunction(mocksAreCountedAsChecksTestFunction_);
@@ -500,7 +500,7 @@ TEST(MockCallTest, mockExpectationShouldIncreaseNumberOfChecks)
   LONGS_EQUAL(3, fixture.getCheckCount());
 }
 
-TEST(MockCallTest, expectationsLeftBeforCheckExpectations)
+TEST(MockCall, expectationsLeftBeforCheckExpectations)
 {
   CHECK(!mock().expectedCallsLeft());
   mock().expectOneCall("boo");

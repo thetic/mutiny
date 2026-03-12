@@ -8,7 +8,7 @@
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-TEST_GROUP(TestOrderedTest)
+TEST_GROUP(OrderedTest)
 {
   cpputest::TestTestingFixture* fixture;
 
@@ -57,7 +57,7 @@ TEST_GROUP(TestOrderedTest)
   cpputest::TestShell* secondTest() { return firstTest()->getNext(); }
 };
 
-TEST(TestOrderedTest, TestInstallerSetsFields)
+TEST(OrderedTest, TestInstallerSetsFields)
 {
   cpputest::extensions::OrderedTestInstaller installer(
       orderedTest, "testgroup", "testname", "this.cpp", 10, 5);
@@ -68,13 +68,13 @@ TEST(TestOrderedTest, TestInstallerSetsFields)
   LONGS_EQUAL(5, orderedTest.getLevel());
 }
 
-TEST(TestOrderedTest, InstallOneText)
+TEST(OrderedTest, InstallOneText)
 {
   InstallOrderedTest(orderedTest, 5);
   CHECK(firstTest() == &orderedTest);
 }
 
-TEST(TestOrderedTest, OrderedTestsAreLast)
+TEST(OrderedTest, OrderedTestsAreLast)
 {
   InstallNormalTest(normalTest);
   InstallOrderedTest(orderedTest, 5);
@@ -82,7 +82,7 @@ TEST(TestOrderedTest, OrderedTestsAreLast)
   CHECK(secondTest() == &orderedTest);
 }
 
-TEST(TestOrderedTest, TwoTestsAddedInReverseOrder)
+TEST(OrderedTest, TwoTestsAddedInReverseOrder)
 {
   InstallOrderedTest(orderedTest, 5);
   InstallOrderedTest(orderedTest2, 3);
@@ -90,7 +90,7 @@ TEST(TestOrderedTest, TwoTestsAddedInReverseOrder)
   CHECK(secondTest() == &orderedTest);
 }
 
-TEST(TestOrderedTest, TwoTestsAddedInOrder)
+TEST(OrderedTest, TwoTestsAddedInOrder)
 {
   InstallOrderedTest(orderedTest2, 3);
   InstallOrderedTest(orderedTest, 5);
@@ -98,7 +98,7 @@ TEST(TestOrderedTest, TwoTestsAddedInOrder)
   CHECK(secondTest() == &orderedTest);
 }
 
-TEST(TestOrderedTest, MultipleOrderedTests)
+TEST(OrderedTest, MultipleOrderedTests)
 {
   InstallNormalTest(normalTest);
   InstallOrderedTest(orderedTest2, 3);
@@ -114,7 +114,7 @@ TEST(TestOrderedTest, MultipleOrderedTests)
   CHECK(firstOrderedTest->getNext()->getNext() == &orderedTest3);
 }
 
-TEST(TestOrderedTest, MultipleOrderedTests2)
+TEST(OrderedTest, MultipleOrderedTests2)
 {
   InstallOrderedTest(orderedTest, 3);
   InstallOrderedTest(orderedTest2, 1);
@@ -145,7 +145,7 @@ private:
 int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
 
-TEST_GROUP(TestOrderedTestMacros)
+TEST_GROUP(OrderedTestC)
 {
   void setup() override
   {
@@ -154,59 +154,59 @@ TEST_GROUP(TestOrderedTestMacros)
   }
 };
 
-TEST(TestOrderedTestMacros, NormalTest)
+TEST(OrderedTestC, NormalTest)
 {
   CHECK(OrderedTestTestingFixture::count() == 0);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test2, 2)
+TEST_ORDERED(OrderedTestC, Test2, 2)
 {
   CHECK(OrderedTestTestingFixture::count() == 2);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test1, 1)
+TEST_ORDERED(OrderedTestC, Test1, 1)
 {
   CHECK(OrderedTestTestingFixture::count() == 1);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test4, 4)
+TEST_ORDERED(OrderedTestC, Test4, 4)
 {
   CHECK(OrderedTestTestingFixture::count() == 4);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test3, 3)
+TEST_ORDERED(OrderedTestC, Test3, 3)
 {
   CHECK(OrderedTestTestingFixture::count() == 3);
 }
 
 // Test with same level
-TEST_ORDERED(TestOrderedTestMacros, Test5_1, 5)
+TEST_ORDERED(OrderedTestC, Test5_1, 5)
 {
   CHECK(OrderedTestTestingFixture::count() == 5);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test6_1, 6)
+TEST_ORDERED(OrderedTestC, Test6_1, 6)
 {
   CHECK(OrderedTestTestingFixture::count() == 7);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test5_2, 5)
+TEST_ORDERED(OrderedTestC, Test5_2, 5)
 {
   CHECK(OrderedTestTestingFixture::count() == 6);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test6_2, 6)
+TEST_ORDERED(OrderedTestC, Test6_2, 6)
 {
   CHECK(OrderedTestTestingFixture::count() == 8);
 }
 
 // Test C-Interface
-TEST_ORDERED(TestOrderedTestMacros, Test10, 10)
+TEST_ORDERED(OrderedTestC, Test10, 10)
 {
   CHECK(OrderedTestTestingFixture::count() == 12);
 }
 
-TEST_ORDERED(TestOrderedTestMacros, Test8, 8)
+TEST_ORDERED(OrderedTestC, Test8, 8)
 {
   CHECK(OrderedTestTestingFixture::count() == 10);
 }
@@ -217,8 +217,8 @@ orderedTestFixtureCWrapper(void)
   return OrderedTestTestingFixture::count();
 }
 
-TEST_ORDERED_C_WRAPPER(TestOrderedTestMacros, Test11, 11)
+TEST_ORDERED_C_WRAPPER(OrderedTestC, Test11, 11)
 
-TEST_ORDERED_C_WRAPPER(TestOrderedTestMacros, Test7, 7)
+TEST_ORDERED_C_WRAPPER(OrderedTestC, Test7, 7)
 
-TEST_ORDERED_C_WRAPPER(TestOrderedTestMacros, Test9, 9)
+TEST_ORDERED_C_WRAPPER(OrderedTestC, Test9, 9)

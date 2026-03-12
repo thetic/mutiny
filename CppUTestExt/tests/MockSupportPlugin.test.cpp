@@ -12,7 +12,7 @@
 using namespace cpputest;
 using namespace cpputest::extensions;
 
-TEST_GROUP(MockPlugin)
+TEST_GROUP(MockSupportPlugin)
 {
   StringBufferTestOutput output;
 
@@ -36,7 +36,7 @@ TEST_GROUP(MockPlugin)
   }
 };
 
-TEST(MockPlugin, checkExpectationsAndClearAtEnd)
+TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -54,7 +54,7 @@ TEST(MockPlugin, checkExpectationsAndClearAtEnd)
   CHECK_NO_MOCK_FAILURE();
 }
 
-TEST(MockPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
+TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -86,7 +86,8 @@ public:
   String valueToString(const void*) override { return "string"; }
 };
 
-TEST(MockPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
+TEST(MockSupportPlugin,
+    installComparatorRecordsTheComparatorButNotInstallsItYet)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -110,7 +111,7 @@ public:
   }
 };
 
-TEST(MockPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
+TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
 {
   MockFailureReporterInstaller failureReporterInstaller;
 
@@ -126,7 +127,7 @@ TEST(MockPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
   plugin.clear();
 }
 
-TEST(MockPlugin,
+TEST(MockSupportPlugin,
     preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
 {
   DummyComparator comparator;
@@ -156,7 +157,7 @@ failTwiceFunction_()
   FAIL("This failed");
 }
 
-TEST(MockPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
+TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
   TestTestingFixture fixture;
   fixture.installPlugin(&plugin);

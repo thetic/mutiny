@@ -60,7 +60,7 @@ public:
   }
 };
 
-TEST_GROUP(PluginTest)
+TEST_GROUP(TestPlugin)
 {
   DummyPlugin* firstPlugin;
   DummyPluginWhichAcceptsParameters* secondPlugin;
@@ -90,19 +90,19 @@ TEST_GROUP(PluginTest)
 
 #define GENERIC_PLUGIN "GenericPlugin"
 
-TEST(PluginTest, PluginHasName)
+TEST(TestPlugin, PluginHasName)
 {
   STRCMP_EQUAL(GENERIC_PLUGIN, firstPlugin->getName().c_str());
 }
 
-TEST(PluginTest, InstallPlugin)
+TEST(TestPlugin, InstallPlugin)
 {
   CHECK_EQUAL(firstPlugin, registry->getFirstPlugin());
   CHECK_EQUAL(firstPlugin, registry->getPluginByName(GENERIC_PLUGIN));
   LONGS_EQUAL(1, registry->countPlugins());
 }
 
-TEST(PluginTest, InstallMultiplePlugins)
+TEST(TestPlugin, InstallMultiplePlugins)
 {
   registry->installPlugin(thirdPlugin);
   CHECK_EQUAL(firstPlugin, registry->getPluginByName(GENERIC_PLUGIN));
@@ -110,7 +110,7 @@ TEST(PluginTest, InstallMultiplePlugins)
   POINTERS_EQUAL(nullptr, registry->getPluginByName("I do not exist"));
 }
 
-TEST(PluginTest, ActionsAllRun)
+TEST(TestPlugin, ActionsAllRun)
 {
   genFixture->runAllTests();
   genFixture->runAllTests();
@@ -118,7 +118,7 @@ TEST(PluginTest, ActionsAllRun)
   CHECK_EQUAL(2, firstPlugin->postAction);
 }
 
-TEST(PluginTest, Sequence)
+TEST(TestPlugin, Sequence)
 {
   registry->installPlugin(thirdPlugin);
   genFixture->runAllTests();
@@ -129,7 +129,7 @@ TEST(PluginTest, Sequence)
   LONGS_EQUAL(2, registry->countPlugins());
 }
 
-TEST(PluginTest, RemovePluginByName)
+TEST(TestPlugin, RemovePluginByName)
 {
   registry->installPlugin(secondPlugin);
   registry->installPlugin(thirdPlugin);
@@ -146,14 +146,14 @@ struct DefaultPlugin : public cpputest::TestPlugin
   }
 };
 
-TEST(PluginTest, DefaultPostTestActionDoesntDoAnything)
+TEST(TestPlugin, DefaultPostTestActionDoesntDoAnything)
 {
   DefaultPlugin defaultPlugin;
   registry->installPlugin(&defaultPlugin);
   genFixture->runAllTests();
 }
 
-TEST(PluginTest, DisablesPluginsDontRun)
+TEST(TestPlugin, DisablesPluginsDontRun)
 {
   registry->installPlugin(thirdPlugin);
   thirdPlugin->disable();
@@ -166,7 +166,7 @@ TEST(PluginTest, DisablesPluginsDontRun)
   CHECK(thirdPlugin->isEnabled());
 }
 
-TEST(PluginTest, ParseArgumentsForUnknownArgumentsFails)
+TEST(TestPlugin, ParseArgumentsForUnknownArgumentsFails)
 {
   registry->installPlugin(secondPlugin);
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
@@ -175,7 +175,7 @@ TEST(PluginTest, ParseArgumentsForUnknownArgumentsFails)
             0) == false); /* cover non-const wrapper, too */
 }
 
-TEST(PluginTest, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
+TEST(TestPlugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
 {
   registry->installPlugin(secondPlugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };

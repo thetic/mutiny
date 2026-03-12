@@ -28,7 +28,7 @@ stub_func2()
 static void (*fp1)();
 static void (*fp2)();
 
-TEST_GROUP(SetPointerPluginTest)
+TEST_GROUP(SetPointerPlugin)
 {
   cpputest::SetPointerPlugin* plugin_;
   cpputest::TestRegistry* myRegistry_;
@@ -80,7 +80,7 @@ public:
   }
 };
 
-TEST(SetPointerPluginTest, installTwoFunctionPointer)
+TEST(SetPointerPlugin, installTwoFunctionPointer)
 {
   FunctionPointerUtestShell* tst = new FunctionPointerUtestShell();
 
@@ -127,7 +127,7 @@ public:
   }
 };
 
-TEST(SetPointerPluginTest, installTooMuchFunctionPointer)
+TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 {
   MaxFunctionPointerUtestShell* tst =
       new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::MAX_SET + 1);
@@ -156,7 +156,7 @@ public:
   cpputest::Test* createTest() override { return new SetDoublePointerUtest(); }
 };
 
-TEST(SetPointerPluginTest, doublePointer)
+TEST(SetPointerPlugin, doublePointer)
 {
   SetDoublePointerUtestShell* doubletst = new SetDoublePointerUtestShell();
   myRegistry_->addTest(doubletst);

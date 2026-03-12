@@ -11,7 +11,7 @@ const int failLineNumber = 2;
 const char* failFileName = "fail.cpp";
 }
 
-TEST_GROUP(TestFailureNanAndInf)
+TEST_GROUP(TestFailureNaN)
 {
   cpputest::TestShell* test;
 
@@ -25,7 +25,7 @@ TEST_GROUP(TestFailureNanAndInf)
 #define FAILURE_EQUAL(a, b)                                                    \
   STRCMP_EQUAL_LOCATION(a, (b).getMessage().c_str(), "", __FILE__, __LINE__)
 
-TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
+TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
@@ -40,7 +40,7 @@ TEST(TestFailureNanAndInf, DoublesEqualExpectedIsNaN)
       f);
 }
 
-TEST(TestFailureNanAndInf, DoublesEqualActualIsNaN)
+TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
@@ -55,7 +55,7 @@ TEST(TestFailureNanAndInf, DoublesEqualActualIsNaN)
       f);
 }
 
-TEST(TestFailureNanAndInf, DoublesEqualThresholdIsNaN)
+TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
@@ -70,7 +70,7 @@ TEST(TestFailureNanAndInf, DoublesEqualThresholdIsNaN)
       f);
 }
 
-TEST(TestFailureNanAndInf, DoublesEqualExpectedIsInf)
+TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
@@ -84,7 +84,7 @@ TEST(TestFailureNanAndInf, DoublesEqualExpectedIsInf)
       f);
 }
 
-TEST(TestFailureNanAndInf, DoublesEqualActualIsInf)
+TEST(TestFailureNaN, DoublesEqualActualIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
@@ -98,7 +98,7 @@ TEST(TestFailureNanAndInf, DoublesEqualActualIsInf)
       f);
 }
 
-TEST(TestFailureNanAndInf, DoublesEqualThresholdIsInf)
+TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
       failFileName,
