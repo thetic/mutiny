@@ -1,4 +1,4 @@
-#include "EventDispatcher.h"
+#include "EventDispatcher.hpp"
 
 EventDispatcher::EventDispatcher() {}
 

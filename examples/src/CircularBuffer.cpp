@@ -1,6 +1,6 @@
-#include "CircularBuffer.h"
+#include "CircularBuffer.hpp"
 
-#include "Printer.h"
+#include "Printer.hpp"
 
 #include <stddef.h>
 

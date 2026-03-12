@@ -8,7 +8,7 @@
 //  MockPrinter is responsible for providing a test stub for Printer
 //
 ///////////////////////////////////////////////////////////////////////////////
-#include "Printer.h"
+#include "Printer.hpp"
 
 #include "CppUTest/String.hpp"
 

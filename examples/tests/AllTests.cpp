@@ -32,4 +32,4 @@ main(int ac, char** av)
   return cpputest::CommandLineTestRunner::RunAllTests(ac, av);
 }
 
-#include "AllTests.h"
+#include "AllTests.hpp"

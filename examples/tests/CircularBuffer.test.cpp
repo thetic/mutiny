@@ -1,6 +1,6 @@
-#include "CircularBuffer.h"
+#include "CircularBuffer.hpp"
 
-#include "MockPrinter.h"
+#include "MockPrinter.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

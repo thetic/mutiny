@@ -19,9 +19,9 @@ target_sources(ExampleLib
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/CircularBuffer.h
-            include/EventDispatcher.h
-            include/Printer.h
+            include/CircularBuffer.hpp
+            include/EventDispatcher.hpp
+            include/Printer.hpp
             include/hello.h
 )
 

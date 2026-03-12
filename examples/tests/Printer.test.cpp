@@ -1,6 +1,6 @@
-#include "Printer.h"
+#include "Printer.hpp"
 
-#include "MockPrinter.h"
+#include "MockPrinter.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 
