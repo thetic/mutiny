@@ -17,7 +17,6 @@ add_executable(CppUTestTests
     TestHarness.test.c
     TestHarness.test.cpp
     TestInstaller.test.cpp
-    TestMemoryAllocator.test.cpp
     TestOutput.test.cpp
     TestPlugin.test.cpp
     TestRegistry.test.cpp

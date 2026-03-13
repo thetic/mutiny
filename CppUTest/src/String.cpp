@@ -1,7 +1,6 @@
 #include "CppUTest/String.hpp"
 
 #include "CppUTest/PlatformSpecificFunctions.h"
-#include "CppUTest/TestMemoryAllocator.hpp"
 
 #include <limits.h>
 #if CPPUTEST_USE_STD_CPP_LIB
@@ -25,32 +24,17 @@ char*
 allocStringBuffer(size_t size, const char* file, size_t line);
 void
 deallocStringBuffer(char* str, size_t size, const char* file, size_t line);
-TestMemoryAllocator* String::stringAllocator_ = nullptr;
-
-TestMemoryAllocator*
-String::getStringAllocator()
-{
-  if (stringAllocator_ == nullptr)
-    return defaultNewArrayAllocator();
-  return stringAllocator_;
-}
-
-void
-String::setStringAllocator(TestMemoryAllocator* allocator)
-{
-  stringAllocator_ = allocator;
-}
 
 char*
-allocStringBuffer(size_t _size, const char* file, size_t line)
+allocStringBuffer(size_t _size, const char*, size_t)
 {
-  return String::getStringAllocator()->alloc_memory(_size, file, line);
+  return new char[_size];
 }
 
 void
-deallocStringBuffer(char* str, size_t size, const char* file, size_t line)
+deallocStringBuffer(char* str, size_t, const char*, size_t)
 {
-  String::getStringAllocator()->free_memory(str, size, file, line);
+  delete[] str;
 }
 
 char*
@@ -807,13 +791,11 @@ VStringFromFormat(const char* format, va_list args)
     resultString = String(defaultBuffer);
   } else {
     size_t newBufferSize = size + 1;
-    char* newBuffer = String::getStringAllocator()->alloc_memory(
-        newBufferSize, __FILE__, __LINE__);
+    char* newBuffer = new char[newBufferSize];
     PlatformSpecificVSNprintf(newBuffer, newBufferSize, format, argsCopy);
     resultString = String(newBuffer);
 
-    String::getStringAllocator()->free_memory(
-        newBuffer, newBufferSize, __FILE__, __LINE__);
+    delete[] newBuffer;
   }
   va_end(argsCopy);
   return resultString;

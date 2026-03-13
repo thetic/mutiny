@@ -19,7 +19,6 @@ target_sources(CppUTest
         src/TestFilter.cpp
         src/TestHarness.cpp
         src/TestInstaller.cpp
-        src/TestMemoryAllocator.cpp
         src/TestOutput.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
@@ -50,7 +49,6 @@ target_sources(CppUTest
             include/CppUTest/TestHarness.h
             include/CppUTest/TestHarness.hpp
             include/CppUTest/TestInstaller.hpp
-            include/CppUTest/TestMemoryAllocator.hpp
             include/CppUTest/TestOutput.hpp
             include/CppUTest/TestPlugin.hpp
             include/CppUTest/TestRegistry.hpp

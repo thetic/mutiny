@@ -32,8 +32,6 @@
 
 namespace cpputest {
 
-class TestMemoryAllocator;
-
 class String
 {
   friend bool operator==(const String& left, const String& right);
@@ -73,9 +71,6 @@ public:
   bool empty() const;
   void reserve(size_t bufferSize);
 
-  static TestMemoryAllocator* getStringAllocator();
-  static void setStringAllocator(TestMemoryAllocator* allocator);
-
 private:
   size_t findFrom(size_t starting_position, char ch) const;
   size_t count(const String& str) const;
@@ -90,8 +85,6 @@ private:
 
   char* buffer_;
   size_t bufferSize_;
-
-  static TestMemoryAllocator* stringAllocator_;
 
   char* getEmptyString() const;
 };

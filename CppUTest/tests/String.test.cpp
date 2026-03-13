@@ -2,80 +2,12 @@
 
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
-#include "CppUTest/TestMemoryAllocator.hpp"
 
 #include <limits.h>
 
-class JustUseNewStringAllocator : public cpputest::TestMemoryAllocator
-{
-public:
-  virtual ~JustUseNewStringAllocator() override {}
-
-  char* alloc_memory(size_t size, const char* file, size_t line) override
-  {
-    return cpputest::getCurrentNewArrayAllocator()->alloc_memory(
-        size, file, line);
-  }
-  void free_memory(char* str,
-      size_t size,
-      const char* file,
-      size_t line) override
-  {
-    cpputest::getCurrentNewArrayAllocator()->free_memory(str, size, file, line);
-  }
-};
-
 TEST_GROUP(String)
 {
-  JustUseNewStringAllocator justNewForStringTestAllocator;
-  cpputest::TestMemoryAllocator* originalAllocator;
-  void setup() override
-  {
-    originalAllocator = cpputest::String::getStringAllocator();
-    cpputest::String::setStringAllocator(&justNewForStringTestAllocator);
-  }
-  void teardown() override
-  {
-    cpputest::String::setStringAllocator(originalAllocator);
-  }
 };
-
-TEST(String, defaultAllocatorIsNewArrayAllocator)
-{
-  cpputest::String::setStringAllocator(nullptr);
-  POINTERS_EQUAL(cpputest::defaultNewArrayAllocator(),
-      cpputest::String::getStringAllocator());
-}
-
-class MyOwnStringAllocator : public cpputest::TestMemoryAllocator
-{
-public:
-  MyOwnStringAllocator()
-    : memoryWasAllocated(false)
-  {
-  }
-  explicit MyOwnStringAllocator(bool wasAllocated)
-    : memoryWasAllocated(wasAllocated)
-  {
-  }
-  virtual ~MyOwnStringAllocator() override {}
-
-  bool memoryWasAllocated;
-  char* alloc_memory(size_t size, const char* file, size_t line) override
-  {
-    memoryWasAllocated = true;
-    return TestMemoryAllocator::alloc_memory(size, file, line);
-  }
-};
-
-TEST(String, allocatorForStringCanBeReplaced)
-{
-  MyOwnStringAllocator myOwnAllocator;
-  cpputest::String::setStringAllocator(&myOwnAllocator);
-  cpputest::String simpleString;
-  CHECK(myOwnAllocator.memoryWasAllocated);
-  cpputest::String::setStringAllocator(nullptr);
-}
 
 TEST(String, CreateSequence)
 {
