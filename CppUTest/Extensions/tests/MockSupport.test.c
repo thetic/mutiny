@@ -17,15 +17,15 @@ typeNameValueToString(const void* object)
 void
 all_mock_support_c_calls(void)
 {
-  mock_c()->strictOrder();
-  mock_c()->expectOneCall("boo");
-  mock_c()->expectNoCall("bla");
-  mock_c()->expectNCalls(1, "foo");
-  mock_c()->actualCall("boo");
-  mock_c()->actualCall("foo");
-  mock_c()->checkExpectations();
+  mock()->strictOrder();
+  mock()->expectOneCall("boo");
+  mock()->expectNoCall("bla");
+  mock()->expectNCalls(1, "foo");
+  mock()->actualCall("boo");
+  mock()->actualCall("foo");
+  mock()->checkExpectations();
 
-  mock_c()
+  mock()
       ->expectOneCall("boo")
       ->withIntParameters("integer", 1)
       ->withBoolParameters("bool", 1)
@@ -44,7 +44,7 @@ all_mock_support_c_calls(void)
       ->withMemoryBufferParameter("name", (void*)1, 0UL)
       ->ignoreOtherParameters();
 
-  mock_c()
+  mock()
       ->actualCall("boo")
       ->withIntParameters("integer", 1)
       ->withBoolParameters("bool", 1)
@@ -63,150 +63,148 @@ all_mock_support_c_calls(void)
       ->withMemoryBufferParameter("name", (void*)1, 0UL)
       ->hasReturnValue();
 
-  mock_c()->disable();
-  mock_c()
+  mock()->disable();
+  mock()
       ->expectOneCall("boo")
       ->withParameterOfType("type", "name", (void*)1)
       ->withOutputParameterReturning("name", (void*)1, 0UL)
       ->withOutputParameterOfTypeReturning("type", "name", (void*)1);
-  mock_c()
+  mock()
       ->actualCall("boo")
       ->withParameterOfType("type", "name", (void*)1)
       ->withOutputParameter("name", (void*)1)
       ->withOutputParameterOfType("type", "name", (void*)1);
-  mock_c()->enable();
+  mock()->enable();
 
-  mock_c()->clear();
+  mock()->clear();
 
-  mock_c()->installComparator(
-      "typeName", typeNameIsEqual, typeNameValueToString);
-  mock_c()->expectOneCall("boo")->withParameterOfType(
+  mock()->installComparator("typeName", typeNameIsEqual, typeNameValueToString);
+  mock()->expectOneCall("boo")->withParameterOfType(
       "typeName", "name", (void*)1);
-  mock_c()->actualCall("boo")->withParameterOfType(
-      "typeName", "name", (void*)1);
-  mock_c()->clear();
-  mock_c()->removeAllComparatorsAndCopiers();
+  mock()->actualCall("boo")->withParameterOfType("typeName", "name", (void*)1);
+  mock()->clear();
+  mock()->removeAllComparatorsAndCopiers();
 
-  mock_c()->expectOneCall("boo")->andReturnBoolValue(1);
-  mock_c()->actualCall("boo")->boolReturnValue();
-  mock_c()->boolReturnValue();
+  mock()->expectOneCall("boo")->andReturnBoolValue(1);
+  mock()->actualCall("boo")->boolReturnValue();
+  mock()->boolReturnValue();
 
-  mock_c()->expectOneCall("boo")->andReturnIntValue(-10);
-  mock_c()->actualCall("boo")->intReturnValue();
-  mock_c()->intReturnValue();
-  mock_c()->returnValue();
+  mock()->expectOneCall("boo")->andReturnIntValue(-10);
+  mock()->actualCall("boo")->intReturnValue();
+  mock()->intReturnValue();
+  mock()->returnValue();
 
-  mock_c()->expectOneCall("boo2")->andReturnUnsignedIntValue(1);
-  mock_c()->actualCall("boo2")->unsignedIntReturnValue();
-  mock_c()->unsignedIntReturnValue();
+  mock()->expectOneCall("boo2")->andReturnUnsignedIntValue(1);
+  mock()->actualCall("boo2")->unsignedIntReturnValue();
+  mock()->unsignedIntReturnValue();
 
-  mock_c()->expectOneCall("boo3")->andReturnLongIntValue(1);
-  mock_c()->actualCall("boo3")->longIntReturnValue();
-  mock_c()->longIntReturnValue();
+  mock()->expectOneCall("boo3")->andReturnLongIntValue(1);
+  mock()->actualCall("boo3")->longIntReturnValue();
+  mock()->longIntReturnValue();
 
-  mock_c()->expectOneCall("boo3")->andReturnUnsignedLongIntValue(1);
-  mock_c()->actualCall("boo3")->unsignedLongIntReturnValue();
-  mock_c()->unsignedLongIntReturnValue();
+  mock()->expectOneCall("boo3")->andReturnUnsignedLongIntValue(1);
+  mock()->actualCall("boo3")->unsignedLongIntReturnValue();
+  mock()->unsignedLongIntReturnValue();
 
-  mock_c()->expectOneCall("mgrgrgr1")->andReturnLongLongIntValue(1);
-  mock_c()->actualCall("mgrgrgr1")->longLongIntReturnValue();
-  mock_c()->longLongIntReturnValue();
+  mock()->expectOneCall("mgrgrgr1")->andReturnLongLongIntValue(1);
+  mock()->actualCall("mgrgrgr1")->longLongIntReturnValue();
+  mock()->longLongIntReturnValue();
 
-  mock_c()->expectOneCall("mgrgrgr2")->andReturnUnsignedLongLongIntValue(1);
-  mock_c()->actualCall("mgrgrgr2")->unsignedLongLongIntReturnValue();
-  mock_c()->unsignedLongLongIntReturnValue();
+  mock()->expectOneCall("mgrgrgr2")->andReturnUnsignedLongLongIntValue(1);
+  mock()->actualCall("mgrgrgr2")->unsignedLongLongIntReturnValue();
+  mock()->unsignedLongLongIntReturnValue();
 
-  mock_c()->expectOneCall("boo4")->andReturnDoubleValue(1.0);
-  mock_c()->actualCall("boo4")->doubleReturnValue();
-  mock_c()->doubleReturnValue();
+  mock()->expectOneCall("boo4")->andReturnDoubleValue(1.0);
+  mock()->actualCall("boo4")->doubleReturnValue();
+  mock()->doubleReturnValue();
 
-  mock_c()->expectOneCall("boo5")->andReturnStringValue("hello world");
-  mock_c()->actualCall("boo5")->stringReturnValue();
-  mock_c()->stringReturnValue();
+  mock()->expectOneCall("boo5")->andReturnStringValue("hello world");
+  mock()->actualCall("boo5")->stringReturnValue();
+  mock()->stringReturnValue();
 
-  mock_c()->expectOneCall("boo6")->andReturnPointerValue((void*)10);
-  mock_c()->actualCall("boo6")->pointerReturnValue();
-  mock_c()->pointerReturnValue();
+  mock()->expectOneCall("boo6")->andReturnPointerValue((void*)10);
+  mock()->actualCall("boo6")->pointerReturnValue();
+  mock()->pointerReturnValue();
 
-  mock_c()->expectOneCall("boo7")->andReturnConstPointerValue((void*)10);
-  mock_c()->actualCall("boo7")->constPointerReturnValue();
-  mock_c()->constPointerReturnValue();
+  mock()->expectOneCall("boo7")->andReturnConstPointerValue((void*)10);
+  mock()->actualCall("boo7")->constPointerReturnValue();
+  mock()->constPointerReturnValue();
 
-  mock_c()->expectOneCall("boo8")->andReturnFunctionPointerValue(
+  mock()->expectOneCall("boo8")->andReturnFunctionPointerValue(
       (void (*)(void))10);
-  mock_c()->actualCall("boo8")->functionPointerReturnValue();
-  mock_c()->functionPointerReturnValue();
+  mock()->actualCall("boo8")->functionPointerReturnValue();
+  mock()->functionPointerReturnValue();
 
-  mock_c()->setBoolData("bool", 1);
-  mock_c()->expectOneCall("bla")->withBoolParameters("bool", 1);
-  mock_c()->actualCall("bla")->withBoolParameters(
-      "bool", mock_c()->getData("bool").value.boolValue);
+  mock()->setBoolData("bool", 1);
+  mock()->expectOneCall("bla")->withBoolParameters("bool", 1);
+  mock()->actualCall("bla")->withBoolParameters(
+      "bool", mock()->getData("bool").value.boolValue);
 
-  mock_c()->setIntData("int", 5);
-  mock_c()->expectOneCall("bla")->withIntParameters("int", 5);
-  mock_c()->actualCall("bla")->withIntParameters(
-      "int", mock_c()->getData("int").value.intValue);
+  mock()->setIntData("int", 5);
+  mock()->expectOneCall("bla")->withIntParameters("int", 5);
+  mock()->actualCall("bla")->withIntParameters(
+      "int", mock()->getData("int").value.intValue);
 
-  mock_c()->setStringData("string", "lol");
-  mock_c()->expectOneCall("bla")->withStringParameters("str", "lol");
-  mock_c()->actualCall("bla")->withStringParameters(
-      "str", mock_c()->getData("string").value.stringValue);
+  mock()->setStringData("string", "lol");
+  mock()->expectOneCall("bla")->withStringParameters("str", "lol");
+  mock()->actualCall("bla")->withStringParameters(
+      "str", mock()->getData("string").value.stringValue);
 
-  mock_c()->setDoubleData("double", 0.001);
-  mock_c()->expectOneCall("bla")->withDoubleParameters("double", 0.001);
-  mock_c()->actualCall("bla")->withDoubleParameters(
-      "double", mock_c()->getData("double").value.doubleValue);
+  mock()->setDoubleData("double", 0.001);
+  mock()->expectOneCall("bla")->withDoubleParameters("double", 0.001);
+  mock()->actualCall("bla")->withDoubleParameters(
+      "double", mock()->getData("double").value.doubleValue);
 
-  mock_c()->setPointerData("ptr", (void*)1);
-  mock_c()->expectOneCall("bla")->withPointerParameters("ptr", (void*)1);
-  mock_c()->actualCall("bla")->withPointerParameters(
-      "ptr", mock_c()->getData("ptr").value.pointerValue);
+  mock()->setPointerData("ptr", (void*)1);
+  mock()->expectOneCall("bla")->withPointerParameters("ptr", (void*)1);
+  mock()->actualCall("bla")->withPointerParameters(
+      "ptr", mock()->getData("ptr").value.pointerValue);
 
-  mock_c()->setConstPointerData("cptr", (const void*)1);
-  mock_c()->expectOneCall("bla")->withConstPointerParameters(
+  mock()->setConstPointerData("cptr", (const void*)1);
+  mock()->expectOneCall("bla")->withConstPointerParameters(
       "cptr", (const void*)1);
-  mock_c()->actualCall("bla")->withConstPointerParameters(
-      "cptr", mock_c()->getData("ptr").value.constPointerValue);
+  mock()->actualCall("bla")->withConstPointerParameters(
+      "cptr", mock()->getData("ptr").value.constPointerValue);
 
-  mock_c()->setFunctionPointerData("ptr", (void (*)(void))1);
-  mock_c()->expectOneCall("bla")->withFunctionPointerParameters(
+  mock()->setFunctionPointerData("ptr", (void (*)(void))1);
+  mock()->expectOneCall("bla")->withFunctionPointerParameters(
       "ptr", (void (*)(void))1);
-  mock_c()->actualCall("bla")->withFunctionPointerParameters(
-      "ptr", mock_c()->getData("ptr").value.functionPointerValue);
+  mock()->actualCall("bla")->withFunctionPointerParameters(
+      "ptr", mock()->getData("ptr").value.functionPointerValue);
 
-  mock_c()->clear();
+  mock()->clear();
 
-  mock_c()->hasReturnValue();
-  mock_c()->returnBoolValueOrDefault(1);
-  mock_c()->returnIntValueOrDefault(-1);
-  mock_c()->returnUnsignedIntValueOrDefault(1);
-  mock_c()->returnLongIntValueOrDefault(-1L);
-  mock_c()->returnUnsignedLongIntValueOrDefault(1L);
-  mock_c()->returnLongLongIntValueOrDefault(-1LL);
-  mock_c()->returnUnsignedLongLongIntValueOrDefault(1ULL);
-  mock_c()->returnStringValueOrDefault("");
-  mock_c()->returnDoubleValueOrDefault(0.01);
-  mock_c()->returnPointerValueOrDefault(0);
-  mock_c()->returnConstPointerValueOrDefault(0);
-  mock_c()->returnFunctionPointerValueOrDefault(0);
+  mock()->hasReturnValue();
+  mock()->returnBoolValueOrDefault(1);
+  mock()->returnIntValueOrDefault(-1);
+  mock()->returnUnsignedIntValueOrDefault(1);
+  mock()->returnLongIntValueOrDefault(-1L);
+  mock()->returnUnsignedLongIntValueOrDefault(1L);
+  mock()->returnLongLongIntValueOrDefault(-1LL);
+  mock()->returnUnsignedLongLongIntValueOrDefault(1ULL);
+  mock()->returnStringValueOrDefault("");
+  mock()->returnDoubleValueOrDefault(0.01);
+  mock()->returnPointerValueOrDefault(0);
+  mock()->returnConstPointerValueOrDefault(0);
+  mock()->returnFunctionPointerValueOrDefault(0);
 
-  mock_c()->disable();
-  mock_c()->actualCall("disabled");
-  mock_c()->enable();
-  mock_c()->checkExpectations();
+  mock()->disable();
+  mock()->actualCall("disabled");
+  mock()->enable();
+  mock()->checkExpectations();
 
-  mock_c()->setIntData("bla1", -2);
-  mock_c()->setUnsignedIntData("bla2", 2);
-  mock_c()->setDoubleData("bla3", 0.035);
-  mock_c()->setStringData("bla4", "abc");
-  mock_c()->setPointerData("bla", (void*)2);
-  mock_c()->setConstPointerData("bla", (const void*)2);
-  mock_c()->setFunctionPointerData("bla", (void (*)(void))2);
-  mock_c()->setDataObject("bla", "type", (void*)2);
-  mock_c()->getData("bla");
+  mock()->setIntData("bla1", -2);
+  mock()->setUnsignedIntData("bla2", 2);
+  mock()->setDoubleData("bla3", 0.035);
+  mock()->setStringData("bla4", "abc");
+  mock()->setPointerData("bla", (void*)2);
+  mock()->setConstPointerData("bla", (const void*)2);
+  mock()->setFunctionPointerData("bla", (void (*)(void))2);
+  mock()->setDataObject("bla", "type", (void*)2);
+  mock()->getData("bla");
 
-  mock_scope_c("scope")->expectOneCall("boo");
-  mock_scope_c("other")->expectedCallsLeft();
-  mock_scope_c("scope")->expectedCallsLeft();
-  mock_scope_c("scope")->actualCall("boo");
+  mock_scope("scope")->expectOneCall("boo");
+  mock_scope("other")->expectedCallsLeft();
+  mock_scope("scope")->expectedCallsLeft();
+  mock_scope("scope")->actualCall("boo");
 }

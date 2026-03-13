@@ -3,8 +3,6 @@
 
 #include "CppUTest/TestHarness.hpp"
 
-using cpputest::extensions::mock;
-
 TEST_GROUP(FirstTestGroup)
 {};
 
@@ -24,14 +22,14 @@ TEST_GROUP(MockDocumentation)
 static void
 productionCode()
 {
-  mock().actualCall("productionCode");
+  cpputest::extensions::mock().actualCall("productionCode");
 }
 
 TEST(MockDocumentation, SimpleScenario)
 {
-  mock().expectOneCall("productionCode");
+  cpputest::extensions::mock().expectOneCall("productionCode");
   productionCode();
-  mock().checkExpectations();
+  cpputest::extensions::mock().checkExpectations();
 }
 
 class ClassFromProductionCode
@@ -46,7 +44,7 @@ class ClassFromProductionCodeMock : public ClassFromProductionCode
 public:
   virtual void importantFunction() override
   {
-    mock().actualCall("importantFunction").onObject(this);
+    cpputest::extensions::mock().actualCall("importantFunction").onObject(this);
   }
 };
 
@@ -55,9 +53,11 @@ TEST(MockDocumentation, SimpleScenarioObject)
   ClassFromProductionCode* object =
       new ClassFromProductionCodeMock; /* create mock instead of real thing */
 
-  mock().expectOneCall("importantFunction").onObject(object);
+  cpputest::extensions::mock()
+      .expectOneCall("importantFunction")
+      .onObject(object);
   object->importantFunction();
-  mock().checkExpectations();
+  cpputest::extensions::mock().checkExpectations();
 
   delete object;
 }
@@ -66,7 +66,7 @@ static void
 parameters_function(int p1, const char* p2)
 {
   void* object = reinterpret_cast<void*>(1);
-  mock()
+  cpputest::extensions::mock()
       .actualCall("function")
       .onObject(object)
       .withParameter("p1", p1)
@@ -76,7 +76,7 @@ parameters_function(int p1, const char* p2)
 TEST(MockDocumentation, parameters)
 {
   void* object = reinterpret_cast<void*>(1);
-  mock()
+  cpputest::extensions::mock()
       .expectOneCall("function")
       .onObject(object)
       .withParameter("p1", 2)
@@ -101,32 +101,38 @@ TEST(MockDocumentation, ObjectParameters)
 {
   void* object = reinterpret_cast<void*>(1);
   MyTypeComparator comparator;
-  mock().installComparator("myType", comparator);
-  mock()
+  cpputest::extensions::mock().installComparator("myType", comparator);
+  cpputest::extensions::mock()
       .expectOneCall("function")
       .withParameterOfType("myType", "parameterName", object);
-  mock().clear();
-  mock().removeAllComparatorsAndCopiers();
+  cpputest::extensions::mock().clear();
+  cpputest::extensions::mock().removeAllComparatorsAndCopiers();
 }
 
 TEST(MockDocumentation, returnValue)
 {
-  mock().expectOneCall("function").andReturnValue(10);
-  mock().actualCall("function").returnValue().getIntValue();
-  int value = mock().returnValue().getIntValue();
+  cpputest::extensions::mock().expectOneCall("function").andReturnValue(10);
+  cpputest::extensions::mock()
+      .actualCall("function")
+      .returnValue()
+      .getIntValue();
+  int value = cpputest::extensions::mock().returnValue().getIntValue();
   LONGS_EQUAL(10, value);
 }
 
 TEST(MockDocumentation, setData)
 {
   ClassFromProductionCode object;
-  mock().setData("importantValue", 10);
-  mock().setDataObject("importantObject", "ClassFromProductionCode", &object);
+  cpputest::extensions::mock().setData("importantValue", 10);
+  cpputest::extensions::mock().setDataObject(
+      "importantObject", "ClassFromProductionCode", &object);
 
   ClassFromProductionCode* pobject;
-  int value = mock().getData("importantValue").getIntValue();
-  pobject = static_cast<ClassFromProductionCode*>(
-      mock().getData("importantObject").getObjectPointer());
+  int value =
+      cpputest::extensions::mock().getData("importantValue").getIntValue();
+  pobject = static_cast<ClassFromProductionCode*>(cpputest::extensions::mock()
+          .getData("importantObject")
+          .getObjectPointer());
 
   LONGS_EQUAL(10, value);
   POINTERS_EQUAL(pobject, &object);
@@ -139,25 +145,25 @@ doSomethingThatWouldOtherwiseBlowUpTheMockingFramework()
 
 TEST(MockDocumentation, otherMockSupport)
 {
-  mock().crashOnFailure();
+  cpputest::extensions::mock().crashOnFailure();
   //	mock().actualCall("unex");
 
-  mock().expectOneCall("foo");
-  mock().ignoreOtherCalls();
+  cpputest::extensions::mock().expectOneCall("foo");
+  cpputest::extensions::mock().ignoreOtherCalls();
 
-  mock().disable();
+  cpputest::extensions::mock().disable();
   doSomethingThatWouldOtherwiseBlowUpTheMockingFramework();
-  mock().enable();
+  cpputest::extensions::mock().enable();
 
-  mock().clear();
+  cpputest::extensions::mock().clear();
 }
 
 TEST(MockDocumentation, scope)
 {
-  mock("xmlparser").expectOneCall("open");
-  mock("filesystem").ignoreOtherCalls();
+  cpputest::extensions::mock("xmlparser").expectOneCall("open");
+  cpputest::extensions::mock("filesystem").ignoreOtherCalls();
 
-  mock("xmlparser").actualCall("open");
+  cpputest::extensions::mock("xmlparser").actualCall("open");
 }
 
 static int
@@ -176,27 +182,27 @@ TEST(MockDocumentation, CInterface)
 {
   void* object = reinterpret_cast<void*>(0x1);
 
-  mock_c()
+  mock()
       ->expectOneCall("foo")
       ->withIntParameters("integer", 10)
       ->andReturnDoubleValue(1.11);
-  double d = mock_c()
+  double d = mock()
                  ->actualCall("foo")
                  ->withIntParameters("integer", 10)
                  ->returnValue()
                  .value.doubleValue;
   DOUBLES_EQUAL(1.11, d, 0.00001);
 
-  mock_c()->installComparator("type", equalMethod, toStringMethod);
-  mock_scope_c("scope")->expectOneCall("bar")->withParameterOfType(
+  mock()->installComparator("type", equalMethod, toStringMethod);
+  mock_scope("scope")->expectOneCall("bar")->withParameterOfType(
       "type", "name", object);
-  mock_scope_c("scope")->actualCall("bar")->withParameterOfType(
+  mock_scope("scope")->actualCall("bar")->withParameterOfType(
       "type", "name", object);
-  mock_c()->removeAllComparatorsAndCopiers();
+  mock()->removeAllComparatorsAndCopiers();
 
-  mock_c()->setIntData("important", 10);
-  mock_c()->checkExpectations();
-  mock_c()->clear();
+  mock()->setIntData("important", 10);
+  mock()->checkExpectations();
+  mock()->clear();
 }
 
 TEST_GROUP(FooTestGroup)
