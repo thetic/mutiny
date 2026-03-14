@@ -1,4 +1,4 @@
-#include "OrderedTestTest.h"
+#include "OrderedTest.h"
 
 #include "CppUTest/TestHarness.h"
 

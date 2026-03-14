@@ -1,9 +1,8 @@
 add_executable(CppUTestExtTests
     main.cpp
-    IEEE754ExceptionsPlugin.test.c
+    IEEE754ExceptionsPlugin.c
     IEEE754ExceptionsPlugin.test.cpp
     MockCall.test.cpp
-    MockCheatSheet.test.cpp
     MockCheckedActualCall.test.cpp
     MockComparatorCopier.test.cpp
     MockExpectedCall.test.cpp
@@ -15,7 +14,7 @@ add_executable(CppUTestExtTests
     MockParameter.test.cpp
     MockReturnValue.test.cpp
     MockStrictOrder.test.cpp
-    MockSupport.test.c
+    MockSupport_cTestCFile.c
     MockSupport.test.cpp
     MockSupportPlugin.test.cpp
     MockSupport_c.test.cpp

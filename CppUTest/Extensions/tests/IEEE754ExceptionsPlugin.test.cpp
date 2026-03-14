@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
 
-#include "IEEE754PluginTest_c.h"
+#include "IEEE754ExceptionsPlugin.h"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/TestHarness.hpp"

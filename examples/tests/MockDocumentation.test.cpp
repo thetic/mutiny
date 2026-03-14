@@ -1,20 +1,12 @@
-#include "CppUTest/Extensions/MockSupport.h"
 #include "CppUTest/Extensions/MockSupport.hpp"
 
+#include "CppUTest/TestHarness.h"
 #include "CppUTest/TestHarness.hpp"
 
-TEST_GROUP(FirstTestGroup)
+TEST_GROUP_C_WRAPPER(MockDocumentation_C)
 {};
 
-TEST(FirstTestGroup, FirsTest)
-{
-  //	FAIL("Fail me!");
-}
-
-TEST(FirstTestGroup, SecondTest)
-{
-  //	STRCMP_EQUAL("hello", "world");
-}
+TEST_C_WRAPPER(MockDocumentation_C, CInterface)
 
 TEST_GROUP(MockDocumentation)
 {};
@@ -164,79 +156,4 @@ TEST(MockDocumentation, scope)
   cpputest::extensions::mock("filesystem").ignoreOtherCalls();
 
   cpputest::extensions::mock("xmlparser").actualCall("open");
-}
-
-static int
-equalMethod(const void* object1, const void* object2)
-{
-  return object1 == object2;
-}
-
-static const char*
-toStringMethod(const void*)
-{
-  return "string";
-}
-
-TEST(MockDocumentation, CInterface)
-{
-  void* object = reinterpret_cast<void*>(0x1);
-
-  mock()
-      ->expectOneCall("foo")
-      ->withIntParameters("integer", 10)
-      ->andReturnDoubleValue(1.11);
-  double d = mock()
-                 ->actualCall("foo")
-                 ->withIntParameters("integer", 10)
-                 ->returnValue()
-                 .value.doubleValue;
-  DOUBLES_EQUAL(1.11, d, 0.00001);
-
-  mock()->installComparator("type", equalMethod, toStringMethod);
-  mock_scope("scope")->expectOneCall("bar")->withParameterOfType(
-      "type", "name", object);
-  mock_scope("scope")->actualCall("bar")->withParameterOfType(
-      "type", "name", object);
-  mock()->removeAllComparatorsAndCopiers();
-
-  mock()->setIntData("important", 10);
-  mock()->checkExpectations();
-  mock()->clear();
-}
-
-TEST_GROUP(FooTestGroup)
-{
-  void setup() override
-  {
-    // Init stuff
-  }
-
-  void teardown() override
-  {
-    // Uninit stuff
-  }
-};
-
-TEST(FooTestGroup, Foo)
-{
-  // Test FOO
-}
-
-TEST(FooTestGroup, MoreFoo)
-{
-  // Test more FOO
-}
-
-TEST_GROUP(BarTestGroup)
-{
-  void setup() override
-  {
-    // Init Bar
-  }
-};
-
-TEST(BarTestGroup, Bar)
-{
-  // Test Bar
 }

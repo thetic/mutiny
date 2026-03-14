@@ -1,6 +1,5 @@
 add_executable(CppUTestTests
     main.cpp
-    CheatSheet.test.cpp
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp

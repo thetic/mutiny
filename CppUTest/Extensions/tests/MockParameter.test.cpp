@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.h"
+#include "MockFailureReporterForTest.hpp"
 
 #include "CppUTest/TestHarness.hpp"
 

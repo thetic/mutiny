@@ -1,10 +1,13 @@
 add_executable(ExampleTests
     main.cpp
+    CheatSheet.test.cpp
     CircularBuffer.test.cpp
     EventDispatcher.test.cpp
     FEDemo.test.cpp
     hello.test.cpp
     hello.test.c
+    MockCheatSheet.test.cpp
+    MockDocumentation.test.c
     MockDocumentation.test.cpp
     Printer.test.cpp
 )

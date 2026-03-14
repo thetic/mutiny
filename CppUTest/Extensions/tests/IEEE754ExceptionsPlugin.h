@@ -1,5 +1,5 @@
-#ifndef IEEE754PLUGINTEST_C_H
-#define IEEE754PLUGINTEST_C_H
+#ifndef IEEE754EXCEPTIONSPLUGIN_H
+#define IEEE754EXCEPTIONSPLUGIN_H
 
 #ifdef __cplusplus
 extern "C"
@@ -17,4 +17,4 @@ extern "C"
 }
 #endif
 
-#endif /* IEEE754PLUGINTEST_C_H */
+#endif /* IEEE754EXCEPTIONSPLUGIN_H */

@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/OrderedTest.hpp"
 
-#include "OrderedTestTest.h"
+#include "OrderedTest.h"
 
 #include "CppUTest/ExecFunctionTestShell.hpp"
 #include "CppUTest/TestHarness.hpp"

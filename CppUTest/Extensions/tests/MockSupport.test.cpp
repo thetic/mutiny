@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/MockSupport.hpp"
 
-#include "MockFailureReporterForTest.h"
+#include "MockFailureReporterForTest.hpp"
 
 #include "CppUTest/Extensions/MockExpectedCall.hpp"
 #include "CppUTest/Extensions/MockFailure.hpp"

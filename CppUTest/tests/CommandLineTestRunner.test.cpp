@@ -452,45 +452,36 @@ public:
   virtual cpputest::Test* createTest() override { return new RunIgnoredTest; }
 };
 
-TEST_GROUP(RunIgnoredTest)
+TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
 {
-  cpputest::TestRegistry registry;
-  RunIgnoredUtestShell* runIgnoredTest;
-  DummyPluginWhichCountsThePlugins* pluginCountingPlugin;
+  cpputest::TestRegistry ignoredRegistry;
+  RunIgnoredUtestShell runIgnoredTest("group", "test", "file", 1);
+  ignoredRegistry.addTest(&runIgnoredTest);
+  DummyPluginWhichCountsThePlugins ignoredPlugin(
+      "PluginCountingPlugin", &ignoredRegistry);
 
-  void setup() override
-  {
-    runIgnoredTest = new RunIgnoredUtestShell("group", "test", "file", 1);
-    registry.addTest(runIgnoredTest);
-    pluginCountingPlugin =
-        new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
-  }
-  void teardown() override
-  {
-    delete pluginCountingPlugin;
-    delete runIgnoredTest;
-    RunIgnoredTest::Checker = false;
-  }
-};
-
-TEST(RunIgnoredTest, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
-{
   const char* argv[] = { "tests.exe" };
-
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-      1, argv, &registry);
+      1, argv, &ignoredRegistry);
   commandLineTestRunner.runAllTestsMain();
 
   CHECK_FALSE(RunIgnoredTest::Checker);
+  RunIgnoredTest::Checker = false;
 }
 
-TEST(RunIgnoredTest, IgnoreTestWillGetRunIfOptionSpecified)
+TEST(CommandLineTestRunner, IgnoreTestWillGetRunIfOptionSpecified)
 {
-  const char* argv[] = { "tests.exe", "-ri" };
+  cpputest::TestRegistry ignoredRegistry;
+  RunIgnoredUtestShell runIgnoredTest("group", "test", "file", 1);
+  ignoredRegistry.addTest(&runIgnoredTest);
+  DummyPluginWhichCountsThePlugins ignoredPlugin(
+      "PluginCountingPlugin", &ignoredRegistry);
 
+  const char* argv[] = { "tests.exe", "-ri" };
   CommandLineTestRunnerWithStringBufferOutput commandLineTestRunner(
-      2, argv, &registry);
+      2, argv, &ignoredRegistry);
   commandLineTestRunner.runAllTestsMain();
 
   CHECK_TRUE(RunIgnoredTest::Checker);
+  RunIgnoredTest::Checker = false;
 }

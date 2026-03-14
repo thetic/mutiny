@@ -1,4 +1,4 @@
-#include "IEEE754PluginTest_c.h"
+#include "IEEE754ExceptionsPlugin.h"
 
 static volatile float f;
 static volatile float zero_float = 0.0f;
