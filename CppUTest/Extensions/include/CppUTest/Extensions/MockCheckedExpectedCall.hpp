@@ -123,10 +123,7 @@ public:
   virtual cpputest::String callToString();
   virtual cpputest::String missingParametersToString();
 
-  enum
-  {
-    NO_EXPECTED_CALL_ORDER = 0
-  };
+  static constexpr unsigned int NO_EXPECTED_CALL_ORDER = 0;
 
   virtual unsigned int getActualCallsFulfilled() const;
 

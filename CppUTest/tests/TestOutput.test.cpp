@@ -137,14 +137,14 @@ TEST(TestOutput, SetProgressIndicator)
 
 TEST(TestOutput, PrintTestVerboseStarted)
 {
-  mock->verbose(cpputest::TestOutput::level_verbose);
+  mock->verbose(cpputest::TestOutput::VerbosityLevel::VERBOSE);
   printer->printCurrentTestStarted(*tst);
   STRCMP_EQUAL("TEST(group, test)", mock->getOutput().c_str());
 }
 
 TEST(TestOutput, PrintTestVerboseEnded)
 {
-  mock->verbose(cpputest::TestOutput::level_verbose);
+  mock->verbose(cpputest::TestOutput::VerbosityLevel::VERBOSE);
   result->currentTestStarted(tst);
   millisTime = 5;
   result->currentTestEnded(tst);
@@ -288,7 +288,8 @@ public:
 
   virtual bool isVerbose()
   {
-    return verbose_ == level_verbose || verbose_ == level_veryVerbose;
+    return verbose_ == VerbosityLevel::VERBOSE ||
+           verbose_ == VerbosityLevel::VERY_VERBOSE;
   }
 
   virtual bool isColor() { return color_; }
@@ -386,7 +387,7 @@ TEST(CompositeTestOutput, printDouble)
 
 TEST(CompositeTestOutput, verbose)
 {
-  compositeOutput.verbose(cpputest::TestOutput::level_verbose);
+  compositeOutput.verbose(cpputest::TestOutput::VerbosityLevel::VERBOSE);
   CHECK(output1->isVerbose());
   CHECK(output2->isVerbose());
 }
@@ -431,7 +432,7 @@ TEST(CompositeTestOutput, flush)
 
 TEST(CompositeTestOutput, printVeryVerbose)
 {
-  compositeOutput.verbose(cpputest::TestOutput::level_veryVerbose);
+  compositeOutput.verbose(cpputest::TestOutput::VerbosityLevel::VERY_VERBOSE);
   compositeOutput.printVeryVerbose("very-verbose");
   STRCMP_EQUAL("very-verbose", output1->getOutput().c_str());
   STRCMP_EQUAL("very-verbose", output2->getOutput().c_str());

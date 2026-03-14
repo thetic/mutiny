@@ -61,9 +61,9 @@ CommandLineTestRunner::initializeTestRun()
   registry_->setNameFilters(arguments_->getNameFilters());
 
   if (arguments_->isVerbose())
-    output_->verbose(TestOutput::level_verbose);
+    output_->verbose(TestOutput::VerbosityLevel::VERBOSE);
   if (arguments_->isVeryVerbose())
-    output_->verbose(TestOutput::level_veryVerbose);
+    output_->verbose(TestOutput::VerbosityLevel::VERY_VERBOSE);
   if (arguments_->isColor())
     output_->color();
   if (arguments_->isRunIgnored())

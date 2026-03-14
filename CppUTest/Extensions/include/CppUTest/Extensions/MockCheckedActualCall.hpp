@@ -134,11 +134,11 @@ protected:
   virtual void checkOutputParameter(MockNamedValue outputParameter);
   virtual void discardCurrentlyMatchingExpectations();
 
-  enum ActualCallState
+  enum class ActualCallState
   {
-    CALL_IN_PROGRESS,
-    CALL_FAILED,
-    CALL_SUCCEED
+    IN_PROGRESS,
+    FAILED,
+    SUCCESS
   };
   virtual void setState(ActualCallState state);
 

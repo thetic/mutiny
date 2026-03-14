@@ -40,11 +40,11 @@ public:
   const char* help() const;
 
 private:
-  enum OutputType
+  enum class OutputType
   {
-    OUTPUT_ECLIPSE,
-    OUTPUT_JUNIT,
-    OUTPUT_TEAMCITY
+    ECLIPSE,
+    JUNIT,
+    TEAMCITY
   };
 
   int ac_;

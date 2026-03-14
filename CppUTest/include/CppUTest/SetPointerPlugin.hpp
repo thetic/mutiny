@@ -22,10 +22,7 @@ public:
   SetPointerPlugin(const String& name);
   virtual void postTestAction(TestShell&, TestResult&) override;
 
-  enum
-  {
-    MAX_SET = 32
-  };
+  static constexpr int MAX_SET = 32;
 };
 
 } // namespace cpputest

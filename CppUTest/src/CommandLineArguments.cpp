@@ -26,7 +26,7 @@ CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   , shuffleSeed_(0)
   , groupFilters_(nullptr)
   , nameFilters_(nullptr)
-  , outputType_(OUTPUT_ECLIPSE)
+  , outputType_(OutputType::ECLIPSE)
 {
 }
 
@@ -516,15 +516,15 @@ CommandLineArguments::setOutputType(int argc, const char* const* argv, int& i)
     return false;
 
   if (outputType == "normal" || outputType == "eclipse") {
-    outputType_ = OUTPUT_ECLIPSE;
+    outputType_ = OutputType::ECLIPSE;
     return true;
   }
   if (outputType == "junit") {
-    outputType_ = OUTPUT_JUNIT;
+    outputType_ = OutputType::JUNIT;
     return true;
   }
   if (outputType == "teamcity") {
-    outputType_ = OUTPUT_TEAMCITY;
+    outputType_ = OutputType::TEAMCITY;
     return true;
   }
 
@@ -534,19 +534,19 @@ CommandLineArguments::setOutputType(int argc, const char* const* argv, int& i)
 bool
 CommandLineArguments::isEclipseOutput() const
 {
-  return outputType_ == OUTPUT_ECLIPSE;
+  return outputType_ == OutputType::ECLIPSE;
 }
 
 bool
 CommandLineArguments::isJUnitOutput() const
 {
-  return outputType_ == OUTPUT_JUNIT;
+  return outputType_ == OutputType::JUNIT;
 }
 
 bool
 CommandLineArguments::isTeamCityOutput() const
 {
-  return outputType_ == OUTPUT_TEAMCITY;
+  return outputType_ == OutputType::TEAMCITY;
 }
 
 const String&

@@ -325,7 +325,7 @@ TEST(TestShell, veryVebose)
 {
   cpputest::TestShell shell("Group", "name", __FILE__, __LINE__);
   cpputest::StringBufferTestOutput normalOutput;
-  normalOutput.verbose(cpputest::TestOutput::level_veryVerbose);
+  normalOutput.verbose(cpputest::TestOutput::VerbosityLevel::VERY_VERBOSE);
   cpputest::NullTestPlugin plugin;
 
   cpputest::TestResult result(normalOutput);

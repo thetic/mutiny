@@ -29,10 +29,7 @@ private:
   int outdex;
   int* buffer;
   int capacity;
-  enum
-  {
-    CAPACITY = 5
-  };
+  static constexpr int CAPACITY = 5;
   bool empty;
   bool full;
 

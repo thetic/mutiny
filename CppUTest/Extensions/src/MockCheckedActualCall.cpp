@@ -26,7 +26,7 @@ MockCheckedActualCall::MockCheckedActualCall(unsigned int callOrder,
     const MockExpectedCallsList& allExpectations)
   : callOrder_(callOrder)
   , reporter_(reporter)
-  , state_(CALL_SUCCEED)
+  , state_(ActualCallState::SUCCESS)
   , expectationsChecked_(false)
   , matchingExpectation_(nullptr)
   , allExpectations_(allExpectations)
@@ -57,7 +57,7 @@ void
 MockCheckedActualCall::failWith(MockFailure failure)
 {
   if (!hasFailed()) {
-    setState(CALL_FAILED);
+    setState(ActualCallState::FAILED);
     reporter_->failTest(static_cast<MockFailure&&>(failure));
   }
 }
@@ -107,7 +107,7 @@ MockCheckedActualCall::completeCallWhenMatchIsFound()
 void
 MockCheckedActualCall::callHasSucceeded()
 {
-  setState(CALL_SUCCEED);
+  setState(ActualCallState::SUCCESS);
 }
 
 void
@@ -124,7 +124,7 @@ void
 MockCheckedActualCall::setNameAndCheck(String name)
 {
   functionName_ = static_cast<String&&>(name);
-  setState(CALL_IN_PROGRESS);
+  setState(ActualCallState::IN_PROGRESS);
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsRelatedTo(functionName_);
   if (potentiallyMatchingExpectations_.empty()) {
@@ -156,7 +156,7 @@ MockCheckedActualCall::checkInputParameter(MockNamedValue actualParameter)
     return;
   }
 
-  setState(CALL_IN_PROGRESS);
+  setState(ActualCallState::IN_PROGRESS);
   discardCurrentlyMatchingExpectations();
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithInputParameter(
@@ -183,7 +183,7 @@ MockCheckedActualCall::checkOutputParameter(MockNamedValue outputParameter)
     return;
   }
 
-  setState(CALL_IN_PROGRESS);
+  setState(ActualCallState::IN_PROGRESS);
   discardCurrentlyMatchingExpectations();
 
   potentiallyMatchingExpectations_.onlyKeepExpectationsWithOutputParameter(
@@ -409,13 +409,13 @@ MockCheckedActualCall::withParameterOfType(const char* typeName,
 bool
 MockCheckedActualCall::isFulfilled() const
 {
-  return state_ == CALL_SUCCEED;
+  return state_ == ActualCallState::SUCCESS;
 }
 
 bool
 MockCheckedActualCall::hasFailed() const
 {
-  return state_ == CALL_FAILED;
+  return state_ == ActualCallState::FAILED;
 }
 
 void
@@ -427,8 +427,8 @@ MockCheckedActualCall::checkExpectations()
 
   expectationsChecked_ = true;
 
-  if (state_ != CALL_IN_PROGRESS) {
-    if (state_ == CALL_SUCCEED) {
+  if (state_ != ActualCallState::IN_PROGRESS) {
+    if (state_ == ActualCallState::SUCCESS) {
       matchingExpectation_->callWasMade(callOrder_);
     }
     potentiallyMatchingExpectations_.resetActualCallMatchingState();

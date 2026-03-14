@@ -21,11 +21,11 @@ class TestResult;
 class TestOutput
 {
 public:
-  enum VerbosityLevel
+  enum class VerbosityLevel
   {
-    level_quiet,
-    level_verbose,
-    level_veryVerbose
+    QUIET,
+    VERBOSE,
+    VERY_VERBOSE
   };
 
   explicit TestOutput();

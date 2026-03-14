@@ -778,10 +778,7 @@ VStringFromFormat(const char* format, va_list args)
 {
   va_list argsCopy;
   va_copy(argsCopy, args);
-  enum
-  {
-    sizeOfdefaultBuffer = 100
-  };
+  constexpr size_t sizeOfdefaultBuffer = 100;
   char defaultBuffer[sizeOfdefaultBuffer];
   String resultString;
 

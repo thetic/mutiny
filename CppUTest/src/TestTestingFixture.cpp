@@ -92,7 +92,7 @@ TestTestingFixture::installPlugin(TestPlugin* plugin)
 void
 TestTestingFixture::setOutputVerbose()
 {
-  output_->verbose(TestOutput::level_verbose);
+  output_->verbose(TestOutput::VerbosityLevel::VERBOSE);
 }
 
 void

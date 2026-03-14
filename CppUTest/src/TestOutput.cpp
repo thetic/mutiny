@@ -6,7 +6,7 @@ namespace cpputest {
 
 TestOutput::TestOutput()
   : dotCount_(0)
-  , verbose_(level_quiet)
+  , verbose_(VerbosityLevel::QUIET)
   , color_(false)
   , progressIndication_(".")
 {
@@ -67,7 +67,7 @@ operator<<(TestOutput& p, long int i)
 void
 TestOutput::printCurrentTestStarted(const TestShell& test)
 {
-  if (verbose_ > level_quiet)
+  if (verbose_ > VerbosityLevel::QUIET)
     print(test.getFormattedName().c_str());
 
   if (test.willRun()) {
@@ -80,7 +80,7 @@ TestOutput::printCurrentTestStarted(const TestShell& test)
 void
 TestOutput::printCurrentTestEnded(const TestResult& res)
 {
-  if (verbose_ > level_quiet) {
+  if (verbose_ > VerbosityLevel::QUIET) {
     print(" - ");
     print(res.getCurrentTestTotalExecutionTime());
     print(" ms\n");
@@ -240,7 +240,7 @@ TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(String file,
 void
 TestOutput::printVeryVerbose(const char* str)
 {
-  if (verbose_ == level_veryVerbose)
+  if (verbose_ == VerbosityLevel::VERY_VERBOSE)
     printBuffer(str);
 }
 
