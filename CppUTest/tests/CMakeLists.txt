@@ -4,6 +4,7 @@ add_executable(CppUTestTests
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp
+    ExpectFailTestShell.test.cpp
     IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp
     Preprocessor.test.cpp
