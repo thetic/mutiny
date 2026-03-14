@@ -16,6 +16,12 @@ OrderedTestShell::OrderedTestShell()
 
 OrderedTestShell::~OrderedTestShell() {}
 
+bool
+OrderedTestShell::isOrdered() const
+{
+  return true;
+}
+
 int
 OrderedTestShell::getLevel()
 {

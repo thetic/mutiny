@@ -15,6 +15,8 @@ public:
   virtual OrderedTestShell* addOrderedTest(OrderedTestShell* test);
   virtual OrderedTestShell* getNextOrderedTest();
 
+  bool isOrdered() const override;
+
   int getLevel();
   void setLevel(int level);
 

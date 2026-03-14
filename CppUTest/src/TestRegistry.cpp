@@ -127,6 +127,30 @@ TestRegistry::listTestLocations(TestResult& result)
   result.print(testLocations.c_str());
 }
 
+void
+TestRegistry::listOrderedTestLocations(TestResult& result)
+{
+  String testLocations;
+
+  for (TestShell* test = tests_; test != nullptr; test = test->getNext()) {
+    if (!test->isOrdered())
+      continue;
+    String testLocation;
+    testLocation += test->getGroup();
+    testLocation += ".";
+    testLocation += test->getName();
+    testLocation += ".";
+    testLocation += test->getFile();
+    testLocation += ".";
+    testLocation +=
+        StringFromFormat("%d\n", static_cast<int>(test->getLineNumber()));
+
+    testLocations += testLocation;
+  }
+
+  result.print(testLocations.c_str());
+}
+
 bool
 TestRegistry::endOfGroup(TestShell* test)
 {

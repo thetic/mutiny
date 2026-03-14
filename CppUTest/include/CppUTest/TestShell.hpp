@@ -74,6 +74,7 @@ public:
   size_t getLineNumber() const;
   virtual bool willRun() const;
   virtual bool hasFailed() const;
+  virtual bool isOrdered() const;
   void countCheck();
 
   virtual void assertTrue(bool condition,

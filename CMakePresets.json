@@ -145,6 +145,13 @@
       }
     },
     {
+      "name": "no-extensions",
+      "inherits": ["GNU"],
+      "cacheVariables": {
+        "CPPUTEST_EXTENSIONS": false
+      }
+    },
+    {
       "name": "IAR",
       "inherits": ["defaults"],
       "cacheVariables": {

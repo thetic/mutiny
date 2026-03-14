@@ -53,8 +53,8 @@ TEST(ExpectFailTestShell, getFormattedName_showsEXPECT_FAIL_TEST)
   cpputest::ExpectFailTestShell shell;
   shell.setGroupName("TestGroup");
   shell.setTestName("TestName");
-  STRCMP_EQUAL(
-      "EXPECT_FAIL_TEST(TestGroup, TestName)", shell.getFormattedName().c_str());
+  STRCMP_EQUAL("EXPECT_FAIL_TEST(TestGroup, TestName)",
+      shell.getFormattedName().c_str());
 }
 
 TEST(ExpectFailTestShell, verbose_printsEXPECT_FAIL_TEST)

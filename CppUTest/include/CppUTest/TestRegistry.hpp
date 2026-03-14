@@ -32,6 +32,7 @@ public:
   virtual void listTestGroupNames(TestResult& result);
   virtual void listTestGroupAndCaseNames(TestResult& result);
   virtual void listTestLocations(TestResult& result);
+  virtual void listOrderedTestLocations(TestResult& result);
   virtual void setNameFilters(const TestFilter* filters);
   virtual void setGroupFilters(const TestFilter* filters);
   virtual void installPlugin(TestPlugin* plugin);

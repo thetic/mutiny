@@ -101,6 +101,12 @@ CommandLineTestRunner::runAllTests()
     return 0;
   }
 
+  if (arguments_->isListingOrderedTestLocations()) {
+    TestResult tr(*output_);
+    registry_->listOrderedTestLocations(tr);
+    return 0;
+  }
+
   if (arguments_->isReversing())
     registry_->reverseTests();
 

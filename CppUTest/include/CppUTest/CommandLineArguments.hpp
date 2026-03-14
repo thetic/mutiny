@@ -23,6 +23,7 @@ public:
   bool isListingTestGroupNames() const;
   bool isListingTestGroupAndCaseNames() const;
   bool isListingTestLocations() const;
+  bool isListingOrderedTestLocations() const;
   bool isRunIgnored() const;
   size_t getRepeatCount() const;
   bool isShuffling() const;
@@ -57,6 +58,7 @@ private:
   bool listTestGroupNames_;
   bool listTestGroupAndCaseNames_;
   bool listTestLocations_;
+  bool listOrderedTestLocations_;
   bool runIgnored_;
   bool reversing_;
   bool crashOnFail_;

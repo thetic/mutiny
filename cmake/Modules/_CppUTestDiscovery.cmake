@@ -65,12 +65,44 @@ string(CONCAT LL_LINE_REGEX
 )
 string(REGEX MATCHALL "[^\n]+\n" discovered_test_lines "${discovered_tests}")
 if(TESTS_DETAILED)
+    # Identify groups containing ordered tests.
+    # -llo is supported since CppUTest gained TEST_ORDERED awareness in discovery;
+    # old binaries exit non-zero and we fall back to treating all tests as individual.
+    execute_process(
+        COMMAND ${EMULATOR} "${EXECUTABLE}" -llo
+        OUTPUT_VARIABLE ordered_locations_output
+        RESULT_VARIABLE llo_result
+        ERROR_VARIABLE _llo_error
+    )
+    set(ordered_groups)
+    if(llo_result EQUAL 0)
+        string(REGEX MATCHALL "[^\n]+\n" ordered_lines "${ordered_locations_output}")
+        foreach(line IN LISTS ordered_lines)
+            string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")
+            if(CMAKE_MATCH_1)
+                list(APPEND ordered_groups "${CMAKE_MATCH_1}")
+            endif()
+        endforeach()
+        list(REMOVE_DUPLICATES ordered_groups)
+    endif()
+
+    set(registered_ordered_groups)
     foreach(line IN LISTS discovered_test_lines)
         string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")
-        set(test_name "${CMAKE_MATCH_1}.${CMAKE_MATCH_2}")
+        set(group_name "${CMAKE_MATCH_1}")
         file(TO_CMAKE_PATH "${CMAKE_MATCH_3}" test_file)
         set(test_location "${test_file}:${CMAKE_MATCH_4}")
-        add_test_to_script("${test_name}" "${test_location}" -st)
+
+        if(group_name IN_LIST ordered_groups)
+            # Register the whole ordered group as one CTest test (preserves level ordering).
+            if(NOT group_name IN_LIST registered_ordered_groups)
+                list(APPEND registered_ordered_groups "${group_name}")
+                add_test_to_script("${group_name}" "${test_location}" -sg)
+            endif()
+        else()
+            set(test_name "${group_name}.${CMAKE_MATCH_2}")
+            add_test_to_script("${test_name}" "${test_location}" -st)
+        endif()
     endforeach()
 else()
     foreach(line IN LISTS discovered_test_lines)

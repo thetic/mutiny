@@ -31,6 +31,4 @@ target_link_libraries(CppUTestExtTests
 
 include(CppUTest)
 
-cpputest_discover_tests(CppUTestExtTests
-    DETAILED FALSE
-)
+cpputest_discover_tests(CppUTestExtTests)

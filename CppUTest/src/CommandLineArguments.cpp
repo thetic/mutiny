@@ -16,6 +16,7 @@ CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   , listTestGroupNames_(false)
   , listTestGroupAndCaseNames_(false)
   , listTestLocations_(false)
+  , listOrderedTestLocations_(false)
   , runIgnored_(false)
   , reversing_(false)
   , crashOnFail_(false)
@@ -66,6 +67,8 @@ CommandLineArguments::parse(TestPlugin* plugin)
       listTestGroupNames_ = true;
     else if (argument == "-ln")
       listTestGroupAndCaseNames_ = true;
+    else if (argument == "-llo")
+      listOrderedTestLocations_ = true;
     else if (argument == "-ll")
       listTestLocations_ = true;
     else if (argument == "-ri")
@@ -130,8 +133,8 @@ const char*
 CommandLineArguments::usage() const
 {
   return "use -h for more extensive help\n"
-         "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-ri] [-r[<#>]] [-f] "
-         "[-e] [-ci]\n"
+         "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
+         "[-f] [-e] [-ci]\n"
          "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
          "[-t|st|xt|xst <groupName>.<testName>]...\n"
          "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
@@ -152,6 +155,8 @@ CommandLineArguments::help() const
          "group.name, separated by spaces\n"
          "  -ll               - print a list of test names in the form of "
          "group.name.test_file_path.line\n"
+         "  -llo              - print a list of ordered test names in the form "
+         "of group.name.test_file_path.line\n"
          "\n"
          "Options that change the output format:\n"
          "  -c                - colorize output, print green if OK, or red if "
@@ -254,6 +259,12 @@ bool
 CommandLineArguments::isListingTestLocations() const
 {
   return listTestLocations_;
+}
+
+bool
+CommandLineArguments::isListingOrderedTestLocations() const
+{
+  return listOrderedTestLocations_;
 }
 
 bool

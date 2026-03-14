@@ -303,6 +303,12 @@ TestShell::willRun() const
   return true;
 }
 
+bool
+TestShell::isOrdered() const
+{
+  return false;
+}
+
 void
 TestShell::setRunIgnored()
 {
