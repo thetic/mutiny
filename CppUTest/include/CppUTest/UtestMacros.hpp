@@ -88,6 +88,39 @@
       __LINE__);                                                               \
   void IGNORE##testGroup##_##testName##_Test::testBody()
 
+#define EXPECT_FAIL_TEST(testGroup, testName)                                  \
+  /* External declarations for strict compilers */                             \
+  class EXPECT_FAIL##testGroup##_##testName##_TestShell;                       \
+  extern EXPECT_FAIL##testGroup##_##testName##_TestShell                       \
+      EXPECT_FAIL##testGroup##_##testName##_TestShell_instance;                \
+                                                                               \
+  class EXPECT_FAIL##testGroup##_##testName##_Test                             \
+    : public TEST_GROUP_##CppUTestGroup##testGroup                             \
+  {                                                                            \
+  public:                                                                      \
+    EXPECT_FAIL##testGroup##_##testName##_Test()                               \
+      : TEST_GROUP_##CppUTestGroup##testGroup()                                \
+    {                                                                          \
+    }                                                                          \
+    void testBody() override;                                                  \
+  };                                                                           \
+  class EXPECT_FAIL##testGroup##_##testName##_TestShell                        \
+    : public cpputest::ExpectFailTestShell                                     \
+  {                                                                            \
+    virtual cpputest::Test* createTest() override                              \
+    {                                                                          \
+      return new EXPECT_FAIL##testGroup##_##testName##_Test;                   \
+    }                                                                          \
+  } EXPECT_FAIL##testGroup##_##testName##_TestShell_instance;                  \
+  static cpputest::TestInstaller                                               \
+      EXPECT_FAIL##testGroup##_##testName##_Installer(                         \
+          EXPECT_FAIL##testGroup##_##testName##_TestShell_instance,            \
+          #testGroup,                                                          \
+          #testName,                                                           \
+          __FILE__,                                                            \
+          __LINE__);                                                           \
+  void EXPECT_FAIL##testGroup##_##testName##_Test::testBody()
+
 // Different checking macros
 
 #define CHECK(condition)                                                       \

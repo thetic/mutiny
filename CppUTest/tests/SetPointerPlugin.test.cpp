@@ -139,6 +139,13 @@ TEST(SetPointerPlugin, installTooMuchFunctionPointer)
   delete tst;
 }
 
+EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
+{
+  for (int i = 0; i <= cpputest::SetPointerPlugin::MAX_SET; ++i) {
+    UT_PTR_SET(fp1, stub_func1);
+  }
+}
+
 static double orig_double = 3.0;
 static double* orig_double_ptr = &orig_double;
 static double stub_double = 4.0;

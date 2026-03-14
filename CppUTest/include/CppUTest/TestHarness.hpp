@@ -1,6 +1,7 @@
 #ifndef D_TestHarness_h
 #define D_TestHarness_h
 
+#include "CppUTest/ExpectFailTestShell.hpp"
 #include "CppUTest/IgnoredTestShell.hpp"
 #include "CppUTest/SetPointerPlugin.hpp"
 #include "CppUTest/String.hpp"

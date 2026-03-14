@@ -7,6 +7,7 @@ target_sources(CppUTest
         src/CompositeTestOutput.cpp
         src/ConsoleTestOutput.cpp
         src/ExecFunctionTestShell.cpp
+        src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
         src/SetPointerPlugin.cpp
@@ -35,6 +36,7 @@ target_sources(CppUTest
             include/CppUTest/CompositeTestOutput.hpp
             include/CppUTest/ConsoleTestOutput.hpp
             include/CppUTest/ExecFunctionTestShell.hpp
+            include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
             include/CppUTest/PlatformSpecificFunctions.h
