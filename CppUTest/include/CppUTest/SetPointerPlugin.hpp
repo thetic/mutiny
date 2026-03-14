@@ -13,9 +13,6 @@ namespace cpputest {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-void
-CppUTestStore(void** location);
-
 class SetPointerPlugin : public TestPlugin
 {
 public:
@@ -23,14 +20,20 @@ public:
   virtual void postTestAction(TestShell&, TestResult&) override;
 
   static constexpr int MAX_SET = 32;
+
+  template<typename T>
+  static void set_pointer(T*& a, T* b)
+  {
+    store(reinterpret_cast<void**>(&(a)));
+    a = b;
+  }
+
+private:
+  static void store(void** location);
 };
 
 } // namespace cpputest
 
-#define UT_PTR_SET(a, b)                                                       \
-  do {                                                                         \
-    cpputest::CppUTestStore(reinterpret_cast<void**>(&(a)));                   \
-    (a) = b;                                                                   \
-  } while (0)
+#define UT_PTR_SET(a, b) cpputest::SetPointerPlugin::set_pointer((a), b)
 
 #endif

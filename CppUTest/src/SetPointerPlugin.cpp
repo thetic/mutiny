@@ -21,7 +21,7 @@ SetPointerPlugin::SetPointerPlugin(const String& name)
 }
 
 void
-CppUTestStore(void** function)
+SetPointerPlugin::store(void** function)
 {
   if (pointerTableIndex >= SetPointerPlugin::MAX_SET) {
     FAIL("Maximum number of function pointers installed!");

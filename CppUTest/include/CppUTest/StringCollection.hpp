@@ -12,7 +12,6 @@ public:
   StringCollection() = default;
   ~StringCollection();
 
-
   void splitString(String const& str, char delimiter);
   void allocate(size_t size);
 

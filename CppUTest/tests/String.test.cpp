@@ -6,8 +6,7 @@
 #include <limits.h>
 
 TEST_GROUP(String)
-{
-};
+{};
 
 TEST(String, CreateSequence)
 {
