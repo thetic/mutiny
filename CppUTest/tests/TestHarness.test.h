@@ -1,5 +1,5 @@
-#ifndef TESTHARNESS_CTESTCFILE_H_
-#define TESTHARNESS_CTESTCFILE_H_
+#ifndef TESTHARNESS_TEST_H
+#define TESTHARNESS_TEST_H
 
 #ifdef __cplusplus
 extern "C"
@@ -13,4 +13,4 @@ extern "C"
 }
 #endif
 
-#endif /* TESTHARNESS_CTESTCFILE_H_ */
+#endif /* TESTHARNESS_TEST_H */

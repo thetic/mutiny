@@ -14,7 +14,7 @@ add_executable(CppUTestExtTests
     MockParameter.test.cpp
     MockReturnValue.test.cpp
     MockStrictOrder.test.cpp
-    MockSupport_cTestCFile.c
+    MockSupport.c
     MockSupport.test.cpp
     MockSupportPlugin.test.cpp
     MockSupport_c.test.cpp

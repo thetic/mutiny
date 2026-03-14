@@ -1,6 +1,6 @@
 #include "CppUTest/TestHarness.h"
 
-#include "TestHarness_cTestCFile.h"
+#include "TestHarness.test.h"
 
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"

@@ -1,5 +1,5 @@
-#ifndef TESTMOCKSUPPORTC_CFILE_H
-#define TESTMOCKSUPPORTC_CFILE_H
+#ifndef MOCKSUPPORT_H
+#define MOCKSUPPORT_H
 
 #ifdef __cplusplus
 extern "C"
@@ -12,4 +12,4 @@ extern "C"
 }
 #endif
 
-#endif /* TESTMOCKSUPPORTC_CFILE_H */
+#endif /* MOCKSUPPORT_H */

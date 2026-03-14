@@ -1,4 +1,4 @@
-#include "MockSupport_cTestCFile.h"
+#include "MockSupport.h"
 
 #include "CppUTest/Extensions/MockSupport.h"
 
