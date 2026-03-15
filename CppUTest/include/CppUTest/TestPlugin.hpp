@@ -14,30 +14,32 @@ public:
   TestPlugin(const String& name);
   virtual ~TestPlugin();
 
-  virtual void preTestAction(TestShell&, TestResult&) {}
+  virtual void pre_test_action(TestShell&, TestResult&) {}
 
-  virtual void postTestAction(TestShell&, TestResult&) {}
+  virtual void post_test_action(TestShell&, TestResult&) {}
 
-  virtual bool parseArguments(int, const char* const*, int) { return false; }
+  virtual bool parse_arguments(int, const char* const*, int) { return false; }
 
-  virtual void runAllPreTestAction(TestShell&, TestResult&);
-  virtual void runAllPostTestAction(TestShell&, TestResult&);
-  virtual bool parseAllArguments(int argc, const char* const* argv, int index);
-  virtual bool parseAllArguments(int argc, char** argv, int index);
+  virtual void run_all_pre_test_action(TestShell&, TestResult&);
+  virtual void run_all_post_test_action(TestShell&, TestResult&);
+  virtual bool parse_all_arguments(int argc,
+      const char* const* argv,
+      int index);
+  virtual bool parse_all_arguments(int argc, char** argv, int index);
 
-  virtual TestPlugin* addPlugin(TestPlugin*);
-  virtual TestPlugin* removePluginByName(const String& name);
-  virtual TestPlugin* getNext();
+  virtual TestPlugin* add_plugin(TestPlugin*);
+  virtual TestPlugin* remove_plugin_by_name(const String& name);
+  virtual TestPlugin* get_next();
 
   virtual void disable();
   virtual void enable();
-  virtual bool isEnabled();
+  virtual bool is_enabled();
 
-  const String& getName();
-  TestPlugin* getPluginByName(const String& name);
+  const String& get_name();
+  TestPlugin* get_plugin_by_name(const String& name);
 
 protected:
-  TestPlugin(TestPlugin* next_);
+  TestPlugin(TestPlugin* next);
 
 private:
   TestPlugin* next_;
@@ -52,9 +54,9 @@ class NullTestPlugin : public TestPlugin
 public:
   NullTestPlugin();
 
-  virtual void runAllPreTestAction(TestShell& test,
+  virtual void run_all_pre_test_action(TestShell& test,
       TestResult& result) override;
-  virtual void runAllPostTestAction(TestShell& test,
+  virtual void run_all_post_test_action(TestShell& test,
       TestResult& result) override;
 
   static NullTestPlugin* instance();

@@ -39,7 +39,7 @@ class String
 
 public:
   String(const char* value = "");
-  String(const char* value, size_t repeatCount);
+  String(const char* value, size_t repeat_count);
   String(const String& other);
   String(String&& other) noexcept;
   ~String();
@@ -59,135 +59,135 @@ public:
   void replace(char to, char with);
   void replace(const char* to, const char* with);
 
-  String substr(size_t beginPos) const;
-  String substr(size_t beginPos, size_t amount) const;
-  String subStringFromTill(char startChar, char lastExcludedChar) const;
+  String substr(size_t begin_pos) const;
+  String substr(size_t begin_pos, size_t amount) const;
+  String sub_string_from_till(char start_char, char last_excluded_char) const;
 
   const char* c_str() const;
   char* data();
   size_t size() const;
   size_t length() const { return size(); }
-  size_t capacity() const { return bufferSize_; }
+  size_t capacity() const { return buffer_size_; }
   bool empty() const;
-  void reserve(size_t bufferSize);
+  void reserve(size_t buffer_size);
 
 private:
-  size_t findFrom(size_t starting_position, char ch) const;
+  size_t find_from(size_t starting_position, char ch) const;
   size_t count(const String& str) const;
 
-  void deallocateInternalBuffer();
-  void setInternalBufferAsEmptyString();
-  void setInternalBufferTo(char* buffer, size_t bufferSize);
-  void copyBufferToNewInternalBuffer(const char* otherBuffer);
-  void copyBufferToNewInternalBuffer(const char* otherBuffer,
-      size_t bufferSize);
-  void copyBufferToNewInternalBuffer(const String& otherBuffer);
+  void deallocate_internal_buffer();
+  void set_internal_buffer_as_empty_string();
+  void set_internal_buffer_to(char* buffer, size_t buffer_size);
+  void copy_buffer_to_new_internal_buffer(const char* other_buffer);
+  void copy_buffer_to_new_internal_buffer(const char* other_buffer,
+      size_t buffer_size);
+  void copy_buffer_to_new_internal_buffer(const String& other_buffer);
 
   char* buffer_;
-  size_t bufferSize_;
+  size_t buffer_size_;
 
-  char* getEmptyString() const;
+  char* get_empty_string() const;
 };
 
 bool
-stringContains(const String& str, const String& substr);
+string_contains(const String& str, const String& substr);
 bool
-stringStartsWith(const String& str, const String& prefix);
+string_starts_with(const String& str, const String& prefix);
 bool
-stringEndsWith(const String& str, const String& suffix);
+string_ends_with(const String& str, const String& suffix);
 
 bool
-isControl(char ch);
+is_control(char ch);
 bool
-isControlWithShortEscapeSequence(char ch);
+is_control_with_short_escape_sequence(char ch);
 char*
-StrNCpy(char* s1, const char* s2, size_t n);
+str_n_cpy(char* s1, const char* s2, size_t n);
 const char*
-StrStr(const char* s1, const char* s2);
+str_str(const char* s1, const char* s2);
 
 void
-padStringsToSameLength(String& str1, String& str2, char ch);
+pad_strings_to_same_length(String& str1, String& str2, char ch);
 int
-AtoI(const char* str);
+ato_i(const char* str);
 unsigned
-AtoU(const char* str);
+ato_u(const char* str);
 int
-StrCmp(const char* s1, const char* s2);
+str_cmp(const char* s1, const char* s2);
 int
-StrNCmp(const char* s1, const char* s2, size_t n);
+str_n_cmp(const char* s1, const char* s2, size_t n);
 char
-ToLower(char ch);
+to_lower(char ch);
 int
-MemCmp(const void* s1, const void* s2, size_t n);
+mem_cmp(const void* s1, const void* s2, size_t n);
 
 String
-StringFrom(bool value);
+string_from(bool value);
 
 String
-StringFrom(const void* value);
+string_from(const void* value);
 
 String
-StringFrom(void (*value)());
+string_from(void (*value)());
 
 String
-StringFrom(char value);
+string_from(char value);
 
 String
-StringFrom(const char* value);
+string_from(const char* value);
 
 String
-StringFromOrNull(const char* value);
+string_from_or_null(const char* value);
 
 String
-StringFrom(int value);
+string_from(int value);
 
 String
-StringFrom(unsigned int value);
+string_from(unsigned int value);
 
 String
-StringFrom(long value);
+string_from(long value);
 
 String
-StringFrom(unsigned long value);
+string_from(unsigned long value);
 
 String
-StringFrom(long long value);
+string_from(long long value);
 
 String
-StringFrom(unsigned long long value);
+string_from(unsigned long long value);
 
 String
-HexStringFrom(unsigned int value);
+hex_string_from(unsigned int value);
 
 String
-HexStringFrom(int value);
+hex_string_from(int value);
 
 String
-HexStringFrom(signed char value);
+hex_string_from(signed char value);
 
 String
-HexStringFrom(long value);
+hex_string_from(long value);
 
 String
-HexStringFrom(unsigned long value);
+hex_string_from(unsigned long value);
 
 String
-HexStringFrom(long long value);
+hex_string_from(long long value);
 
 String
-HexStringFrom(unsigned long long value);
+hex_string_from(unsigned long long value);
 
 String
-HexStringFrom(const void* value);
+hex_string_from(const void* value);
 
 String
-HexStringFrom(void (*value)());
+hex_string_from(void (*value)());
 
 String
-StringFrom(double value, int precision = 6);
+string_from(double value, int precision = 6);
 
 String
-StringFrom(const String& other);
+string_from(const String& other);
 
 #if CPPUTEST_HAS_ATTRIBUTE(format)
 #define CPPUTEST_CHECK_FORMAT(type, format_parameter, other_parameters)        \
@@ -198,57 +198,57 @@ StringFrom(const String& other);
     other_parameters) /* type, format_parameter, other_parameters */
 #endif
 String
-StringFromFormat(const char* format, ...)
+string_from_format(const char* format, ...)
     CPPUTEST_CHECK_FORMAT(CPPUTEST_CHECK_FORMAT_TYPE, 1, 2);
 
 String
-VStringFromFormat(const char* format, va_list args);
+v_string_from_format(const char* format, va_list args);
 
 String
-StringFromBinary(const unsigned char* value, size_t size);
+string_from_binary(const unsigned char* value, size_t size);
 
 String
-StringFromBinaryOrNull(const unsigned char* value, size_t size);
+string_from_binary_or_null(const unsigned char* value, size_t size);
 
 String
-StringFromBinaryWithSize(const unsigned char* value, size_t size);
+string_from_binary_with_size(const unsigned char* value, size_t size);
 
 String
-StringFromBinaryWithSizeOrNull(const unsigned char* value, size_t size);
+string_from_binary_with_size_or_null(const unsigned char* value, size_t size);
 
 String
-StringFromOrdinalNumber(unsigned int number);
+string_from_ordinal_number(unsigned int number);
 
 String
-BracketsFormattedHexStringFrom(int value);
+brackets_formatted_hex_string_from(int value);
 
 String
-BracketsFormattedHexStringFrom(unsigned int value);
+brackets_formatted_hex_string_from(unsigned int value);
 
 String
-BracketsFormattedHexStringFrom(long value);
+brackets_formatted_hex_string_from(long value);
 
 String
-BracketsFormattedHexStringFrom(unsigned long value);
+brackets_formatted_hex_string_from(unsigned long value);
 
 String
-BracketsFormattedHexStringFrom(long long value);
+brackets_formatted_hex_string_from(long long value);
 
 String
-BracketsFormattedHexStringFrom(unsigned long long value);
+brackets_formatted_hex_string_from(unsigned long long value);
 
 String
-BracketsFormattedHexStringFrom(signed char value);
+brackets_formatted_hex_string_from(signed char value);
 
 String
-BracketsFormattedHexString(String hexString);
+brackets_formatted_hex_string(String hex_string);
 
 #if CPPUTEST_USE_STD_CPP_LIB
 String
-StringFrom(const std::nullptr_t value);
+string_from(const std::nullptr_t value);
 
 String
-StringFrom(const std::string& other);
+string_from(const std::string& other);
 #endif
 
 } // namespace cpputest

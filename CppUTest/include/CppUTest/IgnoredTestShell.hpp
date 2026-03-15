@@ -10,22 +10,22 @@ class IgnoredTestShell : public TestShell
 public:
   IgnoredTestShell();
   virtual ~IgnoredTestShell() override;
-  explicit IgnoredTestShell(const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber);
-  virtual bool willRun() const override;
-  virtual void setRunIgnored() override;
+  explicit IgnoredTestShell(const char* group_name,
+      const char* test_name,
+      const char* file_name,
+      size_t line_number);
+  virtual bool will_run() const override;
+  virtual void set_run_ignored() override;
 
 protected:
-  virtual String getMacroName() const override;
-  virtual void runOneTest(TestPlugin* plugin, TestResult& result) override;
+  virtual String get_macro_name() const override;
+  virtual void run_one_test(TestPlugin* plugin, TestResult& result) override;
 
 private:
   IgnoredTestShell(const IgnoredTestShell&);
   IgnoredTestShell& operator=(const IgnoredTestShell&);
 
-  bool runIgnored_;
+  bool run_ignored_;
 };
 
 } // namespace cpputest

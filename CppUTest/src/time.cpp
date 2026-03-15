@@ -11,7 +11,7 @@
 namespace {
 
 unsigned long
-GetTimeInMillisImpl()
+get_time_in_millis_impl()
 {
 #if defined(_WIN32)
   static LARGE_INTEGER s_frequency;
@@ -36,26 +36,26 @@ GetTimeInMillisImpl()
 }
 
 const char*
-GetTimeStringImpl()
+get_time_string_impl()
 {
-  time_t theTime = time(nullptr);
-  static char dateTime[80];
+  time_t the_time = time(nullptr);
+  static char date_time[80];
 #if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
   static struct tm lastlocaltime;
   localtime_s(&lastlocaltime, &theTime);
   struct tm* tmp = &lastlocaltime;
 #else
-  struct tm* tmp = localtime(&theTime);
+  struct tm* tmp = localtime(&the_time);
 #endif
-  strftime(dateTime, 80, "%Y-%m-%dT%H:%M:%S", tmp);
-  return dateTime;
+  strftime(date_time, 80, "%Y-%m-%dT%H:%M:%S", tmp);
+  return date_time;
 }
 
 } // namespace
 
 namespace cpputest {
 
-unsigned long (*GetTimeInMillis)() = GetTimeInMillisImpl;
-const char* (*GetTimeString)() = GetTimeStringImpl;
+unsigned long (*get_time_in_millis)() = get_time_in_millis_impl;
+const char* (*get_time_string)() = get_time_string_impl;
 
 } // namespace cpputest

@@ -17,9 +17,9 @@ class SetPointerPlugin : public TestPlugin
 {
 public:
   SetPointerPlugin(const String& name);
-  virtual void postTestAction(TestShell&, TestResult&) override;
+  virtual void post_test_action(TestShell&, TestResult&) override;
 
-  static constexpr int MAX_SET = 32;
+  static constexpr int max_set = 32;
 
   template<typename T>
   static void set_pointer(T*& a, T* b)

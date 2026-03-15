@@ -11,16 +11,17 @@
 namespace cpputest {
 
 int
-CommandLineTestRunner::RunAllTests(int argc, char** argv)
+CommandLineTestRunner::run_all_tests(int argc, char** argv)
 {
-  return RunAllTests(argc, reinterpret_cast<const char* const*>(argv));
+  return run_all_tests(argc, reinterpret_cast<const char* const*>(argv));
 }
 
 int
-CommandLineTestRunner::RunAllTests(int argc, const char* const* argv)
+CommandLineTestRunner::run_all_tests(int argc, const char* const* argv)
 {
-  CommandLineTestRunner runner(argc, argv, TestRegistry::getCurrentRegistry());
-  return runner.runAllTestsMain();
+  CommandLineTestRunner runner(
+      argc, argv, TestRegistry::get_current_registry());
+  return runner.run_all_tests_main();
 }
 
 CommandLineTestRunner::CommandLineTestRunner(int argc,
@@ -40,148 +41,148 @@ CommandLineTestRunner::~CommandLineTestRunner()
 }
 
 int
-CommandLineTestRunner::runAllTestsMain()
+CommandLineTestRunner::run_all_tests_main()
 {
-  int testResult = 1;
+  int test_result = 1;
 
-  SetPointerPlugin pPlugin(DEF_PLUGIN_SET_POINTER);
-  registry_->installPlugin(&pPlugin);
+  SetPointerPlugin p_plugin(DEF_PLUGIN_SET_POINTER);
+  registry_->install_plugin(&p_plugin);
 
-  if (parseArguments(registry_->getFirstPlugin()))
-    testResult = runAllTests();
+  if (parse_arguments(registry_->get_first_plugin()))
+    test_result = run_all_tests();
 
-  registry_->removePluginByName(DEF_PLUGIN_SET_POINTER);
-  return testResult;
+  registry_->remove_plugin_by_name(DEF_PLUGIN_SET_POINTER);
+  return test_result;
 }
 
 void
-CommandLineTestRunner::initializeTestRun()
+CommandLineTestRunner::initialize_test_run()
 {
-  registry_->setGroupFilters(arguments_->getGroupFilters());
-  registry_->setNameFilters(arguments_->getNameFilters());
+  registry_->set_group_filters(arguments_->get_group_filters());
+  registry_->set_name_filters(arguments_->get_name_filters());
 
-  if (arguments_->isVerbose())
-    output_->verbose(TestOutput::VerbosityLevel::VERBOSE);
-  if (arguments_->isVeryVerbose())
-    output_->verbose(TestOutput::VerbosityLevel::VERY_VERBOSE);
-  if (arguments_->isColor())
+  if (arguments_->is_verbose())
+    output_->verbose(TestOutput::VerbosityLevel::verbose);
+  if (arguments_->is_very_verbose())
+    output_->verbose(TestOutput::VerbosityLevel::very_verbose);
+  if (arguments_->is_color())
     output_->color();
-  if (arguments_->isRunIgnored())
-    registry_->setRunIgnored();
-  if (arguments_->isCrashingOnFail())
-    TestShell::setCrashOnFail();
+  if (arguments_->is_run_ignored())
+    registry_->set_run_ignored();
+  if (arguments_->is_crashing_on_fail())
+    TestShell::set_crash_on_fail();
 
-  TestShell::setRethrowExceptions(arguments_->isRethrowingExceptions());
+  TestShell::set_rethrow_exceptions(arguments_->is_rethrowing_exceptions());
 }
 
 int
-CommandLineTestRunner::runAllTests()
+CommandLineTestRunner::run_all_tests()
 {
-  initializeTestRun();
-  size_t loopCount = 0;
-  size_t failedTestCount = 0;
-  size_t failedExecutionCount = 0;
-  size_t repeatCount = arguments_->getRepeatCount();
+  initialize_test_run();
+  size_t loop_count = 0;
+  size_t failed_test_count = 0;
+  size_t failed_execution_count = 0;
+  size_t repeat_count = arguments_->get_repeat_count();
 
-  if (arguments_->isListingTestGroupNames()) {
+  if (arguments_->is_listing_test_group_names()) {
     TestResult tr(*output_);
-    registry_->listTestGroupNames(tr);
+    registry_->list_test_group_names(tr);
     return 0;
   }
 
-  if (arguments_->isListingTestGroupAndCaseNames()) {
+  if (arguments_->is_listing_test_group_and_case_names()) {
     TestResult tr(*output_);
-    registry_->listTestGroupAndCaseNames(tr);
+    registry_->list_test_group_and_case_names(tr);
     return 0;
   }
 
-  if (arguments_->isListingTestLocations()) {
+  if (arguments_->is_listing_test_locations()) {
     TestResult tr(*output_);
-    registry_->listTestLocations(tr);
+    registry_->list_test_locations(tr);
     return 0;
   }
 
-  if (arguments_->isListingOrderedTestLocations()) {
+  if (arguments_->is_listing_ordered_test_locations()) {
     TestResult tr(*output_);
-    registry_->listOrderedTestLocations(tr);
+    registry_->list_ordered_test_locations(tr);
     return 0;
   }
 
-  if (arguments_->isReversing())
-    registry_->reverseTests();
+  if (arguments_->is_reversing())
+    registry_->reverse_tests();
 
-  if (arguments_->isShuffling()) {
+  if (arguments_->is_shuffling()) {
     output_->print("Test order shuffling enabled with seed: ");
-    output_->print(arguments_->getShuffleSeed());
+    output_->print(arguments_->get_shuffle_seed());
     output_->print("\n");
   }
-  while (loopCount++ < repeatCount) {
+  while (loop_count++ < repeat_count) {
 
-    if (arguments_->isShuffling())
-      registry_->shuffleTests(arguments_->getShuffleSeed());
+    if (arguments_->is_shuffling())
+      registry_->shuffle_tests(arguments_->get_shuffle_seed());
 
-    output_->printTestRun(loopCount, repeatCount);
+    output_->print_test_run(loop_count, repeat_count);
     TestResult tr(*output_);
-    registry_->runAllTests(tr);
-    failedTestCount += tr.getFailureCount();
-    if (tr.isFailure()) {
-      failedExecutionCount++;
+    registry_->run_all_tests(tr);
+    failed_test_count += tr.get_failure_count();
+    if (tr.is_failure()) {
+      failed_execution_count++;
     }
   }
   return static_cast<int>(
-      failedTestCount != 0 ? failedTestCount : failedExecutionCount);
+      failed_test_count != 0 ? failed_test_count : failed_execution_count);
 }
 
 TestOutput*
-CommandLineTestRunner::createTeamCityOutput()
+CommandLineTestRunner::create_team_city_output()
 {
   return new TeamCityTestOutput;
 }
 
 TestOutput*
-CommandLineTestRunner::createJUnitOutput(const String& packageName)
+CommandLineTestRunner::create_j_unit_output(const String& package_name)
 {
-  auto* junitOutput = new JUnitTestOutput;
-  if (junitOutput != nullptr) {
-    junitOutput->setPackageName(packageName);
+  auto* junit_output = new JUnitTestOutput;
+  if (junit_output != nullptr) {
+    junit_output->set_package_name(package_name);
   }
-  return junitOutput;
+  return junit_output;
 }
 
 TestOutput*
-CommandLineTestRunner::createConsoleOutput()
+CommandLineTestRunner::create_console_output()
 {
   return new ConsoleTestOutput;
 }
 
 TestOutput*
-CommandLineTestRunner::createCompositeOutput(TestOutput* outputOne,
-    TestOutput* outputTwo)
+CommandLineTestRunner::create_composite_output(TestOutput* output_one,
+    TestOutput* output_two)
 {
   auto* composite = new CompositeTestOutput;
-  composite->setOutputOne(outputOne);
-  composite->setOutputTwo(outputTwo);
+  composite->set_output_one(output_one);
+  composite->set_output_two(output_two);
   return composite;
 }
 
 bool
-CommandLineTestRunner::parseArguments(TestPlugin* plugin)
+CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
 {
   if (!arguments_->parse(plugin)) {
-    output_ = createConsoleOutput();
+    output_ = create_console_output();
     output_->print(
-        (arguments_->needHelp()) ? arguments_->help() : arguments_->usage());
+        (arguments_->need_help()) ? arguments_->help() : arguments_->usage());
     return false;
   }
 
-  if (arguments_->isJUnitOutput()) {
-    output_ = createJUnitOutput(arguments_->getPackageName());
-    if (arguments_->isVerbose() || arguments_->isVeryVerbose())
-      output_ = createCompositeOutput(output_, createConsoleOutput());
-  } else if (arguments_->isTeamCityOutput()) {
-    output_ = createTeamCityOutput();
+  if (arguments_->is_j_unit_output()) {
+    output_ = create_j_unit_output(arguments_->get_package_name());
+    if (arguments_->is_verbose() || arguments_->is_very_verbose())
+      output_ = create_composite_output(output_, create_console_output());
+  } else if (arguments_->is_team_city_output()) {
+    output_ = create_team_city_output();
   } else
-    output_ = createConsoleOutput();
+    output_ = create_console_output();
   return true;
 }
 

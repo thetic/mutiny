@@ -5,13 +5,13 @@
 
 namespace {
 int
-getZero()
+get_zero()
 {
   return 0;
 }
 
 int
-getOne()
+get_one()
 {
   return 1;
 }
@@ -29,8 +29,8 @@ TEST_GROUP(TestShellPointerArray)
     test1 = new cpputest::IgnoredTestShell();
     test2 = new cpputest::IgnoredTestShell();
 
-    test0->addTest(test1);
-    test1->addTest(test2);
+    test0->add_test(test1);
+    test1->add_test(test2);
   }
 
   void teardown() override
@@ -45,7 +45,7 @@ TEST(TestShellPointerArray, empty)
 {
   cpputest::TestShellPointerArray tests(nullptr);
   tests.shuffle(0);
-  CHECK(nullptr == tests.getFirstTest());
+  CHECK(nullptr == tests.get_first_test());
 }
 
 TEST(TestShellPointerArray, testsAreInOrder)
@@ -59,7 +59,7 @@ TEST(TestShellPointerArray, testsAreInOrder)
 TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 {
   cpputest::TestShellPointerArray tests(test0);
-  tests.relinkTestsInOrder();
+  tests.relink_tests_in_order();
   CHECK(tests.get(0) == test0);
   CHECK(tests.get(1) == test1);
   CHECK(tests.get(2) == test2);
@@ -67,16 +67,16 @@ TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 
 TEST(TestShellPointerArray, firstTestisNotTheFirstTestWithSeed1234)
 {
-  UT_PTR_SET(cpputest::Rand, getZero);
+  UT_PTR_SET(cpputest::rand, get_zero);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(1234);
-  CHECK(tests.getFirstTest() != test0);
+  CHECK(tests.get_first_test() != test0);
 }
 
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 {
-  UT_PTR_SET(cpputest::Rand, getZero);
+  UT_PTR_SET(cpputest::rand, get_zero);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(3);
@@ -89,7 +89,7 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 // 1, 2
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 {
-  UT_PTR_SET(cpputest::Rand, getOne);
+  UT_PTR_SET(cpputest::rand, get_one);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(3);
@@ -100,7 +100,7 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 
 TEST(TestShellPointerArray, reverse)
 {
-  UT_PTR_SET(cpputest::Rand, getOne);
+  UT_PTR_SET(cpputest::rand, get_one);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.reverse();

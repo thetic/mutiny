@@ -7,79 +7,79 @@
 TEST_GROUP(IgnoredTestShell)
 {
   cpputest::TestTestingFixture fixture;
-  cpputest::IgnoredTestShell ignoredTest;
-  cpputest::ExecFunctionTestShell normalUtestShell;
+  cpputest::IgnoredTestShell ignored_test;
+  cpputest::ExecFunctionTestShell normal_utest_shell;
 
   void setup() override
   {
-    fixture.addTest(&ignoredTest);
-    fixture.addTest(&normalUtestShell);
+    fixture.add_test(&ignored_test);
+    fixture.add_test(&normal_utest_shell);
   }
 };
 
 TEST(IgnoredTestShell, doesIgnoreCount)
 {
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getIgnoreCount());
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
 TEST(IgnoredTestShell, printsIGNORE_TESTwhenVerbose)
 {
-  fixture.setOutputVerbose();
-  fixture.runAllTests();
-  fixture.assertPrintContains("IGNORE_TEST");
+  fixture.set_output_verbose();
+  fixture.run_all_tests();
+  fixture.assert_print_contains("IGNORE_TEST");
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
 {
-  ignoredTest.setRunIgnored();
-  fixture.runAllTests();
-  LONGS_EQUAL(3, fixture.getRunCount());
-  LONGS_EQUAL(0, fixture.getIgnoreCount());
+  ignored_test.set_run_ignored();
+  fixture.run_all_tests();
+  LONGS_EQUAL(3, fixture.get_run_count());
+  LONGS_EQUAL(0, fixture.get_ignore_count());
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
 {
-  fixture.runAllTests();
-  LONGS_EQUAL(2, fixture.getRunCount());
-  LONGS_EQUAL(1, fixture.getIgnoreCount());
+  fixture.run_all_tests();
+  LONGS_EQUAL(2, fixture.get_run_count());
+  LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
 {
-  normalUtestShell.setRunIgnored();
-  fixture.runAllTests();
-  LONGS_EQUAL(2, fixture.getRunCount());
-  LONGS_EQUAL(1, fixture.getIgnoreCount());
+  normal_utest_shell.set_run_ignored();
+  fixture.run_all_tests();
+  LONGS_EQUAL(2, fixture.get_run_count());
+  LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
 {
-  ignoredTest.setGroupName("TestGroup");
-  ignoredTest.setTestName("TestName");
-  ignoredTest.setRunIgnored();
-  fixture.runAllTests();
+  ignored_test.set_group_name("TestGroup");
+  ignored_test.set_test_name("TestName");
+  ignored_test.set_run_ignored();
+  fixture.run_all_tests();
   STRCMP_EQUAL(
-      "TEST(TestGroup, TestName)", ignoredTest.getFormattedName().c_str());
+      "TEST(TestGroup, TestName)", ignored_test.get_formatted_name().c_str());
 }
 
 TEST(IgnoredTestShell,
     runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
 {
-  ignoredTest.setGroupName("TestGroup");
-  ignoredTest.setTestName("TestName");
-  fixture.runAllTests();
+  ignored_test.set_group_name("TestGroup");
+  ignored_test.set_test_name("TestName");
+  fixture.run_all_tests();
   STRCMP_EQUAL("IGNORE_TEST(TestGroup, TestName)",
-      ignoredTest.getFormattedName().c_str());
+      ignored_test.get_formatted_name().c_str());
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
 {
-  CHECK_FALSE(ignoredTest.willRun());
+  CHECK_FALSE(ignored_test.will_run());
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
 {
-  ignoredTest.setRunIgnored();
-  CHECK_TRUE(ignoredTest.willRun());
+  ignored_test.set_run_ignored();
+  CHECK_TRUE(ignored_test.will_run());
 }

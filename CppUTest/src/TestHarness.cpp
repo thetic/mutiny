@@ -3,255 +3,257 @@
 #include "CppUTest/TestShell.hpp"
 
 void
-CHECK_EQUAL_C_BOOL_LOCATION(int expected,
+check_equal_c_bool_location(int expected,
     int actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertEquals(!!expected != !!actual,
+  cpputest::TestShell::get_current()->assert_equals(!!expected != !!actual,
       expected ? "true" : "false",
       actual ? "true" : "false",
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_INT_LOCATION(int expected,
+check_equal_c_int_location(int expected,
     int actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertLongsEqual(
+  cpputest::TestShell::get_current()->assert_longs_equal(
       static_cast<long>(expected),
       static_cast<long>(actual),
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_UINT_LOCATION(unsigned int expected,
+check_equal_c_uint_location(unsigned int expected,
     unsigned int actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertUnsignedLongsEqual(
+  cpputest::TestShell::get_current()->assert_unsigned_longs_equal(
       static_cast<unsigned long>(expected),
       static_cast<unsigned long>(actual),
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_LONG_LOCATION(long expected,
+check_equal_c_long_location(long expected,
     long actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertLongsEqual(expected,
+  cpputest::TestShell::get_current()->assert_longs_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_ULONG_LOCATION(unsigned long expected,
+check_equal_c_ulong_location(unsigned long expected,
     unsigned long actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertUnsignedLongsEqual(expected,
+  cpputest::TestShell::get_current()->assert_unsigned_longs_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_LONGLONG_LOCATION(long long expected,
+check_equal_c_longlong_location(long long expected,
     long long actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertLongLongsEqual(expected,
+  cpputest::TestShell::get_current()->assert_long_longs_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_ULONGLONG_LOCATION(unsigned long long expected,
+check_equal_c_ulonglong_location(unsigned long long expected,
     unsigned long long actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertUnsignedLongLongsEqual(expected,
+  cpputest::TestShell::get_current()->assert_unsigned_long_longs_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_REAL_LOCATION(double expected,
+check_equal_c_real_location(double expected,
     double actual,
     double threshold,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertDoublesEqual(expected,
+  cpputest::TestShell::get_current()->assert_doubles_equal(expected,
       actual,
       threshold,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_CHAR_LOCATION(char expected,
+check_equal_c_char_location(char expected,
     char actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertEquals(((expected) != (actual)),
-      cpputest::StringFrom(expected),
-      cpputest::StringFrom(actual),
+  cpputest::TestShell::get_current()->assert_equals(((expected) != (actual)),
+      cpputest::string_from(expected),
+      cpputest::string_from(actual),
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_UBYTE_LOCATION(unsigned char expected,
+check_equal_c_ubyte_location(unsigned char expected,
     unsigned char actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertEquals(((expected) != (actual)),
-      cpputest::StringFrom(static_cast<int>(expected)),
-      cpputest::StringFrom(static_cast<int>(actual)),
+  cpputest::TestShell::get_current()->assert_equals(((expected) != (actual)),
+      cpputest::string_from(static_cast<int>(expected)),
+      cpputest::string_from(static_cast<int>(actual)),
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_SBYTE_LOCATION(char signed expected,
+check_equal_c_sbyte_location(char signed expected,
     signed char actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertEquals(((expected) != (actual)),
-      cpputest::StringFrom(static_cast<int>(expected)),
-      cpputest::StringFrom(static_cast<int>(actual)),
+  cpputest::TestShell::get_current()->assert_equals(((expected) != (actual)),
+      cpputest::string_from(static_cast<int>(expected)),
+      cpputest::string_from(static_cast<int>(actual)),
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_STRING_LOCATION(const char* expected,
+check_equal_c_string_location(const char* expected,
     const char* actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertCstrEqual(expected,
+  cpputest::TestShell::get_current()->assert_cstr_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_POINTER_LOCATION(const void* expected,
+check_equal_c_pointer_location(const void* expected,
     const void* actual,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertPointersEqual(expected,
+  cpputest::TestShell::get_current()->assert_pointers_equal(expected,
       actual,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_EQUAL_C_MEMCMP_LOCATION(const void* expected,
+check_equal_c_memcmp_location(const void* expected,
     const void* actual,
     size_t size,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertBinaryEqual(expected,
+  cpputest::TestShell::get_current()->assert_binary_equal(expected,
       actual,
       size,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-FAIL_TEXT_C_LOCATION(const char* text, const char* fileName, size_t lineNumber)
+fail_text_c_location(const char* text,
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->fail(text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+  cpputest::TestShell::get_current()->fail(text,
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-FAIL_C_LOCATION(const char* fileName, size_t lineNumber)
+fail_c_location(const char* file_name, size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->fail("",
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+  cpputest::TestShell::get_current()->fail("",
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }
 
 void
-CHECK_C_LOCATION(int condition,
-    const char* conditionString,
+check_c_location(int condition,
+    const char* condition_string,
     const char* text,
-    const char* fileName,
-    size_t lineNumber)
+    const char* file_name,
+    size_t line_number)
 {
-  cpputest::TestShell::getCurrent()->assertTrue(condition != 0,
+  cpputest::TestShell::get_current()->assert_true(condition != 0,
       "CHECK_C",
-      conditionString,
+      condition_string,
       text,
-      fileName,
-      lineNumber,
-      cpputest::TestShell::getCurrentTestTerminatorWithoutExceptions());
+      file_name,
+      line_number,
+      cpputest::TestShell::get_current_test_terminator_without_exceptions());
 }

@@ -37,11 +37,11 @@
       : TEST_GROUP_##CppUTestGroup##testGroup()                                \
     {                                                                          \
     }                                                                          \
-    void testBody() override;                                                  \
+    void test_body() override;                                                 \
   };                                                                           \
   class TEST_##testGroup##_##testName##_TestShell : public cpputest::TestShell \
   {                                                                            \
-    virtual cpputest::Test* createTest() override                              \
+    virtual cpputest::Test* create_test() override                             \
     {                                                                          \
       return new TEST_##testGroup##_##testName##_Test;                         \
     }                                                                          \
@@ -54,7 +54,7 @@
       __FILE__,                                                                \
       __LINE__);                                                               \
   } /* namespace */                                                            \
-  void TEST_##testGroup##_##testName##_Test::testBody()
+  void TEST_##testGroup##_##testName##_Test::test_body()
 
 #define IGNORE_TEST(testGroup, testName)                                       \
   /* External declarations for strict compilers */                             \
@@ -72,12 +72,12 @@
     }                                                                          \
                                                                                \
   public:                                                                      \
-    void testBody() override;                                                  \
+    void test_body() override;                                                 \
   };                                                                           \
   class IGNORE##testGroup##_##testName##_TestShell                             \
     : public cpputest::IgnoredTestShell                                        \
   {                                                                            \
-    virtual cpputest::Test* createTest() override                              \
+    virtual cpputest::Test* create_test() override                             \
     {                                                                          \
       return new IGNORE##testGroup##_##testName##_Test;                        \
     }                                                                          \
@@ -90,7 +90,7 @@
       __FILE__,                                                                \
       __LINE__);                                                               \
   } /* namespace */                                                            \
-  void IGNORE##testGroup##_##testName##_Test::testBody()
+  void IGNORE##testGroup##_##testName##_Test::test_body()
 
 #define EXPECT_FAIL_TEST(testGroup, testName)                                  \
   /* External declarations for strict compilers */                             \
@@ -106,12 +106,12 @@
       : TEST_GROUP_##CppUTestGroup##testGroup()                                \
     {                                                                          \
     }                                                                          \
-    void testBody() override;                                                  \
+    void test_body() override;                                                 \
   };                                                                           \
   class EXPECT_FAIL##testGroup##_##testName##_TestShell                        \
     : public cpputest::ExpectFailTestShell                                     \
   {                                                                            \
-    virtual cpputest::Test* createTest() override                              \
+    virtual cpputest::Test* create_test() override                             \
     {                                                                          \
       return new EXPECT_FAIL##testGroup##_##testName##_Test;                   \
     }                                                                          \
@@ -124,7 +124,7 @@
       __FILE__,                                                                \
       __LINE__);                                                               \
   } /* namespace */                                                            \
-  void EXPECT_FAIL##testGroup##_##testName##_Test::testBody()
+  void EXPECT_FAIL##testGroup##_##testName##_Test::test_body()
 
 // Different checking macros
 
@@ -163,18 +163,18 @@
 #define CHECK_TRUE_LOCATION(                                                   \
     condition, checkString, conditionString, text, file, line)                 \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertTrue(                             \
+    cpputest::TestShell::get_current()->assert_true(                           \
         (condition), checkString, conditionString, text, file, line);          \
   } while (0)
 
 #define CHECK_FALSE_LOCATION(                                                  \
     condition, checkString, conditionString, text, file, line)                 \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertTrue(                             \
+    cpputest::TestShell::get_current()->assert_true(                           \
         !(condition), checkString, conditionString, text, file, line);         \
   } while (0)
 
-// This check needs the operator!=(), and a StringFrom(YourType) function
+// This check needs the operator!=(), and a string_from(YourType) function
 #define CHECK_EQUAL(expected, actual)                                          \
   CHECK_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
 
@@ -185,27 +185,27 @@
   do {                                                                         \
     if ((expected) != (actual)) {                                              \
       if ((actual) != (actual))                                                \
-        cpputest::TestShell::getCurrent()->print(                              \
+        cpputest::TestShell::get_current()->print(                             \
             "WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated "     \
             "multiple times resulting in different values.\n\tThus the value " \
             "in the error message is probably incorrect.",                     \
             file,                                                              \
             line);                                                             \
       if ((expected) != (expected))                                            \
-        cpputest::TestShell::getCurrent()->print(                              \
+        cpputest::TestShell::get_current()->print(                             \
             "WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated "   \
             "multiple times resulting in different values.\n\tThus the value " \
             "in the error message is probably incorrect.",                     \
             file,                                                              \
             line);                                                             \
-      cpputest::TestShell::getCurrent()->assertEquals(true,                    \
-          cpputest::StringFrom(expected).c_str(),                              \
-          cpputest::StringFrom(actual).c_str(),                                \
+      cpputest::TestShell::get_current()->assert_equals(true,                  \
+          cpputest::string_from(expected).c_str(),                             \
+          cpputest::string_from(actual).c_str(),                               \
           text,                                                                \
           file,                                                                \
           line);                                                               \
     } else {                                                                   \
-      cpputest::TestShell::getCurrent()->assertLongsEqual(                     \
+      cpputest::TestShell::get_current()->assert_longs_equal(                  \
           static_cast<long>(0), static_cast<long>(0), nullptr, file, line);    \
     }                                                                          \
   } while (0)
@@ -226,12 +226,12 @@
     bool success = (first)relop(second);                                       \
     if (!success) {                                                            \
       cpputest::String conditionString;                                        \
-      conditionString += cpputest::StringFrom(first);                          \
+      conditionString += cpputest::string_from(first);                         \
       conditionString += " ";                                                  \
       conditionString += #relop;                                               \
       conditionString += " ";                                                  \
-      conditionString += cpputest::StringFrom(second);                         \
-      cpputest::TestShell::getCurrent()->assertCompare(false,                  \
+      conditionString += cpputest::string_from(second);                        \
+      cpputest::TestShell::get_current()->assert_compare(false,                \
           "CHECK_COMPARE",                                                     \
           conditionString.c_str(),                                             \
           text,                                                                \
@@ -251,7 +251,7 @@
 
 #define STRCMP_EQUAL_LOCATION(expected, actual, text, file, line)              \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertCstrEqual(                        \
+    cpputest::TestShell::get_current()->assert_cstr_equal(                     \
         expected, actual, text, file, line);                                   \
   } while (0)
 
@@ -263,7 +263,7 @@
 
 #define STRNCMP_EQUAL_LOCATION(expected, actual, length, text, file, line)     \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertCstrNEqual(                       \
+    cpputest::TestShell::get_current()->assert_cstr_n_equal(                   \
         expected, actual, length, text, file, line);                           \
   } while (0)
 
@@ -275,7 +275,7 @@
 
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertCstrContains(                     \
+    cpputest::TestShell::get_current()->assert_cstr_contains(                  \
         expected, actual, text, file, line);                                   \
   } while (0)
 
@@ -299,7 +299,7 @@
 
 #define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)               \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertLongsEqual(                       \
+    cpputest::TestShell::get_current()->assert_longs_equal(                    \
         static_cast<long>(expected),                                           \
         static_cast<long>(actual),                                             \
         text,                                                                  \
@@ -309,7 +309,7 @@
 
 #define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)      \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertUnsignedLongsEqual(               \
+    cpputest::TestShell::get_current()->assert_unsigned_longs_equal(           \
         static_cast<unsigned long>(expected),                                  \
         static_cast<unsigned long>(actual),                                    \
         text,                                                                  \
@@ -332,7 +332,7 @@
 
 #define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertLongLongsEqual(                   \
+    cpputest::TestShell::get_current()->assert_long_longs_equal(               \
         static_cast<long long>(expected),                                      \
         static_cast<long long>(actual),                                        \
         text,                                                                  \
@@ -342,7 +342,7 @@
 
 #define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)  \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertUnsignedLongLongsEqual(           \
+    cpputest::TestShell::get_current()->assert_unsigned_long_longs_equal(      \
         static_cast<unsigned long long>(expected),                             \
         static_cast<unsigned long long>(actual),                               \
         text,                                                                  \
@@ -361,7 +361,7 @@
 
 #define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertSignedBytesEqual(                 \
+    cpputest::TestShell::get_current()->assert_signed_bytes_equal(             \
         expected, actual, nullptr, file, line);                                \
   } while (0)
 
@@ -370,7 +370,7 @@
 
 #define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line)   \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertSignedBytesEqual(                 \
+    cpputest::TestShell::get_current()->assert_signed_bytes_equal(             \
         expected, actual, text, file, line);                                   \
   } while (0)
 
@@ -382,7 +382,7 @@
 
 #define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)            \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertPointersEqual(                    \
+    cpputest::TestShell::get_current()->assert_pointers_equal(                 \
         static_cast<const void*>(expected),                                    \
         static_cast<const void*>(actual),                                      \
         text,                                                                  \
@@ -400,7 +400,7 @@
 
 #define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)    \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertFunctionPointersEqual(            \
+    cpputest::TestShell::get_current()->assert_function_pointers_equal(        \
         reinterpret_cast<void (*)()>(expected),                                \
         reinterpret_cast<void (*)()>(actual),                                  \
         text,                                                                  \
@@ -418,7 +418,7 @@
 
 #define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)  \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertDoublesEqual(                     \
+    cpputest::TestShell::get_current()->assert_doubles_equal(                  \
         expected, actual, threshold, text, file, line);                        \
   } while (0)
 
@@ -430,7 +430,7 @@
 
 #define MEMCMP_EQUAL_LOCATION(expected, actual, size, text, file, line)        \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->assertBinaryEqual(                      \
+    cpputest::TestShell::get_current()->assert_binary_equal(                   \
         expected, actual, size, text, file, line);                             \
   } while (0)
 
@@ -456,14 +456,14 @@
     underlying_type actual_underlying_value =                                  \
         static_cast<underlying_type>(actual);                                  \
     if (expected_underlying_value != actual_underlying_value) {                \
-      cpputest::TestShell::getCurrent()->assertEquals(true,                    \
-          cpputest::StringFrom(expected_underlying_value).c_str(),             \
-          cpputest::StringFrom(actual_underlying_value).c_str(),               \
+      cpputest::TestShell::get_current()->assert_equals(true,                  \
+          cpputest::string_from(expected_underlying_value).c_str(),            \
+          cpputest::string_from(actual_underlying_value).c_str(),              \
           text,                                                                \
           file,                                                                \
           line);                                                               \
     } else {                                                                   \
-      cpputest::TestShell::getCurrent()->assertLongsEqual(                     \
+      cpputest::TestShell::get_current()->assert_longs_equal(                  \
           static_cast<long>(0), static_cast<long>(0), nullptr, file, line);    \
     }                                                                          \
   } while (0)
@@ -475,7 +475,7 @@
 
 #define FAIL_LOCATION(text, file, line)                                        \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->fail(text, file, line);                 \
+    cpputest::TestShell::get_current()->fail(text, file, line);                \
   } while (0)
 #endif
 
@@ -483,12 +483,12 @@
 
 #define FAIL_TEST_LOCATION(text, file, line)                                   \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->fail(text, file, line);                 \
+    cpputest::TestShell::get_current()->fail(text, file, line);                \
   } while (0)
 
 #define TEST_EXIT                                                              \
   do {                                                                         \
-    cpputest::TestShell::getCurrent()->exitTest();                             \
+    cpputest::TestShell::get_current()->exit_test();                           \
   } while (0)
 
 #if CPPUTEST_HAVE_EXCEPTIONS
@@ -506,10 +506,10 @@
           "expected to throw " #expected "\nbut threw a different type";       \
     }                                                                          \
     if (!caught_expected) {                                                    \
-      cpputest::TestShell::getCurrent()->fail(                                 \
+      cpputest::TestShell::get_current()->fail(                                \
           failure_msg.c_str(), __FILE__, __LINE__);                            \
     } else {                                                                   \
-      cpputest::TestShell::getCurrent()->countCheck();                         \
+      cpputest::TestShell::get_current()->count_check();                       \
     }                                                                          \
   } while (0)
 #endif /* CPPUTEST_HAVE_EXCEPTIONS */

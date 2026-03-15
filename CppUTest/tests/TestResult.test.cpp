@@ -6,7 +6,7 @@
 
 namespace {
 unsigned long
-MockGetTimeInMillis()
+mock_get_time_in_millis()
 {
   return 10;
 }
@@ -24,7 +24,7 @@ TEST_GROUP(TestResult)
     mock = new cpputest::StringBufferTestOutput();
     printer = mock;
     res = new cpputest::TestResult(*printer);
-    UT_PTR_SET(cpputest::GetTimeInMillis, MockGetTimeInMillis);
+    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -35,40 +35,40 @@ TEST_GROUP(TestResult)
 
 TEST(TestResult, TestEndedWillPrintResultsAndExecutionTime)
 {
-  res->testsEnded();
-  CHECK(stringContains(mock->getOutput(), "10 ms"));
+  res->tests_ended();
+  CHECK(string_contains(mock->get_output(), "10 ms"));
 }
 
 TEST(TestResult, ResultIsOkIfTestIsRunWithNoFailures)
 {
-  res->countTest();
-  res->countRun();
-  CHECK_FALSE(res->isFailure());
+  res->count_test();
+  res->count_run();
+  CHECK_FALSE(res->is_failure());
 }
 
 TEST(TestResult, ResultIsOkIfTestIsIgnored)
 {
-  res->countTest();
-  res->countIgnored();
-  CHECK_FALSE(res->isFailure());
+  res->count_test();
+  res->count_ignored();
+  CHECK_FALSE(res->is_failure());
 }
 
 TEST(TestResult, ResultIsNotOkIfFailures)
 {
-  res->countTest();
-  res->countRun();
-  res->addFailure(cpputest::TestFailure(cpputest::TestShell::getCurrent(),
-      cpputest::StringFrom("dummy message")));
-  CHECK_TRUE(res->isFailure());
+  res->count_test();
+  res->count_run();
+  res->add_failure(cpputest::TestFailure(cpputest::TestShell::get_current(),
+      cpputest::string_from("dummy message")));
+  CHECK_TRUE(res->is_failure());
 }
 
 TEST(TestResult, ResultIsNotOkIfNoTestsAtAll)
 {
-  CHECK_TRUE(res->isFailure());
+  CHECK_TRUE(res->is_failure());
 }
 
 TEST(TestResult, ResultIsNotOkIfNoTestsRunOrIgnored)
 {
-  res->countTest();
-  CHECK_TRUE(res->isFailure());
+  res->count_test();
+  CHECK_TRUE(res->is_failure());
 }

@@ -3,19 +3,19 @@
 namespace cpputest {
 namespace {
 size_t
-countSubstr(const String& string, const String& substr)
+count_substr(const String& string, const String& substr)
 {
   size_t num = 0;
   const char* str = string.c_str();
   const char* strpart = nullptr;
   if (*str) {
-    strpart = StrStr(str, substr.c_str());
+    strpart = str_str(str, substr.c_str());
   }
   while (*str && strpart) {
     str = strpart;
     str++;
     num++;
-    strpart = StrStr(str, substr.c_str());
+    strpart = str_str(str, substr.c_str());
   }
   return num;
 }
@@ -24,7 +24,7 @@ countSubstr(const String& string, const String& substr)
 
 StringCollection::StringCollection(String const& str, char delimiter)
 {
-  splitString(str, delimiter);
+  split_string(str, delimiter);
 }
 
 StringCollection::~StringCollection()
@@ -33,32 +33,32 @@ StringCollection::~StringCollection()
 }
 
 void
-StringCollection::splitString(String const& string, char d)
+StringCollection::split_string(String const& string, char d)
 {
-  auto delimiter = StringFrom(d);
+  auto delimiter = string_from(d);
 
-  size_t num = countSubstr(string, delimiter);
-  size_t extraEndToken = (stringEndsWith(string, delimiter)) ? 0 : 1U;
-  allocate(num + extraEndToken);
+  size_t num = count_substr(string, delimiter);
+  size_t extra_end_token = (string_ends_with(string, delimiter)) ? 0 : 1U;
+  allocate(num + extra_end_token);
 
   const char* str = string.c_str();
   const char* prev;
   for (size_t i = 0; i < num; ++i) {
     prev = str;
-    str = StrStr(str, delimiter.c_str()) + 1;
+    str = str_str(str, delimiter.c_str()) + 1;
     (*this)[i] = String(prev).substr(0, size_t(str - prev));
   }
-  if (extraEndToken) {
+  if (extra_end_token) {
     (*this)[num] = str;
   }
 }
 
 void
-StringCollection::allocate(size_t _size)
+StringCollection::allocate(size_t size)
 {
   delete[] collection_;
 
-  size_ = _size;
+  size_ = size;
   collection_ = new String[size_];
 }
 

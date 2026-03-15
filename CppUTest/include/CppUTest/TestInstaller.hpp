@@ -11,13 +11,13 @@ class TestInstaller
 {
 public:
   explicit TestInstaller(TestShell& shell,
-      const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber);
+      const char* group_name,
+      const char* test_name,
+      const char* file_name,
+      size_t line_number);
   virtual ~TestInstaller();
 
-  void unDo();
+  void un_do();
 
 private:
   TestInstaller(const TestInstaller&);

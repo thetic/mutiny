@@ -3,8 +3,8 @@
 
 namespace cpputest {
 
-extern int (*IsNan)(double d);
-extern int (*IsInf)(double d);
+extern int (*is_nan)(double d);
+extern int (*is_inf)(double d);
 
 } // namespace cpputest
 

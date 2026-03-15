@@ -12,41 +12,41 @@ public:
   OrderedTestShell();
   virtual ~OrderedTestShell() override;
 
-  virtual OrderedTestShell* addOrderedTest(OrderedTestShell* test);
-  virtual OrderedTestShell* getNextOrderedTest();
+  virtual OrderedTestShell* add_ordered_test(OrderedTestShell* test);
+  virtual OrderedTestShell* get_next_ordered_test();
 
-  bool isOrdered() const override;
+  bool is_ordered() const override;
 
-  int getLevel();
-  void setLevel(int level);
+  int get_level();
+  void set_level(int level);
 
-  static void addOrderedTestToHead(OrderedTestShell* test);
-  static OrderedTestShell* getOrderedTestHead();
-  static bool firstOrderedTest();
+  static void add_ordered_test_to_head(OrderedTestShell* test);
+  static OrderedTestShell* get_ordered_test_head();
+  static bool first_ordered_test();
 
-  static void setOrderedTestHead(OrderedTestShell* test);
+  static void set_ordered_test_head(OrderedTestShell* test);
 
 private:
-  static OrderedTestShell* _orderedTestsHead;
-  OrderedTestShell* _nextOrderedTest;
+  static OrderedTestShell* ordered_tests_head_;
+  OrderedTestShell* next_ordered_test_;
 
-  int _level;
+  int level_;
 };
 
 class OrderedTestInstaller
 {
 public:
   explicit OrderedTestInstaller(OrderedTestShell& test,
-      const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber,
+      const char* group_name,
+      const char* test_name,
+      const char* file_name,
+      size_t line_number,
       int level);
   virtual ~OrderedTestInstaller();
 
 private:
-  void addOrderedTestInOrder(OrderedTestShell* test);
-  void addOrderedTestInOrderNotAtHeadPosition(OrderedTestShell* test);
+  void add_ordered_test_in_order(OrderedTestShell* test);
+  void add_ordered_test_in_order_not_at_head_position(OrderedTestShell* test);
 };
 
 } // namespace extensions
@@ -65,12 +65,12 @@ private:
       : TEST_GROUP_##CppUTestGroup##testGroup()                                \
     {                                                                          \
     }                                                                          \
-    void testBody() override;                                                  \
+    void test_body() override;                                                 \
   };                                                                           \
   class TEST_##testGroup##_##testName##_TestShell                              \
     : public cpputest::extensions::OrderedTestShell                            \
   {                                                                            \
-    virtual cpputest::Test* createTest() override                              \
+    virtual cpputest::Test* create_test() override                             \
     {                                                                          \
       return new TEST_##testGroup##_##testName##_Test;                         \
     }                                                                          \
@@ -85,7 +85,7 @@ private:
           __LINE__,                                                            \
           testLevel);                                                          \
   } /* namespace */                                                            \
-  void TEST_##testGroup##_##testName##_Test::testBody()
+  void TEST_##testGroup##_##testName##_Test::test_body()
 
 #define TEST_ORDERED_C_WRAPPER(group_name, test_name, testLevel)               \
   extern "C" void test_##group_name##_##test_name##_wrapper_c(void);           \

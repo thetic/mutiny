@@ -3,182 +3,182 @@
 namespace cpputest {
 
 CompositeTestOutput::CompositeTestOutput()
-  : outputOne_(nullptr)
-  , outputTwo_(nullptr)
+  : output_one_(nullptr)
+  , output_two_(nullptr)
 {
 }
 
 CompositeTestOutput::~CompositeTestOutput()
 {
-  delete outputOne_;
-  delete outputTwo_;
+  delete output_one_;
+  delete output_two_;
 }
 
 void
-CompositeTestOutput::setOutputOne(TestOutput* output)
+CompositeTestOutput::set_output_one(TestOutput* output)
 {
-  delete outputOne_;
-  outputOne_ = output;
+  delete output_one_;
+  output_one_ = output;
 }
 
 void
-CompositeTestOutput::setOutputTwo(TestOutput* output)
+CompositeTestOutput::set_output_two(TestOutput* output)
 {
-  delete outputTwo_;
-  outputTwo_ = output;
+  delete output_two_;
+  output_two_ = output;
 }
 
 void
-CompositeTestOutput::printTestsStarted()
+CompositeTestOutput::print_tests_started()
 {
-  if (outputOne_)
-    outputOne_->printTestsStarted();
-  if (outputTwo_)
-    outputTwo_->printTestsStarted();
+  if (output_one_)
+    output_one_->print_tests_started();
+  if (output_two_)
+    output_two_->print_tests_started();
 }
 
 void
-CompositeTestOutput::printTestsEnded(const TestResult& result)
+CompositeTestOutput::print_tests_ended(const TestResult& result)
 {
-  if (outputOne_)
-    outputOne_->printTestsEnded(result);
-  if (outputTwo_)
-    outputTwo_->printTestsEnded(result);
+  if (output_one_)
+    output_one_->print_tests_ended(result);
+  if (output_two_)
+    output_two_->print_tests_ended(result);
 }
 
 void
-CompositeTestOutput::printCurrentTestStarted(const TestShell& test)
+CompositeTestOutput::print_current_test_started(const TestShell& test)
 {
-  if (outputOne_)
-    outputOne_->printCurrentTestStarted(test);
-  if (outputTwo_)
-    outputTwo_->printCurrentTestStarted(test);
+  if (output_one_)
+    output_one_->print_current_test_started(test);
+  if (output_two_)
+    output_two_->print_current_test_started(test);
 }
 
 void
-CompositeTestOutput::printCurrentTestEnded(const TestResult& res)
+CompositeTestOutput::print_current_test_ended(const TestResult& res)
 {
-  if (outputOne_)
-    outputOne_->printCurrentTestEnded(res);
-  if (outputTwo_)
-    outputTwo_->printCurrentTestEnded(res);
+  if (output_one_)
+    output_one_->print_current_test_ended(res);
+  if (output_two_)
+    output_two_->print_current_test_ended(res);
 }
 
 void
-CompositeTestOutput::printCurrentGroupStarted(const TestShell& test)
+CompositeTestOutput::print_current_group_started(const TestShell& test)
 {
-  if (outputOne_)
-    outputOne_->printCurrentGroupStarted(test);
-  if (outputTwo_)
-    outputTwo_->printCurrentGroupStarted(test);
+  if (output_one_)
+    output_one_->print_current_group_started(test);
+  if (output_two_)
+    output_two_->print_current_group_started(test);
 }
 
 void
-CompositeTestOutput::printCurrentGroupEnded(const TestResult& res)
+CompositeTestOutput::print_current_group_ended(const TestResult& res)
 {
-  if (outputOne_)
-    outputOne_->printCurrentGroupEnded(res);
-  if (outputTwo_)
-    outputTwo_->printCurrentGroupEnded(res);
+  if (output_one_)
+    output_one_->print_current_group_ended(res);
+  if (output_two_)
+    output_two_->print_current_group_ended(res);
 }
 
 void
 CompositeTestOutput::verbose(VerbosityLevel level)
 {
-  if (outputOne_)
-    outputOne_->verbose(level);
-  if (outputTwo_)
-    outputTwo_->verbose(level);
+  if (output_one_)
+    output_one_->verbose(level);
+  if (output_two_)
+    output_two_->verbose(level);
 }
 
 void
 CompositeTestOutput::color()
 {
-  if (outputOne_)
-    outputOne_->color();
-  if (outputTwo_)
-    outputTwo_->color();
+  if (output_one_)
+    output_one_->color();
+  if (output_two_)
+    output_two_->color();
 }
 
 void
-CompositeTestOutput::printBuffer(const char* buffer)
+CompositeTestOutput::print_buffer(const char* buffer)
 {
-  if (outputOne_)
-    outputOne_->printBuffer(buffer);
-  if (outputTwo_)
-    outputTwo_->printBuffer(buffer);
+  if (output_one_)
+    output_one_->print_buffer(buffer);
+  if (output_two_)
+    output_two_->print_buffer(buffer);
 }
 
 void
 CompositeTestOutput::print(const char* buffer)
 {
-  if (outputOne_)
-    outputOne_->print(buffer);
-  if (outputTwo_)
-    outputTwo_->print(buffer);
+  if (output_one_)
+    output_one_->print(buffer);
+  if (output_two_)
+    output_two_->print(buffer);
 }
 
 void
 CompositeTestOutput::print(long number)
 {
-  if (outputOne_)
-    outputOne_->print(number);
-  if (outputTwo_)
-    outputTwo_->print(number);
+  if (output_one_)
+    output_one_->print(number);
+  if (output_two_)
+    output_two_->print(number);
 }
 
 void
 CompositeTestOutput::print(size_t number)
 {
-  if (outputOne_)
-    outputOne_->print(number);
-  if (outputTwo_)
-    outputTwo_->print(number);
+  if (output_one_)
+    output_one_->print(number);
+  if (output_two_)
+    output_two_->print(number);
 }
 
 void
-CompositeTestOutput::printDouble(double number)
+CompositeTestOutput::print_double(double number)
 {
-  if (outputOne_)
-    outputOne_->printDouble(number);
-  if (outputTwo_)
-    outputTwo_->printDouble(number);
+  if (output_one_)
+    output_one_->print_double(number);
+  if (output_two_)
+    output_two_->print_double(number);
 }
 
 void
-CompositeTestOutput::printFailure(const TestFailure& failure)
+CompositeTestOutput::print_failure(const TestFailure& failure)
 {
-  if (outputOne_)
-    outputOne_->printFailure(failure);
-  if (outputTwo_)
-    outputTwo_->printFailure(failure);
+  if (output_one_)
+    output_one_->print_failure(failure);
+  if (output_two_)
+    output_two_->print_failure(failure);
 }
 
 void
-CompositeTestOutput::setProgressIndicator(const char* indicator)
+CompositeTestOutput::set_progress_indicator(const char* indicator)
 {
-  if (outputOne_)
-    outputOne_->setProgressIndicator(indicator);
-  if (outputTwo_)
-    outputTwo_->setProgressIndicator(indicator);
+  if (output_one_)
+    output_one_->set_progress_indicator(indicator);
+  if (output_two_)
+    output_two_->set_progress_indicator(indicator);
 }
 
 void
-CompositeTestOutput::printVeryVerbose(const char* str)
+CompositeTestOutput::print_very_verbose(const char* str)
 {
-  if (outputOne_)
-    outputOne_->printVeryVerbose(str);
-  if (outputTwo_)
-    outputTwo_->printVeryVerbose(str);
+  if (output_one_)
+    output_one_->print_very_verbose(str);
+  if (output_two_)
+    output_two_->print_very_verbose(str);
 }
 
 void
 CompositeTestOutput::flush()
 {
-  if (outputOne_)
-    outputOne_->flush();
-  if (outputTwo_)
-    outputTwo_->flush();
+  if (output_one_)
+    output_one_->flush();
+  if (output_two_)
+    output_two_->flush();
 }
 
 } // namespace cpputest

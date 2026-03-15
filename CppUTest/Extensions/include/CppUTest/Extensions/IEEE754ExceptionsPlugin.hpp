@@ -16,24 +16,24 @@ public:
   IEEE754ExceptionsPlugin(
       const cpputest::String& name = "IEEE754ExceptionsPlugin");
 
-  virtual void preTestAction(cpputest::TestShell& test,
+  virtual void pre_test_action(cpputest::TestShell& test,
       cpputest::TestResult& result) override;
-  virtual void postTestAction(cpputest::TestShell& test,
+  virtual void post_test_action(cpputest::TestShell& test,
       cpputest::TestResult& result) override;
 
-  static void disableInexact(void);
-  static void enableInexact(void);
-  static bool checkIeee754OverflowExceptionFlag();
-  static bool checkIeee754UnderflowExceptionFlag();
-  static bool checkIeee754InexactExceptionFlag();
-  static bool checkIeee754DivByZeroExceptionFlag();
+  static void disable_inexact(void);
+  static void enable_inexact(void);
+  static bool check_ieee754_overflow_exception_flag();
+  static bool check_ieee754_underflow_exception_flag();
+  static bool check_ieee754_inexact_exception_flag();
+  static bool check_ieee754_div_by_zero_exception_flag();
 
 private:
-  void ieee754Check(cpputest::TestShell& test,
+  void ieee754_check(cpputest::TestShell& test,
       cpputest::TestResult& result,
       int flag,
       const char* text);
-  static bool inexactDisabled_;
+  static bool inexact_disabled_;
 };
 
 } // namespace extensions

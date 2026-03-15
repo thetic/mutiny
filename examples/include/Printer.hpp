@@ -1,5 +1,5 @@
-#ifndef D_Printer_H
-#define D_Printer_H
+#ifndef INCLUDED_PRINTER_HPP
+#define INCLUDED_PRINTER_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -13,8 +13,8 @@ public:
   explicit Printer();
   virtual ~Printer();
 
-  virtual void Print(const char*);
-  virtual void Print(long int);
+  virtual void print(const char*);
+  virtual void print(long int);
 
 private:
   Printer(const Printer&);
@@ -26,4 +26,4 @@ operator<<(Printer&, const char*);
 Printer&
 operator<<(Printer&, long int);
 
-#endif // D_Printer_H
+#endif // INCLUDED_PRINTER_HPP

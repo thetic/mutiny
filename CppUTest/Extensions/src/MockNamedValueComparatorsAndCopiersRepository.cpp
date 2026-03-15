@@ -8,35 +8,35 @@ struct MockNamedValueComparatorsAndCopiersRepositoryNode
   MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
       MockNamedValueComparator* comparator,
       MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name_(name)
-    , comparator_(comparator)
-    , copier_(nullptr)
-    , next_(next)
+    : name(name)
+    , comparator(comparator)
+    , copier(nullptr)
+    , next(next)
   {
   }
   MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
       MockNamedValueCopier* copier,
       MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name_(name)
-    , comparator_(nullptr)
-    , copier_(copier)
-    , next_(next)
+    : name(name)
+    , comparator(nullptr)
+    , copier(copier)
+    , next(next)
   {
   }
   MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
       MockNamedValueComparator* comparator,
       MockNamedValueCopier* copier,
       MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name_(name)
-    , comparator_(comparator)
-    , copier_(copier)
-    , next_(next)
+    : name(name)
+    , comparator(comparator)
+    , copier(copier)
+    , next(next)
   {
   }
-  String name_;
-  MockNamedValueComparator* comparator_;
-  MockNamedValueCopier* copier_;
-  MockNamedValueComparatorsAndCopiersRepositoryNode* next_;
+  String name;
+  MockNamedValueComparator* comparator;
+  MockNamedValueCopier* copier;
+  MockNamedValueComparatorsAndCopiersRepositoryNode* next;
 };
 
 MockNamedValueComparatorsAndCopiersRepository::
@@ -55,14 +55,14 @@ void
 MockNamedValueComparatorsAndCopiersRepository::clear()
 {
   while (head_) {
-    MockNamedValueComparatorsAndCopiersRepositoryNode* next = head_->next_;
+    MockNamedValueComparatorsAndCopiersRepositoryNode* next = head_->next;
     delete head_;
     head_ = next;
   }
 }
 
 void
-MockNamedValueComparatorsAndCopiersRepository::installComparator(
+MockNamedValueComparatorsAndCopiersRepository::install_comparator(
     const String& name,
     MockNamedValueComparator& comparator)
 {
@@ -71,7 +71,8 @@ MockNamedValueComparatorsAndCopiersRepository::installComparator(
 }
 
 void
-MockNamedValueComparatorsAndCopiersRepository::installCopier(const String& name,
+MockNamedValueComparatorsAndCopiersRepository::install_copier(
+    const String& name,
     MockNamedValueCopier& copier)
 {
   head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(
@@ -79,36 +80,36 @@ MockNamedValueComparatorsAndCopiersRepository::installCopier(const String& name,
 }
 
 MockNamedValueComparator*
-MockNamedValueComparatorsAndCopiersRepository::getComparatorForType(
+MockNamedValueComparatorsAndCopiersRepository::get_comparator_for_type(
     const String& name)
 {
   for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
-      p = p->next_)
-    if (p->name_ == name && p->comparator_)
-      return p->comparator_;
+      p = p->next)
+    if (p->name == name && p->comparator)
+      return p->comparator;
   return nullptr;
 }
 
 MockNamedValueCopier*
-MockNamedValueComparatorsAndCopiersRepository::getCopierForType(
+MockNamedValueComparatorsAndCopiersRepository::get_copier_for_type(
     const String& name)
 {
   for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
-      p = p->next_)
-    if (p->name_ == name && p->copier_)
-      return p->copier_;
+      p = p->next)
+    if (p->name == name && p->copier)
+      return p->copier;
   return nullptr;
 }
 
 void
-MockNamedValueComparatorsAndCopiersRepository::installComparatorsAndCopiers(
+MockNamedValueComparatorsAndCopiersRepository::install_comparators_and_copiers(
     const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
   for (MockNamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_;
       p;
-      p = p->next_)
+      p = p->next)
     head_ = new MockNamedValueComparatorsAndCopiersRepositoryNode(
-        p->name_, p->comparator_, p->copier_, head_);
+        p->name, p->comparator, p->copier, head_);
 }
 
 } // namespace extensions

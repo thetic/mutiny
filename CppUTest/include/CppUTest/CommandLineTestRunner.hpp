@@ -13,22 +13,22 @@ class TestRegistry;
 class CommandLineTestRunner
 {
 public:
-  static int RunAllTests(int argc, const char* const* argv);
-  static int RunAllTests(int argc, char** argv);
+  static int run_all_tests(int argc, const char* const* argv);
+  static int run_all_tests(int argc, char** argv);
 
   CommandLineTestRunner(int argc,
       const char* const* argv,
       TestRegistry* registry);
   virtual ~CommandLineTestRunner();
 
-  int runAllTestsMain();
+  int run_all_tests_main();
 
 protected:
-  virtual TestOutput* createTeamCityOutput();
-  virtual TestOutput* createJUnitOutput(const String& packageName);
-  virtual TestOutput* createConsoleOutput();
-  virtual TestOutput* createCompositeOutput(TestOutput* outputOne,
-      TestOutput* outputTwo);
+  virtual TestOutput* create_team_city_output();
+  virtual TestOutput* create_j_unit_output(const String& package_name);
+  virtual TestOutput* create_console_output();
+  virtual TestOutput* create_composite_output(TestOutput* output_one,
+      TestOutput* output_two);
 
   TestOutput* output_;
 
@@ -36,9 +36,9 @@ private:
   CommandLineArguments* arguments_;
   TestRegistry* registry_;
 
-  bool parseArguments(TestPlugin*);
-  int runAllTests();
-  void initializeTestRun();
+  bool parse_arguments(TestPlugin*);
+  int run_all_tests();
+  void initialize_test_run();
 };
 
 } // namespace cpputest

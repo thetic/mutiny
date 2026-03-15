@@ -12,369 +12,371 @@ MockActualCallTrace::MockActualCallTrace() {}
 MockActualCallTrace::~MockActualCallTrace() {}
 
 MockActualCall&
-MockActualCallTrace::withName(const String& name)
+MockActualCallTrace::with_name(const String& name)
 {
-  traceBuffer_ += "\nFunction name:";
-  traceBuffer_ += name;
+  trace_buffer_ += "\nFunction name:";
+  trace_buffer_ += name;
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withCallOrder(unsigned int callOrder)
+MockActualCallTrace::with_call_order(unsigned int call_order)
 {
-  traceBuffer_ += " withCallOrder:";
-  traceBuffer_ += cpputest::StringFrom(callOrder);
+  trace_buffer_ += " withCallOrder:";
+  trace_buffer_ += cpputest::string_from(call_order);
   return *this;
 }
 
 void
-MockActualCallTrace::addParameterName(const String& name)
+MockActualCallTrace::add_parameter_name(const String& name)
 {
-  traceBuffer_ += " ";
-  traceBuffer_ += name;
-  traceBuffer_ += ":";
+  trace_buffer_ += " ";
+  trace_buffer_ += name;
+  trace_buffer_ += ":";
 }
 
 MockActualCall&
-MockActualCallTrace::withBoolParameter(const String& name, bool value)
+MockActualCallTrace::with_bool_parameter(const String& name, bool value)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withUnsignedIntParameter(const String& name,
+MockActualCallTrace::with_unsigned_int_parameter(const String& name,
     unsigned int value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withIntParameter(const String& name, int value)
+MockActualCallTrace::with_int_parameter(const String& name, int value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withUnsignedLongIntParameter(const String& name,
+MockActualCallTrace::with_unsigned_long_int_parameter(const String& name,
     unsigned long int value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withLongIntParameter(const String& name, long int value)
+MockActualCallTrace::with_long_int_parameter(const String& name, long int value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withUnsignedLongLongIntParameter(const String& name,
+MockActualCallTrace::with_unsigned_long_long_int_parameter(const String& name,
     unsigned long long value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withLongLongIntParameter(const String& name,
+MockActualCallTrace::with_long_long_int_parameter(const String& name,
     long long value)
 {
-  addParameterName(name);
-  traceBuffer_ +=
-      cpputest::StringFrom(value) + " " + BracketsFormattedHexStringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value) + " " +
+                   brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withDoubleParameter(const String& name, double value)
+MockActualCallTrace::with_double_parameter(const String& name, double value)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withStringParameter(const String& name, const char* value)
+MockActualCallTrace::with_string_parameter(const String& name,
+    const char* value)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withPointerParameter(const String& name, void* value)
+MockActualCallTrace::with_pointer_parameter(const String& name, void* value)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withConstPointerParameter(const String& name,
+MockActualCallTrace::with_const_pointer_parameter(const String& name,
     const void* value)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withFunctionPointerParameter(const String& name,
+MockActualCallTrace::with_function_pointer_parameter(const String& name,
     void (*value)())
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withMemoryBufferParameter(const String& name,
+MockActualCallTrace::with_memory_buffer_parameter(const String& name,
     const unsigned char* value,
     size_t size)
 {
-  addParameterName(name);
-  traceBuffer_ += StringFromBinaryWithSizeOrNull(value, size);
+  add_parameter_name(name);
+  trace_buffer_ += string_from_binary_with_size_or_null(value, size);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withParameterOfType(const String& typeName,
+MockActualCallTrace::with_parameter_of_type(const String& type_name,
     const String& name,
     const void* value)
 {
-  traceBuffer_ += " ";
-  traceBuffer_ += typeName;
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(value);
+  trace_buffer_ += " ";
+  trace_buffer_ += type_name;
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(value);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withMemoryBufferParameter(const char* name,
+MockActualCallTrace::with_memory_buffer_parameter(const char* name,
     const unsigned char* value,
     size_t size)
 {
-  return withMemoryBufferParameter(String(name), value, size);
+  return with_memory_buffer_parameter(String(name), value, size);
 }
 
 MockActualCall&
-MockActualCallTrace::withParameterOfType(const char* typeName,
+MockActualCallTrace::with_parameter_of_type(const char* type_name,
     const char* name,
     const void* value)
 {
-  return withParameterOfType(String(typeName), String(name), value);
+  return with_parameter_of_type(String(type_name), String(name), value);
 }
 
 MockActualCall&
-MockActualCallTrace::withOutputParameter(const String& name, void* output)
+MockActualCallTrace::with_output_parameter(const String& name, void* output)
 {
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(output);
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(output);
   return *this;
 }
 
 MockActualCall&
-MockActualCallTrace::withOutputParameterOfType(const String& typeName,
+MockActualCallTrace::with_output_parameter_of_type(const String& type_name,
     const String& name,
     void* output)
 {
-  traceBuffer_ += " ";
-  traceBuffer_ += typeName;
-  addParameterName(name);
-  traceBuffer_ += cpputest::StringFrom(output);
+  trace_buffer_ += " ";
+  trace_buffer_ += type_name;
+  add_parameter_name(name);
+  trace_buffer_ += cpputest::string_from(output);
   return *this;
 }
 
 bool
-MockActualCallTrace::hasReturnValue()
+MockActualCallTrace::has_return_value()
 {
   return false;
 }
 
 MockNamedValue
-MockActualCallTrace::returnValue()
+MockActualCallTrace::return_value()
 {
   return MockNamedValue("");
 }
 
 long int
-MockActualCallTrace::returnLongIntValue()
+MockActualCallTrace::return_long_int_value()
 {
   return 0;
 }
 
 unsigned long int
-MockActualCallTrace::returnUnsignedLongIntValue()
+MockActualCallTrace::return_unsigned_long_int_value()
 {
   return 0;
 }
 
 unsigned long int
-MockActualCallTrace::returnUnsignedLongIntValueOrDefault(unsigned long)
+MockActualCallTrace::return_unsigned_long_int_value_or_default(unsigned long)
 {
   return 0;
 }
 
 long int
-MockActualCallTrace::returnLongIntValueOrDefault(long int)
+MockActualCallTrace::return_long_int_value_or_default(long int)
 {
   return 0;
 }
 
 long long
-MockActualCallTrace::returnLongLongIntValue()
+MockActualCallTrace::return_long_long_int_value()
 {
   return 0;
 }
 
 unsigned long long
-MockActualCallTrace::returnUnsignedLongLongIntValue()
+MockActualCallTrace::return_unsigned_long_long_int_value()
 {
   return 0;
 }
 
 unsigned long long
-MockActualCallTrace::returnUnsignedLongLongIntValueOrDefault(unsigned long long)
+MockActualCallTrace::return_unsigned_long_long_int_value_or_default(
+    unsigned long long)
 {
   return 0;
 }
 
 long long
-MockActualCallTrace::returnLongLongIntValueOrDefault(long long)
+MockActualCallTrace::return_long_long_int_value_or_default(long long)
 {
   return 0;
 }
 
 bool
-MockActualCallTrace::returnBoolValue()
+MockActualCallTrace::return_bool_value()
 {
   return false;
 }
 
 bool
-MockActualCallTrace::returnBoolValueOrDefault(bool)
+MockActualCallTrace::return_bool_value_or_default(bool)
 {
   return false;
 }
 
 int
-MockActualCallTrace::returnIntValue()
+MockActualCallTrace::return_int_value()
 {
   return 0;
 }
 
 double
-MockActualCallTrace::returnDoubleValue()
+MockActualCallTrace::return_double_value()
 {
   return 0.0;
 }
 
 double
-MockActualCallTrace::returnDoubleValueOrDefault(double)
+MockActualCallTrace::return_double_value_or_default(double)
 {
-  return returnDoubleValue();
+  return return_double_value();
 }
 
 unsigned int
-MockActualCallTrace::returnUnsignedIntValue()
+MockActualCallTrace::return_unsigned_int_value()
 {
   return 0;
 }
 
 void*
-MockActualCallTrace::returnPointerValue()
+MockActualCallTrace::return_pointer_value()
 {
   return nullptr;
 }
 
 const void*
-MockActualCallTrace::returnConstPointerValue()
+MockActualCallTrace::return_const_pointer_value()
 {
   return nullptr;
 }
 
 MockActualCall::FunctionPointerReturnValue
-MockActualCallTrace::returnFunctionPointerValue()
+MockActualCallTrace::return_function_pointer_value()
 {
   return nullptr;
 }
 
 const void*
-MockActualCallTrace::returnConstPointerValueOrDefault(const void*)
+MockActualCallTrace::return_const_pointer_value_or_default(const void*)
 {
-  return returnConstPointerValue();
+  return return_const_pointer_value();
 }
 
 void*
-MockActualCallTrace::returnPointerValueOrDefault(void*)
+MockActualCallTrace::return_pointer_value_or_default(void*)
 {
-  return returnPointerValue();
+  return return_pointer_value();
 }
 
 MockActualCall::FunctionPointerReturnValue
-MockActualCallTrace::returnFunctionPointerValueOrDefault(void (*)())
+MockActualCallTrace::return_function_pointer_value_or_default(void (*)())
 {
-  return returnFunctionPointerValue();
+  return return_function_pointer_value();
 }
 
 const char*
-MockActualCallTrace::returnStringValue()
+MockActualCallTrace::return_string_value()
 {
   return "";
 }
 
 const char*
-MockActualCallTrace::returnStringValueOrDefault(const char*)
+MockActualCallTrace::return_string_value_or_default(const char*)
 {
-  return returnStringValue();
+  return return_string_value();
 }
 
 int
-MockActualCallTrace::returnIntValueOrDefault(int)
+MockActualCallTrace::return_int_value_or_default(int)
 {
   return 0;
 }
 
 unsigned int
-MockActualCallTrace::returnUnsignedIntValueOrDefault(unsigned int)
+MockActualCallTrace::return_unsigned_int_value_or_default(unsigned int)
 {
-  return returnUnsignedIntValue();
+  return return_unsigned_int_value();
 }
 
 MockActualCall&
-MockActualCallTrace::onObject(const void* objectPtr)
+MockActualCallTrace::on_object(const void* object_ptr)
 {
-  traceBuffer_ += " onObject:";
-  traceBuffer_ += cpputest::StringFrom(objectPtr);
+  trace_buffer_ += " onObject:";
+  trace_buffer_ += cpputest::string_from(object_ptr);
   return *this;
 }
 
 void
 MockActualCallTrace::clear()
 {
-  traceBuffer_ = "";
+  trace_buffer_ = "";
 }
 
 const char*
-MockActualCallTrace::getTraceOutput()
+MockActualCallTrace::get_trace_output()
 {
-  return traceBuffer_.c_str();
+  return trace_buffer_.c_str();
 }
 
 MockActualCallTrace&
@@ -386,7 +388,7 @@ MockActualCallTrace::instance()
 }
 
 void
-MockActualCallTrace::clearInstance()
+MockActualCallTrace::clear_instance()
 {
   delete instance_;
   instance_ = nullptr;

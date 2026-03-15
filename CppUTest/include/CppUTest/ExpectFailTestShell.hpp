@@ -9,15 +9,15 @@ class ExpectFailTestShell : public TestShell
 {
 public:
   ExpectFailTestShell();
-  explicit ExpectFailTestShell(const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber);
+  explicit ExpectFailTestShell(const char* group_name,
+      const char* test_name,
+      const char* file_name,
+      size_t line_number);
   virtual ~ExpectFailTestShell() override;
 
 protected:
-  virtual String getMacroName() const override;
-  virtual void runOneTest(TestPlugin* plugin, TestResult& result) override;
+  virtual String get_macro_name() const override;
+  virtual void run_one_test(TestPlugin* plugin, TestResult& result) override;
 
 private:
   ExpectFailTestShell(const ExpectFailTestShell&);

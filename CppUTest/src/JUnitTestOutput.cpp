@@ -11,54 +11,54 @@ namespace cpputest {
 struct JUnitTestCaseResultNode
 {
   JUnitTestCaseResultNode()
-    : execTime_(0)
-    , failure_(nullptr)
-    , ignored_(false)
-    , lineNumber_(0)
-    , checkCount_(0)
-    , next_(nullptr)
+    : exec_time(0)
+    , failure(nullptr)
+    , ignored(false)
+    , line_number(0)
+    , check_count(0)
+    , next(nullptr)
   {
   }
 
-  String name_;
-  size_t execTime_;
-  TestFailure* failure_;
-  bool ignored_;
-  String file_;
-  size_t lineNumber_;
-  size_t checkCount_;
-  JUnitTestCaseResultNode* next_;
+  String name;
+  size_t exec_time;
+  TestFailure* failure;
+  bool ignored;
+  String file;
+  size_t line_number;
+  size_t check_count;
+  JUnitTestCaseResultNode* next;
 };
 
 struct JUnitTestGroupResult
 {
   JUnitTestGroupResult()
-    : testCount_(0)
-    , failureCount_(0)
-    , totalCheckCount_(0)
-    , startTime_(0)
-    , groupExecTime_(0)
-    , head_(nullptr)
-    , tail_(nullptr)
+    : test_count(0)
+    , failure_count(0)
+    , total_check_count(0)
+    , start_time(0)
+    , group_exec_time(0)
+    , head(nullptr)
+    , tail(nullptr)
   {
   }
 
-  size_t testCount_;
-  size_t failureCount_;
-  size_t totalCheckCount_;
-  size_t startTime_;
-  size_t groupExecTime_;
-  String group_;
-  JUnitTestCaseResultNode* head_;
-  JUnitTestCaseResultNode* tail_;
+  size_t test_count;
+  size_t failure_count;
+  size_t total_check_count;
+  size_t start_time;
+  size_t group_exec_time;
+  String group;
+  JUnitTestCaseResultNode* head;
+  JUnitTestCaseResultNode* tail;
 };
 
 struct JUnitTestOutputImpl
 {
-  JUnitTestGroupResult results_;
-  cpputest::File file_;
-  String package_;
-  String stdOutput_;
+  JUnitTestGroupResult results;
+  cpputest::File file;
+  String package;
+  String std_output;
 };
 
 JUnitTestOutput::JUnitTestOutput()
@@ -68,141 +68,144 @@ JUnitTestOutput::JUnitTestOutput()
 
 JUnitTestOutput::~JUnitTestOutput()
 {
-  resetTestGroupResult();
+  reset_test_group_result();
   delete impl_;
 }
 
 void
-JUnitTestOutput::resetTestGroupResult()
+JUnitTestOutput::reset_test_group_result()
 {
-  impl_->results_.testCount_ = 0;
-  impl_->results_.failureCount_ = 0;
-  impl_->results_.group_ = "";
-  JUnitTestCaseResultNode* cur = impl_->results_.head_;
+  impl_->results.test_count = 0;
+  impl_->results.failure_count = 0;
+  impl_->results.group = "";
+  JUnitTestCaseResultNode* cur = impl_->results.head;
   while (cur) {
-    JUnitTestCaseResultNode* tmp = cur->next_;
-    delete cur->failure_;
+    JUnitTestCaseResultNode* tmp = cur->next;
+    delete cur->failure;
     delete cur;
     cur = tmp;
   }
-  impl_->results_.head_ = nullptr;
-  impl_->results_.tail_ = nullptr;
+  impl_->results.head = nullptr;
+  impl_->results.tail = nullptr;
 }
 
 void
-JUnitTestOutput::printTestsStarted()
+JUnitTestOutput::print_tests_started()
 {
 }
 
 void
-JUnitTestOutput::printCurrentGroupStarted(const TestShell& /*test*/)
+JUnitTestOutput::print_current_group_started(const TestShell& /*test*/)
 {
 }
 
 void
-JUnitTestOutput::printCurrentTestEnded(const TestResult& result)
+JUnitTestOutput::print_current_test_ended(const TestResult& result)
 {
-  impl_->results_.tail_->execTime_ = result.getCurrentTestTotalExecutionTime();
-  impl_->results_.tail_->checkCount_ = result.getCheckCount();
+  impl_->results.tail->exec_time =
+      result.get_current_test_total_execution_time();
+  impl_->results.tail->check_count = result.get_check_count();
 }
 
 void
-JUnitTestOutput::printTestsEnded(const TestResult& /*result*/)
+JUnitTestOutput::print_tests_ended(const TestResult& /*result*/)
 {
 }
 
 void
-JUnitTestOutput::printCurrentGroupEnded(const TestResult& result)
+JUnitTestOutput::print_current_group_ended(const TestResult& result)
 {
-  impl_->results_.groupExecTime_ = result.getCurrentGroupTotalExecutionTime();
-  writeTestGroupToFile();
-  resetTestGroupResult();
+  impl_->results.group_exec_time =
+      result.get_current_group_total_execution_time();
+  write_test_group_to_file();
+  reset_test_group_result();
 }
 
 void
-JUnitTestOutput::printCurrentTestStarted(const TestShell& test)
+JUnitTestOutput::print_current_test_started(const TestShell& test)
 {
-  impl_->results_.testCount_++;
-  impl_->results_.group_ = test.getGroup();
-  impl_->results_.startTime_ = static_cast<size_t>(cpputest::GetTimeInMillis());
+  impl_->results.test_count++;
+  impl_->results.group = test.get_group();
+  impl_->results.start_time =
+      static_cast<size_t>(cpputest::get_time_in_millis());
 
-  if (impl_->results_.tail_ == nullptr) {
-    impl_->results_.head_ = impl_->results_.tail_ = new JUnitTestCaseResultNode;
+  if (impl_->results.tail == nullptr) {
+    impl_->results.head = impl_->results.tail = new JUnitTestCaseResultNode;
   } else {
-    impl_->results_.tail_->next_ = new JUnitTestCaseResultNode;
-    impl_->results_.tail_ = impl_->results_.tail_->next_;
+    impl_->results.tail->next = new JUnitTestCaseResultNode;
+    impl_->results.tail = impl_->results.tail->next;
   }
-  impl_->results_.tail_->name_ = test.getName();
-  impl_->results_.tail_->file_ = test.getFile();
-  impl_->results_.tail_->lineNumber_ = test.getLineNumber();
-  if (!test.willRun()) {
-    impl_->results_.tail_->ignored_ = true;
+  impl_->results.tail->name = test.get_name();
+  impl_->results.tail->file = test.get_file();
+  impl_->results.tail->line_number = test.get_line_number();
+  if (!test.will_run()) {
+    impl_->results.tail->ignored = true;
   }
 }
 
 String
-JUnitTestOutput::createFileName(const String& group)
+JUnitTestOutput::create_file_name(const String& group)
 {
-  String fileName = "cpputest_";
-  if (!impl_->package_.empty()) {
-    fileName += impl_->package_;
-    fileName += "_";
+  String file_name = "cpputest_";
+  if (!impl_->package.empty()) {
+    file_name += impl_->package;
+    file_name += "_";
   }
-  fileName += group;
-  return encodeFileName(fileName) + ".xml";
+  file_name += group;
+  return encode_file_name(file_name) + ".xml";
 }
 
 String
-JUnitTestOutput::encodeFileName(const String& fileName)
+JUnitTestOutput::encode_file_name(const String& file_name)
 {
   // special character list based on: https://en.wikipedia.org/wiki/Filename
-  static const char* const forbiddenCharacters = "/\\?%*:|\"<>";
+  static const char* const forbidden_characters = "/\\?%*:|\"<>";
 
-  String result = fileName;
-  for (const char* sym = forbiddenCharacters; *sym; ++sym) {
+  String result = file_name;
+  for (const char* sym = forbidden_characters; *sym; ++sym) {
     result.replace(*sym, '_');
   }
   return result;
 }
 
 void
-JUnitTestOutput::setPackageName(const String& package)
+JUnitTestOutput::set_package_name(const String& package)
 {
   if (impl_ != nullptr) {
-    impl_->package_ = package;
+    impl_->package = package;
   }
 }
 
 void
-JUnitTestOutput::writeXmlHeader()
+JUnitTestOutput::write_xml_header()
 {
-  writeToFile("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
+  write_to_file("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
 }
 
 void
-JUnitTestOutput::writeTestSuiteSummary()
+JUnitTestOutput::write_test_suite_summary()
 {
-  String buf = StringFromFormat(
+  String buf = string_from_format(
       "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
       "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
-      static_cast<int>(impl_->results_.failureCount_),
-      impl_->results_.group_.c_str(),
-      static_cast<int>(impl_->results_.testCount_),
-      static_cast<int>(impl_->results_.groupExecTime_ / 1000),
-      static_cast<int>(impl_->results_.groupExecTime_ % 1000),
-      cpputest::GetTimeString());
-  writeToFile(buf.c_str());
+      static_cast<int>(impl_->results.failure_count),
+      impl_->results.group.c_str(),
+      static_cast<int>(impl_->results.test_count),
+      static_cast<int>(impl_->results.group_exec_time / 1000),
+      static_cast<int>(impl_->results.group_exec_time % 1000),
+      cpputest::get_time_string());
+  write_to_file(buf.c_str());
 }
 
 void
-JUnitTestOutput::writeProperties()
+JUnitTestOutput::write_properties()
 {
-  writeToFile("<properties>\n");
-  writeToFile("</properties>\n");
+  write_to_file("<properties>\n");
+  write_to_file("</properties>\n");
 }
 
 String
-JUnitTestOutput::encodeXmlText(const String& textbody)
+JUnitTestOutput::encode_xml_text(const String& textbody)
 {
   String buf = textbody.c_str();
   buf.replace("&", "&amp;");
@@ -215,80 +218,80 @@ JUnitTestOutput::encodeXmlText(const String& textbody)
 }
 
 void
-JUnitTestOutput::writeTestCases()
+JUnitTestOutput::write_test_cases()
 {
-  JUnitTestCaseResultNode* cur = impl_->results_.head_;
+  JUnitTestCaseResultNode* cur = impl_->results.head;
 
   while (cur) {
-    String buf = StringFromFormat(
+    String buf = string_from_format(
         "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
         "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
-        impl_->package_.c_str(),
-        impl_->package_.empty() ? "" : ".",
-        impl_->results_.group_.c_str(),
-        cur->name_.c_str(),
-        static_cast<int>(cur->checkCount_ - impl_->results_.totalCheckCount_),
-        static_cast<int>(cur->execTime_ / 1000),
-        static_cast<int>(cur->execTime_ % 1000),
-        cur->file_.c_str(),
-        static_cast<int>(cur->lineNumber_));
-    writeToFile(buf.c_str());
+        impl_->package.c_str(),
+        impl_->package.empty() ? "" : ".",
+        impl_->results.group.c_str(),
+        cur->name.c_str(),
+        static_cast<int>(cur->check_count - impl_->results.total_check_count),
+        static_cast<int>(cur->exec_time / 1000),
+        static_cast<int>(cur->exec_time % 1000),
+        cur->file.c_str(),
+        static_cast<int>(cur->line_number));
+    write_to_file(buf.c_str());
 
-    impl_->results_.totalCheckCount_ = cur->checkCount_;
+    impl_->results.total_check_count = cur->check_count;
 
-    if (cur->failure_) {
-      writeFailure(cur);
-    } else if (cur->ignored_) {
-      writeToFile("<skipped />\n");
+    if (cur->failure) {
+      write_failure(cur);
+    } else if (cur->ignored) {
+      write_to_file("<skipped />\n");
     }
-    writeToFile("</testcase>\n");
-    cur = cur->next_;
+    write_to_file("</testcase>\n");
+    cur = cur->next;
   }
 }
 
 void
-JUnitTestOutput::writeFailure(JUnitTestCaseResultNode* node)
+JUnitTestOutput::write_failure(JUnitTestCaseResultNode* node)
 {
-  String buf = StringFromFormat(
+  String buf = string_from_format(
       "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
-      node->failure_->getFileName().c_str(),
-      static_cast<int>(node->failure_->getFailureLineNumber()),
-      encodeXmlText(node->failure_->getMessage()).c_str());
-  writeToFile(buf.c_str());
-  writeToFile("</failure>\n");
+      node->failure->get_file_name().c_str(),
+      static_cast<int>(node->failure->get_failure_line_number()),
+      encode_xml_text(node->failure->get_message()).c_str());
+  write_to_file(buf.c_str());
+  write_to_file("</failure>\n");
 }
 
 void
-JUnitTestOutput::writeFileEnding()
+JUnitTestOutput::write_file_ending()
 {
-  writeToFile("<system-out>");
-  writeToFile(encodeXmlText(impl_->stdOutput_));
-  writeToFile("</system-out>\n");
-  writeToFile("<system-err></system-err>\n");
-  writeToFile("</testsuite>\n");
+  write_to_file("<system-out>");
+  write_to_file(encode_xml_text(impl_->std_output));
+  write_to_file("</system-out>\n");
+  write_to_file("<system-err></system-err>\n");
+  write_to_file("</testsuite>\n");
 }
 
 void
-JUnitTestOutput::writeTestGroupToFile()
+JUnitTestOutput::write_test_group_to_file()
 {
-  openFileForWrite(createFileName(impl_->results_.group_));
-  writeXmlHeader();
-  writeTestSuiteSummary();
-  writeProperties();
-  writeTestCases();
-  writeFileEnding();
-  closeFile();
+  open_file_for_write(create_file_name(impl_->results.group));
+  write_xml_header();
+  write_test_suite_summary();
+  write_properties();
+  write_test_cases();
+  write_file_ending();
+  close_file();
 }
 
 void
-JUnitTestOutput::printBuffer(const char*)
+JUnitTestOutput::print_buffer(const char*)
 {
 }
 
 void
 JUnitTestOutput::print(const char* output)
 {
-  impl_->stdOutput_ += output;
+  impl_->std_output += output;
 }
 
 void
@@ -307,30 +310,30 @@ JUnitTestOutput::flush()
 }
 
 void
-JUnitTestOutput::printFailure(const TestFailure& failure)
+JUnitTestOutput::print_failure(const TestFailure& failure)
 {
-  if (impl_->results_.tail_->failure_ == nullptr) {
-    impl_->results_.failureCount_++;
-    impl_->results_.tail_->failure_ = new TestFailure(failure);
+  if (impl_->results.tail->failure == nullptr) {
+    impl_->results.failure_count++;
+    impl_->results.tail->failure = new TestFailure(failure);
   }
 }
 
 void
-JUnitTestOutput::openFileForWrite(const String& fileName)
+JUnitTestOutput::open_file_for_write(const String& file_name)
 {
-  impl_->file_ = cpputest::FOpen(fileName.c_str(), "w");
+  impl_->file = cpputest::f_open(file_name.c_str(), "w");
 }
 
 void
-JUnitTestOutput::writeToFile(const String& buffer)
+JUnitTestOutput::write_to_file(const String& buffer)
 {
-  cpputest::FPuts(buffer.c_str(), impl_->file_);
+  cpputest::f_puts(buffer.c_str(), impl_->file);
 }
 
 void
-JUnitTestOutput::closeFile()
+JUnitTestOutput::close_file()
 {
-  cpputest::FClose(impl_->file_);
+  cpputest::f_close(impl_->file);
 }
 
 } // namespace cpputest

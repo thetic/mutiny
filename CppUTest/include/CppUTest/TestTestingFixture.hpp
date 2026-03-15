@@ -15,46 +15,46 @@ class TestTestingFixture
 public:
   TestTestingFixture();
   virtual ~TestTestingFixture();
-  void flushOutputAndResetResult();
+  void flush_output_and_reset_result();
 
-  void addTest(TestShell* test);
-  void installPlugin(TestPlugin* plugin);
+  void add_test(TestShell* test);
+  void install_plugin(TestPlugin* plugin);
 
-  void setTestFunction(void (*testFunction)());
-  void setTestFunction(ExecFunction* testFunction);
-  void setSetup(void (*setupFunction)());
-  void setTeardown(void (*teardownFunction)());
+  void set_test_function(void (*test_function)());
+  void set_test_function(ExecFunction* test_function);
+  void set_setup(void (*setup_function)());
+  void set_teardown(void (*teardown_function)());
 
-  void setOutputVerbose();
+  void set_output_verbose();
 
-  void runTestWithMethod(void (*method)());
-  void runAllTests();
+  void run_test_with_method(void (*method)());
+  void run_all_tests();
 
-  size_t getFailureCount();
-  size_t getCheckCount();
-  size_t getIgnoreCount();
-  size_t getRunCount();
-  size_t getTestCount();
-  const String& getOutput();
-  TestRegistry* getRegistry();
+  size_t get_failure_count();
+  size_t get_check_count();
+  size_t get_ignore_count();
+  size_t get_run_count();
+  size_t get_test_count();
+  const String& get_output();
+  TestRegistry* get_registry();
 
-  bool hasTestFailed();
-  void assertPrintContains(const String& contains);
-  void assertPrintContainsNot(const String& contains);
-  void checkTestFailsWithProperTestLocation(const char* text,
+  bool has_test_failed();
+  void assert_print_contains(const String& contains);
+  void assert_print_contains_not(const String& contains);
+  void check_test_fails_with_proper_test_location(const char* text,
       const char* file,
       size_t line);
 
-  static void lineExecutedAfterCheck();
+  static void line_executed_after_check();
 
 private:
-  void clearExecFunction();
+  void clear_exec_function();
 
-  static bool lineOfCodeExecutedAfterCheck;
+  static bool line_of_code_executed_after_check_;
 
   TestRegistry* registry_;
-  ExecFunctionTestShell* genTest_;
-  bool ownsExecFunction_;
+  ExecFunctionTestShell* gen_test_;
+  bool owns_exec_function_;
   StringBufferTestOutput* output_;
   TestResult* result_;
 };

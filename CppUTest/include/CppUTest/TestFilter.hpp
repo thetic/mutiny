@@ -1,5 +1,5 @@
-#ifndef TESTFILTER_H_
-#define TESTFILTER_H_
+#ifndef INCLUDED_CPPUTEST_TESTFILTER_HPP
+#define INCLUDED_CPPUTEST_TESTFILTER_HPP
 
 #include "CppUTest/String.hpp"
 
@@ -13,27 +13,27 @@ public:
   TestFilter(const String& filter);
 
   TestFilter* add(TestFilter* filter);
-  TestFilter* getNext() const;
+  TestFilter* get_next() const;
 
   bool match(const String& name) const;
 
-  void strictMatching();
-  void invertMatching();
+  void strict_matching();
+  void invert_matching();
 
   bool operator==(const TestFilter& filter) const;
   bool operator!=(const TestFilter& filter) const;
 
-  String asString() const;
+  String as_string() const;
 
 private:
   String filter_;
-  bool strictMatching_;
-  bool invertMatching_;
+  bool strict_matching_;
+  bool invert_matching_;
   TestFilter* next_;
 };
 
 String
-StringFrom(const TestFilter& filter);
+string_from(const TestFilter& filter);
 
 } // namespace cpputest
 

@@ -4,90 +4,90 @@
 
 #include <stddef.h>
 
-CircularBuffer::CircularBuffer(int _capacity)
-  : index(0)
-  , outdex(0)
-  , capacity(_capacity)
-  , empty(true)
-  , full(false)
+CircularBuffer::CircularBuffer(int capacity)
+  : index_(0)
+  , outdex_(0)
+  , capacity_(capacity)
+  , empty_(true)
+  , full_(false)
 {
-  buffer = new int[static_cast<size_t>(this->capacity)];
+  buffer_ = new int[static_cast<size_t>(this->capacity_)];
 }
 
 CircularBuffer::~CircularBuffer()
 {
-  delete[] buffer;
+  delete[] buffer_;
 }
 
 bool
-CircularBuffer::IsEmpty()
+CircularBuffer::is_empty()
 {
-  return empty;
+  return empty_;
 }
 
 bool
-CircularBuffer::IsFull()
+CircularBuffer::is_full()
 {
-  return full;
+  return full_;
 }
 
 void
-CircularBuffer::Put(int i)
+CircularBuffer::put(int i)
 {
-  empty = false;
-  buffer[index] = i;
-  index = Next(index);
-  if (full)
-    outdex = Next(outdex);
-  else if (index == outdex)
-    full = true;
+  empty_ = false;
+  buffer_[index_] = i;
+  index_ = next(index_);
+  if (full_)
+    outdex_ = next(outdex_);
+  else if (index_ == outdex_)
+    full_ = true;
 }
 
 int
-CircularBuffer::Get()
+CircularBuffer::get()
 {
   int result = -1;
-  full = false;
+  full_ = false;
 
-  if (!empty) {
-    result = buffer[outdex];
-    outdex = Next(outdex);
-    if (outdex == index)
-      empty = true;
+  if (!empty_) {
+    result = buffer_[outdex_];
+    outdex_ = next(outdex_);
+    if (outdex_ == index_)
+      empty_ = true;
   }
   return result;
 }
 
 int
-CircularBuffer::Capacity()
+CircularBuffer::capacity()
 {
-  return capacity;
+  return capacity_;
 }
 
 int
-CircularBuffer::Next(int i)
+CircularBuffer::next(int i)
 {
-  if (++i >= capacity)
+  if (++i >= capacity_)
     i = 0;
   return i;
 }
 
 void
-CircularBuffer::Print(Printer* p)
+CircularBuffer::print(Printer* p)
 {
-  p->Print("Circular buffer content:\n<");
+  p->print("Circular buffer content:\n<");
 
-  int printIndex = outdex;
-  int count = index - outdex;
+  int print_index = outdex_;
+  int count = index_ - outdex_;
 
-  if (!empty && (index <= outdex))
-    count = capacity - (outdex - index);
+  if (!empty_ && (index_ <= outdex_))
+    count = capacity_ - (outdex_ - index_);
 
   for (int i = 0; i < count; i++) {
-    p->Print(buffer[printIndex]);
-    printIndex = Next(printIndex);
+    p->print(buffer_[print_index]);
+    print_index = next(print_index);
     if (i + 1 != count)
-      p->Print(", ");
+      p->print(", ");
   }
-  p->Print(">\n");
+  p->print(">\n");
 }

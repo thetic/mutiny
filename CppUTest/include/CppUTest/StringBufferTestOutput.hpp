@@ -18,14 +18,14 @@ public:
 
   virtual ~StringBufferTestOutput() override;
 
-  void printBuffer(const char* s) override { output += s; }
+  void print_buffer(const char* s) override { output_ += s; }
 
-  void flush() override { output = ""; }
+  void flush() override { output_ = ""; }
 
-  const String& getOutput() { return output; }
+  const String& get_output() { return output_; }
 
 protected:
-  String output;
+  String output_;
 
 private:
   StringBufferTestOutput(const StringBufferTestOutput&);

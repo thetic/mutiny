@@ -9,19 +9,19 @@ namespace cpputest {
 
 namespace {
 void
-helperDoTestSetup(void* data)
+helper_do_test_setup(void* data)
 {
   static_cast<Test*>(data)->setup();
 }
 
 void
-helperDoTestBody(void* data)
+helper_do_test_body(void* data)
 {
-  static_cast<Test*>(data)->testBody();
+  static_cast<Test*>(data)->test_body();
 }
 
 void
-helperDoTestTeardown(void* data)
+helper_do_test_teardown(void* data)
 {
   static_cast<Test*>(data)->teardown();
 }
@@ -36,58 +36,58 @@ Test::~Test() {}
 void
 Test::run()
 {
-  TestShell* current = TestShell::getCurrent();
-  int jumpResult = 0;
+  TestShell* current = TestShell::get_current();
+  int jump_result = 0;
   try {
-    current->printVeryVerbose("\n-------- before setup: ");
-    jumpResult = TestSetJmp(helperDoTestSetup, this);
-    current->printVeryVerbose("\n-------- after  setup: ");
+    current->print_very_verbose("\n-------- before setup: ");
+    jump_result = test_set_jmp(helper_do_test_setup, this);
+    current->print_very_verbose("\n-------- after  setup: ");
 
-    if (jumpResult) {
-      current->printVeryVerbose("\n----------  before body: ");
-      TestSetJmp(helperDoTestBody, this);
-      current->printVeryVerbose("\n----------  after body: ");
+    if (jump_result) {
+      current->print_very_verbose("\n----------  before body: ");
+      test_set_jmp(helper_do_test_body, this);
+      current->print_very_verbose("\n----------  after body: ");
     }
   } catch (FailedException&) {
-    TestRestoreJumpBuffer();
+    test_restore_jump_buffer();
   }
 #if CPPUTEST_USE_STD_CPP_LIB
   catch (const std::exception& e) {
-    current->addFailure(UnexpectedExceptionFailure(current, e));
-    TestRestoreJumpBuffer();
-    if (current->isRethrowingExceptions()) {
+    current->add_failure(UnexpectedExceptionFailure(current, e));
+    test_restore_jump_buffer();
+    if (current->is_rethrowing_exceptions()) {
       throw;
     }
   }
 #endif
   catch (...) {
-    current->addFailure(UnexpectedExceptionFailure(current));
-    TestRestoreJumpBuffer();
-    if (current->isRethrowingExceptions()) {
+    current->add_failure(UnexpectedExceptionFailure(current));
+    test_restore_jump_buffer();
+    if (current->is_rethrowing_exceptions()) {
       throw;
     }
   }
 
   try {
-    current->printVeryVerbose("\n--------  before teardown: ");
-    TestSetJmp(helperDoTestTeardown, this);
-    current->printVeryVerbose("\n--------  after teardown: ");
+    current->print_very_verbose("\n--------  before teardown: ");
+    test_set_jmp(helper_do_test_teardown, this);
+    current->print_very_verbose("\n--------  after teardown: ");
   } catch (FailedException&) {
-    TestRestoreJumpBuffer();
+    test_restore_jump_buffer();
   }
 #if CPPUTEST_USE_STD_CPP_LIB
   catch (const std::exception& e) {
-    current->addFailure(UnexpectedExceptionFailure(current, e));
-    TestRestoreJumpBuffer();
-    if (current->isRethrowingExceptions()) {
+    current->add_failure(UnexpectedExceptionFailure(current, e));
+    test_restore_jump_buffer();
+    if (current->is_rethrowing_exceptions()) {
       throw;
     }
   }
 #endif
   catch (...) {
-    current->addFailure(UnexpectedExceptionFailure(current));
-    TestRestoreJumpBuffer();
-    if (current->isRethrowingExceptions()) {
+    current->add_failure(UnexpectedExceptionFailure(current));
+    test_restore_jump_buffer();
+    if (current->is_rethrowing_exceptions()) {
       throw;
     }
   }
@@ -111,7 +111,7 @@ Test::setup()
 }
 
 void
-Test::testBody()
+Test::test_body()
 {
 }
 

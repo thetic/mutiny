@@ -12,7 +12,7 @@ public:
   {
   }
   ~OptionsPlugin() override {}
-  bool parseArguments(int, const char* const*, int) override { return true; }
+  bool parse_arguments(int, const char* const*, int) override { return true; }
 };
 
 TEST_GROUP(CommandLineArguments)
@@ -31,7 +31,7 @@ TEST_GROUP(CommandLineArguments)
     delete plugin;
   }
 
-  bool newArgumentParser(int argc, const char* const* argv)
+  bool new_argument_parser(int argc, const char* const* argv)
   {
     args = new cpputest::CommandLineArguments(argc, argv);
     return args->parse(plugin);
@@ -45,177 +45,177 @@ TEST(CommandLineArguments, Create)
 TEST(CommandLineArguments, verboseSetMultipleParameters)
 {
   const char* argv[] = { "tests.exe", "-v" };
-  CHECK(newArgumentParser(2, argv));
-  CHECK(args->isVerbose());
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_verbose());
 }
 
 TEST(CommandLineArguments, veryVerbose)
 {
   const char* argv[] = { "tests.exe", "-vv" };
-  CHECK(newArgumentParser(2, argv));
-  CHECK(args->isVeryVerbose());
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_very_verbose());
 }
 
 TEST(CommandLineArguments, setColor)
 {
   const char* argv[] = { "tests.exe", "-c" };
-  CHECK(newArgumentParser(2, argv));
-  CHECK(args->isColor());
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_color());
 }
 
 TEST(CommandLineArguments, repeatSet)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-r3" };
-  CHECK(newArgumentParser(argc, argv));
-  LONGS_EQUAL(3, args->getRepeatCount());
+  CHECK(new_argument_parser(argc, argv));
+  LONGS_EQUAL(3, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, repeatSetDifferentParameter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-r", "4" };
-  CHECK(newArgumentParser(argc, argv));
-  LONGS_EQUAL(4, args->getRepeatCount());
+  CHECK(new_argument_parser(argc, argv));
+  LONGS_EQUAL(4, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, repeatSetDefaultsToTwoAndShuffleDisabled)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-r" };
-  CHECK(newArgumentParser(argc, argv));
-  LONGS_EQUAL(2, args->getRepeatCount());
+  CHECK(new_argument_parser(argc, argv));
+  LONGS_EQUAL(2, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, reverseEnabled)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-b" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_TRUE(args->isReversing());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_TRUE(args->is_reversing());
 }
 
 TEST(CommandLineArguments, shuffleDisabledByDefault)
 {
   int argc = 1;
   const char* argv[] = { "tests.exe" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_FALSE(args->isShuffling());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_FALSE(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleEnabled)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_TRUE(args->isShuffling());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_TRUE(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleWithSeedZeroIsOk)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s0" };
-  CHECK_FALSE(newArgumentParser(argc, argv));
-  CHECK_EQUAL(0, args->getShuffleSeed());
+  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK_EQUAL(0, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase1)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s999" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(999, args->getShuffleSeed());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(999, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase2)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s 888" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(888, args->getShuffleSeed());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(888, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase3)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-s", "777" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(777, args->getShuffleSeed());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(777, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
 {
   int argc = 4;
   const char* argv[] = { "tests.exe", "-s", "-sg", "group" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
-  CHECK_TRUE(args->isShuffling());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
+  CHECK_TRUE(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, setGroupFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-g", "group" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-t", "groupname" };
-  CHECK_FALSE(newArgumentParser(argc, argv));
+  CHECK_FALSE(new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-t", "group.name" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->getGroupFilters());
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
+  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-st", "groupname" };
-  CHECK_FALSE(newArgumentParser(argc, argv));
+  CHECK_FALSE(new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-st", "group.name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
+  cpputest::TestFilter name_filter("name");
+  name_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xt", "groupname" };
-  CHECK_FALSE(newArgumentParser(argc, argv));
+  CHECK_FALSE(new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xt", "group.name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.invertMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.invertMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.invert_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
+  cpputest::TestFilter name_filter("name");
+  name_filter.invert_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments,
@@ -223,184 +223,184 @@ TEST(CommandLineArguments,
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "groupname" };
-  CHECK_FALSE(newArgumentParser(argc, argv));
+  CHECK_FALSE(new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "group.name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.strictMatching();
-  groupFilter.invertMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.strictMatching();
-  nameFilter.invertMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.strict_matching();
+  group_filter.invert_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
+  cpputest::TestFilter name_filter("name");
+  name_filter.strict_matching();
+  name_filter.invert_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setGroupFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-ggroup" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setStrictGroupFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-sg", "group" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setStrictGroupFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-sggroup" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setExcludeGroupFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xg", "group" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.invertMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.invert_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setExcludeGroupFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xggroup" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.invertMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.invert_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setExcludeStrictGroupFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xsg", "group" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.invertMatching();
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.invert_matching();
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setExcludeStrictGroupFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xsggroup" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter groupFilter("group");
-  groupFilter.invertMatching();
-  groupFilter.strictMatching();
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter group_filter("group");
+  group_filter.invert_matching();
+  group_filter.strict_matching();
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-n", "name" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setNameFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-nname" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setStrictNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-sn", "name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setStrictNameFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-snname" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setExcludeNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xn", "name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.invertMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.invert_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setExcludeNameFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xnname" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.invertMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.invert_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setExcludeStrictNameFilter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xsn", "name" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.invertMatching();
-  nameFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.invert_matching();
+  name_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setExcludeStrictNameFilterSameParameter)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xsnname" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("name");
-  nameFilter.invertMatching();
-  nameFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("name");
+  name_filter.invert_matching();
+  name_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setTestToRunUsingVerboseOutput)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "TEST(testgroup, testname) - stuff" };
-  CHECK(newArgumentParser(argc, argv));
+  CHECK(new_argument_parser(argc, argv));
 
-  cpputest::TestFilter nameFilter("testname");
-  cpputest::TestFilter groupFilter("testgroup");
-  nameFilter.strictMatching();
-  groupFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  cpputest::TestFilter name_filter("testname");
+  cpputest::TestFilter group_filter("testgroup");
+  name_filter.strict_matching();
+  group_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
@@ -408,84 +408,84 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
   int argc = 2;
   const char* argv[] = { "tests.exe",
     "IGNORE_TEST(testgroup, testname) - stuff" };
-  CHECK(newArgumentParser(argc, argv));
+  CHECK(new_argument_parser(argc, argv));
 
-  cpputest::TestFilter nameFilter("testname");
-  cpputest::TestFilter groupFilter("testgroup");
-  nameFilter.strictMatching();
-  groupFilter.strictMatching();
-  CHECK_EQUAL(nameFilter, *args->getNameFilters());
-  CHECK_EQUAL(groupFilter, *args->getGroupFilters());
+  cpputest::TestFilter name_filter("testname");
+  cpputest::TestFilter group_filter("testgroup");
+  name_filter.strict_matching();
+  group_filter.strict_matching();
+  CHECK_EQUAL(name_filter, *args->get_name_filters());
+  CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setNormalOutput)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-onormal" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isEclipseOutput());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_eclipse_output());
 }
 
 TEST(CommandLineArguments, setEclipseOutput)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-oeclipse" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isEclipseOutput());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_eclipse_output());
 }
 
 TEST(CommandLineArguments, setNormalOutputDifferentParameter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-o", "normal" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isEclipseOutput());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_eclipse_output());
 }
 
 TEST(CommandLineArguments, setJUnitOutputDifferentParameter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-o", "junit" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isJUnitOutput());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_j_unit_output());
 }
 
 TEST(CommandLineArguments, setTeamCityOutputDifferentParameter)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-o", "teamcity" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isTeamCityOutput());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_team_city_output());
 }
 
 TEST(CommandLineArguments, setOutputToGarbage)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-o", "garbage" };
-  CHECK(!newArgumentParser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setPrintGroups)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-lg" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isListingTestGroupNames());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_listing_test_group_names());
 }
 
 TEST(CommandLineArguments, setPrintGroupsAndNames)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-ln" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isListingTestGroupAndCaseNames());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_listing_test_group_and_case_names());
 }
 
 TEST(CommandLineArguments, weirdParamatersReturnsFalse)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-SomethingWeird" };
-  CHECK(!newArgumentParser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, printUsage)
@@ -506,55 +506,56 @@ TEST(CommandLineArguments, helpPrintsTheHelp)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-h" };
-  CHECK(!newArgumentParser(argc, argv));
-  CHECK(args->needHelp());
+  CHECK(!new_argument_parser(argc, argv));
+  CHECK(args->need_help());
 }
 
 TEST(CommandLineArguments, pluginKnowsOption)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-pPluginOption" };
-  cpputest::TestRegistry::getCurrentRegistry()->installPlugin(plugin);
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestRegistry::getCurrentRegistry()->removePluginByName("options");
+  cpputest::TestRegistry::get_current_registry()->install_plugin(plugin);
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestRegistry::get_current_registry()->remove_plugin_by_name(
+      "options");
 }
 
 TEST(CommandLineArguments, checkDefaultArguments)
 {
   int argc = 1;
   const char* argv[] = { "tests.exe" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(!args->isVerbose());
-  LONGS_EQUAL(1, args->getRepeatCount());
-  CHECK(nullptr == args->getGroupFilters());
-  CHECK(nullptr == args->getNameFilters());
-  CHECK(args->isEclipseOutput());
-  CHECK(cpputest::String("") == args->getPackageName());
-  CHECK(!args->isCrashingOnFail());
-  CHECK(args->isRethrowingExceptions());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(!args->is_verbose());
+  LONGS_EQUAL(1, args->get_repeat_count());
+  CHECK(nullptr == args->get_group_filters());
+  CHECK(nullptr == args->get_name_filters());
+  CHECK(args->is_eclipse_output());
+  CHECK(cpputest::String("") == args->get_package_name());
+  CHECK(!args->is_crashing_on_fail());
+  CHECK(args->is_rethrowing_exceptions());
 }
 
 TEST(CommandLineArguments, checkContinuousIntegrationMode)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-ci" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(!args->isVerbose());
-  LONGS_EQUAL(1, args->getRepeatCount());
-  CHECK(nullptr == args->getGroupFilters());
-  CHECK(nullptr == args->getNameFilters());
-  CHECK(args->isEclipseOutput());
-  CHECK(cpputest::String("") == args->getPackageName());
-  CHECK(!args->isCrashingOnFail());
-  CHECK_FALSE(args->isRethrowingExceptions());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(!args->is_verbose());
+  LONGS_EQUAL(1, args->get_repeat_count());
+  CHECK(nullptr == args->get_group_filters());
+  CHECK(nullptr == args->get_name_filters());
+  CHECK(args->is_eclipse_output());
+  CHECK(cpputest::String("") == args->get_package_name());
+  CHECK(!args->is_crashing_on_fail());
+  CHECK_FALSE(args->is_rethrowing_exceptions());
 }
 
 TEST(CommandLineArguments, setPackageName)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-k", "package" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::String("package"), args->getPackageName());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::String("package"), args->get_package_name());
 }
 
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
@@ -570,45 +571,49 @@ TEST(CommandLineArguments, lotsOfGroupsAndTests)
     "-sntest4",
     "-sggroup4",
     "-sntest5" };
-  CHECK(newArgumentParser(argc, argv));
-  cpputest::TestFilter nameFilter("test1");
-  nameFilter.invertMatching();
-  cpputest::TestFilter groupFilter("group1");
-  groupFilter.strictMatching();
-  CHECK_EQUAL(nameFilter,
-      *args->getNameFilters()->getNext()->getNext()->getNext()->getNext());
-  CHECK_EQUAL(
-      groupFilter, *args->getGroupFilters()->getNext()->getNext()->getNext());
+  CHECK(new_argument_parser(argc, argv));
+  cpputest::TestFilter name_filter("test1");
+  name_filter.invert_matching();
+  cpputest::TestFilter group_filter("group1");
+  group_filter.strict_matching();
+  CHECK_EQUAL(name_filter,
+      *args->get_name_filters()
+          ->get_next()
+          ->get_next()
+          ->get_next()
+          ->get_next());
+  CHECK_EQUAL(group_filter,
+      *args->get_group_filters()->get_next()->get_next()->get_next());
 }
 
 TEST(CommandLineArguments, lastParameterFieldMissing)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-k" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_EQUAL(cpputest::String(""), args->getPackageName());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(cpputest::String(""), args->get_package_name());
 }
 
 TEST(CommandLineArguments, setOptRun)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-ri" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isRunIgnored());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_run_ignored());
 }
 
 TEST(CommandLineArguments, setOptCrashOnFail)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-f" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK(args->isCrashingOnFail());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_crashing_on_fail());
 }
 
 TEST(CommandLineArguments, setOptRethrowExceptions)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-e" };
-  CHECK(newArgumentParser(argc, argv));
-  CHECK_FALSE(args->isRethrowingExceptions());
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_FALSE(args->is_rethrowing_exceptions());
 }

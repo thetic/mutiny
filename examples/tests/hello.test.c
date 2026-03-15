@@ -14,18 +14,18 @@ capture_output(const char* format, ...)
 
 TEST_GROUP_C_SETUP(hello)
 {
-  saved_print = PrintFormated;
-  PrintFormated = capture_output;
+  saved_print = print_formated;
+  print_formated = capture_output;
   output_ptr = NULL;
 }
 
 TEST_GROUP_C_TEARDOWN(hello)
 {
-  PrintFormated = saved_print;
+  print_formated = saved_print;
 }
 
 TEST_C(hello, PrintsHelloWorld)
 {
-  printHelloWorld();
+  print_hello_world();
   CHECK_EQUAL_C_STRING("Hello World!\n", output_ptr);
 }

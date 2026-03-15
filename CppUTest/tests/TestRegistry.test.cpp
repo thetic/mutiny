@@ -6,10 +6,10 @@
 #include "CppUTest/time.hpp"
 
 namespace {
-const int testLineNumber = 1;
+const int test_line_number = 1;
 
 int
-getZero()
+get_zero()
 {
   return 0;
 }
@@ -18,63 +18,64 @@ class MockTest : public cpputest::TestShell
 {
 public:
   MockTest(const char* group = "Group")
-    : TestShell(group, "Name", "File", testLineNumber)
-    , hasRun_(false)
+    : TestShell(group, "Name", "File", test_line_number)
+    , has_run(false)
   {
   }
-  virtual void runOneTest(cpputest::TestPlugin*, cpputest::TestResult&) override
+  virtual void run_one_test(cpputest::TestPlugin*,
+      cpputest::TestResult&) override
   {
-    hasRun_ = true;
+    has_run = true;
   }
 
-  bool hasRun_;
+  bool has_run;
 };
 
 class MockTestResult : public cpputest::TestResult
 {
 public:
-  int countTestsStarted;
-  int countTestsEnded;
-  int countCurrentTestStarted;
-  int countCurrentTestEnded;
-  int countCurrentGroupStarted;
-  int countCurrentGroupEnded;
+  int count_tests_started;
+  int count_tests_ended;
+  int count_current_test_started;
+  int count_current_test_ended;
+  int count_current_group_started;
+  int count_current_group_ended;
 
   MockTestResult(cpputest::TestOutput& p)
     : TestResult(p)
   {
-    resetCount();
+    reset_count();
   }
 
   virtual ~MockTestResult() override {}
 
-  void resetCount()
+  void reset_count()
   {
-    countTestsStarted = 0;
-    countTestsEnded = 0;
-    countCurrentTestStarted = 0;
-    countCurrentTestEnded = 0;
-    countCurrentGroupStarted = 0;
-    countCurrentGroupEnded = 0;
+    count_tests_started = 0;
+    count_tests_ended = 0;
+    count_current_test_started = 0;
+    count_current_test_ended = 0;
+    count_current_group_started = 0;
+    count_current_group_ended = 0;
   }
 
-  virtual void testsStarted() override { countTestsStarted++; }
-  virtual void testsEnded() override { countTestsEnded++; }
-  virtual void currentTestStarted(cpputest::TestShell* /*test*/) override
+  virtual void tests_started() override { count_tests_started++; }
+  virtual void tests_ended() override { count_tests_ended++; }
+  virtual void current_test_started(cpputest::TestShell* /*test*/) override
   {
-    countCurrentTestStarted++;
+    count_current_test_started++;
   }
-  virtual void currentTestEnded(cpputest::TestShell* /*test*/) override
+  virtual void current_test_ended(cpputest::TestShell* /*test*/) override
   {
-    countCurrentTestEnded++;
+    count_current_test_ended++;
   }
-  virtual void currentGroupStarted(cpputest::TestShell* /*test*/) override
+  virtual void current_group_started(cpputest::TestShell* /*test*/) override
   {
-    countCurrentGroupStarted++;
+    count_current_group_started++;
   }
-  virtual void currentGroupEnded(cpputest::TestShell* /*test*/) override
+  virtual void current_group_ended(cpputest::TestShell* /*test*/) override
   {
-    countCurrentGroupEnded++;
+    count_current_group_ended++;
   }
 };
 
@@ -86,11 +87,11 @@ public:
   {
   }
   virtual ~MyTestPluginDummy() override {}
-  virtual void runAllPreTestAction(cpputest::TestShell&,
+  virtual void run_all_pre_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override
   {
   }
-  virtual void runAllPostTestAction(cpputest::TestShell&,
+  virtual void run_all_post_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override
   {
   }
@@ -100,31 +101,31 @@ public:
 
 TEST_GROUP(TestRegistry)
 {
-  cpputest::TestRegistry* myRegistry;
+  cpputest::TestRegistry* my_registry;
   cpputest::StringBufferTestOutput* output;
   MockTest* test1;
   MockTest* test2;
   MockTest* test3;
   MockTest* test4;
   cpputest::TestResult* result;
-  MockTestResult* mockResult;
+  MockTestResult* mock_result;
   void setup() override
   {
     output = new cpputest::StringBufferTestOutput();
-    mockResult = new MockTestResult(*output);
-    result = mockResult;
+    mock_result = new MockTestResult(*output);
+    result = mock_result;
     test1 = new MockTest();
     test2 = new MockTest();
     test3 = new MockTest("group2");
     test4 = new MockTest();
-    myRegistry = new cpputest::TestRegistry();
-    myRegistry->setCurrentRegistry(myRegistry);
+    my_registry = new cpputest::TestRegistry();
+    my_registry->set_current_registry(my_registry);
   }
 
   void teardown() override
   {
-    myRegistry->setCurrentRegistry(nullptr);
-    delete myRegistry;
+    my_registry->set_current_registry(nullptr);
+    delete my_registry;
     delete test1;
     delete test2;
     delete test3;
@@ -133,230 +134,233 @@ TEST_GROUP(TestRegistry)
     delete output;
   }
 
-  void addAndRunAllTests()
+  void add_and_run_all_tests()
   {
-    myRegistry->addTest(test1);
-    myRegistry->addTest(test2);
-    myRegistry->addTest(test3);
-    myRegistry->runAllTests(*result);
+    my_registry->add_test(test1);
+    my_registry->add_test(test2);
+    my_registry->add_test(test3);
+    my_registry->run_all_tests(*result);
   }
 };
 
 TEST(TestRegistry, registryMyRegistryAndReset)
 {
-  CHECK(myRegistry->getCurrentRegistry() == myRegistry);
+  CHECK(my_registry->get_current_registry() == my_registry);
 }
 
 TEST(TestRegistry, emptyRegistryIsEmpty)
 {
-  CHECK(myRegistry->countTests() == 0);
+  CHECK(my_registry->count_tests() == 0);
 }
 
 TEST(TestRegistry, addOneTestIsNotEmpty)
 {
-  myRegistry->addTest(test1);
-  CHECK(myRegistry->countTests() == 1);
+  my_registry->add_test(test1);
+  CHECK(my_registry->count_tests() == 1);
 }
 
 TEST(TestRegistry, addOneTwoTests)
 {
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  CHECK(myRegistry->countTests() == 2);
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  CHECK(my_registry->count_tests() == 2);
 }
 
 TEST(TestRegistry, runTwoTests)
 {
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  CHECK(!test1->hasRun_);
-  CHECK(!test2->hasRun_);
-  myRegistry->runAllTests(*result);
-  CHECK(test1->hasRun_);
-  CHECK(test2->hasRun_);
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  CHECK(!test1->has_run);
+  CHECK(!test2->has_run);
+  my_registry->run_all_tests(*result);
+  CHECK(test1->has_run);
+  CHECK(test2->has_run);
 }
 
 TEST(TestRegistry, runTwoTestsCheckResultFunctionsCalled)
 {
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  myRegistry->runAllTests(*result);
-  LONGS_EQUAL(1, mockResult->countTestsStarted);
-  LONGS_EQUAL(1, mockResult->countTestsEnded);
-  LONGS_EQUAL(1, mockResult->countCurrentGroupStarted);
-  LONGS_EQUAL(1, mockResult->countCurrentGroupEnded);
-  LONGS_EQUAL(2, mockResult->countCurrentTestStarted);
-  LONGS_EQUAL(2, mockResult->countCurrentTestEnded);
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  my_registry->run_all_tests(*result);
+  LONGS_EQUAL(1, mock_result->count_tests_started);
+  LONGS_EQUAL(1, mock_result->count_tests_ended);
+  LONGS_EQUAL(1, mock_result->count_current_group_started);
+  LONGS_EQUAL(1, mock_result->count_current_group_ended);
+  LONGS_EQUAL(2, mock_result->count_current_test_started);
+  LONGS_EQUAL(2, mock_result->count_current_test_ended);
 }
 
 TEST(TestRegistry, runThreeTestsandTwoGroupsCheckResultFunctionsCalled)
 {
-  addAndRunAllTests();
-  LONGS_EQUAL(2, mockResult->countCurrentGroupStarted);
-  LONGS_EQUAL(2, mockResult->countCurrentGroupEnded);
-  LONGS_EQUAL(3, mockResult->countCurrentTestStarted);
-  LONGS_EQUAL(3, mockResult->countCurrentTestEnded);
+  add_and_run_all_tests();
+  LONGS_EQUAL(2, mock_result->count_current_group_started);
+  LONGS_EQUAL(2, mock_result->count_current_group_ended);
+  LONGS_EQUAL(3, mock_result->count_current_test_started);
+  LONGS_EQUAL(3, mock_result->count_current_test_ended);
 }
 
 TEST(TestRegistry, unDoTest)
 {
-  myRegistry->addTest(test1);
-  CHECK(myRegistry->countTests() == 1);
-  myRegistry->unDoLastAddTest();
-  CHECK(myRegistry->countTests() == 0);
+  my_registry->add_test(test1);
+  CHECK(my_registry->count_tests() == 1);
+  my_registry->un_do_last_add_test();
+  CHECK(my_registry->count_tests() == 0);
 }
 
 TEST(TestRegistry, unDoButNoTest)
 {
-  CHECK(myRegistry->countTests() == 0);
-  myRegistry->unDoLastAddTest();
-  CHECK(myRegistry->countTests() == 0);
+  CHECK(my_registry->count_tests() == 0);
+  my_registry->un_do_last_add_test();
+  CHECK(my_registry->count_tests() == 0);
 }
 
 TEST(TestRegistry, reallyUndoLastTest)
 {
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  CHECK(myRegistry->countTests() == 2);
-  myRegistry->unDoLastAddTest();
-  CHECK(myRegistry->countTests() == 1);
-  myRegistry->runAllTests(*result);
-  CHECK(test1->hasRun_);
-  CHECK(!test2->hasRun_);
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  CHECK(my_registry->count_tests() == 2);
+  my_registry->un_do_last_add_test();
+  CHECK(my_registry->count_tests() == 1);
+  my_registry->run_all_tests(*result);
+  CHECK(test1->has_run);
+  CHECK(!test2->has_run);
 }
 
 TEST(TestRegistry, findTestWithNameDoesntExist)
 {
-  CHECK(myRegistry->findTestWithName("ThisTestDoesntExists") == nullptr);
+  CHECK(my_registry->find_test_with_name("ThisTestDoesntExists") == nullptr);
 }
 
 TEST(TestRegistry, findTestWithName)
 {
-  test1->setTestName("NameOfATestThatDoesExist");
-  test2->setTestName("SomeOtherTest");
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  CHECK(myRegistry->findTestWithName("NameOfATestThatDoesExist") != nullptr);
+  test1->set_test_name("NameOfATestThatDoesExist");
+  test2->set_test_name("SomeOtherTest");
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  CHECK(
+      my_registry->find_test_with_name("NameOfATestThatDoesExist") != nullptr);
 }
 
 TEST(TestRegistry, findTestWithGroupDoesntExist)
 {
-  CHECK(myRegistry->findTestWithGroup("ThisTestGroupDoesntExists") == nullptr);
+  CHECK(my_registry->find_test_with_group("ThisTestGroupDoesntExists") ==
+        nullptr);
 }
 
 TEST(TestRegistry, findTestWithGroup)
 {
-  test1->setGroupName("GroupOfATestThatDoesExist");
-  test2->setGroupName("SomeOtherGroup");
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
-  CHECK(myRegistry->findTestWithGroup("GroupOfATestThatDoesExist") != nullptr);
+  test1->set_group_name("GroupOfATestThatDoesExist");
+  test2->set_group_name("SomeOtherGroup");
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
+  CHECK(my_registry->find_test_with_group("GroupOfATestThatDoesExist") !=
+        nullptr);
 }
 
 TEST(TestRegistry, nameFilterWorks)
 {
-  test1->setTestName("testname");
-  test2->setTestName("noname");
-  cpputest::TestFilter nameFilter("testname");
-  myRegistry->setNameFilters(&nameFilter);
-  addAndRunAllTests();
-  CHECK(test1->hasRun_);
-  CHECK(!test2->hasRun_);
+  test1->set_test_name("testname");
+  test2->set_test_name("noname");
+  cpputest::TestFilter name_filter("testname");
+  my_registry->set_name_filters(&name_filter);
+  add_and_run_all_tests();
+  CHECK(test1->has_run);
+  CHECK(!test2->has_run);
 }
 
 TEST(TestRegistry, groupFilterWorks)
 {
-  test1->setGroupName("groupname");
-  test2->setGroupName("noname");
-  cpputest::TestFilter groupFilter("groupname");
-  myRegistry->setGroupFilters(&groupFilter);
-  addAndRunAllTests();
-  CHECK(test1->hasRun_);
-  CHECK(!test2->hasRun_);
+  test1->set_group_name("groupname");
+  test2->set_group_name("noname");
+  cpputest::TestFilter group_filter("groupname");
+  my_registry->set_group_filters(&group_filter);
+  add_and_run_all_tests();
+  CHECK(test1->has_run);
+  CHECK(!test2->has_run);
 }
 
 TEST(TestRegistry, CurrentRepetitionIsCorrectNone)
 {
-  CHECK(0 == myRegistry->getCurrentRepetition());
-  myRegistry->runAllTests(*result);
-  LONGS_EQUAL(1, myRegistry->getCurrentRepetition());
+  CHECK(0 == my_registry->get_current_repetition());
+  my_registry->run_all_tests(*result);
+  LONGS_EQUAL(1, my_registry->get_current_repetition());
 }
 
 TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
 {
-  CHECK(0 == myRegistry->getCurrentRepetition());
-  myRegistry->runAllTests(*result);
-  myRegistry->runAllTests(*result);
-  LONGS_EQUAL(2, myRegistry->getCurrentRepetition());
+  CHECK(0 == my_registry->get_current_repetition());
+  my_registry->run_all_tests(*result);
+  my_registry->run_all_tests(*result);
+  LONGS_EQUAL(2, my_registry->get_current_repetition());
 }
 
 TEST(TestRegistry, ResetPluginsWorks)
 {
   MyTestPluginDummy plugin1("Plugin-1");
   MyTestPluginDummy plugin2("Plugin-2");
-  myRegistry->installPlugin(&plugin1);
-  myRegistry->installPlugin(&plugin2);
-  LONGS_EQUAL(2, myRegistry->countPlugins());
-  myRegistry->resetPlugins();
-  LONGS_EQUAL(0, myRegistry->countPlugins());
+  my_registry->install_plugin(&plugin1);
+  my_registry->install_plugin(&plugin2);
+  LONGS_EQUAL(2, my_registry->count_plugins());
+  my_registry->reset_plugins();
+  LONGS_EQUAL(0, my_registry->count_plugins());
 }
 
 TEST(TestRegistry,
     listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
 {
-  test1->setGroupName("GROUP_1");
-  myRegistry->addTest(test1);
-  test2->setGroupName("GROUP_2");
-  myRegistry->addTest(test2);
-  test3->setGroupName("GROUP_11");
-  myRegistry->addTest(test3);
-  test4->setGroupName("GROUP_2");
-  myRegistry->addTest(test4);
+  test1->set_group_name("GROUP_1");
+  my_registry->add_test(test1);
+  test2->set_group_name("GROUP_2");
+  my_registry->add_test(test2);
+  test3->set_group_name("GROUP_11");
+  my_registry->add_test(test3);
+  test4->set_group_name("GROUP_2");
+  my_registry->add_test(test4);
 
-  myRegistry->listTestGroupNames(*result);
-  cpputest::String s = output->getOutput();
+  my_registry->list_test_group_names(*result);
+  cpputest::String s = output->get_output();
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
 TEST(TestRegistry,
     listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
-  test1->setGroupName("GROUP_A");
-  test1->setTestName("test_a");
-  myRegistry->addTest(test1);
-  test2->setGroupName("GROUP_B");
-  test2->setTestName("test_b");
-  myRegistry->addTest(test2);
-  test3->setGroupName("GROUP_A");
-  test3->setTestName("test_aa");
-  myRegistry->addTest(test3);
+  test1->set_group_name("GROUP_A");
+  test1->set_test_name("test_a");
+  my_registry->add_test(test1);
+  test2->set_group_name("GROUP_B");
+  test2->set_test_name("test_b");
+  my_registry->add_test(test2);
+  test3->set_group_name("GROUP_A");
+  test3->set_test_name("test_aa");
+  my_registry->add_test(test3);
 
-  myRegistry->listTestGroupAndCaseNames(*result);
-  cpputest::String s = output->getOutput();
+  my_registry->list_test_group_and_case_names(*result);
+  cpputest::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
 TEST(TestRegistry,
     listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
-  test1->setGroupName("GROUP_A");
-  test1->setTestName("test_a");
-  test1->setFileName("cpptest_simple/my_tests/testa.cpp");
-  test1->setLineNumber(100);
-  myRegistry->addTest(test1);
-  test2->setGroupName("GROUP_B");
-  test2->setTestName("test_b");
-  test2->setFileName("cpptest_simple/my tests/testb.cpp");
-  test2->setLineNumber(200);
-  myRegistry->addTest(test2);
-  test3->setGroupName("GROUP_A");
-  test3->setTestName("test_aa");
-  test3->setFileName("cpptest_simple/my_tests/testaa.cpp");
-  test3->setLineNumber(300);
-  myRegistry->addTest(test3);
+  test1->set_group_name("GROUP_A");
+  test1->set_test_name("test_a");
+  test1->set_file_name("cpptest_simple/my_tests/testa.cpp");
+  test1->set_line_number(100);
+  my_registry->add_test(test1);
+  test2->set_group_name("GROUP_B");
+  test2->set_test_name("test_b");
+  test2->set_file_name("cpptest_simple/my tests/testb.cpp");
+  test2->set_line_number(200);
+  my_registry->add_test(test2);
+  test3->set_group_name("GROUP_A");
+  test3->set_test_name("test_aa");
+  test3->set_file_name("cpptest_simple/my_tests/testaa.cpp");
+  test3->set_line_number(300);
+  my_registry->add_test(test3);
 
-  myRegistry->listTestLocations(*result);
-  cpputest::String s = output->getOutput();
+  my_registry->list_test_locations(*result);
+  cpputest::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa.cpptest_simple/my_tests/"
                "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
@@ -366,60 +370,60 @@ TEST(TestRegistry,
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)
 {
-  CHECK_TRUE(myRegistry->getFirstTest() == nullptr);
-  myRegistry->shuffleTests(0);
-  CHECK_TRUE(myRegistry->getFirstTest() == nullptr);
+  CHECK_TRUE(my_registry->get_first_test() == nullptr);
+  my_registry->shuffle_tests(0);
+  CHECK_TRUE(my_registry->get_first_test() == nullptr);
 }
 
 TEST(TestRegistry, shuffleSingleTestIsNoOp)
 {
-  myRegistry->addTest(test1);
-  myRegistry->shuffleTests(0);
-  CHECK_TRUE(myRegistry->getFirstTest() == test1);
+  my_registry->add_test(test1);
+  my_registry->shuffle_tests(0);
+  CHECK_TRUE(my_registry->get_first_test() == test1);
 }
 
 IGNORE_TEST(TestRegistry, shuffleTestList)
 {
-  UT_PTR_SET(cpputest::Rand, getZero);
-  myRegistry->addTest(test3);
-  myRegistry->addTest(test2);
-  myRegistry->addTest(test1);
+  UT_PTR_SET(cpputest::rand, get_zero);
+  my_registry->add_test(test3);
+  my_registry->add_test(test2);
+  my_registry->add_test(test1);
 
-  cpputest::TestShell* first_before = myRegistry->getFirstTest();
-  cpputest::TestShell* second_before = first_before->getNext();
-  cpputest::TestShell* third_before = second_before->getNext();
+  cpputest::TestShell* first_before = my_registry->get_first_test();
+  cpputest::TestShell* second_before = first_before->get_next();
+  cpputest::TestShell* third_before = second_before->get_next();
 
   CHECK_TRUE(first_before == test1);
   CHECK_TRUE(second_before == test2);
   CHECK_TRUE(third_before == test3);
-  CHECK_TRUE(third_before->getNext() == nullptr);
+  CHECK_TRUE(third_before->get_next() == nullptr);
 
   // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
-  myRegistry->shuffleTests(0);
+  my_registry->shuffle_tests(0);
 
-  cpputest::TestShell* first_after = myRegistry->getFirstTest();
-  cpputest::TestShell* second_after = first_after->getNext();
-  cpputest::TestShell* third_after = second_after->getNext();
+  cpputest::TestShell* first_after = my_registry->get_first_test();
+  cpputest::TestShell* second_after = first_after->get_next();
+  cpputest::TestShell* third_after = second_after->get_next();
 
   CHECK_TRUE(first_after == test2);
   CHECK_TRUE(second_after == test3);
   CHECK_TRUE(third_after == test1);
-  CHECK_TRUE(third_after->getNext() == nullptr);
+  CHECK_TRUE(third_after->get_next() == nullptr);
 }
 
 TEST(TestRegistry, reverseTests)
 {
-  myRegistry->addTest(test1);
-  myRegistry->addTest(test2);
+  my_registry->add_test(test1);
+  my_registry->add_test(test2);
 
-  myRegistry->reverseTests();
+  my_registry->reverse_tests();
 
-  CHECK(test1 == myRegistry->getFirstTest());
+  CHECK(test1 == my_registry->get_first_test());
 }
 
 TEST(TestRegistry, reverseZeroTests)
 {
-  myRegistry->reverseTests();
+  my_registry->reverse_tests();
 
-  CHECK(nullptr == myRegistry->getFirstTest());
+  CHECK(nullptr == my_registry->get_first_test());
 }

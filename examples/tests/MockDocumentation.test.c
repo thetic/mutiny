@@ -3,13 +3,13 @@
 #include "CppUTest/TestHarness.h"
 
 static int
-equalMethod(const void* object1, const void* object2)
+equal_method(const void* object1, const void* object2)
 {
   return object1 == object2;
 }
 
 static const char*
-toStringMethod(const void* object)
+to_string_method(const void* object)
 {
   (void)object;
   return "string";
@@ -20,24 +20,24 @@ TEST_C(MockDocumentation_C, CInterface)
   void* object = (void*)0x1;
 
   mock()
-      ->expectOneCall("foo")
-      ->withIntParameters("integer", 10)
-      ->andReturnDoubleValue(1.11);
+      ->expect_one_call("foo")
+      ->with_int_parameters("integer", 10)
+      ->and_return_double_value(1.11);
   double d = mock()
-                 ->actualCall("foo")
-                 ->withIntParameters("integer", 10)
-                 ->returnValue()
-                 .value.doubleValue;
+                 ->actual_call("foo")
+                 ->with_int_parameters("integer", 10)
+                 ->return_value()
+                 .value.double_value;
   CHECK_EQUAL_C_REAL(1.11, d, 0.00001);
 
-  mock()->installComparator("type", equalMethod, toStringMethod);
-  mock_scope("scope")->expectOneCall("bar")->withParameterOfType(
+  mock()->install_comparator("type", equal_method, to_string_method);
+  mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
       "type", "name", object);
-  mock_scope("scope")->actualCall("bar")->withParameterOfType(
+  mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
       "type", "name", object);
-  mock()->removeAllComparatorsAndCopiers();
+  mock()->remove_all_comparators_and_copiers();
 
-  mock()->setIntData("important", 10);
-  mock()->checkExpectations();
+  mock()->set_int_data("important", 10);
+  mock()->check_expectations();
   mock()->clear();
 }

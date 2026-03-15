@@ -37,40 +37,40 @@ class SetDoublePointerUtest : public cpputest::Test
 {
 public:
   void setup() override { UT_PTR_SET(orig_double_ptr, &stub_double); }
-  void testBody() override { CHECK(orig_double_ptr == &stub_double); }
+  void test_body() override { CHECK(orig_double_ptr == &stub_double); }
 };
 
 class SetDoublePointerUtestShell : public cpputest::TestShell
 {
 public:
-  cpputest::Test* createTest() override { return new SetDoublePointerUtest(); }
+  cpputest::Test* create_test() override { return new SetDoublePointerUtest(); }
 };
 }
 
 TEST_GROUP(SetPointerPlugin)
 {
-  cpputest::SetPointerPlugin* plugin_;
-  cpputest::TestRegistry* myRegistry_;
-  cpputest::StringBufferTestOutput* output_;
-  cpputest::TestResult* result_;
+  cpputest::SetPointerPlugin* plugin;
+  cpputest::TestRegistry* my_registry;
+  cpputest::StringBufferTestOutput* output;
+  cpputest::TestResult* result;
 
   void setup() override
   {
-    myRegistry_ = new cpputest::TestRegistry();
-    plugin_ = new cpputest::SetPointerPlugin("TestSetPlugin");
-    myRegistry_->setCurrentRegistry(myRegistry_);
-    myRegistry_->installPlugin(plugin_);
-    output_ = new cpputest::StringBufferTestOutput();
-    result_ = new cpputest::TestResult(*output_);
+    my_registry = new cpputest::TestRegistry();
+    plugin = new cpputest::SetPointerPlugin("TestSetPlugin");
+    my_registry->set_current_registry(my_registry);
+    my_registry->install_plugin(plugin);
+    output = new cpputest::StringBufferTestOutput();
+    result = new cpputest::TestResult(*output);
   }
 
   void teardown() override
   {
-    myRegistry_->setCurrentRegistry(nullptr);
-    delete myRegistry_;
-    delete plugin_;
-    delete output_;
-    delete result_;
+    my_registry->set_current_registry(nullptr);
+    delete my_registry;
+    delete plugin;
+    delete output;
+    delete result;
   }
 };
 
@@ -83,7 +83,7 @@ public:
     UT_PTR_SET(fp2, stub_func2);
     UT_PTR_SET(fp2, stub_func2);
   }
-  void testBody() override
+  void test_body() override
   {
     CHECK(fp1 == stub_func1);
     CHECK(fp2 == stub_func2);
@@ -93,7 +93,7 @@ public:
 class FunctionPointerUtestShell : public cpputest::TestShell
 {
 public:
-  virtual cpputest::Test* createTest() override
+  virtual cpputest::Test* create_test() override
   {
     return new FunctionPointerUtest();
   }
@@ -105,27 +105,27 @@ TEST(SetPointerPlugin, installTwoFunctionPointer)
 
   fp1 = orig_func1;
   fp2 = orig_func2;
-  myRegistry_->addTest(tst);
-  myRegistry_->runAllTests(*result_);
+  my_registry->add_test(tst);
+  my_registry->run_all_tests(*result);
   CHECK(fp1 == orig_func1);
   CHECK(fp2 == orig_func2);
-  LONGS_EQUAL(0, result_->getFailureCount());
-  LONGS_EQUAL(2, result_->getCheckCount());
+  LONGS_EQUAL(0, result->get_failure_count());
+  LONGS_EQUAL(2, result->get_check_count());
   delete tst;
 }
 
 class MaxFunctionPointerUtest : public cpputest::Test
 {
 public:
-  int numOfFpSets;
+  int num_of_fp_sets;
   MaxFunctionPointerUtest(int num)
-    : numOfFpSets(num)
+    : num_of_fp_sets(num)
   {
   }
 
   void setup() override
   {
-    for (int i = 0; i < numOfFpSets; ++i) {
+    for (int i = 0; i < num_of_fp_sets; ++i) {
       UT_PTR_SET(fp1, stub_func1);
     }
   }
@@ -134,33 +134,33 @@ public:
 class MaxFunctionPointerUtestShell : public cpputest::TestShell
 {
 public:
-  int numOfFpSets;
+  int num_of_fp_sets;
   MaxFunctionPointerUtestShell(int num)
-    : numOfFpSets(num)
+    : num_of_fp_sets(num)
   {
   }
 
-  virtual cpputest::Test* createTest() override
+  virtual cpputest::Test* create_test() override
   {
-    return new MaxFunctionPointerUtest(numOfFpSets);
+    return new MaxFunctionPointerUtest(num_of_fp_sets);
   }
 };
 
 TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 {
   auto* tst =
-      new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::MAX_SET + 1);
-  myRegistry_->addTest(tst);
+      new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::max_set + 1);
+  my_registry->add_test(tst);
 
-  myRegistry_->runAllTests(*result_);
+  my_registry->run_all_tests(*result);
 
-  LONGS_EQUAL(1, result_->getFailureCount());
+  LONGS_EQUAL(1, result->get_failure_count());
   delete tst;
 }
 
 EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 {
-  for (int i = 0; i <= cpputest::SetPointerPlugin::MAX_SET; ++i) {
+  for (int i = 0; i <= cpputest::SetPointerPlugin::max_set; ++i) {
     UT_PTR_SET(fp1, stub_func1);
   }
 }
@@ -168,10 +168,10 @@ EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 TEST(SetPointerPlugin, doublePointer)
 {
   auto* doubletst = new SetDoublePointerUtestShell();
-  myRegistry_->addTest(doubletst);
-  myRegistry_->runAllTests(*result_);
+  my_registry->add_test(doubletst);
+  my_registry->run_all_tests(*result);
 
   CHECK(orig_double_ptr == &orig_double);
-  LONGS_EQUAL(1, result_->getCheckCount());
+  LONGS_EQUAL(1, result->get_check_count());
   delete doubletst;
 }

@@ -23,48 +23,48 @@ public:
   TestRegistry();
   virtual ~TestRegistry();
 
-  virtual void addTest(TestShell* test);
-  virtual void unDoLastAddTest();
-  virtual size_t countTests();
-  virtual void runAllTests(TestResult& result);
-  virtual void shuffleTests(size_t seed);
-  virtual void reverseTests();
-  virtual void listTestGroupNames(TestResult& result);
-  virtual void listTestGroupAndCaseNames(TestResult& result);
-  virtual void listTestLocations(TestResult& result);
-  virtual void listOrderedTestLocations(TestResult& result);
-  virtual void setNameFilters(const TestFilter* filters);
-  virtual void setGroupFilters(const TestFilter* filters);
-  virtual void installPlugin(TestPlugin* plugin);
-  virtual void resetPlugins();
-  virtual TestPlugin* getFirstPlugin();
-  virtual TestPlugin* getPluginByName(const String& name);
-  virtual void removePluginByName(const String& name);
-  virtual int countPlugins();
+  virtual void add_test(TestShell* test);
+  virtual void un_do_last_add_test();
+  virtual size_t count_tests();
+  virtual void run_all_tests(TestResult& result);
+  virtual void shuffle_tests(size_t seed);
+  virtual void reverse_tests();
+  virtual void list_test_group_names(TestResult& result);
+  virtual void list_test_group_and_case_names(TestResult& result);
+  virtual void list_test_locations(TestResult& result);
+  virtual void list_ordered_test_locations(TestResult& result);
+  virtual void set_name_filters(const TestFilter* filters);
+  virtual void set_group_filters(const TestFilter* filters);
+  virtual void install_plugin(TestPlugin* plugin);
+  virtual void reset_plugins();
+  virtual TestPlugin* get_first_plugin();
+  virtual TestPlugin* get_plugin_by_name(const String& name);
+  virtual void remove_plugin_by_name(const String& name);
+  virtual int count_plugins();
 
-  virtual TestShell* getFirstTest();
-  virtual TestShell* getTestWithNext(TestShell* test);
+  virtual TestShell* get_first_test();
+  virtual TestShell* get_test_with_next(TestShell* test);
 
-  virtual TestShell* findTestWithName(const String& name);
-  virtual TestShell* findTestWithGroup(const String& name);
+  virtual TestShell* find_test_with_name(const String& name);
+  virtual TestShell* find_test_with_group(const String& name);
 
-  static TestRegistry* getCurrentRegistry();
-  virtual void setCurrentRegistry(TestRegistry* registry);
+  static TestRegistry* get_current_registry();
+  virtual void set_current_registry(TestRegistry* registry);
 
-  int getCurrentRepetition();
-  void setRunIgnored();
+  int get_current_repetition();
+  void set_run_ignored();
 
 private:
-  bool testShouldRun(TestShell* test, TestResult& result);
-  bool endOfGroup(TestShell* test);
+  bool test_should_run(TestShell* test, TestResult& result);
+  bool end_of_group(TestShell* test);
 
   TestShell* tests_;
-  const TestFilter* nameFilters_;
-  const TestFilter* groupFilters_;
-  TestPlugin* firstPlugin_;
-  static TestRegistry* currentRegistry_;
-  int currentRepetition_;
-  bool runIgnored_;
+  const TestFilter* name_filters_;
+  const TestFilter* group_filters_;
+  TestPlugin* first_plugin_;
+  static TestRegistry* current_registry_;
+  int current_repetition_;
+  bool run_ignored_;
 };
 
 } // namespace cpputest

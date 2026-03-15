@@ -9,10 +9,11 @@ main(int argc, const char* const* argv)
   int result = 0;
 
   {
-    cpputest::extensions::MockSupportPlugin mockPlugin;
-    cpputest::TestRegistry::getCurrentRegistry()->installPlugin(&mockPlugin);
+    cpputest::extensions::MockSupportPlugin mock_plugin;
+    cpputest::TestRegistry::get_current_registry()->install_plugin(
+        &mock_plugin);
 
-    result = cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
+    result = cpputest::CommandLineTestRunner::run_all_tests(argc, argv);
   }
 
   return result;

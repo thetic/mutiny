@@ -21,7 +21,7 @@ using cpputest::extensions::IEEE754ExceptionsPlugin;
 
 TEST_GROUP(FEDemo)
 {
-  void setup() override { IEEE754ExceptionsPlugin::disableInexact(); }
+  void setup() override { IEEE754ExceptionsPlugin::disable_inexact(); }
 };
 
 IGNORE_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
@@ -48,7 +48,7 @@ IGNORE_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 
 IGNORE_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
 {
-  IEEE754ExceptionsPlugin::enableInexact();
+  IEEE754ExceptionsPlugin::enable_inexact();
   float f = 10.0f;
   DOUBLES_EQUAL(static_cast<double>(f / 3.0f),
       static_cast<double>(3.333f),

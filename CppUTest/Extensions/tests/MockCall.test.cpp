@@ -10,486 +10,492 @@ TEST_GROUP(MockCall)
 {
   void teardown() override
   {
-    mock().checkExpectations();
+    mock().check_expectations();
     mock().clear();
   }
 };
 
 TEST(MockCall, clear)
 {
-  mock().expectOneCall("func");
+  mock().expect_one_call("func");
   mock().clear();
-  CHECK(!mock().expectedCallsLeft());
+  CHECK(!mock().expected_calls_left());
 }
 
 TEST(MockCall, checkExpectationsDoesntFail)
 {
-  mock().checkExpectations();
+  mock().check_expectations();
 }
 
 TEST(MockCall, expectASingleCallThatHappens)
 {
-  mock().expectOneCall("func");
-  auto& actualCall = static_cast<cpputest::extensions::MockCheckedActualCall&>(
-      mock().actualCall("func"));
-  actualCall.checkExpectations();
-  CHECK(!mock().expectedCallsLeft());
+  mock().expect_one_call("func");
+  auto& actual_call = static_cast<cpputest::extensions::MockCheckedActualCall&>(
+      mock().actual_call("func"));
+  actual_call.check_expectations();
+  CHECK(!mock().expected_calls_left());
 }
 
 TEST(MockCall, expectASingleCallThatDoesntHappen)
 {
-  mock().expectOneCall("func");
-  CHECK(mock().expectedCallsLeft());
+  mock().expect_one_call("func");
+  CHECK(mock().expected_calls_left());
   mock().clear();
 }
 
 TEST(MockCall, expectAMultiCallThatHappensTheExpectedTimes)
 {
-  mock().expectNCalls(2, "func");
-  mock().actualCall("func");
-  auto& actualCall =
-      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
-  actualCall.checkExpectations();
-  CHECK(!mock().expectedCallsLeft());
+  mock().expect_n_calls(2, "func");
+  mock().actual_call("func");
+  auto& actual_call =
+      static_cast<MockCheckedActualCall&>(mock().actual_call("func"));
+  actual_call.check_expectations();
+  CHECK(!mock().expected_calls_left());
 }
 
 TEST(MockCall, expectAMultiCallThatDoesntHappenTheExpectedTimes)
 {
-  mock().expectNCalls(2, "func");
-  MockCheckedActualCall& actualCall =
-      static_cast<MockCheckedActualCall&>(mock().actualCall("func"));
-  actualCall.checkExpectations();
-  CHECK(mock().expectedCallsLeft());
+  mock().expect_n_calls(2, "func");
+  MockCheckedActualCall& actual_call =
+      static_cast<MockCheckedActualCall&>(mock().actual_call("func"));
+  actual_call.check_expectations();
+  CHECK(mock().expected_calls_left());
   mock().clear();
 }
 
 TEST(MockCall, checkExpectationsClearsTheExpectations)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("foobar");
-  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
-      mockFailureTest(), expectations);
+  expectations.add_function("foobar");
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expected_failure(
+      mock_failure_test(), expectations);
 
-  mock().expectOneCall("foobar");
-  mock().checkExpectations();
+  mock().expect_one_call("foobar");
+  mock().check_expectations();
 
-  CHECK(!mock().expectedCallsLeft());
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK(!mock().expected_calls_left());
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectOneCallInScopeButNotHappen)
 {
 
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("scope::foobar");
-  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
-      mockFailureTest(), expectations);
+  expectations.add_function("scope::foobar");
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expected_failure(
+      mock_failure_test(), expectations);
 
-  mock("scope").expectOneCall("foobar");
-  mock().checkExpectations();
+  mock("scope").expect_one_call("foobar");
+  mock().check_expectations();
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, unexpectedCallHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest emptyExpectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "func", emptyExpectations);
+  MockExpectedCallsListForTest empty_expectations;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "func", empty_expectations);
 
-  mock().actualCall("func");
+  mock().actual_call("func");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, unexpectedScopeCallHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest emptyExpectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "scope::func", emptyExpectations);
+  MockExpectedCallsListForTest empty_expectations;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "scope::func", empty_expectations);
 
-  mock("scope").actualCall("func");
+  mock("scope").actual_call("func");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectOneCallInOneScopeButActualCallInAnotherScope)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest emptyExpectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "class::foo", emptyExpectations);
+  MockExpectedCallsListForTest empty_expectations;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "class::foo", empty_expectations);
 
-  mock("scope").expectOneCall("foo");
-  mock("class").actualCall("foo");
+  mock("scope").expect_one_call("foo");
+  mock("class").actual_call("foo");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
   mock().clear();
 }
 
 TEST(MockCall, expectOneCallInScopeButActualCallInGlobal)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest emptyExpectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "foo", emptyExpectations);
+  MockExpectedCallsListForTest empty_expectations;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "foo", empty_expectations);
 
-  mock("scope").expectOneCall("foo");
-  mock().actualCall("foo");
+  mock("scope").expect_one_call("foo");
+  mock().actual_call("foo");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
   mock().clear();
 }
 
 TEST(MockCall, expectMultipleSingleCallsThatHappen)
 {
-  mock().expectOneCall("foo");
-  mock().expectOneCall("foo");
-  mock().actualCall("foo");
-  mock().actualCall("foo");
-  mock().checkExpectations();
+  mock().expect_one_call("foo");
+  mock().expect_one_call("foo");
+  mock().actual_call("foo");
+  mock().actual_call("foo");
+  mock().check_expectations();
 }
 
 TEST(MockCall, expectOneCallHoweverMultipleHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("foo")->callWasMade(1);
-  expectations.addFunction("foo")->callWasMade(2);
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "foo", expectations);
+  expectations.add_function("foo")->call_was_made(1);
+  expectations.add_function("foo")->call_was_made(2);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "foo", expectations);
 
-  mock().expectOneCall("foo");
-  mock().expectOneCall("foo");
-  mock().actualCall("foo");
-  mock().actualCall("foo");
-  mock().actualCall("foo");
+  mock().expect_one_call("foo");
+  mock().expect_one_call("foo");
+  mock().actual_call("foo");
+  mock().actual_call("foo");
+  mock().actual_call("foo");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallThatHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(0, "lazy");
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "lazy", expectations);
+  expectations.add_function(0, "lazy");
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "lazy", expectations);
 
-  mock().expectNoCall("lazy");
-  mock().actualCall("lazy");
+  mock().expect_no_call("lazy");
+  mock().actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallDoesntInfluenceExpectOneCall)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(0, "lazy");
-  expectations.addFunction("influence")->callWasMade(1);
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "lazy", expectations);
+  expectations.add_function(0, "lazy");
+  expectations.add_function("influence")->call_was_made(1);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "lazy", expectations);
 
-  mock().expectNoCall("lazy");
-  mock().expectOneCall("influence");
-  mock().actualCall("influence");
-  mock().actualCall("lazy");
+  mock().expect_no_call("lazy");
+  mock().expect_one_call("influence");
+  mock().actual_call("influence");
+  mock().actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallOnlyFailureOnceWhenMultipleHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(0, "lazy");
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "lazy", expectations);
+  expectations.add_function(0, "lazy");
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "lazy", expectations);
 
-  mock().expectNoCall("lazy");
-  mock().actualCall("lazy");
-  mock().actualCall("lazy");
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  mock().expect_no_call("lazy");
+  mock().actual_call("lazy");
+  mock().actual_call("lazy");
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, ignoreOtherCallsExceptForTheUnExpectedOne)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(0, "lazy");
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "lazy", expectations);
+  expectations.add_function(0, "lazy");
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "lazy", expectations);
 
-  mock().expectNoCall("lazy");
-  mock().ignoreOtherCalls();
-  mock().actualCall("bar").withParameter("foo", 1);
-  mock().actualCall("bar1").withParameter("foo", 1);
-  mock().actualCall("bar2").withParameter("foo", 1);
-  mock().actualCall("lazy");
+  mock().expect_no_call("lazy");
+  mock().ignore_other_calls();
+  mock().actual_call("bar").with_parameter("foo", 1);
+  mock().actual_call("bar1").with_parameter("foo", 1);
+  mock().actual_call("bar2").with_parameter("foo", 1);
+  mock().actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallInScopeThatHappened)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(0, "scope::lazy");
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "scope::lazy", expectations);
+  expectations.add_function(0, "scope::lazy");
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "scope::lazy", expectations);
 
-  mock("scope").expectNoCall("lazy");
-  mock("scope").actualCall("lazy");
+  mock("scope").expect_no_call("lazy");
+  mock("scope").actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallInScopeButActualCallInAnotherScope)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "scope2::lazy", expectations);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "scope2::lazy", expectations);
 
-  mock("scope1").expectNoCall("lazy");
-  mock("scope2").actualCall("lazy");
+  mock("scope1").expect_no_call("lazy");
+  mock("scope2").actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNoCallInScopeButActualCallInGlobal)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "lazy", expectations);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "lazy", expectations);
 
-  mock("scope1").expectNoCall("lazy");
-  mock().actualCall("lazy");
+  mock("scope1").expect_no_call("lazy");
+  mock().actual_call("lazy");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, ignoreOtherCallsExceptForTheExpectedOne)
 {
-  mock().expectOneCall("foo");
-  mock().ignoreOtherCalls();
-  mock().actualCall("bar").withParameter("foo", 1);
+  mock().expect_one_call("foo");
+  mock().ignore_other_calls();
+  mock().actual_call("bar").with_parameter("foo", 1);
 
   mock().clear();
 }
 
 TEST(MockCall, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("foo")->callWasMade(1);
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "foo", expectations);
+  expectations.add_function("foo")->call_was_made(1);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "foo", expectations);
 
-  mock().expectOneCall("foo");
-  mock().ignoreOtherCalls();
-  mock().actualCall("bar");
-  mock().actualCall("foo");
-  mock().actualCall("foo");
+  mock().expect_one_call("foo");
+  mock().ignore_other_calls();
+  mock().actual_call("bar");
+  mock().actual_call("foo");
+  mock().actual_call("foo");
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, ignoreOtherStillFailsIfExpectedOneDidntHappen)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("foo");
-  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
-      mockFailureTest(), expectations);
+  expectations.add_function("foo");
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expected_failure(
+      mock_failure_test(), expectations);
 
-  mock().expectOneCall("foo");
-  mock().ignoreOtherCalls();
-  mock().checkExpectations();
+  mock().expect_one_call("foo");
+  mock().ignore_other_calls();
+  mock().check_expectations();
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, threeExpectedAndActual)
 {
-  mock().expectOneCall("function1");
-  mock().expectOneCall("function2");
-  mock().expectOneCall("function3");
-  mock().actualCall("function1");
-  mock().actualCall("function2");
-  mock().actualCall("function3");
+  mock().expect_one_call("function1");
+  mock().expect_one_call("function2");
+  mock().expect_one_call("function3");
+  mock().actual_call("function1");
+  mock().actual_call("function2");
+  mock().actual_call("function3");
 
-  mock().checkExpectations();
+  mock().check_expectations();
 }
 
 TEST(MockCall, disableEnable)
 {
   mock().disable();
-  mock().expectOneCall("function");
-  mock().actualCall("differenFunction");
-  CHECK(!mock().expectedCallsLeft());
+  mock().expect_one_call("function");
+  mock().actual_call("differenFunction");
+  CHECK(!mock().expected_calls_left());
   mock().enable();
-  mock().expectOneCall("function");
-  CHECK(mock().expectedCallsLeft());
-  mock().actualCall("function");
+  mock().expect_one_call("function");
+  CHECK(mock().expected_calls_left());
+  mock().actual_call("function");
 
-  mock().checkExpectations();
+  mock().check_expectations();
 }
 
 TEST(MockCall, OnObject)
 {
-  void* objectPtr = reinterpret_cast<void*>(0x001);
-  mock().expectOneCall("boo").onObject(objectPtr);
-  mock().actualCall("boo").onObject(objectPtr);
+  void* object_ptr = reinterpret_cast<void*>(0x001);
+  mock().expect_one_call("boo").on_object(object_ptr);
+  mock().actual_call("boo").on_object(object_ptr);
 }
 
 TEST(MockCall, OnObjectIgnored_MatchingAlreadyWhenObjectPassed)
 {
-  void* objectPtr = reinterpret_cast<void*>(0x001);
-  mock().expectOneCall("boo");
-  mock().actualCall("boo").onObject(objectPtr);
+  void* object_ptr = reinterpret_cast<void*>(0x001);
+  mock().expect_one_call("boo");
+  mock().actual_call("boo").on_object(object_ptr);
 }
 
 TEST(MockCall, OnObjectIgnored_NotMatchingYetWhenObjectPassed)
 {
-  void* objectPtr = reinterpret_cast<void*>(0x001);
-  mock().expectOneCall("boo").withBoolParameter("p", true);
-  mock().actualCall("boo").onObject(objectPtr).withBoolParameter("p", true);
+  void* object_ptr = reinterpret_cast<void*>(0x001);
+  mock().expect_one_call("boo").with_bool_parameter("p", true);
+  mock()
+      .actual_call("boo")
+      .on_object(object_ptr)
+      .with_bool_parameter("p", true);
 }
 
 TEST(MockCall, OnObjectIgnored_InitialMatchDiscarded)
 {
-  void* objectPtr1 = reinterpret_cast<void*>(0x001);
-  void* objectPtr2 = reinterpret_cast<void*>(0x002);
+  void* object_ptr1 = reinterpret_cast<void*>(0x001);
+  void* object_ptr2 = reinterpret_cast<void*>(0x002);
 
-  mock().expectOneCall("boo");
-  mock().expectOneCall("boo").withBoolParameter("p", true);
-  mock().actualCall("boo").onObject(objectPtr2).withBoolParameter("p", true);
-  mock().actualCall("boo").onObject(objectPtr1);
+  mock().expect_one_call("boo");
+  mock().expect_one_call("boo").with_bool_parameter("p", true);
+  mock()
+      .actual_call("boo")
+      .on_object(object_ptr2)
+      .with_bool_parameter("p", true);
+  mock().actual_call("boo").on_object(object_ptr1);
 }
 
 TEST(MockCall, OnObjectFails)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  void* objectPtr = reinterpret_cast<void*>(0x001);
-  void* objectPtr2 = reinterpret_cast<void*>(0x002);
+  void* object_ptr = reinterpret_cast<void*>(0x001);
+  void* object_ptr2 = reinterpret_cast<void*>(0x002);
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("boo")->onObject(objectPtr);
+  expectations.add_function("boo")->on_object(object_ptr);
 
-  mock().expectOneCall("boo").onObject(objectPtr);
-  mock().actualCall("boo").onObject(objectPtr2);
+  mock().expect_one_call("boo").on_object(object_ptr);
+  mock().actual_call("boo").on_object(object_ptr2);
 
-  cpputest::extensions::MockUnexpectedObjectFailure expectedFailure(
-      mockFailureTest(), "boo", objectPtr2, expectations);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedObjectFailure expected_failure(
+      mock_failure_test(), "boo", object_ptr2, expectations);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, OnObjectExpectedButNotCalled)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  void* objectPtr = reinterpret_cast<void*>(0x001);
+  void* object_ptr = reinterpret_cast<void*>(0x001);
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("boo")->onObject(objectPtr);
-  expectations.addFunction("boo")->onObject(objectPtr);
+  expectations.add_function("boo")->on_object(object_ptr);
+  expectations.add_function("boo")->on_object(object_ptr);
 
-  mock().expectOneCall("boo").onObject(objectPtr);
-  mock().expectOneCall("boo").onObject(objectPtr);
-  mock().actualCall("boo");
-  mock().actualCall("boo");
+  mock().expect_one_call("boo").on_object(object_ptr);
+  mock().expect_one_call("boo").on_object(object_ptr);
+  mock().actual_call("boo");
+  mock().actual_call("boo");
 
-  cpputest::extensions::MockExpectedObjectDidntHappenFailure expectedFailure(
-      mockFailureTest(), "boo", expectations);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
-  mock().checkExpectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockExpectedObjectDidntHappenFailure expected_failure(
+      mock_failure_test(), "boo", expectations);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  mock().check_expectations();
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, expectNCalls_Fulfilled)
 {
-  mock().expectNCalls(2, "boo");
-  mock().actualCall("boo");
-  mock().actualCall("boo");
-  mock().checkExpectations();
+  mock().expect_n_calls(2, "boo");
+  mock().actual_call("boo");
+  mock().actual_call("boo");
+  mock().check_expectations();
 }
 
 TEST(MockCall, expectNCalls_NotFulfilled)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction(2, "boo")->callWasMade(1);
-  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
-      mockFailureTest(), expectations);
+  expectations.add_function(2, "boo")->call_was_made(1);
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expected_failure(
+      mock_failure_test(), expectations);
 
-  mock().expectNCalls(2, "boo");
-  mock().actualCall("boo");
-  mock().checkExpectations();
+  mock().expect_n_calls(2, "boo");
+  mock().actual_call("boo");
+  mock().check_expectations();
 
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCall, shouldntFailTwice)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
-  mock().strictOrder();
-  mock().expectOneCall("foo");
-  mock().expectOneCall("boo");
-  mock().actualCall("boo");
-  mock().actualCall("bar");
-  mock().checkExpectations();
+  mock().strict_order();
+  mock().expect_one_call("foo");
+  mock().expect_one_call("boo");
+  mock().actual_call("boo");
+  mock().actual_call("bar");
+  mock().check_expectations();
 
-  CHECK(!stringContains(
-      MockFailureReporterForTest::getReporter()->mockFailureString, "bar"));
-  CHECK(stringContains(
-      MockFailureReporterForTest::getReporter()->mockFailureString, "boo"));
+  CHECK(!string_contains(
+      MockFailureReporterForTest::get_reporter()->mock_failure_string, "bar"));
+  CHECK(string_contains(
+      MockFailureReporterForTest::get_reporter()->mock_failure_string, "boo"));
 }
 
 TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
 {
-  CHECK(mock().returnValue().equals(cpputest::extensions::MockNamedValue("")));
+  CHECK(mock().return_value().equals(cpputest::extensions::MockNamedValue("")));
 }
 
 IGNORE_TEST(MockCall, testForPerformanceProfiling)
 {
   /* TO fix! */
-  mock().expectNCalls(2000, "SimpleFunction");
+  mock().expect_n_calls(2000, "SimpleFunction");
   for (int i = 0; i < 2000; i++) {
-    mock().actualCall("SimpleFunction");
+    mock().actual_call("SimpleFunction");
   }
 }
 
 namespace {
 void
-mocksAreCountedAsChecksTestFunction_()
+mocks_are_counted_as_checks_test_function()
 {
-  mock().expectOneCall("foo");
-  mock().expectNCalls(3, "bar");
-  mock().expectNoCall("lazy");
+  mock().expect_one_call("foo");
+  mock().expect_n_calls(3, "bar");
+  mock().expect_no_call("lazy");
   mock().clear();
 }
 }
@@ -497,18 +503,18 @@ mocksAreCountedAsChecksTestFunction_()
 TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
 {
   cpputest::TestTestingFixture fixture;
-  fixture.setTestFunction(mocksAreCountedAsChecksTestFunction_);
-  fixture.runAllTests();
-  LONGS_EQUAL(3, fixture.getCheckCount());
+  fixture.set_test_function(mocks_are_counted_as_checks_test_function);
+  fixture.run_all_tests();
+  LONGS_EQUAL(3, fixture.get_check_count());
 }
 
 TEST(MockCall, expectationsLeftBeforCheckExpectations)
 {
-  CHECK(!mock().expectedCallsLeft());
-  mock().expectOneCall("boo");
-  CHECK(mock().expectedCallsLeft());
-  mock().actualCall("boo");
-  CHECK(!mock().expectedCallsLeft());
-  mock().checkExpectations();
-  CHECK(!mock().expectedCallsLeft());
+  CHECK(!mock().expected_calls_left());
+  mock().expect_one_call("boo");
+  CHECK(mock().expected_calls_left());
+  mock().actual_call("boo");
+  CHECK(!mock().expected_calls_left());
+  mock().check_expectations();
+  CHECK(!mock().expected_calls_left());
 }

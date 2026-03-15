@@ -9,44 +9,46 @@ namespace cpputest {
 
 TestResult::TestResult(TestOutput& p)
   : output_(p)
-  , testCount_(0)
-  , runCount_(0)
-  , checkCount_(0)
-  , failureCount_(0)
-  , filteredOutCount_(0)
-  , ignoredCount_(0)
-  , totalExecutionTime_(0)
-  , timeStarted_(0)
-  , currentTestTimeStarted_(0)
-  , currentTestTotalExecutionTime_(0)
-  , currentGroupTimeStarted_(0)
-  , currentGroupTotalExecutionTime_(0)
+  , test_count_(0)
+  , run_count_(0)
+  , check_count_(0)
+  , failure_count_(0)
+  , filtered_out_count_(0)
+  , ignored_count_(0)
+  , total_execution_time_(0)
+  , time_started_(0)
+  , current_test_time_started_(0)
+  , current_test_total_execution_time_(0)
+  , current_group_time_started_(0)
+  , current_group_total_execution_time_(0)
 {
 }
 
 TestResult::~TestResult() {}
 
 void
-TestResult::currentGroupStarted(TestShell* test)
+TestResult::current_group_started(TestShell* test)
 {
-  output_.printCurrentGroupStarted(*test);
-  currentGroupTimeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
+  output_.print_current_group_started(*test);
+  current_group_time_started_ =
+      static_cast<size_t>(cpputest::get_time_in_millis());
 }
 
 void
-TestResult::currentGroupEnded(TestShell* /*test*/)
+TestResult::current_group_ended(TestShell* /*test*/)
 {
-  currentGroupTotalExecutionTime_ =
-      static_cast<size_t>(cpputest::GetTimeInMillis()) -
-      currentGroupTimeStarted_;
-  output_.printCurrentGroupEnded(*this);
+  current_group_total_execution_time_ =
+      static_cast<size_t>(cpputest::get_time_in_millis()) -
+      current_group_time_started_;
+  output_.print_current_group_ended(*this);
 }
 
 void
-TestResult::currentTestStarted(TestShell* test)
+TestResult::current_test_started(TestShell* test)
 {
-  output_.printCurrentTestStarted(*test);
-  currentTestTimeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
+  output_.print_current_test_started(*test);
+  current_test_time_started_ =
+      static_cast<size_t>(cpputest::get_time_in_millis());
 }
 
 void
@@ -56,94 +58,94 @@ TestResult::print(const char* text)
 }
 
 void
-TestResult::printVeryVerbose(const char* text)
+TestResult::print_very_verbose(const char* text)
 {
-  output_.printVeryVerbose(text);
+  output_.print_very_verbose(text);
 }
 
 void
-TestResult::currentTestEnded(TestShell* /*test*/)
+TestResult::current_test_ended(TestShell* /*test*/)
 {
-  currentTestTotalExecutionTime_ =
-      static_cast<size_t>(cpputest::GetTimeInMillis()) -
-      currentTestTimeStarted_;
-  output_.printCurrentTestEnded(*this);
+  current_test_total_execution_time_ =
+      static_cast<size_t>(cpputest::get_time_in_millis()) -
+      current_test_time_started_;
+  output_.print_current_test_ended(*this);
 }
 
 void
-TestResult::addFailure(const TestFailure& failure)
+TestResult::add_failure(const TestFailure& failure)
 {
-  output_.printFailure(failure);
-  failureCount_++;
+  output_.print_failure(failure);
+  failure_count_++;
 }
 
 void
-TestResult::countTest()
+TestResult::count_test()
 {
-  testCount_++;
+  test_count_++;
 }
 
 void
-TestResult::countRun()
+TestResult::count_run()
 {
-  runCount_++;
+  run_count_++;
 }
 
 void
-TestResult::countCheck()
+TestResult::count_check()
 {
-  checkCount_++;
+  check_count_++;
 }
 
 void
-TestResult::countFilteredOut()
+TestResult::count_filtered_out()
 {
-  filteredOutCount_++;
+  filtered_out_count_++;
 }
 
 void
-TestResult::countIgnored()
+TestResult::count_ignored()
 {
-  ignoredCount_++;
+  ignored_count_++;
 }
 
 void
-TestResult::testsStarted()
+TestResult::tests_started()
 {
-  timeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
-  output_.printTestsStarted();
+  time_started_ = static_cast<size_t>(cpputest::get_time_in_millis());
+  output_.print_tests_started();
 }
 
 void
-TestResult::testsEnded()
+TestResult::tests_ended()
 {
-  auto timeEnded = static_cast<size_t>(cpputest::GetTimeInMillis());
-  totalExecutionTime_ = timeEnded - timeStarted_;
-  output_.printTestsEnded(*this);
+  auto time_ended = static_cast<size_t>(cpputest::get_time_in_millis());
+  total_execution_time_ = time_ended - time_started_;
+  output_.print_tests_ended(*this);
 }
 
 size_t
-TestResult::getTotalExecutionTime() const
+TestResult::get_total_execution_time() const
 {
-  return totalExecutionTime_;
+  return total_execution_time_;
 }
 
 void
-TestResult::setTotalExecutionTime(size_t exTime)
+TestResult::set_total_execution_time(size_t ex_time)
 {
-  totalExecutionTime_ = exTime;
+  total_execution_time_ = ex_time;
 }
 
 size_t
-TestResult::getCurrentTestTotalExecutionTime() const
+TestResult::get_current_test_total_execution_time() const
 {
-  return currentTestTotalExecutionTime_;
+  return current_test_total_execution_time_;
 }
 
 size_t
-TestResult::getCurrentGroupTotalExecutionTime() const
+TestResult::get_current_group_total_execution_time() const
 {
-  return currentGroupTotalExecutionTime_;
+  return current_group_total_execution_time_;
 }
 
 } // namespace cpputest

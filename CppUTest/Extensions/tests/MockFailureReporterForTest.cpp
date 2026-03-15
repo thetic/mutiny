@@ -5,20 +5,20 @@
 using cpputest::extensions::mock;
 
 void
-MockFailureReporterForTest::failTest(cpputest::extensions::MockFailure failure)
+MockFailureReporterForTest::fail_test(cpputest::extensions::MockFailure failure)
 {
-  mockFailureString = failure.getMessage();
+  mock_failure_string = failure.get_message();
 }
 
 void
-MockFailureReporterForTest::reportFailure(
+MockFailureReporterForTest::report_failure(
     const cpputest::extensions::MockFailure& failure)
 {
-  mockFailureString = failure.getMessage();
+  mock_failure_string = failure.get_message();
 }
 
 void
-MockFailureReporterForTest::exitTest()
+MockFailureReporterForTest::exit_test()
 {
   // suppress exit in test-spy mode
 }
@@ -26,7 +26,7 @@ MockFailureReporterForTest::exitTest()
 MockFailureReporterForTest* MockFailureReporterForTest::instance_ = nullptr;
 
 MockFailureReporterForTest*
-MockFailureReporterForTest::getReporter()
+MockFailureReporterForTest::get_reporter()
 {
   if (instance_ == nullptr)
     instance_ = new MockFailureReporterForTest;
@@ -35,7 +35,7 @@ MockFailureReporterForTest::getReporter()
 }
 
 void
-MockFailureReporterForTest::clearReporter()
+MockFailureReporterForTest::clear_reporter()
 {
   delete instance_;
   instance_ = nullptr;
@@ -43,94 +43,94 @@ MockFailureReporterForTest::clearReporter()
 
 MockFailureReporterInstaller::MockFailureReporterInstaller()
 {
-  mock().setMockFailureStandardReporter(
-      MockFailureReporterForTest::getReporter());
+  mock().set_mock_failure_standard_reporter(
+      MockFailureReporterForTest::get_reporter());
 }
 
 MockFailureReporterInstaller::~MockFailureReporterInstaller()
 {
-  mock().setMockFailureStandardReporter(nullptr);
-  MockFailureReporterForTest::clearReporter();
+  mock().set_mock_failure_standard_reporter(nullptr);
+  MockFailureReporterForTest::clear_reporter();
 }
 
 cpputest::TestShell*
-mockFailureTest()
+mock_failure_test()
 {
-  return MockFailureReporterForTest::getReporter()->getTestToFail();
+  return MockFailureReporterForTest::get_reporter()->get_test_to_fail();
 }
 
 cpputest::String
-mockFailureString()
+mock_failure_string()
 {
-  return MockFailureReporterForTest::getReporter()->mockFailureString;
+  return MockFailureReporterForTest::get_reporter()->mock_failure_string;
 }
 
 void
-CLEAR_MOCK_FAILURE()
+clear_mock_failure()
 {
-  MockFailureReporterForTest::getReporter()->mockFailureString = "";
+  MockFailureReporterForTest::get_reporter()->mock_failure_string = "";
 }
 
 void
-CHECK_EXPECTED_MOCK_FAILURE_LOCATION(
-    const cpputest::extensions::MockFailure& expectedFailure,
+check_expected_mock_failure_location(
+    const cpputest::extensions::MockFailure& expected_failure,
     const char* file,
     size_t line)
 {
-  cpputest::String expectedFailureString = expectedFailure.getMessage();
-  cpputest::String actualFailureString = mockFailureString();
-  CLEAR_MOCK_FAILURE();
-  if (expectedFailureString != actualFailureString) {
+  cpputest::String expected_failure_string = expected_failure.get_message();
+  cpputest::String actual_failure_string = mock_failure_string();
+  clear_mock_failure();
+  if (expected_failure_string != actual_failure_string) {
     cpputest::String error = "MockFailures are different.\n";
     error += "Expected MockFailure:\n\t";
-    error += expectedFailureString;
+    error += expected_failure_string;
     error += "\nActual MockFailure:\n\t";
-    error += actualFailureString;
+    error += actual_failure_string;
     FAIL_LOCATION(error.c_str(), file, line);
   }
 }
 
 void
-CHECK_NO_MOCK_FAILURE_LOCATION(const char* file, size_t line)
+check_no_mock_failure_location(const char* file, size_t line)
 {
-  if (mockFailureString() != "") {
+  if (mock_failure_string() != "") {
     cpputest::String error = "Unexpected mock failure:\n";
-    error += mockFailureString();
-    CLEAR_MOCK_FAILURE();
+    error += mock_failure_string();
+    clear_mock_failure();
     FAIL_LOCATION(error.c_str(), file, line);
   }
-  CLEAR_MOCK_FAILURE();
+  clear_mock_failure();
 }
 
 MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
 {
-  deleteAllExpectationsAndClearList();
+  delete_all_expectations_and_clear_list();
 }
 
 cpputest::extensions::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::addFunction(const cpputest::String& name)
+MockExpectedCallsListForTest::add_function(const cpputest::String& name)
 {
-  auto* newCall = new cpputest::extensions::MockCheckedExpectedCall;
-  newCall->withName(name);
-  addExpectedCall(newCall);
-  return newCall;
+  auto* new_call = new cpputest::extensions::MockCheckedExpectedCall;
+  new_call->with_name(name);
+  add_expected_call(new_call);
+  return new_call;
 }
 
 cpputest::extensions::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
+MockExpectedCallsListForTest::add_function(unsigned int num_calls,
     const cpputest::String& name)
 {
-  auto* newCall = new cpputest::extensions::MockCheckedExpectedCall(numCalls);
-  newCall->withName(name);
-  addExpectedCall(newCall);
-  return newCall;
+  auto* new_call = new cpputest::extensions::MockCheckedExpectedCall(num_calls);
+  new_call->with_name(name);
+  add_expected_call(new_call);
+  return new_call;
 }
 
 cpputest::extensions::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::addFunctionOrdered(const cpputest::String& name,
+MockExpectedCallsListForTest::add_function_ordered(const cpputest::String& name,
     unsigned int order)
 {
-  auto* newCall = addFunction(name);
-  newCall->withCallOrder(order);
-  return newCall;
+  auto* new_call = add_function(name);
+  new_call->with_call_order(order);
+  return new_call;
 }

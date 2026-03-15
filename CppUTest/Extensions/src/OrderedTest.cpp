@@ -6,127 +6,128 @@
 namespace cpputest {
 namespace extensions {
 
-OrderedTestShell* OrderedTestShell::_orderedTestsHead = nullptr;
+OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
 OrderedTestShell::OrderedTestShell()
-  : _nextOrderedTest(nullptr)
-  , _level(0)
+  : next_ordered_test_(nullptr)
+  , level_(0)
 {
 }
 
 OrderedTestShell::~OrderedTestShell() {}
 
 bool
-OrderedTestShell::isOrdered() const
+OrderedTestShell::is_ordered() const
 {
   return true;
 }
 
 int
-OrderedTestShell::getLevel()
+OrderedTestShell::get_level()
 {
-  return _level;
+  return level_;
 }
 
 void
-OrderedTestShell::setLevel(int level)
+OrderedTestShell::set_level(int level)
 {
-  _level = level;
+  level_ = level;
 }
 
 void
-OrderedTestShell::setOrderedTestHead(OrderedTestShell* test)
+OrderedTestShell::set_ordered_test_head(OrderedTestShell* test)
 {
-  _orderedTestsHead = test;
+  ordered_tests_head_ = test;
 }
 
 OrderedTestShell*
-OrderedTestShell::getOrderedTestHead()
+OrderedTestShell::get_ordered_test_head()
 {
-  return _orderedTestsHead;
+  return ordered_tests_head_;
 }
 
 bool
-OrderedTestShell::firstOrderedTest()
+OrderedTestShell::first_ordered_test()
 {
-  return (getOrderedTestHead() == nullptr);
+  return (get_ordered_test_head() == nullptr);
 }
 
 OrderedTestShell*
-OrderedTestShell::addOrderedTest(OrderedTestShell* test)
+OrderedTestShell::add_ordered_test(OrderedTestShell* test)
 {
-  cpputest::TestShell::addTest(test);
-  _nextOrderedTest = test;
+  cpputest::TestShell::add_test(test);
+  next_ordered_test_ = test;
   return this;
 }
 
 void
-OrderedTestShell::addOrderedTestToHead(OrderedTestShell* test)
+OrderedTestShell::add_ordered_test_to_head(OrderedTestShell* test)
 {
-  TestRegistry* reg = TestRegistry::getCurrentRegistry();
-  cpputest::TestShell* head = getOrderedTestHead();
+  TestRegistry* reg = TestRegistry::get_current_registry();
+  cpputest::TestShell* head = get_ordered_test_head();
 
-  if (nullptr == reg->getFirstTest() || head == reg->getFirstTest()) {
-    reg->addTest(test);
+  if (nullptr == reg->get_first_test() || head == reg->get_first_test()) {
+    reg->add_test(test);
   } else {
-    reg->getTestWithNext(head)->addTest(test);
-    test->addTest(head);
+    reg->get_test_with_next(head)->add_test(test);
+    test->add_test(head);
   }
 
-  test->_nextOrderedTest = getOrderedTestHead();
-  setOrderedTestHead(test);
+  test->next_ordered_test_ = get_ordered_test_head();
+  set_ordered_test_head(test);
 }
 
 OrderedTestShell*
-OrderedTestShell::getNextOrderedTest()
+OrderedTestShell::get_next_ordered_test()
 {
-  return _nextOrderedTest;
+  return next_ordered_test_;
 }
 
 OrderedTestInstaller::OrderedTestInstaller(OrderedTestShell& test,
-    const char* groupName,
-    const char* testName,
-    const char* fileName,
-    size_t lineNumber,
+    const char* group_name,
+    const char* test_name,
+    const char* file_name,
+    size_t line_number,
     int level)
 {
-  test.setTestName(testName);
-  test.setGroupName(groupName);
-  test.setFileName(fileName);
-  test.setLineNumber(lineNumber);
-  test.setLevel(level);
+  test.set_test_name(test_name);
+  test.set_group_name(group_name);
+  test.set_file_name(file_name);
+  test.set_line_number(line_number);
+  test.set_level(level);
 
-  if (OrderedTestShell::firstOrderedTest())
-    OrderedTestShell::addOrderedTestToHead(&test);
+  if (OrderedTestShell::first_ordered_test())
+    OrderedTestShell::add_ordered_test_to_head(&test);
   else
-    addOrderedTestInOrder(&test);
+    add_ordered_test_in_order(&test);
 }
 
 void
-OrderedTestInstaller::addOrderedTestInOrder(OrderedTestShell* test)
+OrderedTestInstaller::add_ordered_test_in_order(OrderedTestShell* test)
 {
-  if (test->getLevel() < OrderedTestShell::getOrderedTestHead()->getLevel())
-    OrderedTestShell::addOrderedTestToHead(test);
+  if (test->get_level() <
+      OrderedTestShell::get_ordered_test_head()->get_level())
+    OrderedTestShell::add_ordered_test_to_head(test);
   else
-    addOrderedTestInOrderNotAtHeadPosition(test);
+    add_ordered_test_in_order_not_at_head_position(test);
 }
 
 void
-OrderedTestInstaller::addOrderedTestInOrderNotAtHeadPosition(
+OrderedTestInstaller::add_ordered_test_in_order_not_at_head_position(
     OrderedTestShell* test)
 {
-  OrderedTestShell* current = OrderedTestShell::getOrderedTestHead();
-  while (current->getNextOrderedTest()) {
+  OrderedTestShell* current = OrderedTestShell::get_ordered_test_head();
+  while (current->get_next_ordered_test()) {
 
-    if (current->getNextOrderedTest()->getLevel() > test->getLevel()) {
-      test->addOrderedTest(current->getNextOrderedTest());
-      current->addOrderedTest(test);
+    if (current->get_next_ordered_test()->get_level() > test->get_level()) {
+      test->add_ordered_test(current->get_next_ordered_test());
+      current->add_ordered_test(test);
       return;
     }
-    current = current->getNextOrderedTest();
+    current = current->get_next_ordered_test();
   }
-  test->addOrderedTest(current->getNextOrderedTest());
-  current->addOrderedTest(test);
+  test->add_ordered_test(current->get_next_ordered_test());
+  current->add_ordered_test(test);
 }
 
 OrderedTestInstaller::~OrderedTestInstaller() {}

@@ -6,37 +6,37 @@
 
 namespace cpputest {
 
-int (*Rand)() = rand;
+int (*rand)() = ::rand;
 
-TestShellPointerArray::TestShellPointerArray(TestShell* firstTest)
-  : arrayOfTests_(nullptr)
+TestShellPointerArray::TestShellPointerArray(TestShell* first_test)
+  : array_of_tests_(nullptr)
   , count_(0)
 {
-  count_ = (firstTest) ? firstTest->countTests() : 0;
+  count_ = (first_test) ? first_test->count_tests() : 0;
   if (count_ == 0)
     return;
 
-  arrayOfTests_ = new TestShell*[count_];
+  array_of_tests_ = new TestShell*[count_];
 
-  TestShell* currentTest = firstTest;
+  TestShell* current_test = first_test;
   for (size_t i = 0; i < count_; i++) {
-    arrayOfTests_[i] = currentTest;
-    currentTest = currentTest->getNext();
+    array_of_tests_[i] = current_test;
+    current_test = current_test->get_next();
   }
 }
 
 TestShellPointerArray::~TestShellPointerArray()
 {
-  delete[] arrayOfTests_;
+  delete[] array_of_tests_;
 }
 
 void
 TestShellPointerArray::swap(size_t index1, size_t index2)
 {
-  TestShell* e2 = arrayOfTests_[index2];
-  TestShell* e1 = arrayOfTests_[index1];
-  arrayOfTests_[index1] = e2;
-  arrayOfTests_[index2] = e1;
+  TestShell* e2 = array_of_tests_[index2];
+  TestShell* e1 = array_of_tests_[index1];
+  array_of_tests_[index1] = e2;
+  array_of_tests_[index2] = e1;
 }
 
 void
@@ -52,11 +52,11 @@ TestShellPointerArray::shuffle(size_t seed)
       return;
 
     const size_t j =
-        static_cast<size_t>(Rand()) %
+        static_cast<size_t>(rand()) %
         (i + 1); // distribution biased by modulo, but good enough for shuffling
     swap(i, j);
   }
-  relinkTestsInOrder();
+  relink_tests_in_order();
 }
 
 void
@@ -65,24 +65,24 @@ TestShellPointerArray::reverse()
   if (count_ == 0)
     return;
 
-  size_t halfCount = count_ / 2;
-  for (size_t i = 0; i < halfCount; i++) {
+  size_t half_count = count_ / 2;
+  for (size_t i = 0; i < half_count; i++) {
     size_t j = count_ - i - 1;
     swap(i, j);
   }
-  relinkTestsInOrder();
+  relink_tests_in_order();
 }
 
 void
-TestShellPointerArray::relinkTestsInOrder()
+TestShellPointerArray::relink_tests_in_order()
 {
   TestShell* tests = nullptr;
   for (size_t i = 0; i < count_; i++)
-    tests = arrayOfTests_[count_ - i - 1]->addTest(tests);
+    tests = array_of_tests_[count_ - i - 1]->add_test(tests);
 }
 
 TestShell*
-TestShellPointerArray::getFirstTest() const
+TestShellPointerArray::get_first_test() const
 {
   return get(0);
 }
@@ -92,7 +92,7 @@ TestShellPointerArray::get(size_t index) const
 {
   if (index >= count_)
     return nullptr;
-  return arrayOfTests_[index];
+  return array_of_tests_[index];
 }
 
 } // namespace cpputest

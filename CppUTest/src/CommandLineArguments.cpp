@@ -9,38 +9,38 @@ namespace cpputest {
 CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   : ac_(argc)
   , av_(argv)
-  , needHelp_(false)
+  , need_help_(false)
   , verbose_(false)
-  , veryVerbose_(false)
+  , very_verbose_(false)
   , color_(false)
-  , listTestGroupNames_(false)
-  , listTestGroupAndCaseNames_(false)
-  , listTestLocations_(false)
-  , listOrderedTestLocations_(false)
-  , runIgnored_(false)
+  , list_test_group_names_(false)
+  , list_test_group_and_case_names_(false)
+  , list_test_locations_(false)
+  , list_ordered_test_locations_(false)
+  , run_ignored_(false)
   , reversing_(false)
-  , crashOnFail_(false)
-  , rethrowExceptions_(true)
+  , crash_on_fail_(false)
+  , rethrow_exceptions_(true)
   , shuffling_(false)
-  , shufflingPreSeeded_(false)
+  , shuffling_pre_seeded_(false)
   , repeat_(1)
-  , shuffleSeed_(0)
-  , groupFilters_(nullptr)
-  , nameFilters_(nullptr)
-  , outputType_(OutputType::ECLIPSE)
+  , shuffle_seed_(0)
+  , group_filters_(nullptr)
+  , name_filters_(nullptr)
+  , output_type_(OutputType::eclipse)
 {
 }
 
 CommandLineArguments::~CommandLineArguments()
 {
-  while (groupFilters_) {
-    TestFilter* current = groupFilters_;
-    groupFilters_ = groupFilters_->getNext();
+  while (group_filters_) {
+    TestFilter* current = group_filters_;
+    group_filters_ = group_filters_->get_next();
     delete current;
   }
-  while (nameFilters_) {
-    TestFilter* current = nameFilters_;
-    nameFilters_ = nameFilters_->getNext();
+  while (name_filters_) {
+    TestFilter* current = name_filters_;
+    name_filters_ = name_filters_->get_next();
     delete current;
   }
 }
@@ -48,81 +48,81 @@ CommandLineArguments::~CommandLineArguments()
 bool
 CommandLineArguments::parse(TestPlugin* plugin)
 {
-  bool correctParameters = true;
+  bool correct_parameters = true;
   for (int i = 1; i < ac_; i++) {
     String argument = av_[i];
 
     if (argument == "-h") {
-      needHelp_ = true;
-      correctParameters = false;
+      need_help_ = true;
+      correct_parameters = false;
     } else if (argument == "-v")
       verbose_ = true;
     else if (argument == "-vv")
-      veryVerbose_ = true;
+      very_verbose_ = true;
     else if (argument == "-c")
       color_ = true;
     else if (argument == "-b")
       reversing_ = true;
     else if (argument == "-lg")
-      listTestGroupNames_ = true;
+      list_test_group_names_ = true;
     else if (argument == "-ln")
-      listTestGroupAndCaseNames_ = true;
+      list_test_group_and_case_names_ = true;
     else if (argument == "-llo")
-      listOrderedTestLocations_ = true;
+      list_ordered_test_locations_ = true;
     else if (argument == "-ll")
-      listTestLocations_ = true;
+      list_test_locations_ = true;
     else if (argument == "-ri")
-      runIgnored_ = true;
+      run_ignored_ = true;
     else if (argument == "-f")
-      crashOnFail_ = true;
+      crash_on_fail_ = true;
     else if ((argument == "-e") || (argument == "-ci"))
-      rethrowExceptions_ = false;
-    else if (stringStartsWith(argument, "-r"))
-      setRepeatCount(ac_, av_, i);
-    else if (stringStartsWith(argument, "-g"))
-      addGroupFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-t"))
-      correctParameters =
-          addGroupDotNameFilter(ac_, av_, i, "-t", false, false);
-    else if (stringStartsWith(argument, "-st"))
-      correctParameters =
-          addGroupDotNameFilter(ac_, av_, i, "-st", true, false);
-    else if (stringStartsWith(argument, "-xt"))
-      correctParameters =
-          addGroupDotNameFilter(ac_, av_, i, "-xt", false, true);
-    else if (stringStartsWith(argument, "-xst"))
-      correctParameters =
-          addGroupDotNameFilter(ac_, av_, i, "-xst", true, true);
-    else if (stringStartsWith(argument, "-sg"))
-      addStrictGroupFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-xg"))
-      addExcludeGroupFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-xsg"))
-      addExcludeStrictGroupFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-n"))
-      addNameFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-sn"))
-      addStrictNameFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-xn"))
-      addExcludeNameFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-xsn"))
-      addExcludeStrictNameFilter(ac_, av_, i);
-    else if (stringStartsWith(argument, "-s"))
-      correctParameters = setShuffle(ac_, av_, i);
-    else if (stringStartsWith(argument, "TEST("))
-      addTestToRunBasedOnVerboseOutput(ac_, av_, i, "TEST(");
-    else if (stringStartsWith(argument, "IGNORE_TEST("))
-      addTestToRunBasedOnVerboseOutput(ac_, av_, i, "IGNORE_TEST(");
-    else if (stringStartsWith(argument, "-o"))
-      correctParameters = setOutputType(ac_, av_, i);
-    else if (stringStartsWith(argument, "-p"))
-      correctParameters = plugin->parseAllArguments(ac_, av_, i);
-    else if (stringStartsWith(argument, "-k"))
-      setPackageName(ac_, av_, i);
+      rethrow_exceptions_ = false;
+    else if (string_starts_with(argument, "-r"))
+      set_repeat_count(ac_, av_, i);
+    else if (string_starts_with(argument, "-g"))
+      add_group_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-t"))
+      correct_parameters =
+          add_group_dot_name_filter(ac_, av_, i, "-t", false, false);
+    else if (string_starts_with(argument, "-st"))
+      correct_parameters =
+          add_group_dot_name_filter(ac_, av_, i, "-st", true, false);
+    else if (string_starts_with(argument, "-xt"))
+      correct_parameters =
+          add_group_dot_name_filter(ac_, av_, i, "-xt", false, true);
+    else if (string_starts_with(argument, "-xst"))
+      correct_parameters =
+          add_group_dot_name_filter(ac_, av_, i, "-xst", true, true);
+    else if (string_starts_with(argument, "-sg"))
+      add_strict_group_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-xg"))
+      add_exclude_group_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-xsg"))
+      add_exclude_strict_group_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-n"))
+      add_name_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-sn"))
+      add_strict_name_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-xn"))
+      add_exclude_name_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-xsn"))
+      add_exclude_strict_name_filter(ac_, av_, i);
+    else if (string_starts_with(argument, "-s"))
+      correct_parameters = set_shuffle(ac_, av_, i);
+    else if (string_starts_with(argument, "TEST("))
+      add_test_to_run_based_on_verbose_output(ac_, av_, i, "TEST(");
+    else if (string_starts_with(argument, "IGNORE_TEST("))
+      add_test_to_run_based_on_verbose_output(ac_, av_, i, "IGNORE_TEST(");
+    else if (string_starts_with(argument, "-o"))
+      correct_parameters = set_output_type(ac_, av_, i);
+    else if (string_starts_with(argument, "-p"))
+      correct_parameters = plugin->parse_all_arguments(ac_, av_, i);
+    else if (string_starts_with(argument, "-k"))
+      set_package_name(ac_, av_, i);
     else
-      correctParameters = false;
+      correct_parameters = false;
 
-    if (correctParameters == false) {
+    if (correct_parameters == false) {
       return false;
     }
   }
@@ -220,117 +220,119 @@ CommandLineArguments::help() const
 }
 
 bool
-CommandLineArguments::needHelp() const
+CommandLineArguments::need_help() const
 {
-  return needHelp_;
+  return need_help_;
 }
 
 bool
-CommandLineArguments::isVerbose() const
+CommandLineArguments::is_verbose() const
 {
   return verbose_;
 }
 
 bool
-CommandLineArguments::isVeryVerbose() const
+CommandLineArguments::is_very_verbose() const
 {
-  return veryVerbose_;
+  return very_verbose_;
 }
 
 bool
-CommandLineArguments::isColor() const
+CommandLineArguments::is_color() const
 {
   return color_;
 }
 
 bool
-CommandLineArguments::isListingTestGroupNames() const
+CommandLineArguments::is_listing_test_group_names() const
 {
-  return listTestGroupNames_;
+  return list_test_group_names_;
 }
 
 bool
-CommandLineArguments::isListingTestGroupAndCaseNames() const
+CommandLineArguments::is_listing_test_group_and_case_names() const
 {
-  return listTestGroupAndCaseNames_;
+  return list_test_group_and_case_names_;
 }
 
 bool
-CommandLineArguments::isListingTestLocations() const
+CommandLineArguments::is_listing_test_locations() const
 {
-  return listTestLocations_;
+  return list_test_locations_;
 }
 
 bool
-CommandLineArguments::isListingOrderedTestLocations() const
+CommandLineArguments::is_listing_ordered_test_locations() const
 {
-  return listOrderedTestLocations_;
+  return list_ordered_test_locations_;
 }
 
 bool
-CommandLineArguments::isRunIgnored() const
+CommandLineArguments::is_run_ignored() const
 {
-  return runIgnored_;
+  return run_ignored_;
 }
 
 size_t
-CommandLineArguments::getRepeatCount() const
+CommandLineArguments::get_repeat_count() const
 {
   return repeat_;
 }
 
 bool
-CommandLineArguments::isReversing() const
+CommandLineArguments::is_reversing() const
 {
   return reversing_;
 }
 
 bool
-CommandLineArguments::isCrashingOnFail() const
+CommandLineArguments::is_crashing_on_fail() const
 {
-  return crashOnFail_;
+  return crash_on_fail_;
 }
 
 bool
-CommandLineArguments::isRethrowingExceptions() const
+CommandLineArguments::is_rethrowing_exceptions() const
 {
-  return rethrowExceptions_;
+  return rethrow_exceptions_;
 }
 
 bool
-CommandLineArguments::isShuffling() const
+CommandLineArguments::is_shuffling() const
 {
   return shuffling_;
 }
 
 size_t
-CommandLineArguments::getShuffleSeed() const
+CommandLineArguments::get_shuffle_seed() const
 {
-  return shuffleSeed_;
+  return shuffle_seed_;
 }
 
 const TestFilter*
-CommandLineArguments::getGroupFilters() const
+CommandLineArguments::get_group_filters() const
 {
-  return groupFilters_;
+  return group_filters_;
 }
 
 const TestFilter*
-CommandLineArguments::getNameFilters() const
+CommandLineArguments::get_name_filters() const
 {
-  return nameFilters_;
+  return name_filters_;
 }
 
 void
-CommandLineArguments::setRepeatCount(int argc, const char* const* argv, int& i)
+CommandLineArguments::set_repeat_count(int argc,
+    const char* const* argv,
+    int& i)
 {
   repeat_ = 0;
 
-  String repeatParameter(argv[i]);
-  if (repeatParameter.size() > 2)
-    repeat_ = static_cast<size_t>(AtoI(argv[i] + 2));
+  String repeat_parameter(argv[i]);
+  if (repeat_parameter.size() > 2)
+    repeat_ = static_cast<size_t>(ato_i(argv[i] + 2));
   else if (i + 1 < argc) {
-    repeat_ = static_cast<size_t>(AtoI(argv[i + 1]));
+    repeat_ = static_cast<size_t>(ato_i(argv[i + 1]));
     if (repeat_ != 0)
       i++;
   }
@@ -340,197 +342,204 @@ CommandLineArguments::setRepeatCount(int argc, const char* const* argv, int& i)
 }
 
 bool
-CommandLineArguments::setShuffle(int argc, const char* const* argv, int& i)
+CommandLineArguments::set_shuffle(int argc, const char* const* argv, int& i)
 {
   shuffling_ = true;
-  shuffleSeed_ = static_cast<unsigned int>(cpputest::GetTimeInMillis());
-  if (shuffleSeed_ == 0)
-    shuffleSeed_++;
+  shuffle_seed_ = static_cast<unsigned int>(cpputest::get_time_in_millis());
+  if (shuffle_seed_ == 0)
+    shuffle_seed_++;
 
-  String shuffleParameter = argv[i];
-  if (shuffleParameter.size() > 2) {
-    shufflingPreSeeded_ = true;
-    shuffleSeed_ = AtoU(argv[i] + 2);
+  String shuffle_parameter = argv[i];
+  if (shuffle_parameter.size() > 2) {
+    shuffling_pre_seeded_ = true;
+    shuffle_seed_ = ato_u(argv[i] + 2);
   } else if (i + 1 < argc) {
-    unsigned int parsedParameter = AtoU(argv[i + 1]);
-    if (parsedParameter != 0) {
-      shufflingPreSeeded_ = true;
-      shuffleSeed_ = parsedParameter;
+    unsigned int parsed_parameter = ato_u(argv[i + 1]);
+    if (parsed_parameter != 0) {
+      shuffling_pre_seeded_ = true;
+      shuffle_seed_ = parsed_parameter;
       i++;
     }
   }
-  return (shuffleSeed_ != 0);
+  return (shuffle_seed_ != 0);
 }
 
 String
-CommandLineArguments::getParameterField(int argc,
+CommandLineArguments::get_parameter_field(int argc,
     const char* const* argv,
     int& i,
-    const String& parameterName)
+    const String& parameter_name)
 {
-  size_t parameterLength = parameterName.size();
+  size_t parameter_length = parameter_name.size();
   String parameter(argv[i]);
-  if (parameter.size() > parameterLength)
-    return argv[i] + parameterLength;
+  if (parameter.size() > parameter_length)
+    return argv[i] + parameter_length;
   else if (i + 1 < argc)
     return argv[++i];
   return "";
 }
 
 void
-CommandLineArguments::addGroupFilter(int argc, const char* const* argv, int& i)
+CommandLineArguments::add_group_filter(int argc,
+    const char* const* argv,
+    int& i)
 {
-  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-g"));
-  groupFilters_ = groupFilter->add(groupFilters_);
+  auto* group_filter = new TestFilter(get_parameter_field(argc, argv, i, "-g"));
+  group_filters_ = group_filter->add(group_filters_);
 }
 
 bool
-CommandLineArguments::addGroupDotNameFilter(int argc,
+CommandLineArguments::add_group_dot_name_filter(int argc,
     const char* const* argv,
     int& i,
-    const String& parameterName,
+    const String& parameter_name,
     bool strict,
     bool exclude)
 {
-  String groupDotName = getParameterField(argc, argv, i, parameterName);
-  StringCollection collection(groupDotName, '.');
+  String group_dot_name = get_parameter_field(argc, argv, i, parameter_name);
+  StringCollection collection(group_dot_name, '.');
 
   if (collection.size() != 2)
     return false;
 
-  auto* groupFilter =
+  auto* group_filter =
       new TestFilter(collection[0].substr(0, collection[0].size() - 1));
-  auto* nameFilter = new TestFilter(collection[1]);
+  auto* name_filter = new TestFilter(collection[1]);
   if (strict) {
-    groupFilter->strictMatching();
-    nameFilter->strictMatching();
+    group_filter->strict_matching();
+    name_filter->strict_matching();
   }
   if (exclude) {
-    groupFilter->invertMatching();
-    nameFilter->invertMatching();
+    group_filter->invert_matching();
+    name_filter->invert_matching();
   }
-  groupFilters_ = groupFilter->add(groupFilters_);
-  nameFilters_ = nameFilter->add(nameFilters_);
+  group_filters_ = group_filter->add(group_filters_);
+  name_filters_ = name_filter->add(name_filters_);
   return true;
 }
 
 void
-CommandLineArguments::addStrictGroupFilter(int argc,
+CommandLineArguments::add_strict_group_filter(int argc,
     const char* const* argv,
     int& i)
 {
-  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-sg"));
-  groupFilter->strictMatching();
-  groupFilters_ = groupFilter->add(groupFilters_);
+  auto* group_filter =
+      new TestFilter(get_parameter_field(argc, argv, i, "-sg"));
+  group_filter->strict_matching();
+  group_filters_ = group_filter->add(group_filters_);
 }
 
 void
-CommandLineArguments::addExcludeGroupFilter(int argc,
+CommandLineArguments::add_exclude_group_filter(int argc,
     const char* const* argv,
     int& i)
 {
-  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-xg"));
-  groupFilter->invertMatching();
-  groupFilters_ = groupFilter->add(groupFilters_);
+  auto* group_filter =
+      new TestFilter(get_parameter_field(argc, argv, i, "-xg"));
+  group_filter->invert_matching();
+  group_filters_ = group_filter->add(group_filters_);
 }
 
 void
-CommandLineArguments::addExcludeStrictGroupFilter(int argc,
+CommandLineArguments::add_exclude_strict_group_filter(int argc,
     const char* const* argv,
     int& i)
 {
-  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-xsg"));
-  groupFilter->strictMatching();
-  groupFilter->invertMatching();
-  groupFilters_ = groupFilter->add(groupFilters_);
+  auto* group_filter =
+      new TestFilter(get_parameter_field(argc, argv, i, "-xsg"));
+  group_filter->strict_matching();
+  group_filter->invert_matching();
+  group_filters_ = group_filter->add(group_filters_);
 }
 
 void
-CommandLineArguments::addNameFilter(int argc, const char* const* argv, int& i)
+CommandLineArguments::add_name_filter(int argc, const char* const* argv, int& i)
 {
-  auto* nameFilter = new TestFilter(getParameterField(argc, argv, i, "-n"));
-  nameFilters_ = nameFilter->add(nameFilters_);
+  auto* name_filter = new TestFilter(get_parameter_field(argc, argv, i, "-n"));
+  name_filters_ = name_filter->add(name_filters_);
 }
 
 void
-CommandLineArguments::addStrictNameFilter(int argc,
+CommandLineArguments::add_strict_name_filter(int argc,
     const char* const* argv,
     int& index)
 {
-  auto* nameFilter =
-      new TestFilter(getParameterField(argc, argv, index, "-sn"));
-  nameFilter->strictMatching();
-  nameFilters_ = nameFilter->add(nameFilters_);
+  auto* name_filter =
+      new TestFilter(get_parameter_field(argc, argv, index, "-sn"));
+  name_filter->strict_matching();
+  name_filters_ = name_filter->add(name_filters_);
 }
 
 void
-CommandLineArguments::addExcludeNameFilter(int argc,
+CommandLineArguments::add_exclude_name_filter(int argc,
     const char* const* argv,
     int& index)
 {
-  auto* nameFilter =
-      new TestFilter(getParameterField(argc, argv, index, "-xn"));
-  nameFilter->invertMatching();
-  nameFilters_ = nameFilter->add(nameFilters_);
+  auto* name_filter =
+      new TestFilter(get_parameter_field(argc, argv, index, "-xn"));
+  name_filter->invert_matching();
+  name_filters_ = name_filter->add(name_filters_);
 }
 
 void
-CommandLineArguments::addExcludeStrictNameFilter(int argc,
+CommandLineArguments::add_exclude_strict_name_filter(int argc,
     const char* const* argv,
     int& index)
 {
-  auto* nameFilter =
-      new TestFilter(getParameterField(argc, argv, index, "-xsn"));
-  nameFilter->invertMatching();
-  nameFilter->strictMatching();
-  nameFilters_ = nameFilter->add(nameFilters_);
+  auto* name_filter =
+      new TestFilter(get_parameter_field(argc, argv, index, "-xsn"));
+  name_filter->invert_matching();
+  name_filter->strict_matching();
+  name_filters_ = name_filter->add(name_filters_);
 }
 
 void
-CommandLineArguments::addTestToRunBasedOnVerboseOutput(int argc,
+CommandLineArguments::add_test_to_run_based_on_verbose_output(int argc,
     const char* const* argv,
     int& index,
-    const char* parameterName)
+    const char* parameter_name)
 {
-  String wholename = getParameterField(argc, argv, index, parameterName);
-  String testname = wholename.subStringFromTill(',', ')');
+  String wholename = get_parameter_field(argc, argv, index, parameter_name);
+  String testname = wholename.sub_string_from_till(',', ')');
   testname = testname.substr(2);
   auto* namefilter = new TestFilter(testname);
   auto* groupfilter =
-      new TestFilter(wholename.subStringFromTill(wholename[0], ','));
-  namefilter->strictMatching();
-  groupfilter->strictMatching();
-  groupFilters_ = groupfilter->add(groupFilters_);
-  nameFilters_ = namefilter->add(nameFilters_);
+      new TestFilter(wholename.sub_string_from_till(wholename[0], ','));
+  namefilter->strict_matching();
+  groupfilter->strict_matching();
+  group_filters_ = groupfilter->add(group_filters_);
+  name_filters_ = namefilter->add(name_filters_);
 }
 
 void
-CommandLineArguments::setPackageName(int argc, const char* const* argv, int& i)
+CommandLineArguments::set_package_name(int argc,
+    const char* const* argv,
+    int& i)
 {
-  String packageName = getParameterField(argc, argv, i, "-k");
-  if (packageName.size() == 0)
+  String package_name = get_parameter_field(argc, argv, i, "-k");
+  if (package_name.size() == 0)
     return;
 
-  packageName_ = packageName;
+  package_name_ = package_name;
 }
 
 bool
-CommandLineArguments::setOutputType(int argc, const char* const* argv, int& i)
+CommandLineArguments::set_output_type(int argc, const char* const* argv, int& i)
 {
-  String outputType = getParameterField(argc, argv, i, "-o");
-  if (outputType.size() == 0)
+  String output_type = get_parameter_field(argc, argv, i, "-o");
+  if (output_type.size() == 0)
     return false;
 
-  if (outputType == "normal" || outputType == "eclipse") {
-    outputType_ = OutputType::ECLIPSE;
+  if (output_type == "normal" || output_type == "eclipse") {
+    output_type_ = OutputType::eclipse;
     return true;
   }
-  if (outputType == "junit") {
-    outputType_ = OutputType::JUNIT;
+  if (output_type == "junit") {
+    output_type_ = OutputType::junit;
     return true;
   }
-  if (outputType == "teamcity") {
-    outputType_ = OutputType::TEAMCITY;
+  if (output_type == "teamcity") {
+    output_type_ = OutputType::teamcity;
     return true;
   }
 
@@ -538,27 +547,27 @@ CommandLineArguments::setOutputType(int argc, const char* const* argv, int& i)
 }
 
 bool
-CommandLineArguments::isEclipseOutput() const
+CommandLineArguments::is_eclipse_output() const
 {
-  return outputType_ == OutputType::ECLIPSE;
+  return output_type_ == OutputType::eclipse;
 }
 
 bool
-CommandLineArguments::isJUnitOutput() const
+CommandLineArguments::is_j_unit_output() const
 {
-  return outputType_ == OutputType::JUNIT;
+  return output_type_ == OutputType::junit;
 }
 
 bool
-CommandLineArguments::isTeamCityOutput() const
+CommandLineArguments::is_team_city_output() const
 {
-  return outputType_ == OutputType::TEAMCITY;
+  return output_type_ == OutputType::teamcity;
 }
 
 const String&
-CommandLineArguments::getPackageName() const
+CommandLineArguments::get_package_name() const
 {
-  return packageName_;
+  return package_name_;
 }
 
 } // namespace cpputest

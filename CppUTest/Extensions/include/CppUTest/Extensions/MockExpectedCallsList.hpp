@@ -15,69 +15,72 @@ class MockExpectedCallsList
 public:
   MockExpectedCallsList();
   virtual ~MockExpectedCallsList();
-  virtual void deleteAllExpectationsAndClearList();
+  virtual void delete_all_expectations_and_clear_list();
 
   virtual unsigned int size() const;
-  virtual unsigned int amountOfActualCallsFulfilledFor(
+  virtual unsigned int amount_of_actual_calls_fulfilled_for(
       const cpputest::String& name) const;
-  virtual unsigned int amountOfUnfulfilledExpectations() const;
-  virtual bool hasUnfulfilledExpectations() const;
-  virtual bool hasFinalizedMatchingExpectations() const;
-  virtual bool hasUnmatchingExpectationsBecauseOfMissingParameters() const;
-  virtual bool hasExpectationWithName(const cpputest::String& name) const;
-  virtual bool hasCallsOutOfOrder() const;
+  virtual unsigned int amount_of_unfulfilled_expectations() const;
+  virtual bool has_unfulfilled_expectations() const;
+  virtual bool has_finalized_matching_expectations() const;
+  virtual bool has_unmatching_expectations_because_of_missing_parameters()
+      const;
+  virtual bool has_expectation_with_name(const cpputest::String& name) const;
+  virtual bool has_calls_out_of_order() const;
   virtual bool empty() const;
 
-  virtual void addExpectedCall(MockCheckedExpectedCall* call);
-  virtual void addExpectations(const MockExpectedCallsList& list);
-  virtual void addExpectationsRelatedTo(const cpputest::String& name,
+  virtual void add_expected_call(MockCheckedExpectedCall* call);
+  virtual void add_expectations(const MockExpectedCallsList& list);
+  virtual void add_expectations_related_to(const cpputest::String& name,
       const MockExpectedCallsList& list);
 
-  virtual void onlyKeepOutOfOrderExpectations();
-  virtual void addPotentiallyMatchingExpectations(
+  virtual void only_keep_out_of_order_expectations();
+  virtual void add_potentially_matching_expectations(
       const MockExpectedCallsList& list);
 
-  virtual void onlyKeepExpectationsRelatedTo(const cpputest::String& name);
-  virtual void onlyKeepExpectationsWithInputParameter(
+  virtual void only_keep_expectations_related_to(const cpputest::String& name);
+  virtual void only_keep_expectations_with_input_parameter(
       const MockNamedValue& parameter);
-  virtual void onlyKeepExpectationsWithInputParameterName(
+  virtual void only_keep_expectations_with_input_parameter_name(
       const cpputest::String& name);
-  virtual void onlyKeepExpectationsWithOutputParameter(
+  virtual void only_keep_expectations_with_output_parameter(
       const MockNamedValue& parameter);
-  virtual void onlyKeepExpectationsWithOutputParameterName(
+  virtual void only_keep_expectations_with_output_parameter_name(
       const cpputest::String& name);
-  virtual void onlyKeepExpectationsOnObject(const void* objectPtr);
-  virtual void onlyKeepUnmatchingExpectations();
+  virtual void only_keep_expectations_on_object(const void* object_ptr);
+  virtual void only_keep_unmatching_expectations();
 
-  virtual MockCheckedExpectedCall* removeFirstFinalizedMatchingExpectation();
-  virtual MockCheckedExpectedCall* removeFirstMatchingExpectation();
-  virtual MockCheckedExpectedCall* getFirstMatchingExpectation();
+  virtual MockCheckedExpectedCall*
+  remove_first_finalized_matching_expectation();
+  virtual MockCheckedExpectedCall* remove_first_matching_expectation();
+  virtual MockCheckedExpectedCall* get_first_matching_expectation();
 
-  virtual void resetActualCallMatchingState();
-  virtual void wasPassedToObject();
-  virtual void parameterWasPassed(const cpputest::String& parameterName);
-  virtual void outputParameterWasPassed(const cpputest::String& parameterName);
+  virtual void reset_actual_call_matching_state();
+  virtual void was_passed_to_object();
+  virtual void parameter_was_passed(const cpputest::String& parameter_name);
+  virtual void output_parameter_was_passed(
+      const cpputest::String& parameter_name);
 
-  virtual cpputest::String unfulfilledCallsToString(
-      const cpputest::String& linePrefix = "") const;
-  virtual cpputest::String fulfilledCallsToString(
-      const cpputest::String& linePrefix = "") const;
-  virtual cpputest::String callsWithMissingParametersToString(
-      const cpputest::String& linePrefix,
-      const cpputest::String& missingParametersPrefix) const;
+  virtual cpputest::String unfulfilled_calls_to_string(
+      const cpputest::String& line_prefix = "") const;
+  virtual cpputest::String fulfilled_calls_to_string(
+      const cpputest::String& line_prefix = "") const;
+  virtual cpputest::String calls_with_missing_parameters_to_string(
+      const cpputest::String& line_prefix,
+      const cpputest::String& missing_parameters_prefix) const;
 
 protected:
-  virtual void pruneEmptyNodeFromList();
+  virtual void prune_empty_node_from_list();
 
   class MockExpectedCallsListNode
   {
   public:
-    MockCheckedExpectedCall* expectedCall_;
+    MockCheckedExpectedCall* expected_call;
 
-    MockExpectedCallsListNode* next_;
-    MockExpectedCallsListNode(MockCheckedExpectedCall* expectedCall)
-      : expectedCall_(expectedCall)
-      , next_(nullptr)
+    MockExpectedCallsListNode* next;
+    MockExpectedCallsListNode(MockCheckedExpectedCall* expected_call)
+      : expected_call(expected_call)
+      , next(nullptr)
     {
     }
   };

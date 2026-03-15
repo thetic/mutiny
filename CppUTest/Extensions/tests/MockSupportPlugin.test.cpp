@@ -31,70 +31,71 @@ TEST_GROUP(MockSupportPlugin)
     delete test;
     delete result;
     mock().clear();
-    mock().removeAllComparatorsAndCopiers();
+    mock().remove_all_comparators_and_copiers();
   }
 };
 
 TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("foobar");
-  cpputest::extensions::MockExpectedCallsDidntHappenFailure expectedFailure(
+  expectations.add_function("foobar");
+  cpputest::extensions::MockExpectedCallsDidntHappenFailure expected_failure(
       test, expectations);
 
-  mock().expectOneCall("foobar");
+  mock().expect_one_call("foobar");
 
-  plugin.postTestAction(*test, *result);
+  plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS(
-      expectedFailure.getMessage().c_str(), output.getOutput().c_str());
-  LONGS_EQUAL(0, mock().expectedCallsLeft());
+      expected_failure.get_message().c_str(), output.get_output().c_str());
+  LONGS_EQUAL(0, mock().expected_calls_left());
   CHECK_NO_MOCK_FAILURE();
 }
 
 TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  expectations.addFunction("differentScope::foobar")
-      ->onObject(reinterpret_cast<void*>(1));
-  cpputest::extensions::MockExpectedObjectDidntHappenFailure expectedFailure(
+  expectations.add_function("differentScope::foobar")
+      ->on_object(reinterpret_cast<void*>(1));
+  cpputest::extensions::MockExpectedObjectDidntHappenFailure expected_failure(
       test, "differentScope::foobar", expectations);
 
   mock("differentScope")
-      .expectOneCall("foobar")
-      .onObject(reinterpret_cast<void*>(1));
-  mock("differentScope").actualCall("foobar");
+      .expect_one_call("foobar")
+      .on_object(reinterpret_cast<void*>(1));
+  mock("differentScope").actual_call("foobar");
 
-  plugin.postTestAction(*test, *result);
+  plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS(
-      expectedFailure.getMessage().c_str(), output.getOutput().c_str());
+      expected_failure.get_message().c_str(), output.get_output().c_str());
   CHECK_NO_MOCK_FAILURE();
 }
 
 class DummyComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
-  bool isEqual(const void* object1, const void* object2) override
+  bool is_equal(const void* object1, const void* object2) override
   {
     return object1 == object2;
   }
-  cpputest::String valueToString(const void*) override { return "string"; }
+  cpputest::String value_to_string(const void*) override { return "string"; }
 };
 
 TEST(MockSupportPlugin,
     installComparatorRecordsTheComparatorButNotInstallsItYet)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   DummyComparator comparator;
-  plugin.installComparator("myType", comparator);
-  mock().expectOneCall("foo").withParameterOfType("myType", "name", nullptr);
-  mock().actualCall("foo").withParameterOfType("myType", "name", nullptr);
+  plugin.install_comparator("myType", comparator);
+  mock().expect_one_call("foo").with_parameter_of_type(
+      "myType", "name", nullptr);
+  mock().actual_call("foo").with_parameter_of_type("myType", "name", nullptr);
 
   cpputest::extensions::MockNoWayToCompareCustomTypeFailure failure(
       test, "myType");
@@ -114,13 +115,14 @@ public:
 
 TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
 {
-  MockFailureReporterInstaller failureReporterInstaller;
+  MockFailureReporterInstaller failure_reporter_installer;
 
   DummyCopier copier;
-  plugin.installCopier("myType", copier);
-  mock().expectOneCall("foo").withOutputParameterOfTypeReturning(
+  plugin.install_copier("myType", copier);
+  mock().expect_one_call("foo").with_output_parameter_of_type_returning(
       "myType", "name", nullptr);
-  mock().actualCall("foo").withOutputParameterOfType("myType", "name", nullptr);
+  mock().actual_call("foo").with_output_parameter_of_type(
+      "myType", "name", nullptr);
 
   cpputest::extensions::MockNoWayToCopyCustomTypeFailure failure(
       test, "myType");
@@ -134,29 +136,30 @@ TEST(MockSupportPlugin,
 {
   DummyComparator comparator;
   DummyComparator comparator2;
-  plugin.installComparator("myType", comparator);
-  plugin.installComparator("myOtherType", comparator2);
+  plugin.install_comparator("myType", comparator);
+  plugin.install_comparator("myOtherType", comparator2);
 
-  plugin.preTestAction(*test, *result);
-  mock().expectOneCall("foo").withParameterOfType(
+  plugin.pre_test_action(*test, *result);
+  mock().expect_one_call("foo").with_parameter_of_type(
       "myType", "name", &comparator);
-  mock().expectOneCall("foo").withParameterOfType(
+  mock().expect_one_call("foo").with_parameter_of_type(
       "myOtherType", "name", &comparator);
-  mock().actualCall("foo").withParameterOfType("myType", "name", &comparator);
-  mock().actualCall("foo").withParameterOfType(
+  mock().actual_call("foo").with_parameter_of_type(
+      "myType", "name", &comparator);
+  mock().actual_call("foo").with_parameter_of_type(
       "myOtherType", "name", &comparator);
 
-  mock().checkExpectations();
-  LONGS_EQUAL(0, result->getFailureCount());
+  mock().check_expectations();
+  LONGS_EQUAL(0, result->get_failure_count());
 
   plugin.clear();
 }
 
 namespace {
 void
-failTwiceFunction_()
+fail_twice_function()
 {
-  mock().expectOneCall("foobar");
+  mock().expect_one_call("foobar");
   FAIL("This failed");
 }
 }
@@ -164,8 +167,8 @@ failTwiceFunction_()
 TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
   cpputest::TestTestingFixture fixture;
-  fixture.installPlugin(&plugin);
-  fixture.setTestFunction(failTwiceFunction_);
-  fixture.runAllTests();
-  fixture.assertPrintContains("1 failures, 1 tests, 1 ran, 2 checks,");
+  fixture.install_plugin(&plugin);
+  fixture.set_test_function(fail_twice_function);
+  fixture.run_all_tests();
+  fixture.assert_print_contains("1 failures, 1 tests, 1 ran, 2 checks,");
 }

@@ -10,7 +10,7 @@ int jmp_buf_index = 0;
 } // namespace
 
 int
-TestSetJmp(void (*function)(void*), void* data)
+test_set_jmp(void (*function)(void*), void* data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
     jmp_buf_index++;
@@ -22,14 +22,14 @@ TestSetJmp(void (*function)(void*), void* data)
 }
 
 void
-TestLongJmp()
+test_long_jmp()
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
 void
-TestRestoreJumpBuffer()
+test_restore_jump_buffer()
 {
   jmp_buf_index--;
 }

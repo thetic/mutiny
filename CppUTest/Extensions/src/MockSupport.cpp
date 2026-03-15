@@ -20,26 +20,27 @@ MockSupport global_mock;
 } // namespace
 
 MockSupport&
-mock(const String& mockName, MockFailureReporter* failureReporterForThisCall)
+mock(const String& mock_name,
+    MockFailureReporter* failure_reporter_for_this_call)
 {
-  MockSupport& mock_support = (mockName != "")
-                                  ? *global_mock.getMockSupportScope(mockName)
-                                  : global_mock;
-  mock_support.setActiveReporter(failureReporterForThisCall);
-  mock_support.setDefaultComparatorsAndCopiersRepository();
+  MockSupport& mock_support =
+      (mock_name != "") ? *global_mock.get_mock_support_scope(mock_name)
+                        : global_mock;
+  mock_support.set_active_reporter(failure_reporter_for_this_call);
+  mock_support.set_default_comparators_and_copiers_repository();
   return mock_support;
 }
 
-MockSupport::MockSupport(const String& mockName)
-  : actualCallOrder_(0)
-  , expectedCallOrder_(0)
-  , strictOrdering_(false)
-  , activeReporter_(nullptr)
-  , standardReporter_(&defaultReporter_)
-  , ignoreOtherCalls_(false)
+MockSupport::MockSupport(const String& mock_name)
+  : actual_call_order_(0)
+  , expected_call_order_(0)
+  , strict_ordering_(false)
+  , active_reporter_(nullptr)
+  , standard_reporter_(&default_reporter_)
+  , ignore_other_calls_(false)
   , enabled_(true)
-  , lastActualFunctionCall_(nullptr)
-  , mockName_(mockName)
+  , last_actual_function_call_(nullptr)
+  , mock_name_(mock_name)
   , tracing_(false)
 {
 }
@@ -47,96 +48,99 @@ MockSupport::MockSupport(const String& mockName)
 MockSupport::~MockSupport() {}
 
 void
-MockSupport::crashOnFailure(bool shouldCrash)
+MockSupport::crash_on_failure(bool should_crash)
 {
-  activeReporter_->crashOnFailure(shouldCrash);
+  active_reporter_->crash_on_failure(should_crash);
 }
 
 void
-MockSupport::setMockFailureStandardReporter(MockFailureReporter* reporter)
+MockSupport::set_mock_failure_standard_reporter(MockFailureReporter* reporter)
 {
-  standardReporter_ = (reporter != nullptr) ? reporter : &defaultReporter_;
+  standard_reporter_ = (reporter != nullptr) ? reporter : &default_reporter_;
 
-  if (lastActualFunctionCall_)
-    lastActualFunctionCall_->setMockFailureReporter(standardReporter_);
+  if (last_actual_function_call_)
+    last_actual_function_call_->set_mock_failure_reporter(standard_reporter_);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->setMockFailureStandardReporter(standardReporter_);
+    if (get_mock_support(p))
+      get_mock_support(p)->set_mock_failure_standard_reporter(
+          standard_reporter_);
 }
 
 void
-MockSupport::setActiveReporter(MockFailureReporter* reporter)
+MockSupport::set_active_reporter(MockFailureReporter* reporter)
 {
-  activeReporter_ = (reporter) ? reporter : standardReporter_;
+  active_reporter_ = (reporter) ? reporter : standard_reporter_;
 }
 
 void
-MockSupport::setDefaultComparatorsAndCopiersRepository()
+MockSupport::set_default_comparators_and_copiers_repository()
 {
-  MockNamedValue::setDefaultComparatorsAndCopiersRepository(
-      &comparatorsAndCopiersRepository_);
+  MockNamedValue::set_default_comparators_and_copiers_repository(
+      &comparators_and_copiers_repository_);
 }
 
 void
-MockSupport::installComparator(const String& typeName,
+MockSupport::install_comparator(const String& type_name,
     MockNamedValueComparator& comparator)
 {
-  comparatorsAndCopiersRepository_.installComparator(typeName, comparator);
+  comparators_and_copiers_repository_.install_comparator(type_name, comparator);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->installComparator(typeName, comparator);
+    if (get_mock_support(p))
+      get_mock_support(p)->install_comparator(type_name, comparator);
 }
 
 void
-MockSupport::installCopier(const String& typeName, MockNamedValueCopier& copier)
+MockSupport::install_copier(const String& type_name,
+    MockNamedValueCopier& copier)
 {
-  comparatorsAndCopiersRepository_.installCopier(typeName, copier);
+  comparators_and_copiers_repository_.install_copier(type_name, copier);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->installCopier(typeName, copier);
+    if (get_mock_support(p))
+      get_mock_support(p)->install_copier(type_name, copier);
 }
 
 void
-MockSupport::installComparatorsAndCopiers(
+MockSupport::install_comparators_and_copiers(
     const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
-  comparatorsAndCopiersRepository_.installComparatorsAndCopiers(repository);
+  comparators_and_copiers_repository_.install_comparators_and_copiers(
+      repository);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->installComparatorsAndCopiers(repository);
+    if (get_mock_support(p))
+      get_mock_support(p)->install_comparators_and_copiers(repository);
 }
 
 void
-MockSupport::removeAllComparatorsAndCopiers()
+MockSupport::remove_all_comparators_and_copiers()
 {
-  comparatorsAndCopiersRepository_.clear();
+  comparators_and_copiers_repository_.clear();
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->removeAllComparatorsAndCopiers();
+    if (get_mock_support(p))
+      get_mock_support(p)->remove_all_comparators_and_copiers();
 }
 
 void
 MockSupport::clear()
 {
-  delete lastActualFunctionCall_;
-  lastActualFunctionCall_ = nullptr;
+  delete last_actual_function_call_;
+  last_actual_function_call_ = nullptr;
 
   tracing_ = false;
-  MockActualCallTrace::clearInstance();
+  MockActualCallTrace::clear_instance();
 
-  expectations_.deleteAllExpectationsAndClearList();
-  ignoreOtherCalls_ = false;
+  expectations_.delete_all_expectations_and_clear_list();
+  ignore_other_calls_ = false;
   enabled_ = true;
-  actualCallOrder_ = 0;
-  expectedCallOrder_ = 0;
-  strictOrdering_ = false;
+  actual_call_order_ = 0;
+  expected_call_order_ = 0;
+  strict_ordering_ = false;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next()) {
-    MockSupport* support = getMockSupport(p);
+    MockSupport* support = get_mock_support(p);
     if (support) {
       support->clear();
       delete support;
@@ -146,122 +150,123 @@ MockSupport::clear()
 }
 
 void
-MockSupport::strictOrder()
+MockSupport::strict_order()
 {
-  strictOrdering_ = true;
+  strict_ordering_ = true;
 }
 
 String
-MockSupport::appendScopeToName(const String& functionName)
+MockSupport::append_scope_to_name(const String& function_name)
 {
-  if (mockName_.empty())
-    return functionName;
-  return mockName_ + "::" + functionName;
+  if (mock_name_.empty())
+    return function_name;
+  return mock_name_ + "::" + function_name;
 }
 
 MockExpectedCall&
-MockSupport::expectOneCall(const String& functionName)
+MockSupport::expect_one_call(const String& function_name)
 {
-  return expectNCalls(1, functionName);
+  return expect_n_calls(1, function_name);
 }
 
 void
-MockSupport::expectNoCall(const String& functionName)
+MockSupport::expect_no_call(const String& function_name)
 {
-  expectNCalls(0, functionName);
+  expect_n_calls(0, function_name);
 }
 
 MockExpectedCall&
-MockSupport::expectNCalls(unsigned int amount, const String& functionName)
+MockSupport::expect_n_calls(unsigned int amount, const String& function_name)
 {
   if (!enabled_)
     return MockIgnoredExpectedCall::instance();
 
-  countCheck();
+  count_check();
 
   auto* call = new MockCheckedExpectedCall(amount);
-  call->withName(appendScopeToName(functionName));
-  if (strictOrdering_) {
-    call->withCallOrder(expectedCallOrder_ + 1, expectedCallOrder_ + amount);
-    expectedCallOrder_ += amount;
+  call->with_name(append_scope_to_name(function_name));
+  if (strict_ordering_) {
+    call->with_call_order(
+        expected_call_order_ + 1, expected_call_order_ + amount);
+    expected_call_order_ += amount;
   }
-  expectations_.addExpectedCall(call);
+  expectations_.add_expected_call(call);
   return *call;
 }
 
 MockCheckedActualCall*
-MockSupport::createActualCall()
+MockSupport::create_actual_call()
 {
-  lastActualFunctionCall_ = new MockCheckedActualCall(
-      ++actualCallOrder_, activeReporter_, expectations_);
-  return lastActualFunctionCall_;
+  last_actual_function_call_ = new MockCheckedActualCall(
+      ++actual_call_order_, active_reporter_, expectations_);
+  return last_actual_function_call_;
 }
 
 bool
-MockSupport::callIsIgnored(const String& functionName)
+MockSupport::call_is_ignored(const String& function_name)
 {
-  return ignoreOtherCalls_ &&
-         !expectations_.hasExpectationWithName(functionName);
+  return ignore_other_calls_ &&
+         !expectations_.has_expectation_with_name(function_name);
 }
 
 MockActualCall&
-MockSupport::actualCall(const char* functionName)
+MockSupport::actual_call(const char* function_name)
 {
-  String scopeFunctionName = appendScopeToName(functionName);
+  String scope_function_name = append_scope_to_name(function_name);
 
-  if (lastActualFunctionCall_) {
-    lastActualFunctionCall_->checkExpectations();
-    delete lastActualFunctionCall_;
-    lastActualFunctionCall_ = nullptr;
+  if (last_actual_function_call_) {
+    last_actual_function_call_->check_expectations();
+    delete last_actual_function_call_;
+    last_actual_function_call_ = nullptr;
   }
 
   if (!enabled_)
     return MockIgnoredActualCall::instance();
   if (tracing_)
-    return MockActualCallTrace::instance().withName(scopeFunctionName);
+    return MockActualCallTrace::instance().with_name(scope_function_name);
 
-  if (callIsIgnored(scopeFunctionName)) {
+  if (call_is_ignored(scope_function_name)) {
     return MockIgnoredActualCall::instance();
   }
 
-  MockCheckedActualCall* call = createActualCall();
-  call->setNameAndCheck(static_cast<String&&>(scopeFunctionName));
+  MockCheckedActualCall* call = create_actual_call();
+  call->set_name_and_check(static_cast<String&&>(scope_function_name));
   return *call;
 }
 
 MockActualCall&
-MockSupport::actualCall(const String& functionName)
+MockSupport::actual_call(const String& function_name)
 {
-  String scopeFunctionName = appendScopeToName(functionName);
+  String scope_function_name = append_scope_to_name(function_name);
 
-  if (lastActualFunctionCall_) {
-    lastActualFunctionCall_->checkExpectations();
-    delete lastActualFunctionCall_;
-    lastActualFunctionCall_ = nullptr;
+  if (last_actual_function_call_) {
+    last_actual_function_call_->check_expectations();
+    delete last_actual_function_call_;
+    last_actual_function_call_ = nullptr;
   }
 
   if (!enabled_)
     return MockIgnoredActualCall::instance();
   if (tracing_)
-    return MockActualCallTrace::instance().withName(scopeFunctionName);
+    return MockActualCallTrace::instance().with_name(scope_function_name);
 
-  if (callIsIgnored(scopeFunctionName)) {
+  if (call_is_ignored(scope_function_name)) {
     return MockIgnoredActualCall::instance();
   }
 
-  MockCheckedActualCall* call = createActualCall();
-  call->setNameAndCheck(static_cast<String&&>(scopeFunctionName));
+  MockCheckedActualCall* call = create_actual_call();
+  call->set_name_and_check(static_cast<String&&>(scope_function_name));
   return *call;
 }
 
 void
-MockSupport::ignoreOtherCalls()
+MockSupport::ignore_other_calls()
 {
-  ignoreOtherCalls_ = true;
+  ignore_other_calls_ = true;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->ignoreOtherCalls();
+    if (get_mock_support(p))
+      get_mock_support(p)->ignore_other_calls();
 }
 
 void
@@ -270,8 +275,8 @@ MockSupport::disable()
   enabled_ = false;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->disable();
+    if (get_mock_support(p))
+      get_mock_support(p)->disable();
 }
 
 void
@@ -280,8 +285,8 @@ MockSupport::enable()
   enabled_ = true;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->enable();
+    if (get_mock_support(p))
+      get_mock_support(p)->enable();
 }
 
 void
@@ -290,522 +295,529 @@ MockSupport::tracing(bool enabled)
   tracing_ = enabled;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      getMockSupport(p)->tracing(enabled);
+    if (get_mock_support(p))
+      get_mock_support(p)->tracing(enabled);
 }
 
 const char*
-MockSupport::getTraceOutput()
+MockSupport::get_trace_output()
 {
-  return MockActualCallTrace::instance().getTraceOutput();
+  return MockActualCallTrace::instance().get_trace_output();
 }
 
 bool
-MockSupport::expectedCallsLeft()
+MockSupport::expected_calls_left()
 {
-  checkExpectationsOfLastActualCall();
-  int callsLeft = expectations_.hasUnfulfilledExpectations();
+  check_expectations_of_last_actual_call();
+  int calls_left = expectations_.has_unfulfilled_expectations();
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      callsLeft += getMockSupport(p)->expectedCallsLeft();
+    if (get_mock_support(p))
+      calls_left += get_mock_support(p)->expected_calls_left();
 
-  return callsLeft != 0;
+  return calls_left != 0;
 }
 
 bool
-MockSupport::wasLastActualCallFulfilled()
+MockSupport::was_last_actual_call_fulfilled()
 {
-  if (lastActualFunctionCall_ && !lastActualFunctionCall_->isFulfilled())
+  if (last_actual_function_call_ && !last_actual_function_call_->is_fulfilled())
     return false;
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p) && !getMockSupport(p)->wasLastActualCallFulfilled())
+    if (get_mock_support(p) &&
+        !get_mock_support(p)->was_last_actual_call_fulfilled())
       return false;
 
   return true;
 }
 
 void
-MockSupport::failTestWithExpectedCallsNotFulfilled()
+MockSupport::fail_test_with_expected_calls_not_fulfilled()
 {
-  MockExpectedCallsList expectationsList;
-  expectationsList.addExpectations(expectations_);
+  MockExpectedCallsList expectations_list;
+  expectations_list.add_expectations(expectations_);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      expectationsList.addExpectations(getMockSupport(p)->expectations_);
+    if (get_mock_support(p))
+      expectations_list.add_expectations(get_mock_support(p)->expectations_);
 
   MockExpectedCallsDidntHappenFailure failure(
-      activeReporter_->getTestToFail(), expectationsList);
-  failTest(failure);
+      active_reporter_->get_test_to_fail(), expectations_list);
+  fail_test(failure);
 }
 
 void
-MockSupport::failTestWithOutOfOrderCalls()
+MockSupport::fail_test_with_out_of_order_calls()
 {
-  MockExpectedCallsList expectationsList;
-  expectationsList.addExpectations(expectations_);
+  MockExpectedCallsList expectations_list;
+  expectations_list.add_expectations(expectations_);
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p))
-      expectationsList.addExpectations(getMockSupport(p)->expectations_);
+    if (get_mock_support(p))
+      expectations_list.add_expectations(get_mock_support(p)->expectations_);
 
   MockCallOrderFailure failure(
-      activeReporter_->getTestToFail(), expectationsList);
-  failTest(failure);
+      active_reporter_->get_test_to_fail(), expectations_list);
+  fail_test(failure);
 }
 
 void
-MockSupport::failTest(MockFailure& failure)
+MockSupport::fail_test(MockFailure& failure)
 {
   clear();
-  activeReporter_->failTest(static_cast<MockFailure&&>(failure));
+  active_reporter_->fail_test(static_cast<MockFailure&&>(failure));
 }
 
 void
-MockSupport::countCheck()
+MockSupport::count_check()
 {
-  cpputest::TestShell::getCurrent()->countCheck();
+  cpputest::TestShell::get_current()->count_check();
 }
 
 void
-MockSupport::checkExpectationsOfLastActualCall()
+MockSupport::check_expectations_of_last_actual_call()
 {
-  if (lastActualFunctionCall_)
-    lastActualFunctionCall_->checkExpectations();
+  if (last_actual_function_call_)
+    last_actual_function_call_->check_expectations();
 
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p) && getMockSupport(p)->lastActualFunctionCall_)
-      getMockSupport(p)->lastActualFunctionCall_->checkExpectations();
+    if (get_mock_support(p) && get_mock_support(p)->last_actual_function_call_)
+      get_mock_support(p)->last_actual_function_call_->check_expectations();
 }
 
 bool
-MockSupport::hasCallsOutOfOrder()
+MockSupport::has_calls_out_of_order()
 {
-  if (expectations_.hasCallsOutOfOrder()) {
+  if (expectations_.has_calls_out_of_order()) {
     return true;
   }
   for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (getMockSupport(p) && getMockSupport(p)->hasCallsOutOfOrder()) {
+    if (get_mock_support(p) && get_mock_support(p)->has_calls_out_of_order()) {
       return true;
     }
   return false;
 }
 
 void
-MockSupport::checkExpectations()
+MockSupport::check_expectations()
 {
-  checkExpectationsOfLastActualCall();
+  check_expectations_of_last_actual_call();
 
-  if (wasLastActualCallFulfilled() && expectedCallsLeft())
-    failTestWithExpectedCallsNotFulfilled();
+  if (was_last_actual_call_fulfilled() && expected_calls_left())
+    fail_test_with_expected_calls_not_fulfilled();
 
-  if (hasCallsOutOfOrder())
-    failTestWithOutOfOrderCalls();
+  if (has_calls_out_of_order())
+    fail_test_with_out_of_order_calls();
 }
 
 bool
-MockSupport::hasData(const String& name)
+MockSupport::has_data(const String& name)
 {
-  return data_.getValueByName(name) != nullptr;
+  return data_.get_value_by_name(name) != nullptr;
 }
 
 MockNamedValue*
-MockSupport::retrieveDataFromStore(const String& name)
+MockSupport::retrieve_data_from_store(const String& name)
 {
-  MockNamedValue* newData = data_.getValueByName(name);
-  if (newData == nullptr) {
-    newData = new MockNamedValue(name);
-    data_.add(newData);
+  MockNamedValue* new_data = data_.get_value_by_name(name);
+  if (new_data == nullptr) {
+    new_data = new MockNamedValue(name);
+    data_.add(new_data);
   }
-  return newData;
+  return new_data;
 }
 
 void
-MockSupport::setData(const String& name, bool value)
+MockSupport::set_data(const String& name, bool value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, unsigned int value)
+MockSupport::set_data(const String& name, unsigned int value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, int value)
+MockSupport::set_data(const String& name, int value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, long int value)
+MockSupport::set_data(const String& name, long int value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, unsigned long int value)
+MockSupport::set_data(const String& name, unsigned long int value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, const char* value)
+MockSupport::set_data(const String& name, const char* value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, double value)
+MockSupport::set_data(const String& name, double value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, void* value)
+MockSupport::set_data(const String& name, void* value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, const void* value)
+MockSupport::set_data(const String& name, const void* value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setData(const String& name, void (*value)())
+MockSupport::set_data(const String& name, void (*value)())
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setValue(value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_value(value);
 }
 
 void
-MockSupport::setDataObject(const String& name, const String& type, void* value)
+MockSupport::set_data_object(const String& name,
+    const String& type,
+    void* value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setObjectPointer(type, value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_object_pointer(type, value);
 }
 
 void
-MockSupport::setDataConstObject(const String& name,
+MockSupport::set_data_const_object(const String& name,
     const String& type,
     const void* value)
 {
-  MockNamedValue* newData = retrieveDataFromStore(name);
-  newData->setConstObjectPointer(type, value);
+  MockNamedValue* new_data = retrieve_data_from_store(name);
+  new_data->set_const_object_pointer(type, value);
 }
 
 MockNamedValue
-MockSupport::getData(const String& name)
+MockSupport::get_data(const String& name)
 {
-  MockNamedValue* value = data_.getValueByName(name);
+  MockNamedValue* value = data_.get_value_by_name(name);
   if (value == nullptr)
     return MockNamedValue("");
   return *value;
 }
 
 MockSupport*
-MockSupport::clone(const String& mockName)
+MockSupport::clone(const String& mock_name)
 {
-  auto* newMock = new MockSupport(mockName);
-  newMock->setMockFailureStandardReporter(standardReporter_);
-  if (ignoreOtherCalls_)
-    newMock->ignoreOtherCalls();
+  auto* new_mock = new MockSupport(mock_name);
+  new_mock->set_mock_failure_standard_reporter(standard_reporter_);
+  if (ignore_other_calls_)
+    new_mock->ignore_other_calls();
 
   if (!enabled_)
-    newMock->disable();
+    new_mock->disable();
 
-  if (strictOrdering_)
-    newMock->strictOrder();
+  if (strict_ordering_)
+    new_mock->strict_order();
 
-  newMock->tracing(tracing_);
-  newMock->installComparatorsAndCopiers(comparatorsAndCopiersRepository_);
-  return newMock;
+  new_mock->tracing(tracing_);
+  new_mock->install_comparators_and_copiers(
+      comparators_and_copiers_repository_);
+  return new_mock;
 }
 
 MockSupport*
-MockSupport::getMockSupportScope(const String& name)
+MockSupport::get_mock_support_scope(const String& name)
 {
-  String mockingSupportName = MOCK_SUPPORT_SCOPE_PREFIX;
-  mockingSupportName += name;
+  String mocking_support_name = MOCK_SUPPORT_SCOPE_PREFIX;
+  mocking_support_name += name;
 
-  if (hasData(mockingSupportName)) {
-    STRCMP_EQUAL("MockSupport", getData(mockingSupportName).getType().c_str());
+  if (has_data(mocking_support_name)) {
+    STRCMP_EQUAL(
+        "MockSupport", get_data(mocking_support_name).get_type().c_str());
     return static_cast<MockSupport*>(
-        getData(mockingSupportName).getObjectPointer());
+        get_data(mocking_support_name).get_object_pointer());
   }
 
-  MockSupport* newMock = clone(name);
+  MockSupport* new_mock = clone(name);
 
-  setDataObject(mockingSupportName, "MockSupport", newMock);
-  return newMock;
+  set_data_object(mocking_support_name, "MockSupport", new_mock);
+  return new_mock;
 }
 
 MockSupport*
-MockSupport::getMockSupport(MockNamedValueListNode* node)
+MockSupport::get_mock_support(MockNamedValueListNode* node)
 {
-  if (node->getType() == "MockSupport" &&
-      stringContains(node->getName(), MOCK_SUPPORT_SCOPE_PREFIX))
-    return static_cast<MockSupport*>(node->item()->getObjectPointer());
+  if (node->get_type() == "MockSupport" &&
+      string_contains(node->get_name(), MOCK_SUPPORT_SCOPE_PREFIX))
+    return static_cast<MockSupport*>(node->item()->get_object_pointer());
   return nullptr;
 }
 
 MockNamedValue
-MockSupport::returnValue()
+MockSupport::return_value()
 {
-  if (lastActualFunctionCall_)
-    return lastActualFunctionCall_->returnValue();
+  if (last_actual_function_call_)
+    return last_actual_function_call_->return_value();
   return MockNamedValue("");
 }
 
 bool
-MockSupport::boolReturnValue()
+MockSupport::bool_return_value()
 {
-  return returnValue().getBoolValue();
+  return return_value().get_bool_value();
 }
 
 unsigned int
-MockSupport::unsignedIntReturnValue()
+MockSupport::unsigned_int_return_value()
 {
-  return returnValue().getUnsignedIntValue();
+  return return_value().get_unsigned_int_value();
 }
 
 int
-MockSupport::intReturnValue()
+MockSupport::int_return_value()
 {
-  return returnValue().getIntValue();
+  return return_value().get_int_value();
 }
 
 const char*
-MockSupport::returnStringValueOrDefault(const char* defaultValue)
+MockSupport::return_string_value_or_default(const char* default_value)
 {
-  if (hasReturnValue()) {
-    return stringReturnValue();
+  if (has_return_value()) {
+    return string_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 double
-MockSupport::returnDoubleValueOrDefault(double defaultValue)
+MockSupport::return_double_value_or_default(double default_value)
 {
-  if (hasReturnValue()) {
-    return doubleReturnValue();
+  if (has_return_value()) {
+    return double_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 long int
-MockSupport::returnLongIntValueOrDefault(long int defaultValue)
+MockSupport::return_long_int_value_or_default(long int default_value)
 {
-  if (hasReturnValue()) {
-    return longIntReturnValue();
+  if (has_return_value()) {
+    return long_int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 bool
-MockSupport::returnBoolValueOrDefault(bool defaultValue)
+MockSupport::return_bool_value_or_default(bool default_value)
 {
-  if (hasReturnValue()) {
-    return boolReturnValue();
+  if (has_return_value()) {
+    return bool_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 int
-MockSupport::returnIntValueOrDefault(int defaultValue)
+MockSupport::return_int_value_or_default(int default_value)
 {
-  if (hasReturnValue()) {
-    return intReturnValue();
+  if (has_return_value()) {
+    return int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 unsigned int
-MockSupport::returnUnsignedIntValueOrDefault(unsigned int defaultValue)
+MockSupport::return_unsigned_int_value_or_default(unsigned int default_value)
 {
-  if (hasReturnValue()) {
-    return unsignedIntReturnValue();
+  if (has_return_value()) {
+    return unsigned_int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 unsigned long int
-MockSupport::returnUnsignedLongIntValueOrDefault(unsigned long int defaultValue)
+MockSupport::return_unsigned_long_int_value_or_default(
+    unsigned long int default_value)
 {
-  if (hasReturnValue()) {
-    return unsignedLongIntReturnValue();
+  if (has_return_value()) {
+    return unsigned_long_int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 long int
-MockSupport::longIntReturnValue()
+MockSupport::long_int_return_value()
 {
-  return returnValue().getLongIntValue();
+  return return_value().get_long_int_value();
 }
 
 unsigned long int
-MockSupport::unsignedLongIntReturnValue()
+MockSupport::unsigned_long_int_return_value()
 {
-  return returnValue().getUnsignedLongIntValue();
+  return return_value().get_unsigned_long_int_value();
 }
 
 long long
-MockSupport::longLongIntReturnValue()
+MockSupport::long_long_int_return_value()
 {
-  return returnValue().getLongLongIntValue();
+  return return_value().get_long_long_int_value();
 }
 
 unsigned long long
-MockSupport::unsignedLongLongIntReturnValue()
+MockSupport::unsigned_long_long_int_return_value()
 {
-  return returnValue().getUnsignedLongLongIntValue();
+  return return_value().get_unsigned_long_long_int_value();
 }
 
 long long
-MockSupport::returnLongLongIntValueOrDefault(long long defaultValue)
+MockSupport::return_long_long_int_value_or_default(long long default_value)
 {
-  if (hasReturnValue()) {
-    return longLongIntReturnValue();
+  if (has_return_value()) {
+    return long_long_int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 unsigned long long
-MockSupport::returnUnsignedLongLongIntValueOrDefault(
-    unsigned long long defaultValue)
+MockSupport::return_unsigned_long_long_int_value_or_default(
+    unsigned long long default_value)
 {
-  if (hasReturnValue()) {
-    return unsignedLongLongIntReturnValue();
+  if (has_return_value()) {
+    return unsigned_long_long_int_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 const char*
-MockSupport::stringReturnValue()
+MockSupport::string_return_value()
 {
-  return returnValue().getStringValue();
+  return return_value().get_string_value();
 }
 
 double
-MockSupport::doubleReturnValue()
+MockSupport::double_return_value()
 {
-  return returnValue().getDoubleValue();
+  return return_value().get_double_value();
 }
 
 void*
-MockSupport::returnPointerValueOrDefault(void* defaultValue)
+MockSupport::return_pointer_value_or_default(void* default_value)
 {
-  if (hasReturnValue()) {
-    return pointerReturnValue();
+  if (has_return_value()) {
+    return pointer_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 const void*
-MockSupport::returnConstPointerValueOrDefault(const void* defaultValue)
+MockSupport::return_const_pointer_value_or_default(const void* default_value)
 {
-  if (hasReturnValue()) {
-    return constPointerReturnValue();
+  if (has_return_value()) {
+    return const_pointer_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
-void (
-    *MockSupport::returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
+void (*MockSupport::return_function_pointer_value_or_default(
+    void (*default_value)()))()
 {
-  if (hasReturnValue()) {
-    return functionPointerReturnValue();
+  if (has_return_value()) {
+    return function_pointer_return_value();
   }
-  return defaultValue;
+  return default_value;
 }
 
 void*
-MockSupport::pointerReturnValue()
+MockSupport::pointer_return_value()
 {
-  return returnValue().getPointerValue();
+  return return_value().get_pointer_value();
 }
 
 const void*
-MockSupport::constPointerReturnValue()
+MockSupport::const_pointer_return_value()
 {
-  return returnValue().getConstPointerValue();
+  return return_value().get_const_pointer_value();
 }
 
-void (*MockSupport::functionPointerReturnValue())()
+void (*MockSupport::function_pointer_return_value())()
 {
-  return returnValue().getFunctionPointerValue();
+  return return_value().get_function_pointer_value();
 }
 
 bool
-MockSupport::hasReturnValue()
+MockSupport::has_return_value()
 {
-  if (lastActualFunctionCall_)
-    return lastActualFunctionCall_->hasReturnValue();
+  if (last_actual_function_call_)
+    return last_actual_function_call_->has_return_value();
   return false;
 }
 
 class MockFailureReporterTestTerminatorForInCOnlyCode : public TestTerminator
 {
 public:
-  MockFailureReporterTestTerminatorForInCOnlyCode(bool crashOnFailure)
-    : crashOnFailure_(crashOnFailure)
+  MockFailureReporterTestTerminatorForInCOnlyCode(bool crash_on_failure)
+    : crash_on_failure_(crash_on_failure)
   {
   }
 
-  virtual void exitCurrentTest() const override
+  virtual void exit_current_test() const override
   {
-    if (crashOnFailure_)
+    if (crash_on_failure_)
       cpputest::TestShell::crash();
 
-    TestShell::getCurrentTestTerminatorWithoutExceptions().exitCurrentTest();
+    TestShell::get_current_test_terminator_without_exceptions()
+        .exit_current_test();
   }
   virtual ~MockFailureReporterTestTerminatorForInCOnlyCode() override {}
 
 private:
-  bool crashOnFailure_;
+  bool crash_on_failure_;
 };
 
 class MockFailureReporterForInCOnlyCode : public MockFailureReporter
 {
 public:
-  void failTest(MockFailure failure) override
+  void fail_test(MockFailure failure) override
   {
-    if (!getTestToFail()->hasFailed()) {
-      getTestToFail()->addFailure(failure);
+    if (!get_test_to_fail()->has_failed()) {
+      get_test_to_fail()->add_failure(failure);
       {
         MockFailure freed(static_cast<MockFailure&&>(failure));
       }
-      exitTest();
+      exit_test();
     }
   }
 
-  void exitTest() override
+  void exit_test() override
   {
-    MockFailureReporterTestTerminatorForInCOnlyCode(crashOnFailure_)
-        .exitCurrentTest();
+    MockFailureReporterTestTerminatorForInCOnlyCode(crash_on_failure_)
+        .exit_current_test();
   }
 };
 
 namespace {
-MockSupport* currentMockSupport = nullptr;
-MockExpectedCall* expectedCall = nullptr;
-MockActualCall* actualCall = nullptr;
-MockFailureReporterForInCOnlyCode failureReporterForC;
+MockSupport* current_mock_support = nullptr;
+MockExpectedCall* expected_call = nullptr;
+MockActualCall* actual_call = nullptr;
+MockFailureReporterForInCOnlyCode failure_reporter_for_c;
 } // namespace
 
 } // namespace extensions
@@ -819,30 +831,30 @@ class MockCFunctionComparatorNode
 public:
   MockCFunctionComparatorNode(MockCFunctionComparatorNode* next,
       MockTypeEqualFunction equal,
-      MockTypeValueToStringFunction toString)
-    : next_(next)
-    , equal_(equal)
-    , toString_(toString)
+      MockTypeValueToStringFunction to_string)
+    : next(next)
+    , equal(equal)
+    , to_string(to_string)
   {
   }
   virtual ~MockCFunctionComparatorNode() override {}
 
-  virtual bool isEqual(const void* object1, const void* object2) override
+  virtual bool is_equal(const void* object1, const void* object2) override
   {
-    return equal_(object1, object2) != 0;
+    return equal(object1, object2) != 0;
   }
-  virtual cpputest::String valueToString(const void* object) override
+  virtual cpputest::String value_to_string(const void* object) override
   {
-    return cpputest::String(toString_(object));
+    return cpputest::String(to_string(object));
   }
 
-  MockCFunctionComparatorNode* next_;
-  MockTypeEqualFunction equal_;
-  MockTypeValueToStringFunction toString_;
+  MockCFunctionComparatorNode* next;
+  MockTypeEqualFunction equal;
+  MockTypeValueToStringFunction to_string;
 };
 
 namespace {
-MockCFunctionComparatorNode* comparatorList_ = nullptr;
+MockCFunctionComparatorNode* comparator_list = nullptr;
 
 class MockCFunctionCopierNode
   : public cpputest::extensions::MockNamedValueCopier
@@ -850,1204 +862,1228 @@ class MockCFunctionCopierNode
 public:
   MockCFunctionCopierNode(MockCFunctionCopierNode* next,
       MockTypeCopyFunction copier)
-    : next_(next)
-    , copier_(copier)
+    : next(next)
+    , copier(copier)
   {
   }
   virtual ~MockCFunctionCopierNode() override {}
 
-  virtual void copy(void* dst, const void* src) override { copier_(dst, src); }
+  virtual void copy(void* dst, const void* src) override { copier(dst, src); }
 
-  MockCFunctionCopierNode* next_;
-  MockTypeCopyFunction copier_;
+  MockCFunctionCopierNode* next;
+  MockTypeCopyFunction copier;
 };
 
-MockCFunctionCopierNode* copierList_ = nullptr;
+MockCFunctionCopierNode* copier_list = nullptr;
 } // namespace
 
 void
-strictOrder();
+strict_order();
 struct MockExpectedCall*
-expectOneCall(const char* name);
+expect_one_call(const char* name);
 void
-expectNoCall(const char* name);
+expect_no_call(const char* name);
 struct MockExpectedCall*
-expectNCalls(const unsigned int number, const char* name);
+expect_n_calls(const unsigned int number, const char* name);
 struct MockActualCall*
-actualCall(const char* name);
+actual_call(const char* name);
 void
 disable();
 void
 enable();
 void
-ignoreOtherCalls();
+ignore_other_calls();
 void
-setBoolData(const char* name, int value);
+set_bool_data(const char* name, int value);
 void
-setIntData(const char* name, int value);
+set_int_data(const char* name, int value);
 void
-setUnsignedIntData(const char* name, unsigned int value);
+set_unsigned_int_data(const char* name, unsigned int value);
 void
-setLongIntData(const char* name, long int value);
+set_long_int_data(const char* name, long int value);
 void
-setUnsignedLongIntData(const char* name, unsigned long int value);
+set_unsigned_long_int_data(const char* name, unsigned long int value);
 void
-setDoubleData(const char* name, double value);
+set_double_data(const char* name, double value);
 void
-setStringData(const char* name, const char* value);
+set_string_data(const char* name, const char* value);
 void
-setPointerData(const char* name, void* value);
+set_pointer_data(const char* name, void* value);
 void
-setConstPointerData(const char* name, const void* value);
+set_const_pointer_data(const char* name, const void* value);
 void
-setFunctionPointerData(const char* name, void (*value)());
+set_function_pointer_data(const char* name, void (*value)());
 void
-setDataObject(const char* name, const char* type, void* value);
+set_data_object(const char* name, const char* type, void* value);
 void
-setDataConstObject(const char* name, const char* type, const void* value);
+set_data_const_object(const char* name, const char* type, const void* value);
 struct MockValue
-getData(const char* name);
+get_data(const char* name);
 int
-hasReturnValue();
+has_return_value();
 
 void
-checkExpectations();
+check_expectations();
 int
-expectedCallsLeft();
+expected_calls_left();
 void
 clear();
 void
-crashOnFailure(unsigned shouldCrash);
+crash_on_failure(unsigned should_crash);
 
 struct MockExpectedCall*
-withBoolParameters(const char* name, int value);
+with_bool_parameters(const char* name, int value);
 struct MockExpectedCall*
-withIntParameters(const char* name, int value);
+with_int_parameters(const char* name, int value);
 struct MockExpectedCall*
-withUnsignedIntParameters(const char* name, unsigned int value);
+with_unsigned_int_parameters(const char* name, unsigned int value);
 struct MockExpectedCall*
-withLongIntParameters(const char* name, long int value);
+with_long_int_parameters(const char* name, long int value);
 struct MockExpectedCall*
-withUnsignedLongIntParameters(const char* name, unsigned long int value);
+with_unsigned_long_int_parameters(const char* name, unsigned long int value);
 struct MockExpectedCall*
-withLongLongIntParameters(const char* name, long long value);
+with_long_long_int_parameters(const char* name, long long value);
 struct MockExpectedCall*
-withUnsignedLongLongIntParameters(const char* name, unsigned long long value);
+with_unsigned_long_long_int_parameters(const char* name,
+    unsigned long long value);
 struct MockExpectedCall*
-withDoubleParameters(const char* name, double value);
+with_double_parameters(const char* name, double value);
 struct MockExpectedCall*
-withDoubleParametersAndTolerance(const char* name,
+with_double_parameters_and_tolerance(const char* name,
     double value,
     double tolerance);
 struct MockExpectedCall*
-withStringParameters(const char* name, const char* value);
+with_string_parameters(const char* name, const char* value);
 struct MockExpectedCall*
-withPointerParameters(const char* name, void* value);
+with_pointer_parameters(const char* name, void* value);
 struct MockExpectedCall*
-withConstPointerParameters(const char* name, const void* value);
+with_const_pointer_parameters(const char* name, const void* value);
 struct MockExpectedCall*
-withFunctionPointerParameters(const char* name, void (*value)());
+with_function_pointer_parameters(const char* name, void (*value)());
 struct MockExpectedCall*
-withMemoryBufferParameters(const char* name,
+with_memory_buffer_parameters(const char* name,
     const unsigned char* value,
     size_t size);
 struct MockExpectedCall*
-withParameterOfType(const char* type, const char* name, const void* value);
+with_parameter_of_type(const char* type, const char* name, const void* value);
 struct MockExpectedCall*
-withOutputParameterReturning(const char* name, const void* value, size_t size);
+with_output_parameter_returning(const char* name,
+    const void* value,
+    size_t size);
 struct MockExpectedCall*
-withOutputParameterOfTypeReturning(const char* type,
+with_output_parameter_of_type_returning(const char* type,
     const char* name,
     const void* value);
 struct MockExpectedCall*
-withUnmodifiedOutputParameter(const char* name);
+with_unmodified_output_parameter(const char* name);
 struct MockExpectedCall*
-ignoreOtherParameters();
+ignore_other_parameters();
 struct MockExpectedCall*
-andReturnBoolValue(int value);
+and_return_bool_value(int value);
 struct MockExpectedCall*
-andReturnIntValue(int value);
+and_return_int_value(int value);
 struct MockExpectedCall*
-andReturnUnsignedIntValue(unsigned int value);
+and_return_unsigned_int_value(unsigned int value);
 struct MockExpectedCall*
-andReturnLongIntValue(long int value);
+and_return_long_int_value(long int value);
 struct MockExpectedCall*
-andReturnUnsignedLongIntValue(unsigned long int value);
+and_return_unsigned_long_int_value(unsigned long int value);
 struct MockExpectedCall*
-andReturnLongLongIntValue(long long value);
+and_return_long_long_int_value(long long value);
 struct MockExpectedCall*
-andReturnUnsignedLongLongIntValue(unsigned long long value);
+and_return_unsigned_long_long_int_value(unsigned long long value);
 struct MockExpectedCall*
-andReturnDoubleValue(double value);
+and_return_double_value(double value);
 struct MockExpectedCall*
-andReturnStringValue(const char* value);
+and_return_string_value(const char* value);
 struct MockExpectedCall*
-andReturnPointerValue(void* value);
+and_return_pointer_value(void* value);
 struct MockExpectedCall*
-andReturnConstPointerValue(const void* value);
+and_return_const_pointer_value(const void* value);
 struct MockExpectedCall*
-andReturnFunctionPointerValue(void (*value)());
+and_return_function_pointer_value(void (*value)());
 
 struct MockActualCall*
-withActualBoolParameters(const char* name, int value);
+with_actual_bool_parameters(const char* name, int value);
 struct MockActualCall*
-withActualIntParameters(const char* name, int value);
+with_actual_int_parameters(const char* name, int value);
 struct MockActualCall*
-withActualUnsignedIntParameters(const char* name, unsigned int value);
+with_actual_unsigned_int_parameters(const char* name, unsigned int value);
 struct MockActualCall*
-withActualLongIntParameters(const char* name, long int value);
+with_actual_long_int_parameters(const char* name, long int value);
 struct MockActualCall*
-withActualUnsignedLongIntParameters(const char* name, unsigned long int value);
+with_actual_unsigned_long_int_parameters(const char* name,
+    unsigned long int value);
 struct MockActualCall*
-withActualLongLongIntParameters(const char* name, long long value);
+with_actual_long_long_int_parameters(const char* name, long long value);
 struct MockActualCall*
-withActualUnsignedLongLongIntParameters(const char* name,
+with_actual_unsigned_long_long_int_parameters(const char* name,
     unsigned long long value);
 struct MockActualCall*
-withActualDoubleParameters(const char* name, double value);
+with_actual_double_parameters(const char* name, double value);
 struct MockActualCall*
-withActualStringParameters(const char* name, const char* value);
+with_actual_string_parameters(const char* name, const char* value);
 struct MockActualCall*
-withActualPointerParameters(const char* name, void* value);
+with_actual_pointer_parameters(const char* name, void* value);
 struct MockActualCall*
-withActualConstPointerParameters(const char* name, const void* value);
+with_actual_const_pointer_parameters(const char* name, const void* value);
 struct MockActualCall*
-withActualFunctionPointerParameters(const char* name, void (*value)());
+with_actual_function_pointer_parameters(const char* name, void (*value)());
 struct MockActualCall*
-withActualMemoryBufferParameters(const char* name,
+with_actual_memory_buffer_parameters(const char* name,
     const unsigned char* value,
     size_t size);
 struct MockActualCall*
-withActualParameterOfType(const char* type,
+with_actual_parameter_of_type(const char* type,
     const char* name,
     const void* value);
 struct MockActualCall*
-withActualOutputParameter(const char* name, void* value);
+with_actual_output_parameter(const char* name, void* value);
 struct MockActualCall*
-withActualOutputParameterOfType(const char* type,
+with_actual_output_parameter_of_type(const char* type,
     const char* name,
     void* value);
 struct MockValue
-returnValue();
+return_value();
 int
-boolReturnValue();
+bool_return_value();
 int
-returnBoolValueOrDefault(int defaultValue);
+return_bool_value_or_default(int default_value);
 int
-intReturnValue();
+int_return_value();
 int
-returnIntValueOrDefault(int defaultValue);
+return_int_value_or_default(int default_value);
 unsigned int
-unsignedIntReturnValue();
+unsigned_int_return_value();
 unsigned int
-returnUnsignedIntValueOrDefault(unsigned int defaultValue);
+return_unsigned_int_value_or_default(unsigned int default_value);
 long int
-longIntReturnValue();
+long_int_return_value();
 long int
-returnLongIntValueOrDefault(long int defaultValue);
+return_long_int_value_or_default(long int default_value);
 unsigned long int
-unsignedLongIntReturnValue();
+unsigned_long_int_return_value();
 unsigned long int
-returnUnsignedLongIntValueOrDefault(unsigned long int defaultValue);
+return_unsigned_long_int_value_or_default(unsigned long int default_value);
 long long
-longLongIntReturnValue();
+long_long_int_return_value();
 long long
-returnLongLongIntValueOrDefault(long long defaultValue);
+return_long_long_int_value_or_default(long long default_value);
 unsigned long long
-unsignedLongLongIntReturnValue();
+unsigned_long_long_int_return_value();
 unsigned long long
-returnUnsignedLongLongIntValueOrDefault(unsigned long long defaultValue);
+return_unsigned_long_long_int_value_or_default(
+    unsigned long long default_value);
 const char*
-stringReturnValue();
+string_return_value();
 const char*
-returnStringValueOrDefault(const char* defaultValue);
+return_string_value_or_default(const char* default_value);
 double
-doubleReturnValue();
+double_return_value();
 double
-returnDoubleValueOrDefault(double defaultValue);
+return_double_value_or_default(double default_value);
 void*
-pointerReturnValue();
+pointer_return_value();
 void*
-returnPointerValueOrDefault(void* defaultValue);
+return_pointer_value_or_default(void* default_value);
 const void*
-constPointerReturnValue();
+const_pointer_return_value();
 const void*
-returnConstPointerValueOrDefault(const void* defaultValue);
-void (*functionPointerReturnValue())();
-void (*returnFunctionPointerValueOrDefault(void (*defaultValue)()))();
+return_const_pointer_value_or_default(const void* default_value);
+void (*function_pointer_return_value())();
+void (*return_function_pointer_value_or_default(void (*default_value)()))();
 
 namespace {
 void
-installComparator(const char* typeName,
-    MockTypeEqualFunction isEqual,
-    MockTypeValueToStringFunction valueToString)
+install_comparator(const char* type_name,
+    MockTypeEqualFunction is_equal,
+    MockTypeValueToStringFunction value_to_string)
 {
-  comparatorList_ =
-      new MockCFunctionComparatorNode(comparatorList_, isEqual, valueToString);
-  cpputest::extensions::currentMockSupport->installComparator(
-      typeName, *comparatorList_);
+  comparator_list = new MockCFunctionComparatorNode(
+      comparator_list, is_equal, value_to_string);
+  cpputest::extensions::current_mock_support->install_comparator(
+      type_name, *comparator_list);
 }
 
 void
-installCopier(const char* typeName, MockTypeCopyFunction copier)
+install_copier(const char* type_name, MockTypeCopyFunction copier)
 {
-  copierList_ = new MockCFunctionCopierNode(copierList_, copier);
-  cpputest::extensions::currentMockSupport->installCopier(
-      typeName, *copierList_);
+  copier_list = new MockCFunctionCopierNode(copier_list, copier);
+  cpputest::extensions::current_mock_support->install_copier(
+      type_name, *copier_list);
 }
 
 void
-removeAllComparatorsAndCopiers()
+remove_all_comparators_and_copiers()
 {
-  while (comparatorList_) {
-    MockCFunctionComparatorNode* next = comparatorList_->next_;
-    delete comparatorList_;
-    comparatorList_ = next;
+  while (comparator_list) {
+    MockCFunctionComparatorNode* next = comparator_list->next;
+    delete comparator_list;
+    comparator_list = next;
   }
-  while (copierList_) {
-    MockCFunctionCopierNode* next = copierList_->next_;
-    delete copierList_;
-    copierList_ = next;
+  while (copier_list) {
+    MockCFunctionCopierNode* next = copier_list->next;
+    delete copier_list;
+    copier_list = next;
   }
-  cpputest::extensions::currentMockSupport->removeAllComparatorsAndCopiers();
+  cpputest::extensions::current_mock_support
+      ->remove_all_comparators_and_copiers();
 }
 } // namespace
 
 namespace {
-struct MockExpectedCall gExpectedCall = {
-  withBoolParameters,
-  withIntParameters,
-  withUnsignedIntParameters,
-  withLongIntParameters,
-  withUnsignedLongIntParameters,
-  withLongLongIntParameters,
-  withUnsignedLongLongIntParameters,
-  withDoubleParameters,
-  withDoubleParametersAndTolerance,
-  withStringParameters,
-  withPointerParameters,
-  withConstPointerParameters,
-  withFunctionPointerParameters,
-  withMemoryBufferParameters,
-  withParameterOfType,
-  withOutputParameterReturning,
-  withOutputParameterOfTypeReturning,
-  withUnmodifiedOutputParameter,
-  ignoreOtherParameters,
-  andReturnBoolValue,
-  andReturnUnsignedIntValue,
-  andReturnIntValue,
-  andReturnLongIntValue,
-  andReturnUnsignedLongIntValue,
-  andReturnLongLongIntValue,
-  andReturnUnsignedLongLongIntValue,
-  andReturnDoubleValue,
-  andReturnStringValue,
-  andReturnPointerValue,
-  andReturnConstPointerValue,
-  andReturnFunctionPointerValue,
+struct MockExpectedCall g_expected_call = {
+  with_bool_parameters,
+  with_int_parameters,
+  with_unsigned_int_parameters,
+  with_long_int_parameters,
+  with_unsigned_long_int_parameters,
+  with_long_long_int_parameters,
+  with_unsigned_long_long_int_parameters,
+  with_double_parameters,
+  with_double_parameters_and_tolerance,
+  with_string_parameters,
+  with_pointer_parameters,
+  with_const_pointer_parameters,
+  with_function_pointer_parameters,
+  with_memory_buffer_parameters,
+  with_parameter_of_type,
+  with_output_parameter_returning,
+  with_output_parameter_of_type_returning,
+  with_unmodified_output_parameter,
+  ignore_other_parameters,
+  and_return_bool_value,
+  and_return_unsigned_int_value,
+  and_return_int_value,
+  and_return_long_int_value,
+  and_return_unsigned_long_int_value,
+  and_return_long_long_int_value,
+  and_return_unsigned_long_long_int_value,
+  and_return_double_value,
+  and_return_string_value,
+  and_return_pointer_value,
+  and_return_const_pointer_value,
+  and_return_function_pointer_value,
 };
 
-struct MockActualCall gActualCall = { withActualBoolParameters,
-  withActualIntParameters,
-  withActualUnsignedIntParameters,
-  withActualLongIntParameters,
-  withActualUnsignedLongIntParameters,
-  withActualLongLongIntParameters,
-  withActualUnsignedLongLongIntParameters,
-  withActualDoubleParameters,
-  withActualStringParameters,
-  withActualPointerParameters,
-  withActualConstPointerParameters,
-  withActualFunctionPointerParameters,
-  withActualMemoryBufferParameters,
-  withActualParameterOfType,
-  withActualOutputParameter,
-  withActualOutputParameterOfType,
-  hasReturnValue,
-  returnValue,
-  boolReturnValue,
-  returnBoolValueOrDefault,
-  intReturnValue,
-  returnIntValueOrDefault,
-  unsignedIntReturnValue,
-  returnUnsignedIntValueOrDefault,
-  longIntReturnValue,
-  returnLongIntValueOrDefault,
-  unsignedLongIntReturnValue,
-  returnUnsignedLongIntValueOrDefault,
-  longLongIntReturnValue,
-  returnLongLongIntValueOrDefault,
-  unsignedLongLongIntReturnValue,
-  returnUnsignedLongLongIntValueOrDefault,
-  stringReturnValue,
-  returnStringValueOrDefault,
-  doubleReturnValue,
-  returnDoubleValueOrDefault,
-  pointerReturnValue,
-  returnPointerValueOrDefault,
-  constPointerReturnValue,
-  returnConstPointerValueOrDefault,
-  functionPointerReturnValue,
-  returnFunctionPointerValueOrDefault };
+struct MockActualCall g_actual_call = { with_actual_bool_parameters,
+  with_actual_int_parameters,
+  with_actual_unsigned_int_parameters,
+  with_actual_long_int_parameters,
+  with_actual_unsigned_long_int_parameters,
+  with_actual_long_long_int_parameters,
+  with_actual_unsigned_long_long_int_parameters,
+  with_actual_double_parameters,
+  with_actual_string_parameters,
+  with_actual_pointer_parameters,
+  with_actual_const_pointer_parameters,
+  with_actual_function_pointer_parameters,
+  with_actual_memory_buffer_parameters,
+  with_actual_parameter_of_type,
+  with_actual_output_parameter,
+  with_actual_output_parameter_of_type,
+  has_return_value,
+  return_value,
+  bool_return_value,
+  return_bool_value_or_default,
+  int_return_value,
+  return_int_value_or_default,
+  unsigned_int_return_value,
+  return_unsigned_int_value_or_default,
+  long_int_return_value,
+  return_long_int_value_or_default,
+  unsigned_long_int_return_value,
+  return_unsigned_long_int_value_or_default,
+  long_long_int_return_value,
+  return_long_long_int_value_or_default,
+  unsigned_long_long_int_return_value,
+  return_unsigned_long_long_int_value_or_default,
+  string_return_value,
+  return_string_value_or_default,
+  double_return_value,
+  return_double_value_or_default,
+  pointer_return_value,
+  return_pointer_value_or_default,
+  const_pointer_return_value,
+  return_const_pointer_value_or_default,
+  function_pointer_return_value,
+  return_function_pointer_value_or_default };
 } // namespace
 
 struct MockExpectedCall*
-withBoolParameters(const char* name, int value)
+with_bool_parameters(const char* name, int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, (value != 0));
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, (value != 0));
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withIntParameters(const char* name, int value)
+with_int_parameters(const char* name, int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withUnsignedIntParameters(const char* name, unsigned int value)
+with_unsigned_int_parameters(const char* name, unsigned int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withLongIntParameters(const char* name, long int value)
+with_long_int_parameters(const char* name, long int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withUnsignedLongIntParameters(const char* name, unsigned long int value)
+with_unsigned_long_int_parameters(const char* name, unsigned long int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withLongLongIntParameters(const char* name, long long value)
+with_long_long_int_parameters(const char* name, long long value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withUnsignedLongLongIntParameters(const char* name, unsigned long long value)
+with_unsigned_long_long_int_parameters(const char* name,
+    unsigned long long value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withDoubleParameters(const char* name, double value)
+with_double_parameters(const char* name, double value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withDoubleParametersAndTolerance(const char* name,
+with_double_parameters_and_tolerance(const char* name,
     double value,
     double tolerance)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(
           name, value, tolerance);
-  return &gExpectedCall;
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withStringParameters(const char* name, const char* value)
+with_string_parameters(const char* name, const char* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withPointerParameters(const char* name, void* value)
+with_pointer_parameters(const char* name, void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withConstPointerParameters(const char* name, const void* value)
+with_const_pointer_parameters(const char* name, const void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withFunctionPointerParameters(const char* name, void (*value)())
+with_function_pointer_parameters(const char* name, void (*value)())
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withMemoryBufferParameters(const char* name,
+with_memory_buffer_parameters(const char* name,
     const unsigned char* value,
     size_t size)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameter(name, value, size);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter(name, value, size);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withParameterOfType(const char* type, const char* name, const void* value)
+with_parameter_of_type(const char* type, const char* name, const void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withParameterOfType(
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_parameter_of_type(
           type, name, value);
-  return &gExpectedCall;
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withOutputParameterReturning(const char* name, const void* value, size_t size)
+with_output_parameter_returning(const char* name,
+    const void* value,
+    size_t size)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withOutputParameterReturning(
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_output_parameter_returning(
           name, value, size);
-  return &gExpectedCall;
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withOutputParameterOfTypeReturning(const char* type,
+with_output_parameter_of_type_returning(const char* type,
     const char* name,
     const void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withOutputParameterOfTypeReturning(
-          type, name, value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call
+           ->with_output_parameter_of_type_returning(type, name, value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-withUnmodifiedOutputParameter(const char* name)
+with_unmodified_output_parameter(const char* name)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->withUnmodifiedOutputParameter(name);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->with_unmodified_output_parameter(
+          name);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-ignoreOtherParameters()
+ignore_other_parameters()
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->ignoreOtherParameters();
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->ignore_other_parameters();
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnBoolValue(int value)
+and_return_bool_value(int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value != 0);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value != 0);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnUnsignedIntValue(unsigned int value)
+and_return_unsigned_int_value(unsigned int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnIntValue(int value)
+and_return_int_value(int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnLongIntValue(long int value)
+and_return_long_int_value(long int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnUnsignedLongIntValue(unsigned long int value)
+and_return_unsigned_long_int_value(unsigned long int value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnLongLongIntValue(long long value)
+and_return_long_long_int_value(long long value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnUnsignedLongLongIntValue(unsigned long long value)
+and_return_unsigned_long_long_int_value(unsigned long long value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnDoubleValue(double value)
+and_return_double_value(double value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnStringValue(const char* value)
+and_return_string_value(const char* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnPointerValue(void* value)
+and_return_pointer_value(void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnConstPointerValue(const void* value)
+and_return_const_pointer_value(const void* value)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 struct MockExpectedCall*
-andReturnFunctionPointerValue(void (*value)())
+and_return_function_pointer_value(void (*value)())
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::expectedCall->andReturnValue(value);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::expected_call->and_return_value(value);
+  return &g_expected_call;
 }
 
 namespace {
 struct MockValue
-getMockValueCFromNamedValue(
-    const cpputest::extensions::MockNamedValue& namedValue)
+get_mock_value_c_from_named_value(
+    const cpputest::extensions::MockNamedValue& named_value)
 {
-  using cpputest::StrCmp;
-  struct MockValue returnValue;
-  if (StrCmp(namedValue.getType().c_str(), "bool") == 0) {
-    returnValue.type = MOCKVALUETYPE_BOOL;
-    returnValue.value.boolValue = namedValue.getBoolValue() ? 1 : 0;
-  } else if (StrCmp(namedValue.getType().c_str(), "int") == 0) {
-    returnValue.type = MOCKVALUETYPE_INTEGER;
-    returnValue.value.intValue = namedValue.getIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "unsigned int") == 0) {
-    returnValue.type = MOCKVALUETYPE_UNSIGNED_INTEGER;
-    returnValue.value.unsignedIntValue = namedValue.getUnsignedIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "long int") == 0) {
-    returnValue.type = MOCKVALUETYPE_LONG_INTEGER;
-    returnValue.value.longIntValue = namedValue.getLongIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "unsigned long int") == 0) {
-    returnValue.type = MOCKVALUETYPE_UNSIGNED_LONG_INTEGER;
-    returnValue.value.unsignedLongIntValue =
-        namedValue.getUnsignedLongIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "long long int") == 0) {
-    returnValue.type = MOCKVALUETYPE_LONG_LONG_INTEGER;
-    returnValue.value.longLongIntValue = namedValue.getLongLongIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "unsigned long long int") ==
+  using cpputest::str_cmp;
+  struct MockValue return_value;
+  if (str_cmp(named_value.get_type().c_str(), "bool") == 0) {
+    return_value.type = mockvaluetype_bool;
+    return_value.value.bool_value = named_value.get_bool_value() ? 1 : 0;
+  } else if (str_cmp(named_value.get_type().c_str(), "int") == 0) {
+    return_value.type = mockvaluetype_integer;
+    return_value.value.int_value = named_value.get_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "unsigned int") == 0) {
+    return_value.type = mockvaluetype_unsigned_integer;
+    return_value.value.unsigned_int_value =
+        named_value.get_unsigned_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "long int") == 0) {
+    return_value.type = mockvaluetype_long_integer;
+    return_value.value.long_int_value = named_value.get_long_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "unsigned long int") ==
              0) {
-    returnValue.type = MOCKVALUETYPE_UNSIGNED_LONG_LONG_INTEGER;
-    returnValue.value.unsignedLongLongIntValue =
-        namedValue.getUnsignedLongLongIntValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "double") == 0) {
-    returnValue.type = MOCKVALUETYPE_DOUBLE;
-    returnValue.value.doubleValue = namedValue.getDoubleValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "const char*") == 0) {
-    returnValue.type = MOCKVALUETYPE_STRING;
-    returnValue.value.stringValue = namedValue.getStringValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "void*") == 0) {
-    returnValue.type = MOCKVALUETYPE_POINTER;
-    returnValue.value.pointerValue = namedValue.getPointerValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "const void*") == 0) {
-    returnValue.type = MOCKVALUETYPE_CONST_POINTER;
-    returnValue.value.constPointerValue = namedValue.getConstPointerValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "void (*)()") == 0) {
-    returnValue.type = MOCKVALUETYPE_FUNCTIONPOINTER;
-    returnValue.value.functionPointerValue =
-        namedValue.getFunctionPointerValue();
-  } else if (StrCmp(namedValue.getType().c_str(), "const unsigned char*") ==
+    return_value.type = mockvaluetype_unsigned_long_integer;
+    return_value.value.unsigned_long_int_value =
+        named_value.get_unsigned_long_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "long long int") == 0) {
+    return_value.type = mockvaluetype_long_long_integer;
+    return_value.value.long_long_int_value =
+        named_value.get_long_long_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(),
+                 "unsigned long long int") == 0) {
+    return_value.type = mockvaluetype_unsigned_long_long_integer;
+    return_value.value.unsigned_long_long_int_value =
+        named_value.get_unsigned_long_long_int_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "double") == 0) {
+    return_value.type = mockvaluetype_double;
+    return_value.value.double_value = named_value.get_double_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "const char*") == 0) {
+    return_value.type = mockvaluetype_string;
+    return_value.value.string_value = named_value.get_string_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "void*") == 0) {
+    return_value.type = mockvaluetype_pointer;
+    return_value.value.pointer_value = named_value.get_pointer_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "const void*") == 0) {
+    return_value.type = mockvaluetype_const_pointer;
+    return_value.value.const_pointer_value =
+        named_value.get_const_pointer_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "void (*)()") == 0) {
+    return_value.type = mockvaluetype_functionpointer;
+    return_value.value.function_pointer_value =
+        named_value.get_function_pointer_value();
+  } else if (str_cmp(named_value.get_type().c_str(), "const unsigned char*") ==
              0) {
-    returnValue.type = MOCKVALUETYPE_MEMORYBUFFER;
-    returnValue.value.memoryBufferValue = namedValue.getMemoryBuffer();
-  } else if (namedValue.isConstObject()) {
-    returnValue.type = MOCKVALUETYPE_CONST_OBJECT;
-    returnValue.value.constObjectValue = namedValue.getConstObjectPointer();
+    return_value.type = mockvaluetype_memorybuffer;
+    return_value.value.memory_buffer_value = named_value.get_memory_buffer();
+  } else if (named_value.is_const_object()) {
+    return_value.type = mockvaluetype_const_object;
+    return_value.value.const_object_value =
+        named_value.get_const_object_pointer();
   } else {
-    returnValue.type = MOCKVALUETYPE_OBJECT;
-    returnValue.value.objectValue = namedValue.getObjectPointer();
+    return_value.type = mockvaluetype_object;
+    return_value.value.object_value = named_value.get_object_pointer();
   }
-  return returnValue;
+  return return_value;
 }
 } // namespace
 
 void
-strictOrder()
+strict_order()
 {
-  cpputest::extensions::currentMockSupport->strictOrder();
+  cpputest::extensions::current_mock_support->strict_order();
 }
 
 struct MockExpectedCall*
-expectOneCall(const char* name)
+expect_one_call(const char* name)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::currentMockSupport->expectOneCall(name);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::current_mock_support->expect_one_call(name);
+  return &g_expected_call;
 }
 
 void
-expectNoCall(const char* name)
+expect_no_call(const char* name)
 {
-  cpputest::extensions::currentMockSupport->expectNoCall(name);
+  cpputest::extensions::current_mock_support->expect_no_call(name);
 }
 
 struct MockExpectedCall*
-expectNCalls(const unsigned int number, const char* name)
+expect_n_calls(const unsigned int number, const char* name)
 {
-  cpputest::extensions::expectedCall =
-      &cpputest::extensions::currentMockSupport->expectNCalls(number, name);
-  return &gExpectedCall;
+  cpputest::extensions::expected_call =
+      &cpputest::extensions::current_mock_support->expect_n_calls(number, name);
+  return &g_expected_call;
 }
 
 struct MockActualCall*
-actualCall(const char* name)
+actual_call(const char* name)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::currentMockSupport->actualCall(name);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::current_mock_support->actual_call(name);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualBoolParameters(const char* name, int value)
+with_actual_bool_parameters(const char* name, int value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, (value != 0));
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, (value != 0));
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualIntParameters(const char* name, int value)
+with_actual_int_parameters(const char* name, int value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualUnsignedIntParameters(const char* name, unsigned int value)
+with_actual_unsigned_int_parameters(const char* name, unsigned int value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualLongIntParameters(const char* name, long int value)
+with_actual_long_int_parameters(const char* name, long int value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualUnsignedLongIntParameters(const char* name, unsigned long int value)
+with_actual_unsigned_long_int_parameters(const char* name,
+    unsigned long int value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualLongLongIntParameters(const char* name, long long value)
+with_actual_long_long_int_parameters(const char* name, long long value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualUnsignedLongLongIntParameters(const char* name,
+with_actual_unsigned_long_long_int_parameters(const char* name,
     unsigned long long value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualDoubleParameters(const char* name, double value)
+with_actual_double_parameters(const char* name, double value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualStringParameters(const char* name, const char* value)
+with_actual_string_parameters(const char* name, const char* value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualPointerParameters(const char* name, void* value)
+with_actual_pointer_parameters(const char* name, void* value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualConstPointerParameters(const char* name, const void* value)
+with_actual_const_pointer_parameters(const char* name, const void* value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualFunctionPointerParameters(const char* name, void (*value)())
+with_actual_function_pointer_parameters(const char* name, void (*value)())
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualMemoryBufferParameters(const char* name,
+with_actual_memory_buffer_parameters(const char* name,
     const unsigned char* value,
     size_t size)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameter(name, value, size);
-  return &gActualCall;
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter(name, value, size);
+  return &g_actual_call;
 }
 
 struct MockActualCall*
-withActualParameterOfType(const char* type, const char* name, const void* value)
+with_actual_parameter_of_type(const char* type,
+    const char* name,
+    const void* value)
 {
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withParameterOfType(type, name, value);
-  return &gActualCall;
-}
-
-struct MockActualCall*
-withActualOutputParameter(const char* name, void* value)
-{
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withOutputParameter(name, value);
-  return &gActualCall;
-}
-
-struct MockActualCall*
-withActualOutputParameterOfType(const char* type, const char* name, void* value)
-{
-  cpputest::extensions::actualCall =
-      &cpputest::extensions::actualCall->withOutputParameterOfType(
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_parameter_of_type(
           type, name, value);
-  return &gActualCall;
+  return &g_actual_call;
+}
+
+struct MockActualCall*
+with_actual_output_parameter(const char* name, void* value)
+{
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_output_parameter(name, value);
+  return &g_actual_call;
+}
+
+struct MockActualCall*
+with_actual_output_parameter_of_type(const char* type,
+    const char* name,
+    void* value)
+{
+  cpputest::extensions::actual_call =
+      &cpputest::extensions::actual_call->with_output_parameter_of_type(
+          type, name, value);
+  return &g_actual_call;
 }
 
 struct MockValue
-returnValue()
+return_value()
 {
-  return getMockValueCFromNamedValue(
-      cpputest::extensions::actualCall->returnValue());
+  return get_mock_value_c_from_named_value(
+      cpputest::extensions::actual_call->return_value());
 }
 
 int
-boolReturnValue()
+bool_return_value()
 {
-  return cpputest::extensions::actualCall->returnBoolValue() ? 1 : 0;
+  return cpputest::extensions::actual_call->return_bool_value() ? 1 : 0;
 }
 
 int
-returnBoolValueOrDefault(int defaultValue)
+return_bool_value_or_default(int default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return boolReturnValue();
+  return bool_return_value();
 }
 
 int
-intReturnValue()
+int_return_value()
 {
-  return cpputest::extensions::actualCall->returnIntValue();
+  return cpputest::extensions::actual_call->return_int_value();
 }
 
 int
-returnIntValueOrDefault(int defaultValue)
+return_int_value_or_default(int default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return intReturnValue();
+  return int_return_value();
 }
 
 unsigned int
-unsignedIntReturnValue()
+unsigned_int_return_value()
 {
-  return cpputest::extensions::actualCall->returnUnsignedIntValue();
+  return cpputest::extensions::actual_call->return_unsigned_int_value();
 }
 
 unsigned int
-returnUnsignedIntValueOrDefault(unsigned int defaultValue)
+return_unsigned_int_value_or_default(unsigned int default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return unsignedIntReturnValue();
+  return unsigned_int_return_value();
 }
 
 long int
-longIntReturnValue()
+long_int_return_value()
 {
-  return cpputest::extensions::actualCall->returnLongIntValue();
+  return cpputest::extensions::actual_call->return_long_int_value();
 }
 
 long int
-returnLongIntValueOrDefault(long int defaultValue)
+return_long_int_value_or_default(long int default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return longIntReturnValue();
+  return long_int_return_value();
 }
 
 unsigned long int
-unsignedLongIntReturnValue()
+unsigned_long_int_return_value()
 {
-  return cpputest::extensions::actualCall->returnUnsignedLongIntValue();
+  return cpputest::extensions::actual_call->return_unsigned_long_int_value();
 }
 
 unsigned long int
-returnUnsignedLongIntValueOrDefault(unsigned long int defaultValue)
+return_unsigned_long_int_value_or_default(unsigned long int default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return unsignedLongIntReturnValue();
+  return unsigned_long_int_return_value();
 }
 
 long long
-longLongIntReturnValue()
+long_long_int_return_value()
 {
-  return cpputest::extensions::actualCall->returnLongLongIntValue();
+  return cpputest::extensions::actual_call->return_long_long_int_value();
 }
 
 long long
-returnLongLongIntValueOrDefault(long long defaultValue)
+return_long_long_int_value_or_default(long long default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return longLongIntReturnValue();
+  return long_long_int_return_value();
 }
 
 unsigned long long
-unsignedLongLongIntReturnValue()
+unsigned_long_long_int_return_value()
 {
-  return cpputest::extensions::actualCall->returnUnsignedLongLongIntValue();
+  return cpputest::extensions::actual_call
+      ->return_unsigned_long_long_int_value();
 }
 
 unsigned long long
-returnUnsignedLongLongIntValueOrDefault(unsigned long long defaultValue)
+return_unsigned_long_long_int_value_or_default(unsigned long long default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return unsignedLongLongIntReturnValue();
+  return unsigned_long_long_int_return_value();
 }
 
 const char*
-stringReturnValue()
+string_return_value()
 {
-  return cpputest::extensions::actualCall->returnStringValue();
+  return cpputest::extensions::actual_call->return_string_value();
 }
 
 const char*
-returnStringValueOrDefault(const char* defaultValue)
+return_string_value_or_default(const char* default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return stringReturnValue();
+  return string_return_value();
 }
 
 double
-doubleReturnValue()
+double_return_value()
 {
-  return cpputest::extensions::actualCall->returnDoubleValue();
+  return cpputest::extensions::actual_call->return_double_value();
 }
 
 double
-returnDoubleValueOrDefault(double defaultValue)
+return_double_value_or_default(double default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return doubleReturnValue();
+  return double_return_value();
 }
 
 void*
-pointerReturnValue()
+pointer_return_value()
 {
-  return cpputest::extensions::actualCall->returnPointerValue();
+  return cpputest::extensions::actual_call->return_pointer_value();
 }
 
 void*
-returnPointerValueOrDefault(void* defaultValue)
+return_pointer_value_or_default(void* default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return pointerReturnValue();
+  return pointer_return_value();
 }
 
 const void*
-constPointerReturnValue()
+const_pointer_return_value()
 {
-  return cpputest::extensions::actualCall->returnConstPointerValue();
+  return cpputest::extensions::actual_call->return_const_pointer_value();
 }
 
 const void*
-returnConstPointerValueOrDefault(const void* defaultValue)
+return_const_pointer_value_or_default(const void* default_value)
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return constPointerReturnValue();
+  return const_pointer_return_value();
 }
 
-void (*functionPointerReturnValue())()
+void (*function_pointer_return_value())()
 {
-  return cpputest::extensions::actualCall->returnFunctionPointerValue();
+  return cpputest::extensions::actual_call->return_function_pointer_value();
 }
 
-void (*returnFunctionPointerValueOrDefault(void (*defaultValue)()))()
+void (*return_function_pointer_value_or_default(void (*default_value)()))()
 {
-  if (!hasReturnValue()) {
-    return defaultValue;
+  if (!has_return_value()) {
+    return default_value;
   }
-  return functionPointerReturnValue();
+  return function_pointer_return_value();
 }
 
 void
 disable()
 {
-  cpputest::extensions::currentMockSupport->disable();
+  cpputest::extensions::current_mock_support->disable();
 }
 
 void
 enable()
 {
-  cpputest::extensions::currentMockSupport->enable();
+  cpputest::extensions::current_mock_support->enable();
 }
 
 void
-ignoreOtherCalls()
+ignore_other_calls()
 {
-  cpputest::extensions::currentMockSupport->ignoreOtherCalls();
+  cpputest::extensions::current_mock_support->ignore_other_calls();
 }
 
 void
-setBoolData(const char* name, int value)
+set_bool_data(const char* name, int value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, (value != 0));
+  cpputest::extensions::current_mock_support->set_data(name, (value != 0));
 }
 
 void
-setIntData(const char* name, int value)
+set_int_data(const char* name, int value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setUnsignedIntData(const char* name, unsigned int value)
+set_unsigned_int_data(const char* name, unsigned int value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setLongIntData(const char* name, long int value)
+set_long_int_data(const char* name, long int value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setUnsignedLongIntData(const char* name, unsigned long int value)
+set_unsigned_long_int_data(const char* name, unsigned long int value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setDoubleData(const char* name, double value)
+set_double_data(const char* name, double value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setStringData(const char* name, const char* value)
+set_string_data(const char* name, const char* value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setPointerData(const char* name, void* value)
+set_pointer_data(const char* name, void* value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setConstPointerData(const char* name, const void* value)
+set_const_pointer_data(const char* name, const void* value)
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setFunctionPointerData(const char* name, void (*value)())
+set_function_pointer_data(const char* name, void (*value)())
 {
-  cpputest::extensions::currentMockSupport->setData(name, value);
+  cpputest::extensions::current_mock_support->set_data(name, value);
 }
 
 void
-setDataObject(const char* name, const char* type, void* value)
+set_data_object(const char* name, const char* type, void* value)
 {
-  cpputest::extensions::currentMockSupport->setDataObject(name, type, value);
+  cpputest::extensions::current_mock_support->set_data_object(
+      name, type, value);
 }
 
 void
-setDataConstObject(const char* name, const char* type, const void* value)
+set_data_const_object(const char* name, const char* type, const void* value)
 {
-  cpputest::extensions::currentMockSupport->setDataConstObject(
+  cpputest::extensions::current_mock_support->set_data_const_object(
       name, type, value);
 }
 
 struct MockValue
-getData(const char* name)
+get_data(const char* name)
 {
-  return getMockValueCFromNamedValue(
-      cpputest::extensions::currentMockSupport->getData(name));
+  return get_mock_value_c_from_named_value(
+      cpputest::extensions::current_mock_support->get_data(name));
 }
 
 int
-hasReturnValue()
+has_return_value()
 {
-  return cpputest::extensions::currentMockSupport->hasReturnValue();
+  return cpputest::extensions::current_mock_support->has_return_value();
 }
 
 void
-checkExpectations()
+check_expectations()
 {
-  cpputest::extensions::currentMockSupport->checkExpectations();
+  cpputest::extensions::current_mock_support->check_expectations();
 }
 
 int
-expectedCallsLeft()
+expected_calls_left()
 {
-  return cpputest::extensions::currentMockSupport->expectedCallsLeft();
+  return cpputest::extensions::current_mock_support->expected_calls_left();
 }
 
 void
 clear()
 {
-  cpputest::extensions::currentMockSupport->clear();
+  cpputest::extensions::current_mock_support->clear();
 }
 
 void
-crashOnFailure(unsigned shouldCrash)
+crash_on_failure(unsigned should_crash)
 {
-  cpputest::extensions::currentMockSupport->crashOnFailure(0 != shouldCrash);
+  cpputest::extensions::current_mock_support->crash_on_failure(
+      0 != should_crash);
 }
 
 namespace {
-struct MockSupport gMockSupport = { strictOrder,
-  expectOneCall,
-  expectNoCall,
-  expectNCalls,
-  actualCall,
-  hasReturnValue,
-  returnValue,
-  boolReturnValue,
-  returnBoolValueOrDefault,
-  intReturnValue,
-  returnIntValueOrDefault,
-  unsignedIntReturnValue,
-  returnUnsignedIntValueOrDefault,
-  longIntReturnValue,
-  returnLongIntValueOrDefault,
-  unsignedLongIntReturnValue,
-  returnUnsignedLongIntValueOrDefault,
-  longLongIntReturnValue,
-  returnLongLongIntValueOrDefault,
-  unsignedLongLongIntReturnValue,
-  returnUnsignedLongLongIntValueOrDefault,
-  stringReturnValue,
-  returnStringValueOrDefault,
-  doubleReturnValue,
-  returnDoubleValueOrDefault,
-  pointerReturnValue,
-  returnPointerValueOrDefault,
-  constPointerReturnValue,
-  returnConstPointerValueOrDefault,
-  functionPointerReturnValue,
-  returnFunctionPointerValueOrDefault,
-  setBoolData,
-  setIntData,
-  setUnsignedIntData,
-  setLongIntData,
-  setUnsignedLongIntData,
-  setStringData,
-  setDoubleData,
-  setPointerData,
-  setConstPointerData,
-  setFunctionPointerData,
-  setDataObject,
-  setDataConstObject,
-  getData,
+struct MockSupport g_mock_support = { strict_order,
+  expect_one_call,
+  expect_no_call,
+  expect_n_calls,
+  actual_call,
+  has_return_value,
+  return_value,
+  bool_return_value,
+  return_bool_value_or_default,
+  int_return_value,
+  return_int_value_or_default,
+  unsigned_int_return_value,
+  return_unsigned_int_value_or_default,
+  long_int_return_value,
+  return_long_int_value_or_default,
+  unsigned_long_int_return_value,
+  return_unsigned_long_int_value_or_default,
+  long_long_int_return_value,
+  return_long_long_int_value_or_default,
+  unsigned_long_long_int_return_value,
+  return_unsigned_long_long_int_value_or_default,
+  string_return_value,
+  return_string_value_or_default,
+  double_return_value,
+  return_double_value_or_default,
+  pointer_return_value,
+  return_pointer_value_or_default,
+  const_pointer_return_value,
+  return_const_pointer_value_or_default,
+  function_pointer_return_value,
+  return_function_pointer_value_or_default,
+  set_bool_data,
+  set_int_data,
+  set_unsigned_int_data,
+  set_long_int_data,
+  set_unsigned_long_int_data,
+  set_string_data,
+  set_double_data,
+  set_pointer_data,
+  set_const_pointer_data,
+  set_function_pointer_data,
+  set_data_object,
+  set_data_const_object,
+  get_data,
   disable,
   enable,
-  ignoreOtherCalls,
-  checkExpectations,
-  expectedCallsLeft,
+  ignore_other_calls,
+  check_expectations,
+  expected_calls_left,
   clear,
-  crashOnFailure,
-  installComparator,
-  installCopier,
-  removeAllComparatorsAndCopiers };
+  crash_on_failure,
+  install_comparator,
+  install_copier,
+  remove_all_comparators_and_copiers };
 } // namespace
 
 } // namespace c
@@ -2055,15 +2091,15 @@ struct MockSupport gMockSupport = { strictOrder,
 struct MockSupport*
 mock()
 {
-  cpputest::extensions::currentMockSupport =
-      &mock("", &cpputest::extensions::failureReporterForC);
-  return &c::gMockSupport;
+  cpputest::extensions::current_mock_support =
+      &mock("", &cpputest::extensions::failure_reporter_for_c);
+  return &c::g_mock_support;
 }
 
 struct MockSupport*
 mock_scope(const char* scope)
 {
-  cpputest::extensions::currentMockSupport =
-      &mock(scope, &cpputest::extensions::failureReporterForC);
-  return &c::gMockSupport;
+  cpputest::extensions::current_mock_support =
+      &mock(scope, &cpputest::extensions::failure_reporter_for_c);
+  return &c::g_mock_support;
 }

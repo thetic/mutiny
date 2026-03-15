@@ -3,9 +3,9 @@
 #include <stdio.h>
 
 void
-printHelloWorld(void)
+print_hello_world(void)
 {
-  PrintFormated("Hello World!\n");
+  print_formated("Hello World!\n");
 }
 
-int (*PrintFormated)(const char*, ...) = printf;
+int (*print_formated)(const char*, ...) = printf;

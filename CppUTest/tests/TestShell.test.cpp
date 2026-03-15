@@ -15,75 +15,75 @@ TEST_GROUP(TestShell)
 
 namespace {
 void
-failMethod_()
+fail_method()
 {
   FAIL("This test fails");
 }
 
 void
-passingTestMethod_()
+passing_test_method()
 {
   CHECK(true);
 }
 
 void
-passingCheckEqualTestMethod_()
+passing_check_equal_test_method()
 {
   CHECK_EQUAL(1, 1);
 }
 
 void
-exitTestMethod_()
+exit_test_method()
 {
   TEST_EXIT;
   FAIL("Should not get here");
 }
 
-bool cpputestHasCrashed;
+bool cpputest_has_crashed;
 
 void
-crashMethod()
+crash_method()
 {
-  cpputestHasCrashed = true;
+  cpputest_has_crashed = true;
 }
 
-int teardownCalled = 0;
+int teardown_called = 0;
 
 void
-teardownMethod_()
+teardown_method()
 {
-  teardownCalled++;
+  teardown_called++;
 }
 
-int stopAfterFailure = 0;
+int stop_after_failure = 0;
 void
-stopAfterFailureMethod_()
+stop_after_failure_method()
 {
   FAIL("fail");
-  stopAfterFailure++;
+  stop_after_failure++;
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 // Prevents -Wunreachable-code; should always be 'true'
-bool shouldThrowException = true;
+bool should_throw_exception = true;
 
 void
-thrownUnknownExceptionMethod_()
+thrown_unknown_exception_method()
 {
-  if (shouldThrowException) {
+  if (should_throw_exception) {
     throw 33;
   }
-  stopAfterFailure++;
+  stop_after_failure++;
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
 void
-thrownStandardExceptionMethod_()
+thrown_standard_exception_method()
 {
-  if (shouldThrowException) {
+  if (should_throw_exception) {
     throw std::runtime_error("exception text");
   }
-  stopAfterFailure++;
+  stop_after_failure++;
 }
 #endif
 
@@ -124,208 +124,213 @@ TEST(TestShell, compareDoublesInf)
 
 TEST(TestShell, FailWillIncreaseTheAmountOfChecks)
 {
-  fixture.setTestFunction(failMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getCheckCount());
+  fixture.set_test_function(fail_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_check_count());
 }
 
 TEST(TestShell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 {
-  fixture.setTestFunction(passingCheckEqualTestMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getCheckCount());
+  fixture.set_test_function(passing_check_equal_test_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_check_count());
 }
 
 IGNORE_TEST(TestShell, IgnoreTestAccessingFixture)
 {
-  CHECK(fixture.getCheckCount() == 0);
+  CHECK(fixture.get_check_count() == 0);
 }
 
 TEST(TestShell, MacrosUsedInSetup)
 {
-  fixture.setSetup(failMethod_);
-  fixture.setTestFunction(passingTestMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getFailureCount());
+  fixture.set_setup(fail_method);
+  fixture.set_test_function(passing_test_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
 }
 
 TEST(TestShell, MacrosUsedInTearDown)
 {
-  fixture.setTeardown(failMethod_);
-  fixture.setTestFunction(passingTestMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getFailureCount());
+  fixture.set_teardown(fail_method);
+  fixture.set_test_function(passing_test_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
 }
 
 TEST(TestShell, ExitLeavesQuietly)
 {
-  fixture.setTestFunction(exitTestMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(0, fixture.getFailureCount());
+  fixture.set_test_function(exit_test_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(0, fixture.get_failure_count());
 }
 
 TEST(TestShell, FailWillNotCrashIfNotEnabled)
 {
-  cpputestHasCrashed = false;
-  cpputest::TestShell::setCrashMethod(crashMethod);
+  cpputest_has_crashed = false;
+  cpputest::TestShell::set_crash_method(crash_method);
 
-  fixture.setTestFunction(failMethod_);
-  fixture.runAllTests();
+  fixture.set_test_function(fail_method);
+  fixture.run_all_tests();
 
-  CHECK_FALSE(cpputestHasCrashed);
-  LONGS_EQUAL(1, fixture.getFailureCount());
+  CHECK_FALSE(cpputest_has_crashed);
+  LONGS_EQUAL(1, fixture.get_failure_count());
 
-  cpputest::TestShell::resetCrashMethod();
+  cpputest::TestShell::reset_crash_method();
 }
 
 TEST(TestShell, FailWillCrashIfEnabled)
 {
-  cpputestHasCrashed = false;
-  cpputest::TestShell::setCrashOnFail();
-  cpputest::TestShell::setCrashMethod(crashMethod);
+  cpputest_has_crashed = false;
+  cpputest::TestShell::set_crash_on_fail();
+  cpputest::TestShell::set_crash_method(crash_method);
 
-  fixture.setTestFunction(failMethod_);
-  fixture.runAllTests();
+  fixture.set_test_function(fail_method);
+  fixture.run_all_tests();
 
-  CHECK(cpputestHasCrashed);
+  CHECK(cpputest_has_crashed);
 
-  cpputest::TestShell::restoreDefaultTestTerminator();
-  cpputest::TestShell::resetCrashMethod();
+  cpputest::TestShell::restore_default_test_terminator();
+  cpputest::TestShell::reset_crash_method();
 }
 
 TEST(TestShell, TeardownCalledAfterTestFailure)
 {
-  teardownCalled = 0;
-  fixture.setTeardown(teardownMethod_);
-  fixture.setTestFunction(failMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getFailureCount());
-  LONGS_EQUAL(1, teardownCalled);
+  teardown_called = 0;
+  fixture.set_teardown(teardown_method);
+  fixture.set_test_function(fail_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  LONGS_EQUAL(1, teardown_called);
 }
 
 TEST(TestShell, TestStopsAfterTestFailure)
 {
-  stopAfterFailure = 0;
-  fixture.setTestFunction(stopAfterFailureMethod_);
-  fixture.runAllTests();
-  CHECK(fixture.hasTestFailed());
-  LONGS_EQUAL(1, fixture.getFailureCount());
-  LONGS_EQUAL(0, stopAfterFailure);
+  stop_after_failure = 0;
+  fixture.set_test_function(stop_after_failure_method);
+  fixture.run_all_tests();
+  CHECK(fixture.has_test_failed());
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  LONGS_EQUAL(0, stop_after_failure);
 }
 
 TEST(TestShell, TestStopsAfterSetupFailure)
 {
-  stopAfterFailure = 0;
-  fixture.setSetup(stopAfterFailureMethod_);
-  fixture.setTeardown(stopAfterFailureMethod_);
-  fixture.setTestFunction(failMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(2, fixture.getFailureCount());
-  LONGS_EQUAL(0, stopAfterFailure);
+  stop_after_failure = 0;
+  fixture.set_setup(stop_after_failure_method);
+  fixture.set_teardown(stop_after_failure_method);
+  fixture.set_test_function(fail_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(2, fixture.get_failure_count());
+  LONGS_EQUAL(0, stop_after_failure);
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 
 TEST(TestShell, TestStopsAfterUnknownExceptionIsThrown)
 {
-  bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
-  cpputest::TestShell::setRethrowExceptions(false);
-  stopAfterFailure = 0;
-  shouldThrowException = true;
-  fixture.setTestFunction(thrownUnknownExceptionMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getFailureCount());
-  fixture.assertPrintContains(
+  bool initial_rethrow_exceptions =
+      cpputest::TestShell::is_rethrowing_exceptions();
+  cpputest::TestShell::set_rethrow_exceptions(false);
+  stop_after_failure = 0;
+  should_throw_exception = true;
+  fixture.set_test_function(thrown_unknown_exception_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown");
-  LONGS_EQUAL(0, stopAfterFailure);
-  cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
+  LONGS_EQUAL(0, stop_after_failure);
+  cpputest::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
 {
-  bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
-  bool exceptionRethrown = false;
-  stopAfterFailure = 0;
-  cpputest::TestShell::setRethrowExceptions(true);
-  shouldThrowException = false;
-  fixture.setTestFunction(thrownUnknownExceptionMethod_);
+  bool initial_rethrow_exceptions =
+      cpputest::TestShell::is_rethrowing_exceptions();
+  bool exception_rethrown = false;
+  stop_after_failure = 0;
+  cpputest::TestShell::set_rethrow_exceptions(true);
+  should_throw_exception = false;
+  fixture.set_test_function(thrown_unknown_exception_method);
   try {
-    fixture.runAllTests();
+    fixture.run_all_tests();
   } catch (...) {
-    exceptionRethrown = true;
+    exception_rethrown = true;
   }
-  CHECK_FALSE(exceptionRethrown);
-  LONGS_EQUAL(0, fixture.getFailureCount());
-  LONGS_EQUAL(1, stopAfterFailure);
-  cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
+  CHECK_FALSE(exception_rethrown);
+  LONGS_EQUAL(0, fixture.get_failure_count());
+  LONGS_EQUAL(1, stop_after_failure);
+  cpputest::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, UnknownExceptionIsRethrownIfEnabled)
 {
-  bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
-  bool exceptionRethrown = false;
-  stopAfterFailure = 0;
-  cpputest::TestShell::setRethrowExceptions(true);
-  shouldThrowException = true;
-  fixture.setTestFunction(thrownUnknownExceptionMethod_);
+  bool initial_rethrow_exceptions =
+      cpputest::TestShell::is_rethrowing_exceptions();
+  bool exception_rethrown = false;
+  stop_after_failure = 0;
+  cpputest::TestShell::set_rethrow_exceptions(true);
+  should_throw_exception = true;
+  fixture.set_test_function(thrown_unknown_exception_method);
   try {
-    fixture.runAllTests();
-    stopAfterFailure++;
+    fixture.run_all_tests();
+    stop_after_failure++;
   } catch (...) {
-    exceptionRethrown = true;
+    exception_rethrown = true;
   }
-  CHECK_TRUE(exceptionRethrown);
-  LONGS_EQUAL(1, fixture.getFailureCount());
-  fixture.assertPrintContains(
+  CHECK_TRUE(exception_rethrown);
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown");
-  LONGS_EQUAL(0, stopAfterFailure);
-  cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
+  LONGS_EQUAL(0, stop_after_failure);
+  cpputest::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
 
 TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
 {
-  bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
-  cpputest::TestShell::setRethrowExceptions(false);
-  stopAfterFailure = 0;
-  shouldThrowException = true;
-  fixture.setTestFunction(thrownStandardExceptionMethod_);
-  fixture.runAllTests();
-  LONGS_EQUAL(1, fixture.getFailureCount());
+  bool initial_rethrow_exceptions =
+      cpputest::TestShell::is_rethrowing_exceptions();
+  cpputest::TestShell::set_rethrow_exceptions(false);
+  stop_after_failure = 0;
+  should_throw_exception = true;
+  fixture.set_test_function(thrown_standard_exception_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
 #if CPPUTEST_HAVE_RTTI
-  fixture.assertPrintContains("Unexpected exception of type '");
-  fixture.assertPrintContains("runtime_error");
-  fixture.assertPrintContains("' was thrown: exception text");
+  fixture.assert_print_contains("Unexpected exception of type '");
+  fixture.assert_print_contains("runtime_error");
+  fixture.assert_print_contains("' was thrown: exception text");
 #else
   fixture.assertPrintContains(
       "Unexpected exception of unknown type was thrown");
 #endif
-  LONGS_EQUAL(0, stopAfterFailure);
-  cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
+  LONGS_EQUAL(0, stop_after_failure);
+  cpputest::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, StandardExceptionIsRethrownIfEnabled)
 {
-  bool initialRethrowExceptions = cpputest::TestShell::isRethrowingExceptions();
-  bool exceptionRethrown = false;
-  stopAfterFailure = 0;
-  cpputest::TestShell::setRethrowExceptions(true);
-  shouldThrowException = true;
-  fixture.setTestFunction(thrownStandardExceptionMethod_);
+  bool initial_rethrow_exceptions =
+      cpputest::TestShell::is_rethrowing_exceptions();
+  bool exception_rethrown = false;
+  stop_after_failure = 0;
+  cpputest::TestShell::set_rethrow_exceptions(true);
+  should_throw_exception = true;
+  fixture.set_test_function(thrown_standard_exception_method);
   try {
-    fixture.runAllTests();
-    stopAfterFailure++;
+    fixture.run_all_tests();
+    stop_after_failure++;
   } catch (const std::exception&) {
-    exceptionRethrown = true;
+    exception_rethrown = true;
   }
-  CHECK_TRUE(exceptionRethrown);
-  LONGS_EQUAL(1, fixture.getFailureCount());
-  fixture.assertPrintContains("Unexpected exception of type '");
-  fixture.assertPrintContains("runtime_error");
-  fixture.assertPrintContains("' was thrown: exception text");
-  LONGS_EQUAL(0, stopAfterFailure);
-  cpputest::TestShell::setRethrowExceptions(initialRethrowExceptions);
+  CHECK_TRUE(exception_rethrown);
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains("Unexpected exception of type '");
+  fixture.assert_print_contains("runtime_error");
+  fixture.assert_print_contains("' was thrown: exception text");
+  LONGS_EQUAL(0, stop_after_failure);
+  cpputest::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 #endif // CPPUTEST_USE_STD_CPP_LIB
 #endif // CPPUTEST_HAVE_EXCEPTIONS
@@ -333,50 +338,51 @@ TEST(TestShell, StandardExceptionIsRethrownIfEnabled)
 TEST(TestShell, veryVebose)
 {
   cpputest::TestShell shell("Group", "name", __FILE__, __LINE__);
-  cpputest::StringBufferTestOutput normalOutput;
-  normalOutput.verbose(cpputest::TestOutput::VerbosityLevel::VERY_VERBOSE);
+  cpputest::StringBufferTestOutput normal_output;
+  normal_output.verbose(cpputest::TestOutput::VerbosityLevel::very_verbose);
   cpputest::NullTestPlugin plugin;
 
-  cpputest::TestResult result(normalOutput);
-  shell.runOneTestInCurrentProcess(&plugin, result);
-  STRCMP_CONTAINS("\n------ before runTest", normalOutput.getOutput().c_str());
+  cpputest::TestResult result(normal_output);
+  shell.run_one_test_in_current_process(&plugin, result);
+  STRCMP_CONTAINS(
+      "\n------ before runTest", normal_output.get_output().c_str());
 }
 
-class defaultTestShell : public cpputest::TestShell
+class DefaultTestShell : public cpputest::TestShell
 {};
 
 TEST(TestShell,
     this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods)
 {
-  defaultTestShell shell;
-  fixture.addTest(&shell);
-  fixture.runAllTests();
-  LONGS_EQUAL(2, fixture.getTestCount());
+  DefaultTestShell shell;
+  fixture.add_test(&shell);
+  fixture.run_all_tests();
+  LONGS_EQUAL(2, fixture.get_test_count());
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 
 namespace {
-bool destructorWasCalledOnFailedTest = false;
+bool destructor_was_called_on_failed_test = false;
 
 void
-destructorCalledForLocalObjects_()
+destructor_called_for_local_objects()
 {
   struct SetBoolOnDestruct
   {
-    bool& b_;
-    ~SetBoolOnDestruct() { b_ = true; }
-  } pleaseCallTheDestructor{ destructorWasCalledOnFailedTest };
-  destructorWasCalledOnFailedTest = false;
+    bool& b;
+    ~SetBoolOnDestruct() { b = true; }
+  } please_call_the_destructor{ destructor_was_called_on_failed_test };
+  destructor_was_called_on_failed_test = false;
   FAIL("fail");
 }
 }
 
 TEST(TestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 {
-  fixture.setTestFunction(destructorCalledForLocalObjects_);
-  fixture.runAllTests();
-  CHECK(destructorWasCalledOnFailedTest);
+  fixture.set_test_function(destructor_called_for_local_objects);
+  fixture.run_all_tests();
+  CHECK(destructor_was_called_on_failed_test);
 }
 
 #endif
@@ -384,20 +390,20 @@ TEST(TestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 TEST_BASE(MyOwnTest)
 {
   MyOwnTest()
-    : inTest(false)
+    : in_test(false)
   {
   }
-  bool inTest;
+  bool in_test;
 
   void setup() override
   {
-    CHECK(!inTest);
-    inTest = true;
+    CHECK(!in_test);
+    in_test = true;
   }
   void teardown() override
   {
-    CHECK(inTest);
-    inTest = false;
+    CHECK(in_test);
+    in_test = false;
   }
 };
 
@@ -405,7 +411,7 @@ TEST_GROUP_BASE(UtestMyOwn, MyOwnTest){};
 
 TEST(UtestMyOwn, test)
 {
-  CHECK(inTest);
+  CHECK(in_test);
 }
 
 class NullParameterTest : public cpputest::TestShell
@@ -413,8 +419,8 @@ class NullParameterTest : public cpputest::TestShell
 
 TEST(UtestMyOwn, NullParameters)
 {
-  NullParameterTest nullTest; /* Bug fix tests for creating a test without a
+  NullParameterTest null_test; /* Bug fix tests for creating a test without a
                                  name, fix in String */
-  cpputest::TestFilter emptyFilter;
-  CHECK(nullTest.shouldRun(&emptyFilter, &emptyFilter));
+  cpputest::TestFilter empty_filter;
+  CHECK(null_test.should_run(&empty_filter, &empty_filter));
 }

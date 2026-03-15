@@ -9,7 +9,7 @@ namespace extensions {
 class MockNamedValue;
 
 cpputest::String
-StringFrom(const MockNamedValue& parameter);
+string_from(const MockNamedValue& parameter);
 
 class MockExpectedCall
 {
@@ -17,141 +17,144 @@ public:
   MockExpectedCall();
   virtual ~MockExpectedCall();
 
-  virtual MockExpectedCall& withName(const cpputest::String& name) = 0;
-  virtual MockExpectedCall& withCallOrder(unsigned int) = 0;
-  virtual MockExpectedCall& withCallOrder(unsigned int, unsigned int) = 0;
-  MockExpectedCall& withParameter(const cpputest::String& name, bool value)
+  virtual MockExpectedCall& with_name(const cpputest::String& name) = 0;
+  virtual MockExpectedCall& with_call_order(unsigned int) = 0;
+  virtual MockExpectedCall& with_call_order(unsigned int, unsigned int) = 0;
+  MockExpectedCall& with_parameter(const cpputest::String& name, bool value)
   {
-    return withBoolParameter(name, value);
+    return with_bool_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, int value)
+  MockExpectedCall& with_parameter(const cpputest::String& name, int value)
   {
-    return withIntParameter(name, value);
+    return with_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       unsigned int value)
   {
-    return withUnsignedIntParameter(name, value);
+    return with_unsigned_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, long int value)
+  MockExpectedCall& with_parameter(const cpputest::String& name, long int value)
   {
-    return withLongIntParameter(name, value);
+    return with_long_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       unsigned long int value)
   {
-    return withUnsignedLongIntParameter(name, value);
+    return with_unsigned_long_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, long long value)
+  MockExpectedCall& with_parameter(const cpputest::String& name,
+      long long value)
   {
-    return withLongLongIntParameter(name, value);
+    return with_long_long_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       unsigned long long value)
   {
-    return withUnsignedLongLongIntParameter(name, value);
+    return with_unsigned_long_long_int_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, double value)
+  MockExpectedCall& with_parameter(const cpputest::String& name, double value)
   {
-    return withDoubleParameter(name, value);
+    return with_double_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       double value,
       double tolerance)
   {
-    return withDoubleParameter(name, value, tolerance);
+    return with_double_parameter(name, value, tolerance);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       const char* value)
   {
-    return withStringParameter(name, value);
+    return with_string_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, void* value)
+  MockExpectedCall& with_parameter(const cpputest::String& name, void* value)
   {
-    return withPointerParameter(name, value);
+    return with_pointer_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       const void* value)
   {
-    return withConstPointerParameter(name, value);
+    return with_const_pointer_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name, void (*value)())
+  MockExpectedCall& with_parameter(const cpputest::String& name,
+      void (*value)())
   {
-    return withFunctionPointerParameter(name, value);
+    return with_function_pointer_parameter(name, value);
   }
-  MockExpectedCall& withParameter(const cpputest::String& name,
+  MockExpectedCall& with_parameter(const cpputest::String& name,
       const unsigned char* value,
       size_t size)
   {
-    return withMemoryBufferParameter(name, value, size);
+    return with_memory_buffer_parameter(name, value, size);
   }
-  virtual MockExpectedCall& withParameterOfType(
-      const cpputest::String& typeName,
+  virtual MockExpectedCall& with_parameter_of_type(
+      const cpputest::String& type_name,
       const cpputest::String& name,
       const void* value) = 0;
-  virtual MockExpectedCall& withOutputParameterReturning(
+  virtual MockExpectedCall& with_output_parameter_returning(
       const cpputest::String& name,
       const void* value,
       size_t size) = 0;
-  virtual MockExpectedCall& withOutputParameterOfTypeReturning(
-      const cpputest::String& typeName,
+  virtual MockExpectedCall& with_output_parameter_of_type_returning(
+      const cpputest::String& type_name,
       const cpputest::String& name,
       const void* value) = 0;
-  virtual MockExpectedCall& withUnmodifiedOutputParameter(
+  virtual MockExpectedCall& with_unmodified_output_parameter(
       const cpputest::String& name) = 0;
-  virtual MockExpectedCall& ignoreOtherParameters() = 0;
+  virtual MockExpectedCall& ignore_other_parameters() = 0;
 
-  virtual MockExpectedCall& withBoolParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_bool_parameter(const cpputest::String& name,
       bool value) = 0;
-  virtual MockExpectedCall& withIntParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_int_parameter(const cpputest::String& name,
       int value) = 0;
-  virtual MockExpectedCall& withUnsignedIntParameter(
+  virtual MockExpectedCall& with_unsigned_int_parameter(
       const cpputest::String& name,
       unsigned int value) = 0;
-  virtual MockExpectedCall& withLongIntParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_long_int_parameter(
+      const cpputest::String& name,
       long int value) = 0;
-  virtual MockExpectedCall& withUnsignedLongIntParameter(
+  virtual MockExpectedCall& with_unsigned_long_int_parameter(
       const cpputest::String& name,
       unsigned long int value) = 0;
-  virtual MockExpectedCall& withLongLongIntParameter(
+  virtual MockExpectedCall& with_long_long_int_parameter(
       const cpputest::String& name,
       long long value) = 0;
-  virtual MockExpectedCall& withUnsignedLongLongIntParameter(
+  virtual MockExpectedCall& with_unsigned_long_long_int_parameter(
       const cpputest::String& name,
       unsigned long long value) = 0;
-  virtual MockExpectedCall& withDoubleParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_double_parameter(const cpputest::String& name,
       double value) = 0;
-  virtual MockExpectedCall& withDoubleParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_double_parameter(const cpputest::String& name,
       double value,
       double tolerance) = 0;
-  virtual MockExpectedCall& withStringParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_string_parameter(const cpputest::String& name,
       const char* value) = 0;
-  virtual MockExpectedCall& withPointerParameter(const cpputest::String& name,
+  virtual MockExpectedCall& with_pointer_parameter(const cpputest::String& name,
       void* value) = 0;
-  virtual MockExpectedCall& withFunctionPointerParameter(
+  virtual MockExpectedCall& with_function_pointer_parameter(
       const cpputest::String& name,
       void (*value)()) = 0;
-  virtual MockExpectedCall& withConstPointerParameter(
+  virtual MockExpectedCall& with_const_pointer_parameter(
       const cpputest::String& name,
       const void* value) = 0;
-  virtual MockExpectedCall& withMemoryBufferParameter(
+  virtual MockExpectedCall& with_memory_buffer_parameter(
       const cpputest::String& name,
       const unsigned char* value,
       size_t size) = 0;
-  virtual MockExpectedCall& andReturnValue(bool value) = 0;
-  virtual MockExpectedCall& andReturnValue(int value) = 0;
-  virtual MockExpectedCall& andReturnValue(unsigned int value) = 0;
-  virtual MockExpectedCall& andReturnValue(long int value) = 0;
-  virtual MockExpectedCall& andReturnValue(unsigned long int value) = 0;
-  virtual MockExpectedCall& andReturnValue(long long value) = 0;
-  virtual MockExpectedCall& andReturnValue(unsigned long long value) = 0;
-  virtual MockExpectedCall& andReturnValue(double value) = 0;
-  virtual MockExpectedCall& andReturnValue(const char* value) = 0;
-  virtual MockExpectedCall& andReturnValue(void* value) = 0;
-  virtual MockExpectedCall& andReturnValue(const void* value) = 0;
-  virtual MockExpectedCall& andReturnValue(void (*value)()) = 0;
+  virtual MockExpectedCall& and_return_value(bool value) = 0;
+  virtual MockExpectedCall& and_return_value(int value) = 0;
+  virtual MockExpectedCall& and_return_value(unsigned int value) = 0;
+  virtual MockExpectedCall& and_return_value(long int value) = 0;
+  virtual MockExpectedCall& and_return_value(unsigned long int value) = 0;
+  virtual MockExpectedCall& and_return_value(long long value) = 0;
+  virtual MockExpectedCall& and_return_value(unsigned long long value) = 0;
+  virtual MockExpectedCall& and_return_value(double value) = 0;
+  virtual MockExpectedCall& and_return_value(const char* value) = 0;
+  virtual MockExpectedCall& and_return_value(void* value) = 0;
+  virtual MockExpectedCall& and_return_value(const void* value) = 0;
+  virtual MockExpectedCall& and_return_value(void (*value)()) = 0;
 
-  virtual MockExpectedCall& onObject(void* objectPtr) = 0;
+  virtual MockExpectedCall& on_object(void* object_ptr) = 0;
 };
 
 } // namespace extensions

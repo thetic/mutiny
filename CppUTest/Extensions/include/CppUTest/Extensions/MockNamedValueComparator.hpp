@@ -17,35 +17,35 @@ public:
   MockNamedValueComparator() {}
   virtual ~MockNamedValueComparator() {}
 
-  virtual bool isEqual(const void* object1, const void* object2) = 0;
-  virtual cpputest::String valueToString(const void* object) = 0;
+  virtual bool is_equal(const void* object1, const void* object2) = 0;
+  virtual cpputest::String value_to_string(const void* object) = 0;
 };
 
 class MockFunctionComparator : public MockNamedValueComparator
 {
 public:
-  using isEqualFunction = bool (*)(const void*, const void*);
-  using valueToStringFunction = cpputest::String (*)(const void*);
+  using IsEqualFunction = bool (*)(const void*, const void*);
+  using ValueToStringFunction = cpputest::String (*)(const void*);
 
-  MockFunctionComparator(isEqualFunction equal,
-      valueToStringFunction valToString)
+  MockFunctionComparator(IsEqualFunction equal,
+      ValueToStringFunction val_to_string)
     : equal_(equal)
-    , valueToString_(valToString)
+    , value_to_string_(val_to_string)
   {
   }
 
-  virtual bool isEqual(const void* object1, const void* object2) override
+  virtual bool is_equal(const void* object1, const void* object2) override
   {
     return equal_(object1, object2);
   }
-  virtual cpputest::String valueToString(const void* object) override
+  virtual cpputest::String value_to_string(const void* object) override
   {
-    return valueToString_(object);
+    return value_to_string_(object);
   }
 
 private:
-  isEqualFunction equal_;
-  valueToStringFunction valueToString_;
+  IsEqualFunction equal_;
+  ValueToStringFunction value_to_string_;
 };
 
 } // namespace extensions

@@ -9,191 +9,203 @@ namespace extensions {
 class MockIgnoredActualCall : public MockActualCall
 {
 public:
-  virtual MockActualCall& withName(const cpputest::String&) override
+  virtual MockActualCall& with_name(const cpputest::String&) override
   {
     return *this;
   }
-  virtual MockActualCall& withCallOrder(unsigned int) override { return *this; }
-  virtual MockActualCall& withBoolParameter(const cpputest::String&,
+  virtual MockActualCall& with_call_order(unsigned int) override
+  {
+    return *this;
+  }
+  virtual MockActualCall& with_bool_parameter(const cpputest::String&,
       bool) override
   {
     return *this;
   }
-  virtual MockActualCall& withIntParameter(const cpputest::String&,
+  virtual MockActualCall& with_int_parameter(const cpputest::String&,
       int) override
   {
     return *this;
   }
-  virtual MockActualCall& withUnsignedIntParameter(const cpputest::String&,
+  virtual MockActualCall& with_unsigned_int_parameter(const cpputest::String&,
       unsigned int) override
   {
     return *this;
   }
-  virtual MockActualCall& withLongIntParameter(const cpputest::String&,
+  virtual MockActualCall& with_long_int_parameter(const cpputest::String&,
       long int) override
   {
     return *this;
   }
-  virtual MockActualCall& withUnsignedLongIntParameter(const cpputest::String&,
+  virtual MockActualCall& with_unsigned_long_int_parameter(
+      const cpputest::String&,
       unsigned long int) override
   {
     return *this;
   }
-  virtual MockActualCall& withLongLongIntParameter(const cpputest::String&,
+  virtual MockActualCall& with_long_long_int_parameter(const cpputest::String&,
       long long) override
   {
     return *this;
   }
-  virtual MockActualCall& withUnsignedLongLongIntParameter(
+  virtual MockActualCall& with_unsigned_long_long_int_parameter(
       const cpputest::String&,
       unsigned long long) override
   {
     return *this;
   }
-  virtual MockActualCall& withDoubleParameter(const cpputest::String&,
+  virtual MockActualCall& with_double_parameter(const cpputest::String&,
       double) override
   {
     return *this;
   }
-  virtual MockActualCall& withStringParameter(const cpputest::String&,
+  virtual MockActualCall& with_string_parameter(const cpputest::String&,
       const char*) override
   {
     return *this;
   }
-  virtual MockActualCall& withPointerParameter(const cpputest::String&,
+  virtual MockActualCall& with_pointer_parameter(const cpputest::String&,
       void*) override
   {
     return *this;
   }
-  virtual MockActualCall& withConstPointerParameter(const cpputest::String&,
+  virtual MockActualCall& with_const_pointer_parameter(const cpputest::String&,
       const void*) override
   {
     return *this;
   }
-  virtual MockActualCall& withFunctionPointerParameter(const cpputest::String&,
+  virtual MockActualCall& with_function_pointer_parameter(
+      const cpputest::String&,
       void (*)()) override
   {
     return *this;
   }
-  virtual MockActualCall& withMemoryBufferParameter(const cpputest::String&,
+  virtual MockActualCall& with_memory_buffer_parameter(const cpputest::String&,
       const unsigned char*,
       size_t) override
   {
     return *this;
   }
-  virtual MockActualCall& withMemoryBufferParameter(const char*,
+  virtual MockActualCall& with_memory_buffer_parameter(const char*,
       const unsigned char*,
       size_t) override
   {
     return *this;
   }
-  virtual MockActualCall& withParameterOfType(const cpputest::String&,
+  virtual MockActualCall& with_parameter_of_type(const cpputest::String&,
       const cpputest::String&,
       const void*) override
   {
     return *this;
   }
-  virtual MockActualCall& withParameterOfType(const char*,
+  virtual MockActualCall& with_parameter_of_type(const char*,
       const char*,
       const void*) override
   {
     return *this;
   }
-  virtual MockActualCall& withOutputParameter(const cpputest::String&,
+  virtual MockActualCall& with_output_parameter(const cpputest::String&,
       void*) override
   {
     return *this;
   }
-  virtual MockActualCall& withOutputParameterOfType(const cpputest::String&,
+  virtual MockActualCall& with_output_parameter_of_type(const cpputest::String&,
       const cpputest::String&,
       void*) override
   {
     return *this;
   }
 
-  virtual bool hasReturnValue() override { return false; }
-  virtual MockNamedValue returnValue() override { return MockNamedValue(""); }
+  virtual bool has_return_value() override { return false; }
+  virtual MockNamedValue return_value() override { return MockNamedValue(""); }
 
-  virtual bool returnBoolValueOrDefault(bool value) override { return value; }
-  virtual bool returnBoolValue() override { return false; }
+  virtual bool return_bool_value_or_default(bool value) override
+  {
+    return value;
+  }
+  virtual bool return_bool_value() override { return false; }
 
-  virtual int returnIntValue() override { return 0; }
-  virtual int returnIntValueOrDefault(int value) override { return value; }
+  virtual int return_int_value() override { return 0; }
+  virtual int return_int_value_or_default(int value) override { return value; }
 
-  virtual unsigned long int returnUnsignedLongIntValue() override { return 0; }
-  virtual unsigned long int returnUnsignedLongIntValueOrDefault(
+  virtual unsigned long int return_unsigned_long_int_value() override
+  {
+    return 0;
+  }
+  virtual unsigned long int return_unsigned_long_int_value_or_default(
       unsigned long int value) override
   {
     return value;
   }
 
-  virtual long int returnLongIntValue() override { return 0; }
-  virtual long int returnLongIntValueOrDefault(long int value) override
+  virtual long int return_long_int_value() override { return 0; }
+  virtual long int return_long_int_value_or_default(long int value) override
   {
     return value;
   }
 
-  virtual unsigned long long returnUnsignedLongLongIntValue() override
+  virtual unsigned long long return_unsigned_long_long_int_value() override
   {
     return 0;
   }
 
-  virtual unsigned long long returnUnsignedLongLongIntValueOrDefault(
+  virtual unsigned long long return_unsigned_long_long_int_value_or_default(
       unsigned long long value) override
   {
     return value;
   }
 
-  virtual long long returnLongLongIntValue() override { return 0; }
+  virtual long long return_long_long_int_value() override { return 0; }
 
-  virtual long long returnLongLongIntValueOrDefault(long long value) override
+  virtual long long return_long_long_int_value_or_default(
+      long long value) override
   {
     return value;
   }
 
-  virtual unsigned int returnUnsignedIntValue() override { return 0; }
-  virtual unsigned int returnUnsignedIntValueOrDefault(
+  virtual unsigned int return_unsigned_int_value() override { return 0; }
+  virtual unsigned int return_unsigned_int_value_or_default(
       unsigned int value) override
   {
     return value;
   }
 
-  virtual double returnDoubleValue() override { return 0.0; }
-  virtual double returnDoubleValueOrDefault(double value) override
+  virtual double return_double_value() override { return 0.0; }
+  virtual double return_double_value_or_default(double value) override
   {
     return value;
   }
 
-  virtual const char* returnStringValue() override { return ""; }
-  virtual const char* returnStringValueOrDefault(const char* value) override
+  virtual const char* return_string_value() override { return ""; }
+  virtual const char* return_string_value_or_default(const char* value) override
   {
     return value;
   }
 
-  virtual void* returnPointerValue() override { return nullptr; }
-  virtual void* returnPointerValueOrDefault(void* value) override
+  virtual void* return_pointer_value() override { return nullptr; }
+  virtual void* return_pointer_value_or_default(void* value) override
   {
     return value;
   }
 
-  virtual const void* returnConstPointerValue() override { return nullptr; }
-  virtual const void* returnConstPointerValueOrDefault(
+  virtual const void* return_const_pointer_value() override { return nullptr; }
+  virtual const void* return_const_pointer_value_or_default(
       const void* value) override
   {
     return value;
   }
 
-  virtual FunctionPointerReturnValue returnFunctionPointerValue() override
+  virtual FunctionPointerReturnValue return_function_pointer_value() override
   {
     return nullptr;
   }
-  virtual FunctionPointerReturnValue returnFunctionPointerValueOrDefault(
+  virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
       void (*value)()) override
   {
     return value;
   }
 
-  virtual MockActualCall& onObject(const void*) override { return *this; }
+  virtual MockActualCall& on_object(const void*) override { return *this; }
 
   static MockIgnoredActualCall& instance()
   {

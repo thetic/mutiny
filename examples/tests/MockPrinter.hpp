@@ -1,5 +1,5 @@
 #ifndef D_MockPrinter_H
-#define D_MockPrinter_H
+#define D_MOCK_PRINTER_H
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -22,19 +22,19 @@ public:
   explicit MockPrinter() {}
   virtual ~MockPrinter() override {}
 
-  virtual void Print(const char* s) override { savedOutput.append(s); }
+  virtual void print(const char* s) override { saved_output_.append(s); }
 
-  virtual void Print(long int value) override
+  virtual void print(long int value) override
   {
     cpputest::String buffer;
-    buffer = cpputest::StringFromFormat("%ld", value);
-    savedOutput.append(buffer.c_str());
+    buffer = cpputest::string_from_format("%ld", value);
+    saved_output_.append(buffer.c_str());
   }
 
-  std::string getOutput() const { return savedOutput; }
+  std::string get_output() const { return saved_output_; }
 
 private:
-  std::string savedOutput;
+  std::string saved_output_;
 
   MockPrinter(const MockPrinter&);
   MockPrinter& operator=(const MockPrinter&);

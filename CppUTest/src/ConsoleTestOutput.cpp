@@ -5,9 +5,9 @@
 namespace cpputest {
 
 void
-ConsoleTestOutput::printBuffer(const char* s)
+ConsoleTestOutput::print_buffer(const char* s)
 {
-  cpputest::FPuts(s, cpputest::StdOut);
+  cpputest::f_puts(s, cpputest::std_out);
   flush();
 }
 

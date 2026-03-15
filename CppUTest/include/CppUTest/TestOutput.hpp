@@ -21,10 +21,10 @@ using FOpenFunc = File (*)(const char* filename, const char* flag);
 using FPutsFunc = void (*)(const char* str, File file);
 using FCloseFunc = void (*)(File file);
 
-extern File StdOut;
-extern FOpenFunc FOpen;
-extern FPutsFunc FPuts;
-extern FCloseFunc FClose;
+extern File std_out;
+extern FOpenFunc f_open;
+extern FPutsFunc f_puts;
+extern FCloseFunc f_close;
 
 class TestShell;
 class TestFailure;
@@ -35,52 +35,53 @@ class TestOutput
 public:
   enum class VerbosityLevel
   {
-    QUIET,
-    VERBOSE,
-    VERY_VERBOSE
+    quiet,
+    verbose,
+    very_verbose
   };
 
   explicit TestOutput();
   virtual ~TestOutput();
 
-  virtual void printTestsStarted();
-  virtual void printTestsEnded(const TestResult& result);
-  virtual void printCurrentTestStarted(const TestShell& test);
-  virtual void printCurrentTestEnded(const TestResult& res);
-  virtual void printCurrentGroupStarted(const TestShell& test);
-  virtual void printCurrentGroupEnded(const TestResult& res);
+  virtual void print_tests_started();
+  virtual void print_tests_ended(const TestResult& result);
+  virtual void print_current_test_started(const TestShell& test);
+  virtual void print_current_test_ended(const TestResult& res);
+  virtual void print_current_group_started(const TestShell& test);
+  virtual void print_current_group_ended(const TestResult& res);
 
   virtual void verbose(VerbosityLevel level);
   virtual void color();
-  virtual void printBuffer(const char*) = 0;
+  virtual void print_buffer(const char*) = 0;
   virtual void print(const char*);
   virtual void print(long);
   virtual void print(size_t);
-  virtual void printDouble(double);
-  virtual void printFailure(const TestFailure& failure);
-  virtual void printTestRun(size_t number, size_t total);
-  virtual void setProgressIndicator(const char*);
+  virtual void print_double(double);
+  virtual void print_failure(const TestFailure& failure);
+  virtual void print_test_run(size_t number, size_t total);
+  virtual void set_progress_indicator(const char*);
 
-  virtual void printVeryVerbose(const char*);
+  virtual void print_very_verbose(const char*);
 
   virtual void flush() = 0;
 
 protected:
-  virtual void printProgressIndicator();
-  void printFileAndLineForTestAndFailure(const TestFailure& failure);
-  void printFileAndLineForFailure(const TestFailure& failure);
-  void printFailureInTest(String testName);
-  void printFailureMessage(String reason);
-  void printErrorInFileOnLineFormattedForWorkingEnvironment(String testFile,
-      size_t lineNumber);
+  virtual void print_progress_indicator();
+  void print_file_and_line_for_test_and_failure(const TestFailure& failure);
+  void print_file_and_line_for_failure(const TestFailure& failure);
+  void print_failure_in_test(String test_name);
+  void print_failure_message(String reason);
+  void print_error_in_file_on_line_formatted_for_working_environment(
+      String test_file,
+      size_t line_number);
 
   TestOutput(const TestOutput&);
   TestOutput& operator=(const TestOutput&);
 
-  int dotCount_;
+  int dot_count_;
   VerbosityLevel verbose_;
   bool color_;
-  const char* progressIndication_;
+  const char* progress_indication_;
 };
 
 TestOutput&

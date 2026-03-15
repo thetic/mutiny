@@ -22,15 +22,16 @@ public:
   MockNamedValueComparatorsAndCopiersRepository();
   virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
-  virtual void installComparator(const cpputest::String& name,
+  virtual void install_comparator(const cpputest::String& name,
       MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
+  virtual void install_copier(const cpputest::String& name,
       MockNamedValueCopier& copier);
-  virtual void installComparatorsAndCopiers(
+  virtual void install_comparators_and_copiers(
       const MockNamedValueComparatorsAndCopiersRepository& repository);
-  virtual MockNamedValueComparator* getComparatorForType(
+  virtual MockNamedValueComparator* get_comparator_for_type(
       const cpputest::String& name);
-  virtual MockNamedValueCopier* getCopierForType(const cpputest::String& name);
+  virtual MockNamedValueCopier* get_copier_for_type(
+      const cpputest::String& name);
 
   void clear();
 };

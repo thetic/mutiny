@@ -10,38 +10,38 @@
 #define GENERIC_PLUGIN3 "GenericPlugin3"
 
 namespace {
-int sequenceNumber;
+int sequence_number;
 
 class DummyPlugin : public cpputest::TestPlugin
 {
 public:
   DummyPlugin(const cpputest::String& name)
     : TestPlugin(name)
-    , preAction(0)
-    , preActionSequence(0)
-    , postAction(0)
-    , postActionSequence(0)
+    , pre_action(0)
+    , pre_action_sequence(0)
+    , post_action(0)
+    , post_action_sequence(0)
   {
   }
 
-  virtual void preTestAction(cpputest::TestShell&,
+  virtual void pre_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override
   {
-    preAction++;
-    preActionSequence = sequenceNumber++;
+    pre_action++;
+    pre_action_sequence = sequence_number++;
   }
 
-  virtual void postTestAction(cpputest::TestShell&,
+  virtual void post_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override
   {
-    postAction++;
-    postActionSequence = sequenceNumber++;
+    post_action++;
+    post_action_sequence = sequence_number++;
   }
 
-  int preAction;
-  int preActionSequence;
-  int postAction;
-  int postActionSequence;
+  int pre_action;
+  int pre_action_sequence;
+  int post_action;
+  int post_action_sequence;
 };
 
 class DummyPluginWhichAcceptsParameters : public DummyPlugin
@@ -52,14 +52,14 @@ public:
   {
   }
 
-  virtual bool parseArguments(int argc,
+  virtual bool parse_arguments(int argc,
       const char* const* argv,
       int index) override
   {
     cpputest::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
-    return TestPlugin::parseArguments(argc, argv, index);
+    return TestPlugin::parse_arguments(argc, argv, index);
   }
 };
 
@@ -67,29 +67,29 @@ public:
 
 TEST_GROUP(TestPlugin)
 {
-  DummyPlugin* firstPlugin;
-  DummyPluginWhichAcceptsParameters* secondPlugin;
-  DummyPlugin* thirdPlugin;
-  cpputest::TestTestingFixture* genFixture;
+  DummyPlugin* first_plugin;
+  DummyPluginWhichAcceptsParameters* second_plugin;
+  DummyPlugin* third_plugin;
+  cpputest::TestTestingFixture* gen_fixture;
   cpputest::TestRegistry* registry;
 
   void setup() override
   {
-    firstPlugin = new DummyPlugin(GENERIC_PLUGIN);
-    secondPlugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
-    thirdPlugin = new DummyPlugin(GENERIC_PLUGIN3);
-    genFixture = new cpputest::TestTestingFixture;
-    registry = genFixture->getRegistry();
-    registry->installPlugin(firstPlugin);
-    sequenceNumber = 1;
+    first_plugin = new DummyPlugin(GENERIC_PLUGIN);
+    second_plugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
+    third_plugin = new DummyPlugin(GENERIC_PLUGIN3);
+    gen_fixture = new cpputest::TestTestingFixture;
+    registry = gen_fixture->get_registry();
+    registry->install_plugin(first_plugin);
+    sequence_number = 1;
   }
 
   void teardown() override
   {
-    delete firstPlugin;
-    delete secondPlugin;
-    delete thirdPlugin;
-    delete genFixture;
+    delete first_plugin;
+    delete second_plugin;
+    delete third_plugin;
+    delete gen_fixture;
   }
 };
 
@@ -97,50 +97,50 @@ TEST_GROUP(TestPlugin)
 
 TEST(TestPlugin, PluginHasName)
 {
-  STRCMP_EQUAL(GENERIC_PLUGIN, firstPlugin->getName().c_str());
+  STRCMP_EQUAL(GENERIC_PLUGIN, first_plugin->get_name().c_str());
 }
 
 TEST(TestPlugin, InstallPlugin)
 {
-  CHECK_EQUAL(firstPlugin, registry->getFirstPlugin());
-  CHECK_EQUAL(firstPlugin, registry->getPluginByName(GENERIC_PLUGIN));
-  LONGS_EQUAL(1, registry->countPlugins());
+  CHECK_EQUAL(first_plugin, registry->get_first_plugin());
+  CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
+  LONGS_EQUAL(1, registry->count_plugins());
 }
 
 TEST(TestPlugin, InstallMultiplePlugins)
 {
-  registry->installPlugin(thirdPlugin);
-  CHECK_EQUAL(firstPlugin, registry->getPluginByName(GENERIC_PLUGIN));
-  CHECK_EQUAL(thirdPlugin, registry->getPluginByName(GENERIC_PLUGIN3));
-  POINTERS_EQUAL(nullptr, registry->getPluginByName("I do not exist"));
+  registry->install_plugin(third_plugin);
+  CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
+  CHECK_EQUAL(third_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN3));
+  POINTERS_EQUAL(nullptr, registry->get_plugin_by_name("I do not exist"));
 }
 
 TEST(TestPlugin, ActionsAllRun)
 {
-  genFixture->runAllTests();
-  genFixture->runAllTests();
-  CHECK_EQUAL(2, firstPlugin->preAction);
-  CHECK_EQUAL(2, firstPlugin->postAction);
+  gen_fixture->run_all_tests();
+  gen_fixture->run_all_tests();
+  CHECK_EQUAL(2, first_plugin->pre_action);
+  CHECK_EQUAL(2, first_plugin->post_action);
 }
 
 TEST(TestPlugin, Sequence)
 {
-  registry->installPlugin(thirdPlugin);
-  genFixture->runAllTests();
-  CHECK_EQUAL(1, thirdPlugin->preActionSequence);
-  CHECK_EQUAL(2, firstPlugin->preActionSequence);
-  CHECK_EQUAL(3, firstPlugin->postActionSequence);
-  CHECK_EQUAL(4, thirdPlugin->postActionSequence);
-  LONGS_EQUAL(2, registry->countPlugins());
+  registry->install_plugin(third_plugin);
+  gen_fixture->run_all_tests();
+  CHECK_EQUAL(1, third_plugin->pre_action_sequence);
+  CHECK_EQUAL(2, first_plugin->pre_action_sequence);
+  CHECK_EQUAL(3, first_plugin->post_action_sequence);
+  CHECK_EQUAL(4, third_plugin->post_action_sequence);
+  LONGS_EQUAL(2, registry->count_plugins());
 }
 
 TEST(TestPlugin, RemovePluginByName)
 {
-  registry->installPlugin(secondPlugin);
-  registry->installPlugin(thirdPlugin);
-  LONGS_EQUAL(3, registry->countPlugins());
-  registry->removePluginByName(GENERIC_PLUGIN2);
-  LONGS_EQUAL(2, registry->countPlugins());
+  registry->install_plugin(second_plugin);
+  registry->install_plugin(third_plugin);
+  LONGS_EQUAL(3, registry->count_plugins());
+  registry->remove_plugin_by_name(GENERIC_PLUGIN2);
+  LONGS_EQUAL(2, registry->count_plugins());
 }
 
 struct DefaultPlugin : public cpputest::TestPlugin
@@ -153,37 +153,37 @@ struct DefaultPlugin : public cpputest::TestPlugin
 
 TEST(TestPlugin, DefaultPostTestActionDoesntDoAnything)
 {
-  DefaultPlugin defaultPlugin;
-  registry->installPlugin(&defaultPlugin);
-  genFixture->runAllTests();
+  DefaultPlugin default_plugin;
+  registry->install_plugin(&default_plugin);
+  gen_fixture->run_all_tests();
 }
 
 TEST(TestPlugin, DisablesPluginsDontRun)
 {
-  registry->installPlugin(thirdPlugin);
-  thirdPlugin->disable();
-  genFixture->runAllTests();
-  CHECK(!thirdPlugin->isEnabled());
-  thirdPlugin->enable();
-  genFixture->runAllTests();
-  CHECK_EQUAL(2, firstPlugin->preAction);
-  CHECK_EQUAL(1, thirdPlugin->preAction);
-  CHECK(thirdPlugin->isEnabled());
+  registry->install_plugin(third_plugin);
+  third_plugin->disable();
+  gen_fixture->run_all_tests();
+  CHECK(!third_plugin->is_enabled());
+  third_plugin->enable();
+  gen_fixture->run_all_tests();
+  CHECK_EQUAL(2, first_plugin->pre_action);
+  CHECK_EQUAL(1, third_plugin->pre_action);
+  CHECK(third_plugin->is_enabled());
 }
 
 TEST(TestPlugin, ParseArgumentsForUnknownArgumentsFails)
 {
-  registry->installPlugin(secondPlugin);
+  registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
-  CHECK(registry->getFirstPlugin()->parseAllArguments(2,
+  CHECK(registry->get_first_plugin()->parse_all_arguments(2,
             const_cast<char**>(cmd_line),
             0) == false); /* cover non-const wrapper, too */
 }
 
 TEST(TestPlugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
 {
-  registry->installPlugin(secondPlugin);
+  registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };
-  CHECK(registry->getFirstPlugin()->parseAllArguments(
+  CHECK(registry->get_first_plugin()->parse_all_arguments(
       2, const_cast<char**>(cmd_line), 0)); /* cover non-const wrapper, too */
 }

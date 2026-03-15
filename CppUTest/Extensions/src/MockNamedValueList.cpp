@@ -4,7 +4,7 @@ namespace cpputest {
 namespace extensions {
 
 void
-MockNamedValueListNode::setNext(MockNamedValueListNode* node)
+MockNamedValueListNode::set_next(MockNamedValueListNode* node)
 {
   next_ = node;
 }
@@ -27,22 +27,22 @@ MockNamedValueListNode::destroy()
   delete data_;
 }
 
-MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* newValue)
-  : data_(newValue)
+MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* new_value)
+  : data_(new_value)
   , next_(nullptr)
 {
 }
 
 String
-MockNamedValueListNode::getName() const
+MockNamedValueListNode::get_name() const
 {
-  return data_->getName();
+  return data_->get_name();
 }
 
 String
-MockNamedValueListNode::getType() const
+MockNamedValueListNode::get_type() const
 {
-  return data_->getType();
+  return data_->get_type();
 }
 
 MockNamedValueList::MockNamedValueList()
@@ -62,24 +62,24 @@ MockNamedValueList::clear()
 }
 
 void
-MockNamedValueList::add(MockNamedValue* newValue)
+MockNamedValueList::add(MockNamedValue* new_value)
 {
-  auto* newNode = new MockNamedValueListNode(newValue);
+  auto* new_node = new MockNamedValueListNode(new_value);
   if (head_ == nullptr)
-    head_ = newNode;
+    head_ = new_node;
   else {
-    MockNamedValueListNode* lastNode = head_;
-    while (lastNode->next())
-      lastNode = lastNode->next();
-    lastNode->setNext(newNode);
+    MockNamedValueListNode* last_node = head_;
+    while (last_node->next())
+      last_node = last_node->next();
+    last_node->set_next(new_node);
   }
 }
 
 MockNamedValue*
-MockNamedValueList::getValueByName(const String& name)
+MockNamedValueList::get_value_by_name(const String& name)
 {
   for (MockNamedValueListNode* p = head_; p; p = p->next())
-    if (p->getName() == name)
+    if (p->get_name() == name)
       return p->item();
   return nullptr;
 }

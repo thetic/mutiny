@@ -12,18 +12,18 @@ public:
   TeamCityTestOutput(void);
   virtual ~TeamCityTestOutput(void) override;
 
-  virtual void printCurrentTestStarted(const TestShell& test) override;
-  virtual void printCurrentTestEnded(const TestResult& res) override;
-  virtual void printCurrentGroupStarted(const TestShell& test) override;
-  virtual void printCurrentGroupEnded(const TestResult& res) override;
+  virtual void print_current_test_started(const TestShell& test) override;
+  virtual void print_current_test_ended(const TestResult& res) override;
+  virtual void print_current_group_started(const TestShell& test) override;
+  virtual void print_current_group_ended(const TestResult& res) override;
 
-  virtual void printFailure(const TestFailure& failure) override;
+  virtual void print_failure(const TestFailure& failure) override;
 
 protected:
 private:
-  void printEscaped(const char* s);
+  void print_escaped(const char* s);
   const TestShell* currtest_;
-  String currGroup_;
+  String curr_group_;
 };
 
 } // namespace cpputest

@@ -10,22 +10,22 @@ class TestInstallerTestUtestShell : public cpputest::TestShell
 
 TEST_GROUP(TestInstaller)
 {
-  cpputest::TestInstaller* testInstaller;
-  cpputest::TestRegistry* myRegistry;
+  cpputest::TestInstaller* test_installer;
+  cpputest::TestRegistry* my_registry;
   TestInstallerTestUtestShell shell;
   void setup() override
   {
-    myRegistry = new cpputest::TestRegistry();
-    myRegistry->setCurrentRegistry(myRegistry);
-    testInstaller = new cpputest::TestInstaller(
+    my_registry = new cpputest::TestRegistry();
+    my_registry->set_current_registry(my_registry);
+    test_installer = new cpputest::TestInstaller(
         shell, "TestInstaller", "test", __FILE__, __LINE__);
   }
   void teardown() override
   {
-    myRegistry->setCurrentRegistry(nullptr);
-    testInstaller->unDo();
-    delete testInstaller;
-    delete myRegistry;
+    my_registry->set_current_registry(nullptr);
+    test_installer->un_do();
+    delete test_installer;
+    delete my_registry;
   }
 };
 

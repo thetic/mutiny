@@ -3,8 +3,8 @@
 
 namespace cpputest {
 
-extern unsigned long (*GetTimeInMillis)();
-extern const char* (*GetTimeString)();
+extern unsigned long (*get_time_in_millis)();
+extern const char* (*get_time_string)();
 
 } // namespace cpputest
 

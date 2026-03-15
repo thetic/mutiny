@@ -1,5 +1,5 @@
-#ifndef D_CircularBuffer_H
-#define D_CircularBuffer_H
+#ifndef INCLUDED_CIRCULARBUFFER_HPP
+#define INCLUDED_CIRCULARBUFFER_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -13,28 +13,28 @@ class Printer;
 class CircularBuffer
 {
 public:
-  explicit CircularBuffer(int capacity = CAPACITY);
+  explicit CircularBuffer(int capacity = default_capacity);
   virtual ~CircularBuffer();
 
-  void Put(int);
-  int Get();
-  bool IsEmpty();
-  bool IsFull();
-  int Capacity();
-  int Next(int i);
-  void Print(Printer*);
+  void put(int);
+  int get();
+  bool is_empty();
+  bool is_full();
+  int capacity();
+  int next(int i);
+  void print(Printer*);
 
 private:
-  int index;
-  int outdex;
-  int* buffer;
-  int capacity;
-  static constexpr int CAPACITY = 5;
-  bool empty;
-  bool full;
+  int index_;
+  int outdex_;
+  int* buffer_;
+  int capacity_;
+  static constexpr int default_capacity = 5;
+  bool empty_;
+  bool full_;
 
   CircularBuffer(const CircularBuffer&);
   CircularBuffer& operator=(const CircularBuffer&);
 };
 
-#endif // D_CircularBuffer_H
+#endif // INCLUDED_CIRCULARBUFFER_HPP

@@ -24,7 +24,7 @@ TEST(TestFilter, defaultAbsoluteMismatches)
 TEST(TestFilter, strictMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.strictMatching();
+  filter.strict_matching();
   CHECK(filter.match("filter"));
   CHECK(!filter.match("filterr"));
   CHECK(!filter.match(" filter"));
@@ -33,7 +33,7 @@ TEST(TestFilter, strictMatching)
 TEST(TestFilter, invertMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.invertMatching();
+  filter.invert_matching();
   CHECK(!filter.match("filter"));
   CHECK(!filter.match("filterr"));
   CHECK(filter.match("notevenclose"));
@@ -43,8 +43,8 @@ TEST(TestFilter, invertMatching)
 TEST(TestFilter, invertStrictMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.invertMatching();
-  filter.strictMatching();
+  filter.invert_matching();
+  filter.strict_matching();
   CHECK(!filter.match("filter"));
   CHECK(filter.match("filterr"));
   CHECK(filter.match(" filter"));
@@ -63,7 +63,7 @@ TEST(TestFilter, equalityWithStrictness)
 {
   cpputest::TestFilter filter1("filter");
   cpputest::TestFilter filter2("filter");
-  filter2.strictMatching();
+  filter2.strict_matching();
   CHECK(!(filter1 == filter2));
 }
 
@@ -71,7 +71,7 @@ TEST(TestFilter, equalityWithInvertion)
 {
   cpputest::TestFilter filter1("filter");
   cpputest::TestFilter filter2("filter");
-  filter2.invertMatching();
+  filter2.invert_matching();
   CHECK(!(filter1 == filter2));
 }
 
@@ -87,46 +87,46 @@ TEST(TestFilter, notEqual)
 TEST(TestFilter, stringFrom)
 {
   cpputest::TestFilter filter("filter");
-  STRCMP_EQUAL("TestFilter: \"filter\"", StringFrom(filter).c_str());
+  STRCMP_EQUAL("TestFilter: \"filter\"", string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.strictMatching();
+  filter.strict_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict matching",
-      StringFrom(filter).c_str());
+      string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithInvertMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.invertMatching();
+  filter.invert_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with invert matching",
-      StringFrom(filter).c_str());
+      string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictInvertMatching)
 {
   cpputest::TestFilter filter("filter");
-  filter.strictMatching();
-  filter.invertMatching();
+  filter.strict_matching();
+  filter.invert_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict, invert matching",
-      StringFrom(filter).c_str());
+      string_from(filter).c_str());
 }
 
 TEST(TestFilter, listOfFilters)
 {
-  cpputest::TestFilter* listOfFilters = nullptr;
+  cpputest::TestFilter* list_of_filters = nullptr;
   cpputest::TestFilter first("foo");
   cpputest::TestFilter secnd("bar");
-  listOfFilters = first.add(listOfFilters);
-  listOfFilters = secnd.add(listOfFilters);
-  cpputest::TestFilter* current = listOfFilters;
-  STRCMP_EQUAL("TestFilter: \"bar\"", StringFrom(*current).c_str());
-  current = current->getNext();
-  STRCMP_EQUAL("TestFilter: \"foo\"", StringFrom(*current).c_str());
-  POINTERS_EQUAL(nullptr, current->getNext());
+  list_of_filters = first.add(list_of_filters);
+  list_of_filters = secnd.add(list_of_filters);
+  cpputest::TestFilter* current = list_of_filters;
+  STRCMP_EQUAL("TestFilter: \"bar\"", string_from(*current).c_str());
+  current = current->get_next();
+  STRCMP_EQUAL("TestFilter: \"foo\"", string_from(*current).c_str());
+  POINTERS_EQUAL(nullptr, current->get_next());
 }
 
 TEST(TestFilter, constructors)
@@ -134,9 +134,9 @@ TEST(TestFilter, constructors)
   cpputest::TestFilter filter1;
   cpputest::TestFilter filter2(cpputest::String("a"));
   cpputest::TestFilter filter3("a");
-  CHECK(filter1.getNext() == nullptr);
-  CHECK(filter2.getNext() == nullptr);
-  CHECK(filter3.getNext() == nullptr);
+  CHECK(filter1.get_next() == nullptr);
+  CHECK(filter2.get_next() == nullptr);
+  CHECK(filter3.get_next() == nullptr);
   CHECK(filter2.match("ab"));
   CHECK(filter3.match("ab"));
 }

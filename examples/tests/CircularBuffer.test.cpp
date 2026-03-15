@@ -11,103 +11,103 @@ TEST_GROUP(CircularBuffer)
   void setup() override { buffer = new CircularBuffer(); }
   void teardown() override { delete buffer; }
 
-  void fillTheQueue(int seed, int howMany)
+  void fill_the_queue(int seed, int how_many)
   {
-    for (int i = 0; i < howMany; i++)
-      buffer->Put(seed + i);
+    for (int i = 0; i < how_many; i++)
+      buffer->put(seed + i);
   }
-  void removeFromQueue(int howMany)
+  void remove_from_queue(int how_many)
   {
-    for (int i = 0; i < howMany; i++)
-      buffer->Get();
+    for (int i = 0; i < how_many; i++)
+      buffer->get();
   }
 };
 
 TEST(CircularBuffer, EmptyAfterCreation)
 {
-  CHECK(buffer->IsEmpty());
+  CHECK(buffer->is_empty());
 }
 
 TEST(CircularBuffer, NotEmpty)
 {
-  buffer->Put(10046);
-  CHECK(!buffer->IsEmpty());
+  buffer->put(10046);
+  CHECK(!buffer->is_empty());
 }
 
 TEST(CircularBuffer, NotEmptyThenEmpty)
 {
-  buffer->Put(4567);
-  CHECK(!buffer->IsEmpty());
-  buffer->Get();
-  CHECK(buffer->IsEmpty());
+  buffer->put(4567);
+  CHECK(!buffer->is_empty());
+  buffer->get();
+  CHECK(buffer->is_empty());
 }
 
 TEST(CircularBuffer, GetPutOneValue)
 {
-  buffer->Put(4567);
-  LONGS_EQUAL(4567, buffer->Get());
+  buffer->put(4567);
+  LONGS_EQUAL(4567, buffer->get());
 }
 
 TEST(CircularBuffer, GetPutAFew)
 {
-  buffer->Put(1);
-  buffer->Put(2);
-  buffer->Put(3);
-  LONGS_EQUAL(1, buffer->Get());
-  LONGS_EQUAL(2, buffer->Get());
-  LONGS_EQUAL(3, buffer->Get());
+  buffer->put(1);
+  buffer->put(2);
+  buffer->put(3);
+  LONGS_EQUAL(1, buffer->get());
+  LONGS_EQUAL(2, buffer->get());
+  LONGS_EQUAL(3, buffer->get());
 }
 
 TEST(CircularBuffer, Capacity)
 {
   CircularBuffer b(2);
-  LONGS_EQUAL(2, b.Capacity());
+  LONGS_EQUAL(2, b.capacity());
 }
 
 TEST(CircularBuffer, IsFull)
 {
-  fillTheQueue(0, buffer->Capacity());
-  CHECK(buffer->IsFull());
+  fill_the_queue(0, buffer->capacity());
+  CHECK(buffer->is_full());
 }
 
 TEST(CircularBuffer, EmptyToFullToEmpty)
 {
-  fillTheQueue(100, buffer->Capacity());
+  fill_the_queue(100, buffer->capacity());
 
-  CHECK(buffer->IsFull());
+  CHECK(buffer->is_full());
 
-  removeFromQueue(buffer->Capacity());
+  remove_from_queue(buffer->capacity());
 
-  CHECK(buffer->IsEmpty());
+  CHECK(buffer->is_empty());
 }
 
 TEST(CircularBuffer, WrapAround)
 {
-  fillTheQueue(100, buffer->Capacity());
+  fill_the_queue(100, buffer->capacity());
 
-  CHECK(buffer->IsFull());
-  LONGS_EQUAL(100, buffer->Get());
-  CHECK(!buffer->IsFull());
-  buffer->Put(1000);
-  CHECK(buffer->IsFull());
+  CHECK(buffer->is_full());
+  LONGS_EQUAL(100, buffer->get());
+  CHECK(!buffer->is_full());
+  buffer->put(1000);
+  CHECK(buffer->is_full());
 
-  removeFromQueue(buffer->Capacity() - 1);
+  remove_from_queue(buffer->capacity() - 1);
 
-  LONGS_EQUAL(1000, buffer->Get());
-  CHECK(buffer->IsEmpty());
+  LONGS_EQUAL(1000, buffer->get());
+  CHECK(buffer->is_empty());
 }
 
 TEST(CircularBuffer, PutToFull)
 {
-  int capacity = buffer->Capacity();
-  fillTheQueue(900, capacity);
-  buffer->Put(9999);
+  int capacity = buffer->capacity();
+  fill_the_queue(900, capacity);
+  buffer->put(9999);
 
-  for (int i = 0; i < buffer->Capacity() - 1; i++)
-    LONGS_EQUAL(i + 900 + 1, buffer->Get());
+  for (int i = 0; i < buffer->capacity() - 1; i++)
+    LONGS_EQUAL(i + 900 + 1, buffer->get());
 
-  LONGS_EQUAL(9999, buffer->Get());
-  CHECK(buffer->IsEmpty());
+  LONGS_EQUAL(9999, buffer->get());
+  CHECK(buffer->is_empty());
 }
 
 // Sometime people ask what tests the tests.
@@ -115,8 +115,8 @@ TEST(CircularBuffer, PutToFull)
 
 TEST(CircularBuffer, GetFromEmpty)
 {
-  LONGS_EQUAL(-1, buffer->Get());
-  CHECK(buffer->IsEmpty());
+  LONGS_EQUAL(-1, buffer->get());
+  CHECK(buffer->is_empty());
 }
 
 /*
@@ -130,98 +130,98 @@ TEST(CircularBuffer, PrintEmpty)
   MockPrinter mock;
   Printer* p = &mock;
 
-  buffer->Print(p);
-  STRCMP_EQUAL("Circular buffer content:\n<>\n", mock.getOutput().c_str());
+  buffer->print(p);
+  STRCMP_EQUAL("Circular buffer content:\n<>\n", mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintAfterOnePut)
 {
   MockPrinter mock;
 
-  buffer->Put(1);
-  buffer->Print(&mock);
-  STRCMP_EQUAL("Circular buffer content:\n<1>\n", mock.getOutput().c_str());
+  buffer->put(1);
+  buffer->print(&mock);
+  STRCMP_EQUAL("Circular buffer content:\n<1>\n", mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintNotYetWrappedOrFull)
 {
   MockPrinter mock;
 
-  buffer->Put(1);
-  buffer->Put(2);
-  buffer->Put(3);
-  buffer->Print(&mock);
+  buffer->put(1);
+  buffer->put(2);
+  buffer->put(3);
+  buffer->print(&mock);
   STRCMP_EQUAL(
-      "Circular buffer content:\n<1, 2, 3>\n", mock.getOutput().c_str());
+      "Circular buffer content:\n<1, 2, 3>\n", mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintNotYetWrappedAndIsFull)
 {
   MockPrinter mock;
 
-  fillTheQueue(200, buffer->Capacity());
+  fill_the_queue(200, buffer->capacity());
 
-  buffer->Print(&mock);
+  buffer->print(&mock);
   const char* expected = "Circular buffer content:\n"
                          "<200, 201, 202, 203, 204>\n";
 
-  STRCMP_EQUAL(expected, mock.getOutput().c_str());
+  STRCMP_EQUAL(expected, mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintWrappedAndIsFullOldestToNewest)
 {
   MockPrinter mock;
 
-  fillTheQueue(200, buffer->Capacity());
-  buffer->Get();
-  buffer->Put(999);
+  fill_the_queue(200, buffer->capacity());
+  buffer->get();
+  buffer->put(999);
 
-  buffer->Print(&mock);
+  buffer->print(&mock);
   const char* expected = "Circular buffer content:\n"
                          "<201, 202, 203, 204, 999>\n";
 
-  STRCMP_EQUAL(expected, mock.getOutput().c_str());
+  STRCMP_EQUAL(expected, mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintWrappedAndFullOverwriteOldest)
 {
   MockPrinter mock;
 
-  fillTheQueue(200, buffer->Capacity());
-  buffer->Put(9999);
+  fill_the_queue(200, buffer->capacity());
+  buffer->put(9999);
 
-  buffer->Print(&mock);
+  buffer->print(&mock);
   const char* expected = "Circular buffer content:\n"
                          "<201, 202, 203, 204, 9999>\n";
 
-  STRCMP_EQUAL(expected, mock.getOutput().c_str());
+  STRCMP_EQUAL(expected, mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, PrintBoundary)
 {
   MockPrinter mock;
 
-  fillTheQueue(200, buffer->Capacity());
-  removeFromQueue(buffer->Capacity() - 2);
-  buffer->Put(888);
-  fillTheQueue(300, buffer->Capacity() - 1);
+  fill_the_queue(200, buffer->capacity());
+  remove_from_queue(buffer->capacity() - 2);
+  buffer->put(888);
+  fill_the_queue(300, buffer->capacity() - 1);
 
-  buffer->Print(&mock);
+  buffer->print(&mock);
   const char* expected = "Circular buffer content:\n"
                          "<888, 300, 301, 302, 303>\n";
 
-  STRCMP_EQUAL(expected, mock.getOutput().c_str());
+  STRCMP_EQUAL(expected, mock.get_output().c_str());
 }
 
 TEST(CircularBuffer, FillEmptyThenPrint)
 {
   MockPrinter mock;
 
-  fillTheQueue(200, buffer->Capacity());
-  removeFromQueue(buffer->Capacity());
-  buffer->Print(&mock);
+  fill_the_queue(200, buffer->capacity());
+  remove_from_queue(buffer->capacity());
+  buffer->print(&mock);
   const char* expected = "Circular buffer content:\n"
                          "<>\n";
 
-  STRCMP_EQUAL(expected, mock.getOutput().c_str());
+  STRCMP_EQUAL(expected, mock.get_output().c_str());
 }

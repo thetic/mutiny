@@ -5,10 +5,10 @@
  * Not part of the public API. */
 
 int
-TestSetJmp(void (*function)(void*), void* data);
+test_set_jmp(void (*function)(void*), void* data);
 void
-TestLongJmp();
+test_long_jmp();
 void
-TestRestoreJumpBuffer();
+test_restore_jump_buffer();
 
 #endif /* INCLUDED_TESTJUMPBUFFER_HPP */

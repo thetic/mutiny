@@ -11,22 +11,22 @@ public:
 
   virtual ~TeamCityOutputToBuffer() override {}
 
-  void printBuffer(const char* s) override { output += s; }
+  void print_buffer(const char* s) override { output_ += s; }
 
-  void flush() override { output = ""; }
+  void flush() override { output_ = ""; }
 
-  const cpputest::String& getOutput() { return output; }
+  const cpputest::String& get_output() { return output_; }
 
 private:
-  cpputest::String output;
+  cpputest::String output_;
 };
 
-unsigned long millisTime;
+unsigned long millis_time;
 
 unsigned long
-MockGetTimeInMillis()
+mock_get_time_in_millis()
 {
-  return millisTime;
+  return millis_time;
 }
 
 } // namespace
@@ -49,9 +49,9 @@ TEST_GROUP(TeamCityTestOutput)
     f3 = new cpputest::TestFailure(
         tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
     result = new cpputest::TestResult(*mock);
-    result->setTotalExecutionTime(10);
-    millisTime = 0;
-    UT_PTR_SET(cpputest::GetTimeInMillis, MockGetTimeInMillis);
+    result->set_total_execution_time(10);
+    millis_time = 0;
+    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -66,47 +66,47 @@ TEST_GROUP(TeamCityTestOutput)
 
 TEST(TeamCityTestOutput, PrintGroupStarted)
 {
-  result->currentGroupStarted(tst);
-  STRCMP_EQUAL(
-      "##teamcity[testSuiteStarted name='group']\n", mock->getOutput().c_str());
+  result->current_group_started(tst);
+  STRCMP_EQUAL("##teamcity[testSuiteStarted name='group']\n",
+      mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintGroupStartedAndEnded)
 {
   const char* expected = "##teamcity[testSuiteStarted name='group']\n"
                          "##teamcity[testSuiteFinished name='group']\n";
-  result->currentGroupStarted(tst);
-  result->currentGroupEnded(tst);
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  result->current_group_started(tst);
+  result->current_group_ended(tst);
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintGroupEndedButNotStarted)
 {
-  result->currentGroupEnded(tst);
-  STRCMP_EQUAL("", mock->getOutput().c_str());
+  result->current_group_ended(tst);
+  STRCMP_EQUAL("", mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintTestStarted)
 {
-  tcout->printCurrentTestStarted(*tst);
+  tcout->print_current_test_started(*tst);
   STRCMP_EQUAL(
-      "##teamcity[testStarted name='test']\n", mock->getOutput().c_str());
+      "##teamcity[testStarted name='test']\n", mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintTestStartedAndEnded)
 {
-  result->currentTestStarted(tst);
-  millisTime = 42;
-  result->currentTestEnded(tst);
+  result->current_test_started(tst);
+  millis_time = 42;
+  result->current_test_ended(tst);
   STRCMP_EQUAL("##teamcity[testStarted name='test']\n##teamcity[testFinished "
                "name='test' duration='42']\n",
-      mock->getOutput().c_str());
+      mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintTestEndedButNotStarted)
 {
-  result->currentTestEnded(tst);
-  STRCMP_EQUAL("", mock->getOutput().c_str());
+  result->current_test_ended(tst);
+  STRCMP_EQUAL("", mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintTestIgnored)
@@ -116,94 +116,94 @@ TEST(TeamCityTestOutput, PrintTestIgnored)
                          "##teamcity[testFinished name='test' duration='41']\n";
 
   auto* itst = new cpputest::IgnoredTestShell("group", "test", "file", 10);
-  result->currentTestStarted(itst);
-  millisTime = 41;
-  result->currentTestEnded(itst);
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  result->current_test_started(itst);
+  millis_time = 41;
+  result->current_test_ended(itst);
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
   delete itst;
 }
 
 TEST(TeamCityTestOutput, PrintWithFailureInSameFile)
 {
-  tcout->printFailure(*f2);
+  tcout->print_failure(*f2);
   const char* expected = "##teamcity[testFailed name='test' message='file:20' "
                          "details='message']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintWithEscapedCharacters)
 {
-  tcout->printFailure(*f3);
+  tcout->print_failure(*f3);
   const char* expected = "##teamcity[testFailed name='test' message='file:30' "
                          "details='apos|' pipe|| |[brackets|]"
                          "|r|nCRLF']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, PrintFailureWithFailInDifferentFile)
 {
-  tcout->printFailure(*f);
+  tcout->print_failure(*f);
   const char* expected = "##teamcity[testFailed name='test' message='TEST "
                          "failed (file:10): failfile:20' "
                          "details='failure message']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestGroupEscaped_Start)
 {
-  tst->setGroupName("'[]\n\r");
-  result->currentGroupStarted(tst);
+  tst->set_group_name("'[]\n\r");
+  result->current_group_started(tst);
   const char* expected = "##teamcity[testSuiteStarted name='|'|[|]|n|r']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestGroupEscaped_End)
 {
-  tst->setGroupName("'[]\n\r");
-  result->currentGroupStarted(tst);
-  result->currentGroupEnded(tst);
+  tst->set_group_name("'[]\n\r");
+  result->current_group_started(tst);
+  result->current_group_ended(tst);
   const char* expected = "##teamcity[testSuiteStarted name='|'|[|]|n|r']\n"
                          "##teamcity[testSuiteFinished name='|'|[|]|n|r']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestNameEscaped_Start)
 {
-  tst->setTestName("'[]\n\r");
-  result->currentTestStarted(tst);
+  tst->set_test_name("'[]\n\r");
+  result->current_test_started(tst);
   const char* expected = "##teamcity[testStarted name='|'|[|]|n|r']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestNameEscaped_End)
 {
-  tst->setTestName("'[]\n\r");
-  result->currentTestStarted(tst);
-  result->currentTestEnded(tst);
+  tst->set_test_name("'[]\n\r");
+  result->current_test_started(tst);
+  result->current_test_ended(tst);
   const char* expected =
       "##teamcity[testStarted name='|'|[|]|n|r']\n"
       "##teamcity[testFinished name='|'|[|]|n|r' duration='0']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestNameEscaped_Ignore)
 {
   cpputest::IgnoredTestShell itst("group", "'[]\n\r", "file", 10);
-  result->currentTestStarted(&itst);
+  result->current_test_started(&itst);
   const char* expected = "##teamcity[testStarted name='|'|[|]|n|r']\n"
                          "##teamcity[testIgnored name='|'|[|]|n|r']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 TEST(TeamCityTestOutput, TestNameEscaped_Fail)
 {
-  tst->setTestName("'[]\n\r");
+  tst->set_test_name("'[]\n\r");
   cpputest::TestFailure fail(tst, "failfile", 20, "failure message");
-  tcout->printFailure(fail);
+  tcout->print_failure(fail);
   const char* expected = "##teamcity[testFailed name='|'|[|]|n|r' "
                          "message='TEST failed (file:10): failfile:20' "
                          "details='failure message']\n";
-  STRCMP_EQUAL(expected, mock->getOutput().c_str());
+  STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
 /* Todo:

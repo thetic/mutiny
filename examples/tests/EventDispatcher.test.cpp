@@ -9,34 +9,35 @@ using cpputest::extensions::mock;
 class ObserverMock : public EventObserver
 {
 public:
-  virtual void notify(const Event& event, int timeOutInSeconds) override
+  virtual void notify(const Event& event, int time_out_in_seconds) override
   {
     mock()
-        .actualCall("notify")
-        .onObject(this)
-        .withParameterOfType("Event", "event", static_cast<const void*>(&event))
-        .withParameter("timeOutInSeconds", timeOutInSeconds);
+        .actual_call("notify")
+        .on_object(this)
+        .with_parameter_of_type(
+            "Event", "event", static_cast<const void*>(&event))
+        .with_parameter("timeOutInSeconds", time_out_in_seconds);
   }
-  virtual void notifyRegistration(EventObserver* newObserver) override
+  virtual void notify_registration(EventObserver* new_observer) override
   {
     mock()
-        .actualCall("notifyRegistration")
-        .onObject(this)
-        .withParameter("newObserver", newObserver);
+        .actual_call("notifyRegistration")
+        .on_object(this)
+        .with_parameter("newObserver", new_observer);
   }
 };
 
 class EventComparator : public cpputest::extensions::MockNamedValueComparator
 {
 public:
-  virtual bool isEqual(const void* object1, const void* object2) override
+  virtual bool is_equal(const void* object1, const void* object2) override
   {
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  virtual cpputest::String valueToString(const void* object) override
+  virtual cpputest::String value_to_string(const void* object) override
   {
-    return cpputest::StringFrom(static_cast<const Event*>(object)->type);
+    return cpputest::string_from(static_cast<const Event*>(object)->type);
   }
 };
 
@@ -46,65 +47,65 @@ TEST_GROUP(EventDispatcher)
   EventDispatcher* dispatcher;
   ObserverMock observer;
   ObserverMock observer2;
-  EventComparator eventComparator;
+  EventComparator event_comparator;
 
   void setup() override
   {
     dispatcher = new EventDispatcher;
-    mock().installComparator("Event", eventComparator);
+    mock().install_comparator("Event", event_comparator);
   }
   void teardown() override
   {
     delete dispatcher;
-    mock().removeAllComparatorsAndCopiers();
+    mock().remove_all_comparators_and_copiers();
   }
 };
 
 TEST(EventDispatcher, EventWithoutRegistrationsResultsIntoNoCalls)
 {
-  dispatcher->dispatchEvent(event, 10);
+  dispatcher->dispatch_event(event, 10);
 }
 
 TEST(EventDispatcher, EventWithRegistrationForEventResultsIntoCallback)
 {
   mock()
-      .expectOneCall("notify")
-      .onObject(&observer)
-      .withParameterOfType("Event", "event", &event)
-      .withParameter("timeOutInSeconds", 10);
-  event.type = IMPORTANT_EVENT;
+      .expect_one_call("notify")
+      .on_object(&observer)
+      .with_parameter_of_type("Event", "event", &event)
+      .with_parameter("timeOutInSeconds", 10);
+  event.type = important_event;
 
-  dispatcher->registerObserver(IMPORTANT_EVENT, &observer);
-  dispatcher->dispatchEvent(event, 10);
+  dispatcher->register_observer(important_event, &observer);
+  dispatcher->dispatch_event(event, 10);
 }
 
 TEST(EventDispatcher, DifferentEventWithRegistrationDoesNotResultIntoCallback)
 {
-  event.type = LESS_IMPORTANT_EVENT;
-  dispatcher->registerObserver(IMPORTANT_EVENT, &observer);
-  dispatcher->dispatchEvent(event, 10);
+  event.type = less_important_event;
+  dispatcher->register_observer(important_event, &observer);
+  dispatcher->dispatch_event(event, 10);
 }
 
 TEST(EventDispatcher,
     RegisterTwoObserversResultIntoTwoCallsAndARegistrationNotification)
 {
   mock()
-      .expectOneCall("notify")
-      .onObject(&observer)
-      .withParameterOfType("Event", "event", &event)
-      .withParameter("timeOutInSeconds", 10);
+      .expect_one_call("notify")
+      .on_object(&observer)
+      .with_parameter_of_type("Event", "event", &event)
+      .with_parameter("timeOutInSeconds", 10);
   mock()
-      .expectOneCall("notify")
-      .onObject(&observer2)
-      .withParameterOfType("Event", "event", &event)
-      .withParameter("timeOutInSeconds", 10);
+      .expect_one_call("notify")
+      .on_object(&observer2)
+      .with_parameter_of_type("Event", "event", &event)
+      .with_parameter("timeOutInSeconds", 10);
   mock()
-      .expectOneCall("notifyRegistration")
-      .onObject(&observer)
-      .withParameter("newObserver", &observer2);
+      .expect_one_call("notifyRegistration")
+      .on_object(&observer)
+      .with_parameter("newObserver", &observer2);
 
-  event.type = IMPORTANT_EVENT;
-  dispatcher->registerObserver(IMPORTANT_EVENT, &observer);
-  dispatcher->registerObserver(IMPORTANT_EVENT, &observer2);
-  dispatcher->dispatchEvent(event, 10);
+  event.type = important_event;
+  dispatcher->register_observer(important_event, &observer);
+  dispatcher->register_observer(important_event, &observer2);
+  dispatcher->dispatch_event(event, 10);
 }

@@ -22,54 +22,55 @@ public:
   TestResult(const TestResult&) = default;
   virtual ~TestResult();
 
-  virtual void testsStarted();
-  virtual void testsEnded();
-  virtual void currentGroupStarted(TestShell* test);
-  virtual void currentGroupEnded(TestShell* test);
-  virtual void currentTestStarted(TestShell* test);
-  virtual void currentTestEnded(TestShell* test);
+  virtual void tests_started();
+  virtual void tests_ended();
+  virtual void current_group_started(TestShell* test);
+  virtual void current_group_ended(TestShell* test);
+  virtual void current_test_started(TestShell* test);
+  virtual void current_test_ended(TestShell* test);
 
-  virtual void countTest();
-  virtual void countRun();
-  virtual void countCheck();
-  virtual void countFilteredOut();
-  virtual void countIgnored();
-  virtual void addFailure(const TestFailure& failure);
+  virtual void count_test();
+  virtual void count_run();
+  virtual void count_check();
+  virtual void count_filtered_out();
+  virtual void count_ignored();
+  virtual void add_failure(const TestFailure& failure);
   virtual void print(const char* text);
-  virtual void printVeryVerbose(const char* text);
+  virtual void print_very_verbose(const char* text);
 
-  size_t getTestCount() const { return testCount_; }
-  size_t getRunCount() const { return runCount_; }
-  size_t getCheckCount() const { return checkCount_; }
-  size_t getFilteredOutCount() const { return filteredOutCount_; }
-  size_t getIgnoredCount() const { return ignoredCount_; }
-  size_t getFailureCount() const { return failureCount_; }
+  size_t get_test_count() const { return test_count_; }
+  size_t get_run_count() const { return run_count_; }
+  size_t get_check_count() const { return check_count_; }
+  size_t get_filtered_out_count() const { return filtered_out_count_; }
+  size_t get_ignored_count() const { return ignored_count_; }
+  size_t get_failure_count() const { return failure_count_; }
 
-  bool isFailure() const
+  bool is_failure() const
   {
-    return (getFailureCount() != 0) || (getRunCount() + getIgnoredCount() == 0);
+    return (get_failure_count() != 0) ||
+           (get_run_count() + get_ignored_count() == 0);
   }
 
-  size_t getTotalExecutionTime() const;
-  void setTotalExecutionTime(size_t exTime);
+  size_t get_total_execution_time() const;
+  void set_total_execution_time(size_t ex_time);
 
-  size_t getCurrentTestTotalExecutionTime() const;
-  size_t getCurrentGroupTotalExecutionTime() const;
+  size_t get_current_test_total_execution_time() const;
+  size_t get_current_group_total_execution_time() const;
 
 private:
   TestOutput& output_;
-  size_t testCount_;
-  size_t runCount_;
-  size_t checkCount_;
-  size_t failureCount_;
-  size_t filteredOutCount_;
-  size_t ignoredCount_;
-  size_t totalExecutionTime_;
-  size_t timeStarted_;
-  size_t currentTestTimeStarted_;
-  size_t currentTestTotalExecutionTime_;
-  size_t currentGroupTimeStarted_;
-  size_t currentGroupTotalExecutionTime_;
+  size_t test_count_;
+  size_t run_count_;
+  size_t check_count_;
+  size_t failure_count_;
+  size_t filtered_out_count_;
+  size_t ignored_count_;
+  size_t total_execution_time_;
+  size_t time_started_;
+  size_t current_test_time_started_;
+  size_t current_test_total_execution_time_;
+  size_t current_group_time_started_;
+  size_t current_group_total_execution_time_;
 };
 
 } // namespace cpputest

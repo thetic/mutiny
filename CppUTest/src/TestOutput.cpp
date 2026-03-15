@@ -7,7 +7,7 @@ namespace cpputest {
 namespace {
 
 File
-FOpenImpl(const char* filename, const char* flag)
+f_open_impl(const char* filename, const char* flag)
 {
 #if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
   FILE* file;
@@ -19,29 +19,29 @@ FOpenImpl(const char* filename, const char* flag)
 }
 
 void
-FPutsImpl(const char* str, cpputest::File file)
+f_puts_impl(const char* str, cpputest::File file)
 {
   fputs(str, static_cast<FILE*>(file));
 }
 
 void
-FCloseImpl(cpputest::File file)
+f_close_impl(cpputest::File file)
 {
   fclose(static_cast<FILE*>(file));
 }
 
 } // namespace
 
-File StdOut = stdout;
-FOpenFunc FOpen = FOpenImpl;
-FPutsFunc FPuts = FPutsImpl;
-FCloseFunc FClose = FCloseImpl;
+File std_out = stdout;
+FOpenFunc f_open = f_open_impl;
+FPutsFunc f_puts = f_puts_impl;
+FCloseFunc f_close = f_close_impl;
 
 TestOutput::TestOutput()
-  : dotCount_(0)
-  , verbose_(VerbosityLevel::QUIET)
+  : dot_count_(0)
+  , verbose_(VerbosityLevel::quiet)
   , color_(false)
-  , progressIndication_(".")
+  , progress_indication_(".")
 {
 }
 
@@ -62,25 +62,25 @@ TestOutput::color()
 void
 TestOutput::print(const char* str)
 {
-  printBuffer(str);
+  print_buffer(str);
 }
 
 void
 TestOutput::print(long n)
 {
-  print(StringFrom(n).c_str());
+  print(string_from(n).c_str());
 }
 
 void
 TestOutput::print(size_t n)
 {
-  print(StringFrom(n).c_str());
+  print(string_from(n).c_str());
 }
 
 void
-TestOutput::printDouble(double d)
+TestOutput::print_double(double d)
 {
-  print(StringFrom(d).c_str());
+  print(string_from(d).c_str());
 }
 
 TestOutput&
@@ -98,72 +98,72 @@ operator<<(TestOutput& p, long int i)
 }
 
 void
-TestOutput::printCurrentTestStarted(const TestShell& test)
+TestOutput::print_current_test_started(const TestShell& test)
 {
-  if (verbose_ > VerbosityLevel::QUIET)
-    print(test.getFormattedName().c_str());
+  if (verbose_ > VerbosityLevel::quiet)
+    print(test.get_formatted_name().c_str());
 
-  if (test.willRun()) {
-    setProgressIndicator(".");
+  if (test.will_run()) {
+    set_progress_indicator(".");
   } else {
-    setProgressIndicator("!");
+    set_progress_indicator("!");
   }
 }
 
 void
-TestOutput::printCurrentTestEnded(const TestResult& res)
+TestOutput::print_current_test_ended(const TestResult& res)
 {
-  if (verbose_ > VerbosityLevel::QUIET) {
+  if (verbose_ > VerbosityLevel::quiet) {
     print(" - ");
-    print(res.getCurrentTestTotalExecutionTime());
+    print(res.get_current_test_total_execution_time());
     print(" ms\n");
   } else {
-    printProgressIndicator();
+    print_progress_indicator();
   }
 }
 
 void
-TestOutput::printProgressIndicator()
+TestOutput::print_progress_indicator()
 {
-  print(progressIndication_);
-  if (++dotCount_ % 50 == 0)
+  print(progress_indication_);
+  if (++dot_count_ % 50 == 0)
     print("\n");
 }
 
 void
-TestOutput::setProgressIndicator(const char* indicator)
+TestOutput::set_progress_indicator(const char* indicator)
 {
-  progressIndication_ = indicator;
+  progress_indication_ = indicator;
 }
 
 void
-TestOutput::printTestsStarted()
-{
-}
-
-void
-TestOutput::printCurrentGroupStarted(const TestShell& /*test*/)
+TestOutput::print_tests_started()
 {
 }
 
 void
-TestOutput::printCurrentGroupEnded(const TestResult& /*res*/)
+TestOutput::print_current_group_started(const TestShell& /*test*/)
 {
 }
 
 void
-TestOutput::printTestsEnded(const TestResult& result)
+TestOutput::print_current_group_ended(const TestResult& /*res*/)
+{
+}
+
+void
+TestOutput::print_tests_ended(const TestResult& result)
 {
   print("\n");
-  const bool isFailure = result.isFailure();
-  const size_t failureCount = result.getFailureCount();
-  if (isFailure) {
+  const bool is_failure = result.is_failure();
+  const size_t failure_count = result.get_failure_count();
+  if (is_failure) {
     if (color_) {
       print("\033[31;1m");
     }
     print("Errors (");
-    if (failureCount > 0) {
-      print(failureCount);
+    if (failure_count > 0) {
+      print(failure_count);
       print(" failures, ");
     } else {
       print("ran nothing, ");
@@ -174,22 +174,22 @@ TestOutput::printTestsEnded(const TestResult& result)
     }
     print("OK (");
   }
-  print(result.getTestCount());
+  print(result.get_test_count());
   print(" tests, ");
-  print(result.getRunCount());
+  print(result.get_run_count());
   print(" ran, ");
-  print(result.getCheckCount());
+  print(result.get_check_count());
   print(" checks, ");
-  print(result.getIgnoredCount());
+  print(result.get_ignored_count());
   print(" ignored, ");
-  print(result.getFilteredOutCount());
+  print(result.get_filtered_out_count());
   print(" filtered out, ");
-  print(result.getTotalExecutionTime());
+  print(result.get_total_execution_time());
   print(" ms)");
   if (color_) {
     print("\033[m");
   }
-  if (isFailure && failureCount == 0) {
+  if (is_failure && failure_count == 0) {
     print("\nNote: test run failed because no tests were run or ignored. "
           "Assuming "
           "something went wrong. "
@@ -198,11 +198,11 @@ TestOutput::printTestsEnded(const TestResult& result)
   }
   print("\n\n");
 
-  dotCount_ = 0;
+  dot_count_ = 0;
 }
 
 void
-TestOutput::printTestRun(size_t number, size_t total)
+TestOutput::print_test_run(size_t number, size_t total)
 {
   if (total > 1) {
     print("Test run ");
@@ -214,43 +214,43 @@ TestOutput::printTestRun(size_t number, size_t total)
 }
 
 void
-TestOutput::printFailure(const TestFailure& failure)
+TestOutput::print_failure(const TestFailure& failure)
 {
-  if (failure.isOutsideTestFile() || failure.isInHelperFunction())
-    printFileAndLineForTestAndFailure(failure);
+  if (failure.is_outside_test_file() || failure.is_in_helper_function())
+    print_file_and_line_for_test_and_failure(failure);
   else
-    printFileAndLineForFailure(failure);
+    print_file_and_line_for_failure(failure);
 
-  printFailureMessage(failure.getMessage());
+  print_failure_message(failure.get_message());
 }
 
 void
-TestOutput::printFileAndLineForTestAndFailure(const TestFailure& failure)
+TestOutput::print_file_and_line_for_test_and_failure(const TestFailure& failure)
 {
-  printErrorInFileOnLineFormattedForWorkingEnvironment(
-      failure.getTestFileName(), failure.getTestLineNumber());
-  printFailureInTest(failure.getTestName());
-  printErrorInFileOnLineFormattedForWorkingEnvironment(
-      failure.getFileName(), failure.getFailureLineNumber());
+  print_error_in_file_on_line_formatted_for_working_environment(
+      failure.get_test_file_name(), failure.get_test_line_number());
+  print_failure_in_test(failure.get_test_name());
+  print_error_in_file_on_line_formatted_for_working_environment(
+      failure.get_file_name(), failure.get_failure_line_number());
 }
 
 void
-TestOutput::printFileAndLineForFailure(const TestFailure& failure)
+TestOutput::print_file_and_line_for_failure(const TestFailure& failure)
 {
-  printErrorInFileOnLineFormattedForWorkingEnvironment(
-      failure.getFileName(), failure.getFailureLineNumber());
-  printFailureInTest(failure.getTestName());
+  print_error_in_file_on_line_formatted_for_working_environment(
+      failure.get_file_name(), failure.get_failure_line_number());
+  print_failure_in_test(failure.get_test_name());
 }
 
 void
-TestOutput::printFailureInTest(String testName)
+TestOutput::print_failure_in_test(String test_name)
 {
   print(" Failure in ");
-  print(testName.c_str());
+  print(test_name.c_str());
 }
 
 void
-TestOutput::printFailureMessage(String reason)
+TestOutput::print_failure_message(String reason)
 {
   print("\n");
   print("\t");
@@ -259,22 +259,23 @@ TestOutput::printFailureMessage(String reason)
 }
 
 void
-TestOutput::printErrorInFileOnLineFormattedForWorkingEnvironment(String file,
-    size_t lineNumber)
+TestOutput::print_error_in_file_on_line_formatted_for_working_environment(
+    String file,
+    size_t line_number)
 {
   print("\n");
   print(file.c_str());
   print(":");
-  print(lineNumber);
+  print(line_number);
   print(":");
   print(" error:");
 }
 
 void
-TestOutput::printVeryVerbose(const char* str)
+TestOutput::print_very_verbose(const char* str)
 {
-  if (verbose_ == VerbosityLevel::VERY_VERBOSE)
-    printBuffer(str);
+  if (verbose_ == VerbosityLevel::very_verbose)
+    print_buffer(str);
 }
 
 } // namespace cpputest

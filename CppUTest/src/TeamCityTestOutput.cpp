@@ -6,61 +6,61 @@ namespace cpputest {
 
 TeamCityTestOutput::TeamCityTestOutput()
   : currtest_(nullptr)
-  , currGroup_()
+  , curr_group_()
 {
 }
 
 TeamCityTestOutput::~TeamCityTestOutput() {}
 
 void
-TeamCityTestOutput::printCurrentTestStarted(const TestShell& test)
+TeamCityTestOutput::print_current_test_started(const TestShell& test)
 {
   print("##teamcity[testStarted name='");
-  printEscaped(test.getName().c_str());
+  print_escaped(test.get_name().c_str());
   print("']\n");
-  if (!test.willRun()) {
+  if (!test.will_run()) {
     print("##teamcity[testIgnored name='");
-    printEscaped(test.getName().c_str());
+    print_escaped(test.get_name().c_str());
     print("']\n");
   }
   currtest_ = &test;
 }
 
 void
-TeamCityTestOutput::printCurrentTestEnded(const TestResult& res)
+TeamCityTestOutput::print_current_test_ended(const TestResult& res)
 {
   if (!currtest_)
     return;
 
   print("##teamcity[testFinished name='");
-  printEscaped(currtest_->getName().c_str());
+  print_escaped(currtest_->get_name().c_str());
   print("' duration='");
-  print(res.getCurrentTestTotalExecutionTime());
+  print(res.get_current_test_total_execution_time());
   print("']\n");
 }
 
 void
-TeamCityTestOutput::printCurrentGroupStarted(const TestShell& test)
+TeamCityTestOutput::print_current_group_started(const TestShell& test)
 {
-  currGroup_ = test.getGroup();
+  curr_group_ = test.get_group();
   print("##teamcity[testSuiteStarted name='");
-  printEscaped(currGroup_.c_str());
+  print_escaped(curr_group_.c_str());
   print("']\n");
 }
 
 void
-TeamCityTestOutput::printCurrentGroupEnded(const TestResult& /*res*/)
+TeamCityTestOutput::print_current_group_ended(const TestResult& /*res*/)
 {
-  if (currGroup_ == "")
+  if (curr_group_ == "")
     return;
 
   print("##teamcity[testSuiteFinished name='");
-  printEscaped(currGroup_.c_str());
+  print_escaped(curr_group_.c_str());
   print("']\n");
 }
 
 void
-TeamCityTestOutput::printEscaped(const char* s)
+TeamCityTestOutput::print_escaped(const char* s)
 {
   while (*s) {
     char str[3];
@@ -80,31 +80,31 @@ TeamCityTestOutput::printEscaped(const char* s)
       str[0] = *s;
       str[1] = 0;
     }
-    printBuffer(str);
+    print_buffer(str);
     s++;
   }
 }
 
 void
-TeamCityTestOutput::printFailure(const TestFailure& failure)
+TeamCityTestOutput::print_failure(const TestFailure& failure)
 {
   print("##teamcity[testFailed name='");
-  printEscaped(failure.getTestNameOnly().c_str());
+  print_escaped(failure.get_test_name_only().c_str());
   print("' message='");
-  if (failure.isOutsideTestFile() || failure.isInHelperFunction()) {
+  if (failure.is_outside_test_file() || failure.is_in_helper_function()) {
     print("TEST failed (");
-    print(failure.getTestFileName().c_str());
+    print(failure.get_test_file_name().c_str());
     print(":");
-    print(failure.getTestLineNumber());
+    print(failure.get_test_line_number());
     print("): ");
   }
 
-  printEscaped(failure.getFileName().c_str());
+  print_escaped(failure.get_file_name().c_str());
   print(":");
-  print(failure.getFailureLineNumber());
+  print(failure.get_failure_line_number());
 
   print("' details='");
-  printEscaped(failure.getMessage().c_str());
+  print_escaped(failure.get_message().c_str());
   print("']\n");
 }
 

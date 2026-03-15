@@ -3,23 +3,23 @@
 namespace cpputest {
 
 TestFilter::TestFilter()
-  : strictMatching_(false)
-  , invertMatching_(false)
+  : strict_matching_(false)
+  , invert_matching_(false)
   , next_(nullptr)
 {
 }
 
 TestFilter::TestFilter(const String& filter)
-  : strictMatching_(false)
-  , invertMatching_(false)
+  : strict_matching_(false)
+  , invert_matching_(false)
   , next_(nullptr)
 {
   filter_ = filter;
 }
 
 TestFilter::TestFilter(const char* filter)
-  : strictMatching_(false)
-  , invertMatching_(false)
+  : strict_matching_(false)
+  , invert_matching_(false)
   , next_(nullptr)
 {
   filter_ = filter;
@@ -33,21 +33,21 @@ TestFilter::add(TestFilter* filter)
 }
 
 TestFilter*
-TestFilter::getNext() const
+TestFilter::get_next() const
 {
   return next_;
 }
 
 void
-TestFilter::strictMatching()
+TestFilter::strict_matching()
 {
-  strictMatching_ = true;
+  strict_matching_ = true;
 }
 
 void
-TestFilter::invertMatching()
+TestFilter::invert_matching()
 {
-  invertMatching_ = true;
+  invert_matching_ = true;
 }
 
 bool
@@ -55,20 +55,20 @@ TestFilter::match(const String& name) const
 {
   bool matches = false;
 
-  if (strictMatching_)
+  if (strict_matching_)
     matches = name == filter_;
   else
-    matches = stringContains(name, filter_);
+    matches = string_contains(name, filter_);
 
-  return invertMatching_ ? !matches : matches;
+  return invert_matching_ ? !matches : matches;
 }
 
 bool
 TestFilter::operator==(const TestFilter& filter) const
 {
   return (filter_ == filter.filter_ &&
-          strictMatching_ == filter.strictMatching_ &&
-          invertMatching_ == filter.invertMatching_);
+          strict_matching_ == filter.strict_matching_ &&
+          invert_matching_ == filter.invert_matching_);
 }
 
 bool
@@ -78,23 +78,24 @@ TestFilter::operator!=(const TestFilter& filter) const
 }
 
 String
-TestFilter::asString() const
+TestFilter::as_string() const
 {
-  String textFilter = StringFromFormat("TestFilter: \"%s\"", filter_.c_str());
-  if (strictMatching_ && invertMatching_)
-    textFilter += " with strict, invert matching";
-  else if (strictMatching_)
-    textFilter += " with strict matching";
-  else if (invertMatching_)
-    textFilter += " with invert matching";
+  String text_filter =
+      string_from_format("TestFilter: \"%s\"", filter_.c_str());
+  if (strict_matching_ && invert_matching_)
+    text_filter += " with strict, invert matching";
+  else if (strict_matching_)
+    text_filter += " with strict matching";
+  else if (invert_matching_)
+    text_filter += " with invert matching";
 
-  return textFilter;
+  return text_filter;
 }
 
 String
-StringFrom(const TestFilter& filter)
+string_from(const TestFilter& filter)
 {
-  return filter.asString();
+  return filter.as_string();
 }
 
 } // namespace cpputest

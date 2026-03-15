@@ -9,16 +9,16 @@ namespace extensions {
 class MockNamedValueListNode
 {
 public:
-  MockNamedValueListNode(MockNamedValue* newValue);
+  MockNamedValueListNode(MockNamedValue* new_value);
 
-  cpputest::String getName() const;
-  cpputest::String getType() const;
+  cpputest::String get_name() const;
+  cpputest::String get_type() const;
 
   MockNamedValueListNode* next();
   MockNamedValue* item();
 
   void destroy();
-  void setNext(MockNamedValueListNode* node);
+  void set_next(MockNamedValueListNode* node);
 
 private:
   MockNamedValue* data_;
@@ -32,10 +32,10 @@ public:
 
   MockNamedValueListNode* begin();
 
-  void add(MockNamedValue* newValue);
+  void add(MockNamedValue* new_value);
   void clear();
 
-  MockNamedValue* getValueByName(const cpputest::String& name);
+  MockNamedValue* get_value_by_name(const cpputest::String& name);
 
 private:
   MockNamedValueListNode* head_;

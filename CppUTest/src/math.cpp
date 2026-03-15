@@ -9,7 +9,7 @@
 namespace {
 
 int
-IsNanImpl(double d)
+is_nan_impl(double d)
 {
 #if defined(_MSC_VER)
   return _isnan(d);
@@ -19,7 +19,7 @@ IsNanImpl(double d)
 }
 
 int
-IsInfImpl(double d)
+is_inf_impl(double d)
 {
 #if defined(_MSC_VER)
   return !_finite(d);
@@ -32,7 +32,7 @@ IsInfImpl(double d)
 
 namespace cpputest {
 
-int (*IsNan)(double) = IsNanImpl;
-int (*IsInf)(double) = IsInfImpl;
+int (*is_nan)(double) = is_nan_impl;
+int (*is_inf)(double) = is_inf_impl;
 
 } // namespace cpputest

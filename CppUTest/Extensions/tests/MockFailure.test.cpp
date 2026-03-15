@@ -36,89 +36,91 @@ TEST_GROUP(MockFailure)
     delete call4;
     delete call5;
     CHECK_NO_MOCK_FAILURE();
-    MockFailureReporterForTest::clearReporter();
+    MockFailureReporterForTest::clear_reporter();
   }
 
-  void addThreeCallsToList()
+  void add_three_calls_to_list()
   {
-    list->addExpectedCall(call1);
-    list->addExpectedCall(call2);
-    list->addExpectedCall(call3);
+    list->add_expected_call(call1);
+    list->add_expected_call(call2);
+    list->add_expected_call(call3);
   }
 
-  void addFiveCallsToList()
+  void add_five_calls_to_list()
   {
-    list->addExpectedCall(call1);
-    list->addExpectedCall(call2);
-    list->addExpectedCall(call3);
-    list->addExpectedCall(call4);
-    list->addExpectedCall(call5);
+    list->add_expected_call(call1);
+    list->add_expected_call(call2);
+    list->add_expected_call(call3);
+    list->add_expected_call(call4);
+    list->add_expected_call(call5);
   }
 
-  void checkUnexpectedNthCallMessage(unsigned int count,
-      const char* expectedOrdinal)
+  void check_unexpected_nth_call_message(unsigned int count,
+      const char* expected_ordinal)
   {
-    MockExpectedCallsListForTest::MockExpectedCallsList callList;
-    cpputest::extensions::MockCheckedExpectedCall expectedCallSingle(1);
-    cpputest::extensions::MockCheckedExpectedCall expectedCallMulti(count - 1);
+    MockExpectedCallsListForTest::MockExpectedCallsList call_list;
+    cpputest::extensions::MockCheckedExpectedCall expected_call_single(1);
+    cpputest::extensions::MockCheckedExpectedCall expected_call_multi(
+        count - 1);
 
-    expectedCallSingle.withName("bar");
-    expectedCallMulti.withName("bar");
+    expected_call_single.with_name("bar");
+    expected_call_multi.with_name("bar");
 
     if (count > 1) {
-      callList.addExpectedCall(&expectedCallSingle);
-      expectedCallSingle.callWasMade(1);
+      call_list.add_expected_call(&expected_call_single);
+      expected_call_single.call_was_made(1);
     }
 
     if (count > 2) {
-      callList.addExpectedCall(&expectedCallMulti);
+      call_list.add_expected_call(&expected_call_multi);
       for (unsigned int i = 1; i < (count - 1); i++) {
-        expectedCallMulti.callWasMade(i + 1);
+        expected_call_multi.call_was_made(i + 1);
       }
     }
 
     cpputest::extensions::MockUnexpectedCallHappenedFailure failure(
-        cpputest::TestShell::getCurrent(), "bar", callList);
+        cpputest::TestShell::get_current(), "bar", call_list);
 
-    cpputest::String expectedMessage = cpputest::StringFromFormat(
+    cpputest::String expected_message = cpputest::string_from_format(
         "Mock Failure: Unexpected additional (%s) call to "
         "function: bar\n\tEXPECTED",
-        expectedOrdinal);
-    STRCMP_CONTAINS(expectedMessage.c_str(), failure.getMessage().c_str());
+        expected_ordinal);
+    STRCMP_CONTAINS(expected_message.c_str(), failure.get_message().c_str());
   }
 };
 
 TEST(MockFailure, noErrorFailureSomethingGoneWrong)
 {
-  cpputest::extensions::MockFailure failure(cpputest::TestShell::getCurrent());
+  cpputest::extensions::MockFailure failure(
+      (cpputest::TestShell::get_current()));
   STRCMP_EQUAL("Test failed with MockFailure without an error! Something went "
                "seriously wrong.",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, unexpectedCallHappened)
 {
   cpputest::extensions::MockUnexpectedCallHappenedFailure failure(
-      cpputest::TestShell::getCurrent(), "foobar", *list);
+      cpputest::TestShell::get_current(), "foobar", *list);
   STRCMP_EQUAL("Mock Failure: Unexpected call to function: foobar\n"
                "\tEXPECTED calls that WERE NOT fulfilled:\n"
                "\t\t<none>\n"
                "\tEXPECTED calls that WERE fulfilled:\n"
                "\t\t<none>",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, expectedCallDidNotHappen)
 {
-  call1->withName("foobar");
-  call2->withName("world").withParameter("boo", 2).withParameter(
+  call1->with_name("foobar");
+  call2->with_name("world").with_parameter("boo", 2).with_parameter(
       "hello", "world");
-  call3->withName("haphaphap");
-  call3->callWasMade(1);
-  addThreeCallsToList();
+  call3->with_name("haphaphap");
+  call3->call_was_made(1);
+  add_three_calls_to_list();
 
   cpputest::extensions::MockExpectedCallsDidntHappenFailure failure(
-      cpputest::TestShell::getCurrent(), *list);
+      cpputest::TestShell::get_current(), *list);
   STRCMP_EQUAL(
       "Mock Failure: Expected call WAS NOT fulfilled.\n"
       "\tEXPECTED calls that WERE NOT fulfilled:\n"
@@ -127,35 +129,35 @@ TEST(MockFailure, expectedCallDidNotHappen)
       "call, called 0 times)\n"
       "\tEXPECTED calls that WERE fulfilled:\n"
       "\t\thaphaphap -> no parameters (expected 1 call, called 1 time)",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockUnexpectedNthAdditionalCallFailure)
 {
-  checkUnexpectedNthCallMessage(2, "2nd");
-  checkUnexpectedNthCallMessage(3, "3rd");
-  checkUnexpectedNthCallMessage(4, "4th");
-  checkUnexpectedNthCallMessage(11, "11th");
-  checkUnexpectedNthCallMessage(12, "12th");
-  checkUnexpectedNthCallMessage(13, "13th");
-  checkUnexpectedNthCallMessage(14, "14th");
-  checkUnexpectedNthCallMessage(21, "21st");
-  checkUnexpectedNthCallMessage(22, "22nd");
-  checkUnexpectedNthCallMessage(23, "23rd");
+  check_unexpected_nth_call_message(2, "2nd");
+  check_unexpected_nth_call_message(3, "3rd");
+  check_unexpected_nth_call_message(4, "4th");
+  check_unexpected_nth_call_message(11, "11th");
+  check_unexpected_nth_call_message(12, "12th");
+  check_unexpected_nth_call_message(13, "13th");
+  check_unexpected_nth_call_message(14, "14th");
+  check_unexpected_nth_call_message(21, "21st");
+  check_unexpected_nth_call_message(22, "22nd");
+  check_unexpected_nth_call_message(23, "23rd");
 }
 
 TEST(MockFailure, MockUnexpectedInputParameterFailure)
 {
-  call1->withName("foo").withParameter("boo", 2);
-  call2->withName("foo").withParameter("boo", 3.3);
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call1->with_name("foo").with_parameter("boo", 2);
+  call2->with_name("foo").with_parameter("boo", 3.3);
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
-  cpputest::extensions::MockNamedValue actualParameter("bar");
-  actualParameter.setValue(2);
+  cpputest::extensions::MockNamedValue actual_parameter("bar");
+  actual_parameter.set_value(2);
 
   cpputest::extensions::MockUnexpectedInputParameterFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", actualParameter, *list);
+      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected parameter name to function \"foo\": bar\n"
       "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
@@ -165,25 +167,25 @@ TEST(MockFailure, MockUnexpectedInputParameterFailure)
       "\t\t<none>\n"
       "\tACTUAL unexpected parameter passed to function: foo\n"
       "\t\tint bar: <2 (0x2)>",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockUnexpectedOutputParameterFailure)
 {
   int out1 = 0;
   int out2 = 0;
-  call1->withName("foo").withOutputParameterReturning(
+  call1->with_name("foo").with_output_parameter_returning(
       "boo", &out1, sizeof(out1));
-  call2->withName("foo").withOutputParameterReturning(
+  call2->with_name("foo").with_output_parameter_returning(
       "boo", &out2, sizeof(out2));
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
-  cpputest::extensions::MockNamedValue actualParameter("bar");
-  actualParameter.setValue(reinterpret_cast<void*>(0x123));
+  cpputest::extensions::MockNamedValue actual_parameter("bar");
+  actual_parameter.set_value(reinterpret_cast<void*>(0x123));
 
   cpputest::extensions::MockUnexpectedOutputParameterFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", actualParameter, *list);
+      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected output parameter name to function \"foo\": "
       "bar\n"
@@ -194,23 +196,23 @@ TEST(MockFailure, MockUnexpectedOutputParameterFailure)
       "\t\t<none>\n"
       "\tACTUAL unexpected output parameter passed to function: foo\n"
       "\t\tvoid* bar",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockUnexpectedUnmodifiedOutputParameterFailure)
 {
   int out1 = 0;
-  call1->withName("foo").withOutputParameterReturning(
+  call1->with_name("foo").with_output_parameter_returning(
       "boo", &out1, sizeof(out1));
-  call2->withName("foo").withUnmodifiedOutputParameter("boo");
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call2->with_name("foo").with_unmodified_output_parameter("boo");
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
-  cpputest::extensions::MockNamedValue actualParameter("bar");
-  actualParameter.setValue(reinterpret_cast<void*>(0x123));
+  cpputest::extensions::MockNamedValue actual_parameter("bar");
+  actual_parameter.set_value(reinterpret_cast<void*>(0x123));
 
   cpputest::extensions::MockUnexpectedOutputParameterFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", actualParameter, *list);
+      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected output parameter name to function \"foo\": "
       "bar\n"
@@ -221,21 +223,21 @@ TEST(MockFailure, MockUnexpectedUnmodifiedOutputParameterFailure)
       "\t\t<none>\n"
       "\tACTUAL unexpected output parameter passed to function: foo\n"
       "\t\tvoid* bar",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockUnexpectedParameterValueFailure)
 {
-  call1->withName("foo").withParameter("boo", 2);
-  call2->withName("foo").withParameter("boo", 10);
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call1->with_name("foo").with_parameter("boo", 2);
+  call2->with_name("foo").with_parameter("boo", 10);
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
-  cpputest::extensions::MockNamedValue actualParameter("boo");
-  actualParameter.setValue(20);
+  cpputest::extensions::MockNamedValue actual_parameter("boo");
+  actual_parameter.set_value(20);
 
   cpputest::extensions::MockUnexpectedInputParameterFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", actualParameter, *list);
+      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected parameter value to parameter \"boo\" to "
       "function "
@@ -247,32 +249,33 @@ TEST(MockFailure, MockUnexpectedParameterValueFailure)
       "\t\t<none>\n"
       "\tACTUAL unexpected parameter passed to function: foo\n"
       "\t\tint boo: <20 (0x14)>",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
 {
-  call1->withName("foo").withParameter("bar", 2).withParameter("boo", "str");
-  call1->inputParameterWasPassed("bar");
-  call2->withName("foo").withParameter("bar", 10).withParameter("boo", "bleh");
-  call2->callWasMade(1);
-  call2->inputParameterWasPassed("bar");
-  call2->inputParameterWasPassed("boo");
-  call3->withName("foo")
-      .withParameter("bar", 2)
-      .withParameter("boo", "blah")
-      .withParameter("baa", 0u);
-  call3->inputParameterWasPassed("bar");
-  call4->withName("foo").withParameter("bar", 20);
-  call5->withName("unrelated");
-  addFiveCallsToList();
+  call1->with_name("foo").with_parameter("bar", 2).with_parameter("boo", "str");
+  call1->input_parameter_was_passed("bar");
+  call2->with_name("foo").with_parameter("bar", 10).with_parameter(
+      "boo", "bleh");
+  call2->call_was_made(1);
+  call2->input_parameter_was_passed("bar");
+  call2->input_parameter_was_passed("boo");
+  call3->with_name("foo")
+      .with_parameter("bar", 2)
+      .with_parameter("boo", "blah")
+      .with_parameter("baa", 0u);
+  call3->input_parameter_was_passed("bar");
+  call4->with_name("foo").with_parameter("bar", 20);
+  call5->with_name("unrelated");
+  add_five_calls_to_list();
 
-  MockExpectedCallsListForTest::MockExpectedCallsList matchingCalls;
-  matchingCalls.addExpectedCall(call1);
-  matchingCalls.addExpectedCall(call3);
+  MockExpectedCallsListForTest::MockExpectedCallsList matching_calls;
+  matching_calls.add_expected_call(call1);
+  matching_calls.add_expected_call(call3);
 
   cpputest::extensions::MockExpectedParameterDidntHappenFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", *list, matchingCalls);
+      cpputest::TestShell::get_current(), "foo", *list, matching_calls);
   STRCMP_EQUAL(
       "Mock Failure: Expected parameter for function \"foo\" did not happen.\n"
       "\tEXPECTED calls with MISSING parameters related to function: foo\n"
@@ -294,34 +297,34 @@ TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
       "\t\tfoo -> int bar: <10 (0xa)>, const char* boo: <bleh> (expected 1 "
       "call, "
       "called 1 time)",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockNoWayToCompareCustomTypeFailure)
 {
   cpputest::extensions::MockNoWayToCompareCustomTypeFailure failure(
-      cpputest::TestShell::getCurrent(), "myType");
+      cpputest::TestShell::get_current(), "myType");
   STRCMP_EQUAL("MockFailure: No way to compare type <myType>. Please install a "
                "MockNamedValueComparator.",
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockUnexpectedObjectFailure)
 {
-  call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
-  call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));
-  call2->callWasMade(1);
-  call2->wasPassedToObject();
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call1->with_name("foo").on_object(reinterpret_cast<void*>(0x02));
+  call2->with_name("foo").on_object(reinterpret_cast<void*>(0x03));
+  call2->call_was_made(1);
+  call2->was_passed_to_object();
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
   cpputest::extensions::MockUnexpectedObjectFailure failure(
-      cpputest::TestShell::getCurrent(),
+      cpputest::TestShell::get_current(),
       "foo",
       reinterpret_cast<void*>(0x1),
       *list);
   STRCMP_EQUAL(
-      cpputest::StringFromFormat(
+      cpputest::string_from_format(
           "MockFailure: Function called on an unexpected object: foo\n"
           "\tActual object for call has address: <%p>\n"
           "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
@@ -336,22 +339,22 @@ TEST(MockFailure, MockUnexpectedObjectFailure)
           reinterpret_cast<void*>(0x02),
           reinterpret_cast<void*>(0x03))
           .c_str(),
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }
 
 TEST(MockFailure, MockExpectedObjectDidntHappenFailure)
 {
-  call1->withName("foo").onObject(reinterpret_cast<void*>(0x02));
-  call2->withName("foo").onObject(reinterpret_cast<void*>(0x03));
-  call2->callWasMade(1);
-  call2->wasPassedToObject();
-  call3->withName("unrelated");
-  addThreeCallsToList();
+  call1->with_name("foo").on_object(reinterpret_cast<void*>(0x02));
+  call2->with_name("foo").on_object(reinterpret_cast<void*>(0x03));
+  call2->call_was_made(1);
+  call2->was_passed_to_object();
+  call3->with_name("unrelated");
+  add_three_calls_to_list();
 
   cpputest::extensions::MockExpectedObjectDidntHappenFailure failure(
-      cpputest::TestShell::getCurrent(), "foo", *list);
+      cpputest::TestShell::get_current(), "foo", *list);
   STRCMP_EQUAL(
-      cpputest::StringFromFormat(
+      cpputest::string_from_format(
           "Mock Failure: Expected call on object for function \"foo\" but it "
           "did "
           "not happen.\n"
@@ -366,5 +369,5 @@ TEST(MockFailure, MockExpectedObjectDidntHappenFailure)
           reinterpret_cast<void*>(0x2),
           reinterpret_cast<void*>(0x3))
           .c_str(),
-      failure.getMessage().c_str());
+      failure.get_message().c_str());
 }

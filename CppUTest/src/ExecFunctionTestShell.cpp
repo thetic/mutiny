@@ -11,8 +11,8 @@ ExecFunction::ExecFunction() {}
 ExecFunction::~ExecFunction() {}
 
 ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(
-    void (*testFunction)())
-  : testFunction_(testFunction)
+    void (*test_function)())
+  : test_function(test_function)
 {
 }
 
@@ -21,8 +21,8 @@ ExecFunctionWithoutParameters::~ExecFunctionWithoutParameters() {}
 void
 ExecFunctionWithoutParameters::exec()
 {
-  if (testFunction_)
-    testFunction_();
+  if (test_function)
+    test_function();
 }
 
 //////////////////// ExecFunctionTest
@@ -33,24 +33,24 @@ ExecFunctionTest::ExecFunctionTest(ExecFunctionTestShell* shell)
 }
 
 void
-ExecFunctionTest::testBody()
+ExecFunctionTest::test_body()
 {
-  if (shell_->testFunction_)
-    shell_->testFunction_->exec();
+  if (shell_->test_function)
+    shell_->test_function->exec();
 }
 
 void
 ExecFunctionTest::setup()
 {
-  if (shell_->setup_)
-    shell_->setup_();
+  if (shell_->setup)
+    shell_->setup();
 }
 
 void
 ExecFunctionTest::teardown()
 {
-  if (shell_->teardown_)
-    shell_->teardown_();
+  if (shell_->teardown)
+    shell_->teardown();
 }
 
 } // namespace cpputest

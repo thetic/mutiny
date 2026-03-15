@@ -21,70 +21,70 @@ TestPlugin::TestPlugin(TestPlugin* next)
 TestPlugin::~TestPlugin() {}
 
 TestPlugin*
-TestPlugin::addPlugin(TestPlugin* plugin)
+TestPlugin::add_plugin(TestPlugin* plugin)
 {
   next_ = plugin;
   return this;
 }
 
 void
-TestPlugin::runAllPreTestAction(TestShell& test, TestResult& result)
+TestPlugin::run_all_pre_test_action(TestShell& test, TestResult& result)
 {
   if (enabled_)
-    preTestAction(test, result);
-  next_->runAllPreTestAction(test, result);
+    pre_test_action(test, result);
+  next_->run_all_pre_test_action(test, result);
 }
 
 void
-TestPlugin::runAllPostTestAction(TestShell& test, TestResult& result)
+TestPlugin::run_all_post_test_action(TestShell& test, TestResult& result)
 {
-  next_->runAllPostTestAction(test, result);
+  next_->run_all_post_test_action(test, result);
   if (enabled_)
-    postTestAction(test, result);
+    post_test_action(test, result);
 }
 
 bool
-TestPlugin::parseAllArguments(int argc, char** argv, int index)
+TestPlugin::parse_all_arguments(int argc, char** argv, int index)
 {
-  return parseAllArguments(argc, const_cast<const char* const*>(argv), index);
+  return parse_all_arguments(argc, const_cast<const char* const*>(argv), index);
 }
 
 bool
-TestPlugin::parseAllArguments(int argc, const char* const* argv, int index)
+TestPlugin::parse_all_arguments(int argc, const char* const* argv, int index)
 {
-  if (parseArguments(argc, argv, index))
+  if (parse_arguments(argc, argv, index))
     return true;
   if (next_)
-    return next_->parseAllArguments(argc, argv, index);
+    return next_->parse_all_arguments(argc, argv, index);
   return false;
 }
 
 const String&
-TestPlugin::getName()
+TestPlugin::get_name()
 {
   return name_;
 }
 
 TestPlugin*
-TestPlugin::getPluginByName(const String& name)
+TestPlugin::get_plugin_by_name(const String& name)
 {
   if (name == name_)
     return this;
   if (next_)
-    return next_->getPluginByName(name);
+    return next_->get_plugin_by_name(name);
   return (next_);
 }
 
 TestPlugin*
-TestPlugin::getNext()
+TestPlugin::get_next()
 {
   return next_;
 }
 TestPlugin*
-TestPlugin::removePluginByName(const String& name)
+TestPlugin::remove_plugin_by_name(const String& name)
 {
   TestPlugin* removed = nullptr;
-  if (next_ && next_->getName() == name) {
+  if (next_ && next_->get_name() == name) {
     removed = next_;
     next_ = next_->next_;
   }
@@ -104,7 +104,7 @@ TestPlugin::enable()
 }
 
 bool
-TestPlugin::isEnabled()
+TestPlugin::is_enabled()
 {
   return enabled_;
 }
@@ -119,17 +119,17 @@ NullTestPlugin::NullTestPlugin()
 NullTestPlugin*
 NullTestPlugin::instance()
 {
-  static NullTestPlugin _instance;
-  return &_instance;
+  static NullTestPlugin instance;
+  return &instance;
 }
 
 void
-NullTestPlugin::runAllPreTestAction(TestShell&, TestResult&)
+NullTestPlugin::run_all_pre_test_action(TestShell&, TestResult&)
 {
 }
 
 void
-NullTestPlugin::runAllPostTestAction(TestShell&, TestResult&)
+NullTestPlugin::run_all_post_test_action(TestShell&, TestResult&)
 {
 }
 

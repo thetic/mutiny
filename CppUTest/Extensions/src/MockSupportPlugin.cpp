@@ -19,19 +19,19 @@ public:
   {
   }
 
-  virtual void failTest(MockFailure failure) override
+  virtual void fail_test(MockFailure failure) override
   {
-    result_.addFailure(failure);
+    result_.add_failure(failure);
   }
 
-  virtual void reportFailure(const MockFailure& failure) override
+  virtual void report_failure(const MockFailure& failure) override
   {
-    result_.addFailure(failure);
+    result_.add_failure(failure);
   }
 
-  virtual void exitTest() override {}
+  virtual void exit_test() override {}
 
-  virtual cpputest::TestShell* getTestToFail() override { return &test_; }
+  virtual cpputest::TestShell* get_test_to_fail() override { return &test_; }
 };
 
 MockSupportPlugin::MockSupportPlugin(const String& name)
@@ -51,35 +51,36 @@ MockSupportPlugin::clear()
 }
 
 void
-MockSupportPlugin::preTestAction(cpputest::TestShell&, TestResult&)
+MockSupportPlugin::pre_test_action(cpputest::TestShell&, TestResult&)
 {
-  mock().installComparatorsAndCopiers(repository_);
+  mock().install_comparators_and_copiers(repository_);
 }
 
 void
-MockSupportPlugin::postTestAction(cpputest::TestShell& test, TestResult& result)
+MockSupportPlugin::post_test_action(cpputest::TestShell& test,
+    TestResult& result)
 {
   MockSupportPluginReporter reporter(test, result);
-  mock().setMockFailureStandardReporter(&reporter);
-  if (!test.hasFailed())
-    mock().checkExpectations();
+  mock().set_mock_failure_standard_reporter(&reporter);
+  if (!test.has_failed())
+    mock().check_expectations();
   mock().clear();
-  mock().setMockFailureStandardReporter(nullptr);
-  mock().removeAllComparatorsAndCopiers();
+  mock().set_mock_failure_standard_reporter(nullptr);
+  mock().remove_all_comparators_and_copiers();
 }
 
 void
-MockSupportPlugin::installComparator(const String& name,
+MockSupportPlugin::install_comparator(const String& name,
     MockNamedValueComparator& comparator)
 {
-  repository_.installComparator(name, comparator);
+  repository_.install_comparator(name, comparator);
 }
 
 void
-MockSupportPlugin::installCopier(const String& name,
+MockSupportPlugin::install_copier(const String& name,
     MockNamedValueCopier& copier)
 {
-  repository_.installCopier(name, copier);
+  repository_.install_copier(name, copier);
 }
 
 } // namespace extensions

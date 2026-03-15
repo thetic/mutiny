@@ -6,39 +6,39 @@
 namespace cpputest {
 
 namespace {
-struct cpputest_pair
+struct CpputestPair
 {
   void** orig;
   void* orig_value;
 };
 
-int pointerTableIndex;
-cpputest_pair setlist[SetPointerPlugin::MAX_SET];
+int pointer_table_index;
+CpputestPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
 SetPointerPlugin::SetPointerPlugin(const String& name)
   : TestPlugin(name)
 {
-  pointerTableIndex = 0;
+  pointer_table_index = 0;
 }
 
 void
 SetPointerPlugin::store(void** function)
 {
-  if (pointerTableIndex >= SetPointerPlugin::MAX_SET) {
+  if (pointer_table_index >= SetPointerPlugin::max_set) {
     FAIL("Maximum number of function pointers installed!");
   }
-  setlist[pointerTableIndex].orig_value = *function;
-  setlist[pointerTableIndex].orig = function;
-  pointerTableIndex++;
+  setlist[pointer_table_index].orig_value = *function;
+  setlist[pointer_table_index].orig = function;
+  pointer_table_index++;
 }
 
 void
-SetPointerPlugin::postTestAction(TestShell& /*test*/, TestResult& /*result*/)
+SetPointerPlugin::post_test_action(TestShell& /*test*/, TestResult& /*result*/)
 {
-  for (int i = pointerTableIndex - 1; i >= 0; i--)
+  for (int i = pointer_table_index - 1; i >= 0; i--)
     *reinterpret_cast<void**>(setlist[i].orig) = setlist[i].orig_value;
-  pointerTableIndex = 0;
+  pointer_table_index = 0;
 }
 
 }

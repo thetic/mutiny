@@ -21,9 +21,9 @@ public:
 class MockFunctionCopier : public MockNamedValueCopier
 {
 public:
-  using copyFunction = void (*)(void*, const void*);
+  using CopyFunction = void (*)(void*, const void*);
 
-  MockFunctionCopier(copyFunction copier)
+  MockFunctionCopier(CopyFunction copier)
     : copier_(copier)
   {
   }
@@ -31,7 +31,7 @@ public:
   virtual void copy(void* dst, const void* src) override { copier_(dst, src); }
 
 private:
-  copyFunction copier_;
+  CopyFunction copier_;
 };
 
 } // namespace extensions

@@ -12,7 +12,7 @@ class ExecFunctionTest : public Test
 {
 public:
   ExecFunctionTest(ExecFunctionTestShell* shell);
-  void testBody() override;
+  void test_body() override;
   virtual void setup() override;
   virtual void teardown() override;
 
@@ -34,9 +34,9 @@ public:
 class ExecFunctionWithoutParameters : public ExecFunction
 {
 public:
-  void (*testFunction_)();
+  void (*test_function)();
 
-  ExecFunctionWithoutParameters(void (*testFunction)());
+  ExecFunctionWithoutParameters(void (*test_function)());
   virtual ~ExecFunctionWithoutParameters() override;
 
   virtual void exec() override;
@@ -47,19 +47,19 @@ public:
 class ExecFunctionTestShell : public TestShell
 {
 public:
-  void (*setup_)();
-  void (*teardown_)();
-  ExecFunction* testFunction_;
+  void (*setup)();
+  void (*teardown)();
+  ExecFunction* test_function;
 
   ExecFunctionTestShell(void (*set)() = nullptr, void (*tear)() = nullptr)
     : TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1)
-    , setup_(set)
-    , teardown_(tear)
-    , testFunction_(nullptr)
+    , setup(set)
+    , teardown(tear)
+    , test_function(nullptr)
   {
   }
 
-  Test* createTest() override { return new ExecFunctionTest(this); }
+  Test* create_test() override { return new ExecFunctionTest(this); }
   virtual ~ExecFunctionTestShell() override;
 };
 

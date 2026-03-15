@@ -17,7 +17,7 @@ public:
   explicit ConsoleTestOutput() {}
   virtual ~ConsoleTestOutput() override {}
 
-  virtual void printBuffer(const char* s) override;
+  virtual void print_buffer(const char* s) override;
   virtual void flush() override;
 
 private:

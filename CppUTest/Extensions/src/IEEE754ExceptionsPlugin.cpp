@@ -10,9 +10,9 @@ namespace cpputest {
 namespace extensions {
 
 #define IEEE754_CHECK_CLEAR(test, result, flag)                                \
-  ieee754Check(test, result, flag, #flag)
+  ieee754_check(test, result, flag, #flag)
 
-bool IEEE754ExceptionsPlugin::inexactDisabled_ = true;
+bool IEEE754ExceptionsPlugin::inexact_disabled_ = true;
 
 IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const String& name)
   : TestPlugin(name)
@@ -20,7 +20,7 @@ IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const String& name)
 }
 
 void
-IEEE754ExceptionsPlugin::preTestAction(cpputest::TestShell&, TestResult&)
+IEEE754ExceptionsPlugin::pre_test_action(cpputest::TestShell&, TestResult&)
 {
 #if CPPUTEST_HAVE_FENV
   CHECK(!feclearexcept(FE_ALL_EXCEPT));
@@ -28,11 +28,11 @@ IEEE754ExceptionsPlugin::preTestAction(cpputest::TestShell&, TestResult&)
 }
 
 void
-IEEE754ExceptionsPlugin::postTestAction(cpputest::TestShell& test,
+IEEE754ExceptionsPlugin::post_test_action(cpputest::TestShell& test,
     TestResult& result)
 {
 #if CPPUTEST_HAVE_FENV
-  if (!test.hasFailed()) {
+  if (!test.has_failed()) {
     IEEE754_CHECK_CLEAR(test, result, FE_DIVBYZERO);
     IEEE754_CHECK_CLEAR(test, result, FE_OVERFLOW);
     IEEE754_CHECK_CLEAR(test, result, FE_UNDERFLOW);
@@ -46,19 +46,19 @@ IEEE754ExceptionsPlugin::postTestAction(cpputest::TestShell& test,
 }
 
 void
-IEEE754ExceptionsPlugin::disableInexact()
+IEEE754ExceptionsPlugin::disable_inexact()
 {
-  inexactDisabled_ = true;
+  inexact_disabled_ = true;
 }
 
 void
-IEEE754ExceptionsPlugin::enableInexact()
+IEEE754ExceptionsPlugin::enable_inexact()
 {
-  inexactDisabled_ = false;
+  inexact_disabled_ = false;
 }
 
 bool
-IEEE754ExceptionsPlugin::checkIeee754OverflowExceptionFlag()
+IEEE754ExceptionsPlugin::check_ieee754_overflow_exception_flag()
 {
 #if CPPUTEST_HAVE_FENV
   return fetestexcept(FE_OVERFLOW) != 0;
@@ -68,7 +68,7 @@ IEEE754ExceptionsPlugin::checkIeee754OverflowExceptionFlag()
 }
 
 bool
-IEEE754ExceptionsPlugin::checkIeee754UnderflowExceptionFlag()
+IEEE754ExceptionsPlugin::check_ieee754_underflow_exception_flag()
 {
 #if CPPUTEST_HAVE_FENV
   return fetestexcept(FE_UNDERFLOW) != 0;
@@ -78,7 +78,7 @@ IEEE754ExceptionsPlugin::checkIeee754UnderflowExceptionFlag()
 }
 
 bool
-IEEE754ExceptionsPlugin::checkIeee754InexactExceptionFlag()
+IEEE754ExceptionsPlugin::check_ieee754_inexact_exception_flag()
 {
 #if CPPUTEST_HAVE_FENV
   return fetestexcept(FE_INEXACT) != 0;
@@ -88,7 +88,7 @@ IEEE754ExceptionsPlugin::checkIeee754InexactExceptionFlag()
 }
 
 bool
-IEEE754ExceptionsPlugin::checkIeee754DivByZeroExceptionFlag()
+IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
 {
 #if CPPUTEST_HAVE_FENV
   return fetestexcept(FE_DIVBYZERO) != 0;
@@ -98,20 +98,20 @@ IEEE754ExceptionsPlugin::checkIeee754DivByZeroExceptionFlag()
 }
 
 void
-IEEE754ExceptionsPlugin::ieee754Check(cpputest::TestShell& test,
+IEEE754ExceptionsPlugin::ieee754_check(cpputest::TestShell& test,
     TestResult& result,
     int flag,
     const char* text)
 {
 #if CPPUTEST_HAVE_FENV
-  result.countCheck();
-  if (inexactDisabled_)
+  result.count_check();
+  if (inexact_disabled_)
     CHECK(!feclearexcept(FE_INEXACT));
   if (fetestexcept(flag)) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
     CheckFailure failure(
         &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text);
-    result.addFailure(failure);
+    result.add_failure(failure);
   }
 #else
   static_cast<void>(test);

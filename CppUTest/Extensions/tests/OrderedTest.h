@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-  int orderedTestFixtureCWrapper(void);
+  int ordered_test_fixture_c_wrapper(void);
 
 #ifdef __cplusplus
 }

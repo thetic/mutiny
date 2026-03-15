@@ -12,170 +12,170 @@
 
 TEST_GROUP(MockCheckedActualCall)
 {
-  MockExpectedCallsListForTest::MockExpectedCallsList* emptyList;
+  MockExpectedCallsListForTest::MockExpectedCallsList* empty_list;
   MockExpectedCallsListForTest::MockExpectedCallsList* list;
   cpputest::extensions::MockFailureReporter* reporter;
 
   void setup() override
   {
-    emptyList = new MockExpectedCallsListForTest::MockExpectedCallsList;
+    empty_list = new MockExpectedCallsListForTest::MockExpectedCallsList;
     list = new MockExpectedCallsListForTest::MockExpectedCallsList;
-    reporter = MockFailureReporterForTest::getReporter();
+    reporter = MockFailureReporterForTest::get_reporter();
   }
 
   void teardown() override
   {
     CHECK_NO_MOCK_FAILURE();
 
-    MockFailureReporterForTest::clearReporter();
+    MockFailureReporterForTest::clear_reporter();
 
-    delete emptyList;
+    delete empty_list;
     delete list;
   }
 };
 
 TEST(MockCheckedActualCall, unExpectedCall)
 {
-  cpputest::extensions::MockCheckedActualCall actualCall(
-      1, reporter, *emptyList);
-  actualCall.withName("unexpected");
+  cpputest::extensions::MockCheckedActualCall actual_call(
+      1, reporter, *empty_list);
+  actual_call.with_name("unexpected");
 
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "unexpected", *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "unexpected", *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
 {
-  cpputest::extensions::MockCheckedActualCall actualCall(
-      1, reporter, *emptyList);
-  actualCall.withName("unexpected").withParameter("bar", 0);
+  cpputest::extensions::MockCheckedActualCall actual_call(
+      1, reporter, *empty_list);
+  actual_call.with_name("unexpected").with_parameter("bar", 0);
 
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "unexpected", *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "unexpected", *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
 {
-  cpputest::extensions::MockCheckedActualCall actualCall(
-      1, reporter, *emptyList);
-  actualCall.withName("unexpected").withOutputParameter("bar", nullptr);
+  cpputest::extensions::MockCheckedActualCall actual_call(
+      1, reporter, *empty_list);
+  actual_call.with_name("unexpected").with_output_parameter("bar", nullptr);
 
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "unexpected", *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "unexpected", *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallOnObject)
 {
   int object = 0;
 
-  cpputest::extensions::MockCheckedActualCall actualCall(
-      1, reporter, *emptyList);
-  actualCall.withName("unexpected").onObject(&object);
+  cpputest::extensions::MockCheckedActualCall actual_call(
+      1, reporter, *empty_list);
+  actual_call.with_name("unexpected").on_object(&object);
 
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "unexpected", *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "unexpected", *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 
-  CHECK(actualCall
-          .hasFailed()); // Checks that onObject() doesn't "reset" call state
+  CHECK(actual_call
+          .has_failed()); // Checks that onObject() doesn't "reset" call state
 }
 
 TEST(MockCheckedActualCall,
     actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
-  cpputest::extensions::MockCheckedActualCall actualCall(
-      1, reporter, *emptyList);
-  actualCall.withName("noreturn").withCallOrder(0).returnValue();
+  cpputest::extensions::MockCheckedActualCall actual_call(
+      1, reporter, *empty_list);
+  actual_call.with_name("noreturn").with_call_order(0).return_value();
 
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      mockFailureTest(), "noreturn", *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expected_failure(
+      mock_failure_test(), "noreturn", *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedParameterName)
 {
   cpputest::extensions::MockCheckedExpectedCall call1;
-  call1.withName("func");
-  list->addExpectedCall(&call1);
+  call1.with_name("func");
+  list->add_expected_call(&call1);
 
-  cpputest::extensions::MockCheckedActualCall actualCall(1, reporter, *list);
-  actualCall.withName("func").withParameter("integer", 1);
+  cpputest::extensions::MockCheckedActualCall actual_call(1, reporter, *list);
+  actual_call.with_name("func").with_parameter("integer", 1);
 
   cpputest::extensions::MockNamedValue parameter("integer");
-  parameter.setValue(1);
+  parameter.set_value(1);
 
-  cpputest::extensions::MockUnexpectedInputParameterFailure expectedFailure(
-      mockFailureTest(), "func", parameter, *list);
-  CHECK_EXPECTED_MOCK_FAILURE(expectedFailure);
+  cpputest::extensions::MockUnexpectedInputParameterFailure expected_failure(
+      mock_failure_test(), "func", parameter, *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 {
   auto* call1 = new cpputest::extensions::MockCheckedExpectedCall();
   auto* call2 = new cpputest::extensions::MockCheckedExpectedCall();
-  call1->withName("func");
-  call2->withName("func");
-  list->addExpectedCall(call1);
-  list->addExpectedCall(call2);
+  call1->with_name("func");
+  call2->with_name("func");
+  list->add_expected_call(call1);
+  list->add_expected_call(call2);
 
-  LONGS_EQUAL(2, list->amountOfUnfulfilledExpectations());
+  LONGS_EQUAL(2, list->amount_of_unfulfilled_expectations());
 
-  cpputest::extensions::MockCheckedActualCall actualCall1(1, reporter, *list);
-  actualCall1.withName("func");
-  actualCall1.checkExpectations();
+  cpputest::extensions::MockCheckedActualCall actual_call1(1, reporter, *list);
+  actual_call1.with_name("func");
+  actual_call1.check_expectations();
 
-  LONGS_EQUAL(1, list->amountOfUnfulfilledExpectations());
+  LONGS_EQUAL(1, list->amount_of_unfulfilled_expectations());
 
-  cpputest::extensions::MockCheckedActualCall actualCall2(2, reporter, *list);
-  actualCall2.withName("func");
-  actualCall2.checkExpectations();
+  cpputest::extensions::MockCheckedActualCall actual_call2(2, reporter, *list);
+  actual_call2.with_name("func");
+  actual_call2.check_expectations();
 
-  LONGS_EQUAL(0, list->amountOfUnfulfilledExpectations());
+  LONGS_EQUAL(0, list->amount_of_unfulfilled_expectations());
 
-  list->deleteAllExpectationsAndClearList();
+  list->delete_all_expectations_and_clear_list();
 }
 
 TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
 {
   cpputest::extensions::MockIgnoredActualCall actual;
-  actual.withName("func");
-  actual.withCallOrder(1);
+  actual.with_name("func");
+  actual.with_call_order(1);
 
-  CHECK(false == actual.returnBoolValue());
-  CHECK(true == actual.returnBoolValueOrDefault(true));
-  CHECK(false == actual.returnBoolValueOrDefault(false));
-  CHECK(0 == actual.returnUnsignedLongIntValue());
-  CHECK(0 == actual.returnIntValue());
-  CHECK(1ul == actual.returnUnsignedLongIntValueOrDefault(1ul));
-  CHECK(1 == actual.returnIntValueOrDefault(1));
-  CHECK(0 == actual.returnLongIntValue());
-  CHECK(1l == actual.returnLongIntValueOrDefault(1l));
-  CHECK(0 == actual.returnUnsignedIntValue());
-  CHECK(1u == actual.returnUnsignedIntValueOrDefault(1u));
-  CHECK(0 == actual.returnLongLongIntValue());
-  CHECK(1ll == actual.returnLongLongIntValueOrDefault(1ll));
-  CHECK(0 == actual.returnUnsignedLongLongIntValue());
-  CHECK(1ull == actual.returnUnsignedLongLongIntValueOrDefault(1ull));
-  DOUBLES_EQUAL(0.0, actual.returnDoubleValue(), 0.0);
-  DOUBLES_EQUAL(1.5, actual.returnDoubleValueOrDefault(1.5), 0.0);
-  STRCMP_EQUAL("bla", actual.returnStringValueOrDefault("bla"));
-  STRCMP_EQUAL("", actual.returnStringValue());
-  CHECK(nullptr == actual.returnPointerValue());
+  CHECK(false == actual.return_bool_value());
+  CHECK(true == actual.return_bool_value_or_default(true));
+  CHECK(false == actual.return_bool_value_or_default(false));
+  CHECK(0 == actual.return_unsigned_long_int_value());
+  CHECK(0 == actual.return_int_value());
+  CHECK(1ul == actual.return_unsigned_long_int_value_or_default(1ul));
+  CHECK(1 == actual.return_int_value_or_default(1));
+  CHECK(0 == actual.return_long_int_value());
+  CHECK(1l == actual.return_long_int_value_or_default(1l));
+  CHECK(0 == actual.return_unsigned_int_value());
+  CHECK(1u == actual.return_unsigned_int_value_or_default(1u));
+  CHECK(0 == actual.return_long_long_int_value());
+  CHECK(1ll == actual.return_long_long_int_value_or_default(1ll));
+  CHECK(0 == actual.return_unsigned_long_long_int_value());
+  CHECK(1ull == actual.return_unsigned_long_long_int_value_or_default(1ull));
+  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
+  DOUBLES_EQUAL(1.5, actual.return_double_value_or_default(1.5), 0.0);
+  STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
+  STRCMP_EQUAL("", actual.return_string_value());
+  CHECK(nullptr == actual.return_pointer_value());
   CHECK(reinterpret_cast<void*>(0x2) ==
-        actual.returnPointerValueOrDefault(reinterpret_cast<void*>(0x2)));
-  CHECK(nullptr == actual.returnConstPointerValue());
+        actual.return_pointer_value_or_default(reinterpret_cast<void*>(0x2)));
+  CHECK(nullptr == actual.return_const_pointer_value());
   CHECK(reinterpret_cast<const void*>(0x2) ==
-        actual.returnConstPointerValueOrDefault(
+        actual.return_const_pointer_value_or_default(
             reinterpret_cast<const void*>(0x2)));
-  CHECK(nullptr == actual.returnFunctionPointerValue());
+  CHECK(nullptr == actual.return_function_pointer_value());
   CHECK(reinterpret_cast<void (*)()>(1) ==
-        actual.returnFunctionPointerValueOrDefault(
+        actual.return_function_pointer_value_or_default(
             reinterpret_cast<void (*)()>(0x1)));
-  CHECK_FALSE(actual.hasReturnValue());
-  CHECK(actual.returnValue().equals(cpputest::extensions::MockNamedValue("")));
+  CHECK_FALSE(actual.has_return_value());
+  CHECK(actual.return_value().equals(cpputest::extensions::MockNamedValue("")));
 }
 
 TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
@@ -185,83 +185,84 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   const unsigned char mem_buffer[] = { 0xFE, 0x15 };
   auto function_value = reinterpret_cast<void (*)()>(0xDEAD);
   cpputest::extensions::MockActualCallTrace actual;
-  actual.withName("func");
-  actual.withCallOrder(1);
-  actual.onObject(&value);
+  actual.with_name("func");
+  actual.with_call_order(1);
+  actual.on_object(&value);
 
-  actual.withBoolParameter("bool", true);
-  actual.withUnsignedIntParameter("unsigned_int", static_cast<unsigned int>(1));
-  actual.withUnsignedLongIntParameter(
+  actual.with_bool_parameter("bool", true);
+  actual.with_unsigned_int_parameter(
+      "unsigned_int", static_cast<unsigned int>(1));
+  actual.with_unsigned_long_int_parameter(
       "unsigned_long", static_cast<unsigned long>(1));
-  actual.withLongIntParameter("long_int", static_cast<long int>(1));
-  actual.withLongLongIntParameter(
+  actual.with_long_int_parameter("long_int", static_cast<long int>(1));
+  actual.with_long_long_int_parameter(
       "long_long_int", static_cast<long long int>(1));
-  actual.withUnsignedLongLongIntParameter(
+  actual.with_unsigned_long_long_int_parameter(
       "unsigned_long_long_int", static_cast<unsigned long long int>(1));
-  actual.withPointerParameter("pointer", &value);
-  actual.withConstPointerParameter("const_pointer", &const_value);
-  actual.withFunctionPointerParameter("function_pointer", function_value);
-  actual.withMemoryBufferParameter(
+  actual.with_pointer_parameter("pointer", &value);
+  actual.with_const_pointer_parameter("const_pointer", &const_value);
+  actual.with_function_pointer_parameter("function_pointer", function_value);
+  actual.with_memory_buffer_parameter(
       "mem_buffer", mem_buffer, sizeof(mem_buffer));
-  actual.withParameterOfType("int", "named_type", &const_value);
+  actual.with_parameter_of_type("int", "named_type", &const_value);
 
-  cpputest::String expectedString("\nFunction name:func");
-  expectedString += " withCallOrder:1";
-  expectedString += " onObject:0x";
-  expectedString += cpputest::HexStringFrom(&value);
-  expectedString += " bool:true";
-  expectedString += " unsigned_int:1 (0x1)";
-  expectedString += " unsigned_long:1 (0x1)";
-  expectedString += " long_int:1 (0x1)";
-  expectedString += " long_long_int:1 (0x1)";
-  expectedString += " unsigned_long_long_int:1 (0x1)";
-  expectedString += " pointer:0x";
-  expectedString += cpputest::HexStringFrom(&value);
-  expectedString += " const_pointer:0x";
-  expectedString += cpputest::HexStringFrom(&const_value);
-  expectedString += " function_pointer:0x";
-  expectedString += cpputest::HexStringFrom(function_value);
-  expectedString += " mem_buffer:Size = 2 | HexContents = FE 15";
-  expectedString += " int named_type:0x";
-  expectedString += cpputest::HexStringFrom(&const_value);
-  STRCMP_EQUAL(expectedString.c_str(), actual.getTraceOutput());
+  cpputest::String expected_string("\nFunction name:func");
+  expected_string += " withCallOrder:1";
+  expected_string += " onObject:0x";
+  expected_string += cpputest::hex_string_from(&value);
+  expected_string += " bool:true";
+  expected_string += " unsigned_int:1 (0x1)";
+  expected_string += " unsigned_long:1 (0x1)";
+  expected_string += " long_int:1 (0x1)";
+  expected_string += " long_long_int:1 (0x1)";
+  expected_string += " unsigned_long_long_int:1 (0x1)";
+  expected_string += " pointer:0x";
+  expected_string += cpputest::hex_string_from(&value);
+  expected_string += " const_pointer:0x";
+  expected_string += cpputest::hex_string_from(&const_value);
+  expected_string += " function_pointer:0x";
+  expected_string += cpputest::hex_string_from(function_value);
+  expected_string += " mem_buffer:Size = 2 | HexContents = FE 15";
+  expected_string += " int named_type:0x";
+  expected_string += cpputest::hex_string_from(&const_value);
+  STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
-  CHECK_FALSE(actual.hasReturnValue());
-  CHECK(actual.returnValue().equals(cpputest::extensions::MockNamedValue("")));
-  CHECK(false == actual.returnBoolValue());
-  CHECK(false == actual.returnBoolValueOrDefault(true));
-  CHECK(0 == actual.returnLongIntValue());
-  CHECK(0 == actual.returnUnsignedLongIntValue());
-  CHECK(0 == actual.returnIntValue());
-  CHECK(0 == actual.returnUnsignedLongIntValueOrDefault(1ul));
-  CHECK(0 == actual.returnIntValueOrDefault(1));
-  CHECK(0 == actual.returnLongIntValue());
-  CHECK(0 == actual.returnLongIntValueOrDefault(1l));
-  CHECK(0 == actual.returnLongLongIntValue());
-  CHECK(0 == actual.returnLongLongIntValueOrDefault(1ll));
-  CHECK(0 == actual.returnUnsignedLongLongIntValue());
-  CHECK(0 == actual.returnUnsignedLongLongIntValueOrDefault(1ull));
-  CHECK(0 == actual.returnUnsignedIntValue());
-  CHECK(0 == actual.returnUnsignedIntValueOrDefault(1u));
-  DOUBLES_EQUAL(0.0, actual.returnDoubleValue(), 0.0);
-  DOUBLES_EQUAL(0.0, actual.returnDoubleValueOrDefault(1.0), 0.0);
-  STRCMP_EQUAL("", actual.returnStringValueOrDefault("bla"));
-  STRCMP_EQUAL("", actual.returnStringValue());
-  CHECK(nullptr == actual.returnPointerValue());
+  CHECK_FALSE(actual.has_return_value());
+  CHECK(actual.return_value().equals(cpputest::extensions::MockNamedValue("")));
+  CHECK(false == actual.return_bool_value());
+  CHECK(false == actual.return_bool_value_or_default(true));
+  CHECK(0 == actual.return_long_int_value());
+  CHECK(0 == actual.return_unsigned_long_int_value());
+  CHECK(0 == actual.return_int_value());
+  CHECK(0 == actual.return_unsigned_long_int_value_or_default(1ul));
+  CHECK(0 == actual.return_int_value_or_default(1));
+  CHECK(0 == actual.return_long_int_value());
+  CHECK(0 == actual.return_long_int_value_or_default(1l));
+  CHECK(0 == actual.return_long_long_int_value());
+  CHECK(0 == actual.return_long_long_int_value_or_default(1ll));
+  CHECK(0 == actual.return_unsigned_long_long_int_value());
+  CHECK(0 == actual.return_unsigned_long_long_int_value_or_default(1ull));
+  CHECK(0 == actual.return_unsigned_int_value());
+  CHECK(0 == actual.return_unsigned_int_value_or_default(1u));
+  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
+  DOUBLES_EQUAL(0.0, actual.return_double_value_or_default(1.0), 0.0);
+  STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
+  STRCMP_EQUAL("", actual.return_string_value());
+  CHECK(nullptr == actual.return_pointer_value());
   CHECK(nullptr ==
-        actual.returnPointerValueOrDefault(static_cast<void*>(nullptr)));
-  CHECK(nullptr == actual.returnConstPointerValue());
-  CHECK(nullptr == actual.returnConstPointerValueOrDefault(
+        actual.return_pointer_value_or_default(static_cast<void*>(nullptr)));
+  CHECK(nullptr == actual.return_const_pointer_value());
+  CHECK(nullptr == actual.return_const_pointer_value_or_default(
                        static_cast<const void*>(nullptr)));
-  CHECK(nullptr == actual.returnFunctionPointerValue());
-  CHECK(nullptr == actual.returnFunctionPointerValueOrDefault(
+  CHECK(nullptr == actual.return_function_pointer_value());
+  CHECK(nullptr == actual.return_function_pointer_value_or_default(
                        static_cast<void (*)()>(nullptr)));
 }
 
 TEST(MockCheckedActualCall, MockActualCallTraceClear)
 {
   cpputest::extensions::MockActualCallTrace actual;
-  actual.withName("func");
+  actual.with_name("func");
   actual.clear();
-  STRCMP_EQUAL("", actual.getTraceOutput());
+  STRCMP_EQUAL("", actual.get_trace_output());
 }

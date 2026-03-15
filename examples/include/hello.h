@@ -1,17 +1,17 @@
-#ifndef HELLO_H_
-#define HELLO_H_
+#ifndef INCLUDED_HELLO_H
+#define INCLUDED_HELLO_H
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-  void printHelloWorld(void);
+  void print_hello_world(void);
 
-  extern int (*PrintFormated)(const char*, ...);
+  extern int (*print_formated)(const char*, ...);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /*HELLO_H_*/
+#endif /*INCLUDED_HELLO_H*/

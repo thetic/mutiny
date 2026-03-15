@@ -9,7 +9,7 @@ namespace cpputest {
 TestTerminator::~TestTerminator() {}
 
 void
-NormalTestTerminator::exitCurrentTest() const
+NormalTestTerminator::exit_current_test() const
 {
 #if CPPUTEST_HAVE_EXCEPTIONS
   throw FailedException();
@@ -21,27 +21,27 @@ NormalTestTerminator::exitCurrentTest() const
 NormalTestTerminator::~NormalTestTerminator() {}
 
 void
-TestTerminatorWithoutExceptions::exitCurrentTest() const
+TestTerminatorWithoutExceptions::exit_current_test() const
 {
-  TestLongJmp();
+  test_long_jmp();
 }
 
 TestTerminatorWithoutExceptions::~TestTerminatorWithoutExceptions() {}
 
 void
-CrashingTestTerminator::exitCurrentTest() const
+CrashingTestTerminator::exit_current_test() const
 {
   TestShell::crash();
-  NormalTestTerminator::exitCurrentTest();
+  NormalTestTerminator::exit_current_test();
 }
 
 CrashingTestTerminator::~CrashingTestTerminator() {}
 
 void
-CrashingTestTerminatorWithoutExceptions::exitCurrentTest() const
+CrashingTestTerminatorWithoutExceptions::exit_current_test() const
 {
   TestShell::crash();
-  TestTerminatorWithoutExceptions::exitCurrentTest();
+  TestTerminatorWithoutExceptions::exit_current_test();
 }
 
 CrashingTestTerminatorWithoutExceptions::

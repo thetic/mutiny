@@ -6,8 +6,8 @@
 #if defined(NAN) && defined(INFINITY)
 
 namespace {
-const int failLineNumber = 2;
-const char* failFileName = "fail.cpp";
+const int fail_line_number = 2;
+const char* fail_file_name = "fail.cpp";
 }
 
 TEST_GROUP(TestFailureNaN)
@@ -17,18 +17,18 @@ TEST_GROUP(TestFailureNaN)
   void setup() override
   {
     test = new cpputest::TestShell(
-        "groupname", "testname", failFileName, failLineNumber - 1);
+        "groupname", "testname", fail_file_name, fail_line_number - 1);
   }
   void teardown() override { delete test; }
 };
 #define FAILURE_EQUAL(a, b)                                                    \
-  STRCMP_EQUAL_LOCATION(a, (b).getMessage().c_str(), "", __FILE__, __LINE__)
+  STRCMP_EQUAL_LOCATION(a, (b).get_message().c_str(), "", __FILE__, __LINE__)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       static_cast<double>(NAN),
       2.0,
       3.0,
@@ -42,8 +42,8 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       1.0,
       static_cast<double>(NAN),
       3.0,
@@ -57,8 +57,8 @@ TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       1.0,
       2.0,
       static_cast<double>(NAN),
@@ -72,8 +72,8 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       static_cast<double>(INFINITY),
       2.0,
       3.0,
@@ -86,8 +86,8 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 TEST(TestFailureNaN, DoublesEqualActualIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       1.0,
       static_cast<double>(INFINITY),
       3.0,
@@ -100,8 +100,8 @@ TEST(TestFailureNaN, DoublesEqualActualIsInf)
 TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 {
   cpputest::DoublesEqualFailure f(test,
-      failFileName,
-      failLineNumber,
+      fail_file_name,
+      fail_line_number,
       1.0,
       static_cast<double>(NAN),
       static_cast<double>(INFINITY),

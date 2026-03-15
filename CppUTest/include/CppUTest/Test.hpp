@@ -12,7 +12,7 @@ public:
 
   virtual void setup();
   virtual void teardown();
-  virtual void testBody();
+  virtual void test_body();
 };
 
 } // namespace cpputest

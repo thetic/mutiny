@@ -16,14 +16,14 @@ public:
   MockSupportPlugin(const cpputest::String& name = "MockSupportPLugin");
   virtual ~MockSupportPlugin() override;
 
-  virtual void preTestAction(cpputest::TestShell&,
+  virtual void pre_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override;
-  virtual void postTestAction(cpputest::TestShell&,
+  virtual void post_test_action(cpputest::TestShell&,
       cpputest::TestResult&) override;
 
-  virtual void installComparator(const cpputest::String& name,
+  virtual void install_comparator(const cpputest::String& name,
       MockNamedValueComparator& comparator);
-  virtual void installCopier(const cpputest::String& name,
+  virtual void install_copier(const cpputest::String& name,
       MockNamedValueCopier& copier);
 
   void clear();
