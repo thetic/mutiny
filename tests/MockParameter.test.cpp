@@ -1,8 +1,8 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 TEST_GROUP(MockParameter)
 {
@@ -281,9 +281,9 @@ TEST(MockParameter,
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", static_cast<long>(-1));
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(static_cast<unsigned long>(-1));
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter(
@@ -302,9 +302,9 @@ TEST(MockParameter,
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", static_cast<unsigned long>(-1));
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(static_cast<long>(-1));
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter(
@@ -336,9 +336,9 @@ TEST(MockParameter, doubleParameterNotEqualIfOutsideTolerance)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 100.0);
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(106.0);
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", 100.0, 5.0);
@@ -406,9 +406,9 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToContents)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", mem_buffer1, sizeof(mem_buffer1));
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter(
@@ -429,9 +429,9 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToSize)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", mem_buffer1, sizeof(mem_buffer1));
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter(
@@ -448,9 +448,9 @@ TEST(MockParameter, expectOneStringParameterAndValueFails)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", "string");
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value("different");
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", "string");
@@ -466,9 +466,9 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToParameterName)
   unsigned int value = 7;
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", value);
-  cpputest::MockNamedValue parameter("different");
+  cppmu::MockNamedValue parameter("different");
   parameter.set_value(value);
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", value);
@@ -483,9 +483,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToParameterName)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  cpputest::MockNamedValue parameter("different");
+  cppmu::MockNamedValue parameter("different");
   parameter.set_value(10);
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
@@ -502,9 +502,9 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToValue)
   unsigned int expected_value = actual_value + 1;
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", expected_value);
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(actual_value);
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", expected_value);
@@ -519,9 +519,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToValue)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(8);
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
@@ -536,9 +536,9 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToTypes)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  cpputest::MockNamedValue parameter("parameter");
+  cppmu::MockNamedValue parameter("parameter");
   parameter.set_value("heh");
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
@@ -587,7 +587,7 @@ TEST(MockParameter, calledWithoutParameters)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations);
 
   mock().expect_one_call("foo").with_parameter("p1", 1);
@@ -627,7 +627,7 @@ TEST(MockParameter, ignoreOtherParametersButExpectedParameterDidntHappen)
   expectations.add_function("foo")
       ->with_parameter("p1", 1)
       .ignore_other_parameters();
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations);
 
   mock()
@@ -668,13 +668,13 @@ TEST(MockParameter, ignoreOtherParametersMultipleCallsButOneDidntHappen)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  cpputest::MockCheckedExpectedCall* call = expectations.add_function("boo");
+  cppmu::MockCheckedExpectedCall* call = expectations.add_function("boo");
   call->ignore_other_parameters();
   call->call_was_made(1);
   call->finalize_actual_call_match();
   call->ignore_other_parameters();
   expectations.add_function("boo")->ignore_other_parameters();
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().expect_one_call("boo").ignore_other_parameters();
@@ -691,7 +691,7 @@ TEST(MockParameter, newCallStartsWhileNotAllParametersWerePassed)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations);
 
   mock().expect_one_call("foo").with_parameter("p1", 1);
@@ -741,7 +741,7 @@ TEST(MockParameter, noActualCallForOutputParameter)
 
   expectations.add_function("foo")->with_output_parameter_returning(
       "output", &output, sizeof(output));
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().check_expectations();
@@ -756,7 +756,7 @@ TEST(MockParameter, noActualCallForUnmodifiedOutputParameter)
   mock().expect_one_call("foo").with_unmodified_output_parameter("output");
 
   expectations.add_function("foo")->with_unmodified_output_parameter("output");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().check_expectations();
@@ -773,9 +773,9 @@ TEST(MockParameter, unexpectedOutputParameter)
   mock().actual_call("foo").with_output_parameter("parameterName", &param);
 
   expectations.add_function("foo");
-  cpputest::MockNamedValue parameter("parameterName");
+  cppmu::MockNamedValue parameter("parameterName");
   parameter.set_value(&param);
-  cpputest::MockUnexpectedOutputParameterFailure expected_failure(
+  cppmu::MockUnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().check_expectations();
@@ -794,7 +794,7 @@ TEST(MockParameter, outputParameterMissing)
 
   expectations.add_function("foo")->with_output_parameter_returning(
       "output", &output, sizeof(output));
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations);
 
   mock().check_expectations();

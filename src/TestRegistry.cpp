@@ -1,8 +1,8 @@
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestRegistry::TestRegistry()
   : tests_(nullptr)
@@ -320,4 +320,4 @@ TestRegistry::find_test_with_group(const String& group)
   return nullptr;
 }
 
-} // namespace cpputest
+} // namespace cppmu

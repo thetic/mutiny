@@ -1,7 +1,7 @@
-#include "CppUTest/StringBufferTestOutput.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 StringBufferTestOutput::~StringBufferTestOutput() {}
 
-} // namespace cpputest
+} // namespace cppmu

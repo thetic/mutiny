@@ -1,13 +1,13 @@
-#include "CppUTest/CommandLineArguments.hpp"
+#include "CppMu/CommandLineArguments.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/String.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-class OptionsPlugin : public cpputest::TestPlugin
+class OptionsPlugin : public cppmu::TestPlugin
 {
 public:
-  OptionsPlugin(const cpputest::String& name)
+  OptionsPlugin(const cppmu::String& name)
     : TestPlugin(name)
   {
   }
@@ -17,7 +17,7 @@ public:
 
 TEST_GROUP(CommandLineArguments)
 {
-  cpputest::CommandLineArguments* args;
+  cppmu::CommandLineArguments* args;
   OptionsPlugin* plugin;
 
   void setup() override
@@ -33,7 +33,7 @@ TEST_GROUP(CommandLineArguments)
 
   bool new_argument_parser(int argc, const char* const* argv)
   {
-    args = new cpputest::CommandLineArguments(argc, argv);
+    args = new cppmu::CommandLineArguments(argc, argv);
     return args->parse(plugin);
   }
 };
@@ -148,7 +148,7 @@ TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
   int argc = 4;
   const char* argv[] = { "tests.exe", "-s", "-sg", "group" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
   CHECK_TRUE(args->is_shuffling());
@@ -159,7 +159,7 @@ TEST(CommandLineArguments, setGroupFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-g", "group" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
+  CHECK_EQUAL(cppmu::TestFilter("group"), *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)
@@ -174,8 +174,8 @@ TEST(CommandLineArguments, setCompleteGroupDotNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-t", "group.name" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
+  CHECK_EQUAL(cppmu::TestFilter("group"), *args->get_group_filters());
+  CHECK_EQUAL(cppmu::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilterInvalidArgument)
@@ -190,10 +190,10 @@ TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-st", "group.name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -210,10 +210,10 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xt", "group.name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.invert_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.invert_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -231,11 +231,11 @@ TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "group.name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.strict_matching();
   group_filter.invert_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.strict_matching();
   name_filter.invert_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
@@ -246,7 +246,7 @@ TEST(CommandLineArguments, setGroupFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-ggroup" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("group"), *args->get_group_filters());
+  CHECK_EQUAL(cppmu::TestFilter("group"), *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setStrictGroupFilter)
@@ -254,7 +254,7 @@ TEST(CommandLineArguments, setStrictGroupFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-sg", "group" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
@@ -264,7 +264,7 @@ TEST(CommandLineArguments, setStrictGroupFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-sggroup" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
@@ -274,7 +274,7 @@ TEST(CommandLineArguments, setExcludeGroupFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xg", "group" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.invert_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
@@ -284,7 +284,7 @@ TEST(CommandLineArguments, setExcludeGroupFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xggroup" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.invert_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
@@ -294,7 +294,7 @@ TEST(CommandLineArguments, setExcludeStrictGroupFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xsg", "group" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.invert_matching();
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
@@ -305,7 +305,7 @@ TEST(CommandLineArguments, setExcludeStrictGroupFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xsggroup" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter group_filter("group");
+  cppmu::TestFilter group_filter("group");
   group_filter.invert_matching();
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
@@ -316,7 +316,7 @@ TEST(CommandLineArguments, setNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-n", "name" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
+  CHECK_EQUAL(cppmu::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setNameFilterSameParameter)
@@ -324,7 +324,7 @@ TEST(CommandLineArguments, setNameFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-nname" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::TestFilter("name"), *args->get_name_filters());
+  CHECK_EQUAL(cppmu::TestFilter("name"), *args->get_name_filters());
 }
 
 TEST(CommandLineArguments, setStrictNameFilter)
@@ -332,7 +332,7 @@ TEST(CommandLineArguments, setStrictNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-sn", "name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -342,7 +342,7 @@ TEST(CommandLineArguments, setStrictNameFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-snname" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -352,7 +352,7 @@ TEST(CommandLineArguments, setExcludeNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xn", "name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.invert_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -362,7 +362,7 @@ TEST(CommandLineArguments, setExcludeNameFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xnname" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.invert_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
@@ -372,7 +372,7 @@ TEST(CommandLineArguments, setExcludeStrictNameFilter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xsn", "name" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.invert_matching();
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
@@ -383,7 +383,7 @@ TEST(CommandLineArguments, setExcludeStrictNameFilterSameParameter)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-xsnname" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("name");
+  cppmu::TestFilter name_filter("name");
   name_filter.invert_matching();
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
@@ -395,8 +395,8 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutput)
   const char* argv[] = { "tests.exe", "TEST(testgroup, testname) - stuff" };
   CHECK(new_argument_parser(argc, argv));
 
-  cpputest::TestFilter name_filter("testname");
-  cpputest::TestFilter group_filter("testgroup");
+  cppmu::TestFilter name_filter("testname");
+  cppmu::TestFilter group_filter("testgroup");
   name_filter.strict_matching();
   group_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
@@ -410,8 +410,8 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
     "IGNORE_TEST(testgroup, testname) - stuff" };
   CHECK(new_argument_parser(argc, argv));
 
-  cpputest::TestFilter name_filter("testname");
-  cpputest::TestFilter group_filter("testgroup");
+  cppmu::TestFilter name_filter("testname");
+  cppmu::TestFilter group_filter("testgroup");
   name_filter.strict_matching();
   group_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
@@ -514,10 +514,9 @@ TEST(CommandLineArguments, pluginKnowsOption)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-pPluginOption" };
-  cpputest::TestRegistry::get_current_registry()->install_plugin(plugin);
+  cppmu::TestRegistry::get_current_registry()->install_plugin(plugin);
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestRegistry::get_current_registry()->remove_plugin_by_name(
-      "options");
+  cppmu::TestRegistry::get_current_registry()->remove_plugin_by_name("options");
 }
 
 TEST(CommandLineArguments, checkDefaultArguments)
@@ -530,7 +529,7 @@ TEST(CommandLineArguments, checkDefaultArguments)
   CHECK(nullptr == args->get_group_filters());
   CHECK(nullptr == args->get_name_filters());
   CHECK(args->is_eclipse_output());
-  CHECK(cpputest::String("") == args->get_package_name());
+  CHECK(cppmu::String("") == args->get_package_name());
   CHECK(!args->is_crashing_on_fail());
   CHECK(args->is_rethrowing_exceptions());
 }
@@ -545,7 +544,7 @@ TEST(CommandLineArguments, checkContinuousIntegrationMode)
   CHECK(nullptr == args->get_group_filters());
   CHECK(nullptr == args->get_name_filters());
   CHECK(args->is_eclipse_output());
-  CHECK(cpputest::String("") == args->get_package_name());
+  CHECK(cppmu::String("") == args->get_package_name());
   CHECK(!args->is_crashing_on_fail());
   CHECK_FALSE(args->is_rethrowing_exceptions());
 }
@@ -555,7 +554,7 @@ TEST(CommandLineArguments, setPackageName)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-k", "package" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::String("package"), args->get_package_name());
+  CHECK_EQUAL(cppmu::String("package"), args->get_package_name());
 }
 
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
@@ -572,9 +571,9 @@ TEST(CommandLineArguments, lotsOfGroupsAndTests)
     "-sggroup4",
     "-sntest5" };
   CHECK(new_argument_parser(argc, argv));
-  cpputest::TestFilter name_filter("test1");
+  cppmu::TestFilter name_filter("test1");
   name_filter.invert_matching();
-  cpputest::TestFilter group_filter("group1");
+  cppmu::TestFilter group_filter("group1");
   group_filter.strict_matching();
   CHECK_EQUAL(name_filter,
       *args->get_name_filters()
@@ -591,7 +590,7 @@ TEST(CommandLineArguments, lastParameterFieldMissing)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-k" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cpputest::String(""), args->get_package_name());
+  CHECK_EQUAL(cppmu::String(""), args->get_package_name());
 }
 
 TEST(CommandLineArguments, setOptRun)

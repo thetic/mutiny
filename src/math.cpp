@@ -1,4 +1,4 @@
-#include "CppUTest/math.hpp"
+#include "CppMu/math.hpp"
 
 #include <math.h>
 
@@ -30,9 +30,9 @@ is_inf_impl(double d)
 
 } // namespace
 
-namespace cpputest {
+namespace cppmu {
 
 int (*is_nan)(double) = is_nan_impl;
 int (*is_inf)(double) = is_inf_impl;
 
-} // namespace cpputest
+} // namespace cppmu

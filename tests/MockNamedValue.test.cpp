@@ -1,22 +1,22 @@
-#include "CppUTest/MockNamedValue.hpp"
+#include "CppMu/MockNamedValue.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
 TEST_GROUP(ComparatorsAndCopiersRepository)
 {};
 
-class MyComparator : public cpputest::MockNamedValueComparator
+class MyComparator : public cppmu::MockNamedValueComparator
 {
 public:
   MyComparator() {}
   virtual ~MyComparator() override {}
 
   virtual bool is_equal(const void*, const void*) override { return false; }
-  virtual cpputest::String value_to_string(const void*) override { return ""; }
+  virtual cppmu::String value_to_string(const void*) override { return ""; }
 };
 
-class MyCopier : public cpputest::MockNamedValueCopier
+class MyCopier : public cppmu::MockNamedValueCopier
 {
 public:
   MyCopier() {}
@@ -28,7 +28,7 @@ public:
 TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
 {
   MyCopier copier;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
   POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
   repository.clear();
@@ -39,7 +39,7 @@ TEST(ComparatorsAndCopiersRepository,
 {
   MyComparator comparator;
   MyCopier copier;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
   repository.install_comparator("MyType", comparator);
   POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("MyType"));
@@ -52,8 +52,8 @@ TEST(ComparatorsAndCopiersRepository,
 {
   MyComparator comparator;
   MyCopier copier;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository source;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository target;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository source;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository target;
 
   source.install_copier("MyType", copier);
   source.install_comparator("MyType", comparator);
@@ -69,8 +69,8 @@ TEST(ComparatorsAndCopiersRepository,
 
 TEST_GROUP(MockNamedValue)
 {
-  cpputest::MockNamedValue* value;
-  void setup() override { value = new cpputest::MockNamedValue("param"); }
+  cppmu::MockNamedValue* value;
+  void setup() override { value = new cppmu::MockNamedValue("param"); }
 
   void teardown() override { delete value; }
 };
@@ -78,7 +78,7 @@ TEST_GROUP(MockNamedValue)
 TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->set_value(0.2);
-  DOUBLES_EQUAL(cpputest::MockNamedValue::default_double_tolerance,
+  DOUBLES_EQUAL(cppmu::MockNamedValue::default_double_tolerance,
       value->get_double_tolerance(),
       0.0);
 }
@@ -94,7 +94,7 @@ TEST(MockNamedValue, GivenToleranceUsed)
 TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 {
   value->set_value(5.0, 0.4);
-  cpputest::MockNamedValue other("param2");
+  cppmu::MockNamedValue other("param2");
   other.set_value(5.3);
 
   CHECK_TRUE(value->equals(other));
@@ -103,7 +103,7 @@ TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 TEST(MockNamedValue, DoublesNotEqualIfOutsideTolerance)
 {
   value->set_value(5.0, 0.4);
-  cpputest::MockNamedValue other("param2");
+  cppmu::MockNamedValue other("param2");
   other.set_value(5.5);
 
   CHECK_FALSE(value->equals(other));

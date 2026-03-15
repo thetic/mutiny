@@ -1,9 +1,9 @@
-#include "CppUTest/MockExpectedCallsList.hpp"
+#include "CppMu/MockExpectedCallsList.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockExpectedCallsList::MockExpectedCallsList()
   : head_(nullptr)
@@ -397,4 +397,4 @@ MockExpectedCallsList::
   return false;
 }
 
-} // namespace cpputest
+} // namespace cppmu

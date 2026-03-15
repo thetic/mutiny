@@ -1,6 +1,6 @@
 #include "hello.h"
 
-#include "CppUTest/CppUTest.h"
+#include "CppMu/CppMu.h"
 
 static const char* output_ptr;
 static int (*saved_print)(const char*, ...);

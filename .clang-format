@@ -10,8 +10,8 @@ IncludeCategories:
   - Regex:           '^"[^/"]*"$'
     Priority:        1
     SortPriority:    1
-  # 2. CppUTest core includes
-  - Regex:           '^"CppUTest/'
+  # 2. CppMu core includes
+  - Regex:           '^"CppMu/'
     Priority:        2
     SortPriority:    2
   # 5. System/POSIX headers (angle-bracket with subdirectory path)

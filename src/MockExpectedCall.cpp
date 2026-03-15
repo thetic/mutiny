@@ -1,9 +1,9 @@
-#include "CppUTest/MockExpectedCall.hpp"
+#include "CppMu/MockExpectedCall.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockExpectedCall::MockExpectedCall() {}
 
 MockExpectedCall::~MockExpectedCall() {}
 
-} // namespace cpputest
+} // namespace cppmu

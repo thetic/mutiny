@@ -1,10 +1,10 @@
-#include "CppUTest/Test.hpp"
+#include "CppMu/Test.hpp"
 
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestJumpBuffer.hpp"
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestJumpBuffer.hpp"
+#include "CppMu/TestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 namespace {
 void
@@ -30,7 +30,7 @@ Test::Test() {}
 
 Test::~Test() {}
 
-#if CPPUTEST_HAVE_EXCEPTIONS
+#if CPPMU_HAVE_EXCEPTIONS
 
 void
 Test::run()
@@ -50,7 +50,7 @@ Test::run()
   } catch (FailedException&) {
     test_restore_jump_buffer();
   }
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
     test_restore_jump_buffer();
@@ -74,7 +74,7 @@ Test::run()
   } catch (FailedException&) {
     test_restore_jump_buffer();
   }
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
     test_restore_jump_buffer();
@@ -119,4 +119,4 @@ Test::teardown()
 {
 }
 
-} // namespace cpputest
+} // namespace cppmu

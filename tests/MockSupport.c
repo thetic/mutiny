@@ -1,6 +1,6 @@
 #include "MockSupport.h"
 
-#include "CppUTest/MockSupport.h"
+#include "CppMu/MockSupport.h"
 
 static int
 type_name_is_equal(const void* object1, const void* object2)

@@ -1,26 +1,17 @@
 cmake_minimum_required(VERSION 4.0)
 
-project(CppUTest
-    VERSION 4.0
+project(CppMu
+    VERSION 0.1
 )
-
-###############
-# Conan support
-###############
-if (EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-    message(STATUS "conan_basic_setup()")
-    conan_basic_setup()
-endif()
 
 include(CTest)
 
 include(CMakeDependentOption)
-option(CPPUTEST_USE_STD_CPP_LIB "Use the standard C++ library" ON)
-cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
+option(CPPMU_USE_STD_CPP_LIB "Use the standard C++ library" ON)
+cmake_dependent_option(CPPMU_BUILD_TESTING "Compile and make tests for CppMu"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
-cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"
-    ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_USE_STD_CPP_LIB" OFF)
+cmake_dependent_option(CPPMU_EXAMPLES "Compile and make examples?"
+    ${PROJECT_IS_TOP_LEVEL} "CPPMU_USE_STD_CPP_LIB" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
@@ -30,15 +21,15 @@ endif()
 
 include(GNUInstallDirs)
 
-add_library(CppUTest)
+add_library(CppMu)
 
-target_sources(CppUTest
+target_sources(CppMu
     PRIVATE
         src/CommandLineArguments.cpp
         src/CommandLineTestRunner.cpp
         src/CompositeTestOutput.cpp
         src/ConsoleTestOutput.cpp
-        src/CppUTest.cpp
+        src/CppMu.cpp
         src/ExecFunctionTestShell.cpp
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
@@ -80,89 +71,89 @@ target_sources(CppUTest
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
-            include/CppUTest/CommandLineArguments.hpp
-            include/CppUTest/CommandLineTestRunner.hpp
-            include/CppUTest/CppUTest.h
-            include/CppUTest/CppUTest.hpp
-            include/CppUTest/ExpectFailTestShell.hpp
-            include/CppUTest/IgnoredTestShell.hpp
-            include/CppUTest/MockActualCall.hpp
-            include/CppUTest/MockExpectedCall.hpp
-            include/CppUTest/MockFailure.hpp
-            include/CppUTest/MockNamedValue.hpp
-            include/CppUTest/MockNamedValueComparator.hpp
-            include/CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp
-            include/CppUTest/MockNamedValueCopier.hpp
-            include/CppUTest/MockSupport.h
-            include/CppUTest/MockSupport.hpp
-            include/CppUTest/MockSupportPlugin.hpp
-            include/CppUTest/OrderedTest.hpp
-            include/CppUTest/SetPointerPlugin.hpp
-            include/CppUTest/String.hpp
-            include/CppUTest/StringBufferTestOutput.hpp
-            include/CppUTest/Test.hpp
-            include/CppUTest/TestFailure.hpp
-            include/CppUTest/TestFilter.hpp
-            include/CppUTest/TestInstaller.hpp
-            include/CppUTest/TestOutput.hpp
-            include/CppUTest/TestPlugin.hpp
-            include/CppUTest/TestRegistry.hpp
-            include/CppUTest/TestResult.hpp
-            include/CppUTest/TestShell.hpp
-            include/CppUTest/TestShellPointerArray.hpp
-            include/CppUTest/TestTerminator.hpp
-            include/CppUTest/TestTestingFixture.hpp
+            include/CppMu/CommandLineArguments.hpp
+            include/CppMu/CommandLineTestRunner.hpp
+            include/CppMu/CppMu.h
+            include/CppMu/CppMu.hpp
+            include/CppMu/ExpectFailTestShell.hpp
+            include/CppMu/IgnoredTestShell.hpp
+            include/CppMu/MockActualCall.hpp
+            include/CppMu/MockExpectedCall.hpp
+            include/CppMu/MockFailure.hpp
+            include/CppMu/MockNamedValue.hpp
+            include/CppMu/MockNamedValueComparator.hpp
+            include/CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp
+            include/CppMu/MockNamedValueCopier.hpp
+            include/CppMu/MockSupport.h
+            include/CppMu/MockSupport.hpp
+            include/CppMu/MockSupportPlugin.hpp
+            include/CppMu/OrderedTest.hpp
+            include/CppMu/SetPointerPlugin.hpp
+            include/CppMu/String.hpp
+            include/CppMu/StringBufferTestOutput.hpp
+            include/CppMu/Test.hpp
+            include/CppMu/TestFailure.hpp
+            include/CppMu/TestFilter.hpp
+            include/CppMu/TestInstaller.hpp
+            include/CppMu/TestOutput.hpp
+            include/CppMu/TestPlugin.hpp
+            include/CppMu/TestRegistry.hpp
+            include/CppMu/TestResult.hpp
+            include/CppMu/TestShell.hpp
+            include/CppMu/TestShellPointerArray.hpp
+            include/CppMu/TestTerminator.hpp
+            include/CppMu/TestTestingFixture.hpp
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS src/include
         FILES
-            src/include/CppUTest/CompositeTestOutput.hpp
-            src/include/CppUTest/ConsoleTestOutput.hpp
-            src/include/CppUTest/ExecFunctionTestShell.hpp
-            src/include/CppUTest/JUnitTestOutput.hpp
-            src/include/CppUTest/math.hpp
-            src/include/CppUTest/MockActualCallTrace.hpp
-            src/include/CppUTest/MockCheckedActualCall.hpp
-            src/include/CppUTest/MockCheckedExpectedCall.hpp
-            src/include/CppUTest/MockExpectedCallsList.hpp
-            src/include/CppUTest/MockIgnoredActualCall.hpp
-            src/include/CppUTest/MockIgnoredExpectedCall.hpp
-            src/include/CppUTest/MockNamedValueList.hpp
-            src/include/CppUTest/StringCollection.hpp
-            src/include/CppUTest/TeamCityTestOutput.hpp
-            src/include/CppUTest/TestJumpBuffer.hpp
-            src/include/CppUTest/time.hpp
+            src/include/CppMu/CompositeTestOutput.hpp
+            src/include/CppMu/ConsoleTestOutput.hpp
+            src/include/CppMu/ExecFunctionTestShell.hpp
+            src/include/CppMu/JUnitTestOutput.hpp
+            src/include/CppMu/math.hpp
+            src/include/CppMu/MockActualCallTrace.hpp
+            src/include/CppMu/MockCheckedActualCall.hpp
+            src/include/CppMu/MockCheckedExpectedCall.hpp
+            src/include/CppMu/MockExpectedCallsList.hpp
+            src/include/CppMu/MockIgnoredActualCall.hpp
+            src/include/CppMu/MockIgnoredExpectedCall.hpp
+            src/include/CppMu/MockNamedValueList.hpp
+            src/include/CppMu/StringCollection.hpp
+            src/include/CppMu/TeamCityTestOutput.hpp
+            src/include/CppMu/TestJumpBuffer.hpp
+            src/include/CppMu/time.hpp
 )
 
 include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
-check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPUTEST_HAVE_GETTIMEOFDAY)
+check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPMU_HAVE_GETTIMEOFDAY)
 
-target_compile_features(CppUTest
+target_compile_features(CppMu
     INTERFACE c_std_11
     PUBLIC cxx_std_11
 )
 
-target_compile_definitions(CppUTest
+target_compile_definitions(CppMu
     PUBLIC
-        CPPUTEST_USE_STD_CPP_LIB=$<BOOL:${CPPUTEST_USE_STD_CPP_LIB}>
+        CPPMU_USE_STD_CPP_LIB=$<BOOL:${CPPMU_USE_STD_CPP_LIB}>
     PRIVATE
-        $<$<BOOL:${CPPUTEST_HAVE_GETTIMEOFDAY}>:CPPUTEST_HAVE_GETTIMEOFDAY>
+        $<$<BOOL:${CPPMU_HAVE_GETTIMEOFDAY}>:CPPMU_HAVE_GETTIMEOFDAY>
 )
 
-add_library(CppUTest::CppUTest ALIAS CppUTest)
+add_library(CppMu::CppMu ALIAS CppMu)
 
-if (CPPUTEST_BUILD_TESTING)
+if (CPPMU_BUILD_TESTING)
     add_subdirectory(tests)
 endif ()
 
-if (CPPUTEST_EXAMPLES)
+if (CPPMU_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
     install(
-        TARGETS CppUTest
-        EXPORT CppUTestTargets
+        TARGETS CppMu
+        EXPORT CppMuTargets
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
@@ -175,44 +166,44 @@ if(PROJECT_IS_TOP_LEVEL)
     set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
     set(MODULES_DIR "${PROJECT_SOURCE_DIR}/cmake/Modules")
 
-    set(CPPUTEST_CONFIG_DEST "${LIB_INSTALL_DIR}/CppUTest/cmake")
+    set(CPPMU_CONFIG_DEST "${LIB_INSTALL_DIR}/CppMu/cmake")
 
     # CMake package config files (install tree).
-    configure_package_config_file(cmake/CppUTestConfig.cmake.install.in
-        ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfig.cmake
-        INSTALL_DESTINATION "${CPPUTEST_CONFIG_DEST}"
+    configure_package_config_file(cmake/CppMuConfig.cmake.install.in
+        ${CMAKE_CURRENT_BINARY_DIR}/install/CppMuConfig.cmake
+        INSTALL_DESTINATION "${CPPMU_CONFIG_DEST}"
         PATH_VARS INCLUDE_INSTALL_DIR LIB_INSTALL_DIR
     )
     write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfigVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/install/CppMuConfigVersion.cmake
         COMPATIBILITY SameMajorVersion
     )
     install(
         FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfig.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfigVersion.cmake
-        DESTINATION "${CPPUTEST_CONFIG_DEST}"
+            ${CMAKE_CURRENT_BINARY_DIR}/install/CppMuConfig.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/install/CppMuConfigVersion.cmake
+        DESTINATION "${CPPMU_CONFIG_DEST}"
     )
     install(
-        EXPORT CppUTestTargets
-        NAMESPACE CppUTest::
-        DESTINATION "${CPPUTEST_CONFIG_DEST}"
+        EXPORT CppMuTargets
+        NAMESPACE CppMu::
+        DESTINATION "${CPPMU_CONFIG_DEST}"
     )
     install(
         FILES
-            ${PROJECT_SOURCE_DIR}/cmake/Modules/CppUTest.cmake
-            ${PROJECT_SOURCE_DIR}/cmake/Modules/_CppUTestDiscovery.cmake
-        DESTINATION "${CPPUTEST_CONFIG_DEST}/Modules"
+            ${PROJECT_SOURCE_DIR}/cmake/Modules/CppMu.cmake
+            ${PROJECT_SOURCE_DIR}/cmake/Modules/_CppMuDiscovery.cmake
+        DESTINATION "${CPPMU_CONFIG_DEST}/Modules"
     )
 
     # CMake package config files (build tree).
-    configure_package_config_file(cmake/CppUTestConfig.cmake.build.in
-        ${PROJECT_BINARY_DIR}/CppUTestConfig.cmake
+    configure_package_config_file(cmake/CppMuConfig.cmake.build.in
+        ${PROJECT_BINARY_DIR}/CppMuConfig.cmake
         INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
         PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR MODULES_DIR
     )
     write_basic_package_version_file(
-        ${PROJECT_BINARY_DIR}/CppUTestConfigVersion.cmake
+        ${PROJECT_BINARY_DIR}/CppMuConfigVersion.cmake
         COMPATIBILITY SameMajorVersion
     )
 endif()

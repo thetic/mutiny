@@ -1,8 +1,8 @@
-#include "CppUTest/TestPlugin.hpp"
+#include "CppMu/TestPlugin.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestPlugin::TestPlugin(const String& name)
   : next_(NullTestPlugin::instance())
@@ -133,4 +133,4 @@ NullTestPlugin::run_all_post_test_action(TestShell&, TestResult&)
 {
 }
 
-} // namespace cpputest
+} // namespace cppmu

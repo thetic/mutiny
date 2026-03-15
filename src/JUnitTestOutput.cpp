@@ -1,12 +1,12 @@
-#include "CppUTest/JUnitTestOutput.hpp"
+#include "CppMu/JUnitTestOutput.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/time.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 struct JUnitTestCaseResultNode
 {
@@ -56,7 +56,7 @@ struct JUnitTestGroupResult
 struct JUnitTestOutputImpl
 {
   JUnitTestGroupResult results;
-  cpputest::File file;
+  cppmu::File file;
   String package;
   String std_output;
 };
@@ -126,8 +126,7 @@ JUnitTestOutput::print_current_test_started(const TestShell& test)
 {
   impl_->results.test_count++;
   impl_->results.group = test.get_group();
-  impl_->results.start_time =
-      static_cast<size_t>(cpputest::get_time_in_millis());
+  impl_->results.start_time = static_cast<size_t>(cppmu::get_time_in_millis());
 
   if (impl_->results.tail == nullptr) {
     impl_->results.head = impl_->results.tail = new JUnitTestCaseResultNode;
@@ -146,7 +145,7 @@ JUnitTestOutput::print_current_test_started(const TestShell& test)
 String
 JUnitTestOutput::create_file_name(const String& group)
 {
-  String file_name = "cpputest_";
+  String file_name = "cppmu_";
   if (!impl_->package.empty()) {
     file_name += impl_->package;
     file_name += "_";
@@ -193,7 +192,7 @@ JUnitTestOutput::write_test_suite_summary()
       static_cast<int>(impl_->results.test_count),
       static_cast<int>(impl_->results.group_exec_time / 1000),
       static_cast<int>(impl_->results.group_exec_time % 1000),
-      cpputest::get_time_string());
+      cppmu::get_time_string());
   write_to_file(buf.c_str());
 }
 
@@ -321,19 +320,19 @@ JUnitTestOutput::print_failure(const TestFailure& failure)
 void
 JUnitTestOutput::open_file_for_write(const String& file_name)
 {
-  impl_->file = cpputest::f_open(file_name.c_str(), "w");
+  impl_->file = cppmu::f_open(file_name.c_str(), "w");
 }
 
 void
 JUnitTestOutput::write_to_file(const String& buffer)
 {
-  cpputest::f_puts(buffer.c_str(), impl_->file);
+  cppmu::f_puts(buffer.c_str(), impl_->file);
 }
 
 void
 JUnitTestOutput::close_file()
 {
-  cpputest::f_close(impl_->file);
+  cppmu::f_close(impl_->file);
 }
 
-} // namespace cpputest
+} // namespace cppmu

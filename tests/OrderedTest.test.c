@@ -1,6 +1,6 @@
 #include "OrderedTest.h"
 
-#include "CppUTest/CppUTest.h"
+#include "CppMu/CppMu.h"
 
 TEST_C(OrderedTestC, Test11)
 {

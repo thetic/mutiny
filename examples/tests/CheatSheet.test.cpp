@@ -1,4 +1,4 @@
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
 namespace {
 void (*real_one)();
@@ -15,7 +15,7 @@ TEST_GROUP(CheatSheet)
   void setup() override
   {
     /* Set method real_one to stub. Automatically restore in teardown */
-    UT_PTR_SET(real_one, stub);
+    CPPMU_PTR_SET(real_one, stub);
   }
 
   /* Declare a teardown method for the test group. Optional */

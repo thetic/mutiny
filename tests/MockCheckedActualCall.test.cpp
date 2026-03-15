@@ -1,19 +1,19 @@
-#include "CppUTest/MockCheckedActualCall.hpp"
+#include "CppMu/MockCheckedActualCall.hpp"
 
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockActualCallTrace.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
-#include "CppUTest/MockExpectedCallsList.hpp"
-#include "CppUTest/MockFailure.hpp"
-#include "CppUTest/MockIgnoredActualCall.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockActualCallTrace.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockExpectedCallsList.hpp"
+#include "CppMu/MockFailure.hpp"
+#include "CppMu/MockIgnoredActualCall.hpp"
 
 TEST_GROUP(MockCheckedActualCall)
 {
   MockExpectedCallsListForTest::MockExpectedCallsList* empty_list;
   MockExpectedCallsListForTest::MockExpectedCallsList* list;
-  cpputest::MockFailureReporter* reporter;
+  cppmu::MockFailureReporter* reporter;
 
   void setup() override
   {
@@ -35,30 +35,30 @@ TEST_GROUP(MockCheckedActualCall)
 
 TEST(MockCheckedActualCall, unExpectedCall)
 {
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected");
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
 {
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").with_parameter("bar", 0);
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
 {
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").with_output_parameter("bar", nullptr);
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -67,10 +67,10 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
 {
   int object = 0;
 
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").on_object(&object);
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 
@@ -81,35 +81,35 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
 TEST(MockCheckedActualCall,
     actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("noreturn").with_call_order(0).return_value();
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "noreturn", *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, unExpectedParameterName)
 {
-  cpputest::MockCheckedExpectedCall call1;
+  cppmu::MockCheckedExpectedCall call1;
   call1.with_name("func");
   list->add_expected_call(&call1);
 
-  cpputest::MockCheckedActualCall actual_call(1, reporter, *list);
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_parameter("integer", 1);
 
-  cpputest::MockNamedValue parameter("integer");
+  cppmu::MockNamedValue parameter("integer");
   parameter.set_value(1);
 
-  cpputest::MockUnexpectedInputParameterFailure expected_failure(
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "func", parameter, *list);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
 TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 {
-  auto* call1 = new cpputest::MockCheckedExpectedCall();
-  auto* call2 = new cpputest::MockCheckedExpectedCall();
+  auto* call1 = new cppmu::MockCheckedExpectedCall();
+  auto* call2 = new cppmu::MockCheckedExpectedCall();
   call1->with_name("func");
   call2->with_name("func");
   list->add_expected_call(call1);
@@ -117,13 +117,13 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 
   LONGS_EQUAL(2, list->amount_of_unfulfilled_expectations());
 
-  cpputest::MockCheckedActualCall actual_call1(1, reporter, *list);
+  cppmu::MockCheckedActualCall actual_call1(1, reporter, *list);
   actual_call1.with_name("func");
   actual_call1.check_expectations();
 
   LONGS_EQUAL(1, list->amount_of_unfulfilled_expectations());
 
-  cpputest::MockCheckedActualCall actual_call2(2, reporter, *list);
+  cppmu::MockCheckedActualCall actual_call2(2, reporter, *list);
   actual_call2.with_name("func");
   actual_call2.check_expectations();
 
@@ -134,7 +134,7 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 
 TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
 {
-  cpputest::MockIgnoredActualCall actual;
+  cppmu::MockIgnoredActualCall actual;
   actual.with_name("func");
   actual.with_call_order(1);
 
@@ -169,7 +169,7 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
         actual.return_function_pointer_value_or_default(
             reinterpret_cast<void (*)()>(0x1)));
   CHECK_FALSE(actual.has_return_value());
-  CHECK(actual.return_value().equals(cpputest::MockNamedValue("")));
+  CHECK(actual.return_value().equals(cppmu::MockNamedValue("")));
 }
 
 TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
@@ -178,7 +178,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   const int const_value = 1;
   const unsigned char mem_buffer[] = { 0xFE, 0x15 };
   auto function_value = reinterpret_cast<void (*)()>(0xDEAD);
-  cpputest::MockActualCallTrace actual;
+  cppmu::MockActualCallTrace actual;
   actual.with_name("func");
   actual.with_call_order(1);
   actual.on_object(&value);
@@ -200,10 +200,10 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
       "mem_buffer", mem_buffer, sizeof(mem_buffer));
   actual.with_parameter_of_type("int", "named_type", &const_value);
 
-  cpputest::String expected_string("\nFunction name:func");
+  cppmu::String expected_string("\nFunction name:func");
   expected_string += " withCallOrder:1";
   expected_string += " onObject:0x";
-  expected_string += cpputest::hex_string_from(&value);
+  expected_string += cppmu::hex_string_from(&value);
   expected_string += " bool:true";
   expected_string += " unsigned_int:1 (0x1)";
   expected_string += " unsigned_long:1 (0x1)";
@@ -211,18 +211,18 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expected_string += " long_long_int:1 (0x1)";
   expected_string += " unsigned_long_long_int:1 (0x1)";
   expected_string += " pointer:0x";
-  expected_string += cpputest::hex_string_from(&value);
+  expected_string += cppmu::hex_string_from(&value);
   expected_string += " const_pointer:0x";
-  expected_string += cpputest::hex_string_from(&const_value);
+  expected_string += cppmu::hex_string_from(&const_value);
   expected_string += " function_pointer:0x";
-  expected_string += cpputest::hex_string_from(function_value);
+  expected_string += cppmu::hex_string_from(function_value);
   expected_string += " mem_buffer:Size = 2 | HexContents = FE 15";
   expected_string += " int named_type:0x";
-  expected_string += cpputest::hex_string_from(&const_value);
+  expected_string += cppmu::hex_string_from(&const_value);
   STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
   CHECK_FALSE(actual.has_return_value());
-  CHECK(actual.return_value().equals(cpputest::MockNamedValue("")));
+  CHECK(actual.return_value().equals(cppmu::MockNamedValue("")));
   CHECK(false == actual.return_bool_value());
   CHECK(false == actual.return_bool_value_or_default(true));
   CHECK(0 == actual.return_long_int_value());
@@ -255,7 +255,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 
 TEST(MockCheckedActualCall, MockActualCallTraceClear)
 {
-  cpputest::MockActualCallTrace actual;
+  cppmu::MockActualCallTrace actual;
   actual.with_name("func");
   actual.clear();
   STRCMP_EQUAL("", actual.get_trace_output());

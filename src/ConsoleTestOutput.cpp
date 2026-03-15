@@ -1,13 +1,13 @@
-#include "CppUTest/ConsoleTestOutput.hpp"
+#include "CppMu/ConsoleTestOutput.hpp"
 
 #include <stdio.h>
 
-namespace cpputest {
+namespace cppmu {
 
 void
 ConsoleTestOutput::print_buffer(const char* s)
 {
-  cpputest::f_puts(s, cpputest::std_out);
+  cppmu::f_puts(s, cppmu::std_out);
   flush();
 }
 
@@ -17,4 +17,4 @@ ConsoleTestOutput::flush()
   fflush(stdout);
 }
 
-} // namespace cpputest
+} // namespace cppmu

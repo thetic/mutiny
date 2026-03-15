@@ -1,10 +1,10 @@
-#include "CppUTest/TeamCityTestOutput.hpp"
+#include "CppMu/TeamCityTestOutput.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/time.hpp"
 
 namespace {
-class TeamCityOutputToBuffer : public cpputest::TeamCityTestOutput
+class TeamCityOutputToBuffer : public cppmu::TeamCityTestOutput
 {
 public:
   explicit TeamCityOutputToBuffer() {}
@@ -15,10 +15,10 @@ public:
 
   void flush() override { output_ = ""; }
 
-  const cpputest::String& get_output() { return output_; }
+  const cppmu::String& get_output() { return output_; }
 
 private:
-  cpputest::String output_;
+  cppmu::String output_;
 };
 
 unsigned long millis_time;
@@ -33,25 +33,25 @@ mock_get_time_in_millis()
 
 TEST_GROUP(TeamCityTestOutput)
 {
-  cpputest::TeamCityTestOutput* tcout;
+  cppmu::TeamCityTestOutput* tcout;
   TeamCityOutputToBuffer* mock;
-  cpputest::TestShell* tst;
-  cpputest::TestFailure *f, *f2, *f3;
-  cpputest::TestResult* result;
+  cppmu::TestShell* tst;
+  cppmu::TestFailure *f, *f2, *f3;
+  cppmu::TestResult* result;
 
   void setup() override
   {
     mock = new TeamCityOutputToBuffer();
     tcout = mock;
-    tst = new cpputest::TestShell("group", "test", "file", 10);
-    f = new cpputest::TestFailure(tst, "failfile", 20, "failure message");
-    f2 = new cpputest::TestFailure(tst, "file", 20, "message");
-    f3 = new cpputest::TestFailure(
+    tst = new cppmu::TestShell("group", "test", "file", 10);
+    f = new cppmu::TestFailure(tst, "failfile", 20, "failure message");
+    f2 = new cppmu::TestFailure(tst, "file", 20, "message");
+    f3 = new cppmu::TestFailure(
         tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
-    result = new cpputest::TestResult(*mock);
+    result = new cppmu::TestResult(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
-    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
+    CPPMU_PTR_SET(cppmu::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -115,7 +115,7 @@ TEST(TeamCityTestOutput, PrintTestIgnored)
                          "##teamcity[testIgnored name='test']\n"
                          "##teamcity[testFinished name='test' duration='41']\n";
 
-  auto* itst = new cpputest::IgnoredTestShell("group", "test", "file", 10);
+  auto* itst = new cppmu::IgnoredTestShell("group", "test", "file", 10);
   result->current_test_started(itst);
   millis_time = 41;
   result->current_test_ended(itst);
@@ -188,7 +188,7 @@ TEST(TeamCityTestOutput, TestNameEscaped_End)
 
 TEST(TeamCityTestOutput, TestNameEscaped_Ignore)
 {
-  cpputest::IgnoredTestShell itst("group", "'[]\n\r", "file", 10);
+  cppmu::IgnoredTestShell itst("group", "'[]\n\r", "file", 10);
   result->current_test_started(&itst);
   const char* expected = "##teamcity[testStarted name='|'|[|]|n|r']\n"
                          "##teamcity[testIgnored name='|'|[|]|n|r']\n";
@@ -198,7 +198,7 @@ TEST(TeamCityTestOutput, TestNameEscaped_Ignore)
 TEST(TeamCityTestOutput, TestNameEscaped_Fail)
 {
   tst->set_test_name("'[]\n\r");
-  cpputest::TestFailure fail(tst, "failfile", 20, "failure message");
+  cppmu::TestFailure fail(tst, "failfile", 20, "failure message");
   tcout->print_failure(fail);
   const char* expected = "##teamcity[testFailed name='|'|[|]|n|r' "
                          "message='TEST failed (file:10): failfile:20' "

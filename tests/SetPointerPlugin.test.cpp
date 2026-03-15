@@ -1,9 +1,9 @@
-#include "CppUTest/SetPointerPlugin.hpp"
+#include "CppMu/SetPointerPlugin.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestRegistry.hpp"
 
 namespace {
 void
@@ -33,35 +33,35 @@ double orig_double = 3.0;
 double* orig_double_ptr = &orig_double;
 double stub_double = 4.0;
 
-class SetDoublePointerUtest : public cpputest::Test
+class SetDoublePointerGroup : public cppmu::Test
 {
 public:
-  void setup() override { UT_PTR_SET(orig_double_ptr, &stub_double); }
+  void setup() override { CPPMU_PTR_SET(orig_double_ptr, &stub_double); }
   void test_body() override { CHECK(orig_double_ptr == &stub_double); }
 };
 
-class SetDoublePointerUtestShell : public cpputest::TestShell
+class SetDoublePointerShell : public cppmu::TestShell
 {
 public:
-  cpputest::Test* create_test() override { return new SetDoublePointerUtest(); }
+  cppmu::Test* create_test() override { return new SetDoublePointerGroup(); }
 };
 }
 
 TEST_GROUP(SetPointerPlugin)
 {
-  cpputest::SetPointerPlugin* plugin;
-  cpputest::TestRegistry* my_registry;
-  cpputest::StringBufferTestOutput* output;
-  cpputest::TestResult* result;
+  cppmu::SetPointerPlugin* plugin;
+  cppmu::TestRegistry* my_registry;
+  cppmu::StringBufferTestOutput* output;
+  cppmu::TestResult* result;
 
   void setup() override
   {
-    my_registry = new cpputest::TestRegistry();
-    plugin = new cpputest::SetPointerPlugin("TestSetPlugin");
+    my_registry = new cppmu::TestRegistry();
+    plugin = new cppmu::SetPointerPlugin("TestSetPlugin");
     my_registry->set_current_registry(my_registry);
     my_registry->install_plugin(plugin);
-    output = new cpputest::StringBufferTestOutput();
-    result = new cpputest::TestResult(*output);
+    output = new cppmu::StringBufferTestOutput();
+    result = new cppmu::TestResult(*output);
   }
 
   void teardown() override
@@ -74,14 +74,14 @@ TEST_GROUP(SetPointerPlugin)
   }
 };
 
-class FunctionPointerUtest : public cpputest::Test
+class FunctionPointerGroup : public cppmu::Test
 {
 public:
   void setup() override
   {
-    UT_PTR_SET(fp1, stub_func1);
-    UT_PTR_SET(fp2, stub_func2);
-    UT_PTR_SET(fp2, stub_func2);
+    CPPMU_PTR_SET(fp1, stub_func1);
+    CPPMU_PTR_SET(fp2, stub_func2);
+    CPPMU_PTR_SET(fp2, stub_func2);
   }
   void test_body() override
   {
@@ -90,18 +90,18 @@ public:
   }
 };
 
-class FunctionPointerUtestShell : public cpputest::TestShell
+class FunctionPointerShell : public cppmu::TestShell
 {
 public:
-  virtual cpputest::Test* create_test() override
+  virtual cppmu::Test* create_test() override
   {
-    return new FunctionPointerUtest();
+    return new FunctionPointerGroup();
   }
 };
 
 TEST(SetPointerPlugin, installTwoFunctionPointer)
 {
-  auto* tst = new FunctionPointerUtestShell();
+  auto* tst = new FunctionPointerShell();
 
   fp1 = orig_func1;
   fp2 = orig_func2;
@@ -114,11 +114,11 @@ TEST(SetPointerPlugin, installTwoFunctionPointer)
   delete tst;
 }
 
-class MaxFunctionPointerUtest : public cpputest::Test
+class MaxFunctionPointerGroup : public cppmu::Test
 {
 public:
   int num_of_fp_sets;
-  MaxFunctionPointerUtest(int num)
+  MaxFunctionPointerGroup(int num)
     : num_of_fp_sets(num)
   {
   }
@@ -126,30 +126,29 @@ public:
   void setup() override
   {
     for (int i = 0; i < num_of_fp_sets; ++i) {
-      UT_PTR_SET(fp1, stub_func1);
+      CPPMU_PTR_SET(fp1, stub_func1);
     }
   }
 };
 
-class MaxFunctionPointerUtestShell : public cpputest::TestShell
+class MaxFunctionPointerShell : public cppmu::TestShell
 {
 public:
   int num_of_fp_sets;
-  MaxFunctionPointerUtestShell(int num)
+  MaxFunctionPointerShell(int num)
     : num_of_fp_sets(num)
   {
   }
 
-  virtual cpputest::Test* create_test() override
+  virtual cppmu::Test* create_test() override
   {
-    return new MaxFunctionPointerUtest(num_of_fp_sets);
+    return new MaxFunctionPointerGroup(num_of_fp_sets);
   }
 };
 
 TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 {
-  auto* tst =
-      new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::max_set + 1);
+  auto* tst = new MaxFunctionPointerShell(cppmu::SetPointerPlugin::max_set + 1);
   my_registry->add_test(tst);
 
   my_registry->run_all_tests(*result);
@@ -160,14 +159,14 @@ TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 
 EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 {
-  for (int i = 0; i <= cpputest::SetPointerPlugin::max_set; ++i) {
-    UT_PTR_SET(fp1, stub_func1);
+  for (int i = 0; i <= cppmu::SetPointerPlugin::max_set; ++i) {
+    CPPMU_PTR_SET(fp1, stub_func1);
   }
 }
 
 TEST(SetPointerPlugin, doublePointer)
 {
-  auto* doubletst = new SetDoublePointerUtestShell();
+  auto* doubletst = new SetDoublePointerShell();
   my_registry->add_test(doubletst);
   my_registry->run_all_tests(*result);
 

@@ -1,8 +1,8 @@
-#include "CppUTest/MockActualCallTrace.hpp"
+#include "CppMu/MockActualCallTrace.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockActualCallTrace* MockActualCallTrace::instance_ = nullptr;
 
@@ -22,7 +22,7 @@ MockActualCall&
 MockActualCallTrace::with_call_order(unsigned int call_order)
 {
   trace_buffer_ += " withCallOrder:";
-  trace_buffer_ += cpputest::string_from(call_order);
+  trace_buffer_ += cppmu::string_from(call_order);
   return *this;
 }
 
@@ -38,7 +38,7 @@ MockActualCall&
 MockActualCallTrace::with_bool_parameter(const String& name, bool value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -47,7 +47,7 @@ MockActualCallTrace::with_unsigned_int_parameter(const String& name,
     unsigned int value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -56,7 +56,7 @@ MockActualCall&
 MockActualCallTrace::with_int_parameter(const String& name, int value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -66,7 +66,7 @@ MockActualCallTrace::with_unsigned_long_int_parameter(const String& name,
     unsigned long int value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -75,7 +75,7 @@ MockActualCall&
 MockActualCallTrace::with_long_int_parameter(const String& name, long int value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -85,7 +85,7 @@ MockActualCallTrace::with_unsigned_long_long_int_parameter(const String& name,
     unsigned long long value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -95,7 +95,7 @@ MockActualCallTrace::with_long_long_int_parameter(const String& name,
     long long value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value) + " " +
+  trace_buffer_ += cppmu::string_from(value) + " " +
                    brackets_formatted_hex_string_from(value);
   return *this;
 }
@@ -104,7 +104,7 @@ MockActualCall&
 MockActualCallTrace::with_double_parameter(const String& name, double value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -113,7 +113,7 @@ MockActualCallTrace::with_string_parameter(const String& name,
     const char* value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -121,7 +121,7 @@ MockActualCall&
 MockActualCallTrace::with_pointer_parameter(const String& name, void* value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -130,7 +130,7 @@ MockActualCallTrace::with_const_pointer_parameter(const String& name,
     const void* value)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -139,7 +139,7 @@ MockActualCallTrace::with_function_pointer_parameter(const String& name,
     void (*value)())
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -161,7 +161,7 @@ MockActualCallTrace::with_parameter_of_type(const String& type_name,
   trace_buffer_ += " ";
   trace_buffer_ += type_name;
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(value);
+  trace_buffer_ += cppmu::string_from(value);
   return *this;
 }
 
@@ -185,7 +185,7 @@ MockActualCall&
 MockActualCallTrace::with_output_parameter(const String& name, void* output)
 {
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(output);
+  trace_buffer_ += cppmu::string_from(output);
   return *this;
 }
 
@@ -197,7 +197,7 @@ MockActualCallTrace::with_output_parameter_of_type(const String& type_name,
   trace_buffer_ += " ";
   trace_buffer_ += type_name;
   add_parameter_name(name);
-  trace_buffer_ += cpputest::string_from(output);
+  trace_buffer_ += cppmu::string_from(output);
   return *this;
 }
 
@@ -362,7 +362,7 @@ MockActualCall&
 MockActualCallTrace::on_object(const void* object_ptr)
 {
   trace_buffer_ += " onObject:";
-  trace_buffer_ += cpputest::string_from(object_ptr);
+  trace_buffer_ += cppmu::string_from(object_ptr);
   return *this;
 }
 
@@ -393,4 +393,4 @@ MockActualCallTrace::clear_instance()
   instance_ = nullptr;
 }
 
-} // namespace cpputest
+} // namespace cppmu

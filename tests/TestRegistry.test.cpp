@@ -1,9 +1,9 @@
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/time.hpp"
 
 namespace {
 const int test_line_number = 1;
@@ -14,7 +14,7 @@ get_zero()
   return 0;
 }
 
-class MockTest : public cpputest::TestShell
+class MockTest : public cppmu::TestShell
 {
 public:
   MockTest(const char* group = "Group")
@@ -22,8 +22,7 @@ public:
     , has_run(false)
   {
   }
-  virtual void run_one_test(cpputest::TestPlugin*,
-      cpputest::TestResult&) override
+  virtual void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override
   {
     has_run = true;
   }
@@ -31,7 +30,7 @@ public:
   bool has_run;
 };
 
-class MockTestResult : public cpputest::TestResult
+class MockTestResult : public cppmu::TestResult
 {
 public:
   int count_tests_started;
@@ -41,7 +40,7 @@ public:
   int count_current_group_started;
   int count_current_group_ended;
 
-  MockTestResult(cpputest::TestOutput& p)
+  MockTestResult(cppmu::TestOutput& p)
     : TestResult(p)
   {
     reset_count();
@@ -61,38 +60,38 @@ public:
 
   virtual void tests_started() override { count_tests_started++; }
   virtual void tests_ended() override { count_tests_ended++; }
-  virtual void current_test_started(cpputest::TestShell* /*test*/) override
+  virtual void current_test_started(cppmu::TestShell* /*test*/) override
   {
     count_current_test_started++;
   }
-  virtual void current_test_ended(cpputest::TestShell* /*test*/) override
+  virtual void current_test_ended(cppmu::TestShell* /*test*/) override
   {
     count_current_test_ended++;
   }
-  virtual void current_group_started(cpputest::TestShell* /*test*/) override
+  virtual void current_group_started(cppmu::TestShell* /*test*/) override
   {
     count_current_group_started++;
   }
-  virtual void current_group_ended(cpputest::TestShell* /*test*/) override
+  virtual void current_group_ended(cppmu::TestShell* /*test*/) override
   {
     count_current_group_ended++;
   }
 };
 
-class MyTestPluginDummy : public cpputest::TestPlugin
+class MyTestPluginDummy : public cppmu::TestPlugin
 {
 public:
-  MyTestPluginDummy(const cpputest::String& name)
+  MyTestPluginDummy(const cppmu::String& name)
     : TestPlugin(name)
   {
   }
   virtual ~MyTestPluginDummy() override {}
-  virtual void run_all_pre_test_action(cpputest::TestShell&,
-      cpputest::TestResult&) override
+  virtual void run_all_pre_test_action(cppmu::TestShell&,
+      cppmu::TestResult&) override
   {
   }
-  virtual void run_all_post_test_action(cpputest::TestShell&,
-      cpputest::TestResult&) override
+  virtual void run_all_post_test_action(cppmu::TestShell&,
+      cppmu::TestResult&) override
   {
   }
 };
@@ -101,24 +100,24 @@ public:
 
 TEST_GROUP(TestRegistry)
 {
-  cpputest::TestRegistry* my_registry;
-  cpputest::StringBufferTestOutput* output;
+  cppmu::TestRegistry* my_registry;
+  cppmu::StringBufferTestOutput* output;
   MockTest* test1;
   MockTest* test2;
   MockTest* test3;
   MockTest* test4;
-  cpputest::TestResult* result;
+  cppmu::TestResult* result;
   MockTestResult* mock_result;
   void setup() override
   {
-    output = new cpputest::StringBufferTestOutput();
+    output = new cppmu::StringBufferTestOutput();
     mock_result = new MockTestResult(*output);
     result = mock_result;
     test1 = new MockTest();
     test2 = new MockTest();
     test3 = new MockTest("group2");
     test4 = new MockTest();
-    my_registry = new cpputest::TestRegistry();
+    my_registry = new cppmu::TestRegistry();
     my_registry->set_current_registry(my_registry);
   }
 
@@ -261,7 +260,7 @@ TEST(TestRegistry, nameFilterWorks)
 {
   test1->set_test_name("testname");
   test2->set_test_name("noname");
-  cpputest::TestFilter name_filter("testname");
+  cppmu::TestFilter name_filter("testname");
   my_registry->set_name_filters(&name_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
@@ -272,7 +271,7 @@ TEST(TestRegistry, groupFilterWorks)
 {
   test1->set_group_name("groupname");
   test2->set_group_name("noname");
-  cpputest::TestFilter group_filter("groupname");
+  cppmu::TestFilter group_filter("groupname");
   my_registry->set_group_filters(&group_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
@@ -318,7 +317,7 @@ TEST(TestRegistry,
   my_registry->add_test(test4);
 
   my_registry->list_test_group_names(*result);
-  cpputest::String s = output->get_output();
+  cppmu::String s = output->get_output();
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
@@ -336,7 +335,7 @@ TEST(TestRegistry,
   my_registry->add_test(test3);
 
   my_registry->list_test_group_and_case_names(*result);
-  cpputest::String s = output->get_output();
+  cppmu::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
@@ -360,7 +359,7 @@ TEST(TestRegistry,
   my_registry->add_test(test3);
 
   my_registry->list_test_locations(*result);
-  cpputest::String s = output->get_output();
+  cppmu::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa.cpptest_simple/my_tests/"
                "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
@@ -384,14 +383,14 @@ TEST(TestRegistry, shuffleSingleTestIsNoOp)
 
 IGNORE_TEST(TestRegistry, shuffleTestList)
 {
-  UT_PTR_SET(cpputest::rand, get_zero);
+  CPPMU_PTR_SET(cppmu::rand, get_zero);
   my_registry->add_test(test3);
   my_registry->add_test(test2);
   my_registry->add_test(test1);
 
-  cpputest::TestShell* first_before = my_registry->get_first_test();
-  cpputest::TestShell* second_before = first_before->get_next();
-  cpputest::TestShell* third_before = second_before->get_next();
+  cppmu::TestShell* first_before = my_registry->get_first_test();
+  cppmu::TestShell* second_before = first_before->get_next();
+  cppmu::TestShell* third_before = second_before->get_next();
 
   CHECK_TRUE(first_before == test1);
   CHECK_TRUE(second_before == test2);
@@ -401,9 +400,9 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
   // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
   my_registry->shuffle_tests(0);
 
-  cpputest::TestShell* first_after = my_registry->get_first_test();
-  cpputest::TestShell* second_after = first_after->get_next();
-  cpputest::TestShell* third_after = second_after->get_next();
+  cppmu::TestShell* first_after = my_registry->get_first_test();
+  cppmu::TestShell* second_after = first_after->get_next();
+  cppmu::TestShell* third_after = second_after->get_next();
 
   CHECK_TRUE(first_after == test2);
   CHECK_TRUE(second_after == test3);

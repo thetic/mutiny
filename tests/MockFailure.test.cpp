@@ -1,30 +1,30 @@
-#include "CppUTest/MockFailure.hpp"
+#include "CppMu/MockFailure.hpp"
 
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
-#include "CppUTest/MockExpectedCallsList.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockExpectedCallsList.hpp"
 
 TEST_GROUP(MockFailure)
 {
-  cpputest::MockFailureReporter reporter;
+  cppmu::MockFailureReporter reporter;
 
   MockExpectedCallsListForTest::MockExpectedCallsList* list;
-  cpputest::MockCheckedExpectedCall* call1;
-  cpputest::MockCheckedExpectedCall* call2;
-  cpputest::MockCheckedExpectedCall* call3;
-  cpputest::MockCheckedExpectedCall* call4;
-  cpputest::MockCheckedExpectedCall* call5;
+  cppmu::MockCheckedExpectedCall* call1;
+  cppmu::MockCheckedExpectedCall* call2;
+  cppmu::MockCheckedExpectedCall* call3;
+  cppmu::MockCheckedExpectedCall* call4;
+  cppmu::MockCheckedExpectedCall* call5;
 
   void setup() override
   {
     list = new MockExpectedCallsListForTest::MockExpectedCallsList;
-    call1 = new cpputest::MockCheckedExpectedCall;
-    call2 = new cpputest::MockCheckedExpectedCall;
-    call3 = new cpputest::MockCheckedExpectedCall;
-    call4 = new cpputest::MockCheckedExpectedCall;
-    call5 = new cpputest::MockCheckedExpectedCall;
+    call1 = new cppmu::MockCheckedExpectedCall;
+    call2 = new cppmu::MockCheckedExpectedCall;
+    call3 = new cppmu::MockCheckedExpectedCall;
+    call4 = new cppmu::MockCheckedExpectedCall;
+    call5 = new cppmu::MockCheckedExpectedCall;
   }
   void teardown() override
   {
@@ -58,8 +58,8 @@ TEST_GROUP(MockFailure)
       const char* expected_ordinal)
   {
     MockExpectedCallsListForTest::MockExpectedCallsList call_list;
-    cpputest::MockCheckedExpectedCall expected_call_single(1);
-    cpputest::MockCheckedExpectedCall expected_call_multi(count - 1);
+    cppmu::MockCheckedExpectedCall expected_call_single(1);
+    cppmu::MockCheckedExpectedCall expected_call_multi(count - 1);
 
     expected_call_single.with_name("bar");
     expected_call_multi.with_name("bar");
@@ -76,10 +76,10 @@ TEST_GROUP(MockFailure)
       }
     }
 
-    cpputest::MockUnexpectedCallHappenedFailure failure(
-        cpputest::TestShell::get_current(), "bar", call_list);
+    cppmu::MockUnexpectedCallHappenedFailure failure(
+        cppmu::TestShell::get_current(), "bar", call_list);
 
-    cpputest::String expected_message = cpputest::string_from_format(
+    cppmu::String expected_message = cppmu::string_from_format(
         "Mock Failure: Unexpected additional (%s) call to "
         "function: bar\n\tEXPECTED",
         expected_ordinal);
@@ -89,7 +89,7 @@ TEST_GROUP(MockFailure)
 
 TEST(MockFailure, noErrorFailureSomethingGoneWrong)
 {
-  cpputest::MockFailure failure((cpputest::TestShell::get_current()));
+  cppmu::MockFailure failure((cppmu::TestShell::get_current()));
   STRCMP_EQUAL("Test failed with MockFailure without an error! Something went "
                "seriously wrong.",
       failure.get_message().c_str());
@@ -97,8 +97,8 @@ TEST(MockFailure, noErrorFailureSomethingGoneWrong)
 
 TEST(MockFailure, unexpectedCallHappened)
 {
-  cpputest::MockUnexpectedCallHappenedFailure failure(
-      cpputest::TestShell::get_current(), "foobar", *list);
+  cppmu::MockUnexpectedCallHappenedFailure failure(
+      cppmu::TestShell::get_current(), "foobar", *list);
   STRCMP_EQUAL("Mock Failure: Unexpected call to function: foobar\n"
                "\tEXPECTED calls that WERE NOT fulfilled:\n"
                "\t\t<none>\n"
@@ -116,8 +116,8 @@ TEST(MockFailure, expectedCallDidNotHappen)
   call3->call_was_made(1);
   add_three_calls_to_list();
 
-  cpputest::MockExpectedCallsDidntHappenFailure failure(
-      cpputest::TestShell::get_current(), *list);
+  cppmu::MockExpectedCallsDidntHappenFailure failure(
+      cppmu::TestShell::get_current(), *list);
   STRCMP_EQUAL(
       "Mock Failure: Expected call WAS NOT fulfilled.\n"
       "\tEXPECTED calls that WERE NOT fulfilled:\n"
@@ -150,11 +150,11 @@ TEST(MockFailure, MockUnexpectedInputParameterFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockNamedValue actual_parameter("bar");
+  cppmu::MockNamedValue actual_parameter("bar");
   actual_parameter.set_value(2);
 
-  cpputest::MockUnexpectedInputParameterFailure failure(
-      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
+  cppmu::MockUnexpectedInputParameterFailure failure(
+      cppmu::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected parameter name to function \"foo\": bar\n"
       "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
@@ -178,11 +178,11 @@ TEST(MockFailure, MockUnexpectedOutputParameterFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockNamedValue actual_parameter("bar");
+  cppmu::MockNamedValue actual_parameter("bar");
   actual_parameter.set_value(reinterpret_cast<void*>(0x123));
 
-  cpputest::MockUnexpectedOutputParameterFailure failure(
-      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
+  cppmu::MockUnexpectedOutputParameterFailure failure(
+      cppmu::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected output parameter name to function \"foo\": "
       "bar\n"
@@ -205,11 +205,11 @@ TEST(MockFailure, MockUnexpectedUnmodifiedOutputParameterFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockNamedValue actual_parameter("bar");
+  cppmu::MockNamedValue actual_parameter("bar");
   actual_parameter.set_value(reinterpret_cast<void*>(0x123));
 
-  cpputest::MockUnexpectedOutputParameterFailure failure(
-      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
+  cppmu::MockUnexpectedOutputParameterFailure failure(
+      cppmu::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected output parameter name to function \"foo\": "
       "bar\n"
@@ -230,11 +230,11 @@ TEST(MockFailure, MockUnexpectedParameterValueFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockNamedValue actual_parameter("boo");
+  cppmu::MockNamedValue actual_parameter("boo");
   actual_parameter.set_value(20);
 
-  cpputest::MockUnexpectedInputParameterFailure failure(
-      cpputest::TestShell::get_current(), "foo", actual_parameter, *list);
+  cppmu::MockUnexpectedInputParameterFailure failure(
+      cppmu::TestShell::get_current(), "foo", actual_parameter, *list);
   STRCMP_EQUAL(
       "Mock Failure: Unexpected parameter value to parameter \"boo\" to "
       "function "
@@ -271,8 +271,8 @@ TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
   matching_calls.add_expected_call(call1);
   matching_calls.add_expected_call(call3);
 
-  cpputest::MockExpectedParameterDidntHappenFailure failure(
-      cpputest::TestShell::get_current(), "foo", *list, matching_calls);
+  cppmu::MockExpectedParameterDidntHappenFailure failure(
+      cppmu::TestShell::get_current(), "foo", *list, matching_calls);
   STRCMP_EQUAL(
       "Mock Failure: Expected parameter for function \"foo\" did not happen.\n"
       "\tEXPECTED calls with MISSING parameters related to function: foo\n"
@@ -299,8 +299,8 @@ TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
 
 TEST(MockFailure, MockNoWayToCompareCustomTypeFailure)
 {
-  cpputest::MockNoWayToCompareCustomTypeFailure failure(
-      cpputest::TestShell::get_current(), "myType");
+  cppmu::MockNoWayToCompareCustomTypeFailure failure(
+      cppmu::TestShell::get_current(), "myType");
   STRCMP_EQUAL("MockFailure: No way to compare type <myType>. Please install a "
                "MockNamedValueComparator.",
       failure.get_message().c_str());
@@ -315,13 +315,12 @@ TEST(MockFailure, MockUnexpectedObjectFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockUnexpectedObjectFailure failure(
-      cpputest::TestShell::get_current(),
+  cppmu::MockUnexpectedObjectFailure failure(cppmu::TestShell::get_current(),
       "foo",
       reinterpret_cast<void*>(0x1),
       *list);
   STRCMP_EQUAL(
-      cpputest::string_from_format(
+      cppmu::string_from_format(
           "MockFailure: Function called on an unexpected object: foo\n"
           "\tActual object for call has address: <%p>\n"
           "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
@@ -348,10 +347,10 @@ TEST(MockFailure, MockExpectedObjectDidntHappenFailure)
   call3->with_name("unrelated");
   add_three_calls_to_list();
 
-  cpputest::MockExpectedObjectDidntHappenFailure failure(
-      cpputest::TestShell::get_current(), "foo", *list);
+  cppmu::MockExpectedObjectDidntHappenFailure failure(
+      cppmu::TestShell::get_current(), "foo", *list);
   STRCMP_EQUAL(
-      cpputest::string_from_format(
+      cppmu::string_from_format(
           "Mock Failure: Expected call on object for function \"foo\" but it "
           "did "
           "not happen.\n"

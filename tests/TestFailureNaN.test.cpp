@@ -1,5 +1,5 @@
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestOutput.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestOutput.hpp"
 
 #include <math.h>
 
@@ -12,11 +12,11 @@ const char* fail_file_name = "fail.cpp";
 
 TEST_GROUP(TestFailureNaN)
 {
-  cpputest::TestShell* test;
+  cppmu::TestShell* test;
 
   void setup() override
   {
-    test = new cpputest::TestShell(
+    test = new cppmu::TestShell(
         "groupname", "testname", fail_file_name, fail_line_number - 1);
   }
   void teardown() override { delete test; }
@@ -26,7 +26,7 @@ TEST_GROUP(TestFailureNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       static_cast<double>(NAN),
@@ -41,7 +41,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       1.0,
@@ -56,7 +56,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       1.0,
@@ -71,7 +71,7 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       static_cast<double>(INFINITY),
@@ -85,7 +85,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 
 TEST(TestFailureNaN, DoublesEqualActualIsInf)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       1.0,
@@ -99,7 +99,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsInf)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 {
-  cpputest::DoublesEqualFailure f(test,
+  cppmu::DoublesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       1.0,

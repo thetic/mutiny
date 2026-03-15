@@ -5,7 +5,7 @@ check_source_compiles(CXX
          feclearexcept(FE_ALL_EXCEPT);
          return fetestexcept(FE_OVERFLOW);
      }"
-    CPPUTEST_HAVE_FENV
+    CPPMU_HAVE_FENV
 )
 
 add_executable(ExampleTests
@@ -35,14 +35,14 @@ target_compile_options(ExampleTests
 )
 
 target_compile_definitions(ExampleTests
-    PRIVATE CPPUTEST_HAVE_FENV=$<BOOL:${CPPUTEST_HAVE_FENV}>
+    PRIVATE CPPMU_HAVE_FENV=$<BOOL:${CPPMU_HAVE_FENV}>
 )
 
 target_link_libraries(ExampleTests
     PRIVATE
         ExampleLib
-        CppUTest::CppUTest
+        CppMu::CppMu
 )
 
-include(CppUTest)
-cpputest_discover_tests(ExampleTests)
+include(CppMu)
+cppmu_discover_tests(ExampleTests)

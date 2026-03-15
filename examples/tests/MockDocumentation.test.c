@@ -1,5 +1,5 @@
-#include "CppUTest/CppUTest.h"
-#include "CppUTest/MockSupport.h"
+#include "CppMu/CppMu.h"
+#include "CppMu/MockSupport.h"
 
 static int
 equal_method(const void* object1, const void* object2)

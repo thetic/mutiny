@@ -1,10 +1,10 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 
-#include "CppUTest/CommandLineTestRunner.hpp"
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CommandLineTestRunner.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-#if CPPUTEST_HAVE_FENV
+#if CPPMU_HAVE_FENV
 
 #include <limits>
 

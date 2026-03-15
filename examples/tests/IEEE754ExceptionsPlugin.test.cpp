@@ -2,31 +2,31 @@
 
 #include "IEEE754ExceptionsPlugin.h"
 
-#include "CppUTest/CommandLineTestRunner.hpp"
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CommandLineTestRunner.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestRegistry.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
-#if CPPUTEST_HAVE_FENV
+#if CPPMU_HAVE_FENV
 #include <fenv.h>
 #endif
 
 TEST_GROUP(IEEE754ExceptionsPlugin)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   IEEE754ExceptionsPlugin ieee754_plugin;
 
   void setup(void) override { fixture.install_plugin(&ieee754_plugin); }
 
   void teardown(void) override
   {
-#if CPPUTEST_HAVE_FENV
+#if CPPMU_HAVE_FENV
     feclearexcept(FE_ALL_EXCEPT);
 #endif
   }
 };
 
-#if CPPUTEST_HAVE_FENV
+#if CPPMU_HAVE_FENV
 
 TEST(IEEE754ExceptionsPlugin, should_fail_when_FE_DIVBYZERO_is_set)
 {
@@ -124,7 +124,7 @@ TEST_GROUP(IEEE754ExceptionsPlugin2)
 {
   void setup(void) override
   {
-    cpputest::TestRegistry::get_current_registry()->install_plugin(&ip);
+    cppmu::TestRegistry::get_current_registry()->install_plugin(&ip);
   }
 };
 

@@ -1,9 +1,9 @@
 #include "EventDispatcher.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockSupport.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockSupport.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 class ObserverMock : public EventObserver
 {
@@ -26,7 +26,7 @@ public:
   }
 };
 
-class EventComparator : public cpputest::MockNamedValueComparator
+class EventComparator : public cppmu::MockNamedValueComparator
 {
 public:
   virtual bool is_equal(const void* object1, const void* object2) override
@@ -34,9 +34,9 @@ public:
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  virtual cpputest::String value_to_string(const void* object) override
+  virtual cppmu::String value_to_string(const void* object) override
   {
-    return cpputest::string_from(static_cast<const Event*>(object)->type);
+    return cppmu::string_from(static_cast<const Event*>(object)->type);
   }
 };
 

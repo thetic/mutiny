@@ -1,28 +1,28 @@
-#include "CppUTest/StringCollection.hpp"
+#include "CppMu/StringCollection.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
 TEST_GROUP(StringCollection) {};
 
 TEST(StringCollection, CollectionReadOutOfBoundsReturnsEmptyString)
 {
-  cpputest::StringCollection col;
+  cppmu::StringCollection col;
   col.allocate(3);
   STRCMP_EQUAL("", col[3].c_str());
 }
 
 TEST(StringCollection, CollectionWritingToEmptyString)
 {
-  cpputest::StringCollection col;
+  cppmu::StringCollection col;
   col.allocate(3);
-  col[3] = cpputest::String("HAH");
+  col[3] = cppmu::String("HAH");
   STRCMP_EQUAL("", col[3].c_str());
 }
 TEST(StringCollection, split)
 {
-  cpputest::String hi("hello\nworld\nhow\ndo\nyou\ndo\n\n");
+  cppmu::String hi("hello\nworld\nhow\ndo\nyou\ndo\n\n");
 
-  cpputest::StringCollection collection(hi, '\n');
+  cppmu::StringCollection collection(hi, '\n');
 
   LONGS_EQUAL(7, collection.size());
   STRCMP_EQUAL("hello\n", collection[0].c_str());
@@ -36,8 +36,8 @@ TEST(StringCollection, split)
 
 TEST(StringCollection, splitNoTokenOnTheEnd)
 {
-  cpputest::String string("Bah Yah oops");
-  cpputest::StringCollection collection(string, ' ');
+  cppmu::String string("Bah Yah oops");
+  cppmu::StringCollection collection(string, ' ');
 
   LONGS_EQUAL(3, collection.size());
   STRCMP_EQUAL("Bah ", collection[0].c_str());

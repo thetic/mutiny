@@ -1,6 +1,6 @@
-#include "CppUTest/TestFilter.hpp"
+#include "CppMu/TestFilter.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestFilter::TestFilter()
   : strict_matching_(false)
@@ -98,4 +98,4 @@ string_from(const TestFilter& filter)
   return filter.as_string();
 }
 
-} // namespace cpputest
+} // namespace cppmu

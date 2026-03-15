@@ -1,9 +1,9 @@
-#include "CppUTest/OrderedTest.hpp"
+#include "CppMu/OrderedTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
@@ -54,7 +54,7 @@ OrderedTestShell::first_ordered_test()
 OrderedTestShell*
 OrderedTestShell::add_ordered_test(OrderedTestShell* test)
 {
-  cpputest::TestShell::add_test(test);
+  cppmu::TestShell::add_test(test);
   next_ordered_test_ = test;
   return this;
 }
@@ -63,7 +63,7 @@ void
 OrderedTestShell::add_ordered_test_to_head(OrderedTestShell* test)
 {
   TestRegistry* reg = TestRegistry::get_current_registry();
-  cpputest::TestShell* head = get_ordered_test_head();
+  cppmu::TestShell* head = get_ordered_test_head();
 
   if (nullptr == reg->get_first_test() || head == reg->get_first_test()) {
     reg->add_test(test);
@@ -131,4 +131,4 @@ OrderedTestInstaller::add_ordered_test_in_order_not_at_head_position(
 
 OrderedTestInstaller::~OrderedTestInstaller() {}
 
-} // namespace cpputest
+} // namespace cppmu

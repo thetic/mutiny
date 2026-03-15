@@ -1,5 +1,5 @@
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestOutput.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestOutput.hpp"
 
 #include <limits.h>
 
@@ -10,11 +10,11 @@ const char* fail_file_name = "fail.cpp";
 
 TEST_GROUP(TestFailure)
 {
-  cpputest::TestShell* test;
+  cppmu::TestShell* test;
 
   void setup() override
   {
-    test = new cpputest::TestShell(
+    test = new cppmu::TestShell(
         "groupname", "testname", fail_file_name, fail_line_number - 1);
   }
   void teardown() override { delete test; }
@@ -24,15 +24,15 @@ TEST_GROUP(TestFailure)
 
 TEST(TestFailure, CreateFailure)
 {
-  cpputest::TestFailure f1(
+  cppmu::TestFailure f1(
       test, fail_file_name, fail_line_number, "the failure message");
-  cpputest::TestFailure f2(test, "the failure message");
-  cpputest::TestFailure f3(test, fail_file_name, fail_line_number);
+  cppmu::TestFailure f2(test, "the failure message");
+  cppmu::TestFailure f3(test, fail_file_name, fail_line_number);
 }
 
 TEST(TestFailure, GetTestFileAndLineFromFailure)
 {
-  cpputest::TestFailure f1(
+  cppmu::TestFailure f1(
       test, fail_file_name, fail_line_number, "the failure message");
   STRCMP_EQUAL(fail_file_name, f1.get_test_file_name().c_str());
   LONGS_EQUAL(1, f1.get_test_line_number());
@@ -40,7 +40,7 @@ TEST(TestFailure, GetTestFileAndLineFromFailure)
 
 TEST(TestFailure, EqualsFailureWithText)
 {
-  cpputest::EqualsFailure f(
+  cppmu::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <expected>\n\tbut was  <actual>",
@@ -49,28 +49,28 @@ TEST(TestFailure, EqualsFailureWithText)
 
 TEST(TestFailure, EqualsFailure)
 {
-  cpputest::EqualsFailure f(
+  cppmu::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "");
   FAILURE_EQUAL("expected <expected>\n\tbut was  <actual>", f);
 }
 
 TEST(TestFailure, EqualsFailureWithNullAsActual)
 {
-  cpputest::EqualsFailure f(
+  cppmu::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", nullptr, "");
   FAILURE_EQUAL("expected <expected>\n\tbut was  <(null)>", f);
 }
 
 TEST(TestFailure, EqualsFailureWithNullAsExpected)
 {
-  cpputest::EqualsFailure f(
+  cppmu::EqualsFailure f(
       test, fail_file_name, fail_line_number, nullptr, "actual", "");
   FAILURE_EQUAL("expected <(null)>\n\tbut was  <actual>", f);
 }
 
 TEST(TestFailure, CheckEqualFailureWithText)
 {
-  cpputest::CheckEqualFailure f(
+  cppmu::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <expected>\n"
@@ -82,7 +82,7 @@ TEST(TestFailure, CheckEqualFailureWithText)
 
 TEST(TestFailure, CheckEqualFailure)
 {
-  cpputest::CheckEqualFailure f(
+  cppmu::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "");
   FAILURE_EQUAL("expected <expected>\n"
                 "\tbut was  <actual>\n"
@@ -93,14 +93,13 @@ TEST(TestFailure, CheckEqualFailure)
 
 TEST(TestFailure, CheckFailure)
 {
-  cpputest::CheckFailure f(
-      test, fail_file_name, fail_line_number, "CHECK", "chk");
+  cppmu::CheckFailure f(test, fail_file_name, fail_line_number, "CHECK", "chk");
   FAILURE_EQUAL("CHECK(chk) failed", f);
 }
 
 TEST(TestFailure, CheckFailureWithText)
 {
-  cpputest::CheckFailure f(
+  cppmu::CheckFailure f(
       test, fail_file_name, fail_line_number, "CHECK", "chk", "text");
   FAILURE_EQUAL("Message: text\n"
                 "\tCHECK(chk) failed",
@@ -109,13 +108,13 @@ TEST(TestFailure, CheckFailureWithText)
 
 TEST(TestFailure, FailFailure)
 {
-  cpputest::FailFailure f(test, fail_file_name, fail_line_number, "chk");
+  cppmu::FailFailure f(test, fail_file_name, fail_line_number, "chk");
   FAILURE_EQUAL("chk", f);
 }
 
 TEST(TestFailure, LongsEqualFailureWithText)
 {
-  cpputest::LongsEqualFailure f(
+  cppmu::LongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <1 (0x1)>\n\tbut was  <2 (0x2)>",
@@ -124,28 +123,27 @@ TEST(TestFailure, LongsEqualFailureWithText)
 
 TEST(TestFailure, LongsEqualFailure)
 {
-  cpputest::LongsEqualFailure f(
-      test, fail_file_name, fail_line_number, 1, 2, "");
+  cppmu::LongsEqualFailure f(test, fail_file_name, fail_line_number, 1, 2, "");
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
 TEST(TestFailure, LongLongsEqualFailure)
 {
-  cpputest::LongLongsEqualFailure f(
+  cppmu::LongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "");
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
 TEST(TestFailure, UnsignedLongLongsEqualFailure)
 {
-  cpputest::UnsignedLongLongsEqualFailure f(
+  cppmu::UnsignedLongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "");
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
 TEST(TestFailure, SignedBytesEqualFailure)
 {
-  cpputest::SignedBytesEqualFailure f(test,
+  cppmu::SignedBytesEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       static_cast<signed char>(-1),
@@ -156,7 +154,7 @@ TEST(TestFailure, SignedBytesEqualFailure)
 
 TEST(TestFailure, StringsEqualFailureWithText)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <abc>\n"
@@ -168,7 +166,7 @@ TEST(TestFailure, StringsEqualFailureWithText)
 
 TEST(TestFailure, StringsEqualFailure)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", "");
   FAILURE_EQUAL("expected <abc>\n"
                 "\tbut was  <abd>\n"
@@ -179,7 +177,7 @@ TEST(TestFailure, StringsEqualFailure)
 
 TEST(TestFailure, StringsEqualFailureAtTheEnd)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "ab", "");
   FAILURE_EQUAL("expected <abc>\n"
                 "\tbut was  <ab>\n"
@@ -190,7 +188,7 @@ TEST(TestFailure, StringsEqualFailureAtTheEnd)
 
 TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
 {
-  cpputest::StringEqualFailure f(test,
+  cppmu::StringEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       "EndOfALongerString",
@@ -206,7 +204,7 @@ TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
 
 TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
 {
-  cpputest::StringEqualFailure f(test,
+  cppmu::StringEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       "StringWith\t\nDifferentString",
@@ -223,7 +221,7 @@ TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
 
 TEST(TestFailure, StringsEqualFailureInTheMiddle)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aa", "ab", "");
   FAILURE_EQUAL("expected <aa>\n"
                 "\tbut was  <ab>\n"
@@ -234,7 +232,7 @@ TEST(TestFailure, StringsEqualFailureInTheMiddle)
 
 TEST(TestFailure, StringsEqualFailureAtTheBeginning)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aaa", "bbb", "");
   FAILURE_EQUAL("expected <aaa>\n"
                 "\tbut was  <bbb>\n"
@@ -245,7 +243,7 @@ TEST(TestFailure, StringsEqualFailureAtTheBeginning)
 
 TEST(TestFailure, StringsEqualFailureWithNullAsActual)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", nullptr, "");
   FAILURE_EQUAL("expected <abc>\n"
                 "\tbut was  <(null)>",
@@ -254,7 +252,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsActual)
 
 TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
 {
-  cpputest::StringEqualFailure f(
+  cppmu::StringEqualFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", "");
   FAILURE_EQUAL("expected <(null)>\n"
                 "\tbut was  <abd>",
@@ -263,7 +261,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithText)
 {
-  cpputest::StringEqualNoCaseFailure f(
+  cppmu::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <ABC>\n"
@@ -275,7 +273,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithText)
 
 TEST(TestFailure, StringsEqualNoCaseFailure)
 {
-  cpputest::StringEqualNoCaseFailure f(
+  cppmu::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", "");
   FAILURE_EQUAL("expected <ABC>\n"
                 "\tbut was  <abd>\n"
@@ -286,7 +284,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
 {
-  cpputest::StringEqualNoCaseFailure f(
+  cppmu::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", nullptr, "");
   FAILURE_EQUAL("expected <ABC>\n"
                 "\tbut was  <(null)>",
@@ -295,7 +293,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
 {
-  cpputest::StringEqualNoCaseFailure f(
+  cppmu::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", "");
   FAILURE_EQUAL("expected <(null)>\n"
                 "\tbut was  <abd>",
@@ -304,7 +302,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
 
 TEST(TestFailure, StringsEqualNoCaseFailure2)
 {
-  cpputest::StringEqualNoCaseFailure f(
+  cppmu::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ac", "AB", "");
   FAILURE_EQUAL("expected <ac>\n"
                 "\tbut was  <AB>\n"
@@ -315,7 +313,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure2)
 
 TEST(TestFailure, DoublesEqualNormalWithText)
 {
-  cpputest::DoublesEqualFailure f(
+  cppmu::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, "text");
   FAILURE_EQUAL("Message: text\n"
                 "\texpected <1>\n"
@@ -325,7 +323,7 @@ TEST(TestFailure, DoublesEqualNormalWithText)
 
 TEST(TestFailure, DoublesEqualNormal)
 {
-  cpputest::DoublesEqualFailure f(
+  cppmu::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, "");
   FAILURE_EQUAL("expected <1>\n"
                 "\tbut was  <2> threshold used was <3>",
@@ -336,7 +334,7 @@ TEST(TestFailure, BinaryEqualWithText)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -355,7 +353,7 @@ TEST(TestFailure, BinaryEqualOneByte)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -373,7 +371,7 @@ TEST(TestFailure, BinaryEqualTwoBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01 };
   const unsigned char actual_data[] = { 0x00, 0x02 };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -391,7 +389,7 @@ TEST(TestFailure, BinaryEqualThreeBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01, 0x00 };
   const unsigned char actual_data[] = { 0x00, 0x02, 0x00 };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -413,7 +411,7 @@ TEST(TestFailure, BinaryEqualFullWidth)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00
   };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -435,7 +433,7 @@ TEST(TestFailure, BinaryEqualLast)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
   };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -454,7 +452,7 @@ TEST(TestFailure, BinaryEqualActualNull)
   const unsigned char expected_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
   };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       expected_data,
@@ -469,7 +467,7 @@ TEST(TestFailure, BinaryEqualExpectedNull)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
   };
-  cpputest::BinaryEqualFailure f(test,
+  cppmu::BinaryEqualFailure f(test,
       fail_file_name,
       fail_line_number,
       nullptr,
@@ -481,7 +479,7 @@ TEST(TestFailure, BinaryEqualExpectedNull)
 
 TEST(TestFailure, FeatureUnsupported)
 {
-  cpputest::FeatureUnsupportedFailure f(
+  cppmu::FeatureUnsupportedFailure f(
       test, fail_file_name, fail_line_number, "SOME_FEATURE", "");
   FAILURE_EQUAL("The feature \"SOME_FEATURE\" is not supported in this "
                 "environment or with "
@@ -489,20 +487,20 @@ TEST(TestFailure, FeatureUnsupported)
       f);
 }
 
-#if CPPUTEST_HAVE_EXCEPTIONS
+#if CPPMU_HAVE_EXCEPTIONS
 TEST(TestFailure, UnexpectedExceptionFailure_UnknownException)
 {
-  cpputest::UnexpectedExceptionFailure f(test);
+  cppmu::UnexpectedExceptionFailure f(test);
   FAILURE_EQUAL("Unexpected exception of unknown type was thrown.", f);
 }
 #endif
 
-#if CPPUTEST_HAVE_EXCEPTIONS && CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_HAVE_EXCEPTIONS && CPPMU_USE_STD_CPP_LIB
 TEST(TestFailure, UnexpectedExceptionFailure_StandardException)
 {
   std::runtime_error e("Some error");
-  cpputest::UnexpectedExceptionFailure f(test, e);
-#if CPPUTEST_HAVE_RTTI
+  cppmu::UnexpectedExceptionFailure f(test, e);
+#if CPPMU_HAVE_RTTI
   STRCMP_CONTAINS("Unexpected exception of type '", f.get_message().c_str());
   STRCMP_CONTAINS("runtime_error", f.get_message().c_str());
   STRCMP_CONTAINS("' was thrown: Some error", f.get_message().c_str());

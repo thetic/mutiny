@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.hpp"
 
-#include "CppUTest/String.hpp"
+#include "CppMu/String.hpp"
 
 #include <string>
 
@@ -26,8 +26,8 @@ public:
 
   virtual void print(long int value) override
   {
-    cpputest::String buffer;
-    buffer = cpputest::string_from_format("%ld", value);
+    cppmu::String buffer;
+    buffer = cppmu::string_from_format("%ld", value);
     saved_output_.append(buffer.c_str());
   }
 

@@ -1,7 +1,7 @@
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
 
 #include <memory>
 

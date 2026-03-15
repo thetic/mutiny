@@ -1,6 +1,6 @@
-#include "CppUTest/StringCollection.hpp"
+#include "CppMu/StringCollection.hpp"
 
-namespace cpputest {
+namespace cppmu {
 namespace {
 size_t
 count_substr(const String& string, const String& substr)

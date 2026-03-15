@@ -1,18 +1,18 @@
-#include "CppUTest/MockSupportPlugin.hpp"
+#include "CppMu/MockSupportPlugin.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockFailure.hpp"
-#include "CppUTest/MockSupport.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockFailure.hpp"
+#include "CppMu/MockSupport.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 class MockSupportPluginReporter : public MockFailureReporter
 {
-  cpputest::TestShell& test_;
+  cppmu::TestShell& test_;
   TestResult& result_;
 
 public:
-  MockSupportPluginReporter(cpputest::TestShell& test, TestResult& result)
+  MockSupportPluginReporter(cppmu::TestShell& test, TestResult& result)
     : test_(test)
     , result_(result)
   {
@@ -30,7 +30,7 @@ public:
 
   virtual void exit_test() override {}
 
-  virtual cpputest::TestShell* get_test_to_fail() override { return &test_; }
+  virtual cppmu::TestShell* get_test_to_fail() override { return &test_; }
 };
 
 MockSupportPlugin::MockSupportPlugin(const String& name)
@@ -50,14 +50,13 @@ MockSupportPlugin::clear()
 }
 
 void
-MockSupportPlugin::pre_test_action(cpputest::TestShell&, TestResult&)
+MockSupportPlugin::pre_test_action(cppmu::TestShell&, TestResult&)
 {
   mock().install_comparators_and_copiers(repository_);
 }
 
 void
-MockSupportPlugin::post_test_action(cpputest::TestShell& test,
-    TestResult& result)
+MockSupportPlugin::post_test_action(cppmu::TestShell& test, TestResult& result)
 {
   MockSupportPluginReporter reporter(test, result);
   mock().set_mock_failure_standard_reporter(&reporter);
@@ -82,4 +81,4 @@ MockSupportPlugin::install_copier(const String& name,
   repository_.install_copier(name, copier);
 }
 
-} // namespace cpputest
+} // namespace cppmu

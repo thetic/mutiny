@@ -1,6 +1,6 @@
-#include "CppUTest/ExecFunctionTestShell.hpp"
+#include "CppMu/ExecFunctionTestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 ExecFunctionTestShell::~ExecFunctionTestShell() {}
 
@@ -52,4 +52,4 @@ ExecFunctionTest::teardown()
     shell_->teardown();
 }
 
-} // namespace cpputest
+} // namespace cppmu

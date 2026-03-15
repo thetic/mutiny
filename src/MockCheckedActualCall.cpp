@@ -1,12 +1,12 @@
-#include "CppUTest/MockCheckedActualCall.hpp"
+#include "CppMu/MockCheckedActualCall.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
-#include "CppUTest/MockFailure.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockFailure.hpp"
 
 #include <string.h>
 
-namespace cpputest {
+namespace cppmu {
 
 void
 MockCheckedActualCall::set_name(const String& name)
@@ -46,7 +46,7 @@ MockCheckedActualCall::set_mock_failure_reporter(MockFailureReporter* reporter)
   reporter_ = reporter;
 }
 
-cpputest::TestShell*
+cppmu::TestShell*
 MockCheckedActualCall::get_test() const
 {
   return reporter_->get_test_to_fail();
@@ -728,4 +728,4 @@ MockCheckedActualCall::clean_up_output_parameter_list()
   }
 }
 
-} // namespace cpputest
+} // namespace cppmu

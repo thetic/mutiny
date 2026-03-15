@@ -1,8 +1,8 @@
-#include "CppUTest/TestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 namespace {
 
@@ -19,13 +19,13 @@ f_open_impl(const char* filename, const char* flag)
 }
 
 void
-f_puts_impl(const char* str, cpputest::File file)
+f_puts_impl(const char* str, cppmu::File file)
 {
   fputs(str, static_cast<FILE*>(file));
 }
 
 void
-f_close_impl(cpputest::File file)
+f_close_impl(cppmu::File file)
 {
   fclose(static_cast<FILE*>(file));
 }
@@ -278,4 +278,4 @@ TestOutput::print_very_verbose(const char* str)
     print_buffer(str);
 }
 
-} // namespace cpputest
+} // namespace cppmu

@@ -1,14 +1,14 @@
-#include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppMu/CommandLineTestRunner.hpp"
 
-#include "CppUTest/CompositeTestOutput.hpp"
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/JUnitTestOutput.hpp"
-#include "CppUTest/SetPointerPlugin.hpp"
-#include "CppUTest/TeamCityTestOutput.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CompositeTestOutput.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/JUnitTestOutput.hpp"
+#include "CppMu/SetPointerPlugin.hpp"
+#include "CppMu/TeamCityTestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 int
 CommandLineTestRunner::run_all_tests(int argc, char** argv)
@@ -186,4 +186,4 @@ CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
   return true;
 }
 
-} // namespace cpputest
+} // namespace cppmu

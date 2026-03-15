@@ -1,8 +1,8 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 TEST_GROUP(MockHierarchy)
 {
@@ -74,7 +74,7 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchically)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("first::foobar");
   expectations.add_function("second::helloworld");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock("first").expect_one_call("foobar");
@@ -107,7 +107,7 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("first::foobar")->with_parameter("boo", 1);
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "first::foobar", expectations, expectations);
 
   mock("first").expect_one_call("foobar").with_parameter("boo", 1);
@@ -124,7 +124,7 @@ TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 
   mock("differentScope").actual_call("foobar");
 
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "differentScope::foobar", expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }

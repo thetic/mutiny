@@ -1,6 +1,6 @@
-#include "CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 struct MockNamedValueComparatorsAndCopiersRepositoryNode
 {
@@ -111,4 +111,4 @@ MockNamedValueComparatorsAndCopiersRepository::install_comparators_and_copiers(
         p->name, p->comparator, p->copier, head_);
 }
 
-} // namespace cpputest
+} // namespace cppmu

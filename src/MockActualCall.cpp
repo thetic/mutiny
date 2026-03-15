@@ -1,9 +1,9 @@
-#include "CppUTest/MockActualCall.hpp"
+#include "CppMu/MockActualCall.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockActualCall::MockActualCall() {}
 
 MockActualCall::~MockActualCall() {}
 
-} // namespace cpputest
+} // namespace cppmu

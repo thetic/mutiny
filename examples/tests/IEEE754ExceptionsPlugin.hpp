@@ -1,22 +1,22 @@
 #ifndef INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
 #define INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
 
-#ifndef CPPUTEST_HAVE_FENV
-#define CPPUTEST_HAVE_FENV 0
+#ifndef CPPMU_HAVE_FENV
+#define CPPMU_HAVE_FENV 0
 #endif
 
-#include "CppUTest/TestPlugin.hpp"
+#include "CppMu/TestPlugin.hpp"
 
-class IEEE754ExceptionsPlugin : public cpputest::TestPlugin
+class IEEE754ExceptionsPlugin : public cppmu::TestPlugin
 {
 public:
   IEEE754ExceptionsPlugin(
-      const cpputest::String& name = "IEEE754ExceptionsPlugin");
+      const cppmu::String& name = "IEEE754ExceptionsPlugin");
 
-  virtual void pre_test_action(cpputest::TestShell& test,
-      cpputest::TestResult& result) override;
-  virtual void post_test_action(cpputest::TestShell& test,
-      cpputest::TestResult& result) override;
+  virtual void pre_test_action(cppmu::TestShell& test,
+      cppmu::TestResult& result) override;
+  virtual void post_test_action(cppmu::TestShell& test,
+      cppmu::TestResult& result) override;
 
   static void disable_inexact(void);
   static void enable_inexact(void);
@@ -26,8 +26,8 @@ public:
   static bool check_ieee754_div_by_zero_exception_flag();
 
 private:
-  void ieee754_check(cpputest::TestShell& test,
-      cpputest::TestResult& result,
+  void ieee754_check(cppmu::TestShell& test,
+      cppmu::TestResult& result,
       int flag,
       const char* text);
   static bool inexact_disabled_;

@@ -1,5 +1,5 @@
-#include "CppUTest/CppUTest.h"
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.h"
+#include "CppMu/CppMu.hpp"
 
 TEST_GROUP_C_WRAPPER(hello)
 {

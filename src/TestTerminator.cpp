@@ -1,16 +1,16 @@
-#include "CppUTest/TestTerminator.hpp"
+#include "CppMu/TestTerminator.hpp"
 
-#include "CppUTest/TestJumpBuffer.hpp"
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestJumpBuffer.hpp"
+#include "CppMu/TestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestTerminator::~TestTerminator() {}
 
 void
 NormalTestTerminator::exit_current_test() const
 {
-#if CPPUTEST_HAVE_EXCEPTIONS
+#if CPPMU_HAVE_EXCEPTIONS
   throw FailedException();
 #else
   TestTerminatorWithoutExceptions().exit_current_test();
@@ -48,4 +48,4 @@ CrashingTestTerminatorWithoutExceptions::
 {
 }
 
-} // namespace cpputest
+} // namespace cppmu

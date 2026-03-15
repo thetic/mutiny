@@ -1,8 +1,8 @@
-#include "CppUTest/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 String
 string_from(const MockNamedValue& parameter)
@@ -255,7 +255,7 @@ String
 MockCheckedExpectedCall::get_input_parameter_type(const String& name)
 {
   MockNamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? p->get_type() : cpputest::string_from("");
+  return (p) ? p->get_type() : cppmu::string_from("");
 }
 
 bool
@@ -395,7 +395,7 @@ String
 MockCheckedExpectedCall::get_input_parameter_value_string(const String& name)
 {
   MockNamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? string_from(*p) : cpputest::string_from("failed");
+  return (p) ? string_from(*p) : cppmu::string_from("failed");
 }
 
 bool
@@ -670,4 +670,4 @@ MockCheckedExpectedCall::get_actual_calls_fulfilled() const
   return actual_calls_;
 }
 
-} // namespace cpputest
+} // namespace cppmu

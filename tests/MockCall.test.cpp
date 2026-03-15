@@ -1,11 +1,11 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedActualCall.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedActualCall.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
-using cpputest::mock;
-using cpputest::MockCheckedActualCall;
+using cppmu::mock;
+using cppmu::MockCheckedActualCall;
 
 TEST_GROUP(MockCall)
 {
@@ -32,7 +32,7 @@ TEST(MockCall, expectASingleCallThatHappens)
 {
   mock().expect_one_call("func");
   auto& actual_call =
-      static_cast<cpputest::MockCheckedActualCall&>(mock().actual_call("func"));
+      static_cast<cppmu::MockCheckedActualCall&>(mock().actual_call("func"));
   actual_call.check_expectations();
   CHECK(!mock().expected_calls_left());
 }
@@ -70,7 +70,7 @@ TEST(MockCall, checkExpectationsClearsTheExpectations)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().expect_one_call("foobar");
@@ -87,7 +87,7 @@ TEST(MockCall, expectOneCallInScopeButNotHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("scope::foobar");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock("scope").expect_one_call("foobar");
@@ -101,7 +101,7 @@ TEST(MockCall, unexpectedCallHappened)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest empty_expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "func", empty_expectations);
 
   mock().actual_call("func");
@@ -114,7 +114,7 @@ TEST(MockCall, unexpectedScopeCallHappened)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest empty_expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "scope::func", empty_expectations);
 
   mock("scope").actual_call("func");
@@ -127,7 +127,7 @@ TEST(MockCall, expectOneCallInOneScopeButActualCallInAnotherScope)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest empty_expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "class::foo", empty_expectations);
 
   mock("scope").expect_one_call("foo");
@@ -142,7 +142,7 @@ TEST(MockCall, expectOneCallInScopeButActualCallInGlobal)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest empty_expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "foo", empty_expectations);
 
   mock("scope").expect_one_call("foo");
@@ -168,7 +168,7 @@ TEST(MockCall, expectOneCallHoweverMultipleHappened)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->call_was_made(1);
   expectations.add_function("foo")->call_was_made(2);
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "foo", expectations);
 
   mock().expect_one_call("foo");
@@ -186,7 +186,7 @@ TEST(MockCall, expectNoCallThatHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "lazy", expectations);
 
   mock().expect_no_call("lazy");
@@ -202,7 +202,7 @@ TEST(MockCall, expectNoCallDoesntInfluenceExpectOneCall)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
   expectations.add_function("influence")->call_was_made(1);
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "lazy", expectations);
 
   mock().expect_no_call("lazy");
@@ -219,7 +219,7 @@ TEST(MockCall, expectNoCallOnlyFailureOnceWhenMultipleHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "lazy", expectations);
 
   mock().expect_no_call("lazy");
@@ -234,7 +234,7 @@ TEST(MockCall, ignoreOtherCallsExceptForTheUnExpectedOne)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "lazy", expectations);
 
   mock().expect_no_call("lazy");
@@ -253,7 +253,7 @@ TEST(MockCall, expectNoCallInScopeThatHappened)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "scope::lazy");
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "scope::lazy", expectations);
 
   mock("scope").expect_no_call("lazy");
@@ -267,7 +267,7 @@ TEST(MockCall, expectNoCallInScopeButActualCallInAnotherScope)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "scope2::lazy", expectations);
 
   mock("scope1").expect_no_call("lazy");
@@ -281,7 +281,7 @@ TEST(MockCall, expectNoCallInScopeButActualCallInGlobal)
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "lazy", expectations);
 
   mock("scope1").expect_no_call("lazy");
@@ -305,7 +305,7 @@ TEST(MockCall, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->call_was_made(1);
-  cpputest::MockUnexpectedCallHappenedFailure expected_failure(
+  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "foo", expectations);
 
   mock().expect_one_call("foo");
@@ -323,7 +323,7 @@ TEST(MockCall, ignoreOtherStillFailsIfExpectedOneDidntHappen)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().expect_one_call("foo");
@@ -409,7 +409,7 @@ TEST(MockCall, OnObjectFails)
   mock().expect_one_call("boo").on_object(object_ptr);
   mock().actual_call("boo").on_object(object_ptr2);
 
-  cpputest::MockUnexpectedObjectFailure expected_failure(
+  cppmu::MockUnexpectedObjectFailure expected_failure(
       mock_failure_test(), "boo", object_ptr2, expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -428,7 +428,7 @@ TEST(MockCall, OnObjectExpectedButNotCalled)
   mock().actual_call("boo");
   mock().actual_call("boo");
 
-  cpputest::MockExpectedObjectDidntHappenFailure expected_failure(
+  cppmu::MockExpectedObjectDidntHappenFailure expected_failure(
       mock_failure_test(), "boo", expectations);
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
   mock().check_expectations();
@@ -449,7 +449,7 @@ TEST(MockCall, expectNCalls_NotFulfilled)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function(2, "boo")->call_was_made(1);
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().expect_n_calls(2, "boo");
@@ -478,7 +478,7 @@ TEST(MockCall, shouldntFailTwice)
 
 TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
 {
-  CHECK(mock().return_value().equals(cpputest::MockNamedValue("")));
+  CHECK(mock().return_value().equals(cppmu::MockNamedValue("")));
 }
 
 IGNORE_TEST(MockCall, testForPerformanceProfiling)
@@ -503,7 +503,7 @@ mocks_are_counted_as_checks_test_function()
 
 TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   fixture.set_test_function(mocks_are_counted_as_checks_test_function);
   fixture.run_all_tests();
   LONGS_EQUAL(3, fixture.get_check_count());

@@ -1,6 +1,6 @@
-#include "CppUTest/CompositeTestOutput.hpp"
+#include "CppMu/CompositeTestOutput.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 CompositeTestOutput::CompositeTestOutput()
   : output_one_(nullptr)
@@ -181,4 +181,4 @@ CompositeTestOutput::flush()
     output_two_->flush();
 }
 
-} // namespace cpputest
+} // namespace cppmu

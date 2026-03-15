@@ -1,6 +1,6 @@
-#include "CppUTest/MockNamedValueList.hpp"
+#include "CppMu/MockNamedValueList.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 void
 MockNamedValueListNode::set_next(MockNamedValueListNode* node)
@@ -89,4 +89,4 @@ MockNamedValueList::begin()
   return head_;
 }
 
-} // namespace cpputest
+} // namespace cppmu

@@ -1,4 +1,4 @@
-#include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppMu/CommandLineTestRunner.hpp"
 
 int
 main(int argc, char** argv)
@@ -11,7 +11,7 @@ main(int argc, char** argv)
     CHECK(true);
     LONGS_EQUAL(1, 1);
 
-    return_value = cpputest::CommandLineTestRunner::run_all_tests(
+    return_value = cppmu::CommandLineTestRunner::run_all_tests(
         argc, argv); /* cover alternate method */
   }
 

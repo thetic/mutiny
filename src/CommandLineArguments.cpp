@@ -1,10 +1,10 @@
-#include "CppUTest/CommandLineArguments.hpp"
+#include "CppMu/CommandLineArguments.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/StringCollection.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/StringCollection.hpp"
+#include "CppMu/time.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   : ac_(argc)
@@ -145,7 +145,7 @@ CommandLineArguments::usage() const
 const char*
 CommandLineArguments::help() const
 {
-  return "Thanks for using CppUTest.\n"
+  return "Thanks for using CppMu.\n"
          "\n"
          "Options that do not run tests but query:\n"
          "  -h                - this wonderful help screen. Joy!\n"
@@ -345,7 +345,7 @@ bool
 CommandLineArguments::set_shuffle(int argc, const char* const* argv, int& i)
 {
   shuffling_ = true;
-  shuffle_seed_ = static_cast<unsigned int>(cpputest::get_time_in_millis());
+  shuffle_seed_ = static_cast<unsigned int>(cppmu::get_time_in_millis());
   if (shuffle_seed_ == 0)
     shuffle_seed_++;
 
@@ -570,4 +570,4 @@ CommandLineArguments::get_package_name() const
   return package_name_;
 }
 
-} // namespace cpputest
+} // namespace cppmu

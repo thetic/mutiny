@@ -1,0 +1,9 @@
+@PACKAGE_INIT@
+
+set_and_check(CppMu_INCLUDE_DIRS "@PACKAGE_INCLUDE_INSTALL_DIR@")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/Modules")
+include("${CMAKE_CURRENT_LIST_DIR}/CppMuTargets.cmake")
+
+set(CppMu_LIBRARIES CppMu::CppMu)
+
+check_required_components(CppMu)

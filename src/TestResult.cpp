@@ -1,11 +1,11 @@
-#include "CppUTest/TestResult.hpp"
+#include "CppMu/TestResult.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/time.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestResult::TestResult(TestOutput& p)
   : output_(p)
@@ -31,14 +31,14 @@ TestResult::current_group_started(TestShell* test)
 {
   output_.print_current_group_started(*test);
   current_group_time_started_ =
-      static_cast<size_t>(cpputest::get_time_in_millis());
+      static_cast<size_t>(cppmu::get_time_in_millis());
 }
 
 void
 TestResult::current_group_ended(TestShell* /*test*/)
 {
   current_group_total_execution_time_ =
-      static_cast<size_t>(cpputest::get_time_in_millis()) -
+      static_cast<size_t>(cppmu::get_time_in_millis()) -
       current_group_time_started_;
   output_.print_current_group_ended(*this);
 }
@@ -47,8 +47,7 @@ void
 TestResult::current_test_started(TestShell* test)
 {
   output_.print_current_test_started(*test);
-  current_test_time_started_ =
-      static_cast<size_t>(cpputest::get_time_in_millis());
+  current_test_time_started_ = static_cast<size_t>(cppmu::get_time_in_millis());
 }
 
 void
@@ -67,7 +66,7 @@ void
 TestResult::current_test_ended(TestShell* /*test*/)
 {
   current_test_total_execution_time_ =
-      static_cast<size_t>(cpputest::get_time_in_millis()) -
+      static_cast<size_t>(cppmu::get_time_in_millis()) -
       current_test_time_started_;
   output_.print_current_test_ended(*this);
 }
@@ -112,14 +111,14 @@ TestResult::count_ignored()
 void
 TestResult::tests_started()
 {
-  time_started_ = static_cast<size_t>(cpputest::get_time_in_millis());
+  time_started_ = static_cast<size_t>(cppmu::get_time_in_millis());
   output_.print_tests_started();
 }
 
 void
 TestResult::tests_ended()
 {
-  auto time_ended = static_cast<size_t>(cpputest::get_time_in_millis());
+  auto time_ended = static_cast<size_t>(cppmu::get_time_in_millis());
   total_execution_time_ = time_ended - time_started_;
   output_.print_tests_ended(*this);
 }
@@ -148,4 +147,4 @@ TestResult::get_current_group_total_execution_time() const
   return current_group_total_execution_time_;
 }
 
-} // namespace cpputest
+} // namespace cppmu

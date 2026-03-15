@@ -1,6 +1,6 @@
-#include "CppUTest/MockIgnoredExpectedCall.hpp"
+#include "CppMu/MockIgnoredExpectedCall.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockExpectedCall&
 MockIgnoredExpectedCall::instance()
@@ -9,4 +9,4 @@ MockIgnoredExpectedCall::instance()
   return call;
 }
 
-} // namespace cpputest
+} // namespace cppmu

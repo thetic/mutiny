@@ -1,9 +1,9 @@
-#include "CppUTest/TestInstaller.hpp"
+#include "CppMu/TestInstaller.hpp"
 
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestRegistry.hpp"
+#include "CppMu/TestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TestInstaller::TestInstaller(TestShell& shell,
     const char* group_name,
@@ -26,4 +26,4 @@ TestInstaller::un_do()
   TestRegistry::get_current_registry()->un_do_last_add_test();
 }
 
-} // namespace cpputest
+} // namespace cppmu

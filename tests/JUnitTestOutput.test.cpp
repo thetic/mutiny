@@ -1,25 +1,25 @@
-#include "CppUTest/JUnitTestOutput.hpp"
+#include "CppMu/JUnitTestOutput.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/String.hpp"
-#include "CppUTest/StringCollection.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/String.hpp"
+#include "CppMu/StringCollection.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/time.hpp"
 
 namespace {
 
 class FileForJUnitTestOutputs
 {
-  cpputest::String name_;
+  cppmu::String name_;
   bool is_open_;
-  cpputest::String buffer_;
+  cppmu::String buffer_;
   FileForJUnitTestOutputs* next_;
 
-  cpputest::StringCollection lines_of_file_;
+  cppmu::StringCollection lines_of_file_;
 
 public:
-  FileForJUnitTestOutputs(const cpputest::String& filename,
+  FileForJUnitTestOutputs(const cppmu::String& filename,
       FileForJUnitTestOutputs* next)
     : name_(filename)
     , is_open_(true)
@@ -29,9 +29,9 @@ public:
 
   FileForJUnitTestOutputs* next_file() { return next_; }
 
-  cpputest::String name() { return name_; }
+  cppmu::String name() { return name_; }
 
-  void write(const cpputest::String& buffer) { buffer_ += buffer; }
+  void write(const cppmu::String& buffer) { buffer_ += buffer; }
 
   void close() { is_open_ = false; }
 
@@ -52,7 +52,7 @@ public:
     return lines_of_file_.size();
   }
 
-  cpputest::String content() { return buffer_; }
+  cppmu::String content() { return buffer_; }
 };
 
 class FileSystemForJUnitTestOutputTests
@@ -75,7 +75,7 @@ public:
     }
   }
 
-  FileForJUnitTestOutputs* open_file(const cpputest::String& filename)
+  FileForJUnitTestOutputs* open_file(const cppmu::String& filename)
   {
     first_file_ = new FileForJUnitTestOutputs(filename, first_file_);
     return first_file_;
@@ -123,17 +123,17 @@ mock_get_time_string()
 
 class JUnitTestOutputTestRunner
 {
-  cpputest::TestResult result_;
+  cppmu::TestResult result_;
 
   const char* current_group_name_;
-  cpputest::TestShell* current_test_;
+  cppmu::TestShell* current_test_;
   bool first_test_in_group_;
   unsigned int time_the_test_takes_;
   unsigned int number_of_checks_in_test_;
-  cpputest::TestFailure* test_failure_;
+  cppmu::TestFailure* test_failure_;
 
 public:
-  explicit JUnitTestOutputTestRunner(const cpputest::TestResult& result)
+  explicit JUnitTestOutputTestRunner(const cppmu::TestResult& result)
     : result_(result)
     , current_group_name_(nullptr)
     , current_test_(nullptr)
@@ -145,8 +145,8 @@ public:
     millis_time = 0;
     the_time = "1978-10-03T00:00:00";
 
-    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
-    UT_PTR_SET(cpputest::get_time_string, mock_get_time_string);
+    CPPMU_PTR_SET(cppmu::get_time_in_millis, mock_get_time_in_millis);
+    CPPMU_PTR_SET(cppmu::get_time_string, mock_get_time_string);
   }
 
   JUnitTestOutputTestRunner& start()
@@ -197,7 +197,7 @@ public:
     delete current_test_;
 
     current_test_ =
-        new cpputest::TestShell(current_group_name_, test_name, "file", 1);
+        new cppmu::TestShell(current_group_name_, test_name, "file", 1);
     return *this;
   }
 
@@ -206,8 +206,8 @@ public:
     run_previous_test();
     delete current_test_;
 
-    current_test_ = new cpputest::IgnoredTestShell(
-        current_group_name_, test_name, "file", 1);
+    current_test_ =
+        new cppmu::IgnoredTestShell(current_group_name_, test_name, "file", 1);
     return *this;
   }
 
@@ -271,8 +271,7 @@ public:
       const char* file,
       size_t line)
   {
-    test_failure_ =
-        new cpputest::TestFailure(current_test_, file, line, message);
+    test_failure_ = new cppmu::TestFailure(current_test_, file, line, message);
     return *this;
   }
 
@@ -293,16 +292,16 @@ public:
 FileSystemForJUnitTestOutputTests file_system;
 FileForJUnitTestOutputs* current_file = nullptr;
 
-cpputest::File
+cppmu::File
 mock_f_open(const char* filename, const char*)
 {
   current_file = file_system.open_file(filename);
   return current_file;
 }
 
-void (*original_f_puts)(const char* str, cpputest::File file);
+void (*original_f_puts)(const char* str, cppmu::File file);
 void
-mock_f_puts(const char* str, cpputest::File file)
+mock_f_puts(const char* str, cppmu::File file)
 {
   if (file == current_file) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
@@ -312,7 +311,7 @@ mock_f_puts(const char* str, cpputest::File file)
 }
 
 void
-mock_f_close(cpputest::File file)
+mock_f_close(cppmu::File file)
 {
   current_file = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
@@ -322,19 +321,19 @@ mock_f_close(cpputest::File file)
 
 TEST_GROUP(JUnitTestOutput)
 {
-  cpputest::JUnitTestOutput* junit_output;
-  cpputest::TestResult* result;
+  cppmu::JUnitTestOutput* junit_output;
+  cppmu::TestResult* result;
   JUnitTestOutputTestRunner* test_case_runner;
   FileForJUnitTestOutputs* output_file;
 
   void setup() override
   {
-    UT_PTR_SET(cpputest::f_open, mock_f_open);
-    original_f_puts = cpputest::f_puts;
-    UT_PTR_SET(cpputest::f_puts, mock_f_puts);
-    UT_PTR_SET(cpputest::f_close, mock_f_close);
-    junit_output = new cpputest::JUnitTestOutput();
-    result = new cpputest::TestResult(*junit_output);
+    CPPMU_PTR_SET(cppmu::f_open, mock_f_open);
+    original_f_puts = cppmu::f_puts;
+    CPPMU_PTR_SET(cppmu::f_puts, mock_f_puts);
+    CPPMU_PTR_SET(cppmu::f_close, mock_f_close);
+    junit_output = new cppmu::JUnitTestOutput();
+    result = new cppmu::TestResult(*junit_output);
     test_case_runner = new JUnitTestOutputTestRunner(*result);
   }
 
@@ -352,7 +351,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   LONGS_EQUAL(1, file_system.amount_of_files());
-  CHECK(file_system.file_exists("cpputest_groupname.xml"));
+  CHECK(file_system.file_exists("cppmu_groupname.xml"));
 }
 
 TEST(JUnitTestOutput,
@@ -365,14 +364,14 @@ TEST(JUnitTestOutput,
       .end();
 
   CHECK(file_system.file_exists(
-      "cpputest_p_a_c_k_a_g_e_n_a_m_e._g_r_o_u_p_n_a_m_e_h_ere.xml"));
+      "cppmu_p_a_c_k_a_g_e_n_a_m_e._g_r_o_u_p_n_a_m_e_h_ere.xml"));
 }
 
 TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL(
       "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n", output_file->line(1));
 }
@@ -382,7 +381,7 @@ TEST(JUnitTestOutput,
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
                "name=\"groupname\" tests=\"1\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
@@ -395,7 +394,7 @@ TEST(JUnitTestOutput,
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL("<properties>\n", output_file->line(3));
   STRCMP_EQUAL("</properties>\n", output_file->line(4));
 }
@@ -405,7 +404,7 @@ TEST(JUnitTestOutput,
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL(
       "<system-out></system-out>\n", output_file->line_from_the_back(3));
 }
@@ -415,7 +414,7 @@ TEST(JUnitTestOutput,
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL(
       "<system-err></system-err>\n", output_file->line_from_the_back(2));
 }
@@ -425,7 +424,7 @@ TEST(JUnitTestOutput,
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
 
   STRCMP_EQUAL("<testcase classname=\"groupname\" name=\"testname\" "
                "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -442,7 +441,7 @@ TEST(JUnitTestOutput,
       .with_test("secondTestName")
       .end();
 
-  output_file = file_system.file("cpputest_twoTestsGroup.xml");
+  output_file = file_system.file("cppmu_twoTestsGroup.xml");
 
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
                "name=\"twoTestsGroup\" tests=\"2\" time=\"0.000\" "
@@ -468,7 +467,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
       .seconds()
       .end();
 
-  output_file = file_system.file("cpputest_timeGroup.xml");
+  output_file = file_system.file("cppmu_timeGroup.xml");
 
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
                "name=\"timeGroup\" tests=\"1\" time=\"0.010\" "
@@ -488,7 +487,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
       .seconds()
       .end();
 
-  output_file = file_system.file("cpputest_twoTestsGroup.xml");
+  output_file = file_system.file("cppmu_twoTestsGroup.xml");
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
                "name=\"twoTestsGroup\" tests=\"2\" time=\"0.060\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
@@ -511,7 +510,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
       .that_fails("Test failed", "thisfile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" hostname=\"localhost\" "
                "name=\"testGroupWithFailingTest\" tests=\"1\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
@@ -536,7 +535,7 @@ TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
       .that_fails("Test failed", "thisfile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" hostname=\"localhost\" "
                "name=\"testGroupWithFailingTest\" tests=\"2\" time=\"0.000\" "
@@ -559,7 +558,7 @@ TEST(JUnitTestOutput, testFailureWithLessThanAndGreaterThanInsideIt)
       .that_fails("Test <failed>", "thisfile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"thisfile:10: Test &lt;failed&gt;\" "
                "type=\"AssertionFailedError\">\n",
@@ -574,7 +573,7 @@ TEST(JUnitTestOutput, testFailureWithQuotesInIt)
       .that_fails("Test \"failed\"", "thisfile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"thisfile:10: Test &quot;failed&quot;\" "
                "type=\"AssertionFailedError\">\n",
@@ -589,7 +588,7 @@ TEST(JUnitTestOutput, testFailureWithNewlineInIt)
       .that_fails("Test \nfailed", "thisfile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"thisfile:10: Test &#10;failed\" "
                "type=\"AssertionFailedError\">\n",
@@ -604,7 +603,7 @@ TEST(JUnitTestOutput, testFailureWithDifferentFileAndLine)
       .that_fails("Test failed", "importantFile", 999)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"importantFile:999: Test failed\" "
                "type=\"AssertionFailedError\">\n",
@@ -619,7 +618,7 @@ TEST(JUnitTestOutput, testFailureWithAmpersandsAndLessThan)
       .that_fails("&object1 < &object2", "importantFile", 999)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"importantFile:999: &amp;object1 &lt; "
                "&amp;object2\" type=\"AssertionFailedError\">\n",
@@ -634,7 +633,7 @@ TEST(JUnitTestOutput, testFailureWithAmpersands)
       .that_fails("&object1 != &object2", "importantFile", 999)
       .end();
 
-  output_file = file_system.file("cpputest_testGroupWithFailingTest.xml");
+  output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL("<failure message=\"importantFile:999: &amp;object1 != "
                "&amp;object2\" type=\"AssertionFailedError\">\n",
@@ -654,7 +653,7 @@ TEST(JUnitTestOutput, aCoupleOfTestFailures)
       .that_fails("otherFailure", "anotherFile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroup.xml");
+  output_file = file_system.file("cppmu_testGroup.xml");
 
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
@@ -676,13 +675,13 @@ TEST(JUnitTestOutput, testFailuresInSeparateGroups)
       .that_fails("otherFailure", "anotherFile", 10)
       .end();
 
-  output_file = file_system.file("cpputest_testGroup.xml");
+  output_file = file_system.file("cppmu_testGroup.xml");
 
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
       output_file->line(8));
 
-  output_file = file_system.file("cpputest_AnotherGroup.xml");
+  output_file = file_system.file("cppmu_AnotherGroup.xml");
   STRCMP_EQUAL("<failure message=\"anotherFile:10: otherFailure\" "
                "type=\"AssertionFailedError\">\n",
       output_file->line(8));
@@ -697,13 +696,13 @@ TEST(JUnitTestOutput, twoTestGroupsWriteToTwoDifferentFiles)
       .with_test("testName")
       .end();
 
-  CHECK(file_system.file("cpputest_firstTestGroup.xml") != nullptr);
-  CHECK(file_system.file("cpputest_secondTestGroup.xml") != nullptr);
+  CHECK(file_system.file("cppmu_firstTestGroup.xml") != nullptr);
+  CHECK(file_system.file("cppmu_secondTestGroup.xml") != nullptr);
 }
 
 TEST(JUnitTestOutput, testGroupWithWeirdName)
 {
-  STRCMP_EQUAL("cpputest_group_weird_name.xml",
+  STRCMP_EQUAL("cppmu_group_weird_name.xml",
       junit_output->create_file_name("group/weird/name").c_str());
 }
 
@@ -712,7 +711,7 @@ TEST(JUnitTestOutput, TestCaseBlockWithAPackageName)
   junit_output->set_package_name("packagename");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("cpputest_packagename_groupname.xml");
+  output_file = file_system.file("cppmu_packagename_groupname.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -729,7 +728,7 @@ TEST(JUnitTestOutput, TestCaseBlockForIgnoredTest)
       .with_ignored_test("testname")
       .end();
 
-  output_file = file_system.file("cpputest_packagename_groupname.xml");
+  output_file = file_system.file("cppmu_packagename_groupname.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -749,7 +748,7 @@ TEST(JUnitTestOutput, TestCaseWithTestLocation)
       .on_line(159)
       .end();
 
-  output_file = file_system.file("cpputest_packagename_groupname.xml");
+  output_file = file_system.file("cppmu_packagename_groupname.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -769,7 +768,7 @@ TEST(JUnitTestOutput, MultipleTestCaseWithTestLocations)
       .on_line(513)
       .end();
 
-  output_file = file_system.file("cpputest_twoTestsGroup.xml");
+  output_file = file_system.file("cppmu_twoTestsGroup.xml");
 
   STRCMP_EQUAL("<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
                "assertions=\"0\" time=\"0.000\" file=\"MyFirstSource.c\" "
@@ -790,7 +789,7 @@ TEST(JUnitTestOutput, TestCaseBlockWithAssertions)
       .that_has_checks(24)
       .end();
 
-  output_file = file_system.file("cpputest_packagename_groupname.xml");
+  output_file = file_system.file("cppmu_packagename_groupname.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -808,7 +807,7 @@ TEST(JUnitTestOutput, MultipleTestCaseBlocksWithAssertions)
       .that_has_checks(567)
       .end();
 
-  output_file = file_system.file("cpputest_twoTestsGroup.xml");
+  output_file = file_system.file("cppmu_twoTestsGroup.xml");
 
   STRCMP_EQUAL("<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
                "assertions=\"456\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -830,12 +829,12 @@ TEST(JUnitTestOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
       .that_has_checks(678)
       .end();
 
-  output_file = file_system.file("cpputest_groupOne.xml");
+  output_file = file_system.file("cppmu_groupOne.xml");
   STRCMP_EQUAL("<testcase classname=\"groupOne\" name=\"testA\" "
                "assertions=\"456\" time=\"0.000\" file=\"file\" line=\"1\">\n",
       output_file->line(5));
 
-  output_file = file_system.file("cpputest_groupTwo.xml");
+  output_file = file_system.file("cppmu_groupTwo.xml");
   STRCMP_EQUAL("<testcase classname=\"groupTwo\" name=\"testB\" "
                "assertions=\"678\" time=\"0.000\" file=\"file\" line=\"1\">\n",
       output_file->line(5));
@@ -849,7 +848,7 @@ TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutput)
       .that_prints("someoutput")
       .end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL("<system-out>someoutput</system-out>\n",
       output_file->line_from_the_back(3));
 }
@@ -863,7 +862,7 @@ TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutputWithSpecials)
           "The <rain> in \"Spain\"\nGoes\r \\mainly\\ down the Dr&in\n")
       .end();
 
-  output_file = file_system.file("cpputest_groupname.xml");
+  output_file = file_system.file("cppmu_groupname.xml");
   STRCMP_EQUAL(
       "<system-out>The &lt;rain&gt; in &quot;Spain&quot;&#10;Goes&#13; "
       "\\mainly\\ down the Dr&amp;in&#10;</system-out>\n",

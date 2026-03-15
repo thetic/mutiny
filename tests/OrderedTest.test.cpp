@@ -1,62 +1,62 @@
-#include "CppUTest/OrderedTest.hpp"
+#include "CppMu/OrderedTest.hpp"
 
 #include "OrderedTest.h"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/ExecFunctionTestShell.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/ExecFunctionTestShell.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestRegistry.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
 TEST_GROUP(OrderedTest)
 {
-  cpputest::TestTestingFixture* fixture;
+  cppmu::TestTestingFixture* fixture;
 
-  cpputest::OrderedTestShell ordered_test;
-  cpputest::OrderedTestShell ordered_test2;
-  cpputest::OrderedTestShell ordered_test3;
-  cpputest::ExecFunctionTestShell normal_test;
-  cpputest::ExecFunctionTestShell normal_test2;
-  cpputest::ExecFunctionTestShell normal_test3;
+  cppmu::OrderedTestShell ordered_test;
+  cppmu::OrderedTestShell ordered_test2;
+  cppmu::OrderedTestShell ordered_test3;
+  cppmu::ExecFunctionTestShell normal_test;
+  cppmu::ExecFunctionTestShell normal_test2;
+  cppmu::ExecFunctionTestShell normal_test3;
 
-  cpputest::OrderedTestShell* ordered_test_cache;
+  cppmu::OrderedTestShell* ordered_test_cache;
   void setup() override
   {
-    ordered_test_cache = cpputest::OrderedTestShell::get_ordered_test_head();
-    cpputest::OrderedTestShell::set_ordered_test_head(nullptr);
+    ordered_test_cache = cppmu::OrderedTestShell::get_ordered_test_head();
+    cppmu::OrderedTestShell::set_ordered_test_head(nullptr);
 
-    fixture = new cpputest::TestTestingFixture();
+    fixture = new cppmu::TestTestingFixture();
     fixture->get_registry()->un_do_last_add_test();
   }
 
   void teardown() override
   {
     delete fixture;
-    cpputest::OrderedTestShell::set_ordered_test_head(ordered_test_cache);
+    cppmu::OrderedTestShell::set_ordered_test_head(ordered_test_cache);
   }
 
-  void install_ordered_test(cpputest::OrderedTestShell& test, int level)
+  void install_ordered_test(cppmu::OrderedTestShell& test, int level)
   {
-    cpputest::OrderedTestInstaller(
+    cppmu::OrderedTestInstaller(
         test, "testgroup", "testname", __FILE__, __LINE__, level);
   }
 
-  void install_normal_test(cpputest::TestShell& test)
+  void install_normal_test(cppmu::TestShell& test)
   {
-    cpputest::TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
+    cppmu::TestInstaller(test, "testgroup", "testname", __FILE__, __LINE__);
   }
 
-  cpputest::TestShell* first_test()
+  cppmu::TestShell* first_test()
   {
     return fixture->get_registry()->get_first_test();
   }
 
-  cpputest::TestShell* second_test() { return first_test()->get_next(); }
+  cppmu::TestShell* second_test() { return first_test()->get_next(); }
 };
 
 TEST(OrderedTest, TestInstallerSetsFields)
 {
-  cpputest::OrderedTestInstaller installer(
+  cppmu::OrderedTestInstaller installer(
       ordered_test, "testgroup", "testname", "this.cpp", 10, 5);
   STRCMP_EQUAL("testgroup", ordered_test.get_group().c_str());
   STRCMP_EQUAL("testname", ordered_test.get_name().c_str());
@@ -104,7 +104,7 @@ TEST(OrderedTest, MultipleOrderedTests)
   install_normal_test(normal_test3);
   install_ordered_test(ordered_test3, 7);
 
-  cpputest::TestShell* first_ordered_test =
+  cppmu::TestShell* first_ordered_test =
       first_test()->get_next()->get_next()->get_next();
   CHECK(first_ordered_test == &ordered_test2);
   CHECK(first_ordered_test->get_next() == &ordered_test);
@@ -149,8 +149,7 @@ TEST_GROUP(OrderedTestC)
   void setup() override
   {
     OrderedTestTestingFixture::check_run(
-        cpputest::TestRegistry::get_current_registry()
-            ->get_current_repetition());
+        cppmu::TestRegistry::get_current_registry()->get_current_repetition());
   }
 };
 

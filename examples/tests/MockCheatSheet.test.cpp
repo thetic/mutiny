@@ -1,14 +1,14 @@
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockSupport.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockSupport.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 namespace {
 /* Stubbed out product code using linker, function pointer, or overriding */
 int
 foo(const char* param_string, int param_int)
 {
-  /* Tell CppUTest Mocking what we mock. Also return recorded value */
+  /* Tell CppMu Mocking what we mock. Also return recorded value */
   return mock()
       .actual_call("Foo")
       .with_parameter("param_string", param_string)

@@ -1,10 +1,10 @@
-add_executable(CppUTestTests
+add_executable(CppMuTests
     main.cpp
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp
-    CppUTest.test.c
-    CppUTest.test.cpp
+    CppMu.test.c
+    CppMu.test.cpp
     ExpectFailTestShell.test.cpp
     IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp
@@ -43,14 +43,14 @@ add_executable(CppUTestTests
     TestShellPointerArray.test.cpp
 )
 
-target_link_libraries(CppUTestTests
-    PRIVATE CppUTest
+target_link_libraries(CppMuTests
+    PRIVATE CppMu
 )
 
-target_include_directories(CppUTestTests PRIVATE
-    $<TARGET_PROPERTY:CppUTest,INCLUDE_DIRECTORIES>
+target_include_directories(CppMuTests PRIVATE
+    $<TARGET_PROPERTY:CppMu,INCLUDE_DIRECTORIES>
 )
 
-include(CppUTest)
+include(CppMu)
 
-cpputest_discover_tests(CppUTestTests)
+cppmu_discover_tests(CppMuTests)

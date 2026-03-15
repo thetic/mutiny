@@ -1,10 +1,10 @@
-#include "CppUTest/TestShellPointerArray.hpp"
+#include "CppMu/TestShellPointerArray.hpp"
 
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestShell.hpp"
 
 #include <stdlib.h>
 
-namespace cpputest {
+namespace cppmu {
 
 int (*rand)() = ::rand;
 
@@ -95,4 +95,4 @@ TestShellPointerArray::get(size_t index) const
   return array_of_tests_[index];
 }
 
-} // namespace cpputest
+} // namespace cppmu

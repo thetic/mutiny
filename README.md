@@ -1,37 +1,27 @@
-# CppUTest
+# CppMu
 
-[![GitHub Actions](https://github.com/cpputest/cpputest/actions/workflows/basic.yml/badge.svg)](https://github.com/cpputest/cpputest/actions/workflows/basic.yml)
-[![Coverage Status](https://coveralls.io/repos/cpputest/cpputest/badge.svg?branch=master&service=github)](https://coveralls.io/github/cpputest/cpputest?branch=master)
-[![ConanCenter package](https://repology.org/badge/version-for-repo/conancenter/cpputest.svg)](https://conan.io/center/cpputest)
+CppMu is a C/C++ unit testing and mocking framework suited for embedded and
+low-resource targets.
 
-CppUTest unit testing and mocking framework for C/C++
+## Attribution
 
-[More information on the project page](https://cpputest.github.io)
+CppMu is descended from [CppUTest](https://github.com/cpputest/cpputest),
+a unit testing framework originally created by Michael Feathers and maintained
+by the CppUTest community. The test API, assertion macros, mock framework, and
+core architecture are all derived from that project.
 
-Slack channel:
-[Join if link not expired](https://join.slack.com/t/cpputest/shared_invite/zt-epq97u9h-6yBQHHl2cvUADjEENtdASw)
+---
 
 ## Getting Started
-
-You'll need to do the following to get started:
 
 Building from source:
 
 ```bash
-git clone https://github.com/cpputest/cpputest.git
-cd cpputest
 cmake -B build
 cmake --build build
 ```
 
-You can use `cmake --install build` if you want to install CppUTest system-wide.
-
-Then to get started, you'll need to do the following:
-
-- Add the include path to the Makefile. Something like:
-  - `CPPFLAGS += -I$(CPPUTEST_HOME)/include`
-- Add the library linking to your Makefile. Something like:
-  - `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest`
+You can use `cmake --install build` to install CppMu system-wide.
 
 After this, you can write your first test:
 
@@ -44,12 +34,6 @@ TEST(FirstTestGroup, FirstTest)
 {
    FAIL("Fail me!");
 }
-```
-
-You can build and install cpputest using [vcpkg](https://github.com/Microsoft/vcpkg/) dependency manager:
-
-```console
-$ vcpkg install cpputest (More information: https://github.com/microsoft/vcpkg)
 ```
 
 ## Command line switches
@@ -68,7 +52,7 @@ $ vcpkg install cpputest (More information: https://github.com/microsoft/vcpkg)
 - `TEST(group, name)` - define a test
 - `IGNORE_TEST(group, name)` - turn off the execution of a test
 - `TEST_GROUP(group)` - Declare a test group to which certain tests belong. This will also create the link needed from another library.
-- `TEST_GROUP_BASE(group, base)` - Same as `TEST_GROUP`, just use a different base class than Utest
+- `TEST_GROUP_BASE(group, base)` - Same as `TEST_GROUP`, just use a different base class than `Test`
 - `TEST_SETUP()` - Declare a void setup method in a `TEST_GROUP` - this is the same as declaring void `setup()`
 - `TEST_TEARDOWN()` - Declare a void setup method in a `TEST_GROUP`
 - `IMPORT_TEST_GROUP(group)` - Export the name of a test group so it can be linked in from a library. Needs to be done in `main`.
@@ -100,11 +84,9 @@ Customize `CHECK_EQUAL` to work with your types that support `operator==()`
 
 - Create the function: `String StringFrom(const yourType&)`
 
-The Extensions directory has a few of these.
-
 ## Building default checks with TestPlugin
 
-- CppUTest can support extra checking functionality by inserting TestPlugins
+- CppMu can support extra checking functionality by inserting TestPlugins
 - TestPlugin is derived from the TestPlugin class and can be inserted in the TestRegistry via the installPlugin method.
 - TestPlugins can be used for, for example, system stability and resource handling like files, memory or network connection clean-up.
 
@@ -124,18 +106,18 @@ int main(int argc, char** argv)
 ## Example Main
 
 ```cpp
-#include "CppUTest/CommandLineTestRunner.h"
+#include "CppMu/CommandLineTestRunner.h"
 
 int main(int argc, char** argv)
 {
-  return cpputest::CommandLineTestRunner::RunAllTests(argc, argv);
+  return cppmu::CommandLineTestRunner::RunAllTests(argc, argv);
 }
 ```
 
 ## Example Test
 
 ```cpp
-#include "CppUTest/CppUTest.h"
+#include "CppMu/CppMu.h"
 #include "ClassName.h"
 
 TEST_GROUP(ClassName)
@@ -164,113 +146,85 @@ TEST(ClassName, Create)
 }
 ```
 
-## Conan
-
-CppUTest is available through [conan-center][conan-center].
-
-##### conanfile.txt
-
-```ini
-[requires]
-cpputest/4.0
-
-[generators]
-cmake_find_package
-cmake_paths
-```
-
-##### CMake
-
-```cmake
-find_package(CppUTest REQUIRED)
-
-add_executable(example_test ExampleTest.cpp)
-
-target_link_libraries(example_test PRIVATE
-    CppUTest::CppUTest)
-```
-
 ## CMake Integration
 
 ### FetchContent
 
-CMake can automatically download and integrate CppUTest with
+CMake can automatically download and integrate CppMu with
 [`FetchContent`](https://cmake.org/cmake/help/latest/module/FetchContent.html).
 This is the recommended strategy for CMake integration.
 
 ```cmake
 cmake_minimum_required(VERSION 3.11)
-project(trying_CppUtest)
+project(trying_CppMu)
 
 include(FetchContent)
 FetchContent_Declare(
-    CppUTest
-    GIT_REPOSITORY https://github.com/cpputest/cpputest.git
-    GIT_TAG        master # or use release tag, eg. v4.0
+    CppMu
+    GIT_REPOSITORY https://github.com/your-org/cppmu.git
+    GIT_TAG        main
 )
-FetchContent_MakeAvailable(CppUTest)
+FetchContent_MakeAvailable(CppMu)
 
-add_executable(trying_CppUtest main.cpp)
-target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+add_executable(trying_CppMu main.cpp)
+target_link_libraries(trying_CppMu PRIVATE CppMu::CppMu)
 
 include(CTest)
-include(CppUTest)
-cpputest_discover_tests(trying_CppUtest)
+include(CppMu)
+cppmu_discover_tests(trying_CppMu)
 ```
 
 ### System install
 
-If CppUTest is installed on the system, use
+If CppMu is installed on the system, use
 [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html):
 
 ```cmake
 cmake_minimum_required(VERSION 3.10)
-project(trying_CppUtest)
+project(trying_CppMu)
 
-find_package(CppUTest REQUIRED)
+find_package(CppMu REQUIRED)
 
-add_executable(trying_CppUtest main.cpp)
-target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+add_executable(trying_CppMu main.cpp)
+target_link_libraries(trying_CppMu PRIVATE CppMu::CppMu)
 
 include(CTest)
-include(CppUTest)
-cpputest_discover_tests(trying_CppUtest)
+include(CppMu)
+cppmu_discover_tests(trying_CppMu)
 ```
 
 ### Subdirectory
 
-To integrate CppUTest from a local directory (e.g. when building for a
+To integrate CppMu from a local directory (e.g. when building for a
 different target platform):
 
 ```cmake
 cmake_minimum_required(VERSION 3.10)
-project(trying_CppUtest)
+project(trying_CppMu)
 
-set(CPPUTEST_PLATFORM OFF CACHE BOOL "Platform implementation")
-add_subdirectory(/path/to/cpputest CppUTest)
-target_sources(CppUTest PRIVATE ${PROJECT_SOURCE_DIR}/UtestPlatform.cpp)
+set(CPPMU_PLATFORM OFF CACHE BOOL "Platform implementation")
+add_subdirectory(/path/to/cppmu CppMu)
+target_sources(CppMu PRIVATE ${PROJECT_SOURCE_DIR}/UtestPlatform.cpp)
 
-add_executable(trying_CppUtest main.cpp)
-target_link_libraries(trying_CppUtest PRIVATE CppUTest::CppUTest)
+add_executable(trying_CppMu main.cpp)
+target_link_libraries(trying_CppMu PRIVATE CppMu::CppMu)
 
 include(CTest)
-include(CppUTest)
-cpputest_discover_tests(trying_CppUtest)
+include(CppMu)
+cppmu_discover_tests(trying_CppMu)
 ```
-
-[conan-center]: https://conan.io/center/cpputest
 
 ## Testing C Code
 
-CppUTest supports writing tests in pure C using a two-file pattern: a `.test.c`
+CppMu supports writing tests in pure C using a two-file pattern: a `.test.c`
 file for the C tests and a `.test.cpp` wrapper that wires them into the C++ runner.
 
 ### The `.test.c` file
 
-Include `"CppUTest/TestHarness.h"` and use the C-specific macros:
+Include `"CppMu/CppMu.h"` and use the C-specific macros:
 
 ```c
-#include "CppUTest/CppUTest.h"
+#include "CppMu/CppMu.h"
 #include "mymodule.h"
 
 TEST_GROUP_C_SETUP(MyGroup)
@@ -292,14 +246,14 @@ TEST_C(MyGroup, SomeTest)
 Available typed assertion macros: `CHECK_C()`, `CHECK_EQUAL_C_INT()`,
 `CHECK_EQUAL_C_UINT()`, `CHECK_EQUAL_C_LONG()`, `CHECK_EQUAL_C_STRING()`,
 `CHECK_EQUAL_C_REAL()`, `CHECK_EQUAL_C_POINTER()`, `CHECK_EQUAL_C_MEMCMP()`,
-and more (see `CppUTest/TestHarness.h`).
+and more (see `CppMu/CppMu.h`).
 
 ### The companion `.test.cpp` wrapper
 
 Create a `.test.cpp` file that bridges the C functions into the C++ test runner:
 
 ```cpp
-#include "CppUTest/CppUTest.h"
+#include "CppMu/CppMu.h"
 
 TEST_GROUP_C_WRAPPER(MyGroup)
 {

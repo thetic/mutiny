@@ -1,7 +1,7 @@
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestRegistry.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestRegistry.hpp"
 
-class TestInstallerTestUtestShell : public cpputest::TestShell
+class TestInstallerTestShell : public cppmu::TestShell
 {};
 
 // this is file scope because the test is installed
@@ -10,14 +10,14 @@ class TestInstallerTestUtestShell : public cpputest::TestShell
 
 TEST_GROUP(TestInstaller)
 {
-  cpputest::TestInstaller* test_installer;
-  cpputest::TestRegistry* my_registry;
-  TestInstallerTestUtestShell shell;
+  cppmu::TestInstaller* test_installer;
+  cppmu::TestRegistry* my_registry;
+  TestInstallerTestShell shell;
   void setup() override
   {
-    my_registry = new cpputest::TestRegistry();
+    my_registry = new cppmu::TestRegistry();
     my_registry->set_current_registry(my_registry);
-    test_installer = new cpputest::TestInstaller(
+    test_installer = new cppmu::TestInstaller(
         shell, "TestInstaller", "test", __FILE__, __LINE__);
   }
   void teardown() override

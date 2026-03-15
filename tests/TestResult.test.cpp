@@ -1,8 +1,8 @@
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/time.hpp"
 
 namespace {
 unsigned long
@@ -14,17 +14,17 @@ mock_get_time_in_millis()
 
 TEST_GROUP(TestResult)
 {
-  cpputest::TestOutput* printer;
-  cpputest::StringBufferTestOutput* mock;
+  cppmu::TestOutput* printer;
+  cppmu::StringBufferTestOutput* mock;
 
-  cpputest::TestResult* res;
+  cppmu::TestResult* res;
 
   void setup() override
   {
-    mock = new cpputest::StringBufferTestOutput();
+    mock = new cppmu::StringBufferTestOutput();
     printer = mock;
-    res = new cpputest::TestResult(*printer);
-    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
+    res = new cppmu::TestResult(*printer);
+    CPPMU_PTR_SET(cppmu::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -57,8 +57,8 @@ TEST(TestResult, ResultIsNotOkIfFailures)
 {
   res->count_test();
   res->count_run();
-  res->add_failure(cpputest::TestFailure(cpputest::TestShell::get_current(),
-      cpputest::string_from("dummy message")));
+  res->add_failure(cppmu::TestFailure(
+      cppmu::TestShell::get_current(), cppmu::string_from("dummy message")));
   CHECK_TRUE(res->is_failure());
 }
 

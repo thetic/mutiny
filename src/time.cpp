@@ -1,10 +1,10 @@
-#include "CppUTest/time.hpp"
+#include "CppMu/time.hpp"
 
 #include <time.h>
 
 #if defined(_WIN32)
 #include <windows.h>
-#elif defined(CPPUTEST_HAVE_GETTIMEOFDAY)
+#elif defined(CPPMU_HAVE_GETTIMEOFDAY)
 #include <sys/time.h>
 #endif
 
@@ -24,7 +24,7 @@ get_time_in_millis_impl()
   } else {
     return static_cast<unsigned long>(GetTickCount64());
   }
-#elif defined(CPPUTEST_HAVE_GETTIMEOFDAY)
+#elif defined(CPPMU_HAVE_GETTIMEOFDAY)
   struct timeval tv;
   gettimeofday(&tv, NULL);
   return (static_cast<unsigned long>(tv.tv_sec) * 1000) +
@@ -53,9 +53,9 @@ get_time_string_impl()
 
 } // namespace
 
-namespace cpputest {
+namespace cppmu {
 
 unsigned long (*get_time_in_millis)() = get_time_in_millis_impl;
 const char* (*get_time_string)() = get_time_string_impl;
 
-} // namespace cpputest
+} // namespace cppmu

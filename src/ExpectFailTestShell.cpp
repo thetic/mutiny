@@ -1,11 +1,11 @@
-#include "CppUTest/ExpectFailTestShell.hpp"
+#include "CppMu/ExpectFailTestShell.hpp"
 
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestPlugin.hpp"
+#include "CppMu/TestResult.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 ExpectFailTestShell::ExpectFailTestShell() {}
 
@@ -41,4 +41,4 @@ ExpectFailTestShell::run_one_test(TestPlugin* plugin, TestResult& result)
   }
 }
 
-} // namespace cpputest
+} // namespace cppmu

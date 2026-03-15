@@ -1,10 +1,10 @@
-#include "CppUTest/TestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
 
-#include "CppUTest/CompositeTestOutput.hpp"
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/time.hpp"
+#include "CppMu/CompositeTestOutput.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/time.hpp"
 
 namespace {
 unsigned long millis_time;
@@ -16,30 +16,30 @@ mock_get_time_in_millis()
 }
 
 class CompositeTestOutputTestStringBufferTestOutput
-  : public cpputest::StringBufferTestOutput
+  : public cppmu::StringBufferTestOutput
 {
 public:
   virtual void print_tests_started() override { output_ += "Test Start\n"; }
 
-  virtual void print_tests_ended(const cpputest::TestResult& result) override
+  virtual void print_tests_ended(const cppmu::TestResult& result) override
   {
-    output_ += cpputest::string_from_format(
+    output_ += cppmu::string_from_format(
         "Test End %d\n", static_cast<int>(result.get_test_count()));
   }
 
-  void print_current_group_started(const cpputest::TestShell& test) override
+  void print_current_group_started(const cppmu::TestShell& test) override
   {
-    output_ += cpputest::string_from_format(
-        "Group %s Start\n", test.get_group().c_str());
+    output_ +=
+        cppmu::string_from_format("Group %s Start\n", test.get_group().c_str());
   }
 
-  void print_current_group_ended(const cpputest::TestResult& res) override
+  void print_current_group_ended(const cppmu::TestResult& res) override
   {
-    output_ += cpputest::string_from_format(
+    output_ += cppmu::string_from_format(
         "Group End %d\n", static_cast<int>(res.get_test_count()));
   }
 
-  virtual void print_current_test_started(const cpputest::TestShell&) override
+  virtual void print_current_test_started(const cppmu::TestShell&) override
   {
     output_ += "s";
   }
@@ -61,26 +61,26 @@ public:
 
 TEST_GROUP(TestOutput)
 {
-  cpputest::TestOutput* printer;
-  cpputest::StringBufferTestOutput* mock;
-  cpputest::TestShell* tst;
-  cpputest::TestFailure* f;
-  cpputest::TestFailure* f2;
-  cpputest::TestFailure* f3;
-  cpputest::TestResult* result;
+  cppmu::TestOutput* printer;
+  cppmu::StringBufferTestOutput* mock;
+  cppmu::TestShell* tst;
+  cppmu::TestFailure* f;
+  cppmu::TestFailure* f2;
+  cppmu::TestFailure* f3;
+  cppmu::TestResult* result;
 
   void setup() override
   {
-    mock = new cpputest::StringBufferTestOutput();
+    mock = new cppmu::StringBufferTestOutput();
     printer = mock;
-    tst = new cpputest::TestShell("group", "test", "file", 10);
-    f = new cpputest::TestFailure(tst, "failfile", 20, "message");
-    f2 = new cpputest::TestFailure(tst, "file", 20, "message");
-    f3 = new cpputest::TestFailure(tst, "file", 2, "message");
-    result = new cpputest::TestResult(*mock);
+    tst = new cppmu::TestShell("group", "test", "file", 10);
+    f = new cppmu::TestFailure(tst, "failfile", 20, "message");
+    f2 = new cppmu::TestFailure(tst, "file", 20, "message");
+    f3 = new cppmu::TestFailure(tst, "file", 2, "message");
+    result = new cppmu::TestResult(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
-    UT_PTR_SET(cpputest::get_time_in_millis, mock_get_time_in_millis);
+    CPPMU_PTR_SET(cppmu::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -181,14 +181,14 @@ TEST(TestOutput, SetProgressIndicator)
 
 TEST(TestOutput, PrintTestVerboseStarted)
 {
-  mock->verbose(cpputest::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(cppmu::TestOutput::VerbosityLevel::verbose);
   printer->print_current_test_started(*tst);
   STRCMP_EQUAL("TEST(group, test)", mock->get_output().c_str());
 }
 
 TEST(TestOutput, PrintTestVerboseEnded)
 {
-  mock->verbose(cpputest::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(cppmu::TestOutput::VerbosityLevel::verbose);
   result->current_test_started(tst);
   millis_time = 5;
   result->current_test_ended(tst);
@@ -303,9 +303,9 @@ TEST_GROUP(CompositeTestOutput)
 {
   CompositeTestOutputTestStringBufferTestOutput* output1;
   CompositeTestOutputTestStringBufferTestOutput* output2;
-  cpputest::CompositeTestOutput composite_output;
-  cpputest::TestResult* result;
-  cpputest::TestShell* test;
+  cppmu::CompositeTestOutput composite_output;
+  cppmu::TestResult* result;
+  cppmu::TestShell* test;
 
   void setup() override
   {
@@ -313,8 +313,8 @@ TEST_GROUP(CompositeTestOutput)
     output2 = new CompositeTestOutputTestStringBufferTestOutput;
     composite_output.set_output_one(output1);
     composite_output.set_output_two(output2);
-    result = new cpputest::TestResult(composite_output);
-    test = new cpputest::TestShell("Group", "Name", "file", 10);
+    result = new cppmu::TestResult(composite_output);
+    test = new cppmu::TestShell("Group", "Name", "file", 10);
   }
 
   void teardown() override
@@ -389,7 +389,7 @@ TEST(CompositeTestOutput, printDouble)
 
 TEST(CompositeTestOutput, verbose)
 {
-  composite_output.verbose(cpputest::TestOutput::VerbosityLevel::verbose);
+  composite_output.verbose(cppmu::TestOutput::VerbosityLevel::verbose);
   CHECK(output1->is_verbose());
   CHECK(output2->is_verbose());
 }
@@ -403,7 +403,7 @@ TEST(CompositeTestOutput, color)
 
 TEST(CompositeTestOutput, PrintTestFailure)
 {
-  cpputest::TestFailure failure(test, "file", 10, "failed");
+  cppmu::TestFailure failure(test, "file", 10, "failed");
   composite_output.print_failure(failure);
   STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
       output1->get_output().c_str());
@@ -434,7 +434,7 @@ TEST(CompositeTestOutput, flush)
 
 TEST(CompositeTestOutput, printVeryVerbose)
 {
-  composite_output.verbose(cpputest::TestOutput::VerbosityLevel::very_verbose);
+  composite_output.verbose(cppmu::TestOutput::VerbosityLevel::very_verbose);
   composite_output.print_very_verbose("very-verbose");
   STRCMP_EQUAL("very-verbose", output1->get_output().c_str());
   STRCMP_EQUAL("very-verbose", output2->get_output().c_str());

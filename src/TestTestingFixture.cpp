@@ -1,9 +1,9 @@
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/ExecFunctionTestShell.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/ExecFunctionTestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 bool TestTestingFixture::line_of_code_executed_after_check_ = false;
 
@@ -197,4 +197,4 @@ TestTestingFixture::check_test_fails_with_proper_test_location(const char* text,
         line);
 }
 
-} // namespace cpputest
+} // namespace cppmu

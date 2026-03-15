@@ -1,18 +1,18 @@
-#include "CppUTest/SetPointerPlugin.hpp"
+#include "CppMu/SetPointerPlugin.hpp"
 
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 namespace {
-struct CpputestPair
+struct CppMuPair
 {
   void** orig;
   void* orig_value;
 };
 
 int pointer_table_index;
-CpputestPair setlist[SetPointerPlugin::max_set];
+CppMuPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
 SetPointerPlugin::SetPointerPlugin(const String& name)

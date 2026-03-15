@@ -1,14 +1,14 @@
-#include "CppUTest/IgnoredTestShell.hpp"
+#include "CppMu/IgnoredTestShell.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/ExecFunctionTestShell.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/ExecFunctionTestShell.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
 TEST_GROUP(IgnoredTestShell)
 {
-  cpputest::TestTestingFixture fixture;
-  cpputest::IgnoredTestShell ignored_test;
-  cpputest::ExecFunctionTestShell normal_utest_shell;
+  cppmu::TestTestingFixture fixture;
+  cppmu::IgnoredTestShell ignored_test;
+  cppmu::ExecFunctionTestShell normal_utest_shell;
 
   void setup() override
   {

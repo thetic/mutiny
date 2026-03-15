@@ -1,8 +1,8 @@
 #include "MockSupport.h"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockSupport.h"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockSupport.h"
+#include "CppMu/TestTestingFixture.hpp"
 
 namespace {
 void
@@ -46,12 +46,12 @@ failed_call_to_mock_c()
   mock()->actual_call("Not a call");
 }
 
-bool cpputest_has_crashed;
+bool cppmu_has_crashed;
 
 void
 crash_method()
 {
-  cpputest_has_crashed = true;
+  cppmu_has_crashed = true;
 }
 
 void
@@ -824,7 +824,7 @@ TEST(MockSupport_c, WorksInCFile)
 
 MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
 
   fixture.set_test_function(failed_call_to_mock_c);
   fixture.run_all_tests();
@@ -836,72 +836,72 @@ MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
 
 TEST(MockSupport_c, shouldCrashOnFailure)
 {
-  cpputest_has_crashed = false;
-  cpputest::TestTestingFixture fixture;
-  cpputest::TestShell::set_crash_method(crash_method);
+  cppmu_has_crashed = false;
+  cppmu::TestTestingFixture fixture;
+  cppmu::TestShell::set_crash_method(crash_method);
   mock()->crash_on_failure(true);
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
 
-  CHECK(cpputest_has_crashed);
+  CHECK(cppmu_has_crashed);
 
-  cpputest::TestShell::reset_crash_method();
+  cppmu::TestShell::reset_crash_method();
   mock()->crash_on_failure(false);
 }
 
 TEST(MockSupport_c, nextTestShouldNotCrashOnFailure)
 {
   mock()->crash_on_failure(false);
-  cpputest_has_crashed = false;
-  cpputest::TestTestingFixture fixture;
-  cpputest::TestShell::set_crash_method(crash_method);
+  cppmu_has_crashed = false;
+  cppmu::TestTestingFixture fixture;
+  cppmu::TestShell::set_crash_method(crash_method);
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(cpputest_has_crashed);
+  CHECK_FALSE(cppmu_has_crashed);
 
-  cpputest::TestShell::reset_crash_method();
+  cppmu::TestShell::reset_crash_method();
 }
 
 TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
 {
-  cpputest_has_crashed = false;
-  cpputest::TestTestingFixture fixture;
-  cpputest::TestShell::set_crash_method(crash_method);
+  cppmu_has_crashed = false;
+  cppmu::TestTestingFixture fixture;
+  cppmu::TestShell::set_crash_method(crash_method);
 
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(cpputest_has_crashed);
+  CHECK_FALSE(cppmu_has_crashed);
   LONGS_EQUAL(1, fixture.get_failure_count());
 
-  cpputest::TestShell::reset_crash_method();
+  cppmu::TestShell::reset_crash_method();
 }
 
 TEST(MockSupport_c, FailWillCrashIfEnabled)
 {
-  cpputest_has_crashed = false;
-  cpputest::TestTestingFixture fixture;
-  cpputest::TestShell::set_crash_on_fail();
-  cpputest::TestShell::set_crash_method(crash_method);
+  cppmu_has_crashed = false;
+  cppmu::TestTestingFixture fixture;
+  cppmu::TestShell::set_crash_on_fail();
+  cppmu::TestShell::set_crash_method(crash_method);
 
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
 
-  CHECK(cpputest_has_crashed);
+  CHECK(cppmu_has_crashed);
   LONGS_EQUAL(1, fixture.get_failure_count());
 
-  cpputest::TestShell::restore_default_test_terminator();
-  cpputest::TestShell::reset_crash_method();
+  cppmu::TestShell::restore_default_test_terminator();
+  cppmu::TestShell::reset_crash_method();
 }
 
 TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   mock()->install_comparator(
       "typeName", type_name_is_equal, type_name_value_to_string);
   fixture.set_test_function(failing_call_to_mock_c_with_parameter_of_type);
@@ -912,7 +912,7 @@ TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 
 TEST(MockSupport_c, successWithOutputParameterOfType)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   mock()->install_copier("intType", type_copy);
   fixture.set_test_function(call_to_mock_c_with_output_parameter_of_type);
   fixture.run_all_tests();
@@ -923,7 +923,7 @@ TEST(MockSupport_c, successWithOutputParameterOfType)
 
 TEST(MockSupport_c, expectOneMemBufferParameterAndValueFailsDueToContents)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   fixture.set_test_function(failing_call_to_mock_c_with_memory_buffer);
   fixture.run_all_tests();
   fixture.assert_print_contains(

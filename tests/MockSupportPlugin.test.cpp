@@ -1,28 +1,28 @@
-#include "CppUTest/MockSupportPlugin.hpp"
+#include "CppMu/MockSupportPlugin.hpp"
 
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockSupport.hpp"
-#include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockSupport.hpp"
+#include "CppMu/StringBufferTestOutput.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 TEST_GROUP(MockSupportPlugin)
 {
-  cpputest::StringBufferTestOutput output;
+  cppmu::StringBufferTestOutput output;
 
-  cpputest::TestShell* test;
-  cpputest::TestResult* result;
+  cppmu::TestShell* test;
+  cppmu::TestResult* result;
 
-  cpputest::MockSupportPlugin plugin;
+  cppmu::MockSupportPlugin plugin;
 
   void setup() override
   {
-    test = new cpputest::TestShell("group", "name", "file", 1);
-    result = new cpputest::TestResult(output);
+    test = new cppmu::TestShell("group", "name", "file", 1);
+    result = new cppmu::TestResult(output);
   }
 
   void teardown() override
@@ -40,7 +40,7 @@ TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       test, expectations);
 
   mock().expect_one_call("foobar");
@@ -60,7 +60,7 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("differentScope::foobar")
       ->on_object(reinterpret_cast<void*>(1));
-  cpputest::MockExpectedObjectDidntHappenFailure expected_failure(
+  cppmu::MockExpectedObjectDidntHappenFailure expected_failure(
       test, "differentScope::foobar", expectations);
 
   mock("differentScope")
@@ -75,14 +75,14 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   CHECK_NO_MOCK_FAILURE();
 }
 
-class DummyComparator : public cpputest::MockNamedValueComparator
+class DummyComparator : public cppmu::MockNamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
   {
     return object1 == object2;
   }
-  cpputest::String value_to_string(const void*) override { return "string"; }
+  cppmu::String value_to_string(const void*) override { return "string"; }
 };
 
 TEST(MockSupportPlugin,
@@ -96,13 +96,13 @@ TEST(MockSupportPlugin,
       "myType", "name", nullptr);
   mock().actual_call("foo").with_parameter_of_type("myType", "name", nullptr);
 
-  cpputest::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
+  cppmu::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
 }
 
-class DummyCopier : public cpputest::MockNamedValueCopier
+class DummyCopier : public cppmu::MockNamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -122,7 +122,7 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
   mock().actual_call("foo").with_output_parameter_of_type(
       "myType", "name", nullptr);
 
-  cpputest::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
+  cppmu::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
@@ -163,7 +163,7 @@ fail_twice_function()
 
 TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
-  cpputest::TestTestingFixture fixture;
+  cppmu::TestTestingFixture fixture;
   fixture.install_plugin(&plugin);
   fixture.set_test_function(fail_twice_function);
   fixture.run_all_tests();

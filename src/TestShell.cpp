@@ -1,22 +1,22 @@
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/TestShell.hpp"
 
-#include "CppUTest/ConsoleTestOutput.hpp"
-#include "CppUTest/Test.hpp"
-#include "CppUTest/TestFailure.hpp"
-#include "CppUTest/TestJumpBuffer.hpp"
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/TestResult.hpp"
-#include "CppUTest/math.hpp"
+#include "CppMu/ConsoleTestOutput.hpp"
+#include "CppMu/Test.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestJumpBuffer.hpp"
+#include "CppMu/TestPlugin.hpp"
+#include "CppMu/TestRegistry.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/math.hpp"
 
 #include <math.h>
 #include <stdlib.h>
 
-namespace cpputest {
+namespace cppmu {
 
 namespace {
 
-/* Sometimes stubs use the CppUTest assertions.
+/* Sometimes stubs use the CppMu assertions.
  * Its not correct to do so, but this small helper class will prevent a
  * segmentation fault and instead will give an error message and also the
  * file/line of the check that was executed outside the tests.
@@ -98,11 +98,10 @@ const CrashingTestTerminatorWithoutExceptions
 bool
 doubles_equal(double d1, double d2, double threshold)
 {
-  if (cpputest::is_nan(d1) || cpputest::is_nan(d2) ||
-      cpputest::is_nan(threshold))
+  if (cppmu::is_nan(d1) || cppmu::is_nan(d2) || cppmu::is_nan(threshold))
     return false;
 
-  if (cpputest::is_inf(d1) && cpputest::is_inf(d2)) {
+  if (cppmu::is_inf(d1) && cppmu::is_inf(d2)) {
     return true;
   }
 
@@ -217,7 +216,7 @@ TestShell::run_one_test_in_current_process(TestPlugin* plugin,
 
   Test* test_to_run = nullptr;
 
-#if CPPUTEST_HAVE_EXCEPTIONS
+#if CPPMU_HAVE_EXCEPTIONS
   try {
 #endif
     result.print_very_verbose("\n---- before createTest: ");
@@ -230,7 +229,7 @@ TestShell::run_one_test_in_current_process(TestPlugin* plugin,
 
     TestShell::set_current_test(saved_test);
     TestShell::set_test_result(saved_result);
-#if CPPUTEST_HAVE_EXCEPTIONS
+#if CPPMU_HAVE_EXCEPTIONS
   } catch (...) {
     destroy_test(test_to_run);
     throw;
@@ -829,4 +828,4 @@ TestShell::is_rethrowing_exceptions()
   return rethrow_exceptions_;
 }
 
-} // namespace cpputest
+} // namespace cppmu

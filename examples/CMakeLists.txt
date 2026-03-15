@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 4.0)
 
-project(CppUTestExample)
+project(CppMuExample)
 
 if(PROJECT_IS_TOP_LEVEL)
-  find_package(CppUTest 4.0 REQUIRED)
+  find_package(CppMu 0.1 REQUIRED)
 endif()
 
 include(CTest)

@@ -1,8 +1,8 @@
-#include "CppUTest/TeamCityTestOutput.hpp"
+#include "CppMu/TeamCityTestOutput.hpp"
 
-#include "CppUTest/CppUTest.hpp"
+#include "CppMu/CppMu.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 TeamCityTestOutput::TeamCityTestOutput()
   : currtest_(nullptr)
@@ -108,4 +108,4 @@ TeamCityTestOutput::print_failure(const TestFailure& failure)
   print("']\n");
 }
 
-} // namespace cpputest
+} // namespace cppmu

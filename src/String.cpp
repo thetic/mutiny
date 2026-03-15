@@ -1,14 +1,14 @@
-#include "CppUTest/String.hpp"
+#include "CppMu/String.hpp"
 
-#include "CppUTest/math.hpp"
+#include "CppMu/math.hpp"
 
 #include <limits.h>
 #include <stdio.h>
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
 #include <string>
 #endif
 
-namespace cpputest {
+namespace cppmu {
 
 namespace {
 char*
@@ -665,7 +665,7 @@ brackets_formatted_hex_string(String hex_string)
   return String("(0x") + hex_string + ")";
 }
 
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
 String
 string_from(const std::nullptr_t value)
 {
@@ -725,9 +725,9 @@ brackets_formatted_hex_string_from(unsigned long long value)
 String
 string_from(double value, int precision)
 {
-  if (cpputest::is_nan(value))
+  if (cppmu::is_nan(value))
     return "Nan - Not a number";
-  else if (cpputest::is_inf(value))
+  else if (cppmu::is_inf(value))
     return "Inf - Infinity";
   else
     return string_from_format("%.*g", precision, value);
@@ -763,7 +763,7 @@ string_from(unsigned int i)
   return string_from_format("%u", i);
 }
 
-#if CPPUTEST_USE_STD_CPP_LIB
+#if CPPMU_USE_STD_CPP_LIB
 
 String
 string_from(const std::string& value)
@@ -862,4 +862,4 @@ string_from_ordinal_number(unsigned int number)
   return string_from_format("%u%s", number, suffix);
 }
 
-} // namespace cpputest
+} // namespace cppmu

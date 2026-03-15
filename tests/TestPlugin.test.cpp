@@ -1,9 +1,9 @@
-#include "CppUTest/TestPlugin.hpp"
+#include "CppMu/TestPlugin.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/TestOutput.hpp"
-#include "CppUTest/TestRegistry.hpp"
-#include "CppUTest/TestTestingFixture.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/TestOutput.hpp"
+#include "CppMu/TestRegistry.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
 #define GENERIC_PLUGIN "GenericPlugin"
 #define GENERIC_PLUGIN2 "GenericPlugin2"
@@ -12,10 +12,10 @@
 namespace {
 int sequence_number;
 
-class DummyPlugin : public cpputest::TestPlugin
+class DummyPlugin : public cppmu::TestPlugin
 {
 public:
-  DummyPlugin(const cpputest::String& name)
+  DummyPlugin(const cppmu::String& name)
     : TestPlugin(name)
     , pre_action(0)
     , pre_action_sequence(0)
@@ -24,15 +24,13 @@ public:
   {
   }
 
-  virtual void pre_test_action(cpputest::TestShell&,
-      cpputest::TestResult&) override
+  virtual void pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
     pre_action++;
     pre_action_sequence = sequence_number++;
   }
 
-  virtual void post_test_action(cpputest::TestShell&,
-      cpputest::TestResult&) override
+  virtual void post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
     post_action++;
     post_action_sequence = sequence_number++;
@@ -47,7 +45,7 @@ public:
 class DummyPluginWhichAcceptsParameters : public DummyPlugin
 {
 public:
-  DummyPluginWhichAcceptsParameters(const cpputest::String& name)
+  DummyPluginWhichAcceptsParameters(const cppmu::String& name)
     : DummyPlugin(name)
   {
   }
@@ -56,7 +54,7 @@ public:
       const char* const* argv,
       int index) override
   {
-    cpputest::String argument(argv[index]);
+    cppmu::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
     return TestPlugin::parse_arguments(argc, argv, index);
@@ -70,15 +68,15 @@ TEST_GROUP(TestPlugin)
   DummyPlugin* first_plugin;
   DummyPluginWhichAcceptsParameters* second_plugin;
   DummyPlugin* third_plugin;
-  cpputest::TestTestingFixture* gen_fixture;
-  cpputest::TestRegistry* registry;
+  cppmu::TestTestingFixture* gen_fixture;
+  cppmu::TestRegistry* registry;
 
   void setup() override
   {
     first_plugin = new DummyPlugin(GENERIC_PLUGIN);
     second_plugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
     third_plugin = new DummyPlugin(GENERIC_PLUGIN3);
-    gen_fixture = new cpputest::TestTestingFixture;
+    gen_fixture = new cppmu::TestTestingFixture;
     registry = gen_fixture->get_registry();
     registry->install_plugin(first_plugin);
     sequence_number = 1;
@@ -143,7 +141,7 @@ TEST(TestPlugin, RemovePluginByName)
   LONGS_EQUAL(2, registry->count_plugins());
 }
 
-struct DefaultPlugin : public cpputest::TestPlugin
+struct DefaultPlugin : public cppmu::TestPlugin
 {
   DefaultPlugin()
     : TestPlugin("default")

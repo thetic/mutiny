@@ -1,11 +1,11 @@
-#include "CppUTest/MockFailure.hpp"
+#include "CppMu/MockFailure.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockExpectedCall.hpp"
-#include "CppUTest/MockExpectedCallsList.hpp"
-#include "CppUTest/MockNamedValue.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockExpectedCall.hpp"
+#include "CppMu/MockExpectedCallsList.hpp"
+#include "CppMu/MockNamedValue.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 class MockFailureReporterTestTerminator : public TestTerminator
 {
@@ -18,9 +18,9 @@ public:
   virtual void exit_current_test() const override
   {
     if (crash_on_failure_)
-      cpputest::TestShell::crash();
+      cppmu::TestShell::crash();
 
-    cpputest::TestShell::get_current_test_terminator().exit_current_test();
+    cppmu::TestShell::get_current_test_terminator().exit_current_test();
   }
 
   virtual ~MockFailureReporterTestTerminator() override {}
@@ -54,13 +54,13 @@ MockFailureReporter::fail_test(MockFailure failure)
   }
 }
 
-cpputest::TestShell*
+cppmu::TestShell*
 MockFailureReporter::get_test_to_fail()
 {
-  return cpputest::TestShell::get_current();
+  return cppmu::TestShell::get_current();
 }
 
-MockFailure::MockFailure(cpputest::TestShell* test)
+MockFailure::MockFailure(cppmu::TestShell* test)
   : TestFailure(test,
         "Test failed with MockFailure without an error! Something went "
         "seriously wrong.")
@@ -98,7 +98,7 @@ MockFailure::add_expectations_and_call_history_related_to(const String& name,
 }
 
 MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
@@ -107,7 +107,7 @@ MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
 }
 
 MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     const String& name,
     const MockExpectedCallsList& expectations)
   : MockFailure(test)
@@ -128,7 +128,7 @@ MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
   add_expectations_and_call_history(expectations);
 }
 
-MockCallOrderFailure::MockCallOrderFailure(cpputest::TestShell* test,
+MockCallOrderFailure::MockCallOrderFailure(cppmu::TestShell* test,
     const MockExpectedCallsList& expectations)
   : MockFailure(test)
 {
@@ -142,7 +142,7 @@ MockCallOrderFailure::MockCallOrderFailure(cpputest::TestShell* test,
 }
 
 MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     const String& function_name,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations)
@@ -186,7 +186,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
 }
 
 MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     const String& function_name,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations)
@@ -227,7 +227,7 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
 }
 
 MockExpectedParameterDidntHappenFailure::
-    MockExpectedParameterDidntHappenFailure(cpputest::TestShell* test,
+    MockExpectedParameterDidntHappenFailure(cppmu::TestShell* test,
         const String& function_name,
         const MockExpectedCallsList& all_expectations,
         const MockExpectedCallsList& matching_expectations)
@@ -248,7 +248,7 @@ MockExpectedParameterDidntHappenFailure::
 }
 
 MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     String type_name)
   : MockFailure(test)
 {
@@ -258,7 +258,7 @@ MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
 }
 
 MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     String type_name)
   : MockFailure(test)
 {
@@ -267,8 +267,7 @@ MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
       type_name.c_str());
 }
 
-MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
-    cpputest::TestShell* test,
+MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(cppmu::TestShell* test,
     const String& function_name,
     const void* actual,
     const MockExpectedCallsList& expectations)
@@ -283,7 +282,7 @@ MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
 }
 
 MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
-    cpputest::TestShell* test,
+    cppmu::TestShell* test,
     const String& function_name,
     const MockExpectedCallsList& expectations)
   : MockFailure(test)
@@ -294,4 +293,4 @@ MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
   add_expectations_and_call_history_related_to(function_name, expectations);
 }
 
-} // namespace cpputest
+} // namespace cppmu

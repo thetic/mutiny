@@ -1,25 +1,25 @@
-#include "CppUTest/MockExpectedCallsList.hpp"
+#include "CppMu/MockExpectedCallsList.hpp"
 
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
-#include "CppUTest/MockFailure.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockFailure.hpp"
 
 TEST_GROUP(MockExpectedCallsList)
 {
   MockExpectedCallsListForTest::MockExpectedCallsList* list;
-  cpputest::MockCheckedExpectedCall* call1;
-  cpputest::MockCheckedExpectedCall* call2;
-  cpputest::MockCheckedExpectedCall* call3;
-  cpputest::MockCheckedExpectedCall* call4;
+  cppmu::MockCheckedExpectedCall* call1;
+  cppmu::MockCheckedExpectedCall* call2;
+  cppmu::MockCheckedExpectedCall* call3;
+  cppmu::MockCheckedExpectedCall* call4;
   void setup() override
   {
     list = new MockExpectedCallsListForTest::MockExpectedCallsList;
-    call1 = new cpputest::MockCheckedExpectedCall;
-    call2 = new cpputest::MockCheckedExpectedCall;
-    call3 = new cpputest::MockCheckedExpectedCall;
-    call4 = new cpputest::MockCheckedExpectedCall;
+    call1 = new cppmu::MockCheckedExpectedCall;
+    call2 = new cppmu::MockCheckedExpectedCall;
+    call3 = new cppmu::MockCheckedExpectedCall;
+    call4 = new cppmu::MockCheckedExpectedCall;
     call1->with_name("foo");
     call2->with_name("bar");
     call3->with_name("boo");
@@ -83,8 +83,8 @@ TEST(MockExpectedCallsList, listWithUnFulfilledExpectationHasNoUnfillfilledOnes)
 
 TEST(MockExpectedCallsList, deleteAllExpectationsAndClearList)
 {
-  list->add_expected_call(new cpputest::MockCheckedExpectedCall);
-  list->add_expected_call(new cpputest::MockCheckedExpectedCall);
+  list->add_expected_call(new cppmu::MockCheckedExpectedCall);
+  list->add_expected_call(new cppmu::MockCheckedExpectedCall);
   list->delete_all_expectations_and_clear_list();
 }
 
@@ -159,7 +159,7 @@ TEST(MockExpectedCallsList, onlyKeepExpectationsWithInputParameterName)
 
 TEST(MockExpectedCallsList, onlyKeepExpectationsWithInputParameter)
 {
-  cpputest::MockNamedValue parameter("diffname");
+  cppmu::MockNamedValue parameter("diffname");
   parameter.set_value(1);
   call1->with_name("func").with_parameter("param", 1);
   call2->with_name("func").with_parameter("diffname", 1);
@@ -225,8 +225,8 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
 
-  cpputest::String expected_string;
-  expected_string = cpputest::string_from_format("%s\n%s",
+  cppmu::String expected_string;
+  expected_string = cppmu::string_from_format("%s\n%s",
       call1->call_to_string().c_str(),
       call2->call_to_string().c_str());
   STRCMP_EQUAL(
@@ -243,8 +243,8 @@ TEST(MockExpectedCallsList, callsWithMissingParametersToString)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  cpputest::String expected_string;
-  expected_string = cpputest::string_from_format("-%s\n-#%s\n-%s\n-#%s",
+  cppmu::String expected_string;
+  expected_string = cppmu::string_from_format("-%s\n-#%s\n-%s\n-#%s",
       call1->call_to_string().c_str(),
       call1->missing_parameters_to_string().c_str(),
       call2->call_to_string().c_str(),
@@ -264,8 +264,8 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  cpputest::String expected_string;
-  expected_string = cpputest::string_from_format("%s\n%s",
+  cppmu::String expected_string;
+  expected_string = cppmu::string_from_format("%s\n%s",
       call1->call_to_string().c_str(),
       call2->call_to_string().c_str());
   STRCMP_EQUAL(

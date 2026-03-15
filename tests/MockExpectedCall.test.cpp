@@ -1,10 +1,10 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockCheckedExpectedCall.hpp"
-#include "CppUTest/MockFailure.hpp"
-#include "CppUTest/MockIgnoredExpectedCall.hpp"
-#include "CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "CppMu/MockFailure.hpp"
+#include "CppMu/MockIgnoredExpectedCall.hpp"
+#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
 class TypeForTestingExpectedFunctionCall
 {
@@ -15,7 +15,7 @@ public:
 };
 
 class TypeForTestingExpectedFunctionCallComparator
-  : public cpputest::MockNamedValueComparator
+  : public cppmu::MockNamedValueComparator
 {
 public:
   virtual bool is_equal(const void* object1, const void* object2) override
@@ -26,15 +26,15 @@ public:
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  virtual cpputest::String value_to_string(const void* object) override
+  virtual cppmu::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
-    return cpputest::string_from(*(obj->value));
+    return cppmu::string_from(*(obj->value));
   }
 };
 
 class TypeForTestingExpectedFunctionCallCopier
-  : public cpputest::MockNamedValueCopier
+  : public cppmu::MockNamedValueCopier
 {
 public:
   virtual void copy(void* dst, const void* src) override
@@ -57,14 +57,14 @@ TEST_GROUP(MockNamedValueHandlerRepository)
 
 TEST(MockNamedValueHandlerRepository, getComparatorForNonExistingName)
 {
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   POINTERS_EQUAL(nullptr, repository.get_comparator_for_type("typeName"));
 }
 
 TEST(MockNamedValueHandlerRepository, installComparator)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_comparator("typeName", comparator);
   POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("typeName"));
 }
@@ -73,7 +73,7 @@ TEST(MockNamedValueHandlerRepository, installMultipleComparators)
 {
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_comparator("type1", comparator1);
   repository.install_comparator("type2", comparator2);
   repository.install_comparator("type3", comparator3);
@@ -84,14 +84,14 @@ TEST(MockNamedValueHandlerRepository, installMultipleComparators)
 
 TEST(MockNamedValueHandlerRepository, getCopierForNonExistingName)
 {
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   POINTERS_EQUAL(nullptr, repository.get_copier_for_type("typeName"));
 }
 
 TEST(MockNamedValueHandlerRepository, installCopier)
 {
   TypeForTestingExpectedFunctionCallCopier copier;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("typeName", copier);
   POINTERS_EQUAL(&copier, repository.get_copier_for_type("typeName"));
 }
@@ -99,7 +99,7 @@ TEST(MockNamedValueHandlerRepository, installCopier)
 TEST(MockNamedValueHandlerRepository, installMultipleCopiers)
 {
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("type1", copier1);
   repository.install_copier("type2", copier2);
   repository.install_copier("type3", copier3);
@@ -113,7 +113,7 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("type1", copier1);
   repository.install_comparator("type1", comparator1);
   repository.install_copier("type2", copier2);
@@ -130,19 +130,19 @@ TEST(MockNamedValueHandlerRepository, installMultipleHandlers)
 
 TEST_GROUP(MockExpectedCall)
 {
-  cpputest::MockCheckedExpectedCall* call;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository*
+  cppmu::MockCheckedExpectedCall* call;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository*
       original_comparator_repository;
   void setup() override
   {
-    original_comparator_repository = cpputest::MockNamedValue::
-        get_default_comparators_and_copiers_repository();
-    call = new cpputest::MockCheckedExpectedCall(1);
+    original_comparator_repository =
+        cppmu::MockNamedValue::get_default_comparators_and_copiers_repository();
+    call = new cppmu::MockCheckedExpectedCall(1);
     call->with_name("funcName");
   }
   void teardown() override
   {
-    cpputest::MockNamedValue::set_default_comparators_and_copiers_repository(
+    cppmu::MockNamedValue::set_default_comparators_and_copiers_repository(
         original_comparator_repository);
     delete call;
     CHECK_NO_MOCK_FAILURE();
@@ -159,7 +159,7 @@ TEST(MockExpectedCall, callWithoutParameterSetOrNotFound)
 
 TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   unsigned int value = 356;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -173,7 +173,7 @@ TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
 
 TEST(MockExpectedCall, callWithIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   int value = 2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("int", call->get_input_parameter_type(param_name).c_str());
@@ -185,7 +185,7 @@ TEST(MockExpectedCall, callWithIntegerParameter)
 
 TEST(MockExpectedCall, callWithBooleanParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   bool value = true;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("bool", call->get_input_parameter_type(param_name).c_str());
@@ -197,7 +197,7 @@ TEST(MockExpectedCall, callWithBooleanParameter)
 
 TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   unsigned long value = 888;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -211,7 +211,7 @@ TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithLongIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   long value = 777;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("long int", call->get_input_parameter_type(param_name).c_str());
@@ -224,7 +224,7 @@ TEST(MockExpectedCall, callWithLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   unsigned long long value = 888;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("unsigned long long int",
@@ -238,7 +238,7 @@ TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithLongLongIntegerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   long long value = 777;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -252,7 +252,7 @@ TEST(MockExpectedCall, callWithLongLongIntegerParameter)
 
 TEST(MockExpectedCall, callWithDoubleParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   double value = 1.2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
@@ -264,7 +264,7 @@ TEST(MockExpectedCall, callWithDoubleParameter)
 
 TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   double value = 1.2;
   double tolerance = 0.2;
   call->with_parameter(param_name, value, tolerance);
@@ -280,7 +280,7 @@ TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
 
 TEST(MockExpectedCall, callWithStringParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   const char* value = "hello world";
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -292,7 +292,7 @@ TEST(MockExpectedCall, callWithStringParameter)
 
 TEST(MockExpectedCall, callWithPointerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("void*", call->get_input_parameter_type(param_name).c_str());
@@ -304,7 +304,7 @@ TEST(MockExpectedCall, callWithPointerParameter)
 
 TEST(MockExpectedCall, callWithConstPointerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   const void* value = reinterpret_cast<const void*>(0x345);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -317,7 +317,7 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
 
 TEST(MockExpectedCall, callWithFunctionPointerParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   auto value = reinterpret_cast<void (*)()>(0xdead);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -330,7 +330,7 @@ TEST(MockExpectedCall, callWithFunctionPointerParameter)
 
 TEST(MockExpectedCall, callWithMemoryBuffer)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
   call->with_parameter(param_name, value, sizeof(value));
   STRCMP_EQUAL("const unsigned char*",
@@ -345,7 +345,7 @@ TEST(MockExpectedCall, callWithMemoryBuffer)
 
 TEST(MockExpectedCall, callWithObjectParameter)
 {
-  const cpputest::String param_name = "paramName";
+  const cppmu::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter_of_type("ClassName", param_name, value);
   POINTERS_EQUAL(
@@ -359,7 +359,7 @@ TEST(MockExpectedCall, callWithObjectParameter)
 TEST(MockExpectedCall, callWithObjectParameterUnequalComparison)
 {
   TypeForTestingExpectedFunctionCall type(1), unequal_type(2);
-  cpputest::MockNamedValue parameter("name");
+  cppmu::MockNamedValue parameter("name");
   parameter.set_const_object_pointer("type", &unequal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
@@ -369,7 +369,7 @@ TEST(MockExpectedCall,
     callWithObjectParameterEqualComparisonButFailsWithoutRepository)
 {
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  cpputest::MockNamedValue parameter("name");
+  cppmu::MockNamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
@@ -378,12 +378,12 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     callWithObjectParameterEqualComparisonButFailsWithoutComparator)
 {
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
-  cpputest::MockNamedValue::set_default_comparators_and_copiers_repository(
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValue::set_default_comparators_and_copiers_repository(
       &repository);
 
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  cpputest::MockNamedValue parameter("name");
+  cppmu::MockNamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
@@ -392,13 +392,13 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall, callWithObjectParameterEqualComparison)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
-  cpputest::MockNamedValue::set_default_comparators_and_copiers_repository(
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValue::set_default_comparators_and_copiers_repository(
       &repository);
   repository.install_comparator("type", comparator);
 
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  cpputest::MockNamedValue parameter("name");
+  cppmu::MockNamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
 
   call->with_parameter_of_type("type", "name", &type);
@@ -408,8 +408,8 @@ TEST(MockExpectedCall, callWithObjectParameterEqualComparison)
 TEST(MockExpectedCall, getParameterValueOfObjectType)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
-  cpputest::MockNamedValue::set_default_comparators_and_copiers_repository(
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValue::set_default_comparators_and_copiers_repository(
       &repository);
   repository.install_comparator("type", comparator);
 
@@ -431,8 +431,8 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
 TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
 {
   TypeForTestingExpectedFunctionCall type(1);
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repository;
-  cpputest::MockNamedValue::set_default_comparators_and_copiers_repository(
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  cppmu::MockNamedValue::set_default_comparators_and_copiers_repository(
       &repository);
   call->with_parameter_of_type("type", "name", &type);
   STRCMP_EQUAL("No comparator found for type: \"type\"",
@@ -488,7 +488,7 @@ TEST(MockExpectedCall, callWithThreeDifferentParameter)
 
 TEST(MockExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   CHECK(!expected_call.is_fulfilled());
   CHECK(expected_call.can_match_actual_calls());
@@ -496,7 +496,7 @@ TEST(MockExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 
 TEST(MockExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.call_was_made(1);
   CHECK(expected_call.is_fulfilled());
   CHECK(!expected_call.can_match_actual_calls());
@@ -504,7 +504,7 @@ TEST(MockExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
 
 TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(2);
+  cppmu::MockCheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   CHECK(!expected_call.is_fulfilled());
   CHECK(expected_call.can_match_actual_calls());
@@ -513,7 +513,7 @@ TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 TEST(MockExpectedCall,
     multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(2);
+  cppmu::MockCheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   CHECK(!expected_call.is_fulfilled());
@@ -523,7 +523,7 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(3);
+  cppmu::MockCheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -535,7 +535,7 @@ TEST(MockExpectedCall,
 TEST(MockExpectedCall,
     multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
 {
-  cpputest::MockCheckedExpectedCall expected_call(3);
+  cppmu::MockCheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -547,20 +547,20 @@ TEST(MockExpectedCall,
 
 TEST(MockExpectedCall, callsWithoutParameterAlwaysMatch)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   CHECK(expected_call.is_matching_actual_call());
 }
 
 TEST(MockExpectedCall, callsWithParameterNotFulfilledDontMatch)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1);
   CHECK(!expected_call.is_matching_actual_call());
 }
 
 TEST(MockExpectedCall, callsWithParameterFulfilledDoMatch)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1);
   expected_call.input_parameter_was_passed("para");
   CHECK(expected_call.is_matching_actual_call());
@@ -568,7 +568,7 @@ TEST(MockExpectedCall, callsWithParameterFulfilledDoMatch)
 
 TEST(MockExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1).with_parameter("two", 2);
   expected_call.input_parameter_was_passed("para");
   CHECK(!expected_call.is_matching_actual_call());
@@ -576,7 +576,7 @@ TEST(MockExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
 
 TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   STRCMP_EQUAL("name -> no parameters (expected 1 call, called 0 times)",
       expected_call.call_to_string().c_str());
@@ -585,7 +585,7 @@ TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
 TEST(MockExpectedCall,
     toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
 {
-  cpputest::MockCheckedExpectedCall expected_call(2);
+  cppmu::MockCheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   STRCMP_EQUAL("name -> no parameters (expected 2 calls, called 1 time)",
@@ -594,7 +594,7 @@ TEST(MockExpectedCall,
 
 TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
 {
-  cpputest::MockCheckedExpectedCall expected_call(2);
+  cppmu::MockCheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -604,7 +604,7 @@ TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
 
 TEST(MockExpectedCall, toStringForIgnoredParameters)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.ignore_other_parameters();
   STRCMP_EQUAL(
@@ -617,7 +617,7 @@ TEST(MockExpectedCall, toStringForMultipleInputParameters)
   int int_value = 10;
   unsigned int uint_value = 7;
 
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.with_parameter("integer", int_value);
@@ -635,7 +635,7 @@ TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
   unsigned int uint_value = 7;
   unsigned char buffer_value[3];
 
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.with_parameter("integer", int_value);
@@ -653,7 +653,7 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
 {
   unsigned char buffer_value[3];
 
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_output_parameter_returning(
       "buffer1", buffer_value, sizeof(buffer_value));
@@ -667,7 +667,7 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
 
 TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_unmodified_output_parameter("buffer1");
   expected_call.call_was_made(1);
@@ -678,7 +678,7 @@ TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
 
 TEST(MockExpectedCall, toStringForParameterAndIgnored)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.ignore_other_parameters();
@@ -690,7 +690,7 @@ TEST(MockExpectedCall, toStringForParameterAndIgnored)
 
 TEST(MockExpectedCall, toStringForCallOrderSingle)
 {
-  cpputest::MockCheckedExpectedCall expected_call(1);
+  cppmu::MockCheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_call_order(2);
   expected_call.call_was_made(1);
@@ -701,7 +701,7 @@ TEST(MockExpectedCall, toStringForCallOrderSingle)
 
 TEST(MockExpectedCall, toStringForCallOrderMultiple)
 {
-  cpputest::MockCheckedExpectedCall expected_call(5);
+  cppmu::MockCheckedExpectedCall expected_call(5);
   expected_call.with_name("name");
   expected_call.with_call_order(5, 9);
   expected_call.call_was_made(5);
@@ -725,7 +725,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
 
 TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
 {
-  cpputest::MockCheckedExpectedCall expected_call(3);
+  cppmu::MockCheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.with_call_order(10, 12);
   expected_call.call_was_made(9);
@@ -737,7 +737,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
 
 TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooLate)
 {
-  cpputest::MockCheckedExpectedCall expected_call(3);
+  cppmu::MockCheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.with_call_order(10, 12);
   expected_call.call_was_made(11);
@@ -758,7 +758,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledSingle)
 
 TEST(MockExpectedCall, callOrderIsFulfilledMultiple)
 {
-  cpputest::MockCheckedExpectedCall expected_call(4);
+  cppmu::MockCheckedExpectedCall expected_call(4);
   expected_call.with_name("name");
   expected_call.with_call_order(150, 153);
   expected_call.call_was_made(150);
@@ -773,7 +773,7 @@ TEST(MockExpectedCall, hasOutputParameter)
 {
   const int value = 1;
   call->with_output_parameter_returning("foo", &value, sizeof(value));
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_value(&value);
   CHECK(call->has_output_parameter(foo));
 }
@@ -781,7 +781,7 @@ TEST(MockExpectedCall, hasOutputParameter)
 TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
 {
   call->with_unmodified_output_parameter("foo");
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_value(static_cast<const void*>(nullptr));
   foo.set_size(0);
   CHECK(call->has_output_parameter(foo));
@@ -790,7 +790,7 @@ TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
 TEST(MockExpectedCall, hasNoOutputParameter)
 {
   call->with_int_parameter("foo", static_cast<int>(1));
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_value(static_cast<int>(1));
   CHECK_FALSE(call->has_output_parameter(foo));
 }
@@ -800,7 +800,7 @@ TEST(MockExpectedCall, hasOutputParameterOfType)
   TypeForTestingExpectedFunctionCall object(6789);
   call->with_output_parameter_of_type_returning(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_const_object_pointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK(call->has_output_parameter(foo));
 }
@@ -810,7 +810,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
   TypeForTestingExpectedFunctionCall object(543);
   call->with_parameter_of_type(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_const_object_pointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->has_output_parameter(foo));
 }
@@ -820,7 +820,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
   TypeForTestingExpectedFunctionCall object(543);
   call->with_output_parameter_of_type_returning(
       "TypeForTestingExpectedFunctionCall", "foo", &object);
-  cpputest::MockNamedValue foo("foo");
+  cppmu::MockNamedValue foo("foo");
   foo.set_const_object_pointer(
       "OtherTypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->has_output_parameter(foo));
@@ -828,7 +828,7 @@ TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
 
 TEST_GROUP(MockIgnoredExpectedCall)
 {
-  cpputest::MockIgnoredExpectedCall ignored;
+  cppmu::MockIgnoredExpectedCall ignored;
 };
 
 TEST(MockIgnoredExpectedCall, worksAsItShould)

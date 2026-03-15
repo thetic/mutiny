@@ -1,9 +1,9 @@
-#include "CppUTest/MockNamedValue.hpp"
+#include "CppMu/MockNamedValue.hpp"
 
-#include "CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp"
-#include "CppUTest/TestShell.hpp"
+#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppMu/TestShell.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 MockNamedValueComparatorsAndCopiersRepository*
     MockNamedValue::default_repository_ = nullptr;
@@ -574,4 +574,4 @@ MockNamedValue::to_string() const
       "No comparator found for type: \"%s\"", type_.c_str());
 }
 
-} // namespace cpputest
+} // namespace cppmu

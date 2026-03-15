@@ -1,9 +1,9 @@
-#include "CppUTest/IgnoredTestShell.hpp"
+#include "CppMu/IgnoredTestShell.hpp"
 
-#include "CppUTest/TestPlugin.hpp"
-#include "CppUTest/TestResult.hpp"
+#include "CppMu/TestPlugin.hpp"
+#include "CppMu/TestResult.hpp"
 
-namespace cpputest {
+namespace cppmu {
 
 IgnoredTestShell::IgnoredTestShell()
   : run_ignored_(false)
@@ -56,4 +56,4 @@ IgnoredTestShell::set_run_ignored()
   run_ignored_ = true;
 }
 
-} // namespace cpputest
+} // namespace cppmu

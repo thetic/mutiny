@@ -1,9 +1,9 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/CppUTest.hpp"
-#include "CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppMu/CppMu.hpp"
+#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
-using cpputest::mock;
+using cppmu::mock;
 
 TEST_GROUP(MockComparatorCopier)
 {
@@ -24,7 +24,7 @@ public:
   long* value;
 };
 
-class MyTypeForTestingComparator : public cpputest::MockNamedValueComparator
+class MyTypeForTestingComparator : public cppmu::MockNamedValueComparator
 {
 public:
   virtual bool is_equal(const void* object1, const void* object2) override
@@ -34,14 +34,14 @@ public:
     return *(obj1->value) == *(obj2->value);
   }
 
-  virtual cpputest::String value_to_string(const void* object) override
+  virtual cppmu::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const MyTypeForTesting*>(object);
-    return cpputest::string_from(*(obj->value));
+    return cppmu::string_from(*(obj->value));
   }
 };
 
-class MyTypeForTestingCopier : public cpputest::MockNamedValueCopier
+class MyTypeForTestingCopier : public cppmu::MockNamedValueCopier
 {
 public:
   virtual void copy(void* dst, const void* src) override
@@ -66,7 +66,7 @@ TEST(MockComparatorCopier,
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  cpputest::MockNoWayToCompareCustomTypeFailure expected_failure(
+  cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting");
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -86,7 +86,7 @@ TEST(MockComparatorCopier,
       .with_output_parameter_of_type(
           "MyTypeForTesting", "parameterName", &object);
 
-  cpputest::MockNoWayToCopyCustomTypeFailure expected_failure(
+  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting");
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -117,10 +117,10 @@ my_type_is_equal(const void* object1, const void* object2)
          static_cast<const MyTypeForTesting*>(object2)->value;
 }
 
-cpputest::String
+cppmu::String
 my_type_value_to_string(const void* object)
 {
-  return cpputest::string_from(
+  return cppmu::string_from(
       static_cast<const MyTypeForTesting*>(object)->value);
 }
 }
@@ -128,7 +128,7 @@ my_type_value_to_string(const void* object)
 TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 {
   MyTypeForTesting object(1);
-  cpputest::MockFunctionComparator comparator(
+  cppmu::MockFunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string);
   mock().install_comparator("MyTypeForTesting", comparator);
 
@@ -150,15 +150,15 @@ TEST(MockComparatorCopier,
   MockFailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(5);
-  cpputest::MockFunctionComparator comparator(
+  cppmu::MockFunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string);
   mock().install_comparator("MyTypeForTesting", comparator);
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("function")
       ->with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
-  cpputest::MockExpectedCallsDidntHappenFailure failure(
-      cpputest::TestShell::get_current(), expectations);
+  cppmu::MockExpectedCallsDidntHappenFailure failure(
+      cppmu::TestShell::get_current(), expectations);
 
   mock()
       .expect_one_call("function")
@@ -202,7 +202,7 @@ TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object);
-  cpputest::MockExpectedCallsDidntHappenFailure expected_failure(
+  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations);
 
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
@@ -224,9 +224,9 @@ TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo");
-  cpputest::MockNamedValue parameter("parameterName");
+  cppmu::MockNamedValue parameter("parameterName");
   parameter.set_const_object_pointer("MyTypeForTesting", &actual_object);
-  cpputest::MockUnexpectedOutputParameterFailure expected_failure(
+  cppmu::MockUnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo");
@@ -250,7 +250,7 @@ TEST(MockComparatorCopier, customTypeOutputParameterMissing)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object);
-  cpputest::MockExpectedParameterDidntHappenFailure expected_failure(
+  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations);
 
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
@@ -275,9 +275,9 @@ TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object);
-  cpputest::MockNamedValue parameter("output");
+  cppmu::MockNamedValue parameter("output");
   parameter.set_const_object_pointer("OtherTypeForTesting", &actual_object);
-  cpputest::MockUnexpectedOutputParameterFailure expected_failure(
+  cppmu::MockUnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations);
 
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
@@ -301,7 +301,7 @@ TEST(MockComparatorCopier, noCopierForCustomTypeOutputParameter)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object);
-  cpputest::MockNoWayToCopyCustomTypeFailure expected_failure(
+  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting");
 
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
@@ -571,7 +571,7 @@ TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 {
   MyTypeForTesting expected_object(9874452);
   MyTypeForTesting actual_object(2034);
-  cpputest::MockFunctionCopier copier(my_type_copy);
+  cppmu::MockFunctionCopier copier(my_type_copy);
   mock().install_copier("MyTypeForTesting", copier);
 
   mock()
@@ -606,7 +606,7 @@ TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  cpputest::MockNoWayToCompareCustomTypeFailure expected_failure(
+  cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting");
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -625,7 +625,7 @@ TEST(MockComparatorCopier, removingCopiersWorksHierachically)
   mock("scope").actual_call("foo").with_output_parameter_of_type(
       "MyTypeForTesting", "bar", &object);
 
-  cpputest::MockNoWayToCopyCustomTypeFailure expected_failure(
+  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting");
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -659,7 +659,7 @@ TEST(MockComparatorCopier, installComparatorsWorksHierarchical)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
-  cpputest::MockNamedValueComparatorsAndCopiersRepository repos;
+  cppmu::MockNamedValueComparatorsAndCopiersRepository repos;
   repos.install_comparator("MyTypeForTesting", comparator);
 
   mock("existing");
@@ -701,7 +701,7 @@ class StubComparator
 {
 public:
   virtual bool is_equal(const void*, const void*) override { return true; }
-  virtual cpputest::String value_to_string(const void*) override { return ""; }
+  virtual cppmu::String value_to_string(const void*) override { return ""; }
 };
 
 struct SomeClass
