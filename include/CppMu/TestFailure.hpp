@@ -14,19 +14,7 @@
 #include <stdexcept>
 #endif
 
-#ifdef __cplusplus
-#ifndef CPPMU_HAVE_EXCEPTIONS
-#if ((__cplusplus >= 202002L) && !__cpp_exceptions) ||                         \
-    (defined(_MSC_VER) && !_CPPUNWIND) ||                                      \
-    (defined(__GNUC__) && !__EXCEPTIONS) ||                                    \
-    (defined(__ghs__) && !__EXCEPTION_HANDLING) ||                             \
-    (defined(__WATCOMC__) && !_CPPUNWIND)
-#define CPPMU_HAVE_EXCEPTIONS 0
-#else
-#define CPPMU_HAVE_EXCEPTIONS 1
-#endif
-#endif
-#endif
+#include "CppMu/features.hpp"
 
 namespace cppmu {
 
