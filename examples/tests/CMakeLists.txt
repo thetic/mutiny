@@ -12,7 +12,6 @@ add_executable(ExampleTests
     main.cpp
     CheatSheet.test.cpp
     CircularBuffer.test.cpp
-    EventDispatcher.test.cpp
     FEDemo.test.cpp
     hello.test.cpp
     hello.test.c
@@ -24,6 +23,10 @@ add_executable(ExampleTests
     MockDocumentation.test.cpp
     Printer.test.cpp
 )
+
+if(CPPMU_USE_STD_CPP_LIB)
+    target_sources(ExampleTests PRIVATE EventDispatcher.test.cpp)
+endif()
 
 target_include_directories(ExampleTests
     PRIVATE

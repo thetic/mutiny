@@ -6,9 +6,8 @@
 
 #if CPPMU_HAVE_FENV
 
-#include <limits>
-
 #include <fenv.h>
+#include <math.h>
 
 /*
  * To see a demonstration of tests failing as a result of
@@ -25,7 +24,7 @@ TEST_GROUP(FEDemo)
 IGNORE_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
 {
   float f = 1.0f;
-  CHECK((f /= 0.0f) >= std::numeric_limits<float>::infinity());
+  CHECK((f /= 0.0f) >= INFINITY);
 }
 
 IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
@@ -39,9 +38,9 @@ IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
 IGNORE_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 {
   volatile float f = 1000.0f;
-  while (f < std::numeric_limits<float>::infinity())
+  while (f < INFINITY)
     f = f * f;
-  CHECK(f >= std::numeric_limits<float>::infinity());
+  CHECK(f >= INFINITY);
 }
 
 IGNORE_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)

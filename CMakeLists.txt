@@ -11,7 +11,7 @@ option(CPPMU_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 cmake_dependent_option(CPPMU_BUILD_TESTING "Compile and make tests for CppMu"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPMU_EXAMPLES "Compile and make examples?"
-    ${PROJECT_IS_TOP_LEVEL} "CPPMU_USE_STD_CPP_LIB" OFF)
+    ON "PROJECT_IS_TOP_LEVEL" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
