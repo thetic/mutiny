@@ -4,6 +4,8 @@ Checks:
   - clang-analyzer-*
   - bugprone-*
   - -bugprone-easily-swappable-parameters
+  - misc-use-anonymous-namespace
+  - readability-static-definition-in-anonymous-namespace
 WarningsAsErrors: "*"
 FormatStyle: file
 UseColor: true

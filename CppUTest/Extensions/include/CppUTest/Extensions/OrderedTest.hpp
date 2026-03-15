@@ -75,7 +75,8 @@ private:
       return new TEST_##testGroup##_##testName##_Test;                         \
     }                                                                          \
   } TEST_##testGroup##_##testName##_Instance;                                  \
-  static cpputest::extensions::OrderedTestInstaller                            \
+  namespace {                                                                  \
+  cpputest::extensions::OrderedTestInstaller                                   \
       TEST_##testGroup##_##testName##_Installer(                               \
           TEST_##testGroup##_##testName##_Instance,                            \
           #testGroup,                                                          \
@@ -83,6 +84,7 @@ private:
           __FILE__,                                                            \
           __LINE__,                                                            \
           testLevel);                                                          \
+  } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::testBody()
 
 #define TEST_ORDERED_C_WRAPPER(group_name, test_name, testLevel)               \

@@ -46,12 +46,14 @@
       return new TEST_##testGroup##_##testName##_Test;                         \
     }                                                                          \
   } TEST_##testGroup##_##testName##_TestShell_instance;                        \
-  static cpputest::TestInstaller TEST_##testGroup##_##testName##_Installer(    \
+  namespace {                                                                  \
+  cpputest::TestInstaller TEST_##testGroup##_##testName##_Installer(           \
       TEST_##testGroup##_##testName##_TestShell_instance,                      \
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
       __LINE__);                                                               \
+  } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::testBody()
 
 #define IGNORE_TEST(testGroup, testName)                                       \
@@ -80,12 +82,14 @@
       return new IGNORE##testGroup##_##testName##_Test;                        \
     }                                                                          \
   } IGNORE##testGroup##_##testName##_TestShell_instance;                       \
-  static cpputest::TestInstaller TEST_##testGroup##testName##_Installer(       \
+  namespace {                                                                  \
+  cpputest::TestInstaller TEST_##testGroup##testName##_Installer(              \
       IGNORE##testGroup##_##testName##_TestShell_instance,                     \
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
       __LINE__);                                                               \
+  } /* namespace */                                                            \
   void IGNORE##testGroup##_##testName##_Test::testBody()
 
 #define EXPECT_FAIL_TEST(testGroup, testName)                                  \
@@ -112,13 +116,14 @@
       return new EXPECT_FAIL##testGroup##_##testName##_Test;                   \
     }                                                                          \
   } EXPECT_FAIL##testGroup##_##testName##_TestShell_instance;                  \
-  static cpputest::TestInstaller                                               \
-      EXPECT_FAIL##testGroup##_##testName##_Installer(                         \
-          EXPECT_FAIL##testGroup##_##testName##_TestShell_instance,            \
-          #testGroup,                                                          \
-          #testName,                                                           \
-          __FILE__,                                                            \
-          __LINE__);                                                           \
+  namespace {                                                                  \
+  cpputest::TestInstaller EXPECT_FAIL##testGroup##_##testName##_Installer(     \
+      EXPECT_FAIL##testGroup##_##testName##_TestShell_instance,                \
+      #testGroup,                                                              \
+      #testName,                                                               \
+      __FILE__,                                                                \
+      __LINE__);                                                               \
+  } /* namespace */                                                            \
   void EXPECT_FAIL##testGroup##_##testName##_Test::testBody()
 
 // Different checking macros
