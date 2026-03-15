@@ -1,4 +1,4 @@
-#include "CppUTest/Extensions/OrderedTest.hpp"
+#include "CppUTest/OrderedTest.hpp"
 
 #include "OrderedTest.h"
 
@@ -12,19 +12,18 @@ TEST_GROUP(OrderedTest)
 {
   cpputest::TestTestingFixture* fixture;
 
-  cpputest::extensions::OrderedTestShell ordered_test;
-  cpputest::extensions::OrderedTestShell ordered_test2;
-  cpputest::extensions::OrderedTestShell ordered_test3;
+  cpputest::OrderedTestShell ordered_test;
+  cpputest::OrderedTestShell ordered_test2;
+  cpputest::OrderedTestShell ordered_test3;
   cpputest::ExecFunctionTestShell normal_test;
   cpputest::ExecFunctionTestShell normal_test2;
   cpputest::ExecFunctionTestShell normal_test3;
 
-  cpputest::extensions::OrderedTestShell* ordered_test_cache;
+  cpputest::OrderedTestShell* ordered_test_cache;
   void setup() override
   {
-    ordered_test_cache =
-        cpputest::extensions::OrderedTestShell::get_ordered_test_head();
-    cpputest::extensions::OrderedTestShell::set_ordered_test_head(nullptr);
+    ordered_test_cache = cpputest::OrderedTestShell::get_ordered_test_head();
+    cpputest::OrderedTestShell::set_ordered_test_head(nullptr);
 
     fixture = new cpputest::TestTestingFixture();
     fixture->get_registry()->un_do_last_add_test();
@@ -33,14 +32,12 @@ TEST_GROUP(OrderedTest)
   void teardown() override
   {
     delete fixture;
-    cpputest::extensions::OrderedTestShell::set_ordered_test_head(
-        ordered_test_cache);
+    cpputest::OrderedTestShell::set_ordered_test_head(ordered_test_cache);
   }
 
-  void install_ordered_test(cpputest::extensions::OrderedTestShell& test,
-      int level)
+  void install_ordered_test(cpputest::OrderedTestShell& test, int level)
   {
-    cpputest::extensions::OrderedTestInstaller(
+    cpputest::OrderedTestInstaller(
         test, "testgroup", "testname", __FILE__, __LINE__, level);
   }
 
@@ -59,7 +56,7 @@ TEST_GROUP(OrderedTest)
 
 TEST(OrderedTest, TestInstallerSetsFields)
 {
-  cpputest::extensions::OrderedTestInstaller installer(
+  cpputest::OrderedTestInstaller installer(
       ordered_test, "testgroup", "testname", "this.cpp", 10, 5);
   STRCMP_EQUAL("testgroup", ordered_test.get_group().c_str());
   STRCMP_EQUAL("testname", ordered_test.get_name().c_str());

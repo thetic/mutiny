@@ -31,7 +31,7 @@ Then to get started, you'll need to do the following:
 - Add the include path to the Makefile. Something like:
   - `CPPFLAGS += -I$(CPPUTEST_HOME)/include`
 - Add the library linking to your Makefile. Something like:
-  - `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest -lCppUTestExt`
+  - `LD_LIBRARIES = -L$(CPPUTEST_HOME)/lib -lCppUTest`
 
 After this, you can write your first test:
 
@@ -187,8 +187,7 @@ find_package(CppUTest REQUIRED)
 add_executable(example_test ExampleTest.cpp)
 
 target_link_libraries(example_test PRIVATE
-    CppUTest::CppUTest
-    CppUTest::Extensions)
+    CppUTest::CppUTest)
 ```
 
 ## CMake Integration

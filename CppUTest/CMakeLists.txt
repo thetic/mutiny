@@ -33,6 +33,7 @@ target_sources(CppUTest
         src/Test.cpp
         src/TestFailure.cpp
         src/TestFilter.cpp
+        src/OrderedTest.cpp
         src/TestInstaller.cpp
         src/TestJumpBuffer.cpp
         src/TestOutput.cpp
@@ -63,6 +64,7 @@ target_sources(CppUTest
             include/CppUTest/MockSupport.h
             include/CppUTest/MockSupport.hpp
             include/CppUTest/MockSupportPlugin.hpp
+            include/CppUTest/OrderedTest.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp
@@ -126,10 +128,6 @@ if(PROJECT_IS_TOP_LEVEL)
         FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )
 endif()
-
-if (CPPUTEST_EXTENSIONS)
-    add_subdirectory(Extensions)
-endif ()
 
 if (CPPUTEST_BUILD_TESTING)
     add_subdirectory(tests)

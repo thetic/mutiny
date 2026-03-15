@@ -1,10 +1,9 @@
-#ifndef INCLUDED_CPPUTEST_EXTENSIONS_ORDEREDTEST_HPP
-#define INCLUDED_CPPUTEST_EXTENSIONS_ORDEREDTEST_HPP
+#ifndef INCLUDED_CPPUTEST_ORDEREDTEST_HPP
+#define INCLUDED_CPPUTEST_ORDEREDTEST_HPP
 
 #include "CppUTest/TestShell.hpp"
 
 namespace cpputest {
-namespace extensions {
 
 class OrderedTestShell : public cpputest::TestShell
 {
@@ -49,7 +48,6 @@ private:
   void add_ordered_test_in_order_not_at_head_position(OrderedTestShell* test);
 };
 
-} // namespace extensions
 } // namespace cpputest
 
 #define TEST_ORDERED(testGroup, testName, testLevel)                           \
@@ -68,7 +66,7 @@ private:
     void test_body() override;                                                 \
   };                                                                           \
   class TEST_##testGroup##_##testName##_TestShell                              \
-    : public cpputest::extensions::OrderedTestShell                            \
+    : public cpputest::OrderedTestShell                                        \
   {                                                                            \
     virtual cpputest::Test* create_test() override                             \
     {                                                                          \
@@ -76,14 +74,13 @@ private:
     }                                                                          \
   } TEST_##testGroup##_##testName##_Instance;                                  \
   namespace {                                                                  \
-  cpputest::extensions::OrderedTestInstaller                                   \
-      TEST_##testGroup##_##testName##_Installer(                               \
-          TEST_##testGroup##_##testName##_Instance,                            \
-          #testGroup,                                                          \
-          #testName,                                                           \
-          __FILE__,                                                            \
-          __LINE__,                                                            \
-          testLevel);                                                          \
+  cpputest::OrderedTestInstaller TEST_##testGroup##_##testName##_Installer(    \
+      TEST_##testGroup##_##testName##_Instance,                                \
+      #testGroup,                                                              \
+      #testName,                                                               \
+      __FILE__,                                                                \
+      __LINE__,                                                                \
+      testLevel);                                                              \
   } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::test_body()
 

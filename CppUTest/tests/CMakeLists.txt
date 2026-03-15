@@ -24,6 +24,8 @@ add_executable(CppUTestTests
     MockSupport.test.cpp
     MockSupport_c.test.cpp
     MockSupportPlugin.test.cpp
+    OrderedTest.test.c
+    OrderedTest.test.cpp
     Preprocessor.test.cpp
     SetPointerPlugin.test.cpp
     String.test.cpp

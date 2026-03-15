@@ -1,10 +1,9 @@
-#include "CppUTest/Extensions/OrderedTest.hpp"
+#include "CppUTest/OrderedTest.hpp"
 
 #include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 namespace cpputest {
-namespace extensions {
 
 OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
@@ -132,5 +131,4 @@ OrderedTestInstaller::add_ordered_test_in_order_not_at_head_position(
 
 OrderedTestInstaller::~OrderedTestInstaller() {}
 
-} // namespace extensions
 } // namespace cpputest

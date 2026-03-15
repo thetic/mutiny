@@ -17,7 +17,6 @@ include(CTest)
 
 include(CMakeDependentOption)
 option(CPPUTEST_USE_STD_CPP_LIB "Use the standard C++ library" ON)
-option(CPPUTEST_EXTENSIONS "Use the CppUTest extension library" ON)
 cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"
