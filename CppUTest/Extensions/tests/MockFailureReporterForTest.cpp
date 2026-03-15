@@ -110,8 +110,7 @@ MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
 cpputest::extensions::MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunction(const cpputest::String& name)
 {
-  cpputest::extensions::MockCheckedExpectedCall* newCall =
-      new cpputest::extensions::MockCheckedExpectedCall;
+  auto* newCall = new cpputest::extensions::MockCheckedExpectedCall;
   newCall->withName(name);
   addExpectedCall(newCall);
   return newCall;
@@ -121,8 +120,7 @@ cpputest::extensions::MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunction(unsigned int numCalls,
     const cpputest::String& name)
 {
-  cpputest::extensions::MockCheckedExpectedCall* newCall =
-      new cpputest::extensions::MockCheckedExpectedCall(numCalls);
+  auto* newCall = new cpputest::extensions::MockCheckedExpectedCall(numCalls);
   newCall->withName(name);
   addExpectedCall(newCall);
   return newCall;
@@ -132,7 +130,7 @@ cpputest::extensions::MockCheckedExpectedCall*
 MockExpectedCallsListForTest::addFunctionOrdered(const cpputest::String& name,
     unsigned int order)
 {
-  cpputest::extensions::MockCheckedExpectedCall* newCall = addFunction(name);
+  auto* newCall = addFunction(name);
   newCall->withCallOrder(order);
   return newCall;
 }

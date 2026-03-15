@@ -101,7 +101,7 @@ MockExpectedCallsList::hasExpectationWithName(const String& name) const
 void
 MockExpectedCallsList::addExpectedCall(MockCheckedExpectedCall* call)
 {
-  MockExpectedCallsListNode* newCall = new MockExpectedCallsListNode(call);
+  auto* newCall = new MockExpectedCallsListNode(call);
 
   if (head_ == nullptr)
     head_ = newCall;

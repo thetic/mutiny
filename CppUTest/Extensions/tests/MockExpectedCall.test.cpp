@@ -20,16 +20,15 @@ class TypeForTestingExpectedFunctionCallComparator
 public:
   virtual bool isEqual(const void* object1, const void* object2) override
   {
-    const TypeForTestingExpectedFunctionCall* obj1 =
+    auto* obj1 =
         static_cast<const TypeForTestingExpectedFunctionCall*>(object1);
-    const TypeForTestingExpectedFunctionCall* obj2 =
+    auto* obj2 =
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
   virtual cpputest::String valueToString(const void* object) override
   {
-    const TypeForTestingExpectedFunctionCall* obj =
-        static_cast<const TypeForTestingExpectedFunctionCall*>(object);
+    auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
     return cpputest::StringFrom(*(obj->value));
   }
 };
@@ -40,10 +39,8 @@ class TypeForTestingExpectedFunctionCallCopier
 public:
   virtual void copy(void* dst_, const void* src_) override
   {
-    TypeForTestingExpectedFunctionCall* dst =
-        static_cast<TypeForTestingExpectedFunctionCall*>(dst_);
-    const TypeForTestingExpectedFunctionCall* src =
-        static_cast<const TypeForTestingExpectedFunctionCall*>(src_);
+    auto* dst = static_cast<TypeForTestingExpectedFunctionCall*>(dst_);
+    auto* src = static_cast<const TypeForTestingExpectedFunctionCall*>(src_);
     *(dst->value) = *(src->value);
   }
 };
@@ -319,7 +316,7 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
 TEST(MockExpectedCall, callWithFunctionPointerParameter)
 {
   const cpputest::String paramName = "paramName";
-  void (*value)() = reinterpret_cast<void (*)()>(0xdead);
+  auto value = reinterpret_cast<void (*)()>(0xdead);
   call->withParameter(paramName, value);
   STRCMP_EQUAL("void (*)()", call->getInputParameterType(paramName).c_str());
   FUNCTIONPOINTERS_EQUAL(

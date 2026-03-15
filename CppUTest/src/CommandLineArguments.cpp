@@ -380,8 +380,7 @@ CommandLineArguments::getParameterField(int argc,
 void
 CommandLineArguments::addGroupFilter(int argc, const char* const* argv, int& i)
 {
-  TestFilter* groupFilter =
-      new TestFilter(getParameterField(argc, argv, i, "-g"));
+  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-g"));
   groupFilters_ = groupFilter->add(groupFilters_);
 }
 
@@ -399,9 +398,9 @@ CommandLineArguments::addGroupDotNameFilter(int argc,
   if (collection.size() != 2)
     return false;
 
-  TestFilter* groupFilter =
+  auto* groupFilter =
       new TestFilter(collection[0].substr(0, collection[0].size() - 1));
-  TestFilter* nameFilter = new TestFilter(collection[1]);
+  auto* nameFilter = new TestFilter(collection[1]);
   if (strict) {
     groupFilter->strictMatching();
     nameFilter->strictMatching();
@@ -420,8 +419,7 @@ CommandLineArguments::addStrictGroupFilter(int argc,
     const char* const* argv,
     int& i)
 {
-  TestFilter* groupFilter =
-      new TestFilter(getParameterField(argc, argv, i, "-sg"));
+  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-sg"));
   groupFilter->strictMatching();
   groupFilters_ = groupFilter->add(groupFilters_);
 }
@@ -431,8 +429,7 @@ CommandLineArguments::addExcludeGroupFilter(int argc,
     const char* const* argv,
     int& i)
 {
-  TestFilter* groupFilter =
-      new TestFilter(getParameterField(argc, argv, i, "-xg"));
+  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-xg"));
   groupFilter->invertMatching();
   groupFilters_ = groupFilter->add(groupFilters_);
 }
@@ -442,8 +439,7 @@ CommandLineArguments::addExcludeStrictGroupFilter(int argc,
     const char* const* argv,
     int& i)
 {
-  TestFilter* groupFilter =
-      new TestFilter(getParameterField(argc, argv, i, "-xsg"));
+  auto* groupFilter = new TestFilter(getParameterField(argc, argv, i, "-xsg"));
   groupFilter->strictMatching();
   groupFilter->invertMatching();
   groupFilters_ = groupFilter->add(groupFilters_);
@@ -452,8 +448,7 @@ CommandLineArguments::addExcludeStrictGroupFilter(int argc,
 void
 CommandLineArguments::addNameFilter(int argc, const char* const* argv, int& i)
 {
-  TestFilter* nameFilter =
-      new TestFilter(getParameterField(argc, argv, i, "-n"));
+  auto* nameFilter = new TestFilter(getParameterField(argc, argv, i, "-n"));
   nameFilters_ = nameFilter->add(nameFilters_);
 }
 
@@ -462,7 +457,7 @@ CommandLineArguments::addStrictNameFilter(int argc,
     const char* const* argv,
     int& index)
 {
-  TestFilter* nameFilter =
+  auto* nameFilter =
       new TestFilter(getParameterField(argc, argv, index, "-sn"));
   nameFilter->strictMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
@@ -473,7 +468,7 @@ CommandLineArguments::addExcludeNameFilter(int argc,
     const char* const* argv,
     int& index)
 {
-  TestFilter* nameFilter =
+  auto* nameFilter =
       new TestFilter(getParameterField(argc, argv, index, "-xn"));
   nameFilter->invertMatching();
   nameFilters_ = nameFilter->add(nameFilters_);
@@ -484,7 +479,7 @@ CommandLineArguments::addExcludeStrictNameFilter(int argc,
     const char* const* argv,
     int& index)
 {
-  TestFilter* nameFilter =
+  auto* nameFilter =
       new TestFilter(getParameterField(argc, argv, index, "-xsn"));
   nameFilter->invertMatching();
   nameFilter->strictMatching();
@@ -500,8 +495,8 @@ CommandLineArguments::addTestToRunBasedOnVerboseOutput(int argc,
   String wholename = getParameterField(argc, argv, index, parameterName);
   String testname = wholename.subStringFromTill(',', ')');
   testname = testname.substr(2);
-  TestFilter* namefilter = new TestFilter(testname);
-  TestFilter* groupfilter =
+  auto* namefilter = new TestFilter(testname);
+  auto* groupfilter =
       new TestFilter(wholename.subStringFromTill(wholename[0], ','));
   namefilter->strictMatching();
   groupfilter->strictMatching();

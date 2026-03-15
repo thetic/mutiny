@@ -70,7 +70,7 @@ struct HelperTestRunInfo
 void
 helperDoRunOneTestInCurrentProcess(void* data)
 {
-  HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
+  auto* runInfo = static_cast<HelperTestRunInfo*>(data);
 
   TestShell* shell = runInfo->shell_;
   TestPlugin* plugin = runInfo->plugin_;

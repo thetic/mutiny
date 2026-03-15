@@ -94,7 +94,7 @@ StrCmp(const char* s1, const char* s2)
 size_t
 StrLen(const char* str)
 {
-  size_t n = static_cast<size_t>(-1);
+  auto n = static_cast<size_t>(-1);
   do
     n++;
   while (*str++);
@@ -150,8 +150,8 @@ ToLower(char ch)
 int
 MemCmp(const void* s1, const void* s2, size_t n)
 {
-  const unsigned char* p1 = static_cast<const unsigned char*>(s1);
-  const unsigned char* p2 = static_cast<const unsigned char*>(s2);
+  auto* p1 = static_cast<const unsigned char*>(s1);
+  auto* p2 = static_cast<const unsigned char*>(s2);
 
   while (n--)
     if (*p1 != *p2) {
@@ -786,7 +786,7 @@ VStringFromFormat(const char* format, va_list args)
   char defaultBuffer[sizeOfdefaultBuffer];
   String resultString;
 
-  size_t size = static_cast<size_t>(PlatformSpecificVSNprintf(
+  auto size = static_cast<size_t>(PlatformSpecificVSNprintf(
       defaultBuffer, sizeOfdefaultBuffer, format, args));
   if (size < sizeOfdefaultBuffer) {
     resultString = String(defaultBuffer);

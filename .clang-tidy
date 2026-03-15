@@ -5,6 +5,7 @@ Checks:
   - bugprone-*
   - -bugprone-easily-swappable-parameters
   - misc-use-anonymous-namespace
+  - modernize-use-auto
   - modernize-use-using
   - readability-static-definition-in-anonymous-namespace
 CheckOptions:

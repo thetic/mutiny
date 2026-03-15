@@ -179,7 +179,7 @@ MockSupport::expectNCalls(unsigned int amount, const String& functionName)
 
   countCheck();
 
-  MockCheckedExpectedCall* call = new MockCheckedExpectedCall(amount);
+  auto* call = new MockCheckedExpectedCall(amount);
   call->withName(appendScopeToName(functionName));
   if (strictOrdering_) {
     call->withCallOrder(expectedCallOrder_ + 1, expectedCallOrder_ + amount);
@@ -520,7 +520,7 @@ MockSupport::getData(const String& name)
 MockSupport*
 MockSupport::clone(const String& mockName)
 {
-  MockSupport* newMock = new MockSupport(mockName);
+  auto* newMock = new MockSupport(mockName);
   newMock->setMockFailureStandardReporter(standardReporter_);
   if (ignoreOtherCalls_)
     newMock->ignoreOtherCalls();

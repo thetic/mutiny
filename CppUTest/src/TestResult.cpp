@@ -119,7 +119,7 @@ TestResult::testsStarted()
 void
 TestResult::testsEnded()
 {
-  size_t timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  auto timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
   totalExecutionTime_ = timeEnded - timeStarted_;
   output_.printTestsEnded(*this);
 }

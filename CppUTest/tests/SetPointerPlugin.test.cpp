@@ -101,7 +101,7 @@ public:
 
 TEST(SetPointerPlugin, installTwoFunctionPointer)
 {
-  FunctionPointerUtestShell* tst = new FunctionPointerUtestShell();
+  auto* tst = new FunctionPointerUtestShell();
 
   fp1 = orig_func1;
   fp2 = orig_func2;
@@ -148,7 +148,7 @@ public:
 
 TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 {
-  MaxFunctionPointerUtestShell* tst =
+  auto* tst =
       new MaxFunctionPointerUtestShell(cpputest::SetPointerPlugin::MAX_SET + 1);
   myRegistry_->addTest(tst);
 
@@ -167,7 +167,7 @@ EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 
 TEST(SetPointerPlugin, doublePointer)
 {
-  SetDoublePointerUtestShell* doubletst = new SetDoublePointerUtestShell();
+  auto* doubletst = new SetDoublePointerUtestShell();
   myRegistry_->addTest(doubletst);
   myRegistry_->runAllTests(*result_);
 

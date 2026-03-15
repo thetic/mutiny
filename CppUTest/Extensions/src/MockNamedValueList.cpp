@@ -64,7 +64,7 @@ MockNamedValueList::clear()
 void
 MockNamedValueList::add(MockNamedValue* newValue)
 {
-  MockNamedValueListNode* newNode = new MockNamedValueListNode(newValue);
+  auto* newNode = new MockNamedValueListNode(newValue);
   if (head_ == nullptr)
     head_ = newNode;
   else {

@@ -150,7 +150,7 @@ TEST(MockSupport, setConstDataPointer)
 
 TEST(MockSupport, setDataFunctionPointer)
 {
-  void (*ptr)() = reinterpret_cast<void (*)()>(0x001);
+  auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().setData("data", ptr);
   FUNCTIONPOINTERS_EQUAL(ptr, mock().getData("data").getFunctionPointerValue());
 }

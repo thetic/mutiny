@@ -29,16 +29,14 @@ class MyTypeForTestingComparator
 public:
   virtual bool isEqual(const void* object1, const void* object2) override
   {
-    const MyTypeForTesting* obj1 =
-        static_cast<const MyTypeForTesting*>(object1);
-    const MyTypeForTesting* obj2 =
-        static_cast<const MyTypeForTesting*>(object2);
+    auto* obj1 = static_cast<const MyTypeForTesting*>(object1);
+    auto* obj2 = static_cast<const MyTypeForTesting*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
 
   virtual cpputest::String valueToString(const void* object) override
   {
-    const MyTypeForTesting* obj = static_cast<const MyTypeForTesting*>(object);
+    auto* obj = static_cast<const MyTypeForTesting*>(object);
     return cpputest::StringFrom(*(obj->value));
   }
 };
@@ -48,8 +46,8 @@ class MyTypeForTestingCopier : public cpputest::extensions::MockNamedValueCopier
 public:
   virtual void copy(void* dst_, const void* src_) override
   {
-    MyTypeForTesting* dst = static_cast<MyTypeForTesting*>(dst_);
-    const MyTypeForTesting* src = static_cast<const MyTypeForTesting*>(src_);
+    auto* dst = static_cast<MyTypeForTesting*>(dst_);
+    auto* src = static_cast<const MyTypeForTesting*>(src_);
     *(dst->value) = *(src->value);
   }
 };
@@ -560,8 +558,8 @@ namespace {
 void
 myTypeCopy(void* dst_, const void* src_)
 {
-  MyTypeForTesting* dst = static_cast<MyTypeForTesting*>(dst_);
-  const MyTypeForTesting* src = static_cast<const MyTypeForTesting*>(src_);
+  auto* dst = static_cast<MyTypeForTesting*>(dst_);
+  auto* src = static_cast<const MyTypeForTesting*>(src_);
   *(dst->value) = *(src->value);
 }
 }

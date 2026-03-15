@@ -325,8 +325,7 @@ TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
 TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 {
   // more than 1 item in test list ensures that shuffle algorithm calls rand_()
-  cpputest::TestShell* anotherTest =
-      new cpputest::TestShell("group", "test2", "file", 1);
+  auto* anotherTest = new cpputest::TestShell("group", "test2", "file", 1);
   registry.addTest(anotherTest);
 
   const char* argv[] = { "tests.exe", "-s" };

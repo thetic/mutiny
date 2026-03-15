@@ -116,8 +116,7 @@ TEST(TeamCityTestOutput, PrintTestIgnored)
                          "##teamcity[testIgnored name='test']\n"
                          "##teamcity[testFinished name='test' duration='41']\n";
 
-  cpputest::IgnoredTestShell* itst =
-      new cpputest::IgnoredTestShell("group", "test", "file", 10);
+  auto* itst = new cpputest::IgnoredTestShell("group", "test", "file", 10);
   result->currentTestStarted(itst);
   millisTime = 41;
   result->currentTestEnded(itst);

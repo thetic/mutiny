@@ -504,7 +504,7 @@ TEST(String, PadStringsToSameLengthWithSameLengthStrings)
 
 TEST(String, NullParameters2)
 {
-  cpputest::String* arr = new cpputest::String[100];
+  auto* arr = new cpputest::String[100];
   delete[] arr;
 }
 

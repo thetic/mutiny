@@ -141,7 +141,7 @@ CommandLineTestRunner::createTeamCityOutput()
 TestOutput*
 CommandLineTestRunner::createJUnitOutput(const String& packageName)
 {
-  JUnitTestOutput* junitOutput = new JUnitTestOutput;
+  auto* junitOutput = new JUnitTestOutput;
   if (junitOutput != nullptr) {
     junitOutput->setPackageName(packageName);
   }
@@ -158,7 +158,7 @@ TestOutput*
 CommandLineTestRunner::createCompositeOutput(TestOutput* outputOne,
     TestOutput* outputTwo)
 {
-  CompositeTestOutput* composite = new CompositeTestOutput;
+  auto* composite = new CompositeTestOutput;
   composite->setOutputOne(outputOne);
   composite->setOutputTwo(outputTwo);
   return composite;

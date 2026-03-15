@@ -943,8 +943,8 @@ TEST(MockReturnValue,
 TEST(MockReturnValue,
     WhenAFunctionPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)
 {
-  void (*default_return_value)() = reinterpret_cast<void (*)()>(0x777);
-  void (*expected_return_value)() = reinterpret_cast<void (*)()>(0x144000);
+  auto default_return_value = reinterpret_cast<void (*)()>(0x777);
+  auto expected_return_value = reinterpret_cast<void (*)()>(0x144000);
   mock().expectOneCall("foo").andReturnValue(expected_return_value);
   FUNCTIONPOINTERS_EQUAL(expected_return_value,
       mock().actualCall("foo").returnFunctionPointerValueOrDefault(
@@ -956,7 +956,7 @@ TEST(MockReturnValue,
 TEST(MockReturnValue,
     WhenNoFunctionPointerReturnValueIsExpectedButThereIsADefaultShouldlUseTheDefaultValue)
 {
-  void (*default_return_value)() = reinterpret_cast<void (*)()>(0x10);
+  auto default_return_value = reinterpret_cast<void (*)()>(0x10);
   mock().expectOneCall("foo");
   FUNCTIONPOINTERS_EQUAL(default_return_value,
       mock().actualCall("foo").returnFunctionPointerValueOrDefault(
@@ -988,7 +988,7 @@ TEST(MockReturnValue, ConstPointerReturnValue)
 
 TEST(MockReturnValue, FunctionPointerReturnValue)
 {
-  void (*ptr)() = reinterpret_cast<void (*)()>(0x00107);
+  auto ptr = reinterpret_cast<void (*)()>(0x00107);
   mock().expectOneCall("foo").andReturnValue(ptr);
   cpputest::extensions::MockActualCall& actual_call = mock().actualCall("foo");
 

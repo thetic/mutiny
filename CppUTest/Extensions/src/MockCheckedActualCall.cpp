@@ -699,8 +699,7 @@ MockCheckedActualCall::addOutputParameter(const String& name,
     const String& type,
     void* ptr)
 {
-  MockOutputParametersListNode* newNode =
-      new MockOutputParametersListNode(name, type, ptr);
+  auto* newNode = new MockOutputParametersListNode(name, type, ptr);
 
   if (outputParameterExpectations_ == nullptr)
     outputParameterExpectations_ = newNode;
