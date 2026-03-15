@@ -1,7 +1,5 @@
 add_executable(CppUTestExtTests
     main.cpp
-    IEEE754ExceptionsPlugin.c
-    IEEE754ExceptionsPlugin.test.cpp
     OrderedTest.test.c
     OrderedTest.test.cpp
 )

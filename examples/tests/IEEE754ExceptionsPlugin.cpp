@@ -1,4 +1,4 @@
-#include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
+#include "IEEE754ExceptionsPlugin.hpp"
 
 #include "CppUTest/CppUTest.hpp"
 
@@ -6,21 +6,19 @@
 #include <fenv.h>
 #endif
 
-namespace cpputest {
-namespace extensions {
-
 #define IEEE754_CHECK_CLEAR(test, result, flag)                                \
   ieee754_check(test, result, flag, #flag)
 
 bool IEEE754ExceptionsPlugin::inexact_disabled_ = true;
 
-IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const String& name)
+IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const cpputest::String& name)
   : TestPlugin(name)
 {
 }
 
 void
-IEEE754ExceptionsPlugin::pre_test_action(cpputest::TestShell&, TestResult&)
+IEEE754ExceptionsPlugin::pre_test_action(cpputest::TestShell&,
+    cpputest::TestResult&)
 {
 #if CPPUTEST_HAVE_FENV
   CHECK(!feclearexcept(FE_ALL_EXCEPT));
@@ -29,7 +27,7 @@ IEEE754ExceptionsPlugin::pre_test_action(cpputest::TestShell&, TestResult&)
 
 void
 IEEE754ExceptionsPlugin::post_test_action(cpputest::TestShell& test,
-    TestResult& result)
+    cpputest::TestResult& result)
 {
 #if CPPUTEST_HAVE_FENV
   if (!test.has_failed()) {
@@ -99,7 +97,7 @@ IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
 
 void
 IEEE754ExceptionsPlugin::ieee754_check(cpputest::TestShell& test,
-    TestResult& result,
+    cpputest::TestResult& result,
     int flag,
     const char* text)
 {
@@ -109,7 +107,7 @@ IEEE754ExceptionsPlugin::ieee754_check(cpputest::TestShell& test,
     CHECK(!feclearexcept(FE_INEXACT));
   if (fetestexcept(flag)) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
-    CheckFailure failure(
+    cpputest::CheckFailure failure(
         &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text);
     result.add_failure(failure);
   }
@@ -120,6 +118,3 @@ IEEE754ExceptionsPlugin::ieee754_check(cpputest::TestShell& test,
   static_cast<void>(text);
 #endif
 }
-
-} // namespace extensions
-} // namespace cpputest

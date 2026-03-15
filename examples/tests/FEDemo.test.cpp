@@ -1,4 +1,4 @@
-#include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
+#include "IEEE754ExceptionsPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/CppUTest.hpp"
@@ -9,8 +9,6 @@
 #include <limits>
 
 #include <fenv.h>
-
-using cpputest::extensions::IEEE754ExceptionsPlugin;
 
 /*
  * To see a demonstration of tests failing as a result of

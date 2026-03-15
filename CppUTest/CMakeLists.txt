@@ -65,6 +65,7 @@ target_sources(CppUTest
             include/CppUTest/MockSupportPlugin.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
+            include/CppUTest/StringBufferTestOutput.hpp
             include/CppUTest/Test.hpp
             include/CppUTest/TestFailure.hpp
             include/CppUTest/TestFilter.hpp
@@ -76,6 +77,7 @@ target_sources(CppUTest
             include/CppUTest/TestShell.hpp
             include/CppUTest/TestShellPointerArray.hpp
             include/CppUTest/TestTerminator.hpp
+            include/CppUTest/TestTestingFixture.hpp
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS include_private
         FILES
@@ -91,11 +93,9 @@ target_sources(CppUTest
             include_private/CppUTest/MockIgnoredActualCall.hpp
             include_private/CppUTest/MockIgnoredExpectedCall.hpp
             include_private/CppUTest/MockNamedValueList.hpp
-            include_private/CppUTest/StringBufferTestOutput.hpp
             include_private/CppUTest/StringCollection.hpp
             include_private/CppUTest/TeamCityTestOutput.hpp
             include_private/CppUTest/TestJumpBuffer.hpp
-            include_private/CppUTest/TestTestingFixture.hpp
             include_private/CppUTest/time.hpp
 )
 

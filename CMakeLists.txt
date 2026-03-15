@@ -21,7 +21,7 @@ option(CPPUTEST_EXTENSIONS "Use the CppUTest extension library" ON)
 cmake_dependent_option(CPPUTEST_BUILD_TESTING "Compile and make tests for CppUTest"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(CPPUTEST_EXAMPLES "Compile and make examples?"
-    ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_EXTENSIONS;CPPUTEST_USE_STD_CPP_LIB" OFF)
+    ${PROJECT_IS_TOP_LEVEL} "CPPUTEST_USE_STD_CPP_LIB" OFF)
 
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")

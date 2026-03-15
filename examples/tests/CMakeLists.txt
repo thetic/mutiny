@@ -1,3 +1,13 @@
+include(CheckSourceCompiles)
+check_source_compiles(CXX
+    "#include <fenv.h>
+     int main() {
+         feclearexcept(FE_ALL_EXCEPT);
+         return fetestexcept(FE_OVERFLOW);
+     }"
+    CPPUTEST_HAVE_FENV
+)
+
 add_executable(ExampleTests
     main.cpp
     CheatSheet.test.cpp
@@ -6,6 +16,9 @@ add_executable(ExampleTests
     FEDemo.test.cpp
     hello.test.cpp
     hello.test.c
+    IEEE754ExceptionsPlugin.c
+    IEEE754ExceptionsPlugin.cpp
+    IEEE754ExceptionsPlugin.test.cpp
     MockCheatSheet.test.cpp
     MockDocumentation.test.c
     MockDocumentation.test.cpp
@@ -21,10 +34,14 @@ target_compile_options(ExampleTests
     PRIVATE $<$<BOOL:${MSVC}>:/wd4723>
 )
 
+target_compile_definitions(ExampleTests
+    PRIVATE CPPUTEST_HAVE_FENV=$<BOOL:${CPPUTEST_HAVE_FENV}>
+)
+
 target_link_libraries(ExampleTests
     PRIVATE
         ExampleLib
-        CppUTest::Extensions
+        CppUTest::CppUTest
 )
 
 include(CppUTest)

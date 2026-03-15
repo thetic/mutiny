@@ -1,14 +1,11 @@
-#ifndef INCLUDED_CPPUTEST_EXTENSIONS_IEEE754EXCEPTIONSPLUGIN_HPP
-#define INCLUDED_CPPUTEST_EXTENSIONS_IEEE754EXCEPTIONSPLUGIN_HPP
+#ifndef INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
+#define INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
 
 #ifndef CPPUTEST_HAVE_FENV
 #define CPPUTEST_HAVE_FENV 0
 #endif
 
 #include "CppUTest/TestPlugin.hpp"
-
-namespace cpputest {
-namespace extensions {
 
 class IEEE754ExceptionsPlugin : public cpputest::TestPlugin
 {
@@ -35,8 +32,5 @@ private:
       const char* text);
   static bool inexact_disabled_;
 };
-
-} // namespace extensions
-} // namespace cpputest
 
 #endif

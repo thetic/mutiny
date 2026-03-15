@@ -1,4 +1,4 @@
-#include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
+#include "IEEE754ExceptionsPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
 #include "CppUTest/MockSupportPlugin.hpp"
@@ -24,7 +24,7 @@ main(int argc, char** argv)
 {
   MyDummyComparator dummy_comparator;
   cpputest::MockSupportPlugin mock_plugin;
-  cpputest::extensions::IEEE754ExceptionsPlugin ieee754_plugin;
+  IEEE754ExceptionsPlugin ieee754_plugin;
 
   mock_plugin.install_comparator("MyDummyType", dummy_comparator);
   cpputest::TestRegistry::get_current_registry()->install_plugin(&mock_plugin);
