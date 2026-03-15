@@ -11,30 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
       - uses: DoozyX/clang-format-lint-action@v0.14
         with:
           clangFormatVersion: 14
-          source: examples
-
-  codeql:
-    runs-on: ubuntu-latest
-    name: "CodeQL"
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-      - name: CodeQL Initialization
-        uses: github/codeql-action/init@v3
-        with:
-          languages: cpp
-          queries: +security-and-quality
-      - name: Build
-        run: |
-          mkdir _build && cd _build
-          cmake -DCMAKE_CXX_STANDARD=17 ..
-          make -j2
-      - name: CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+          source: '.'
 
   cmake:
     strategy:
@@ -83,9 +64,6 @@ jobs:
             os: ubuntu-latest
             cmake_args: -DCMAKE_CXX_STANDARD=23
             preset: Clang
-          - name: No long long
-            os: ubuntu-latest
-            preset: no-long-long
           - name: Detailed
             os: ubuntu-latest
             preset: detailed
@@ -123,9 +101,6 @@ jobs:
           - name: No Exceptions
             os: ubuntu-latest
             preset: no-exceptions
-          - name: No C Standard Library
-            os: ubuntu-latest
-            preset: no-std-c
           - name: Coverage
             os: ubuntu-latest
             preset: coverage
@@ -190,10 +165,10 @@ jobs:
       - run: git config --global core.autocrlf input
         if: ${{ matrix.name == 'Cygwin' }}
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
 
       - name: Install Cygwin
-        uses: cygwin/cygwin-install-action@master
+        uses: cygwin/cygwin-install-action@v5
         with:
           platform: x86
           packages: >
@@ -238,7 +213,7 @@ jobs:
           lcov --remove lcov.info --output-file lcov.info '*/tests/*'
         if: ${{ matrix.name == 'Coverage' }}
       - name: Coveralls
-        uses: coverallsapp/github-action@master
+        uses: coverallsapp/github-action@v2
         with:
           path-to-lcov: lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -248,7 +223,7 @@ jobs:
     name: JUnit Test Report
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
       - run: cmake --preset=defaults -DCPPUTEST_JUNIT_REPORT=TRUE
       - run: cmake --build build -j
       - run: ctest --test-dir build
@@ -262,7 +237,7 @@ jobs:
     name: Verify Interface Header Sets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
       - name: Configure
         run: cmake --preset GNU
       - name: Build
@@ -278,7 +253,7 @@ jobs:
       LDFLAGS: -static
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
       - uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64

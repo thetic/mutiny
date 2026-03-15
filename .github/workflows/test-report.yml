@@ -5,9 +5,13 @@ name: 'Test Report'
     workflows: ['Basic builds']
     types:
       - completed
+permissions:
+  checks: write
+  pull-requests: write
 jobs:
   report:
     runs-on: ubuntu-latest
+    if: always()
     steps:
       - uses: dorny/test-reporter@v1
         with:
