@@ -6,6 +6,7 @@
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
+
 int setup_teardown_was_called_in_test_group_in_C = 0;
 int test_was_called_in_test_group_in_C = 0;
 
@@ -32,7 +33,9 @@ TEST(TestHarnessC, setupHasBeenCalled)
   LONGS_EQUAL(1, setup_teardown_was_called_in_test_group_in_C);
 }
 
-static bool hasDestructorOfTheDestructorCheckedBeenCalled;
+namespace {
+
+bool hasDestructorOfTheDestructorCheckedBeenCalled;
 
 class HasTheDestructorBeenCalledChecker
 {
@@ -43,6 +46,248 @@ public:
     hasDestructorOfTheDestructorCheckedBeenCalled = true;
   }
 };
+
+void
+failBoolMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_BOOL(1, 0);
+}
+
+void
+failBoolTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_BOOL_TEXT(1, 0, "BoolTestText");
+}
+
+void
+failIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_INT(1, 2);
+}
+
+void
+failIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_INT_TEXT(1, 2, "IntTestText");
+}
+
+void
+failUnsignedIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_UINT(1, 2);
+}
+
+void
+failUnsignedIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_UINT_TEXT(1, 2, "UnsignedIntTestText");
+}
+
+void
+failLongIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_LONG(1, 2);
+}
+
+void
+failLongIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_LONG_TEXT(1, 2, "LongIntTestText");
+}
+
+void
+failUnsignedLongIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_ULONG(1, 2);
+}
+
+void
+failUnsignedLongIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_ULONG_TEXT(1, 2, "UnsignedLongIntTestText");
+}
+
+void
+failLongLongIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_LONGLONG(1, 2);
+}
+
+void
+failLongLongIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_LONGLONG_TEXT(1, 2, "LongLongTestText");
+}
+
+void
+failUnsignedLongLongIntMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_ULONGLONG(1, 2);
+}
+
+void
+failUnsignedLongLongIntTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_ULONGLONG_TEXT(1, 2, "UnsignedLongLongTestText");
+}
+
+void
+failRealMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_REAL(1.0, 2.0, 0.5);
+}
+
+void
+failRealTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_REAL_TEXT(1.0, 2.0, 0.5, "RealTestText");
+}
+
+void
+failCharMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_CHAR('a', 'c');
+}
+
+void
+failCharTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_CHAR_TEXT('a', 'c', "CharTestText");
+}
+
+void
+failUnsignedByteMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_UBYTE(254, 253);
+}
+
+void
+failUnsignedByteTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_UBYTE_TEXT(254, 253, "UnsignedByteTestText");
+}
+
+void
+failSignedByteMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_SBYTE(-3, -5);
+}
+
+void
+failSignedByteTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_SBYTE_TEXT(-3, -5, "SignedByteTestText");
+}
+
+void
+failStringMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_STRING("Hello", "Hello World");
+}
+
+void
+failStringTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_STRING_TEXT("Hello", "Hello World", "StringTestText");
+}
+
+void
+failPointerMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_POINTER(nullptr, reinterpret_cast<void*>(0x1));
+}
+
+void
+failPointerTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_EQUAL_C_POINTER_TEXT(
+      nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
+}
+
+void
+failMemcmpMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
+  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
+
+  CHECK_EQUAL_C_MEMCMP(expectedData, actualData, sizeof(expectedData));
+}
+
+void
+failMemcmpTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
+  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
+
+  CHECK_EQUAL_C_MEMCMP_TEXT(
+      expectedData, actualData, sizeof(expectedData), "MemcmpTestText");
+}
+
+void
+failTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  FAIL_TEXT_C("Booo");
+}
+
+void
+failMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  FAIL_C();
+}
+
+bool cpputestHasCrashed;
+
+void
+crashMethod()
+{
+  cpputestHasCrashed = true;
+}
+
+void
+CheckMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_C(false);
+}
+
+void
+CheckTextMethod_()
+{
+  HasTheDestructorBeenCalledChecker checker;
+  CHECK_C_TEXT(false, "CheckTestText");
+}
+
+}
 
 TEST_GROUP(TestHarness)
 {
@@ -55,13 +300,6 @@ TEST_GROUP(TestHarness)
   TEST_TEARDOWN() { delete fixture; }
 };
 
-static void
-failBoolMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_BOOL(1, 0);
-}
-
 TEST(TestHarness, checkBool)
 {
   CHECK_EQUAL_C_BOOL(1, 1);
@@ -71,13 +309,6 @@ TEST(TestHarness, checkBool)
   fixture->assertPrintContains("expected <true>\n\tbut was  <false>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failBoolTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_BOOL_TEXT(1, 0, "BoolTestText");
 }
 
 TEST(TestHarness, checkBoolText)
@@ -92,13 +323,6 @@ TEST(TestHarness, checkBoolText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_INT(1, 2);
-}
-
 TEST(TestHarness, checkInt)
 {
   CHECK_EQUAL_C_INT(2, 2);
@@ -107,13 +331,6 @@ TEST(TestHarness, checkInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_INT_TEXT(1, 2, "IntTestText");
 }
 
 TEST(TestHarness, checkIntText)
@@ -127,13 +344,6 @@ TEST(TestHarness, checkIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failUnsignedIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_UINT(1, 2);
-}
-
 TEST(TestHarness, checkUnsignedInt)
 {
   CHECK_EQUAL_C_UINT(2, 2);
@@ -142,13 +352,6 @@ TEST(TestHarness, checkUnsignedInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failUnsignedIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_UINT_TEXT(1, 2, "UnsignedIntTestText");
 }
 
 TEST(TestHarness, checkUnsignedIntText)
@@ -162,13 +365,6 @@ TEST(TestHarness, checkUnsignedIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failLongIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_LONG(1, 2);
-}
-
 TEST(TestHarness, checkLongInt)
 {
   CHECK_EQUAL_C_LONG(2, 2);
@@ -177,13 +373,6 @@ TEST(TestHarness, checkLongInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failLongIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_LONG_TEXT(1, 2, "LongIntTestText");
 }
 
 TEST(TestHarness, checkLongIntText)
@@ -197,13 +386,6 @@ TEST(TestHarness, checkLongIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failUnsignedLongIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_ULONG(1, 2);
-}
-
 TEST(TestHarness, checkUnsignedLongInt)
 {
   CHECK_EQUAL_C_ULONG(2, 2);
@@ -212,13 +394,6 @@ TEST(TestHarness, checkUnsignedLongInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failUnsignedLongIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_ULONG_TEXT(1, 2, "UnsignedLongIntTestText");
 }
 
 TEST(TestHarness, checkUnsignedLongIntText)
@@ -232,13 +407,6 @@ TEST(TestHarness, checkUnsignedLongIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failLongLongIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_LONGLONG(1, 2);
-}
-
 TEST(TestHarness, checkLongLongInt)
 {
   CHECK_EQUAL_C_LONGLONG(2, 2);
@@ -247,13 +415,6 @@ TEST(TestHarness, checkLongLongInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failLongLongIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_LONGLONG_TEXT(1, 2, "LongLongTestText");
 }
 
 TEST(TestHarness, checkLongLongIntText)
@@ -267,13 +428,6 @@ TEST(TestHarness, checkLongLongIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failUnsignedLongLongIntMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_ULONGLONG(1, 2);
-}
-
 TEST(TestHarness, checkUnsignedLongLongInt)
 {
   CHECK_EQUAL_C_ULONGLONG(2, 2);
@@ -282,13 +436,6 @@ TEST(TestHarness, checkUnsignedLongLongInt)
   fixture->assertPrintContains("expected <1 (0x1)>\n\tbut was  <2 (0x2)>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failUnsignedLongLongIntTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_ULONGLONG_TEXT(1, 2, "UnsignedLongLongTestText");
 }
 
 TEST(TestHarness, checkUnsignedLongLongIntText)
@@ -302,13 +449,6 @@ TEST(TestHarness, checkUnsignedLongLongIntText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failRealMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_REAL(1.0, 2.0, 0.5);
-}
-
 TEST(TestHarness, checkReal)
 {
   CHECK_EQUAL_C_REAL(1.0, 1.1, 0.5);
@@ -317,13 +457,6 @@ TEST(TestHarness, checkReal)
   fixture->assertPrintContains("expected <1>\n\tbut was  <2>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failRealTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_REAL_TEXT(1.0, 2.0, 0.5, "RealTestText");
 }
 
 TEST(TestHarness, checkRealText)
@@ -337,13 +470,6 @@ TEST(TestHarness, checkRealText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failCharMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_CHAR('a', 'c');
-}
-
 TEST(TestHarness, checkChar)
 {
   CHECK_EQUAL_C_CHAR('a', 'a');
@@ -352,13 +478,6 @@ TEST(TestHarness, checkChar)
   fixture->assertPrintContains("expected <a>\n\tbut was  <c>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failCharTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_CHAR_TEXT('a', 'c', "CharTestText");
 }
 
 TEST(TestHarness, checkCharText)
@@ -372,13 +491,6 @@ TEST(TestHarness, checkCharText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failUnsignedByteMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_UBYTE(254, 253);
-}
-
 TEST(TestHarness, checkUnsignedByte)
 {
   CHECK_EQUAL_C_UBYTE(254, 254);
@@ -387,13 +499,6 @@ TEST(TestHarness, checkUnsignedByte)
   fixture->assertPrintContains("expected <254>\n\tbut was  <253>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failUnsignedByteTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_UBYTE_TEXT(254, 253, "UnsignedByteTestText");
 }
 
 TEST(TestHarness, checkUnsignedByteText)
@@ -407,13 +512,6 @@ TEST(TestHarness, checkUnsignedByteText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failSignedByteMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_SBYTE(-3, -5);
-}
-
 TEST(TestHarness, checkSignedByte)
 {
   CHECK_EQUAL_C_SBYTE(-3, -3);
@@ -422,13 +520,6 @@ TEST(TestHarness, checkSignedByte)
   fixture->assertPrintContains("expected <-3>\n\tbut was  <-5>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failSignedByteTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_SBYTE_TEXT(-3, -5, "SignedByteTestText");
 }
 
 TEST(TestHarness, checkSignedByteText)
@@ -442,13 +533,6 @@ TEST(TestHarness, checkSignedByteText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failStringMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_STRING("Hello", "Hello World");
-}
-
 TEST(TestHarness, checkString)
 {
   CHECK_EQUAL_C_STRING("Hello", "Hello");
@@ -460,13 +544,6 @@ TEST(TestHarness, checkString)
   fixture->assertPrintContains(failure.getMessage());
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failStringTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_STRING_TEXT("Hello", "Hello World", "StringTestText");
 }
 
 TEST(TestHarness, checkStringText)
@@ -483,13 +560,6 @@ TEST(TestHarness, checkStringText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failPointerMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_POINTER(nullptr, reinterpret_cast<void*>(0x1));
-}
-
 TEST(TestHarness, checkPointer)
 {
   CHECK_EQUAL_C_POINTER(nullptr, nullptr);
@@ -498,14 +568,6 @@ TEST(TestHarness, checkPointer)
   fixture->assertPrintContains("expected <0x0>\n\tbut was  <0x1>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failPointerTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_EQUAL_C_POINTER_TEXT(
-      nullptr, reinterpret_cast<void*>(0x1), "PointerTestText");
 }
 
 TEST(TestHarness, checkPointerText)
@@ -519,16 +581,6 @@ TEST(TestHarness, checkPointerText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failMemcmpMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
-  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
-
-  CHECK_EQUAL_C_MEMCMP(expectedData, actualData, sizeof(expectedData));
-}
-
 TEST(TestHarness, checkMemcmp)
 {
   CHECK_EQUAL_C_MEMCMP("TEST", "TEST", 5);
@@ -538,17 +590,6 @@ TEST(TestHarness, checkMemcmp)
       "expected <00 01 02 03>\n\tbut was  <00 01 03 03>");
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-failMemcmpTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
-  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
-
-  CHECK_EQUAL_C_MEMCMP_TEXT(
-      expectedData, actualData, sizeof(expectedData), "MemcmpTestText");
 }
 
 TEST(TestHarness, checkMemcmpText)
@@ -563,13 +604,6 @@ TEST(TestHarness, checkMemcmpText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  FAIL_TEXT_C("Booo");
-}
-
 TEST(TestHarness, checkFailText)
 {
   fixture->setTestFunction(failTextMethod_);
@@ -579,13 +613,6 @@ TEST(TestHarness, checkFailText)
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
 }
 
-static void
-failMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  FAIL_C();
-}
-
 TEST(TestHarness, checkFail)
 {
   fixture->setTestFunction(failMethod_);
@@ -593,14 +620,6 @@ TEST(TestHarness, checkFail)
   LONGS_EQUAL(1, fixture->getFailureCount());
   fixture->assertPrintContains("TestHarness");
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static bool cpputestHasCrashed;
-
-static void
-crashMethod()
-{
-  cpputestHasCrashed = true;
 }
 
 TEST(TestHarness, doesNotCrashIfNotSetToCrash)
@@ -634,13 +653,6 @@ TEST(TestHarness, doesCrashIfSetToCrash)
   cpputest::TestShell::resetCrashMethod();
 }
 
-static void
-CheckMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_C(false);
-}
-
 TEST(TestHarness, checkCheck)
 {
   CHECK_C(true);
@@ -648,13 +660,6 @@ TEST(TestHarness, checkCheck)
   fixture->runAllTests();
   LONGS_EQUAL(1, fixture->getFailureCount());
   CHECK(!hasDestructorOfTheDestructorCheckedBeenCalled);
-}
-
-static void
-CheckTextMethod_()
-{
-  HasTheDestructorBeenCalledChecker checker;
-  CHECK_C_TEXT(false, "CheckTestText");
 }
 
 TEST(TestHarness, checkCheckText)

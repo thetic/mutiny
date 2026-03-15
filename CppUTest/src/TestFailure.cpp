@@ -584,7 +584,8 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test)
 
 #if CPPUTEST_USE_STD_CPP_LIB
 #if CPPUTEST_HAVE_RTTI
-static String
+namespace {
+String
 getExceptionTypeName(const std::exception& e)
 {
   const char* name = typeid(e).name();
@@ -599,6 +600,7 @@ getExceptionTypeName(const std::exception& e)
   return name;
 #endif
 }
+} // namespace
 #endif // CPPUTEST_HAVE_RTTI
 
 UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test,

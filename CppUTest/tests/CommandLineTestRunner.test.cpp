@@ -8,6 +8,7 @@
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
+namespace {
 class DummyPluginWhichCountsThePlugins : public cpputest::TestPlugin
 {
 public:
@@ -71,6 +72,29 @@ public:
     return fakeTCOutputWhichIsReallyABuffer;
   }
 };
+
+class RunIgnoredTest : public cpputest::Test
+{
+public:
+  static bool Checker;
+  void testBody() override { Checker = true; }
+};
+
+bool RunIgnoredTest::Checker = false;
+
+class RunIgnoredUtestShell : public cpputest::IgnoredTestShell
+{
+public:
+  RunIgnoredUtestShell(const char* groupName,
+      const char* testName,
+      const char* fileName,
+      size_t lineNumber)
+    : IgnoredTestShell(groupName, testName, fileName, lineNumber)
+  {
+  }
+  virtual cpputest::Test* createTest() override { return new RunIgnoredTest; }
+};
+} // namespace
 
 TEST_GROUP(CommandLineTestRunner)
 {
@@ -319,6 +343,7 @@ TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
   STRCMP_CONTAINS("shuffling enabled with seed: 2", text.c_str());
 }
 
+namespace {
 typedef PlatformSpecificFile (*FOpenFunc)(const char*, const char*);
 typedef void (*FPutsFunc)(const char*, PlatformSpecificFile);
 typedef void (*FCloseFunc)(PlatformSpecificFile);
@@ -382,6 +407,7 @@ private:
 };
 
 FakeOutput* FakeOutput::currentFake = nullptr;
+}
 
 TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 {
@@ -429,28 +455,6 @@ TEST(CommandLineTestRunner, realTeamCityOutputShouldBeCreatedAndWorkProperly)
   STRCMP_CONTAINS(
       "##teamcity[testSuiteFinished name='group1'", fakeOutput.console.c_str());
 }
-
-class RunIgnoredTest : public cpputest::Test
-{
-public:
-  static bool Checker;
-  void testBody() override { Checker = true; }
-};
-
-bool RunIgnoredTest::Checker = false;
-
-class RunIgnoredUtestShell : public cpputest::IgnoredTestShell
-{
-public:
-  RunIgnoredUtestShell(const char* groupName,
-      const char* testName,
-      const char* fileName,
-      size_t lineNumber)
-    : IgnoredTestShell(groupName, testName, fileName, lineNumber)
-  {
-  }
-  virtual cpputest::Test* createTest() override { return new RunIgnoredTest; }
-};
 
 TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
 {

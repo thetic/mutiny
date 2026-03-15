@@ -12,8 +12,39 @@
 #include <stdlib.h>
 #include <string.h>
 
-static jmp_buf test_exit_jmp_buf[10];
-static int jmp_buf_index = 0;
+namespace {
+jmp_buf test_exit_jmp_buf[10];
+int jmp_buf_index = 0;
+
+unsigned long
+TimeInMillisImplementation()
+{
+  struct timeval tv;
+  struct timezone tz;
+  ::gettimeofday(&tv, &tz);
+  return ((unsigned long)tv.tv_sec * 1000) + ((unsigned long)tv.tv_usec / 1000);
+}
+
+cpputest::String
+TimeStringImplementation()
+{
+  time_t tm = time(NULL);
+  return ctime(&tm);
+}
+
+int
+IsNanImplementation(double d)
+{
+  return isnan(d);
+}
+
+int
+IsInfImplementation(double d)
+{
+  return isinf(d);
+}
+
+} // namespace
 
 int
 PlatformSpecificSetJmp(void (*function)(void* data), void* data)
@@ -40,23 +71,7 @@ PlatformSpecificRestoreJumpBuffer()
   jmp_buf_index--;
 }
 
-static unsigned long
-TimeInMillisImplementation()
-{
-  struct timeval tv;
-  struct timezone tz;
-  ::gettimeofday(&tv, &tz);
-  return ((unsigned long)tv.tv_sec * 1000) + ((unsigned long)tv.tv_usec / 1000);
-}
-
 unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
-
-static cpputest::String
-TimeStringImplementation()
-{
-  time_t tm = time(NULL);
-  return ctime(&tm);
-}
 
 cpputest::String
 GetPlatformSpecificTimeString() = TimeStringImplementation;
@@ -130,18 +145,6 @@ void
 PlatformSpecificFClose(PlatformSpecificFile file)
 {
   fclose((FILE*)file);
-}
-
-static int
-IsNanImplementation(double d)
-{
-  return isnan(d);
-}
-
-static int
-IsInfImplementation(double d)
-{
-  return isinf(d);
 }
 
 int (*PlatformSpecificIsNan)(double) = IsNanImplementation;

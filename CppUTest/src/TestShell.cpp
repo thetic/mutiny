@@ -10,19 +10,7 @@
 
 namespace cpputest {
 
-bool
-doubles_equal(double d1, double d2, double threshold)
-{
-  if (PlatformSpecificIsNan(d1) || PlatformSpecificIsNan(d2) ||
-      PlatformSpecificIsNan(threshold))
-    return false;
-
-  if (PlatformSpecificIsInf(d1) && PlatformSpecificIsInf(d2)) {
-    return true;
-  }
-
-  return PlatformSpecificFabs(d1 - d2) <= threshold;
-}
+namespace {
 
 /* Sometimes stubs use the CppUTest assertions.
  * Its not correct to do so, but this small helper class will prevent a
@@ -79,7 +67,7 @@ struct HelperTestRunInfo
   TestResult* result_;
 };
 
-static void
+void
 helperDoRunOneTestInCurrentProcess(void* data)
 {
   HelperTestRunInfo* runInfo = static_cast<HelperTestRunInfo*>(data);
@@ -91,16 +79,29 @@ helperDoRunOneTestInCurrentProcess(void* data)
   shell->runOneTestInCurrentProcess(plugin, *result);
 }
 
-/******************************** */
-
-static const NormalTestTerminator normalTestTerminator = NormalTestTerminator();
-static const CrashingTestTerminator crashingTestTerminator =
-    CrashingTestTerminator();
-static const TestTerminatorWithoutExceptions
-    normalTestTerminatorWithoutExceptions = TestTerminatorWithoutExceptions();
-static const CrashingTestTerminatorWithoutExceptions
+const NormalTestTerminator normalTestTerminator = NormalTestTerminator();
+const CrashingTestTerminator crashingTestTerminator = CrashingTestTerminator();
+const TestTerminatorWithoutExceptions normalTestTerminatorWithoutExceptions =
+    TestTerminatorWithoutExceptions();
+const CrashingTestTerminatorWithoutExceptions
     crashingTestTerminatorWithoutExceptions =
         CrashingTestTerminatorWithoutExceptions();
+
+} // namespace
+
+bool
+doubles_equal(double d1, double d2, double threshold)
+{
+  if (PlatformSpecificIsNan(d1) || PlatformSpecificIsNan(d2) ||
+      PlatformSpecificIsNan(threshold))
+    return false;
+
+  if (PlatformSpecificIsInf(d1) && PlatformSpecificIsInf(d2)) {
+    return true;
+  }
+
+  return PlatformSpecificFabs(d1 - d2) <= threshold;
+}
 
 const TestTerminator* TestShell::currentTestTerminator_ = &normalTestTerminator;
 const TestTerminator* TestShell::currentTestTerminatorWithoutExceptions_ =
@@ -149,7 +150,9 @@ TestShell::TestShell(const char* groupName,
 
 TestShell::~TestShell() {}
 
-static void (*pleaseCrashMeRightNow)() = PlatformSpecificAbort;
+namespace {
+void (*pleaseCrashMeRightNow)() = PlatformSpecificAbort;
+} // namespace
 
 void
 TestShell::setCrashMethod(void (*crashme)())

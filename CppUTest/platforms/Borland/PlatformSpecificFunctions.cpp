@@ -18,10 +18,11 @@
 
 const std::nothrow_t std::nothrow;
 
-static jmp_buf test_exit_jmp_buf[10];
-static int jmp_buf_index = 0;
+namespace {
+jmp_buf test_exit_jmp_buf[10];
+int jmp_buf_index = 0;
 
-static int
+int
 PlatformSpecificSetJmpImplementation(void (*function)(void* data), void* data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
@@ -33,28 +34,20 @@ PlatformSpecificSetJmpImplementation(void (*function)(void* data), void* data)
   return 0;
 }
 
-static void
+void
 PlatformSpecificLongJmpImplementation()
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
-static void
+void
 PlatformSpecificRestoreJumpBufferImplementation()
 {
   jmp_buf_index--;
 }
 
-void (*PlatformSpecificLongJmp)() = PlatformSpecificLongJmpImplementation;
-int (*PlatformSpecificSetJmp)(void (*)(void*),
-    void*) = PlatformSpecificSetJmpImplementation;
-void (*PlatformSpecificRestoreJumpBuffer)() =
-    PlatformSpecificRestoreJumpBufferImplementation;
-
-///////////// Time in millis
-
-static unsigned long
+unsigned long
 TimeInMillisImplementation()
 {
 #ifdef CPPUTEST_HAVE_GETTIMEOFDAY
@@ -66,7 +59,7 @@ TimeInMillisImplementation()
 #endif
 }
 
-static const char*
+const char*
 TimeStringImplementation()
 {
   time_t theTime = time(nullptr);
@@ -76,10 +69,7 @@ TimeStringImplementation()
   return dateTime;
 }
 
-unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
-const char* (*GetPlatformSpecificTimeString)() = TimeStringImplementation;
-
-static int
+int
 BorlandVSNprintf(char* str, size_t size, const char* format, va_list args)
 {
   int result = vsnprintf(str, size, format, args);
@@ -87,34 +77,57 @@ BorlandVSNprintf(char* str, size_t size, const char* format, va_list args)
   return result;
 }
 
-int (*PlatformSpecificVSNprintf)(char* str,
-    size_t size,
-    const char* format,
-    va_list va_args_list) = BorlandVSNprintf;
-
-static PlatformSpecificFile
+PlatformSpecificFile
 PlatformSpecificFOpenImplementation(const char* filename, const char* flag)
 {
   return fopen(filename, flag);
 }
 
-static void
+void
 PlatformSpecificFPutsImplementation(const char* str, PlatformSpecificFile file)
 {
   fputs(str, (FILE*)file);
 }
 
-static void
+void
 PlatformSpecificFCloseImplementation(PlatformSpecificFile file)
 {
   fclose((FILE*)file);
 }
 
-static void
+void
 PlatformSpecificFlushImplementation()
 {
   fflush(stdout);
 }
+
+int
+IsNanImplementation(double d)
+{
+  return _isnan(d);
+}
+
+int
+IsInfImplementation(double d)
+{
+  return !(_finite(d) || _isnan(d));
+}
+
+} // namespace
+
+void (*PlatformSpecificLongJmp)() = PlatformSpecificLongJmpImplementation;
+int (*PlatformSpecificSetJmp)(void (*)(void*),
+    void*) = PlatformSpecificSetJmpImplementation;
+void (*PlatformSpecificRestoreJumpBuffer)() =
+    PlatformSpecificRestoreJumpBufferImplementation;
+
+unsigned long (*GetPlatformSpecificTimeInMillis)() = TimeInMillisImplementation;
+const char* (*GetPlatformSpecificTimeString)() = TimeStringImplementation;
+
+int (*PlatformSpecificVSNprintf)(char* str,
+    size_t size,
+    const char* format,
+    va_list va_args_list) = BorlandVSNprintf;
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 PlatformSpecificFile (*PlatformSpecificFOpen)(const char*,
@@ -131,18 +144,6 @@ void* (*PlatformSpecificRealloc)(void*, size_t) = realloc;
 void (*PlatformSpecificFree)(void* memory) = free;
 void* (*PlatformSpecificMemCpy)(void*, const void*, size_t) = memcpy;
 void* (*PlatformSpecificMemset)(void*, int, size_t) = memset;
-
-static int
-IsNanImplementation(double d)
-{
-  return _isnan(d);
-}
-
-static int
-IsInfImplementation(double d)
-{
-  return !(_finite(d) || _isnan(d));
-}
 
 double (*PlatformSpecificFabs)(double) = fabs;
 void (*PlatformSpecificSrand)(unsigned int) = srand;

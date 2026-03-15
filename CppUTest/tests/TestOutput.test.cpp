@@ -6,13 +6,58 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
 
-static unsigned long millisTime;
+namespace {
+unsigned long millisTime;
 
-static unsigned long
+unsigned long
 MockGetPlatformSpecificTimeInMillis()
 {
   return millisTime;
 }
+
+class CompositeTestOutputTestStringBufferTestOutput
+  : public cpputest::StringBufferTestOutput
+{
+public:
+  virtual void printTestsStarted() override { output += "Test Start\n"; }
+
+  virtual void printTestsEnded(const cpputest::TestResult& result) override
+  {
+    output += cpputest::StringFromFormat(
+        "Test End %d\n", static_cast<int>(result.getTestCount()));
+  }
+
+  void printCurrentGroupStarted(const cpputest::TestShell& test) override
+  {
+    output +=
+        cpputest::StringFromFormat("Group %s Start\n", test.getGroup().c_str());
+  }
+
+  void printCurrentGroupEnded(const cpputest::TestResult& res) override
+  {
+    output += cpputest::StringFromFormat(
+        "Group End %d\n", static_cast<int>(res.getTestCount()));
+  }
+
+  virtual void printCurrentTestStarted(const cpputest::TestShell&) override
+  {
+    output += "s";
+  }
+
+  void flush() override { output += "flush"; }
+
+  virtual bool isVerbose()
+  {
+    return verbose_ == VerbosityLevel::VERBOSE ||
+           verbose_ == VerbosityLevel::VERY_VERBOSE;
+  }
+
+  virtual bool isColor() { return color_; }
+
+  virtual const char* getProgressIndicator() { return progressIndication_; }
+};
+
+} // namespace
 
 TEST_GROUP(TestOutput)
 {
@@ -254,48 +299,6 @@ TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
       "filter.\n\n",
       mock->getOutput().c_str());
 }
-
-class CompositeTestOutputTestStringBufferTestOutput
-  : public cpputest::StringBufferTestOutput
-{
-public:
-  virtual void printTestsStarted() override { output += "Test Start\n"; }
-
-  virtual void printTestsEnded(const cpputest::TestResult& result) override
-  {
-    output += cpputest::StringFromFormat(
-        "Test End %d\n", static_cast<int>(result.getTestCount()));
-  }
-
-  void printCurrentGroupStarted(const cpputest::TestShell& test) override
-  {
-    output +=
-        cpputest::StringFromFormat("Group %s Start\n", test.getGroup().c_str());
-  }
-
-  void printCurrentGroupEnded(const cpputest::TestResult& res) override
-  {
-    output += cpputest::StringFromFormat(
-        "Group End %d\n", static_cast<int>(res.getTestCount()));
-  }
-
-  virtual void printCurrentTestStarted(const cpputest::TestShell&) override
-  {
-    output += "s";
-  }
-
-  void flush() override { output += "flush"; }
-
-  virtual bool isVerbose()
-  {
-    return verbose_ == VerbosityLevel::VERBOSE ||
-           verbose_ == VerbosityLevel::VERY_VERBOSE;
-  }
-
-  virtual bool isColor() { return color_; }
-
-  virtual const char* getProgressIndicator() { return progressIndication_; }
-};
 
 TEST_GROUP(CompositeTestOutput)
 {

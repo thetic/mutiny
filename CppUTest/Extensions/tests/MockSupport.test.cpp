@@ -11,6 +11,40 @@
 
 using cpputest::extensions::mock;
 
+namespace {
+bool cpputestHasCrashed;
+
+void
+crashMethod()
+{
+  cpputestHasCrashed = true;
+}
+
+void
+unexpectedCallTestFunction_(void)
+{
+  mock().actualCall("unexpected");
+}
+
+void
+CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
+{
+  MockExpectedCallsListForTest::MockExpectedCallsList list;
+  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
+      cpputest::TestShell::getCurrent(), "unexpected", list);
+  mock().actualCall("boo");
+  CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
+}
+
+void
+CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_()
+{
+  mock().actualCall("boo");
+  CHECK_NO_MOCK_FAILURE_LOCATION("file", 1);
+}
+
+}
+
 TEST_GROUP(MockSupport)
 {
   MockExpectedCallsListForTest expectations;
@@ -181,16 +215,6 @@ TEST_GROUP(MockSupportWithFixture)
   }
 };
 
-static void
-CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failedTestMethod_()
-{
-  MockExpectedCallsListForTest::MockExpectedCallsList list;
-  cpputest::extensions::MockUnexpectedCallHappenedFailure expectedFailure(
-      cpputest::TestShell::getCurrent(), "unexpected", list);
-  mock().actualCall("boo");
-  CHECK_EXPECTED_MOCK_FAILURE_LOCATION(expectedFailure, "file", 1);
-}
-
 TEST(MockSupportWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 {
   mock().setMockFailureStandardReporter(
@@ -206,13 +230,6 @@ TEST(MockSupportWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
   fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
 }
 
-static void
-CHECK_NO_MOCK_FAILURE_LOCATION_failedTestMethod_()
-{
-  mock().actualCall("boo");
-  CHECK_NO_MOCK_FAILURE_LOCATION("file", 1);
-}
-
 TEST(MockSupportWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 {
   mock().setMockFailureStandardReporter(
@@ -221,20 +238,6 @@ TEST(MockSupportWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
   fixture.runAllTests();
   fixture.assertPrintContains("Unexpected mock failure:");
   fixture.assertPrintContains("Mock Failure: Unexpected call to function: boo");
-}
-
-static bool cpputestHasCrashed;
-
-static void
-crashMethod()
-{
-  cpputestHasCrashed = true;
-}
-
-static void
-unexpectedCallTestFunction_(void)
-{
-  mock().actualCall("unexpected");
 }
 
 TEST(MockSupportWithFixture, shouldCrashOnFailure)

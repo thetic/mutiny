@@ -4,10 +4,12 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 
-static unsigned long
+namespace {
+unsigned long
 MockGetPlatformSpecificTimeInMillis()
 {
   return 10;
+}
 }
 
 TEST_GROUP(TestResult)

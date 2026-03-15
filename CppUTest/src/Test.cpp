@@ -6,23 +6,25 @@
 
 namespace cpputest {
 
-static void
+namespace {
+void
 helperDoTestSetup(void* data)
 {
   static_cast<Test*>(data)->setup();
 }
 
-static void
+void
 helperDoTestBody(void* data)
 {
   static_cast<Test*>(data)->testBody();
 }
 
-static void
+void
 helperDoTestTeardown(void* data)
 {
   static_cast<Test*>(data)->teardown();
 }
+} // namespace
 
 Test::Test() {}
 

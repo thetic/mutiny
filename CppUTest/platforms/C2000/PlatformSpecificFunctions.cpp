@@ -12,17 +12,18 @@
 #include <string.h>
 #include <time.h>
 
-static jmp_buf test_exit_jmp_buf[10];
-static int jmp_buf_index = 0;
+namespace {
+jmp_buf test_exit_jmp_buf[10];
+int jmp_buf_index = 0;
 
 #if USE_BUFFER_OUTPUT
 // Buffer for crude output routine
 #define BUFFER_SIZE 4096
-static char buffer[BUFFER_SIZE]; /* "never used" warning is OK */
-static int idx = 0;
+char buffer[BUFFER_SIZE]; /* "never used" warning is OK */
+int idx = 0;
 #endif
 
-static int
+int
 C2000SetJmp(void (*function)(void* data), void* data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
@@ -34,24 +35,20 @@ C2000SetJmp(void (*function)(void* data), void* data)
   return 0;
 }
 
-static void
+void
 C2000LongJmp()
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
-static void
+void
 C2000RestoreJumpBuffer()
 {
   jmp_buf_index--;
 }
 
-int (*PlatformSpecificSetJmp)(void (*function)(void*), void*) = C2000SetJmp;
-void (*PlatformSpecificLongJmp)(void) = C2000LongJmp;
-void (*PlatformSpecificRestoreJumpBuffer)(void) = C2000RestoreJumpBuffer;
-
-static unsigned long
+unsigned long
 C2000TimeInMillis()
 {
   /* The TI c2000 platform does not have Posix support and thus lacks struct
@@ -70,12 +67,91 @@ C2000TimeInMillis()
   return result;
 }
 
-static const char*
+const char*
 TimeStringImplementation()
 {
   time_t tm = time(NULL);
   return ctime(&tm);
 }
+
+void
+C2000FPuts(const char* str, PlatformSpecificFile file)
+{
+#if USE_BUFFER_OUTPUT
+  if (file == PlatformSpecificStdOut) {
+    while (*str && (idx < BUFFER_SIZE)) {
+      buf[idx++] = *str++;
+    }
+  } else
+#endif
+  {
+    fputs(str, (FILE*)file);
+  }
+}
+
+void
+C2000FClose(PlatformSpecificFile file)
+{
+  fclose((FILE*)file);
+}
+
+void
+CL2000Flush()
+{
+  fflush(stdout);
+}
+
+void*
+C2000Malloc(size_t size)
+{
+  return (void*)malloc((unsigned long)size);
+}
+
+void*
+C2000Realloc(void* memory, size_t size)
+{
+  return (void*)realloc(memory, (unsigned long)size);
+}
+
+void
+C2000Free(void* memory)
+{
+  free(memory);
+}
+
+void*
+C2000MemCpy(void* s1, const void* s2, size_t size)
+{
+  return (void*)memcpy(s1, s2, size);
+}
+
+void*
+C2000Memset(void* mem, int c, size_t size)
+{
+  register unsigned long i = size;
+  register long p = (long)mem;
+  while (i--)
+    *__farptr_to_word(p++) = c;
+  return mem;
+}
+
+int
+IsNanImplementation(double d)
+{
+  return 0;
+}
+
+int
+IsInfImplementation(double d)
+{
+  return 0;
+}
+
+} // namespace
+
+int (*PlatformSpecificSetJmp)(void (*function)(void*), void*) = C2000SetJmp;
+void (*PlatformSpecificLongJmp)(void) = C2000LongJmp;
+void (*PlatformSpecificRestoreJumpBuffer)(void) = C2000RestoreJumpBuffer;
 
 unsigned long (*GetPlatformSpecificTimeInMillis)() = C2000TimeInMillis;
 const char* (*GetPlatformSpecificTimeString)() = TimeStringImplementation;
@@ -97,27 +173,6 @@ C2000FOpen(const char* filename, const char* flag)
   return fopen(filename, flag);
 }
 
-static void
-C2000FPuts(const char* str, PlatformSpecificFile file)
-{
-#if USE_BUFFER_OUTPUT
-  if (file == PlatformSpecificStdOut) {
-    while (*str && (idx < BUFFER_SIZE)) {
-      buf[idx++] = *str++;
-    }
-  } else
-#endif
-  {
-    fputs(str, (FILE*)file);
-  }
-}
-
-static void
-C2000FClose(PlatformSpecificFile file)
-{
-  fclose((FILE*)file);
-}
-
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 PlatformSpecificFile (*PlatformSpecificFOpen)(const char* filename,
     const char* flag) = C2000FOpen;
@@ -125,47 +180,7 @@ void (*PlatformSpecificFPuts)(const char* str,
     PlatformSpecificFile file) = C2000FPuts;
 void (*PlatformSpecificFClose)(PlatformSpecificFile file) = C2000FClose;
 
-static void
-CL2000Flush()
-{
-  fflush(stdout);
-}
-
 void (*PlatformSpecificFlush)(void) = CL2000Flush;
-
-static void*
-C2000Malloc(size_t size)
-{
-  return (void*)malloc((unsigned long)size);
-}
-
-static void*
-C2000Realloc(void* memory, size_t size)
-{
-  return (void*)realloc(memory, (unsigned long)size);
-}
-
-static void
-C2000Free(void* memory)
-{
-  free(memory);
-}
-
-static void*
-C2000MemCpy(void* s1, const void* s2, size_t size)
-{
-  return (void*)memcpy(s1, s2, size);
-}
-
-static void*
-C2000Memset(void* mem, int c, size_t size)
-{
-  register unsigned long i = size;
-  register long p = (long)mem;
-  while (i--)
-    *__farptr_to_word(p++) = c;
-  return mem;
-}
 
 void* (*PlatformSpecificMalloc)(size_t size) = C2000Malloc;
 void* (*PlatformSpecificRealloc)(void* memory, size_t size) = C2000Realloc;
@@ -182,18 +197,6 @@ double PlatformSpecificFabs(double d)
 }
 */
 double (*PlatformSpecificFabs)(double) = fabs;
-
-static int
-IsNanImplementation(double d)
-{
-  return 0;
-}
-
-static int
-IsInfImplementation(double d)
-{
-  return 0;
-}
 
 int (*PlatformSpecificIsNan)(double d) = IsNanImplementation;
 int (*PlatformSpecificIsInf)(double d) = IsInfImplementation;

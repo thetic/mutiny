@@ -6,6 +6,8 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
 
+namespace {
+
 class FileForJUnitTestOutputs
 {
   cpputest::String name_;
@@ -103,16 +105,16 @@ public:
   }
 };
 
-static unsigned long millisTime = 0;
-static const char* theTime = "";
+unsigned long millisTime = 0;
+const char* theTime = "";
 
-static unsigned long
+unsigned long
 MockGetPlatformSpecificTimeInMillis()
 {
   return millisTime;
 }
 
-static const char*
+const char*
 MockGetPlatformSpecificTimeString()
 {
   return theTime;
@@ -288,18 +290,18 @@ public:
   }
 };
 
-static FileSystemForJUnitTestOutputTests fileSystem;
-static FileForJUnitTestOutputs* currentFile = nullptr;
+FileSystemForJUnitTestOutputTests fileSystem;
+FileForJUnitTestOutputs* currentFile = nullptr;
 
-static PlatformSpecificFile
+PlatformSpecificFile
 mockFOpen(const char* filename, const char*)
 {
   currentFile = fileSystem.openFile(filename);
   return currentFile;
 }
 
-static void (*originalFPuts)(const char* str, PlatformSpecificFile file);
-static void
+void (*originalFPuts)(const char* str, PlatformSpecificFile file);
+void
 mockFPuts(const char* str, PlatformSpecificFile file)
 {
   if (file == currentFile) {
@@ -309,12 +311,14 @@ mockFPuts(const char* str, PlatformSpecificFile file)
   }
 }
 
-static void
+void
 mockFClose(PlatformSpecificFile file)
 {
   currentFile = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
 }
+
+} // namespace
 
 TEST_GROUP(JUnitTestOutput)
 {

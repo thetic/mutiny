@@ -15,7 +15,9 @@
 namespace cpputest {
 namespace extensions {
 
-static MockSupport global_mock;
+namespace {
+MockSupport global_mock;
+} // namespace
 
 MockSupport&
 mock(const String& mockName, MockFailureReporter* failureReporterForThisCall)
@@ -802,10 +804,12 @@ public:
   }
 };
 
-static MockSupport* currentMockSupport = nullptr;
-static MockExpectedCall* expectedCall = nullptr;
-static MockActualCall* actualCall = nullptr;
-static MockFailureReporterForInCOnlyCode failureReporterForC;
+namespace {
+MockSupport* currentMockSupport = nullptr;
+MockExpectedCall* expectedCall = nullptr;
+MockActualCall* actualCall = nullptr;
+MockFailureReporterForInCOnlyCode failureReporterForC;
+} // namespace
 
 } // namespace extensions
 } // namespace cpputest
@@ -840,7 +844,8 @@ public:
   MockTypeValueToStringFunction toString_;
 };
 
-static MockCFunctionComparatorNode* comparatorList_ = nullptr;
+namespace {
+MockCFunctionComparatorNode* comparatorList_ = nullptr;
 
 class MockCFunctionCopierNode
   : public cpputest::extensions::MockNamedValueCopier
@@ -860,7 +865,8 @@ public:
   MockTypeCopyFunction copier_;
 };
 
-static MockCFunctionCopierNode* copierList_ = nullptr;
+MockCFunctionCopierNode* copierList_ = nullptr;
+} // namespace
 
 void
 strictOrder();
@@ -1073,7 +1079,8 @@ returnConstPointerValueOrDefault(const void* defaultValue);
 void (*functionPointerReturnValue())();
 void (*returnFunctionPointerValueOrDefault(void (*defaultValue)()))();
 
-static void
+namespace {
+void
 installComparator(const char* typeName,
     MockTypeEqualFunction isEqual,
     MockTypeValueToStringFunction valueToString)
@@ -1084,7 +1091,7 @@ installComparator(const char* typeName,
       typeName, *comparatorList_);
 }
 
-static void
+void
 installCopier(const char* typeName, MockTypeCopyFunction copier)
 {
   copierList_ = new MockCFunctionCopierNode(copierList_, copier);
@@ -1092,7 +1099,7 @@ installCopier(const char* typeName, MockTypeCopyFunction copier)
       typeName, *copierList_);
 }
 
-static void
+void
 removeAllComparatorsAndCopiers()
 {
   while (comparatorList_) {
@@ -1107,8 +1114,10 @@ removeAllComparatorsAndCopiers()
   }
   cpputest::extensions::currentMockSupport->removeAllComparatorsAndCopiers();
 }
+} // namespace
 
-static struct MockExpectedCall gExpectedCall = {
+namespace {
+struct MockExpectedCall gExpectedCall = {
   withBoolParameters,
   withIntParameters,
   withUnsignedIntParameters,
@@ -1142,7 +1151,7 @@ static struct MockExpectedCall gExpectedCall = {
   andReturnFunctionPointerValue,
 };
 
-static struct MockActualCall gActualCall = { withActualBoolParameters,
+struct MockActualCall gActualCall = { withActualBoolParameters,
   withActualIntParameters,
   withActualUnsignedIntParameters,
   withActualLongIntParameters,
@@ -1184,6 +1193,7 @@ static struct MockActualCall gActualCall = { withActualBoolParameters,
   returnConstPointerValueOrDefault,
   functionPointerReturnValue,
   returnFunctionPointerValueOrDefault };
+} // namespace
 
 struct MockExpectedCall*
 withBoolParameters(const char* name, int value)
@@ -1443,7 +1453,8 @@ andReturnFunctionPointerValue(void (*value)())
   return &gExpectedCall;
 }
 
-static struct MockValue
+namespace {
+struct MockValue
 getMockValueCFromNamedValue(
     const cpputest::extensions::MockNamedValue& namedValue)
 {
@@ -1502,6 +1513,7 @@ getMockValueCFromNamedValue(
   }
   return returnValue;
 }
+} // namespace
 
 void
 strictOrder()
@@ -1984,7 +1996,8 @@ crashOnFailure(unsigned shouldCrash)
   cpputest::extensions::currentMockSupport->crashOnFailure(0 != shouldCrash);
 }
 
-static struct MockSupport gMockSupport = { strictOrder,
+namespace {
+struct MockSupport gMockSupport = { strictOrder,
   expectOneCall,
   expectNoCall,
   expectNCalls,
@@ -2038,7 +2051,9 @@ static struct MockSupport gMockSupport = { strictOrder,
   installComparator,
   installCopier,
   removeAllComparatorsAndCopiers };
-}
+} // namespace
+
+} // namespace c
 
 struct MockSupport*
 mock()

@@ -10,22 +10,120 @@ TEST_GROUP(UtestStringMacros)
   cpputest::TestTestingFixture fixture;
 };
 
-static void
+namespace {
+
+void
 STRCMP_EQUALWithActualIsNULLTestMethod_()
 {
   STRCMP_EQUAL("ok", nullptr);
 }
 
+void
+STRCMP_EQUALWithExpectedIsNULLTestMethod_()
+{
+  STRCMP_EQUAL(nullptr, "ok");
+}
+
+void
+STRCMP_CONTAINSWithActualIsNULLTestMethod_()
+{
+  STRCMP_CONTAINS("ok", nullptr);
+}
+
+void
+STRCMP_CONTAINSWithExpectedIsNULLTestMethod_()
+{
+  STRCMP_CONTAINS(nullptr, "ok");
+}
+
+void
+STRNCMP_EQUALWithActualIsNULLTestMethod_()
+{
+  STRNCMP_EQUAL("ok", nullptr, 2);
+}
+
+void
+STRNCMP_EQUALWithExpectedIsNULLTestMethod_()
+{
+  STRNCMP_EQUAL(nullptr, "ok", 2);
+}
+
+void
+failingTestMethodWithSTRCMP_EQUAL_()
+{
+  STRCMP_EQUAL("hello", "hell");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSTRCMP_EQUAL_TEXT_()
+{
+  STRCMP_EQUAL_TEXT("hello", "hell", "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSTRNCMP_EQUAL_()
+{
+  STRNCMP_EQUAL("hello", "hallo", 5);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSTRNCMP_EQUAL_TEXT_()
+{
+  STRNCMP_EQUAL_TEXT("hello", "hallo", 5, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSTRCMP_CONTAINS_()
+{
+  STRCMP_CONTAINS("hello", "world");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSTRCMP_CONTAINS_TEXT_()
+{
+  STRCMP_CONTAINS_TEXT("hello", "world", "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+compareNFirstCharsWithUpperAndLowercase_()
+{
+  STRNCMP_EQUAL("hello world!", "HELLO WORLD!", 12);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+compareNFirstCharsWithDifferenceInTheMiddle_()
+{
+  STRNCMP_EQUAL("Hello World!", "Hello Peter!", 12);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+compareNFirstCharsWithEmptyString_()
+{
+  STRNCMP_EQUAL("", "Not empty string", 5);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+compareNFirstCharsWithLastCharDifferent_()
+{
+  STRNCMP_EQUAL("Not empty string?", "Not empty string!", 17);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+} // namespace
+
 TEST(UtestStringMacros, FailureWithSTRCMP_EQUALAndActualIsNULL)
 {
   fixture.runTestWithMethod(STRCMP_EQUALWithActualIsNULLTestMethod_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <(null)>");
-}
-
-static void
-STRCMP_EQUALWithExpectedIsNULLTestMethod_()
-{
-  STRCMP_EQUAL(nullptr, "ok");
 }
 
 TEST(UtestStringMacros, FailureWithSTRCMP_EQUALAndExpectedIsNULL)
@@ -34,22 +132,10 @@ TEST(UtestStringMacros, FailureWithSTRCMP_EQUALAndExpectedIsNULL)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <(null)>");
 }
 
-static void
-STRCMP_CONTAINSWithActualIsNULLTestMethod_()
-{
-  STRCMP_CONTAINS("ok", nullptr);
-}
-
 TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINSAndActualIsNULL)
 {
   fixture.runTestWithMethod(STRCMP_CONTAINSWithActualIsNULLTestMethod_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <ok>");
-}
-
-static void
-STRCMP_CONTAINSWithExpectedIsNULLTestMethod_()
-{
-  STRCMP_CONTAINS(nullptr, "ok");
 }
 
 TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINSAndExpectedIsNULL)
@@ -58,35 +144,16 @@ TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINSAndExpectedIsNULL)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <>");
 }
 
-static void
-STRNCMP_EQUALWithActualIsNULLTestMethod_()
-{
-  STRNCMP_EQUAL("ok", nullptr, 2);
-}
-
 TEST(UtestStringMacros, FailureWithSTRNCMP_EQUALAndActualIsNULL)
 {
   fixture.runTestWithMethod(STRNCMP_EQUALWithActualIsNULLTestMethod_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <(null)>");
 }
 
-static void
-STRNCMP_EQUALWithExpectedIsNULLTestMethod_()
-{
-  STRNCMP_EQUAL(nullptr, "ok", 2);
-}
-
 TEST(UtestStringMacros, FailureWithSTRNCMP_EQUALAndExpectedIsNULL)
 {
   fixture.runTestWithMethod(STRNCMP_EQUALWithExpectedIsNULLTestMethod_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <(null)>");
-}
-
-static void
-failingTestMethodWithSTRCMP_EQUAL_()
-{
-  STRCMP_EQUAL("hello", "hell");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, FailureWithSTRCMP_EQUAL)
@@ -107,13 +174,6 @@ TEST(UtestStringMacros, STRCMP_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestStringMacros, STRCMP_EQUALWorksInAnIgnoredTest)
 {
   STRCMP_EQUAL("Hello", "World");
-}
-
-static void
-failingTestMethodWithSTRCMP_EQUAL_TEXT_()
-{
-  STRCMP_EQUAL_TEXT("hello", "hell", "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, FailureWithSTRCMP_EQUAL_TEXT)
@@ -137,13 +197,6 @@ IGNORE_TEST(UtestStringMacros, STRCMP_EQUAL_TEXTWorksInAnIgnoredTest)
   STRCMP_EQUAL_TEXT("Hello", "World", "Failed because it failed");
 }
 
-static void
-failingTestMethodWithSTRNCMP_EQUAL_()
-{
-  STRNCMP_EQUAL("hello", "hallo", 5);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestStringMacros, FailureWithSTRNCMP_EQUAL)
 {
   fixture.runTestWithMethod(failingTestMethodWithSTRNCMP_EQUAL_);
@@ -162,13 +215,6 @@ TEST(UtestStringMacros, STRNCMP_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestStringMacros, STRNCMP_EQUALWorksInAnIgnoredTest)
 {
   STRNCMP_EQUAL("Hello", "World", 3);
-}
-
-static void
-failingTestMethodWithSTRNCMP_EQUAL_TEXT_()
-{
-  STRNCMP_EQUAL_TEXT("hello", "hallo", 5, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, FailureWithSTRNCMP_EQUAL_TEXT)
@@ -192,13 +238,6 @@ IGNORE_TEST(UtestStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
   STRNCMP_EQUAL_TEXT("Hello", "World", 3, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithSTRCMP_CONTAINS_()
-{
-  STRCMP_CONTAINS("hello", "world");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINS)
 {
   fixture.runTestWithMethod(failingTestMethodWithSTRCMP_CONTAINS_);
@@ -217,13 +256,6 @@ TEST(UtestStringMacros, STRCMP_CONTAINSBehavesAsProperMacro)
 IGNORE_TEST(UtestStringMacros, STRCMP_CONTAINSWorksInAnIgnoredTest)
 {
   STRCMP_CONTAINS("Hello", "World");
-}
-
-static void
-failingTestMethodWithSTRCMP_CONTAINS_TEXT_()
-{
-  STRCMP_CONTAINS_TEXT("hello", "world", "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINS_TEXT)
@@ -255,26 +287,12 @@ TEST(UtestStringMacros, NFirstCharsComparison)
   STRNCMP_EQUAL("Hello World!", "Hello", 5);
 }
 
-static void
-compareNFirstCharsWithUpperAndLowercase_()
-{
-  STRNCMP_EQUAL("hello world!", "HELLO WORLD!", 12);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestStringMacros, CompareNFirstCharsWithUpperAndLowercase)
 {
   fixture.runTestWithMethod(compareNFirstCharsWithUpperAndLowercase_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <hello world!>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <HELLO WORLD!>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("difference starts at position 0");
-}
-
-static void
-compareNFirstCharsWithDifferenceInTheMiddle_()
-{
-  STRNCMP_EQUAL("Hello World!", "Hello Peter!", 12);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, CompareNFirstCharsWithDifferenceInTheMiddle)
@@ -285,26 +303,12 @@ TEST(UtestStringMacros, CompareNFirstCharsWithDifferenceInTheMiddle)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("difference starts at position 6");
 }
 
-static void
-compareNFirstCharsWithEmptyString_()
-{
-  STRNCMP_EQUAL("", "Not empty string", 5);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestStringMacros, CompareNFirstCharsWithEmptyString)
 {
   fixture.runTestWithMethod(compareNFirstCharsWithEmptyString_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <Not empty string>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("difference starts at position 0");
-}
-
-static void
-compareNFirstCharsWithLastCharDifferent_()
-{
-  STRNCMP_EQUAL("Not empty string?", "Not empty string!", 17);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestStringMacros, CompareNFirstCharsWithLastCharDifferent)

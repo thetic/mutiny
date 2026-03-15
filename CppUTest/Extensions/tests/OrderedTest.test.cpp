@@ -125,6 +125,7 @@ TEST(OrderedTest, MultipleOrderedTests2)
   CHECK(secondTest()->getNext() == &orderedTest);
 }
 
+namespace {
 class OrderedTestTestingFixture
 {
 public:
@@ -144,6 +145,7 @@ private:
 
 int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
+}
 
 TEST_GROUP(OrderedTestC)
 {

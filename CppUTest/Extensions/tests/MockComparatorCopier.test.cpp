@@ -14,6 +14,7 @@ TEST_GROUP(MockComparatorCopier)
   }
 };
 
+namespace {
 class MyTypeForTesting
 {
 public:
@@ -52,6 +53,7 @@ public:
     *(dst->value) = *(src->value);
   }
 };
+}
 
 TEST(MockComparatorCopier,
     customObjectParameterFailsWhenNotHavingAComparisonRepository)
@@ -108,18 +110,20 @@ TEST(MockComparatorCopier, customObjectParameterSucceeds)
   mock().removeAllComparatorsAndCopiers();
 }
 
-static bool
+namespace {
+bool
 myTypeIsEqual(const void* object1, const void* object2)
 {
   return static_cast<const MyTypeForTesting*>(object1)->value ==
          static_cast<const MyTypeForTesting*>(object2)->value;
 }
 
-static cpputest::String
+cpputest::String
 myTypeValueToString(const void* object)
 {
   return cpputest::StringFrom(
       static_cast<const MyTypeForTesting*>(object)->value);
+}
 }
 
 TEST(MockComparatorCopier, customObjectWithFunctionComparator)
@@ -552,12 +556,14 @@ TEST(MockComparatorCopier, customTypeOutputParameterWithIgnoredParameters)
   mock().removeAllComparatorsAndCopiers();
 }
 
-static void
+namespace {
+void
 myTypeCopy(void* dst_, const void* src_)
 {
   MyTypeForTesting* dst = static_cast<MyTypeForTesting*>(dst_);
   const MyTypeForTesting* src = static_cast<const MyTypeForTesting*>(src_);
   *(dst->value) = *(src->value);
+}
 }
 
 TEST(MockComparatorCopier, customObjectWithFunctionCopier)
@@ -687,6 +693,7 @@ TEST(MockComparatorCopier, installCopiersWorksHierarchically)
   mock().removeAllComparatorsAndCopiers();
 }
 
+namespace {
 class StubComparator
   : public MyTypeForTestingComparator::MockNamedValueComparator
 {
@@ -700,12 +707,13 @@ struct SomeClass
   int someDummy_;
 };
 
-static void
+void
 functionWithConstParam(const SomeClass param)
 {
   mock()
       .actualCall("functionWithConstParam")
       .withParameterOfType("SomeClass", "param", &param);
+}
 }
 
 TEST(MockComparatorCopier, shouldSupportConstParameters)

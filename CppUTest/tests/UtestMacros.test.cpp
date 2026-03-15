@@ -15,12 +15,428 @@ TEST_GROUP(UtestMacros)
   cpputest::TestTestingFixture fixture;
 };
 
-static void
+namespace {
+
+void
 failingTestMethodWithFAIL_()
 {
   FAIL("This test fails");
   cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
+
+void
+UNSIGNED_LONGS_EQUALTestMethod_()
+{
+  UNSIGNED_LONGS_EQUAL(1, 1);
+  UNSIGNED_LONGS_EQUAL(1, 0);
+}
+
+void
+UNSIGNED_LONGS_EQUAL_TEXTTestMethod_()
+{
+  UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
+}
+
+void
+LONGLONGS_EQUALTestMethod_()
+{
+  LONGLONGS_EQUAL(1, 1);
+  LONGLONGS_EQUAL(1, 0);
+}
+
+void
+LONGLONGS_EQUAL_TEXTTestMethod_()
+{
+  LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
+}
+
+void
+UNSIGNED_LONGLONGS_EQUALTestMethod_()
+{
+  UNSIGNED_LONGLONGS_EQUAL(1, 1);
+  UNSIGNED_LONGLONGS_EQUAL(1, 0);
+}
+
+void
+UNSIGNED_LONGLONGS_EQUAL_TEXTTestMethod_()
+{
+  UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
+}
+
+void
+failingTestMethodWithCHECK_()
+{
+  CHECK(false);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_TEXT_()
+{
+  CHECK_TEXT(false, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_TRUE_()
+{
+  CHECK_TRUE(false);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_TRUE_TEXT_()
+{
+  CHECK_TRUE_TEXT(false, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_FALSE_()
+{
+  CHECK_FALSE(true);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_FALSE_TEXT_()
+{
+  CHECK_FALSE_TEXT(true, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_EQUAL_()
+{
+  CHECK_EQUAL(1, 2);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_COMPARE_()
+{
+  double small = 0.5, big = 0.8;
+  CHECK_COMPARE(small, >=, big);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_COMPARE_TEXT_()
+{
+  double small = 0.5, big = 0.8;
+  CHECK_COMPARE_TEXT(small, >=, big, "small bigger than big");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+int countInCountingMethod;
+int
+countingMethod_()
+{
+  return countInCountingMethod++;
+}
+
+void
+failing_CHECK_EQUAL_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning_()
+{
+  CHECK_EQUAL(12345, countingMethod_());
+}
+
+void
+failing_CHECK_EQUAL_WithExpectedBeingEvaluatesMultipleTimesWillGiveAWarning_()
+{
+  CHECK_EQUAL(countingMethod_(), 12345);
+}
+
+void
+failingTestMethodWithCHECK_EQUAL_TEXT_()
+{
+  CHECK_EQUAL_TEXT(1, 2, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithCHECK_EQUAL_ZERO_()
+{
+  CHECK_EQUAL_ZERO(1);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failing_CHECK_EQUAL_ZERO_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning_()
+{
+  countInCountingMethod = 1;
+  CHECK_EQUAL_ZERO(countingMethod_());
+}
+
+void
+failingTestMethodWithCHECK_EQUAL_ZERO_TEXT_()
+{
+  CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithLONGS_EQUAL_()
+{
+  LONGS_EQUAL(1, 0xff);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithLONGS_EQUALWithSymbolicParameters_()
+{
+#define MONDAY 1
+  int day_of_the_week = MONDAY + 1;
+  LONGS_EQUAL(MONDAY, day_of_the_week);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithLONGS_EQUAL_TEXT_()
+{
+  LONGS_EQUAL_TEXT(1, 0xff, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithBYTES_EQUAL_()
+{
+  BYTES_EQUAL('a', 'b');
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithBYTES_EQUAL_TEXT_()
+{
+  BYTES_EQUAL_TEXT('a', 'b', "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSIGNED_BYTES_EQUAL_()
+{
+  SIGNED_BYTES_EQUAL(-1, -2);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithSIGNED_BYTES_EQUAL_TEXT_()
+{
+  SIGNED_BYTES_EQUAL_TEXT(-127, -126, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithPOINTERS_EQUAL_()
+{
+  POINTERS_EQUAL(
+      reinterpret_cast<void*>(0xa5a5), reinterpret_cast<void*>(0xf0f0));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithPOINTERS_EQUAL_TEXT_()
+{
+  POINTERS_EQUAL_TEXT(reinterpret_cast<void*>(0xa5a5),
+      reinterpret_cast<void*>(0xf0f0),
+      "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithFUNCTIONPOINTERS_EQUAL_()
+{
+  FUNCTIONPOINTERS_EQUAL(reinterpret_cast<void (*)()>(0xa5a5),
+      reinterpret_cast<void (*)()>(0xf0f0));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithFUNCTIONPOINTERS_EQUAL_TEXT_()
+{
+  FUNCTIONPOINTERS_EQUAL_TEXT(reinterpret_cast<void (*)()>(0xa5a5),
+      reinterpret_cast<void (*)()>(0xf0f0),
+      "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithDOUBLES_EQUAL_()
+{
+  DOUBLES_EQUAL(0.12, 44.1, 0.3);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithDOUBLES_EQUAL_TEXT_()
+{
+  DOUBLES_EQUAL_TEXT(0.12, 44.1, 0.3, "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+bool lineOfCodeExecutedAfterCheck = false;
+
+void
+passingTestMethod_()
+{
+  CHECK(true);
+  lineOfCodeExecutedAfterCheck = true;
+}
+
+int
+functionThatReturnsAValue()
+{
+  CHECK(0 == 0);
+  CHECK_TEXT(0 == 0, "Shouldn't fail");
+  CHECK_TRUE(0 == 0);
+  CHECK_TRUE_TEXT(0 == 0, "Shouldn't fail");
+  CHECK_FALSE(0 != 0);
+  CHECK_FALSE_TEXT(0 != 0, "Shouldn't fail");
+  LONGS_EQUAL(1, 1);
+  LONGS_EQUAL_TEXT(1, 1, "Shouldn't fail");
+  BYTES_EQUAL(0xab, 0xab);
+  BYTES_EQUAL_TEXT(0xab, 0xab, "Shouldn't fail");
+  CHECK_EQUAL(100, 100);
+  CHECK_EQUAL_TEXT(100, 100, "Shouldn't fail");
+  CHECK_EQUAL_ZERO(0);
+  CHECK_EQUAL_ZERO_TEXT(0, "Shouldn't fail");
+  STRCMP_EQUAL("THIS", "THIS");
+  STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
+  DOUBLES_EQUAL(1.0, 1.0, .01);
+  DOUBLES_EQUAL_TEXT(1.0, 1.0, .01, "Shouldn't fail");
+  POINTERS_EQUAL(nullptr, nullptr);
+  POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
+  MEMCMP_EQUAL("THIS", "THIS", 5);
+  MEMCMP_EQUAL_TEXT("THIS", "THIS", 5, "Shouldn't fail");
+  return 0;
+}
+
+void
+MEMCMP_EQUALFailingTestMethodWithUnequalInput_()
+{
+  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
+  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
+
+  MEMCMP_EQUAL(expectedData, actualData, sizeof(expectedData));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+MEMCMP_EQUALFailingTestMethodWithNullExpected_()
+{
+  unsigned char actualData[] = { 0x00, 0x01, 0x02, 0x03 };
+
+  MEMCMP_EQUAL(nullptr, actualData, sizeof(actualData));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+MEMCMP_EQUALFailingTestMethodWithNullActual_()
+{
+  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
+
+  MEMCMP_EQUAL(expectedData, nullptr, sizeof(expectedData));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethodWithMEMCMP_EQUAL_TEXT_()
+{
+  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
+  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
+
+  MEMCMP_EQUAL_TEXT(expectedData,
+      actualData,
+      sizeof(expectedData),
+      "Failed because it failed");
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+enum class ScopedIntEnum
+{
+  A,
+  B
+};
+
+void
+ENUMS_EQUAL_INTWithScopedIntEnumTestMethod_()
+{
+  ENUMS_EQUAL_INT(ScopedIntEnum::B, ScopedIntEnum::B);
+  ENUMS_EQUAL_INT(ScopedIntEnum::B, ScopedIntEnum::A);
+}
+
+void
+ENUMS_EQUAL_INT_TEXTWithScopedIntEnumTestMethod_()
+{
+  ENUMS_EQUAL_INT_TEXT(
+      ScopedIntEnum::B, ScopedIntEnum::A, "Failed because it failed");
+}
+
+enum class ScopedLongEnum : long
+{
+  A,
+  B
+};
+
+void
+ENUMS_EQUAL_TYPEWithScopedLongEnumTestMethod_()
+{
+  ENUMS_EQUAL_TYPE(long, ScopedLongEnum::B, ScopedLongEnum::B);
+  ENUMS_EQUAL_TYPE(long, ScopedLongEnum::B, ScopedLongEnum::A);
+}
+
+void
+ENUMS_EQUAL_TYPE_TEXTWithScopedLongEnumTestMethod_()
+{
+  ENUMS_EQUAL_TYPE_TEXT(
+      long, ScopedLongEnum::B, ScopedLongEnum::A, "Failed because it failed");
+}
+
+enum UnscopedEnum
+{
+  UNSCOPED_ENUM_A,
+  UNSCOPED_ENUM_B
+};
+
+void
+ENUMS_EQUAL_INTWithUnscopedEnumTestMethod_()
+{
+  ENUMS_EQUAL_INT(UNSCOPED_ENUM_B, UNSCOPED_ENUM_B);
+  ENUMS_EQUAL_INT(UNSCOPED_ENUM_B, UNSCOPED_ENUM_A);
+}
+
+void
+ENUMS_EQUAL_INT_TEXTWithUnscopedEnumTestMethod_()
+{
+  ENUMS_EQUAL_INT_TEXT(
+      UNSCOPED_ENUM_B, UNSCOPED_ENUM_A, "Failed because it failed");
+}
+
+#if CPPUTEST_HAVE_EXCEPTIONS
+void
+failingTestMethod_NoThrowWithCHECK_THROWS_()
+{
+  CHECK_THROWS(int, (void)(1 + 2));
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+succeedingTestMethod_CorrectThrowWithCHECK_THROWS_()
+{
+  CHECK_THROWS(int, throw 4);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+void
+failingTestMethod_WrongThrowWithCHECK_THROWS_()
+{
+  CHECK_THROWS(int, throw 4.3);
+  cpputest::TestTestingFixture::lineExecutedAfterCheck();
+}
+
+#endif
+
+} // namespace
 
 TEST(UtestMacros, FAILMakesTheTestFailPrintsTheRightResultAndStopsExecuting)
 {
@@ -52,13 +468,6 @@ IGNORE_TEST(UtestMacros, FAILworksInAnIgnoredTest)
   FAIL("die!");
 }
 
-static void
-UNSIGNED_LONGS_EQUALTestMethod_()
-{
-  UNSIGNED_LONGS_EQUAL(1, 1);
-  UNSIGNED_LONGS_EQUAL(1, 0);
-}
-
 TEST(UtestMacros, TestUNSIGNED_LONGS_EQUAL)
 {
   fixture.runTestWithMethod(UNSIGNED_LONGS_EQUALTestMethod_);
@@ -77,12 +486,6 @@ TEST(UtestMacros, UNSIGNED_LONGS_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, UNSIGNED_LONGS_EQUALWorksInAnIgnoredTest)
 {
   UNSIGNED_LONGS_EQUAL(1, 0);
-}
-
-static void
-UNSIGNED_LONGS_EQUAL_TEXTTestMethod_()
-{
-  UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestUNSIGNED_LONGS_EQUAL_TEXT)
@@ -106,13 +509,6 @@ IGNORE_TEST(UtestMacros, UNSIGNED_LONGS_EQUAL_TEXTWorksInAnIgnoredTest)
   UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
-static void
-LONGLONGS_EQUALTestMethod_()
-{
-  LONGLONGS_EQUAL(1, 1);
-  LONGLONGS_EQUAL(1, 0);
-}
-
 TEST(UtestMacros, TestLONGLONGS_EQUAL)
 {
   fixture.runTestWithMethod(LONGLONGS_EQUALTestMethod_);
@@ -131,12 +527,6 @@ TEST(UtestMacros, LONGLONGS_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, LONGLONGS_EQUALWorksInAnIgnoredTest)
 {
   LONGLONGS_EQUAL(1, 0);
-}
-
-static void
-LONGLONGS_EQUAL_TEXTTestMethod_()
-{
-  LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestLONGLONGS_EQUAL_TEXT)
@@ -160,13 +550,6 @@ IGNORE_TEST(UtestMacros, LONGLONGS_EQUAL_TEXTWorksInAnIgnoredTest)
   LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
-static void
-UNSIGNED_LONGLONGS_EQUALTestMethod_()
-{
-  UNSIGNED_LONGLONGS_EQUAL(1, 1);
-  UNSIGNED_LONGLONGS_EQUAL(1, 0);
-}
-
 TEST(UtestMacros, TestUNSIGNED_LONGLONGS_EQUAL)
 {
   fixture.runTestWithMethod(UNSIGNED_LONGLONGS_EQUALTestMethod_);
@@ -185,12 +568,6 @@ TEST(UtestMacros, UNSIGNED_LONGLONGS_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, UNSIGNED_LONGLONGS_EQUALWorksInAnIgnoredTest)
 {
   UNSIGNED_LONGLONGS_EQUAL(1, 0);
-}
-
-static void
-UNSIGNED_LONGLONGS_EQUAL_TEXTTestMethod_()
-{
-  UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestUNSIGNED_LONGLONGS_EQUAL_TEXT)
@@ -214,13 +591,6 @@ IGNORE_TEST(UtestMacros, UNSIGNED_LONGLONGS_EQUAL_TEXTWorksInAnIgnoredTest)
   UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithCHECK_()
-{
-  CHECK(false);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_);
@@ -238,13 +608,6 @@ TEST(UtestMacros, CHECKBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, CHECKWorksInAnIgnoredTest)
 {
   CHECK(false);
-}
-
-static void
-failingTestMethodWithCHECK_TEXT_()
-{
-  CHECK_TEXT(false, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithCHECK_TEXT)
@@ -267,13 +630,6 @@ IGNORE_TEST(UtestMacros, CHECK_TEXTWorksInAnIgnoredTest)
   CHECK_TEXT(false, "false");
 }
 
-static void
-failingTestMethodWithCHECK_TRUE_()
-{
-  CHECK_TRUE(false);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_TRUE)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_TRUE_);
@@ -291,13 +647,6 @@ TEST(UtestMacros, CHECK_TRUEBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, CHECK_TRUEWorksInAnIgnoredTest)
 {
   CHECK_TRUE(false);
-}
-
-static void
-failingTestMethodWithCHECK_TRUE_TEXT_()
-{
-  CHECK_TRUE_TEXT(false, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithCHECK_TRUE_TEXT)
@@ -320,13 +669,6 @@ IGNORE_TEST(UtestMacros, CHECK_TRUE_TEXTWorksInAnIgnoredTest)
   CHECK_TRUE_TEXT(false, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithCHECK_FALSE_()
-{
-  CHECK_FALSE(true);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_FALSE)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_FALSE_);
@@ -344,13 +686,6 @@ TEST(UtestMacros, CHECK_FALSEBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, CHECK_FALSEWorksInAnIgnoredTest)
 {
   CHECK_FALSE(true);
-}
-
-static void
-failingTestMethodWithCHECK_FALSE_TEXT_()
-{
-  CHECK_FALSE_TEXT(true, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithCHECK_FALSE_TEXT)
@@ -373,26 +708,11 @@ IGNORE_TEST(UtestMacros, CHECK_FALSE_TEXTWorksInAnIgnoredTest)
   CHECK_FALSE_TEXT(true, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithCHECK_EQUAL_()
-{
-  CHECK_EQUAL(1, 2);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_EQUAL)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_EQUAL_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2>");
-}
-
-static void
-failingTestMethodWithCHECK_COMPARE_()
-{
-  double small = 0.5, big = 0.8;
-  CHECK_COMPARE(small, >=, big);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithCHECK_COMPARE)
@@ -414,14 +734,6 @@ IGNORE_TEST(UtestMacros, CHECK_COMPAREWorksInAnIgnoredTest)
   CHECK_COMPARE(1, >, 2);
 }
 
-static void
-failingTestMethodWithCHECK_COMPARE_TEXT_()
-{
-  double small = 0.5, big = 0.8;
-  CHECK_COMPARE_TEXT(small, >=, big, "small bigger than big");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_COMPARE_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_COMPARE_TEXT_);
@@ -440,13 +752,6 @@ TEST(UtestMacros, CHECK_COMPARE_TEXTBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, CHECK_COMPARE_TEXTWorksInAnIgnoredTest)
 {
   CHECK_COMPARE_TEXT(1, >, 2, "1 smaller than 2");
-}
-
-static int countInCountingMethod;
-static int
-countingMethod_()
-{
-  return countInCountingMethod++;
 }
 
 TEST(UtestMacros, LONGS_EQUAL_macroExpressionSafety)
@@ -474,12 +779,6 @@ TEST(UtestMacros,
   LONGS_EQUAL(1, countInCountingMethod);
 }
 
-static void
-failing_CHECK_EQUAL_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning_()
-{
-  CHECK_EQUAL(12345, countingMethod_());
-}
-
 TEST(UtestMacros,
     failing_CHECK_EQUAL_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning)
 {
@@ -489,12 +788,6 @@ TEST(UtestMacros,
       "WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated multiple "
       "times resulting in different values.\n\tThus the value in the error "
       "message is probably incorrect.");
-}
-
-static void
-failing_CHECK_EQUAL_WithExpectedBeingEvaluatesMultipleTimesWillGiveAWarning_()
-{
-  CHECK_EQUAL(countingMethod_(), 12345);
 }
 
 TEST(UtestMacros,
@@ -528,13 +821,6 @@ IGNORE_TEST(UtestMacros, CHECK_EQUALWorksInAnIgnoredTest)
   CHECK_EQUAL(1, 2);
 }
 
-static void
-failingTestMethodWithCHECK_EQUAL_TEXT_()
-{
-  CHECK_EQUAL_TEXT(1, 2, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_EQUAL_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_EQUAL_TEXT_);
@@ -556,13 +842,6 @@ IGNORE_TEST(UtestMacros, CHECK_EQUAL_TEXTWorksInAnIgnoredTest)
   CHECK_EQUAL_TEXT(1, 2, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithCHECK_EQUAL_ZERO_()
-{
-  CHECK_EQUAL_ZERO(1);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_EQUAL_ZERO)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_EQUAL_ZERO_);
@@ -577,13 +856,6 @@ TEST(UtestMacros,
   CHECK_EQUAL_ZERO(countingMethod_());
 
   LONGS_EQUAL(1, countInCountingMethod);
-}
-
-static void
-failing_CHECK_EQUAL_ZERO_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning_()
-{
-  countInCountingMethod = 1;
-  CHECK_EQUAL_ZERO(countingMethod_());
 }
 
 TEST(UtestMacros,
@@ -617,13 +889,6 @@ TEST(UtestMacros, CHECK_EQUAL_ZERO_BehavesAsProperMacro)
     CHECK_EQUAL_ZERO(0);
 }
 
-static void
-failingTestMethodWithCHECK_EQUAL_ZERO_TEXT_()
-{
-  CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithCHECK_EQUAL_ZERO_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithCHECK_EQUAL_ZERO_TEXT_);
@@ -645,27 +910,11 @@ IGNORE_TEST(UtestMacros, CHECK_EQUAL_ZERO_TEXTWorksInAnIgnoredTest)
   CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
 }
 
-static void
-failingTestMethodWithLONGS_EQUAL_()
-{
-  LONGS_EQUAL(1, 0xff);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithLONGS_EQUALS)
 {
   fixture.runTestWithMethod(failingTestMethodWithLONGS_EQUAL_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <  1 (0x1)>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <255 (0xff)>");
-}
-
-static void
-failingTestMethodWithLONGS_EQUALWithSymbolicParameters_()
-{
-#define MONDAY 1
-  int day_of_the_week = MONDAY + 1;
-  LONGS_EQUAL(MONDAY, day_of_the_week);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithLONGS_EQUALShowsSymbolicParameters)
@@ -692,13 +941,6 @@ IGNORE_TEST(UtestMacros, LONGS_EQUALWorksInAnIgnoredTest)
   LONGS_EQUAL(11, 22);
 }
 
-static void
-failingTestMethodWithLONGS_EQUAL_TEXT_()
-{
-  LONGS_EQUAL_TEXT(1, 0xff, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithLONGS_EQUALS_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithLONGS_EQUAL_TEXT_);
@@ -718,13 +960,6 @@ TEST(UtestMacros, LONGS_EQUAL_TEXTBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, LONGS_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   LONGS_EQUAL_TEXT(11, 22, "Failed because it failed");
-}
-
-static void
-failingTestMethodWithBYTES_EQUAL_()
-{
-  BYTES_EQUAL('a', 'b');
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithBYTES_EQUAL)
@@ -747,13 +982,6 @@ IGNORE_TEST(UtestMacros, BYTES_EQUALWorksInAnIgnoredTest)
   BYTES_EQUAL('q', 'w');
 }
 
-static void
-failingTestMethodWithBYTES_EQUAL_TEXT_()
-{
-  BYTES_EQUAL_TEXT('a', 'b', "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithBYTES_EQUAL_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithBYTES_EQUAL_TEXT_);
@@ -773,13 +1001,6 @@ TEST(UtestMacros, BYTES_EQUAL_TEXTBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, BYTES_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   BYTES_EQUAL_TEXT('q', 'w', "Failed because it failed");
-}
-
-static void
-failingTestMethodWithSIGNED_BYTES_EQUAL_()
-{
-  SIGNED_BYTES_EQUAL(-1, -2);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithSIGNED_BYTES_EQUAL)
@@ -807,13 +1028,6 @@ IGNORE_TEST(UtestMacros, CHARS_EQUALWorksInAnIgnoredTest)
   SIGNED_BYTES_EQUAL(-7, 19);
 }
 
-static void
-failingTestMethodWithSIGNED_BYTES_EQUAL_TEXT_()
-{
-  SIGNED_BYTES_EQUAL_TEXT(-127, -126, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithSIGNED_BYTES_EQUAL_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithSIGNED_BYTES_EQUAL_TEXT_);
@@ -833,14 +1047,6 @@ TEST(UtestMacros, CHARS_EQUAL_TEXTBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, SIGNED_BYTES_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   SIGNED_BYTES_EQUAL_TEXT(-7, 19, "Failed because it failed");
-}
-
-static void
-failingTestMethodWithPOINTERS_EQUAL_()
-{
-  POINTERS_EQUAL(
-      reinterpret_cast<void*>(0xa5a5), reinterpret_cast<void*>(0xf0f0));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithPOINTERS_EQUAL)
@@ -863,15 +1069,6 @@ IGNORE_TEST(UtestMacros, POINTERS_EQUALWorksInAnIgnoredTest)
 {
   POINTERS_EQUAL(
       reinterpret_cast<void*>(0xbeef), reinterpret_cast<void*>(0xdead));
-}
-
-static void
-failingTestMethodWithPOINTERS_EQUAL_TEXT_()
-{
-  POINTERS_EQUAL_TEXT(reinterpret_cast<void*>(0xa5a5),
-      reinterpret_cast<void*>(0xf0f0),
-      "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithPOINTERS_EQUAL_TEXT)
@@ -899,14 +1096,6 @@ IGNORE_TEST(UtestMacros, POINTERS_EQUAL_TEXTWorksInAnIgnoredTest)
       "Failed because it failed");
 }
 
-static void
-failingTestMethodWithFUNCTIONPOINTERS_EQUAL_()
-{
-  FUNCTIONPOINTERS_EQUAL(reinterpret_cast<void (*)()>(0xa5a5),
-      reinterpret_cast<void (*)()>(0xf0f0));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithFUNCTIONPOINTERS_EQUAL)
 {
   fixture.runTestWithMethod(failingTestMethodWithFUNCTIONPOINTERS_EQUAL_);
@@ -928,15 +1117,6 @@ IGNORE_TEST(UtestMacros, FUNCTIONPOINTERS_EQUALWorksInAnIgnoredTest)
 {
   FUNCTIONPOINTERS_EQUAL(reinterpret_cast<void (*)()>(0xbeef),
       reinterpret_cast<void (*)()>(0xdead));
-}
-
-static void
-failingTestMethodWithFUNCTIONPOINTERS_EQUAL_TEXT_()
-{
-  FUNCTIONPOINTERS_EQUAL_TEXT(reinterpret_cast<void (*)()>(0xa5a5),
-      reinterpret_cast<void (*)()>(0xf0f0),
-      "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithFUNCTIONPOINTERS_EQUAL_TEXT)
@@ -966,13 +1146,6 @@ IGNORE_TEST(UtestMacros, FUNCTIONPOINTERS_EQUAL_TEXTWorksInAnIgnoredTest)
       "Failed because it failed");
 }
 
-static void
-failingTestMethodWithDOUBLES_EQUAL_()
-{
-  DOUBLES_EQUAL(0.12, 44.1, 0.3);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithDOUBLES_EQUAL)
 {
   fixture.runTestWithMethod(failingTestMethodWithDOUBLES_EQUAL_);
@@ -992,13 +1165,6 @@ TEST(UtestMacros, DOUBLES_EQUALBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, DOUBLES_EQUALWorksInAnIgnoredTest)
 {
   DOUBLES_EQUAL(100.0, 0.0, 0.2);
-}
-
-static void
-failingTestMethodWithDOUBLES_EQUAL_TEXT_()
-{
-  DOUBLES_EQUAL_TEXT(0.12, 44.1, 0.3, "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, FailureWithDOUBLES_EQUAL_TEXT)
@@ -1023,15 +1189,6 @@ IGNORE_TEST(UtestMacros, DOUBLES_EQUAL_TEXTWorksInAnIgnoredTest)
   DOUBLES_EQUAL_TEXT(100.0, 0.0, 0.2, "Failed because it failed");
 }
 
-static bool lineOfCodeExecutedAfterCheck = false;
-
-static void
-passingTestMethod_()
-{
-  CHECK(true);
-  lineOfCodeExecutedAfterCheck = true;
-}
-
 TEST(UtestMacros, SuccessPrintsNothing)
 {
   fixture.runTestWithMethod(passingTestMethod_);
@@ -1039,34 +1196,6 @@ TEST(UtestMacros, SuccessPrintsNothing)
   LONGS_EQUAL(0, fixture.getFailureCount());
   fixture.assertPrintContains(".\nOK (1 tests");
   CHECK(lineOfCodeExecutedAfterCheck);
-}
-
-static int
-functionThatReturnsAValue()
-{
-  CHECK(0 == 0);
-  CHECK_TEXT(0 == 0, "Shouldn't fail");
-  CHECK_TRUE(0 == 0);
-  CHECK_TRUE_TEXT(0 == 0, "Shouldn't fail");
-  CHECK_FALSE(0 != 0);
-  CHECK_FALSE_TEXT(0 != 0, "Shouldn't fail");
-  LONGS_EQUAL(1, 1);
-  LONGS_EQUAL_TEXT(1, 1, "Shouldn't fail");
-  BYTES_EQUAL(0xab, 0xab);
-  BYTES_EQUAL_TEXT(0xab, 0xab, "Shouldn't fail");
-  CHECK_EQUAL(100, 100);
-  CHECK_EQUAL_TEXT(100, 100, "Shouldn't fail");
-  CHECK_EQUAL_ZERO(0);
-  CHECK_EQUAL_ZERO_TEXT(0, "Shouldn't fail");
-  STRCMP_EQUAL("THIS", "THIS");
-  STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
-  DOUBLES_EQUAL(1.0, 1.0, .01);
-  DOUBLES_EQUAL_TEXT(1.0, 1.0, .01, "Shouldn't fail");
-  POINTERS_EQUAL(nullptr, nullptr);
-  POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
-  MEMCMP_EQUAL("THIS", "THIS", 5);
-  MEMCMP_EQUAL_TEXT("THIS", "THIS", 5, "Shouldn't fail");
-  return 0;
 }
 
 TEST(UtestMacros, allMacrosFromFunctionThatReturnsAValue)
@@ -1087,16 +1216,6 @@ IGNORE_TEST(UtestMacros, MEMCMP_EQUALWorksInAnIgnoredTest)
   MEMCMP_EQUAL("TEST", "test", 5);
 }
 
-static void
-MEMCMP_EQUALFailingTestMethodWithUnequalInput_()
-{
-  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
-  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
-
-  MEMCMP_EQUAL(expectedData, actualData, sizeof(expectedData));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, MEMCMP_EQUALFailureWithUnequalInput)
 {
   fixture.runTestWithMethod(MEMCMP_EQUALFailingTestMethodWithUnequalInput_);
@@ -1105,29 +1224,11 @@ TEST(UtestMacros, MEMCMP_EQUALFailureWithUnequalInput)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("difference starts at position 2");
 }
 
-static void
-MEMCMP_EQUALFailingTestMethodWithNullExpected_()
-{
-  unsigned char actualData[] = { 0x00, 0x01, 0x02, 0x03 };
-
-  MEMCMP_EQUAL(nullptr, actualData, sizeof(actualData));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, MEMCMP_EQUALFailureWithNullExpected)
 {
   fixture.runTestWithMethod(MEMCMP_EQUALFailingTestMethodWithNullExpected_);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <(null)>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <00 01 02 03>");
-}
-
-static void
-MEMCMP_EQUALFailingTestMethodWithNullActual_()
-{
-  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
-
-  MEMCMP_EQUAL(expectedData, nullptr, sizeof(expectedData));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(UtestMacros, MEMCMP_EQUALFailureWithNullActual)
@@ -1155,19 +1256,6 @@ TEST(UtestMacros, MEMCMP_EQUALNullPointerIgnoredInActualWhenSize0)
   MEMCMP_EQUAL(expectedData, nullptr, 0);
 }
 
-static void
-failingTestMethodWithMEMCMP_EQUAL_TEXT_()
-{
-  unsigned char expectedData[] = { 0x00, 0x01, 0x02, 0x03 };
-  unsigned char actualData[] = { 0x00, 0x01, 0x03, 0x03 };
-
-  MEMCMP_EQUAL_TEXT(expectedData,
-      actualData,
-      sizeof(expectedData),
-      "Failed because it failed");
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(UtestMacros, FailureWithMEMCMP_EQUAL_TEXT)
 {
   fixture.runTestWithMethod(failingTestMethodWithMEMCMP_EQUAL_TEXT_);
@@ -1190,19 +1278,6 @@ IGNORE_TEST(UtestMacros, MEMCMP_EQUAL_TEXTWorksInAnIgnoredTest)
   MEMCMP_EQUAL_TEXT("TEST", "test", 5, "Failed because it failed");
 }
 
-enum class ScopedIntEnum
-{
-  A,
-  B
-};
-
-static void
-ENUMS_EQUAL_INTWithScopedIntEnumTestMethod_()
-{
-  ENUMS_EQUAL_INT(ScopedIntEnum::B, ScopedIntEnum::B);
-  ENUMS_EQUAL_INT(ScopedIntEnum::B, ScopedIntEnum::A);
-}
-
 TEST(UtestMacros, TestENUMS_EQUAL_INTWithScopedIntEnum)
 {
   fixture.runTestWithMethod(ENUMS_EQUAL_INTWithScopedIntEnumTestMethod_);
@@ -1221,13 +1296,6 @@ TEST(UtestMacros, ENUMS_EQUAL_INTWithScopedIntEnumBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, ENUMS_EQUAL_INTWithScopedIntEnumWorksInAnIgnoredTest)
 {
   ENUMS_EQUAL_INT(ScopedIntEnum::B, ScopedIntEnum::A);
-}
-
-static void
-ENUMS_EQUAL_INT_TEXTWithScopedIntEnumTestMethod_()
-{
-  ENUMS_EQUAL_INT_TEXT(
-      ScopedIntEnum::B, ScopedIntEnum::A, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestENUMS_EQUAL_INT_TEXTWithScopedIntEnum)
@@ -1255,19 +1323,6 @@ IGNORE_TEST(UtestMacros,
       ScopedIntEnum::B, ScopedIntEnum::A, "Failed because it failed");
 }
 
-enum class ScopedLongEnum : long
-{
-  A,
-  B
-};
-
-static void
-ENUMS_EQUAL_TYPEWithScopedLongEnumTestMethod_()
-{
-  ENUMS_EQUAL_TYPE(long, ScopedLongEnum::B, ScopedLongEnum::B);
-  ENUMS_EQUAL_TYPE(long, ScopedLongEnum::B, ScopedLongEnum::A);
-}
-
 TEST(UtestMacros, TestENUMS_EQUAL_TYPEWithScopedLongEnum)
 {
   fixture.runTestWithMethod(ENUMS_EQUAL_TYPEWithScopedLongEnumTestMethod_);
@@ -1286,13 +1341,6 @@ TEST(UtestMacros, ENUMS_EQUAL_TYPEWithScopedLongEnumBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, ENUMS_EQUAL_TYPEWithScopedLongEnumWorksInAnIgnoredTest)
 {
   ENUMS_EQUAL_TYPE(long, ScopedLongEnum::B, ScopedLongEnum::A);
-}
-
-static void
-ENUMS_EQUAL_TYPE_TEXTWithScopedLongEnumTestMethod_()
-{
-  ENUMS_EQUAL_TYPE_TEXT(
-      long, ScopedLongEnum::B, ScopedLongEnum::A, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestENUMS_EQUAL_TYPE_TEXTWithScopedLongEnum)
@@ -1320,19 +1368,6 @@ IGNORE_TEST(UtestMacros,
       long, ScopedLongEnum::B, ScopedLongEnum::A, "Failed because it failed");
 }
 
-enum UnscopedEnum
-{
-  UNSCOPED_ENUM_A,
-  UNSCOPED_ENUM_B
-};
-
-static void
-ENUMS_EQUAL_INTWithUnscopedEnumTestMethod_()
-{
-  ENUMS_EQUAL_INT(UNSCOPED_ENUM_B, UNSCOPED_ENUM_B);
-  ENUMS_EQUAL_INT(UNSCOPED_ENUM_B, UNSCOPED_ENUM_A);
-}
-
 TEST(UtestMacros, TestENUMS_EQUAL_INTWithUnscopedEnum)
 {
   fixture.runTestWithMethod(ENUMS_EQUAL_INTWithUnscopedEnumTestMethod_);
@@ -1351,13 +1386,6 @@ TEST(UtestMacros, ENUMS_EQUAL_INTWithUnscopedEnumBehavesAsProperMacro)
 IGNORE_TEST(UtestMacros, ENUMS_EQUAL_INTWithUnscopedEnumWorksInAnIgnoredTest)
 {
   ENUMS_EQUAL_INT(UNSCOPED_ENUM_B, UNSCOPED_ENUM_A);
-}
-
-static void
-ENUMS_EQUAL_INT_TEXTWithUnscopedEnumTestMethod_()
-{
-  ENUMS_EQUAL_INT_TEXT(
-      UNSCOPED_ENUM_B, UNSCOPED_ENUM_A, "Failed because it failed");
 }
 
 TEST(UtestMacros, TestENUMS_EQUAL_INT_TEXTWithUnscopedEnum)
@@ -1386,13 +1414,6 @@ IGNORE_TEST(UtestMacros,
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
-static void
-failingTestMethod_NoThrowWithCHECK_THROWS_()
-{
-  CHECK_THROWS(int, (void)(1 + 2));
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(
 UtestMacros, FailureWithCHECK_THROWS_whenDoesntThrow)
 {
@@ -1402,25 +1423,11 @@ UtestMacros, FailureWithCHECK_THROWS_whenDoesntThrow)
   LONGS_EQUAL(1, fixture.getCheckCount());
 }
 
-static void
-succeedingTestMethod_CorrectThrowWithCHECK_THROWS_()
-{
-  CHECK_THROWS(int, throw 4);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
-}
-
 TEST(
 UtestMacros, SuccessWithCHECK_THROWS)
 {
   fixture.runTestWithMethod(succeedingTestMethod_CorrectThrowWithCHECK_THROWS_);
   LONGS_EQUAL(1, fixture.getCheckCount());
-}
-
-static void
-failingTestMethod_WrongThrowWithCHECK_THROWS_()
-{
-  CHECK_THROWS(int, throw 4.3);
-  cpputest::TestTestingFixture::lineExecutedAfterCheck();
 }
 
 TEST(

@@ -26,10 +26,12 @@
   memcpy(_tm, localtime(timer), sizeof(tm));
 #endif
 
-static jmp_buf test_exit_jmp_buf[10];
-static int jmp_buf_index = 0;
+namespace {
 
-static int
+jmp_buf test_exit_jmp_buf[10];
+int jmp_buf_index = 0;
+
+int
 VisualCppSetJmp(void (*function)(void* data), void* data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
@@ -41,27 +43,20 @@ VisualCppSetJmp(void (*function)(void* data), void* data)
   return 0;
 }
 
-[[noreturn]] static void
+[[noreturn]] void
 VisualCppLongJmp()
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
-static void
+void
 VisualCppRestoreJumpBuffer()
 {
   jmp_buf_index--;
 }
 
-int (*PlatformSpecificSetJmp)(void (*function)(void*),
-    void* data) = VisualCppSetJmp;
-void (*PlatformSpecificLongJmp)(void) = VisualCppLongJmp;
-void (*PlatformSpecificRestoreJumpBuffer)(void) = VisualCppRestoreJumpBuffer;
-
-///////////// Time in millis
-
-static unsigned long
+unsigned long
 VisualCppTimeInMillis()
 {
   static LARGE_INTEGER s_frequency;
@@ -84,11 +79,7 @@ VisualCppTimeInMillis()
   }
 }
 
-unsigned long (*GetPlatformSpecificTimeInMillis)() = VisualCppTimeInMillis;
-
-///////////// Time in String
-
-static const char*
+const char*
 VisualCppTimeString()
 {
   time_t the_time = time(nullptr);
@@ -99,11 +90,7 @@ VisualCppTimeString()
   return dateTime;
 }
 
-const char* (*GetPlatformSpecificTimeString)() = VisualCppTimeString;
-
-////// taken from gcc
-
-static int
+int
 VisualCppVSNprintf(char* str, size_t size, const char* format, va_list args)
 {
   char* buf = nullptr;
@@ -124,12 +111,7 @@ VisualCppVSNprintf(char* str, size_t size, const char* format, va_list args)
   return result;
 }
 
-int (*PlatformSpecificVSNprintf)(char* str,
-    size_t size,
-    const char* format,
-    va_list va_args_list) = VisualCppVSNprintf;
-
-static PlatformSpecificFile
+PlatformSpecificFile
 VisualCppFOpen(const char* filename, const char* flag)
 {
   FILE* file;
@@ -137,17 +119,63 @@ VisualCppFOpen(const char* filename, const char* flag)
   return file;
 }
 
-static void
+void
 VisualCppFPuts(const char* str, PlatformSpecificFile file)
 {
   fputs(str, (FILE*)file);
 }
 
-static void
+void
 VisualCppFClose(PlatformSpecificFile file)
 {
   fclose((FILE*)file);
 }
+
+void
+VisualCppFlush()
+{
+  fflush(stdout);
+}
+
+void*
+VisualCppMalloc(size_t size)
+{
+  return malloc(size);
+}
+
+void*
+VisualCppReAlloc(void* memory, size_t size)
+{
+  return realloc(memory, size);
+}
+
+void
+VisualCppFree(void* memory)
+{
+  free(memory);
+}
+
+int
+IsInfImplementation(double d)
+{
+  return !_finite(d);
+}
+
+} // namespace
+
+int (*PlatformSpecificSetJmp)(void (*function)(void*),
+    void* data) = VisualCppSetJmp;
+void (*PlatformSpecificLongJmp)(void) = VisualCppLongJmp;
+void (*PlatformSpecificRestoreJumpBuffer)(void) = VisualCppRestoreJumpBuffer;
+
+unsigned long (*GetPlatformSpecificTimeInMillis)() = VisualCppTimeInMillis;
+
+const char* (*GetPlatformSpecificTimeString)() = VisualCppTimeString;
+
+int (*PlatformSpecificVSNprintf)(char* str,
+    size_t size,
+    const char* format,
+    va_list va_args_list) = VisualCppVSNprintf;
 
 PlatformSpecificFile PlatformSpecificStdOut = stdout;
 PlatformSpecificFile (*PlatformSpecificFOpen)(const char* filename,
@@ -156,31 +184,7 @@ void (*PlatformSpecificFPuts)(const char* str,
     PlatformSpecificFile file) = VisualCppFPuts;
 void (*PlatformSpecificFClose)(PlatformSpecificFile file) = VisualCppFClose;
 
-static void
-VisualCppFlush()
-{
-  fflush(stdout);
-}
-
 void (*PlatformSpecificFlush)(void) = VisualCppFlush;
-
-static void*
-VisualCppMalloc(size_t size)
-{
-  return malloc(size);
-}
-
-static void*
-VisualCppReAlloc(void* memory, size_t size)
-{
-  return realloc(memory, size);
-}
-
-static void
-VisualCppFree(void* memory)
-{
-  free(memory);
-}
 
 void (*PlatformSpecificSrand)(unsigned int) = srand;
 int (*PlatformSpecificRand)(void) = rand;
@@ -189,12 +193,6 @@ void* (*PlatformSpecificRealloc)(void* memory, size_t size) = VisualCppReAlloc;
 void (*PlatformSpecificFree)(void* memory) = VisualCppFree;
 void* (*PlatformSpecificMemCpy)(void* s1, const void* s2, size_t size) = memcpy;
 void* (*PlatformSpecificMemset)(void* mem, int c, size_t size) = memset;
-
-static int
-IsInfImplementation(double d)
-{
-  return !_finite(d);
-}
 
 double (*PlatformSpecificFabs)(double d) = fabs;
 int (*PlatformSpecificIsNan)(double) = _isnan;

@@ -318,7 +318,8 @@ MockExpectedCallsList::outputParameterWasPassed(const String& parameterName)
     p->expectedCall_->outputParameterWasPassed(parameterName);
 }
 
-static String
+namespace {
+String
 stringOrNoneTextWhenEmpty(const String& inputString, const String& linePrefix)
 {
   String str = inputString;
@@ -329,7 +330,7 @@ stringOrNoneTextWhenEmpty(const String& inputString, const String& linePrefix)
   return str;
 }
 
-static String
+String
 appendStringOnANewLine(const String& inputString,
     const String& linePrefix,
     const String& stringToAppend)
@@ -341,6 +342,7 @@ appendStringOnANewLine(const String& inputString,
   str += stringToAppend;
   return str;
 }
+} // namespace
 
 String
 MockExpectedCallsList::unfulfilledCallsToString(const String& linePrefix) const

@@ -5,6 +5,27 @@
 
 #include <limits.h>
 
+namespace {
+
+int
+alwaysTrue(double)
+{
+  return true;
+}
+
+int
+WrappedUpVSNPrintf(char* buf, size_t n, const char* format, ...)
+{
+  va_list arguments;
+  va_start(arguments, format);
+
+  int result = PlatformSpecificVSNprintf(buf, n, format, arguments);
+  va_end(arguments);
+  return result;
+}
+
+} // namespace
+
 TEST_GROUP(String)
 {};
 
@@ -335,12 +356,6 @@ TEST(String, Doubles)
   STRCMP_EQUAL("1.2", s.c_str());
 }
 
-static int
-alwaysTrue(double)
-{
-  return true;
-}
-
 TEST(String, NaN)
 {
   UT_PTR_SET(PlatformSpecificIsNan, alwaysTrue);
@@ -437,17 +452,6 @@ TEST(String, StringFromFormatLarge)
 TEST(String, StringFromConstString)
 {
   STRCMP_EQUAL("bla", StringFrom(cpputest::String("bla")).c_str());
-}
-
-static int
-WrappedUpVSNPrintf(char* buf, size_t n, const char* format, ...)
-{
-  va_list arguments;
-  va_start(arguments, format);
-
-  int result = PlatformSpecificVSNprintf(buf, n, format, arguments);
-  va_end(arguments);
-  return result;
 }
 
 TEST(String, PlatformSpecificSprintf_fits)

@@ -81,11 +81,13 @@ TEST(IEEE754ExceptionsPlugin, should_fail_only_once_when_all_flags_are_set)
   LONGS_EQUAL(1, fixture.getFailureCount());
 }
 
-static void
+namespace {
+void
 set_everything_but_already_failed(void)
 {
   set_everything_c();
   CHECK(1 == 2);
+}
 }
 
 TEST(IEEE754ExceptionsPlugin,
@@ -107,7 +109,9 @@ TEST(IEEE754ExceptionsPlugin,
 
 #endif
 
-static cpputest::extensions::IEEE754ExceptionsPlugin ip;
+namespace {
+cpputest::extensions::IEEE754ExceptionsPlugin ip;
+}
 
 TEST_GROUP(IEEE754ExceptionsPlugin2)
 {

@@ -483,13 +483,15 @@ IGNORE_TEST(MockCall, testForPerformanceProfiling)
   }
 }
 
-static void
+namespace {
+void
 mocksAreCountedAsChecksTestFunction_()
 {
   mock().expectOneCall("foo");
   mock().expectNCalls(3, "bar");
   mock().expectNoCall("lazy");
   mock().clear();
+}
 }
 
 TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)

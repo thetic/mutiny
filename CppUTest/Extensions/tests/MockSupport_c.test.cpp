@@ -6,14 +6,89 @@
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
-static void
+namespace {
+void
 dummy_function_for_mock_c_test()
 {
 }
-static void
+
+void
 dummy_function_for_mock_c_test_two()
 {
 }
+
+int
+typeNameIsEqual(const void* object1, const void* object2)
+{
+  return object1 == object2;
+}
+
+const char*
+typeNameValueToString(const void* /*object*/)
+{
+  return "valueToString";
+}
+
+void
+typeCopy(void* dst, const void* src)
+{
+  *static_cast<int*>(dst) = *static_cast<const int*>(src);
+}
+
+bool destructorWasCalled = false;
+
+void
+failedCallToMockC()
+{
+  struct SetBoolOnDestruct
+  {
+    bool& b_;
+    ~SetBoolOnDestruct() { b_ = true; }
+  } setOneDestructor{ destructorWasCalled };
+  mock()->actualCall("Not a call");
+}
+
+bool cpputestHasCrashed;
+
+void
+crashMethod()
+{
+  cpputestHasCrashed = true;
+}
+
+void
+failingCallToMockCWithParameterOfType_()
+{
+  mock()->expectOneCall("bar")->withParameterOfType(
+      "typeName", "name", reinterpret_cast<const void*>(1));
+  mock()->actualCall("bar")->withParameterOfType(
+      "typeName", "name", reinterpret_cast<const void*>(2));
+}
+
+void
+callToMockCWithOutputParameterOfType_()
+{
+  int value1 = 7;
+  const int value2 = 9;
+  mock()->expectOneCall("bar")->withOutputParameterOfTypeReturning(
+      "intType", "bla", &value2);
+  mock()->actualCall("bar")->withOutputParameterOfType(
+      "intType", "bla", &value1);
+  LONGS_EQUAL(value1, value2);
+}
+
+void
+failingCallToMockCWithMemoryBuffer_()
+{
+  unsigned char memBuffer1[] = { 0x12, 0x15, 0xFF };
+  unsigned char memBuffer2[] = { 0x12, 0x05, 0xFF };
+  mock()->expectOneCall("bar")->withMemoryBufferParameter(
+      "name", memBuffer1, sizeof(memBuffer1));
+  mock()->actualCall("bar")->withMemoryBufferParameter(
+      "name", memBuffer2, sizeof(memBuffer2));
+}
+
+} // namespace
 
 TEST_GROUP(MockSupport_c)
 {
@@ -85,24 +160,6 @@ TEST(MockSupport_c, expectAndActualParameters)
       ->withPointerParameters("pointer", reinterpret_cast<void*>(1))
       ->withFunctionPointerParameters(
           "functionPointer", dummy_function_for_mock_c_test);
-}
-
-static int
-typeNameIsEqual(const void* object1, const void* object2)
-{
-  return object1 == object2;
-}
-
-static const char*
-typeNameValueToString(const void* /*object*/)
-{
-  return "valueToString";
-}
-
-static void
-typeCopy(void* dst, const void* src)
-{
-  *static_cast<int*>(dst) = *static_cast<const int*>(src);
 }
 
 TEST(MockSupport_c, expectAndActualParametersOnObject)
@@ -723,19 +780,6 @@ TEST(MockSupport_c, WorksInCFile)
   all_mock_support_c_calls();
 }
 
-static bool destructorWasCalled = false;
-
-static void
-failedCallToMockC()
-{
-  struct SetBoolOnDestruct
-  {
-    bool& b_;
-    ~SetBoolOnDestruct() { b_ = true; }
-  } setOneDestructor{ destructorWasCalled };
-  mock()->actualCall("Not a call");
-}
-
 // Silly wrapper because of a test that only fails in Visual C++ due to
 // different destructor behaviors
 #ifdef _MSC_VER
@@ -754,14 +798,6 @@ MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
   LONGS_EQUAL(1, fixture.getFailureCount());
   // Odd behavior in Visual C++, destructor still gets called here
   CHECK(!destructorWasCalled);
-}
-
-static bool cpputestHasCrashed;
-
-static void
-crashMethod()
-{
-  cpputestHasCrashed = true;
 }
 
 TEST_ORDERED(MockSupport_c, shouldCrashOnFailure, 21)
@@ -828,15 +864,6 @@ TEST(MockSupport_c, FailWillCrashIfEnabled)
   cpputest::TestShell::resetCrashMethod();
 }
 
-static void
-failingCallToMockCWithParameterOfType_()
-{
-  mock()->expectOneCall("bar")->withParameterOfType(
-      "typeName", "name", reinterpret_cast<const void*>(1));
-  mock()->actualCall("bar")->withParameterOfType(
-      "typeName", "name", reinterpret_cast<const void*>(2));
-}
-
 TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 {
   cpputest::TestTestingFixture fixture;
@@ -845,18 +872,6 @@ TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
   fixture.runAllTests();
   fixture.assertPrintContains("typeName name: <valueToString>");
   mock()->removeAllComparatorsAndCopiers();
-}
-
-static void
-callToMockCWithOutputParameterOfType_()
-{
-  int value1 = 7;
-  const int value2 = 9;
-  mock()->expectOneCall("bar")->withOutputParameterOfTypeReturning(
-      "intType", "bla", &value2);
-  mock()->actualCall("bar")->withOutputParameterOfType(
-      "intType", "bla", &value1);
-  LONGS_EQUAL(value1, value2);
 }
 
 TEST(MockSupport_c, successWithOutputParameterOfType)
@@ -868,17 +883,6 @@ TEST(MockSupport_c, successWithOutputParameterOfType)
   LONGS_EQUAL(2, fixture.getCheckCount());
   LONGS_EQUAL(0, fixture.getFailureCount());
   mock()->removeAllComparatorsAndCopiers();
-}
-
-static void
-failingCallToMockCWithMemoryBuffer_()
-{
-  unsigned char memBuffer1[] = { 0x12, 0x15, 0xFF };
-  unsigned char memBuffer2[] = { 0x12, 0x05, 0xFF };
-  mock()->expectOneCall("bar")->withMemoryBufferParameter(
-      "name", memBuffer1, sizeof(memBuffer1));
-  mock()->actualCall("bar")->withMemoryBufferParameter(
-      "name", memBuffer2, sizeof(memBuffer2));
 }
 
 TEST(MockSupport_c, expectOneMemBufferParameterAndValueFailsDueToContents)

@@ -1,9 +1,11 @@
 #include "CppUTest/TestHarness.hpp"
 
-static void (*real_one)();
-static void
+namespace {
+void (*real_one)();
+void
 stub()
 {
+}
 }
 
 /* Declare TestGroup with name CheatSheet */

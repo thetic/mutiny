@@ -5,28 +5,47 @@
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
-static void
+namespace {
+void
 orig_func1()
 {
 }
 
-static void
+void
 stub_func1()
 {
 }
 
-static void
+void
 orig_func2()
 {
 }
 
-static void
+void
 stub_func2()
 {
 }
 
-static void (*fp1)();
-static void (*fp2)();
+void (*fp1)();
+void (*fp2)();
+
+double orig_double = 3.0;
+double* orig_double_ptr = &orig_double;
+double stub_double = 4.0;
+
+class SetDoublePointerUtest : public cpputest::Test
+{
+public:
+  void setup() override { UT_PTR_SET(orig_double_ptr, &stub_double); }
+  void testBody() override { CHECK(orig_double_ptr == &stub_double); }
+};
+
+class SetDoublePointerUtestShell : public cpputest::TestShell
+{
+public:
+  cpputest::Test* createTest() override { return new SetDoublePointerUtest(); }
+};
+}
 
 TEST_GROUP(SetPointerPlugin)
 {
@@ -145,23 +164,6 @@ EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
     UT_PTR_SET(fp1, stub_func1);
   }
 }
-
-static double orig_double = 3.0;
-static double* orig_double_ptr = &orig_double;
-static double stub_double = 4.0;
-
-class SetDoublePointerUtest : public cpputest::Test
-{
-public:
-  void setup() override { UT_PTR_SET(orig_double_ptr, &stub_double); }
-  void testBody() override { CHECK(orig_double_ptr == &stub_double); }
-};
-
-class SetDoublePointerUtestShell : public cpputest::TestShell
-{
-public:
-  cpputest::Test* createTest() override { return new SetDoublePointerUtest(); }
-};
 
 TEST(SetPointerPlugin, doublePointer)
 {

@@ -13,30 +13,83 @@ TEST_GROUP(TestShell)
   cpputest::TestTestingFixture fixture;
 };
 
-static void
+namespace {
+void
 failMethod_()
 {
   FAIL("This test fails");
 }
 
-static void
+void
 passingTestMethod_()
 {
   CHECK(true);
 }
 
-static void
+void
 passingCheckEqualTestMethod_()
 {
   CHECK_EQUAL(1, 1);
 }
 
-static void
+void
 exitTestMethod_()
 {
   TEST_EXIT;
   FAIL("Should not get here");
 }
+
+bool cpputestHasCrashed;
+
+void
+crashMethod()
+{
+  cpputestHasCrashed = true;
+}
+
+int teardownCalled = 0;
+
+void
+teardownMethod_()
+{
+  teardownCalled++;
+}
+
+int stopAfterFailure = 0;
+void
+stopAfterFailureMethod_()
+{
+  FAIL("fail");
+  stopAfterFailure++;
+}
+
+#if CPPUTEST_HAVE_EXCEPTIONS
+// Prevents -Wunreachable-code; should always be 'true'
+bool shouldThrowException = true;
+
+void
+thrownUnknownExceptionMethod_()
+{
+  if (shouldThrowException) {
+    throw 33;
+  }
+  stopAfterFailure++;
+}
+
+#if CPPUTEST_USE_STD_CPP_LIB
+void
+thrownStandardExceptionMethod_()
+{
+  if (shouldThrowException) {
+    throw std::runtime_error("exception text");
+  }
+  stopAfterFailure++;
+}
+#endif
+
+#endif
+
+} // namespace
 
 TEST(TestShell, compareDoubles)
 {
@@ -111,14 +164,6 @@ TEST(TestShell, ExitLeavesQuietly)
   LONGS_EQUAL(0, fixture.getFailureCount());
 }
 
-static bool cpputestHasCrashed;
-
-static void
-crashMethod()
-{
-  cpputestHasCrashed = true;
-}
-
 TEST(TestShell, FailWillNotCrashIfNotEnabled)
 {
   cpputestHasCrashed = false;
@@ -148,14 +193,6 @@ TEST(TestShell, FailWillCrashIfEnabled)
   cpputest::TestShell::resetCrashMethod();
 }
 
-static int teardownCalled = 0;
-
-static void
-teardownMethod_()
-{
-  teardownCalled++;
-}
-
 TEST(TestShell, TeardownCalledAfterTestFailure)
 {
   teardownCalled = 0;
@@ -164,14 +201,6 @@ TEST(TestShell, TeardownCalledAfterTestFailure)
   fixture.runAllTests();
   LONGS_EQUAL(1, fixture.getFailureCount());
   LONGS_EQUAL(1, teardownCalled);
-}
-
-static int stopAfterFailure = 0;
-static void
-stopAfterFailureMethod_()
-{
-  FAIL("fail");
-  stopAfterFailure++;
 }
 
 TEST(TestShell, TestStopsAfterTestFailure)
@@ -196,18 +225,6 @@ TEST(TestShell, TestStopsAfterSetupFailure)
 }
 
 #if CPPUTEST_HAVE_EXCEPTIONS
-
-// Prevents -Wunreachable-code; should always be 'true'
-static bool shouldThrowException = true;
-
-static void
-thrownUnknownExceptionMethod_()
-{
-  if (shouldThrowException) {
-    throw 33;
-  }
-  stopAfterFailure++;
-}
 
 TEST(TestShell, TestStopsAfterUnknownExceptionIsThrown)
 {
@@ -266,14 +283,6 @@ TEST(TestShell, UnknownExceptionIsRethrownIfEnabled)
 }
 
 #if CPPUTEST_USE_STD_CPP_LIB
-static void
-thrownStandardExceptionMethod_()
-{
-  if (shouldThrowException) {
-    throw std::runtime_error("exception text");
-  }
-  stopAfterFailure++;
-}
 
 TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
 {
@@ -347,9 +356,10 @@ TEST(TestShell,
 
 #if CPPUTEST_HAVE_EXCEPTIONS
 
-static bool destructorWasCalledOnFailedTest = false;
+namespace {
+bool destructorWasCalledOnFailedTest = false;
 
-static void
+void
 destructorCalledForLocalObjects_()
 {
   struct SetBoolOnDestruct
@@ -359,6 +369,7 @@ destructorCalledForLocalObjects_()
   } pleaseCallTheDestructor{ destructorWasCalledOnFailedTest };
   destructorWasCalledOnFailedTest = false;
   FAIL("fail");
+}
 }
 
 TEST(TestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)

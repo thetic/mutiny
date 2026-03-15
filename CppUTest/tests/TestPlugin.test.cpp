@@ -9,7 +9,8 @@
 #define GENERIC_PLUGIN2 "GenericPlugin2"
 #define GENERIC_PLUGIN3 "GenericPlugin3"
 
-static int sequenceNumber;
+namespace {
+int sequenceNumber;
 
 class DummyPlugin : public cpputest::TestPlugin
 {
@@ -61,6 +62,8 @@ public:
     return TestPlugin::parseArguments(argc, argv, index);
   }
 };
+
+} // namespace
 
 TEST_GROUP(TestPlugin)
 {

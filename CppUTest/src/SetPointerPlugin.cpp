@@ -11,8 +11,10 @@ struct cpputest_pair
   void* orig_value;
 };
 
-static int pointerTableIndex;
-static cpputest_pair setlist[SetPointerPlugin::MAX_SET];
+namespace {
+int pointerTableIndex;
+cpputest_pair setlist[SetPointerPlugin::MAX_SET];
+} // namespace
 
 SetPointerPlugin::SetPointerPlugin(const String& name)
   : TestPlugin(name)

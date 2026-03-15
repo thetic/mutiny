@@ -4,8 +4,9 @@
 
 using cpputest::extensions::mock;
 
+namespace {
 /* Stubbed out product code using linker, function pointer, or overriding */
-static int
+int
 foo(const char* param_string, int param_int)
 {
   /* Tell CppUTest Mocking what we mock. Also return recorded value */
@@ -17,7 +18,7 @@ foo(const char* param_string, int param_int)
       .getIntValue();
 }
 
-static void
+void
 bar(double param_double, const char* param_string)
 {
   mock()
@@ -27,7 +28,7 @@ bar(double param_double, const char* param_string)
 }
 
 /* Production code calls to the methods we stubbed */
-static int
+int
 productionCodeFooCalls()
 {
   int return_value;
@@ -37,14 +38,15 @@ productionCodeFooCalls()
   return return_value;
 }
 
-static void
+void
 productionCodeBarCalls()
 {
   bar(1.5, "more");
   bar(1.5, "more");
 }
 
-/* Actual test */
+} // namespace
+
 TEST_GROUP(MockCheatSheet)
 {
   void teardown() override

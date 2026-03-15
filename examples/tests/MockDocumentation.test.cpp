@@ -11,11 +11,30 @@ TEST_C_WRAPPER(MockDocumentation_C, CInterface)
 TEST_GROUP(MockDocumentation)
 {};
 
-static void
+namespace {
+void
 productionCode()
 {
   cpputest::extensions::mock().actualCall("productionCode");
 }
+
+void
+parameters_function(int p1, const char* p2)
+{
+  void* object = reinterpret_cast<void*>(1);
+  cpputest::extensions::mock()
+      .actualCall("function")
+      .onObject(object)
+      .withParameter("p1", p1)
+      .withParameter("p2", p2);
+}
+
+void
+doSomethingThatWouldOtherwiseBlowUpTheMockingFramework()
+{
+}
+
+} // namespace
 
 TEST(MockDocumentation, SimpleScenario)
 {
@@ -52,17 +71,6 @@ TEST(MockDocumentation, SimpleScenarioObject)
   cpputest::extensions::mock().checkExpectations();
 
   delete object;
-}
-
-static void
-parameters_function(int p1, const char* p2)
-{
-  void* object = reinterpret_cast<void*>(1);
-  cpputest::extensions::mock()
-      .actualCall("function")
-      .onObject(object)
-      .withParameter("p1", p1)
-      .withParameter("p2", p2);
 }
 
 TEST(MockDocumentation, parameters)
@@ -128,11 +136,6 @@ TEST(MockDocumentation, setData)
 
   LONGS_EQUAL(10, value);
   POINTERS_EQUAL(pobject, &object);
-}
-
-static void
-doSomethingThatWouldOtherwiseBlowUpTheMockingFramework()
-{
 }
 
 TEST(MockDocumentation, otherMockSupport)

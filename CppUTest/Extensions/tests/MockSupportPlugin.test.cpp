@@ -152,11 +152,13 @@ TEST(MockSupportPlugin,
   plugin.clear();
 }
 
-static void
+namespace {
+void
 failTwiceFunction_()
 {
   mock().expectOneCall("foobar");
   FAIL("This failed");
+}
 }
 
 TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)

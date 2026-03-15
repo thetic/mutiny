@@ -7,6 +7,11 @@
 
 namespace {
 const int testLineNumber = 1;
+
+int
+getZero()
+{
+  return 0;
 }
 
 class MockTest : public cpputest::TestShell
@@ -72,6 +77,26 @@ public:
     countCurrentGroupEnded++;
   }
 };
+
+class MyTestPluginDummy : public cpputest::TestPlugin
+{
+public:
+  MyTestPluginDummy(const cpputest::String& name)
+    : TestPlugin(name)
+  {
+  }
+  virtual ~MyTestPluginDummy() override {}
+  virtual void runAllPreTestAction(cpputest::TestShell&,
+      cpputest::TestResult&) override
+  {
+  }
+  virtual void runAllPostTestAction(cpputest::TestShell&,
+      cpputest::TestResult&) override
+  {
+  }
+};
+
+} // namespace
 
 TEST_GROUP(TestRegistry)
 {
@@ -265,24 +290,6 @@ TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
   LONGS_EQUAL(2, myRegistry->getCurrentRepetition());
 }
 
-class MyTestPluginDummy : public cpputest::TestPlugin
-{
-public:
-  MyTestPluginDummy(const cpputest::String& name)
-    : TestPlugin(name)
-  {
-  }
-  virtual ~MyTestPluginDummy() override {}
-  virtual void runAllPreTestAction(cpputest::TestShell&,
-      cpputest::TestResult&) override
-  {
-  }
-  virtual void runAllPostTestAction(cpputest::TestShell&,
-      cpputest::TestResult&) override
-  {
-  }
-};
-
 TEST(TestRegistry, ResetPluginsWorks)
 {
   MyTestPluginDummy plugin1("Plugin-1");
@@ -369,12 +376,6 @@ TEST(TestRegistry, shuffleSingleTestIsNoOp)
   myRegistry->addTest(test1);
   myRegistry->shuffleTests(0);
   CHECK_TRUE(myRegistry->getFirstTest() == test1);
-}
-
-static int
-getZero()
-{
-  return 0;
 }
 
 IGNORE_TEST(TestRegistry, shuffleTestList)

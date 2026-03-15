@@ -9,14 +9,16 @@
 
 namespace cpputest {
 
-static char*
+namespace {
+char*
 copyToNewBuffer(const char* bufferToCopy, size_t bufferSize);
-static bool
+bool
 isDigit(char ch);
-static bool
+bool
 isSpace(char ch);
-static bool
+bool
 isUpper(char ch);
+} // namespace
 
 size_t
 StrLen(const char*);
@@ -507,6 +509,7 @@ String::subStringFromTill(char startChar, char lastExcludedChar) const
   return substr(beginPos, endPos - beginPos);
 }
 
+namespace {
 char*
 copyToNewBuffer(const char* bufferToCopy, size_t bufferSize)
 {
@@ -533,6 +536,7 @@ isUpper(char ch)
 {
   return 'A' <= ch && 'Z' >= ch;
 }
+} // namespace
 
 bool
 isControl(char ch)

@@ -3,6 +3,7 @@
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 
+namespace {
 class TeamCityOutputToBuffer : public cpputest::TeamCityTestOutput
 {
 public:
@@ -20,13 +21,15 @@ private:
   cpputest::String output;
 };
 
-static unsigned long millisTime;
+unsigned long millisTime;
 
-static unsigned long
+unsigned long
 MockGetPlatformSpecificTimeInMillis()
 {
   return millisTime;
 }
+
+} // namespace
 
 TEST_GROUP(TeamCityTestOutput)
 {

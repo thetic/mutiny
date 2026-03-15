@@ -4,16 +4,18 @@
 #include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
 
-static int
+namespace {
+int
 getZero()
 {
   return 0;
 }
 
-static int
+int
 getOne()
 {
   return 1;
+}
 }
 
 TEST_GROUP(TestShellPointerArray)
