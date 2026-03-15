@@ -1,9 +1,9 @@
 #include "CppUTest/TestResult.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
+#include "CppUTest/time.hpp"
 
 namespace cpputest {
 
@@ -30,15 +30,14 @@ void
 TestResult::currentGroupStarted(TestShell* test)
 {
   output_.printCurrentGroupStarted(*test);
-  currentGroupTimeStarted_ =
-      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  currentGroupTimeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
 }
 
 void
 TestResult::currentGroupEnded(TestShell* /*test*/)
 {
   currentGroupTotalExecutionTime_ =
-      static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+      static_cast<size_t>(cpputest::GetTimeInMillis()) -
       currentGroupTimeStarted_;
   output_.printCurrentGroupEnded(*this);
 }
@@ -47,8 +46,7 @@ void
 TestResult::currentTestStarted(TestShell* test)
 {
   output_.printCurrentTestStarted(*test);
-  currentTestTimeStarted_ =
-      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  currentTestTimeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
 }
 
 void
@@ -67,7 +65,7 @@ void
 TestResult::currentTestEnded(TestShell* /*test*/)
 {
   currentTestTotalExecutionTime_ =
-      static_cast<size_t>(GetPlatformSpecificTimeInMillis()) -
+      static_cast<size_t>(cpputest::GetTimeInMillis()) -
       currentTestTimeStarted_;
   output_.printCurrentTestEnded(*this);
 }
@@ -112,14 +110,14 @@ TestResult::countIgnored()
 void
 TestResult::testsStarted()
 {
-  timeStarted_ = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  timeStarted_ = static_cast<size_t>(cpputest::GetTimeInMillis());
   output_.printTestsStarted();
 }
 
 void
 TestResult::testsEnded()
 {
-  auto timeEnded = static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  auto timeEnded = static_cast<size_t>(cpputest::GetTimeInMillis());
   totalExecutionTime_ = timeEnded - timeStarted_;
   output_.printTestsEnded(*this);
 }

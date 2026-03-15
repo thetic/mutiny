@@ -1,6 +1,6 @@
 #include "CppUTest/String.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "CppUTest/math.hpp"
 
 #include <limits.h>
 #include <stdio.h>
@@ -724,9 +724,9 @@ BracketsFormattedHexStringFrom(unsigned long long value)
 String
 StringFrom(double value, int precision)
 {
-  if (PlatformSpecificIsNan(value))
+  if (cpputest::IsNan(value))
     return "Nan - Not a number";
-  else if (PlatformSpecificIsInf(value))
+  else if (cpputest::IsInf(value))
     return "Inf - Infinity";
   else
     return StringFromFormat("%.*g", precision, value);

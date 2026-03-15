@@ -1,9 +1,9 @@
 #include "CppUTest/TestFailure.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
+#include "CppUTest/math.hpp"
 
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <typeinfo>
@@ -282,8 +282,8 @@ DoublesEqualFailure::DoublesEqualFailure(TestShell* test,
   message_ += StringFrom(threshold, 7);
   message_ += ">";
 
-  if (PlatformSpecificIsNan(expected) || PlatformSpecificIsNan(actual) ||
-      PlatformSpecificIsNan(threshold))
+  if (cpputest::IsNan(expected) || cpputest::IsNan(actual) ||
+      cpputest::IsNan(threshold))
     message_ += "\n\tCannot make comparisons with Nan";
 }
 

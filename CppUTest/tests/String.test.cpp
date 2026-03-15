@@ -1,7 +1,7 @@
 #include "CppUTest/String.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
+#include "CppUTest/math.hpp"
 
 #include <limits.h>
 #include <stdio.h>
@@ -359,14 +359,14 @@ TEST(String, Doubles)
 
 TEST(String, NaN)
 {
-  UT_PTR_SET(PlatformSpecificIsNan, alwaysTrue);
+  UT_PTR_SET(cpputest::IsNan, alwaysTrue);
   cpputest::String s(cpputest::StringFrom(0.0));
   STRCMP_EQUAL("Nan - Not a number", s.c_str());
 }
 
 TEST(String, Inf)
 {
-  UT_PTR_SET(PlatformSpecificIsInf, alwaysTrue);
+  UT_PTR_SET(cpputest::IsInf, alwaysTrue);
   cpputest::String s(cpputest::StringFrom(0.0));
   STRCMP_EQUAL("Inf - Infinity", s.c_str());
 }

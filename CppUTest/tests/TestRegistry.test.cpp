@@ -1,9 +1,9 @@
 #include "CppUTest/TestRegistry.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
+#include "CppUTest/time.hpp"
 
 namespace {
 const int testLineNumber = 1;
@@ -380,7 +380,7 @@ TEST(TestRegistry, shuffleSingleTestIsNoOp)
 
 IGNORE_TEST(TestRegistry, shuffleTestList)
 {
-  UT_PTR_SET(PlatformSpecificRand, getZero);
+  UT_PTR_SET(cpputest::Rand, getZero);
   myRegistry->addTest(test3);
   myRegistry->addTest(test2);
   myRegistry->addTest(test1);

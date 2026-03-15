@@ -1,12 +1,12 @@
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
+#include "CppUTest/time.hpp"
 
 namespace {
 unsigned long
-MockGetPlatformSpecificTimeInMillis()
+MockGetTimeInMillis()
 {
   return 10;
 }
@@ -24,8 +24,7 @@ TEST_GROUP(TestResult)
     mock = new cpputest::StringBufferTestOutput();
     printer = mock;
     res = new cpputest::TestResult(*printer);
-    UT_PTR_SET(
-        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
+    UT_PTR_SET(cpputest::GetTimeInMillis, MockGetTimeInMillis);
   }
   void teardown() override
   {

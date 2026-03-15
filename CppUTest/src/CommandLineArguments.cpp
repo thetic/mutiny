@@ -1,8 +1,8 @@
 #include "CppUTest/CommandLineArguments.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
+#include "CppUTest/time.hpp"
 
 namespace cpputest {
 
@@ -343,7 +343,7 @@ bool
 CommandLineArguments::setShuffle(int argc, const char* const* argv, int& i)
 {
   shuffling_ = true;
-  shuffleSeed_ = static_cast<unsigned int>(GetPlatformSpecificTimeInMillis());
+  shuffleSeed_ = static_cast<unsigned int>(cpputest::GetTimeInMillis());
   if (shuffleSeed_ == 0)
     shuffleSeed_++;
 

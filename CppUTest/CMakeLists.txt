@@ -10,8 +10,9 @@ target_sources(CppUTest
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
-        src/PlatformSpecificFunctions.cpp
+        src/math.cpp
         src/TestJumpBuffer.cpp
+        src/time.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
@@ -41,7 +42,8 @@ target_sources(CppUTest
             include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
-            include/CppUTest/PlatformSpecificFunctions.hpp
+            include/CppUTest/math.hpp
+            include/CppUTest/time.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp

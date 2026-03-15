@@ -5,6 +5,8 @@
 
 namespace cpputest {
 
+extern int (*Rand)();
+
 class TestShell;
 
 class TestShellPointerArray

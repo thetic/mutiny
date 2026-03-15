@@ -1,7 +1,6 @@
 #include "CppUTest/CommandLineTestRunner.hpp"
 
 #include "CppUTest/JUnitTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestPlugin.hpp"
@@ -343,16 +342,13 @@ TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
 }
 
 namespace {
-using FOpenFunc = PlatformSpecificFile (*)(const char*, const char*);
-using FPutsFunc = void (*)(const char*, PlatformSpecificFile);
-using FCloseFunc = void (*)(PlatformSpecificFile);
 
 struct FakeOutput
 {
   FakeOutput()
-    : SaveFOpen(PlatformSpecificFOpen)
-    , SaveFPuts(PlatformSpecificFPuts)
-    , SaveFClose(PlatformSpecificFClose)
+    : SaveFOpen(cpputest::FOpen)
+    , SaveFPuts(cpputest::FPuts)
+    , SaveFClose(cpputest::FClose)
   {
     installFakes();
     currentFake = this;
@@ -366,33 +362,33 @@ struct FakeOutput
 
   void installFakes()
   {
-    PlatformSpecificFOpen = reinterpret_cast<FOpenFunc>(fopen_fake);
-    PlatformSpecificFPuts = reinterpret_cast<FPutsFunc>(fputs_fake);
-    PlatformSpecificFClose = reinterpret_cast<FCloseFunc>(fclose_fake);
+    cpputest::FOpen = fopen_fake;
+    cpputest::FPuts = fputs_fake;
+    cpputest::FClose = fclose_fake;
   }
 
   void restoreOriginals()
   {
-    PlatformSpecificFOpen = SaveFOpen;
-    PlatformSpecificFPuts = SaveFPuts;
-    PlatformSpecificFClose = SaveFClose;
+    cpputest::FOpen = SaveFOpen;
+    cpputest::FPuts = SaveFPuts;
+    cpputest::FClose = SaveFClose;
   }
 
-  static PlatformSpecificFile fopen_fake(const char*, const char*)
+  static cpputest::File fopen_fake(const char*, const char*)
   {
-    return static_cast<PlatformSpecificFile>(nullptr);
+    return static_cast<cpputest::File>(nullptr);
   }
 
-  static void fputs_fake(const char* str, PlatformSpecificFile f)
+  static void fputs_fake(const char* str, cpputest::File f)
   {
-    if (f == PlatformSpecificStdOut) {
+    if (f == cpputest::StdOut) {
       currentFake->console += str;
     } else {
       currentFake->file += str;
     }
   }
 
-  static void fclose_fake(PlatformSpecificFile) {}
+  static void fclose_fake(cpputest::File) {}
 
   cpputest::String file;
   cpputest::String console;
@@ -400,9 +396,9 @@ struct FakeOutput
   static FakeOutput* currentFake;
 
 private:
-  FOpenFunc SaveFOpen;
-  FPutsFunc SaveFPuts;
-  FCloseFunc SaveFClose;
+  cpputest::FOpenFunc SaveFOpen;
+  cpputest::FPutsFunc SaveFPuts;
+  cpputest::FCloseFunc SaveFClose;
 };
 
 FakeOutput* FakeOutput::currentFake = nullptr;

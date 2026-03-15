@@ -4,6 +4,39 @@
 
 namespace cpputest {
 
+namespace {
+
+File
+FOpenImpl(const char* filename, const char* flag)
+{
+#if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
+  FILE* file;
+  fopen_s(&file, filename, flag);
+  return file;
+#else
+  return fopen(filename, flag);
+#endif
+}
+
+void
+FPutsImpl(const char* str, cpputest::File file)
+{
+  fputs(str, static_cast<FILE*>(file));
+}
+
+void
+FCloseImpl(cpputest::File file)
+{
+  fclose(static_cast<FILE*>(file));
+}
+
+} // namespace
+
+File StdOut = stdout;
+FOpenFunc FOpen = FOpenImpl;
+FPutsFunc FPuts = FPutsImpl;
+FCloseFunc FClose = FCloseImpl;
+
 TestOutput::TestOutput()
   : dotCount_(0)
   , verbose_(VerbosityLevel::QUIET)

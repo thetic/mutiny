@@ -1,16 +1,16 @@
 #include "CppUTest/TestOutput.hpp"
 
 #include "CppUTest/CompositeTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
+#include "CppUTest/time.hpp"
 
 namespace {
 unsigned long millisTime;
 
 unsigned long
-MockGetPlatformSpecificTimeInMillis()
+MockGetTimeInMillis()
 {
   return millisTime;
 }
@@ -80,8 +80,7 @@ TEST_GROUP(TestOutput)
     result = new cpputest::TestResult(*mock);
     result->setTotalExecutionTime(10);
     millisTime = 0;
-    UT_PTR_SET(
-        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
+    UT_PTR_SET(cpputest::GetTimeInMillis, MockGetTimeInMillis);
   }
   void teardown() override
   {

@@ -5,13 +5,13 @@
 
 namespace cpputest {
 
+namespace {
 struct cpputest_pair
 {
   void** orig;
   void* orig_value;
 };
 
-namespace {
 int pointerTableIndex;
 cpputest_pair setlist[SetPointerPlugin::MAX_SET];
 } // namespace

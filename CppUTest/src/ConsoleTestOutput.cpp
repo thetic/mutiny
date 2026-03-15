@@ -1,7 +1,5 @@
 #include "CppUTest/ConsoleTestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
-
 #include <stdio.h>
 
 namespace cpputest {
@@ -9,7 +7,7 @@ namespace cpputest {
 void
 ConsoleTestOutput::printBuffer(const char* s)
 {
-  PlatformSpecificFPuts(s, PlatformSpecificStdOut);
+  cpputest::FPuts(s, cpputest::StdOut);
   flush();
 }
 

@@ -1,11 +1,12 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestShell.hpp"
 
 #include <stdlib.h>
 
 namespace cpputest {
+
+int (*Rand)() = rand;
 
 TestShellPointerArray::TestShellPointerArray(TestShell* firstTest)
   : arrayOfTests_(nullptr)
@@ -51,7 +52,7 @@ TestShellPointerArray::shuffle(size_t seed)
       return;
 
     const size_t j =
-        static_cast<size_t>(PlatformSpecificRand()) %
+        static_cast<size_t>(Rand()) %
         (i + 1); // distribution biased by modulo, but good enough for shuffling
     swap(i, j);
   }

@@ -1,9 +1,10 @@
 #include "CppUTest/JUnitTestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestResult.hpp"
+#include "CppUTest/time.hpp"
 
 namespace cpputest {
 
@@ -55,7 +56,7 @@ struct JUnitTestGroupResult
 struct JUnitTestOutputImpl
 {
   JUnitTestGroupResult results_;
-  PlatformSpecificFile file_;
+  cpputest::File file_;
   String package_;
   String stdOutput_;
 };
@@ -123,8 +124,7 @@ JUnitTestOutput::printCurrentTestStarted(const TestShell& test)
 {
   impl_->results_.testCount_++;
   impl_->results_.group_ = test.getGroup();
-  impl_->results_.startTime_ =
-      static_cast<size_t>(GetPlatformSpecificTimeInMillis());
+  impl_->results_.startTime_ = static_cast<size_t>(cpputest::GetTimeInMillis());
 
   if (impl_->results_.tail_ == nullptr) {
     impl_->results_.head_ = impl_->results_.tail_ = new JUnitTestCaseResultNode;
@@ -190,7 +190,7 @@ JUnitTestOutput::writeTestSuiteSummary()
       static_cast<int>(impl_->results_.testCount_),
       static_cast<int>(impl_->results_.groupExecTime_ / 1000),
       static_cast<int>(impl_->results_.groupExecTime_ % 1000),
-      GetPlatformSpecificTimeString());
+      cpputest::GetTimeString());
   writeToFile(buf.c_str());
 }
 
@@ -318,19 +318,19 @@ JUnitTestOutput::printFailure(const TestFailure& failure)
 void
 JUnitTestOutput::openFileForWrite(const String& fileName)
 {
-  impl_->file_ = PlatformSpecificFOpen(fileName.c_str(), "w");
+  impl_->file_ = cpputest::FOpen(fileName.c_str(), "w");
 }
 
 void
 JUnitTestOutput::writeToFile(const String& buffer)
 {
-  PlatformSpecificFPuts(buffer.c_str(), impl_->file_);
+  cpputest::FPuts(buffer.c_str(), impl_->file_);
 }
 
 void
 JUnitTestOutput::closeFile()
 {
-  PlatformSpecificFClose(impl_->file_);
+  cpputest::FClose(impl_->file_);
 }
 
 } // namespace cpputest

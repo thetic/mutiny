@@ -3,12 +3,12 @@
 #include "TestJumpBuffer.hpp"
 
 #include "CppUTest/ConsoleTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/Test.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestResult.hpp"
+#include "CppUTest/math.hpp"
 
 #include <math.h>
 #include <stdlib.h>
@@ -97,11 +97,10 @@ const CrashingTestTerminatorWithoutExceptions
 bool
 doubles_equal(double d1, double d2, double threshold)
 {
-  if (PlatformSpecificIsNan(d1) || PlatformSpecificIsNan(d2) ||
-      PlatformSpecificIsNan(threshold))
+  if (cpputest::IsNan(d1) || cpputest::IsNan(d2) || cpputest::IsNan(threshold))
     return false;
 
-  if (PlatformSpecificIsInf(d1) && PlatformSpecificIsInf(d2)) {
+  if (cpputest::IsInf(d1) && cpputest::IsInf(d2)) {
     return true;
   }
 

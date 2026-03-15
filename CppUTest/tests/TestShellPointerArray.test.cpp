@@ -1,7 +1,6 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
 #include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 namespace {
@@ -68,7 +67,7 @@ TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 
 TEST(TestShellPointerArray, firstTestisNotTheFirstTestWithSeed1234)
 {
-  UT_PTR_SET(PlatformSpecificRand, getZero);
+  UT_PTR_SET(cpputest::Rand, getZero);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(1234);
@@ -77,7 +76,7 @@ TEST(TestShellPointerArray, firstTestisNotTheFirstTestWithSeed1234)
 
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 {
-  UT_PTR_SET(PlatformSpecificRand, getZero);
+  UT_PTR_SET(cpputest::Rand, getZero);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(3);
@@ -90,7 +89,7 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 // 1, 2
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 {
-  UT_PTR_SET(PlatformSpecificRand, getOne);
+  UT_PTR_SET(cpputest::Rand, getOne);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.shuffle(3);
@@ -101,7 +100,7 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 
 TEST(TestShellPointerArray, reverse)
 {
-  UT_PTR_SET(PlatformSpecificRand, getOne);
+  UT_PTR_SET(cpputest::Rand, getOne);
 
   cpputest::TestShellPointerArray tests(test0);
   tests.reverse();

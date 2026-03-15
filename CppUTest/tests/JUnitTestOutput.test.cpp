@@ -1,10 +1,11 @@
 #include "CppUTest/JUnitTestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/String.hpp"
 #include "CppUTest/StringCollection.hpp"
 #include "CppUTest/TestHarness.hpp"
+#include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestResult.hpp"
+#include "CppUTest/time.hpp"
 
 namespace {
 
@@ -109,13 +110,13 @@ unsigned long millisTime = 0;
 const char* theTime = "";
 
 unsigned long
-MockGetPlatformSpecificTimeInMillis()
+MockGetTimeInMillis()
 {
   return millisTime;
 }
 
 const char*
-MockGetPlatformSpecificTimeString()
+MockGetTimeString()
 {
   return theTime;
 }
@@ -144,10 +145,8 @@ public:
     millisTime = 0;
     theTime = "1978-10-03T00:00:00";
 
-    UT_PTR_SET(
-        GetPlatformSpecificTimeInMillis, MockGetPlatformSpecificTimeInMillis);
-    UT_PTR_SET(
-        GetPlatformSpecificTimeString, MockGetPlatformSpecificTimeString);
+    UT_PTR_SET(cpputest::GetTimeInMillis, MockGetTimeInMillis);
+    UT_PTR_SET(cpputest::GetTimeString, MockGetTimeString);
   }
 
   JUnitTestOutputTestRunner& start()
@@ -293,16 +292,16 @@ public:
 FileSystemForJUnitTestOutputTests fileSystem;
 FileForJUnitTestOutputs* currentFile = nullptr;
 
-PlatformSpecificFile
+cpputest::File
 mockFOpen(const char* filename, const char*)
 {
   currentFile = fileSystem.openFile(filename);
   return currentFile;
 }
 
-void (*originalFPuts)(const char* str, PlatformSpecificFile file);
+void (*originalFPuts)(const char* str, cpputest::File file);
 void
-mockFPuts(const char* str, PlatformSpecificFile file)
+mockFPuts(const char* str, cpputest::File file)
 {
   if (file == currentFile) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
@@ -312,7 +311,7 @@ mockFPuts(const char* str, PlatformSpecificFile file)
 }
 
 void
-mockFClose(PlatformSpecificFile file)
+mockFClose(cpputest::File file)
 {
   currentFile = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
@@ -329,10 +328,10 @@ TEST_GROUP(JUnitTestOutput)
 
   void setup() override
   {
-    UT_PTR_SET(PlatformSpecificFOpen, mockFOpen);
-    originalFPuts = PlatformSpecificFPuts;
-    UT_PTR_SET(PlatformSpecificFPuts, mockFPuts);
-    UT_PTR_SET(PlatformSpecificFClose, mockFClose);
+    UT_PTR_SET(cpputest::FOpen, mockFOpen);
+    originalFPuts = cpputest::FPuts;
+    UT_PTR_SET(cpputest::FPuts, mockFPuts);
+    UT_PTR_SET(cpputest::FClose, mockFClose);
     junitOutput = new cpputest::JUnitTestOutput();
     result = new cpputest::TestResult(*junitOutput);
     testCaseRunner = new JUnitTestOutputTestRunner(*result);

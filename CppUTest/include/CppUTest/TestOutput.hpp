@@ -12,7 +12,19 @@
 
 #include "CppUTest/String.hpp"
 
+#include <stdio.h>
+
 namespace cpputest {
+
+using File = void*;
+using FOpenFunc = File (*)(const char* filename, const char* flag);
+using FPutsFunc = void (*)(const char* str, File file);
+using FCloseFunc = void (*)(File file);
+
+extern File StdOut;
+extern FOpenFunc FOpen;
+extern FPutsFunc FPuts;
+extern FCloseFunc FClose;
 
 class TestShell;
 class TestFailure;
