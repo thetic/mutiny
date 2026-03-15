@@ -1,5 +1,5 @@
-#ifndef D_MockNamedValueList_h
-#define D_MockNamedValueList_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUELIST_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUELIST_HPP
 
 #include "CppUTest/Extensions/MockNamedValue.hpp"
 

@@ -1,5 +1,5 @@
-#ifndef D_TestTestingFixture_H
-#define D_TestTestingFixture_H
+#ifndef INCLUDED_CPPUTEST_TESTTESTINGFIXTURE_HPP
+#define INCLUDED_CPPUTEST_TESTTESTINGFIXTURE_HPP
 
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"

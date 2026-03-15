@@ -1,5 +1,5 @@
-#ifndef D_TestShellPointerArray_h
-#define D_TestShellPointerArray_h
+#ifndef INCLUDED_CPPUTEST_TESTSHELLPOINTERARRAY_HPP
+#define INCLUDED_CPPUTEST_TESTSHELLPOINTERARRAY_HPP
 
 #include <stddef.h>
 

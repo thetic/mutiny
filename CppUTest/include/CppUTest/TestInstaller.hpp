@@ -1,5 +1,5 @@
-#ifndef D_TestInstaller_h
-#define D_TestInstaller_h
+#ifndef INCLUDED_CPPUTEST_TESTINSTALLER_HPP
+#define INCLUDED_CPPUTEST_TESTINSTALLER_HPP
 
 #include <stddef.h>
 

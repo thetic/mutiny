@@ -1,5 +1,5 @@
-#ifndef D_MockActualCallTrace_h
-#define D_MockActualCallTrace_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKACTUALCALLTRACE_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKACTUALCALLTRACE_HPP
 
 #include "CppUTest/Extensions/MockActualCall.hpp"
 

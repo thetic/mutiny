@@ -1,5 +1,5 @@
-#ifndef D_MockNamedValueComparator_h
-#define D_MockNamedValueComparator_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUECOMPARATOR_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUECOMPARATOR_HPP
 
 #include "CppUTest/String.hpp"
 

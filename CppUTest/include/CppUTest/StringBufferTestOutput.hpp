@@ -1,5 +1,5 @@
-#ifndef D_StringBufferTestOutput_h
-#define D_StringBufferTestOutput_h
+#ifndef INCLUDED_CPPUTEST_STRINGBUFFERTESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_STRINGBUFFERTESTOUTPUT_HPP
 
 #include "CppUTest/TestOutput.hpp"
 

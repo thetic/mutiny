@@ -1,5 +1,5 @@
-#ifndef D_SetPointerPlugin_h
-#define D_SetPointerPlugin_h
+#ifndef INCLUDED_CPPUTEST_SETPOINTERPLUGIN_HPP
+#define INCLUDED_CPPUTEST_SETPOINTERPLUGIN_HPP
 
 #include "CppUTest/TestPlugin.hpp"
 

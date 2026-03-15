@@ -1,5 +1,5 @@
-#ifndef D_MockFailureReporterForTest_hpp
-#define D_MockFailureReporterForTest_hpp
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILUREREPORTERFORTEST_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILUREREPORTERFORTEST_HPP
 
 #include "CppUTest/Extensions/MockSupport.hpp"
 

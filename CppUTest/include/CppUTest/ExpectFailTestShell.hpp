@@ -1,5 +1,5 @@
-#ifndef D_ExpectFailTestShell_h
-#define D_ExpectFailTestShell_h
+#ifndef INCLUDED_CPPUTEST_EXPECTFAILTESTSHELL_HPP
+#define INCLUDED_CPPUTEST_EXPECTFAILTESTSHELL_HPP
 
 #include "CppUTest/TestShell.hpp"
 

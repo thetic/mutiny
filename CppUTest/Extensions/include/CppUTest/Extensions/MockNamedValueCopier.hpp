@@ -1,5 +1,5 @@
-#ifndef D_MockNamedValueCopier_h
-#define D_MockNamedValueCopier_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUECOPIER_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUECOPIER_HPP
 
 namespace cpputest {
 namespace extensions {

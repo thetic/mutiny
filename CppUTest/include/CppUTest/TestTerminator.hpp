@@ -1,5 +1,5 @@
-#ifndef D_TestTerminator_h
-#define D_TestTerminator_h
+#ifndef INCLUDED_CPPUTEST_TESTTERMINATOR_HPP
+#define INCLUDED_CPPUTEST_TESTTERMINATOR_HPP
 
 namespace cpputest {
 

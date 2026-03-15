@@ -1,5 +1,5 @@
-#ifndef D_MockSupportPlugin_h
-#define D_MockSupportPlugin_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORTPLUGIN_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORTPLUGIN_HPP
 
 #include "CppUTest/Extensions/MockNamedValueComparator.hpp"
 #include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"

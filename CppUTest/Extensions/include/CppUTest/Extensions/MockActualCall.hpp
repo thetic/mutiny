@@ -1,5 +1,5 @@
-#ifndef D_MockActualCall_h
-#define D_MockActualCall_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKACTUALCALL_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKACTUALCALL_HPP
 
 #include "CppUTest/Extensions/MockExpectedCallsList.hpp"
 #include "CppUTest/Extensions/MockNamedValue.hpp"

@@ -1,5 +1,5 @@
-#ifndef D_CommandLineTestRunner_H
-#define D_CommandLineTestRunner_H
+#ifndef INCLUDED_CPPUTEST_COMMANDLINETESTRUNNER_HPP
+#define INCLUDED_CPPUTEST_COMMANDLINETESTRUNNER_HPP
 
 #include "CppUTest/CommandLineArguments.hpp"
 #include "CppUTest/TestFilter.hpp"

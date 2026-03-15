@@ -1,5 +1,5 @@
-#ifndef D_Test_h
-#define D_Test_h
+#ifndef INCLUDED_CPPUTEST_TEST_HPP
+#define INCLUDED_CPPUTEST_TEST_HPP
 
 namespace cpputest {
 

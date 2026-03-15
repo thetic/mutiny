@@ -1,5 +1,5 @@
-#ifndef D_UTestMacros_h
-#define D_UTestMacros_h
+#ifndef INCLUDED_CPPUTEST_UTESTMACROS_HPP
+#define INCLUDED_CPPUTEST_UTESTMACROS_HPP
 
 /*! \brief Define a group of tests
  *
@@ -514,4 +514,4 @@
   } while (0)
 #endif /* CPPUTEST_HAVE_EXCEPTIONS */
 
-#endif /*D_UTestMacros_h*/
+#endif /*INCLUDED_CPPUTEST_UTESTMACROS_HPP*/

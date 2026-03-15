@@ -5,8 +5,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef D_TestFailure_H
-#define D_TestFailure_H
+#ifndef INCLUDED_CPPUTEST_TESTFAILURE_HPP
+#define INCLUDED_CPPUTEST_TESTFAILURE_HPP
 
 #include "CppUTest/String.hpp"
 

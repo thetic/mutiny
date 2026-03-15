@@ -1,5 +1,5 @@
-#ifndef D_MockSupport_c_h
-#define D_MockSupport_c_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORT_H
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORT_H
 
 #ifdef __cplusplus
 extern "C"

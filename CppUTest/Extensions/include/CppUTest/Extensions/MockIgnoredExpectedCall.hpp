@@ -1,5 +1,5 @@
-#ifndef D_MockIgnoredExpectedCall_h
-#define D_MockIgnoredExpectedCall_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKIGNOREDEXPECTEDCALL_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKIGNOREDEXPECTEDCALL_HPP
 
 #include "CppUTest/Extensions/MockExpectedCall.hpp"
 

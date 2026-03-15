@@ -1,5 +1,5 @@
-#ifndef D_TestPlugin_h
-#define D_TestPlugin_h
+#ifndef INCLUDED_CPPUTEST_TESTPLUGIN_HPP
+#define INCLUDED_CPPUTEST_TESTPLUGIN_HPP
 
 #include "CppUTest/String.hpp"
 

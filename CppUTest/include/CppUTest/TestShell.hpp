@@ -1,5 +1,5 @@
-#ifndef D_TestShell_h
-#define D_TestShell_h
+#ifndef INCLUDED_CPPUTEST_TESTSHELL_HPP
+#define INCLUDED_CPPUTEST_TESTSHELL_HPP
 
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestTerminator.hpp"

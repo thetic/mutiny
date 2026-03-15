@@ -1,5 +1,5 @@
-#ifndef D_TestHarness_h
-#define D_TestHarness_h
+#ifndef INCLUDED_CPPUTEST_TESTHARNESS_HPP
+#define INCLUDED_CPPUTEST_TESTHARNESS_HPP
 
 #include "CppUTest/ExpectFailTestShell.hpp"
 #include "CppUTest/IgnoredTestShell.hpp"

@@ -1,5 +1,5 @@
-#ifndef D_ExecFunctionTestShell_h
-#define D_ExecFunctionTestShell_h
+#ifndef INCLUDED_CPPUTEST_EXECFUNCTIONTESTSHELL_HPP
+#define INCLUDED_CPPUTEST_EXECFUNCTIONTESTSHELL_HPP
 
 #include "CppUTest/Test.hpp"
 #include "CppUTest/TestShell.hpp"

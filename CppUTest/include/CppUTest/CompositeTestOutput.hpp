@@ -1,5 +1,5 @@
-#ifndef D_CompositeTestOutput_h
-#define D_CompositeTestOutput_h
+#ifndef INCLUDED_CPPUTEST_COMPOSITETESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_COMPOSITETESTOUTPUT_HPP
 
 #include "CppUTest/TestOutput.hpp"
 

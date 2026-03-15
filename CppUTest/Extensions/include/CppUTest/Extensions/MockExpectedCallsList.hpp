@@ -1,5 +1,5 @@
-#ifndef D_MockExpectedCallsList_h
-#define D_MockExpectedCallsList_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKEXPECTEDCALLSLIST_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKEXPECTEDCALLSLIST_HPP
 
 #include "CppUTest/String.hpp"
 

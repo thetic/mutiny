@@ -1,5 +1,5 @@
-#ifndef D_TestOutput_h
-#define D_TestOutput_h
+#ifndef INCLUDED_CPPUTEST_TESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_TESTOUTPUT_HPP
 
 ///////////////////////////////////////////////////////////////////////////////
 //

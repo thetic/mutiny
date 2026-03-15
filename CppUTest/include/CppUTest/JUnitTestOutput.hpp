@@ -1,5 +1,5 @@
-#ifndef D_JUnitTestOutput_h
-#define D_JUnitTestOutput_h
+#ifndef INCLUDED_CPPUTEST_JUNITTESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_JUNITTESTOUTPUT_HPP
 
 #include "CppUTest/String.hpp"
 #include "CppUTest/TestOutput.hpp"

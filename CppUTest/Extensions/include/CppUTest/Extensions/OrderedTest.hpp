@@ -1,5 +1,5 @@
-#ifndef D_OrderedTest_h
-#define D_OrderedTest_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_ORDEREDTEST_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_ORDEREDTEST_HPP
 
 #include "CppUTest/TestShell.hpp"
 

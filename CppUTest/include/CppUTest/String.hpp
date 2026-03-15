@@ -8,8 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef D_String_h
-#define D_String_h
+#ifndef INCLUDED_CPPUTEST_STRING_HPP
+#define INCLUDED_CPPUTEST_STRING_HPP
 
 #include <stdarg.h>
 #include <stddef.h>

@@ -1,5 +1,5 @@
-#ifndef D_MockNamedValue_h
-#define D_MockNamedValue_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUE_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKNAMEDVALUE_HPP
 
 #include "CppUTest/Extensions/MockNamedValueComparator.hpp"
 #include "CppUTest/Extensions/MockNamedValueCopier.hpp"

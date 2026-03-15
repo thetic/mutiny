@@ -4,8 +4,8 @@
 // it just collects failures.  Really it just prints the failures.
 //
 
-#ifndef D_TestResult_h
-#define D_TestResult_h
+#ifndef INCLUDED_CPPUTEST_TESTRESULT_HPP
+#define INCLUDED_CPPUTEST_TESTRESULT_HPP
 
 #include <stddef.h>
 

@@ -1,5 +1,5 @@
-#ifndef D_TeamCityTestOutput_h
-#define D_TeamCityTestOutput_h
+#ifndef INCLUDED_CPPUTEST_TEAMCITYTESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_TEAMCITYTESTOUTPUT_HPP
 
 #include "CppUTest/ConsoleTestOutput.hpp"
 #include "CppUTest/String.hpp"

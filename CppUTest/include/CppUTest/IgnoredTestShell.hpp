@@ -1,5 +1,5 @@
-#ifndef D_IgnoredTestShell_h
-#define D_IgnoredTestShell_h
+#ifndef INCLUDED_CPPUTEST_IGNOREDTESTSHELL_HPP
+#define INCLUDED_CPPUTEST_IGNOREDTESTSHELL_HPP
 
 #include "CppUTest/TestShell.hpp"
 

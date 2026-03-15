@@ -4,8 +4,8 @@
  *
  *******************************************************************************/
 
-#ifndef D_TestHarness_c_h
-#define D_TestHarness_c_h
+#ifndef INCLUDED_CPPUTEST_TESTHARNESS_H
+#define INCLUDED_CPPUTEST_TESTHARNESS_H
 
 #include <stddef.h>
 

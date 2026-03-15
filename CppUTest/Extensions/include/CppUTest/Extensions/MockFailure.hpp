@@ -1,5 +1,5 @@
-#ifndef D_MockFailure_h
-#define D_MockFailure_h
+#ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILURE_HPP
+#define INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILURE_HPP
 
 #include "CppUTest/TestFailure.hpp"
 

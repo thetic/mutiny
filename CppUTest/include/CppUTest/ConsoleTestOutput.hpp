@@ -1,5 +1,5 @@
-#ifndef D_ConsoleTestOutput_h
-#define D_ConsoleTestOutput_h
+#ifndef INCLUDED_CPPUTEST_CONSOLETESTOUTPUT_HPP
+#define INCLUDED_CPPUTEST_CONSOLETESTOUTPUT_HPP
 
 #include "CppUTest/TestOutput.hpp"
 
