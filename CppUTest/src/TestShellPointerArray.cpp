@@ -1,7 +1,9 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestShell.hpp"
+
+#include <stdlib.h>
 
 namespace cpputest {
 
@@ -42,7 +44,7 @@ TestShellPointerArray::shuffle(size_t seed)
   if (count_ == 0)
     return;
 
-  PlatformSpecificSrand(static_cast<unsigned int>(seed));
+  srand(static_cast<unsigned int>(seed));
 
   for (size_t i = count_ - 1; i >= 1; --i) {
     if (count_ == 0)

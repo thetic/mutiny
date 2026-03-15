@@ -1,4 +1,4 @@
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestHarness.hpp"

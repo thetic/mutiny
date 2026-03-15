@@ -10,6 +10,7 @@ target_sources(CppUTest
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
+        src/PlatformSpecificFunctions.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
@@ -39,7 +40,7 @@ target_sources(CppUTest
             include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
             include/CppUTest/JUnitTestOutput.hpp
-            include/CppUTest/PlatformSpecificFunctions.h
+            include/CppUTest/PlatformSpecificFunctions.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/StringBufferTestOutput.hpp
@@ -61,14 +62,6 @@ target_sources(CppUTest
             include/CppUTest/TestTestingFixture.hpp
             include/CppUTest/UtestMacros.hpp
 )
-
-#[[Set CPPUTEST_PLATFORM in a parent CMakeLists.txt if reusing one of the provided platforms, else supply the missing definitions]]
-if(CPPUTEST_PLATFORM)
-    target_sources(CppUTest
-        PRIVATE
-            ${CMAKE_CURRENT_SOURCE_DIR}/platforms/${CPPUTEST_PLATFORM}/PlatformSpecificFunctions.cpp
-    )
-endif()
 
 include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})

@@ -1,6 +1,6 @@
 #include "CppUTest/String.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestHarness.hpp"
 
 #include <limits.h>

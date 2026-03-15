@@ -1,6 +1,6 @@
 #include "CppUTest/ConsoleTestOutput.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 
 namespace cpputest {
 

@@ -1,6 +1,6 @@
 #include "CppUTest/TestTerminator.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/TestShell.hpp"
 
 namespace cpputest {

@@ -3,8 +3,9 @@
 #include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 #include "CppUTest/Extensions/MockFailure.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
 #include "CppUTest/TestHarness.hpp"
+
+#include <string.h>
 
 namespace cpputest {
 namespace extensions {
@@ -76,7 +77,7 @@ MockCheckedActualCall::copyOutputParameters(
                (p->type_ == "void*")) {
       const void* data = outputParameter.getConstPointerValue();
       size_t size = outputParameter.getSize();
-      PlatformSpecificMemCpy(p->ptr_, data, size);
+      memcpy(p->ptr_, data, size);
     } else if (outputParameter.getName() != "") {
       failWith(MockNoWayToCopyCustomTypeFailure(
           getTest(), expectedCall->getOutputParameter(p->name_).getType()));

@@ -1,6 +1,6 @@
 #include "CppUTest/String.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 
 #include <limits.h>
 #if CPPUTEST_USE_STD_CPP_LIB

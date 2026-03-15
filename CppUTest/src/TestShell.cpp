@@ -1,12 +1,14 @@
 #include "CppUTest/TestShell.hpp"
 
 #include "CppUTest/ConsoleTestOutput.hpp"
-#include "CppUTest/PlatformSpecificFunctions.h"
+#include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/Test.hpp"
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestResult.hpp"
+
+#include <stdlib.h>
 
 namespace cpputest {
 
@@ -151,7 +153,7 @@ TestShell::TestShell(const char* groupName,
 TestShell::~TestShell() {}
 
 namespace {
-void (*pleaseCrashMeRightNow)() = PlatformSpecificAbort;
+void (*pleaseCrashMeRightNow)() = abort;
 } // namespace
 
 void
@@ -163,7 +165,7 @@ TestShell::setCrashMethod(void (*crashme)())
 void
 TestShell::resetCrashMethod()
 {
-  pleaseCrashMeRightNow = PlatformSpecificAbort;
+  pleaseCrashMeRightNow = abort;
 }
 
 void
