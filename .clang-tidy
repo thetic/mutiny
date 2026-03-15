@@ -7,10 +7,80 @@ Checks:
   - misc-use-anonymous-namespace
   - modernize-use-auto
   - modernize-use-using
+  - readability-identifier-naming
   - readability-static-definition-in-anonymous-namespace
 CheckOptions:
   - key: modernize-use-using.IgnoreExternC
     value: true
+  # --- readability-identifier-naming ---
+  # Functions
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  # Variables (all scopes)
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  # Static class data members: ClassMember covers what PrivateMember/ProtectedMember miss
+  - key: readability-identifier-naming.ClassMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassMemberSuffix
+    value: _
+  - key: readability-identifier-naming.StaticVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassConstantCase
+    value: lower_case
+  # Members: non-private have no suffix
+  - key: readability-identifier-naming.MemberCase
+    value: lower_case
+  - key: readability-identifier-naming.MemberSuffix
+    value: ''
+  # Private and protected members get trailing underscore (overrides Member*)
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberSuffix
+    value: _
+  - key: readability-identifier-naming.ProtectedMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ProtectedMemberSuffix
+    value: _
+  # Enumerators
+  - key: readability-identifier-naming.EnumConstantCase
+    value: lower_case
+  - key: readability-identifier-naming.ScopedEnumConstantCase
+    value: lower_case
+  # Namespaces
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  # Types
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
+  - key: readability-identifier-naming.TypeAliasCase
+    value: CamelCase
+  - key: readability-identifier-naming.TypedefCase
+    value: CamelCase
+  # Macros: UPPER_CASE
+  - key: readability-identifier-naming.MacroDefinitionCase
+    value: UPPER_CASE
+  # Template parameters
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.TemplateTemplateParameterCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ValueTemplateParameterCase
+    value: UPPER_CASE
 WarningsAsErrors: "*"
 FormatStyle: file
 UseColor: true
