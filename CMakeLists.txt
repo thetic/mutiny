@@ -151,16 +151,6 @@ target_compile_definitions(CppUTest
 
 add_library(CppUTest::CppUTest ALIAS CppUTest)
 
-if(PROJECT_IS_TOP_LEVEL)
-    install(
-        TARGETS CppUTest
-        EXPORT CppUTestTargets
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    )
-endif()
-
 if (CPPUTEST_BUILD_TESTING)
     add_subdirectory(tests)
 endif ()
@@ -170,5 +160,59 @@ if (CPPUTEST_EXAMPLES)
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
-    add_subdirectory(package)
+    install(
+        TARGETS CppUTest
+        EXPORT CppUTestTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+
+    include(CMakePackageConfigHelpers)
+
+    set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
+    set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
+    set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
+    set(MODULES_DIR "${PROJECT_SOURCE_DIR}/cmake/Modules")
+
+    set(CPPUTEST_CONFIG_DEST "${LIB_INSTALL_DIR}/CppUTest/cmake")
+
+    # CMake package config files (install tree).
+    configure_package_config_file(cmake/CppUTestConfig.cmake.install.in
+        ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfig.cmake
+        INSTALL_DESTINATION "${CPPUTEST_CONFIG_DEST}"
+        PATH_VARS INCLUDE_INSTALL_DIR LIB_INSTALL_DIR
+    )
+    write_basic_package_version_file(
+        ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfigVersion.cmake
+        COMPATIBILITY SameMajorVersion
+    )
+    install(
+        FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfig.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/install/CppUTestConfigVersion.cmake
+        DESTINATION "${CPPUTEST_CONFIG_DEST}"
+    )
+    install(
+        EXPORT CppUTestTargets
+        NAMESPACE CppUTest::
+        DESTINATION "${CPPUTEST_CONFIG_DEST}"
+    )
+    install(
+        FILES
+            ${PROJECT_SOURCE_DIR}/cmake/Modules/CppUTest.cmake
+            ${PROJECT_SOURCE_DIR}/cmake/Modules/_CppUTestDiscovery.cmake
+        DESTINATION "${CPPUTEST_CONFIG_DEST}/Modules"
+    )
+
+    # CMake package config files (build tree).
+    configure_package_config_file(cmake/CppUTestConfig.cmake.build.in
+        ${PROJECT_BINARY_DIR}/CppUTestConfig.cmake
+        INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
+        PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR MODULES_DIR
+    )
+    write_basic_package_version_file(
+        ${PROJECT_BINARY_DIR}/CppUTestConfigVersion.cmake
+        COMPATIBILITY SameMajorVersion
+    )
 endif()

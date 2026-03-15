@@ -221,7 +221,6 @@ jobs:
       - name: Install (*nix)
         run: |
           sudo cmake --install build/
-          pkg-config --print-provides cpputest
         if: ${{ matrix.install && !startswith(matrix.os, 'windows')}}
       - name: Install (Windows)
         run: cmake --install build/ --config=Debug
