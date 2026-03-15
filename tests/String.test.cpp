@@ -536,7 +536,7 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
   long value = -1;
 
   STRCMP_EQUAL(
-      "(0xffffffff)", cppmu::BracketsFormattedHexStringFrom(value).c_str());
+      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
 }
 
 #endif
@@ -551,7 +551,7 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
   long value = -1;
 
   STRCMP_EQUAL(
-      "(0xffffffff)", cppmu::BracketsFormattedHexStringFrom(value).c_str());
+      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
 }
 #endif
 
@@ -816,7 +816,8 @@ TEST(String, BracketsFormattedHexStringFromForInt)
 {
   int value = -1;
 
-  STRCMP_EQUAL("(0xffff)", BracketsFormattedHexStringFrom(value).c_str());
+  STRCMP_EQUAL(
+      "(0xffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
 }
 #else
 TEST(String, BracketsFormattedHexStringFromForInt)

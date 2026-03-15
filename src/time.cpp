@@ -42,7 +42,7 @@ get_time_string_impl()
   static char date_time[80];
 #if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
   static struct tm lastlocaltime;
-  localtime_s(&lastlocaltime, &theTime);
+  localtime_s(&lastlocaltime, &the_time);
   struct tm* tmp = &lastlocaltime;
 #else
   struct tm* tmp = localtime(&the_time);
