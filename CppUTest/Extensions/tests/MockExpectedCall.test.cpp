@@ -3,6 +3,7 @@
 #include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 #include "CppUTest/Extensions/MockFailure.hpp"
 #include "CppUTest/Extensions/MockIgnoredExpectedCall.hpp"
+#include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
 #include "CppUTest/CppUTest.hpp"
 

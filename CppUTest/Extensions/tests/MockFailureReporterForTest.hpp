@@ -1,6 +1,9 @@
 #ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILUREREPORTERFORTEST_HPP
 #define INCLUDED_CPPUTEST_EXTENSIONS_MOCKFAILUREREPORTERFORTEST_HPP
 
+#include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
+#include "CppUTest/Extensions/MockExpectedCallsList.hpp"
+#include "CppUTest/Extensions/MockFailure.hpp"
 #include "CppUTest/Extensions/MockSupport.hpp"
 
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure)                           \

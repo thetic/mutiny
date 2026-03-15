@@ -1,5 +1,7 @@
 #include "MockFailureReporterForTest.hpp"
 
+#include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
+
 #include "CppUTest/CppUTest.hpp"
 
 using cpputest::extensions::mock;

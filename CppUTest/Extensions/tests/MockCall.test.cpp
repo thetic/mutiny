@@ -1,5 +1,7 @@
 #include "MockFailureReporterForTest.hpp"
 
+#include "CppUTest/Extensions/MockCheckedActualCall.hpp"
+
 #include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 

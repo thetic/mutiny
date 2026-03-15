@@ -13,7 +13,7 @@ NormalTestTerminator::exit_current_test() const
 #if CPPUTEST_HAVE_EXCEPTIONS
   throw FailedException();
 #else
-  TestTerminatorWithoutExceptions().exitCurrentTest();
+  TestTerminatorWithoutExceptions().exit_current_test();
 #endif
 }
 

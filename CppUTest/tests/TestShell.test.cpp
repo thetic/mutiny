@@ -308,7 +308,7 @@ TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
 #else
-  fixture.assertPrintContains(
+  fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown");
 #endif
   LONGS_EQUAL(0, stop_after_failure);

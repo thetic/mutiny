@@ -96,10 +96,10 @@ Test::run()
 void
 Test::run()
 {
-  if (TestSetJmp(helperDoTestSetup, this)) {
-    TestSetJmp(helperDoTestBody, this);
+  if (test_set_jmp(helper_do_test_setup, this)) {
+    test_set_jmp(helper_do_test_body, this);
   }
-  TestSetJmp(helperDoTestTeardown, this);
+  test_set_jmp(helper_do_test_teardown, this);
 }
 
 #endif

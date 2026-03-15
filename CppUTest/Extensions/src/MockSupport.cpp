@@ -2,10 +2,14 @@
 
 #include "CppUTest/Extensions/MockActualCallTrace.hpp"
 #include "CppUTest/Extensions/MockCheckedActualCall.hpp"
+#include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 #include "CppUTest/Extensions/MockExpectedCall.hpp"
+#include "CppUTest/Extensions/MockExpectedCallsList.hpp"
 #include "CppUTest/Extensions/MockFailure.hpp"
 #include "CppUTest/Extensions/MockIgnoredActualCall.hpp"
 #include "CppUTest/Extensions/MockIgnoredExpectedCall.hpp"
+#include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "CppUTest/Extensions/MockNamedValueList.hpp"
 #include "CppUTest/Extensions/MockSupport.hpp"
 
 #include "CppUTest/CppUTest.hpp"
@@ -14,6 +18,27 @@
 
 namespace cpputest {
 namespace extensions {
+
+class MockSupport::Impl
+{
+  friend class MockSupport;
+
+  MockFailureReporter default_reporter_;
+  MockFailureReporter* active_reporter_;
+  MockFailureReporter* standard_reporter_;
+  MockExpectedCallsList expectations_;
+  MockCheckedActualCall* last_actual_function_call_;
+  MockNamedValueComparatorsAndCopiersRepository
+      comparators_and_copiers_repository_;
+  MockNamedValueList data_;
+
+  Impl()
+    : active_reporter_(nullptr)
+    , standard_reporter_(&default_reporter_)
+    , last_actual_function_call_(nullptr)
+  {
+  }
+};
 
 namespace {
 MockSupport global_mock;
@@ -32,61 +57,65 @@ mock(const String& mock_name,
 }
 
 MockSupport::MockSupport(const String& mock_name)
-  : actual_call_order_(0)
+  : impl_(new Impl())
+  , actual_call_order_(0)
   , expected_call_order_(0)
   , strict_ordering_(false)
-  , active_reporter_(nullptr)
-  , standard_reporter_(&default_reporter_)
   , ignore_other_calls_(false)
   , enabled_(true)
-  , last_actual_function_call_(nullptr)
   , mock_name_(mock_name)
   , tracing_(false)
 {
 }
 
-MockSupport::~MockSupport() {}
+MockSupport::~MockSupport()
+{
+  delete impl_;
+}
 
 void
 MockSupport::crash_on_failure(bool should_crash)
 {
-  active_reporter_->crash_on_failure(should_crash);
+  impl_->active_reporter_->crash_on_failure(should_crash);
 }
 
 void
 MockSupport::set_mock_failure_standard_reporter(MockFailureReporter* reporter)
 {
-  standard_reporter_ = (reporter != nullptr) ? reporter : &default_reporter_;
+  impl_->standard_reporter_ =
+      (reporter != nullptr) ? reporter : &impl_->default_reporter_;
 
-  if (last_actual_function_call_)
-    last_actual_function_call_->set_mock_failure_reporter(standard_reporter_);
+  if (impl_->last_actual_function_call_)
+    impl_->last_actual_function_call_->set_mock_failure_reporter(
+        impl_->standard_reporter_);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->set_mock_failure_standard_reporter(
-          standard_reporter_);
+          impl_->standard_reporter_);
 }
 
 void
 MockSupport::set_active_reporter(MockFailureReporter* reporter)
 {
-  active_reporter_ = (reporter) ? reporter : standard_reporter_;
+  impl_->active_reporter_ = (reporter) ? reporter : impl_->standard_reporter_;
 }
 
 void
 MockSupport::set_default_comparators_and_copiers_repository()
 {
   MockNamedValue::set_default_comparators_and_copiers_repository(
-      &comparators_and_copiers_repository_);
+      &impl_->comparators_and_copiers_repository_);
 }
 
 void
 MockSupport::install_comparator(const String& type_name,
     MockNamedValueComparator& comparator)
 {
-  comparators_and_copiers_repository_.install_comparator(type_name, comparator);
+  impl_->comparators_and_copiers_repository_.install_comparator(
+      type_name, comparator);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->install_comparator(type_name, comparator);
 }
@@ -95,9 +124,9 @@ void
 MockSupport::install_copier(const String& type_name,
     MockNamedValueCopier& copier)
 {
-  comparators_and_copiers_repository_.install_copier(type_name, copier);
+  impl_->comparators_and_copiers_repository_.install_copier(type_name, copier);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->install_copier(type_name, copier);
 }
@@ -106,10 +135,10 @@ void
 MockSupport::install_comparators_and_copiers(
     const MockNamedValueComparatorsAndCopiersRepository& repository)
 {
-  comparators_and_copiers_repository_.install_comparators_and_copiers(
+  impl_->comparators_and_copiers_repository_.install_comparators_and_copiers(
       repository);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->install_comparators_and_copiers(repository);
 }
@@ -117,8 +146,8 @@ MockSupport::install_comparators_and_copiers(
 void
 MockSupport::remove_all_comparators_and_copiers()
 {
-  comparators_and_copiers_repository_.clear();
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  impl_->comparators_and_copiers_repository_.clear();
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->remove_all_comparators_and_copiers();
 }
@@ -126,27 +155,27 @@ MockSupport::remove_all_comparators_and_copiers()
 void
 MockSupport::clear()
 {
-  delete last_actual_function_call_;
-  last_actual_function_call_ = nullptr;
+  delete impl_->last_actual_function_call_;
+  impl_->last_actual_function_call_ = nullptr;
 
   tracing_ = false;
   MockActualCallTrace::clear_instance();
 
-  expectations_.delete_all_expectations_and_clear_list();
+  impl_->expectations_.delete_all_expectations_and_clear_list();
   ignore_other_calls_ = false;
   enabled_ = true;
   actual_call_order_ = 0;
   expected_call_order_ = 0;
   strict_ordering_ = false;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next()) {
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
     MockSupport* support = get_mock_support(p);
     if (support) {
       support->clear();
       delete support;
     }
   }
-  data_.clear();
+  impl_->data_.clear();
 }
 
 void
@@ -190,23 +219,23 @@ MockSupport::expect_n_calls(unsigned int amount, const String& function_name)
         expected_call_order_ + 1, expected_call_order_ + amount);
     expected_call_order_ += amount;
   }
-  expectations_.add_expected_call(call);
+  impl_->expectations_.add_expected_call(call);
   return *call;
 }
 
 MockCheckedActualCall*
 MockSupport::create_actual_call()
 {
-  last_actual_function_call_ = new MockCheckedActualCall(
-      ++actual_call_order_, active_reporter_, expectations_);
-  return last_actual_function_call_;
+  impl_->last_actual_function_call_ = new MockCheckedActualCall(
+      ++actual_call_order_, impl_->active_reporter_, impl_->expectations_);
+  return impl_->last_actual_function_call_;
 }
 
 bool
 MockSupport::call_is_ignored(const String& function_name)
 {
   return ignore_other_calls_ &&
-         !expectations_.has_expectation_with_name(function_name);
+         !impl_->expectations_.has_expectation_with_name(function_name);
 }
 
 MockActualCall&
@@ -214,10 +243,10 @@ MockSupport::actual_call(const char* function_name)
 {
   String scope_function_name = append_scope_to_name(function_name);
 
-  if (last_actual_function_call_) {
-    last_actual_function_call_->check_expectations();
-    delete last_actual_function_call_;
-    last_actual_function_call_ = nullptr;
+  if (impl_->last_actual_function_call_) {
+    impl_->last_actual_function_call_->check_expectations();
+    delete impl_->last_actual_function_call_;
+    impl_->last_actual_function_call_ = nullptr;
   }
 
   if (!enabled_)
@@ -239,10 +268,10 @@ MockSupport::actual_call(const String& function_name)
 {
   String scope_function_name = append_scope_to_name(function_name);
 
-  if (last_actual_function_call_) {
-    last_actual_function_call_->check_expectations();
-    delete last_actual_function_call_;
-    last_actual_function_call_ = nullptr;
+  if (impl_->last_actual_function_call_) {
+    impl_->last_actual_function_call_->check_expectations();
+    delete impl_->last_actual_function_call_;
+    impl_->last_actual_function_call_ = nullptr;
   }
 
   if (!enabled_)
@@ -264,7 +293,7 @@ MockSupport::ignore_other_calls()
 {
   ignore_other_calls_ = true;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->ignore_other_calls();
 }
@@ -274,7 +303,7 @@ MockSupport::disable()
 {
   enabled_ = false;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->disable();
 }
@@ -284,7 +313,7 @@ MockSupport::enable()
 {
   enabled_ = true;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->enable();
 }
@@ -294,7 +323,7 @@ MockSupport::tracing(bool enabled)
 {
   tracing_ = enabled;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       get_mock_support(p)->tracing(enabled);
 }
@@ -309,9 +338,9 @@ bool
 MockSupport::expected_calls_left()
 {
   check_expectations_of_last_actual_call();
-  int calls_left = expectations_.has_unfulfilled_expectations();
+  int calls_left = impl_->expectations_.has_unfulfilled_expectations();
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
       calls_left += get_mock_support(p)->expected_calls_left();
 
@@ -321,10 +350,11 @@ MockSupport::expected_calls_left()
 bool
 MockSupport::was_last_actual_call_fulfilled()
 {
-  if (last_actual_function_call_ && !last_actual_function_call_->is_fulfilled())
+  if (impl_->last_actual_function_call_ &&
+      !impl_->last_actual_function_call_->is_fulfilled())
     return false;
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p) &&
         !get_mock_support(p)->was_last_actual_call_fulfilled())
       return false;
@@ -336,14 +366,15 @@ void
 MockSupport::fail_test_with_expected_calls_not_fulfilled()
 {
   MockExpectedCallsList expectations_list;
-  expectations_list.add_expectations(expectations_);
+  expectations_list.add_expectations(impl_->expectations_);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
-      expectations_list.add_expectations(get_mock_support(p)->expectations_);
+      expectations_list.add_expectations(
+          get_mock_support(p)->impl_->expectations_);
 
   MockExpectedCallsDidntHappenFailure failure(
-      active_reporter_->get_test_to_fail(), expectations_list);
+      impl_->active_reporter_->get_test_to_fail(), expectations_list);
   fail_test(failure);
 }
 
@@ -351,14 +382,15 @@ void
 MockSupport::fail_test_with_out_of_order_calls()
 {
   MockExpectedCallsList expectations_list;
-  expectations_list.add_expectations(expectations_);
+  expectations_list.add_expectations(impl_->expectations_);
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p))
-      expectations_list.add_expectations(get_mock_support(p)->expectations_);
+      expectations_list.add_expectations(
+          get_mock_support(p)->impl_->expectations_);
 
   MockCallOrderFailure failure(
-      active_reporter_->get_test_to_fail(), expectations_list);
+      impl_->active_reporter_->get_test_to_fail(), expectations_list);
   fail_test(failure);
 }
 
@@ -366,7 +398,7 @@ void
 MockSupport::fail_test(MockFailure& failure)
 {
   clear();
-  active_reporter_->fail_test(static_cast<MockFailure&&>(failure));
+  impl_->active_reporter_->fail_test(static_cast<MockFailure&&>(failure));
 }
 
 void
@@ -378,21 +410,23 @@ MockSupport::count_check()
 void
 MockSupport::check_expectations_of_last_actual_call()
 {
-  if (last_actual_function_call_)
-    last_actual_function_call_->check_expectations();
+  if (impl_->last_actual_function_call_)
+    impl_->last_actual_function_call_->check_expectations();
 
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
-    if (get_mock_support(p) && get_mock_support(p)->last_actual_function_call_)
-      get_mock_support(p)->last_actual_function_call_->check_expectations();
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
+    if (get_mock_support(p) &&
+        get_mock_support(p)->impl_->last_actual_function_call_)
+      get_mock_support(p)
+          ->impl_->last_actual_function_call_->check_expectations();
 }
 
 bool
 MockSupport::has_calls_out_of_order()
 {
-  if (expectations_.has_calls_out_of_order()) {
+  if (impl_->expectations_.has_calls_out_of_order()) {
     return true;
   }
-  for (MockNamedValueListNode* p = data_.begin(); p; p = p->next())
+  for (MockNamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
     if (get_mock_support(p) && get_mock_support(p)->has_calls_out_of_order()) {
       return true;
     }
@@ -414,16 +448,16 @@ MockSupport::check_expectations()
 bool
 MockSupport::has_data(const String& name)
 {
-  return data_.get_value_by_name(name) != nullptr;
+  return impl_->data_.get_value_by_name(name) != nullptr;
 }
 
 MockNamedValue*
 MockSupport::retrieve_data_from_store(const String& name)
 {
-  MockNamedValue* new_data = data_.get_value_by_name(name);
+  MockNamedValue* new_data = impl_->data_.get_value_by_name(name);
   if (new_data == nullptr) {
     new_data = new MockNamedValue(name);
-    data_.add(new_data);
+    impl_->data_.add(new_data);
   }
   return new_data;
 }
@@ -519,7 +553,7 @@ MockSupport::set_data_const_object(const String& name,
 MockNamedValue
 MockSupport::get_data(const String& name)
 {
-  MockNamedValue* value = data_.get_value_by_name(name);
+  MockNamedValue* value = impl_->data_.get_value_by_name(name);
   if (value == nullptr)
     return MockNamedValue("");
   return *value;
@@ -529,7 +563,7 @@ MockSupport*
 MockSupport::clone(const String& mock_name)
 {
   auto* new_mock = new MockSupport(mock_name);
-  new_mock->set_mock_failure_standard_reporter(standard_reporter_);
+  new_mock->set_mock_failure_standard_reporter(impl_->standard_reporter_);
   if (ignore_other_calls_)
     new_mock->ignore_other_calls();
 
@@ -541,7 +575,7 @@ MockSupport::clone(const String& mock_name)
 
   new_mock->tracing(tracing_);
   new_mock->install_comparators_and_copiers(
-      comparators_and_copiers_repository_);
+      impl_->comparators_and_copiers_repository_);
   return new_mock;
 }
 
@@ -576,8 +610,8 @@ MockSupport::get_mock_support(MockNamedValueListNode* node)
 MockNamedValue
 MockSupport::return_value()
 {
-  if (last_actual_function_call_)
-    return last_actual_function_call_->return_value();
+  if (impl_->last_actual_function_call_)
+    return impl_->last_actual_function_call_->return_value();
   return MockNamedValue("");
 }
 
@@ -765,8 +799,8 @@ void (*MockSupport::function_pointer_return_value())()
 bool
 MockSupport::has_return_value()
 {
-  if (last_actual_function_call_)
-    return last_actual_function_call_->has_return_value();
+  if (impl_->last_actual_function_call_)
+    return impl_->last_actual_function_call_->has_return_value();
   return false;
 }
 

@@ -1,15 +1,17 @@
 #ifndef INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORT_HPP
 #define INCLUDED_CPPUTEST_EXTENSIONS_MOCKSUPPORT_HPP
 
-#include "CppUTest/Extensions/MockCheckedActualCall.hpp"
-#include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
-#include "CppUTest/Extensions/MockExpectedCallsList.hpp"
-#include "CppUTest/Extensions/MockFailure.hpp"
-#include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
-#include "CppUTest/Extensions/MockNamedValueList.hpp"
+#include "CppUTest/Extensions/MockActualCall.hpp"
+#include "CppUTest/Extensions/MockExpectedCall.hpp"
 
 namespace cpputest {
 namespace extensions {
+
+class MockCheckedActualCall;
+class MockFailure;
+class MockFailureReporter;
+class MockNamedValueComparatorsAndCopiersRepository;
+class MockNamedValueListNode;
 
 class MockSupport;
 
@@ -87,11 +89,6 @@ public:
   MockSupport* get_mock_support_scope(const cpputest::String& name);
 
   const char* get_trace_output();
-  /*
-   * The following functions are recursively through the lower MockSupports
-   * scopes This means, if you do mock().disable() it will disable *all* mocking
-   * scopes, including mock("myScope").
-   */
 
   virtual void disable();
   virtual void enable();
@@ -103,11 +100,6 @@ public:
 
   virtual void clear();
   virtual void crash_on_failure(bool should_fail = true);
-
-  /*
-   * Each mock() call will set the activeReporter to standard, unless a special
-   * reporter is passed for this call.
-   */
 
   virtual void set_mock_failure_standard_reporter(
       MockFailureReporter* reporter);
@@ -129,21 +121,15 @@ protected:
   void count_check();
 
 private:
+  class Impl;
+  Impl* impl_;
+
   unsigned int actual_call_order_;
   unsigned int expected_call_order_;
   bool strict_ordering_;
-  MockFailureReporter* active_reporter_;
-  MockFailureReporter* standard_reporter_;
-  MockFailureReporter default_reporter_;
-  MockExpectedCallsList expectations_;
   bool ignore_other_calls_;
   bool enabled_;
-  MockCheckedActualCall* last_actual_function_call_;
-  MockNamedValueComparatorsAndCopiersRepository
-      comparators_and_copiers_repository_;
-  MockNamedValueList data_;
   const cpputest::String mock_name_;
-
   bool tracing_;
 
   void check_expectations_of_last_actual_call();
