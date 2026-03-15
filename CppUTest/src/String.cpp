@@ -3,6 +3,7 @@
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 
 #include <limits.h>
+#include <stdio.h>
 #if CPPUTEST_USE_STD_CPP_LIB
 #include <string>
 #endif
@@ -786,14 +787,14 @@ VStringFromFormat(const char* format, va_list args)
   char defaultBuffer[sizeOfdefaultBuffer];
   String resultString;
 
-  auto size = static_cast<size_t>(PlatformSpecificVSNprintf(
-      defaultBuffer, sizeOfdefaultBuffer, format, args));
+  auto size = static_cast<size_t>(
+      vsnprintf(defaultBuffer, sizeOfdefaultBuffer, format, args));
   if (size < sizeOfdefaultBuffer) {
     resultString = String(defaultBuffer);
   } else {
     size_t newBufferSize = size + 1;
     char* newBuffer = new char[newBufferSize];
-    PlatformSpecificVSNprintf(newBuffer, newBufferSize, format, argsCopy);
+    vsnprintf(newBuffer, newBufferSize, format, argsCopy);
     resultString = String(newBuffer);
 
     delete[] newBuffer;

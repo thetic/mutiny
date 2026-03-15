@@ -11,6 +11,7 @@ target_sources(CppUTest
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
         src/PlatformSpecificFunctions.cpp
+        src/TestJumpBuffer.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp

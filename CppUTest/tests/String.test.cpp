@@ -4,6 +4,7 @@
 #include "CppUTest/TestHarness.hpp"
 
 #include <limits.h>
+#include <stdio.h>
 
 namespace {
 
@@ -19,7 +20,7 @@ WrappedUpVSNPrintf(char* buf, size_t n, const char* format, ...)
   va_list arguments;
   va_start(arguments, format);
 
-  int result = PlatformSpecificVSNprintf(buf, n, format, arguments);
+  int result = vsnprintf(buf, n, format, arguments);
   va_end(arguments);
   return result;
 }

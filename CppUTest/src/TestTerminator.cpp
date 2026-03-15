@@ -1,6 +1,7 @@
 #include "CppUTest/TestTerminator.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "TestJumpBuffer.hpp"
+
 #include "CppUTest/TestShell.hpp"
 
 namespace cpputest {
@@ -22,7 +23,7 @@ NormalTestTerminator::~NormalTestTerminator() {}
 void
 TestTerminatorWithoutExceptions::exitCurrentTest() const
 {
-  PlatformSpecificLongJmp();
+  TestLongJmp();
 }
 
 TestTerminatorWithoutExceptions::~TestTerminatorWithoutExceptions() {}

@@ -2,6 +2,8 @@
 
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 
+#include <stdio.h>
+
 namespace cpputest {
 
 void
@@ -14,7 +16,7 @@ ConsoleTestOutput::printBuffer(const char* s)
 void
 ConsoleTestOutput::flush()
 {
-  PlatformSpecificFlush();
+  fflush(stdout);
 }
 
 } // namespace cpputest

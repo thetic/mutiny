@@ -1,6 +1,7 @@
 #include "CppUTest/Test.hpp"
 
-#include "CppUTest/PlatformSpecificFunctions.hpp"
+#include "TestJumpBuffer.hpp"
+
 #include "CppUTest/TestFailure.hpp"
 #include "CppUTest/TestShell.hpp"
 
@@ -39,21 +40,21 @@ Test::run()
   int jumpResult = 0;
   try {
     current->printVeryVerbose("\n-------- before setup: ");
-    jumpResult = PlatformSpecificSetJmp(helperDoTestSetup, this);
+    jumpResult = TestSetJmp(helperDoTestSetup, this);
     current->printVeryVerbose("\n-------- after  setup: ");
 
     if (jumpResult) {
       current->printVeryVerbose("\n----------  before body: ");
-      PlatformSpecificSetJmp(helperDoTestBody, this);
+      TestSetJmp(helperDoTestBody, this);
       current->printVeryVerbose("\n----------  after body: ");
     }
   } catch (FailedException&) {
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
   }
 #if CPPUTEST_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->addFailure(UnexpectedExceptionFailure(current, e));
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
     if (current->isRethrowingExceptions()) {
       throw;
     }
@@ -61,7 +62,7 @@ Test::run()
 #endif
   catch (...) {
     current->addFailure(UnexpectedExceptionFailure(current));
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
     if (current->isRethrowingExceptions()) {
       throw;
     }
@@ -69,15 +70,15 @@ Test::run()
 
   try {
     current->printVeryVerbose("\n--------  before teardown: ");
-    PlatformSpecificSetJmp(helperDoTestTeardown, this);
+    TestSetJmp(helperDoTestTeardown, this);
     current->printVeryVerbose("\n--------  after teardown: ");
   } catch (FailedException&) {
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
   }
 #if CPPUTEST_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->addFailure(UnexpectedExceptionFailure(current, e));
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
     if (current->isRethrowingExceptions()) {
       throw;
     }
@@ -85,7 +86,7 @@ Test::run()
 #endif
   catch (...) {
     current->addFailure(UnexpectedExceptionFailure(current));
-    PlatformSpecificRestoreJumpBuffer();
+    TestRestoreJumpBuffer();
     if (current->isRethrowingExceptions()) {
       throw;
     }
@@ -96,10 +97,10 @@ Test::run()
 void
 Test::run()
 {
-  if (PlatformSpecificSetJmp(helperDoTestSetup, this)) {
-    PlatformSpecificSetJmp(helperDoTestBody, this);
+  if (TestSetJmp(helperDoTestSetup, this)) {
+    TestSetJmp(helperDoTestBody, this);
   }
-  PlatformSpecificSetJmp(helperDoTestTeardown, this);
+  TestSetJmp(helperDoTestTeardown, this);
 }
 
 #endif

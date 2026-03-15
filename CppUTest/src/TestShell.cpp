@@ -1,5 +1,7 @@
 #include "CppUTest/TestShell.hpp"
 
+#include "TestJumpBuffer.hpp"
+
 #include "CppUTest/ConsoleTestOutput.hpp"
 #include "CppUTest/PlatformSpecificFunctions.hpp"
 #include "CppUTest/Test.hpp"
@@ -8,6 +10,7 @@
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestResult.hpp"
 
+#include <math.h>
 #include <stdlib.h>
 
 namespace cpputest {
@@ -102,7 +105,7 @@ doubles_equal(double d1, double d2, double threshold)
     return true;
   }
 
-  return PlatformSpecificFabs(d1 - d2) <= threshold;
+  return fabs(d1 - d2) <= threshold;
 }
 
 const TestTerminator* TestShell::currentTestTerminator_ = &normalTestTerminator;
@@ -180,7 +183,7 @@ TestShell::runOneTest(TestPlugin* plugin, TestResult& result)
   hasFailed_ = false;
   result.countRun();
   HelperTestRunInfo runInfo(this, plugin, &result);
-  PlatformSpecificSetJmp(helperDoRunOneTestInCurrentProcess, &runInfo);
+  TestSetJmp(helperDoRunOneTestInCurrentProcess, &runInfo);
 }
 
 Test*
