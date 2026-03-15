@@ -36,21 +36,12 @@ target_sources(CppUTest
         FILES
             include/CppUTest/CommandLineArguments.hpp
             include/CppUTest/CommandLineTestRunner.hpp
-            include/CppUTest/CompositeTestOutput.hpp
-            include/CppUTest/ConsoleTestOutput.hpp
             include/CppUTest/CppUTest.h
             include/CppUTest/CppUTest.hpp
-            include/CppUTest/ExecFunctionTestShell.hpp
             include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
-            include/CppUTest/JUnitTestOutput.hpp
-            include/CppUTest/math.hpp
-            include/CppUTest/time.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
-            include/CppUTest/StringBufferTestOutput.hpp
-            include/CppUTest/StringCollection.hpp
-            include/CppUTest/TeamCityTestOutput.hpp
             include/CppUTest/Test.hpp
             include/CppUTest/TestFailure.hpp
             include/CppUTest/TestFilter.hpp
@@ -62,7 +53,20 @@ target_sources(CppUTest
             include/CppUTest/TestShell.hpp
             include/CppUTest/TestShellPointerArray.hpp
             include/CppUTest/TestTerminator.hpp
-            include/CppUTest/TestTestingFixture.hpp
+    PRIVATE FILE_SET private_headers TYPE HEADERS
+        BASE_DIRS include_private
+        FILES
+            include_private/CppUTest/CompositeTestOutput.hpp
+            include_private/CppUTest/ConsoleTestOutput.hpp
+            include_private/CppUTest/ExecFunctionTestShell.hpp
+            include_private/CppUTest/JUnitTestOutput.hpp
+            include_private/CppUTest/math.hpp
+            include_private/CppUTest/StringBufferTestOutput.hpp
+            include_private/CppUTest/StringCollection.hpp
+            include_private/CppUTest/TeamCityTestOutput.hpp
+            include_private/CppUTest/TestJumpBuffer.hpp
+            include_private/CppUTest/TestTestingFixture.hpp
+            include_private/CppUTest/time.hpp
 )
 
 include(CheckCXXSymbolExists)

@@ -1,4 +1,4 @@
-#include "TestJumpBuffer.hpp"
+#include "CppUTest/TestJumpBuffer.hpp"
 
 #include <setjmp.h>
 

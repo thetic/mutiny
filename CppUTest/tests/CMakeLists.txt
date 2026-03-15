@@ -29,6 +29,10 @@ target_link_libraries(CppUTestTests
     PRIVATE CppUTest
 )
 
+target_include_directories(CppUTestTests PRIVATE
+    $<TARGET_PROPERTY:CppUTest,INCLUDE_DIRECTORIES>
+)
+
 include(CppUTest)
 
 cpputest_discover_tests(CppUTestTests)

@@ -1,8 +1,7 @@
 #include "CppUTest/Test.hpp"
 
-#include "TestJumpBuffer.hpp"
-
 #include "CppUTest/TestFailure.hpp"
+#include "CppUTest/TestJumpBuffer.hpp"
 #include "CppUTest/TestShell.hpp"
 
 namespace cpputest {

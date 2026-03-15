@@ -1,10 +1,9 @@
 #include "CppUTest/TestShell.hpp"
 
-#include "TestJumpBuffer.hpp"
-
 #include "CppUTest/ConsoleTestOutput.hpp"
 #include "CppUTest/Test.hpp"
 #include "CppUTest/TestFailure.hpp"
+#include "CppUTest/TestJumpBuffer.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestResult.hpp"

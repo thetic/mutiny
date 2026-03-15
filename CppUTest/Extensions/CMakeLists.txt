@@ -32,14 +32,11 @@ target_sources(CppUTestExt
         FILES
             include/CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp
             include/CppUTest/Extensions/MockActualCall.hpp
-            include/CppUTest/Extensions/MockActualCallTrace.hpp
             include/CppUTest/Extensions/MockCheckedActualCall.hpp
-            include/CppUTest/Extensions/MockIgnoredActualCall.hpp
             include/CppUTest/Extensions/MockCheckedExpectedCall.hpp
             include/CppUTest/Extensions/MockExpectedCall.hpp
             include/CppUTest/Extensions/MockExpectedCallsList.hpp
             include/CppUTest/Extensions/MockFailure.hpp
-            include/CppUTest/Extensions/MockIgnoredExpectedCall.hpp
             include/CppUTest/Extensions/MockNamedValue.hpp
             include/CppUTest/Extensions/MockNamedValueComparator.hpp
             include/CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp
@@ -49,6 +46,12 @@ target_sources(CppUTestExt
             include/CppUTest/Extensions/MockSupport.hpp
             include/CppUTest/Extensions/MockSupportPlugin.hpp
             include/CppUTest/Extensions/OrderedTest.hpp
+    PRIVATE FILE_SET private_headers TYPE HEADERS
+        BASE_DIRS include_private
+        FILES
+            include_private/CppUTest/Extensions/MockActualCallTrace.hpp
+            include_private/CppUTest/Extensions/MockIgnoredActualCall.hpp
+            include_private/CppUTest/Extensions/MockIgnoredExpectedCall.hpp
 )
 
 set_target_properties(CppUTestExt PROPERTIES EXPORT_NAME Extensions)
