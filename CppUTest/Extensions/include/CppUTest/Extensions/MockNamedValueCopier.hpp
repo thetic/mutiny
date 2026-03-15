@@ -21,7 +21,7 @@ public:
 class MockFunctionCopier : public MockNamedValueCopier
 {
 public:
-  typedef void (*copyFunction)(void*, const void*);
+  using copyFunction = void (*)(void*, const void*);
 
   MockFunctionCopier(copyFunction copier)
     : copier_(copier)

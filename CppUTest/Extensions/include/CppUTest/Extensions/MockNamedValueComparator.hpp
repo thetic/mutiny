@@ -24,8 +24,8 @@ public:
 class MockFunctionComparator : public MockNamedValueComparator
 {
 public:
-  typedef bool (*isEqualFunction)(const void*, const void*);
-  typedef cpputest::String (*valueToStringFunction)(const void*);
+  using isEqualFunction = bool (*)(const void*, const void*);
+  using valueToStringFunction = cpputest::String (*)(const void*);
 
   MockFunctionComparator(isEqualFunction equal,
       valueToStringFunction valToString)

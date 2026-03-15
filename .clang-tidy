@@ -5,7 +5,11 @@ Checks:
   - bugprone-*
   - -bugprone-easily-swappable-parameters
   - misc-use-anonymous-namespace
+  - modernize-use-using
   - readability-static-definition-in-anonymous-namespace
+CheckOptions:
+  - key: modernize-use-using.IgnoreExternC
+    value: true
 WarningsAsErrors: "*"
 FormatStyle: file
 UseColor: true

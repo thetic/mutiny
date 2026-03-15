@@ -759,9 +759,6 @@ MockSupport::hasReturnValue()
   return false;
 }
 
-typedef void (*cpputest_cpp_function_pointer)(); /* Cl2000 requires cast to C++
-                                                    function */
-
 class MockFailureReporterTestTerminatorForInCOnlyCode : public TestTerminator
 {
 public:

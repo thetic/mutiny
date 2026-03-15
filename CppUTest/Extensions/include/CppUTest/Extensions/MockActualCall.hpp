@@ -173,7 +173,7 @@ public:
   virtual const void* returnConstPointerValueOrDefault(
       const void* default_value) = 0;
 
-  typedef void (*FunctionPointerReturnValue)();
+  using FunctionPointerReturnValue = void (*)();
   virtual FunctionPointerReturnValue returnFunctionPointerValue() = 0;
   virtual FunctionPointerReturnValue returnFunctionPointerValueOrDefault(
       void (*default_value)()) = 0;

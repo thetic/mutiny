@@ -344,9 +344,9 @@ TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
 }
 
 namespace {
-typedef PlatformSpecificFile (*FOpenFunc)(const char*, const char*);
-typedef void (*FPutsFunc)(const char*, PlatformSpecificFile);
-typedef void (*FCloseFunc)(PlatformSpecificFile);
+using FOpenFunc = PlatformSpecificFile (*)(const char*, const char*);
+using FPutsFunc = void (*)(const char*, PlatformSpecificFile);
+using FCloseFunc = void (*)(PlatformSpecificFile);
 
 struct FakeOutput
 {
