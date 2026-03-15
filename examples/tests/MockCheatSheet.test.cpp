@@ -1,8 +1,7 @@
-#include "CppUTest/Extensions/MockSupport.hpp"
-
 #include "CppUTest/CppUTest.hpp"
+#include "CppUTest/MockSupport.hpp"
 
-using cpputest::extensions::mock;
+using cpputest::mock;
 
 namespace {
 /* Stubbed out product code using linker, function pointer, or overriding */

@@ -1,10 +1,9 @@
 #include "EventDispatcher.hpp"
 
-#include "CppUTest/Extensions/MockSupport.hpp"
-
 #include "CppUTest/CppUTest.hpp"
+#include "CppUTest/MockSupport.hpp"
 
-using cpputest::extensions::mock;
+using cpputest::mock;
 
 class ObserverMock : public EventObserver
 {
@@ -27,7 +26,7 @@ public:
   }
 };
 
-class EventComparator : public cpputest::extensions::MockNamedValueComparator
+class EventComparator : public cpputest::MockNamedValueComparator
 {
 public:
   virtual bool is_equal(const void* object1, const void* object2) override

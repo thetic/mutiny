@@ -8,6 +8,22 @@ add_executable(CppUTestTests
     ExpectFailTestShell.test.cpp
     IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp
+    MockCall.test.cpp
+    MockCheckedActualCall.test.cpp
+    MockComparatorCopier.test.cpp
+    MockExpectedCall.test.cpp
+    MockExpectedCallsList.test.cpp
+    MockFailure.test.cpp
+    MockFailureReporterForTest.cpp
+    MockHierarchy.test.cpp
+    MockNamedValue.test.cpp
+    MockParameter.test.cpp
+    MockReturnValue.test.cpp
+    MockStrictOrder.test.cpp
+    MockSupport.c
+    MockSupport.test.cpp
+    MockSupport_c.test.cpp
+    MockSupportPlugin.test.cpp
     Preprocessor.test.cpp
     SetPointerPlugin.test.cpp
     String.test.cpp

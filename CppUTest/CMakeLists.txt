@@ -12,8 +12,19 @@ target_sources(CppUTest
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
         src/math.cpp
-        src/TestJumpBuffer.cpp
-        src/time.cpp
+        src/MockActualCall.cpp
+        src/MockActualCallTrace.cpp
+        src/MockCheckedActualCall.cpp
+        src/MockCheckedExpectedCall.cpp
+        src/MockExpectedCall.cpp
+        src/MockExpectedCallsList.cpp
+        src/MockFailure.cpp
+        src/MockIgnoredExpectedCall.cpp
+        src/MockNamedValue.cpp
+        src/MockNamedValueComparatorsAndCopiersRepository.cpp
+        src/MockNamedValueList.cpp
+        src/MockSupport.cpp
+        src/MockSupportPlugin.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringBufferTestOutput.cpp
@@ -23,6 +34,7 @@ target_sources(CppUTest
         src/TestFailure.cpp
         src/TestFilter.cpp
         src/TestInstaller.cpp
+        src/TestJumpBuffer.cpp
         src/TestOutput.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
@@ -31,6 +43,7 @@ target_sources(CppUTest
         src/TestShellPointerArray.cpp
         src/TestTerminator.cpp
         src/TestTestingFixture.cpp
+        src/time.cpp
     PUBLIC FILE_SET HEADERS
         BASE_DIRS include
         FILES
@@ -40,6 +53,16 @@ target_sources(CppUTest
             include/CppUTest/CppUTest.hpp
             include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
+            include/CppUTest/MockActualCall.hpp
+            include/CppUTest/MockExpectedCall.hpp
+            include/CppUTest/MockFailure.hpp
+            include/CppUTest/MockNamedValue.hpp
+            include/CppUTest/MockNamedValueComparator.hpp
+            include/CppUTest/MockNamedValueComparatorsAndCopiersRepository.hpp
+            include/CppUTest/MockNamedValueCopier.hpp
+            include/CppUTest/MockSupport.h
+            include/CppUTest/MockSupport.hpp
+            include/CppUTest/MockSupportPlugin.hpp
             include/CppUTest/SetPointerPlugin.hpp
             include/CppUTest/String.hpp
             include/CppUTest/Test.hpp
@@ -61,6 +84,13 @@ target_sources(CppUTest
             include_private/CppUTest/ExecFunctionTestShell.hpp
             include_private/CppUTest/JUnitTestOutput.hpp
             include_private/CppUTest/math.hpp
+            include_private/CppUTest/MockActualCallTrace.hpp
+            include_private/CppUTest/MockCheckedActualCall.hpp
+            include_private/CppUTest/MockCheckedExpectedCall.hpp
+            include_private/CppUTest/MockExpectedCallsList.hpp
+            include_private/CppUTest/MockIgnoredActualCall.hpp
+            include_private/CppUTest/MockIgnoredExpectedCall.hpp
+            include_private/CppUTest/MockNamedValueList.hpp
             include_private/CppUTest/StringBufferTestOutput.hpp
             include_private/CppUTest/StringCollection.hpp
             include_private/CppUTest/TeamCityTestOutput.hpp

@@ -1,11 +1,11 @@
 #include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
-#include "CppUTest/Extensions/MockSupportPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
+#include "CppUTest/MockSupportPlugin.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
-class MyDummyComparator : public cpputest::extensions::MockNamedValueComparator
+class MyDummyComparator : public cpputest::MockNamedValueComparator
 {
 public:
   virtual bool is_equal(const void* object1, const void* object2) override
@@ -23,7 +23,7 @@ int
 main(int argc, char** argv)
 {
   MyDummyComparator dummy_comparator;
-  cpputest::extensions::MockSupportPlugin mock_plugin;
+  cpputest::MockSupportPlugin mock_plugin;
   cpputest::extensions::IEEE754ExceptionsPlugin ieee754_plugin;
 
   mock_plugin.install_comparator("MyDummyType", dummy_comparator);
