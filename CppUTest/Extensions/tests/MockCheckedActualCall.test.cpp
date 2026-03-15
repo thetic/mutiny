@@ -8,7 +8,7 @@
 #include "CppUTest/Extensions/MockFailure.hpp"
 #include "CppUTest/Extensions/MockIgnoredActualCall.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP(MockCheckedActualCall)
 {

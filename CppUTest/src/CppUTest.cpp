@@ -1,4 +1,4 @@
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/CppUTest.h"
 
 #include "CppUTest/TestShell.hpp"
 

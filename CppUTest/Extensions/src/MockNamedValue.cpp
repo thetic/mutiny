@@ -3,7 +3,6 @@
 #include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
 #include "CppUTest/TestShell.hpp"
-#include "CppUTest/UtestMacros.hpp"
 
 namespace cpputest {
 namespace extensions {

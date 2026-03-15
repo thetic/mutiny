@@ -2,7 +2,7 @@
 
 #include "CppUTest/Extensions/MockNamedValueComparatorsAndCopiersRepository.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP(ComparatorsAndCopiersRepository)
 {};

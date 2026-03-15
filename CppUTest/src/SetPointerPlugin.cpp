@@ -1,7 +1,6 @@
 #include "CppUTest/SetPointerPlugin.hpp"
 
 #include "CppUTest/TestShell.hpp"
-#include "CppUTest/UtestMacros.hpp"
 
 namespace cpputest {
 

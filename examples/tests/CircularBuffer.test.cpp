@@ -2,7 +2,7 @@
 
 #include "MockPrinter.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP(CircularBuffer)
 {

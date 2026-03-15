@@ -10,9 +10,8 @@ ExecFunction::ExecFunction() {}
 
 ExecFunction::~ExecFunction() {}
 
-ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(
-    void (*test_function)())
-  : test_function(test_function)
+ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(void (*fn)())
+  : test_function(fn)
 {
 }
 

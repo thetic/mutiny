@@ -1,7 +1,7 @@
 #include "CppUTest/CommandLineArguments.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/StringCollection.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/time.hpp"
 
 namespace cpputest {

@@ -1,7 +1,7 @@
 #include "CppUTest/IgnoredTestShell.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/ExecFunctionTestShell.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
 TEST_GROUP(IgnoredTestShell)

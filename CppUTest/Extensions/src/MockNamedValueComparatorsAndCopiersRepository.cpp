@@ -5,32 +5,32 @@ namespace extensions {
 
 struct MockNamedValueComparatorsAndCopiersRepositoryNode
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
-      MockNamedValueComparator* comparator,
-      MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name(name)
-    , comparator(comparator)
+  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& n,
+      MockNamedValueComparator* cmp,
+      MockNamedValueComparatorsAndCopiersRepositoryNode* nx)
+    : name(n)
+    , comparator(cmp)
     , copier(nullptr)
-    , next(next)
+    , next(nx)
   {
   }
-  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
-      MockNamedValueCopier* copier,
-      MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name(name)
+  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& n,
+      MockNamedValueCopier* cp,
+      MockNamedValueComparatorsAndCopiersRepositoryNode* nx)
+    : name(n)
     , comparator(nullptr)
-    , copier(copier)
-    , next(next)
+    , copier(cp)
+    , next(nx)
   {
   }
-  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& name,
-      MockNamedValueComparator* comparator,
-      MockNamedValueCopier* copier,
-      MockNamedValueComparatorsAndCopiersRepositoryNode* next)
-    : name(name)
-    , comparator(comparator)
-    , copier(copier)
-    , next(next)
+  MockNamedValueComparatorsAndCopiersRepositoryNode(const String& n,
+      MockNamedValueComparator* cmp,
+      MockNamedValueCopier* cp,
+      MockNamedValueComparatorsAndCopiersRepositoryNode* nx)
+    : name(n)
+    , comparator(cmp)
+    , copier(cp)
+    , next(nx)
   {
   }
   String name;

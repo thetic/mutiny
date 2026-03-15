@@ -1,7 +1,7 @@
 #include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 #if CPPUTEST_HAVE_FENV

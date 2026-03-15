@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 namespace cpputest {
 namespace extensions {

@@ -1,8 +1,8 @@
 #include "CppUTest/CommandLineTestRunner.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/JUnitTestOutput.hpp"
 #include "CppUTest/StringCollection.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestPlugin.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"

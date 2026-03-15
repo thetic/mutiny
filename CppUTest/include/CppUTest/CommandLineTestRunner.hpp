@@ -2,8 +2,8 @@
 #define INCLUDED_CPPUTEST_COMMANDLINETESTRUNNER_HPP
 
 #include "CppUTest/CommandLineArguments.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestFilter.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 
 namespace cpputest {

@@ -6,6 +6,7 @@ target_sources(CppUTest
         src/CommandLineTestRunner.cpp
         src/CompositeTestOutput.cpp
         src/ConsoleTestOutput.cpp
+        src/CppUTest.cpp
         src/ExecFunctionTestShell.cpp
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
@@ -21,7 +22,6 @@ target_sources(CppUTest
         src/Test.cpp
         src/TestFailure.cpp
         src/TestFilter.cpp
-        src/TestHarness.cpp
         src/TestInstaller.cpp
         src/TestOutput.cpp
         src/TestPlugin.cpp
@@ -38,6 +38,8 @@ target_sources(CppUTest
             include/CppUTest/CommandLineTestRunner.hpp
             include/CppUTest/CompositeTestOutput.hpp
             include/CppUTest/ConsoleTestOutput.hpp
+            include/CppUTest/CppUTest.h
+            include/CppUTest/CppUTest.hpp
             include/CppUTest/ExecFunctionTestShell.hpp
             include/CppUTest/ExpectFailTestShell.hpp
             include/CppUTest/IgnoredTestShell.hpp
@@ -52,8 +54,6 @@ target_sources(CppUTest
             include/CppUTest/Test.hpp
             include/CppUTest/TestFailure.hpp
             include/CppUTest/TestFilter.hpp
-            include/CppUTest/TestHarness.h
-            include/CppUTest/TestHarness.hpp
             include/CppUTest/TestInstaller.hpp
             include/CppUTest/TestOutput.hpp
             include/CppUTest/TestPlugin.hpp
@@ -63,7 +63,6 @@ target_sources(CppUTest
             include/CppUTest/TestShellPointerArray.hpp
             include/CppUTest/TestTerminator.hpp
             include/CppUTest/TestTestingFixture.hpp
-            include/CppUTest/UtestMacros.hpp
 )
 
 include(CheckCXXSymbolExists)

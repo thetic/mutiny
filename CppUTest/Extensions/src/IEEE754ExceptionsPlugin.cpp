@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/IEEE754ExceptionsPlugin.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 #if CPPUTEST_HAVE_FENV
 #include <fenv.h>

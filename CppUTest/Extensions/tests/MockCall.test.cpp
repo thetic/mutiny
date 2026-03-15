@@ -1,6 +1,6 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
 using cpputest::extensions::mock;

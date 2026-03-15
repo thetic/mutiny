@@ -165,12 +165,12 @@ private:
     void* ptr;
 
     MockOutputParametersListNode* next;
-    MockOutputParametersListNode(const cpputest::String& name,
-        const cpputest::String& type,
-        void* ptr)
-      : name(name)
-      , type(type)
-      , ptr(ptr)
+    MockOutputParametersListNode(const cpputest::String& n,
+        const cpputest::String& t,
+        void* p)
+      : name(n)
+      , type(t)
+      , ptr(p)
       , next(nullptr)
     {
     }

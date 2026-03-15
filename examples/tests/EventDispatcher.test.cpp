@@ -2,7 +2,7 @@
 
 #include "CppUTest/Extensions/MockSupport.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 using cpputest::extensions::mock;
 

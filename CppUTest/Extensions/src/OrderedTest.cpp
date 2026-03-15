@@ -1,6 +1,6 @@
 #include "CppUTest/Extensions/OrderedTest.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 namespace cpputest {

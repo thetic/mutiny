@@ -78,8 +78,8 @@ protected:
     MockCheckedExpectedCall* expected_call;
 
     MockExpectedCallsListNode* next;
-    MockExpectedCallsListNode(MockCheckedExpectedCall* expected_call)
-      : expected_call(expected_call)
+    MockExpectedCallsListNode(MockCheckedExpectedCall* ec)
+      : expected_call(ec)
       , next(nullptr)
     {
     }

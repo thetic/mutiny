@@ -1,4 +1,4 @@
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP(Preprocessor)
 {};

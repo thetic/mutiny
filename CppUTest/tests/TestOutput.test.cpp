@@ -1,8 +1,8 @@
 #include "CppUTest/TestOutput.hpp"
 
 #include "CppUTest/CompositeTestOutput.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestResult.hpp"
 #include "CppUTest/time.hpp"
 

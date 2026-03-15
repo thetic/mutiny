@@ -4,8 +4,8 @@
 
 #include "CppUTest/Extensions/MockSupport.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 

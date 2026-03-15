@@ -1,5 +1,5 @@
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 #if CPPUTEST_USE_STD_CPP_LIB
 

@@ -1,7 +1,7 @@
 #include "CppUTest/CommandLineArguments.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/String.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 class OptionsPlugin : public cpputest::TestPlugin

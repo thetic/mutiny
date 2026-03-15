@@ -4,7 +4,7 @@
 #include "CppUTest/Extensions/MockExpectedCallsList.hpp"
 #include "CppUTest/Extensions/MockNamedValue.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 namespace cpputest {
 namespace extensions {

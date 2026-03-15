@@ -4,8 +4,8 @@
  *
  *******************************************************************************/
 
-#ifndef INCLUDED_CPPUTEST_TESTHARNESS_H
-#define INCLUDED_CPPUTEST_TESTHARNESS_H
+#ifndef INCLUDED_CPPUTEST_CPPUTEST_H
+#define INCLUDED_CPPUTEST_CPPUTEST_H
 
 #include <stddef.h>
 
@@ -255,4 +255,4 @@ extern "C"
 }
 #endif
 
-#endif
+#endif /* INCLUDED_CPPUTEST_CPPUTEST_H */

@@ -1,5 +1,5 @@
-#ifndef TESTHARNESS_TEST_H
-#define TESTHARNESS_TEST_H
+#ifndef INCLUDED_CPPUTEST_CPPUTEST_TEST_H
+#define INCLUDED_CPPUTEST_CPPUTEST_TEST_H
 
 #ifdef __cplusplus
 extern "C"
@@ -13,4 +13,4 @@ extern "C"
 }
 #endif
 
-#endif /* TESTHARNESS_TEST_H */
+#endif /* INCLUDED_CPPUTEST_CPPUTEST_TEST_H */

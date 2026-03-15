@@ -1,7 +1,7 @@
 #include "CppUTest/TestShellPointerArray.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/IgnoredTestShell.hpp"
-#include "CppUTest/TestHarness.hpp"
 
 namespace {
 int

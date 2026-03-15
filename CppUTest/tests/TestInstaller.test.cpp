@@ -1,4 +1,4 @@
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestRegistry.hpp"
 
 class TestInstallerTestUtestShell : public cpputest::TestShell

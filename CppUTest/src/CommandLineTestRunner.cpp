@@ -1,10 +1,10 @@
 #include "CppUTest/CommandLineTestRunner.hpp"
 
 #include "CppUTest/CompositeTestOutput.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/JUnitTestOutput.hpp"
 #include "CppUTest/SetPointerPlugin.hpp"
 #include "CppUTest/TeamCityTestOutput.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
 

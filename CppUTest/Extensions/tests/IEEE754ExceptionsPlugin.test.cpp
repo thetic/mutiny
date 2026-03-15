@@ -3,7 +3,7 @@
 #include "IEEE754ExceptionsPlugin.h"
 
 #include "CppUTest/CommandLineTestRunner.hpp"
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestRegistry.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 

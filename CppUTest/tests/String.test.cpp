@@ -1,6 +1,6 @@
 #include "CppUTest/String.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/math.hpp"
 
 #include <limits.h>

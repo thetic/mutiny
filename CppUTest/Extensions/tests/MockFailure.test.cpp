@@ -5,7 +5,7 @@
 #include "CppUTest/Extensions/MockCheckedExpectedCall.hpp"
 #include "CppUTest/Extensions/MockExpectedCallsList.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP(MockFailure)
 {

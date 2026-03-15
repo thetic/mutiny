@@ -60,10 +60,10 @@ OutsideTestRunnerUTest::instance()
 
 struct HelperTestRunInfo
 {
-  HelperTestRunInfo(TestShell* shell, TestPlugin* plugin, TestResult* result)
-    : shell(shell)
-    , plugin(plugin)
-    , result(result)
+  HelperTestRunInfo(TestShell* s, TestPlugin* p, TestResult* r)
+    : shell(s)
+    , plugin(p)
+    , result(r)
   {
   }
 

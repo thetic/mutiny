@@ -1,7 +1,7 @@
 #include "CppUTest/SetPointerPlugin.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/StringBufferTestOutput.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/TestRegistry.hpp"
 

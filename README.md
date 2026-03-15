@@ -135,7 +135,7 @@ int main(int argc, char** argv)
 ## Example Test
 
 ```cpp
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/CppUTest.h"
 #include "ClassName.h"
 
 TEST_GROUP(ClassName)
@@ -271,7 +271,7 @@ file for the C tests and a `.test.cpp` wrapper that wires them into the C++ runn
 Include `"CppUTest/TestHarness.h"` and use the C-specific macros:
 
 ```c
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/CppUTest.h"
 #include "mymodule.h"
 
 TEST_GROUP_C_SETUP(MyGroup)
@@ -300,7 +300,7 @@ and more (see `CppUTest/TestHarness.h`).
 Create a `.test.cpp` file that bridges the C functions into the C++ test runner:
 
 ```cpp
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/CppUTest.h"
 
 TEST_GROUP_C_WRAPPER(MyGroup)
 {

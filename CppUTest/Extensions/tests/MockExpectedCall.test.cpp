@@ -4,7 +4,7 @@
 #include "CppUTest/Extensions/MockFailure.hpp"
 #include "CppUTest/Extensions/MockIgnoredExpectedCall.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 class TypeForTestingExpectedFunctionCall
 {

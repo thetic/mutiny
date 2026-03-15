@@ -3,6 +3,8 @@ add_executable(CppUTestTests
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp
+    CppUTest.test.c
+    CppUTest.test.cpp
     ExpectFailTestShell.test.cpp
     IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp
@@ -14,8 +16,6 @@ add_executable(CppUTestTests
     TestFailure.test.cpp
     TestFailureNaN.test.cpp
     TestFilter.test.cpp
-    TestHarness.test.c
-    TestHarness.test.cpp
     TestInstaller.test.cpp
     TestOutput.test.cpp
     TestPlugin.test.cpp
@@ -23,8 +23,6 @@ add_executable(CppUTestTests
     TestResult.test.cpp
     TestShell.test.cpp
     TestShellPointerArray.test.cpp
-    UtestMacros.test.cpp
-    UtestStringMacros.test.cpp
 )
 
 target_link_libraries(CppUTestTests

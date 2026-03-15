@@ -1,6 +1,6 @@
 #include "hello.h"
 
-#include "CppUTest/TestHarness.h"
+#include "CppUTest/CppUTest.h"
 
 static const char* output_ptr;
 static int (*saved_print)(const char*, ...);

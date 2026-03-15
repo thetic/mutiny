@@ -1,7 +1,7 @@
 #include "CppUTest/TestTestingFixture.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/ExecFunctionTestShell.hpp"
-#include "CppUTest/TestHarness.hpp"
 
 namespace cpputest {
 

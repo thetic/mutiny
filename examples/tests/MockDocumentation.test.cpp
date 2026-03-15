@@ -1,7 +1,7 @@
 #include "CppUTest/Extensions/MockSupport.hpp"
 
-#include "CppUTest/TestHarness.h"
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.h"
+#include "CppUTest/CppUTest.hpp"
 
 TEST_GROUP_C_WRAPPER(MockDocumentation_C)
 {};

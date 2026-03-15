@@ -1,7 +1,7 @@
 #include "CppUTest/TestFailure.hpp"
 
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/String.hpp"
-#include "CppUTest/TestHarness.hpp"
 #include "CppUTest/TestOutput.hpp"
 #include "CppUTest/math.hpp"
 

@@ -1,6 +1,6 @@
 #include "CppUTest/ExpectFailTestShell.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestTestingFixture.hpp"
 
 namespace {

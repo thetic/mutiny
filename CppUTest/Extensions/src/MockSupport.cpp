@@ -8,7 +8,7 @@
 #include "CppUTest/Extensions/MockIgnoredExpectedCall.hpp"
 #include "CppUTest/Extensions/MockSupport.hpp"
 
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 
@@ -829,12 +829,12 @@ class MockCFunctionComparatorNode
   : public cpputest::extensions::MockNamedValueComparator
 {
 public:
-  MockCFunctionComparatorNode(MockCFunctionComparatorNode* next,
-      MockTypeEqualFunction equal,
-      MockTypeValueToStringFunction to_string)
-    : next(next)
-    , equal(equal)
-    , to_string(to_string)
+  MockCFunctionComparatorNode(MockCFunctionComparatorNode* nx,
+      MockTypeEqualFunction eq,
+      MockTypeValueToStringFunction ts)
+    : next(nx)
+    , equal(eq)
+    , to_string(ts)
   {
   }
   virtual ~MockCFunctionComparatorNode() override {}
@@ -860,10 +860,9 @@ class MockCFunctionCopierNode
   : public cpputest::extensions::MockNamedValueCopier
 {
 public:
-  MockCFunctionCopierNode(MockCFunctionCopierNode* next,
-      MockTypeCopyFunction copier)
-    : next(next)
-    , copier(copier)
+  MockCFunctionCopierNode(MockCFunctionCopierNode* nx, MockTypeCopyFunction cp)
+    : next(nx)
+    , copier(cp)
   {
   }
   virtual ~MockCFunctionCopierNode() override {}

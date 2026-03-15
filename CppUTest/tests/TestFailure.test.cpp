@@ -1,4 +1,4 @@
-#include "CppUTest/TestHarness.hpp"
+#include "CppUTest/CppUTest.hpp"
 #include "CppUTest/TestOutput.hpp"
 
 #include <limits.h>
