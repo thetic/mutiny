@@ -20,9 +20,8 @@ public:
   void print_buffer(const char* s) override;
   void flush() override;
 
-private:
-  ConsoleTestOutput(const ConsoleTestOutput&);
-  ConsoleTestOutput& operator=(const ConsoleTestOutput&);
+  ConsoleTestOutput(const ConsoleTestOutput&) = delete;
+  ConsoleTestOutput& operator=(const ConsoleTestOutput&) = delete;
 };
 
 } // namespace cppmu

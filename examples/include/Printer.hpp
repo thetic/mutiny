@@ -13,12 +13,11 @@ public:
   explicit Printer() = default;
   virtual ~Printer() = default;
 
+  Printer(const Printer&) = delete;
+  Printer& operator=(const Printer&) = delete;
+
   virtual void print(const char*);
   virtual void print(long int);
-
-private:
-  Printer(const Printer&);
-  Printer& operator=(const Printer&);
 };
 
 Printer&

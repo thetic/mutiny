@@ -14,6 +14,8 @@ class CommandLineArguments
 public:
   explicit CommandLineArguments(int argc, const char* const* argv);
   virtual ~CommandLineArguments();
+  CommandLineArguments(const CommandLineArguments&) = delete;
+  CommandLineArguments& operator=(const CommandLineArguments&) = delete;
 
   bool parse(TestPlugin* plugin);
   bool need_help() const;
@@ -102,9 +104,6 @@ private:
       const char* parameter_name);
   bool set_output_type(int argc, const char* const* argv, int& index);
   void set_package_name(int argc, const char* const* argv, int& index);
-
-  CommandLineArguments(const CommandLineArguments&);
-  CommandLineArguments& operator=(const CommandLineArguments&);
 };
 
 } // namespace cppmu

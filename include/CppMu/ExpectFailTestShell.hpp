@@ -14,14 +14,12 @@ public:
       const char* file_name,
       size_t line_number);
   ~ExpectFailTestShell() override = default;
+  ExpectFailTestShell(const ExpectFailTestShell&) = delete;
+  ExpectFailTestShell& operator=(const ExpectFailTestShell&) = delete;
 
 protected:
   String get_macro_name() const override;
   void run_one_test(TestPlugin* plugin, TestResult& result) override;
-
-private:
-  ExpectFailTestShell(const ExpectFailTestShell&);
-  ExpectFailTestShell& operator=(const ExpectFailTestShell&);
 };
 
 } // namespace cppmu

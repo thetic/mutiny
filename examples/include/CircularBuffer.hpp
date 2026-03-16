@@ -16,6 +16,9 @@ public:
   explicit CircularBuffer(int capacity = default_capacity);
   virtual ~CircularBuffer();
 
+  CircularBuffer(const CircularBuffer&) = delete;
+  CircularBuffer& operator=(const CircularBuffer&) = delete;
+
   void put(int);
   int get();
   bool is_empty();
@@ -32,9 +35,6 @@ private:
   static constexpr int default_capacity = 5;
   bool empty_{ true };
   bool full_{ false };
-
-  CircularBuffer(const CircularBuffer&);
-  CircularBuffer& operator=(const CircularBuffer&);
 };
 
 #endif // INCLUDED_CIRCULARBUFFER_HPP

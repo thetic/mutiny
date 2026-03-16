@@ -20,6 +20,9 @@ public:
   explicit MockPrinter() = default;
   ~MockPrinter() override = default;
 
+  MockPrinter(const MockPrinter&) = delete;
+  MockPrinter& operator=(const MockPrinter&) = delete;
+
   void print(const char* s) override { saved_output_ += s; }
 
   void print(long int value) override
@@ -33,9 +36,6 @@ public:
 
 private:
   cppmu::String saved_output_;
-
-  MockPrinter(const MockPrinter&);
-  MockPrinter& operator=(const MockPrinter&);
 };
 
 #endif // D_MockPrinter_H

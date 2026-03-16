@@ -11,6 +11,8 @@ public:
   StringCollection(String const& str, char delimiter);
   StringCollection() = default;
   ~StringCollection();
+  void operator=(StringCollection&) = delete;
+  StringCollection(StringCollection&) = delete;
 
   void split_string(String const& str, char delimiter);
   void allocate(size_t size);
@@ -22,9 +24,6 @@ private:
   String* collection_{ nullptr };
   String empty_;
   size_t size_{ 0 };
-
-  void operator=(StringCollection&);
-  StringCollection(StringCollection&);
 };
 
 }

@@ -16,12 +16,10 @@ public:
       const char* file_name,
       size_t line_number);
   virtual ~TestInstaller() = default;
+  TestInstaller(const TestInstaller&) = delete;
+  TestInstaller& operator=(const TestInstaller&) = delete;
 
   void un_do();
-
-private:
-  TestInstaller(const TestInstaller&);
-  TestInstaller& operator=(const TestInstaller&);
 };
 
 } // namespace cppmu

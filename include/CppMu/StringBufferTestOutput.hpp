@@ -18,6 +18,9 @@ public:
 
   ~StringBufferTestOutput() override = default;
 
+  StringBufferTestOutput(const StringBufferTestOutput&) = delete;
+  StringBufferTestOutput& operator=(const StringBufferTestOutput&) = delete;
+
   void print_buffer(const char* s) override { output_ += s; }
 
   void flush() override { output_ = ""; }
@@ -26,10 +29,6 @@ public:
 
 protected:
   String output_;
-
-private:
-  StringBufferTestOutput(const StringBufferTestOutput&);
-  StringBufferTestOutput& operator=(const StringBufferTestOutput&);
 };
 
 } // namespace cppmu

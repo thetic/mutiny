@@ -14,6 +14,8 @@ class MockExpectedCallsList
 public:
   MockExpectedCallsList() = default;
   virtual ~MockExpectedCallsList();
+  MockExpectedCallsList(const MockExpectedCallsList&) = delete;
+
   virtual void delete_all_expectations_and_clear_list();
 
   virtual unsigned int size() const;
@@ -85,8 +87,6 @@ protected:
 
 private:
   MockExpectedCallsListNode* head_{ nullptr };
-
-  MockExpectedCallsList(const MockExpectedCallsList&);
 };
 
 } // namespace cppmu
