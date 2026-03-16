@@ -136,10 +136,6 @@ jobs:
             os: macos-latest
             cmake_args: -DCMAKE_CXX_STANDARD=14
             preset: GNU
-          - name: OpenWatcom DOS
-            os: ubuntu-latest
-            preset: DOS
-            apt_packages: dosbox
           - name: Cygwin
             os: windows-latest
             preset: GNU
@@ -156,12 +152,6 @@ jobs:
 
       - uses: carlosperate/arm-none-eabi-gcc-action@v1
         if: ${{ matrix.name == 'GCC ARM embedded' }}
-
-      - name: Install OpenWatcom
-        uses: open-watcom/setup-watcom@v0
-        with:
-          version: "2.0"
-        if: ${{ matrix.name == 'OpenWatcom DOS' }}
 
       - run: git config --global core.autocrlf input
         if: ${{ matrix.name == 'Cygwin' }}
