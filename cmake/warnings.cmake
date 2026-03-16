@@ -28,6 +28,7 @@ if(
         -Woverloaded-virtual
         -Wsuggest-override
         -Wold-style-cast
+        -Wno-c++98-compat # ClangCL turns this on by default for some reason.
     )
 endif()
 

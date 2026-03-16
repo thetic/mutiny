@@ -76,6 +76,7 @@ target_sources(CppMu
             include/CppMu/CppMu.h
             include/CppMu/CppMu.hpp
             include/CppMu/ExpectFailTestShell.hpp
+            include/CppMu/features.hpp
             include/CppMu/IgnoredTestShell.hpp
             include/CppMu/MockActualCall.hpp
             include/CppMu/MockExpectedCall.hpp
@@ -128,10 +129,12 @@ include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPMU_HAVE_GETTIMEOFDAY)
 
-target_compile_features(CppMu
-    INTERFACE c_std_11
-    PUBLIC cxx_std_11
-)
+if(CMAKE_CXX_COMPILE_FEATURES)
+    target_compile_features(CppMu
+        INTERFACE c_std_11
+        PUBLIC cxx_std_11
+    )
+endif()
 
 target_compile_definitions(CppMu
     PUBLIC

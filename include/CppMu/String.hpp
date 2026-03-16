@@ -193,8 +193,8 @@ string_from(const String& other);
 #define CPPMU_CHECK_FORMAT(type, format_parameter, other_parameters)           \
   __attribute__((format(type, format_parameter, other_parameters)))
 #else
-#define CPPMU_CHECK_FORMAT(type, format_parameter,
-
+#define CPPMU_CHECK_FORMAT(type,                                               \
+    format_parameter,                                                          \
     other_parameters) /* type, format_parameter, other_parameters */
 #endif
 String

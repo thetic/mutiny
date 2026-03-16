@@ -599,7 +599,7 @@ get_exception_type_name(const std::exception& e)
   int status = -1;
 
   std::unique_ptr<char, void (*)(void*)> demangled_name(
-      abi::__cxa_demangle(name, nullptr, nullptr, &status), std::free);
+      abi::__cxa_demangle(name, nullptr, nullptr, &status), free);
 
   return (status == 0) ? demangled_name.get() : name;
 #else
