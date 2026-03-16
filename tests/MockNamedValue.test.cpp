@@ -9,8 +9,8 @@ TEST_GROUP(ComparatorsAndCopiersRepository)
 class MyComparator : public cppmu::MockNamedValueComparator
 {
 public:
-  MyComparator() {}
-  ~MyComparator() override {}
+  MyComparator() = default;
+  ~MyComparator() override = default;
 
   bool is_equal(const void*, const void*) override { return false; }
   cppmu::String value_to_string(const void*) override { return ""; }
@@ -19,8 +19,8 @@ public:
 class MyCopier : public cppmu::MockNamedValueCopier
 {
 public:
-  MyCopier() {}
-  ~MyCopier() override {}
+  MyCopier() = default;
+  ~MyCopier() override = default;
 
   void copy(void*, const void*) override {}
 };

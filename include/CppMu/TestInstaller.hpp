@@ -15,7 +15,7 @@ public:
       const char* test_name,
       const char* file_name,
       size_t line_number);
-  virtual ~TestInstaller();
+  virtual ~TestInstaller() = default;
 
   void un_do();
 

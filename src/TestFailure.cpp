@@ -112,17 +112,6 @@ TestFailure::TestFailure(TestShell* test,
 {
 }
 
-TestFailure::TestFailure(const TestFailure& f)
-  : test_name_(f.test_name_)
-  , test_name_only_(f.test_name_only_)
-  , file_name_(f.file_name_)
-  , line_number_(f.line_number_)
-  , test_file_name_(f.test_file_name_)
-  , test_line_number_(f.test_line_number_)
-  , message_(f.message_)
-{
-}
-
 TestFailure::TestFailure(TestFailure&& f) noexcept
   : test_name_(static_cast<String&&>(f.test_name_))
   , test_name_only_(static_cast<String&&>(f.test_name_only_))
@@ -133,8 +122,6 @@ TestFailure::TestFailure(TestFailure&& f) noexcept
   , message_(static_cast<String&&>(f.message_))
 {
 }
-
-TestFailure::~TestFailure() {}
 
 String
 TestFailure::get_file_name() const

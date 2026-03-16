@@ -12,7 +12,7 @@ class TestPlugin
 {
 public:
   TestPlugin(const String& name);
-  virtual ~TestPlugin();
+  virtual ~TestPlugin() = default;
 
   virtual void pre_test_action(TestShell&, TestResult&) {}
 

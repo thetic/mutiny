@@ -6,8 +6,8 @@ namespace cppmu {
 class Test
 {
 public:
-  Test();
-  virtual ~Test();
+  Test() = default;
+  virtual ~Test() = default;
   virtual void run();
 
   virtual void setup();

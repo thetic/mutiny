@@ -7,9 +7,9 @@ namespace {
 class TeamCityOutputToBuffer : public cppmu::TeamCityTestOutput
 {
 public:
-  explicit TeamCityOutputToBuffer() {}
+  explicit TeamCityOutputToBuffer() = default;
 
-  ~TeamCityOutputToBuffer() override {}
+  ~TeamCityOutputToBuffer() override = default;
 
   void print_buffer(const char* s) override { output_ += s; }
 

@@ -21,7 +21,7 @@ class TestRegistry
 {
 public:
   TestRegistry();
-  virtual ~TestRegistry();
+  virtual ~TestRegistry() = default;
 
   virtual void add_test(TestShell* test);
   virtual void un_do_last_add_test();

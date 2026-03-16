@@ -13,8 +13,6 @@ TestResult::TestResult(TestOutput& p)
 {
 }
 
-TestResult::~TestResult() {}
-
 void
 TestResult::current_group_started(TestShell* test)
 {

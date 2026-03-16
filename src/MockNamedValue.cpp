@@ -41,8 +41,6 @@ MockNamedValue::MockNamedValue(MockNamedValue&& other) noexcept
 {
 }
 
-MockNamedValue::~MockNamedValue() {}
-
 void
 MockNamedValue::set_value(bool value)
 {

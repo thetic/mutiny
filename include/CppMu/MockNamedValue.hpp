@@ -21,7 +21,7 @@ public:
   MockNamedValue(const cppmu::String& name);
   MockNamedValue(const MockNamedValue&) = default;
   MockNamedValue(MockNamedValue&&) noexcept;
-  virtual ~MockNamedValue();
+  virtual ~MockNamedValue() = default;
 
   virtual void set_value(bool value);
   virtual void set_value(int value);

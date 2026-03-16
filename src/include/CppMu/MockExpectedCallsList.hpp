@@ -12,7 +12,7 @@ class MockExpectedCallsList
 {
 
 public:
-  MockExpectedCallsList();
+  MockExpectedCallsList() = default;
   virtual ~MockExpectedCallsList();
   virtual void delete_all_expectations_and_clear_list();
 

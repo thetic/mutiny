@@ -27,7 +27,7 @@ private:
 class MockNamedValueList
 {
 public:
-  MockNamedValueList();
+  MockNamedValueList() = default;
 
   MockNamedValueListNode* begin();
 

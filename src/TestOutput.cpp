@@ -37,10 +37,6 @@ FOpenFunc f_open = f_open_impl;
 FPutsFunc f_puts = f_puts_impl;
 FCloseFunc f_close = f_close_impl;
 
-TestOutput::TestOutput() {}
-
-TestOutput::~TestOutput() {}
-
 void
 TestOutput::verbose(VerbosityLevel level)
 {

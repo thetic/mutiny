@@ -23,7 +23,7 @@ public:
     cppmu::TestShell::get_current_test_terminator().exit_current_test();
   }
 
-  ~MockFailureReporterTestTerminator() override {}
+  ~MockFailureReporterTestTerminator() override = default;
 
 private:
   bool crash_on_failure_;

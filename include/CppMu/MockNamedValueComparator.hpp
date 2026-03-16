@@ -13,8 +13,8 @@ namespace cppmu {
 class MockNamedValueComparator
 {
 public:
-  MockNamedValueComparator() {}
-  virtual ~MockNamedValueComparator() {}
+  MockNamedValueComparator() = default;
+  virtual ~MockNamedValueComparator() = default;
 
   virtual bool is_equal(const void* object1, const void* object2) = 0;
   virtual cppmu::String value_to_string(const void* object) = 0;

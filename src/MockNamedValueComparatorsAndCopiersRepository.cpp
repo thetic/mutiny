@@ -39,12 +39,6 @@ struct MockNamedValueComparatorsAndCopiersRepositoryNode
 };
 
 MockNamedValueComparatorsAndCopiersRepository::
-    MockNamedValueComparatorsAndCopiersRepository()
-
-{
-}
-
-MockNamedValueComparatorsAndCopiersRepository::
     ~MockNamedValueComparatorsAndCopiersRepository()
 {
   clear();

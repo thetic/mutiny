@@ -35,11 +35,9 @@ target_sources(CppMu
         src/IgnoredTestShell.cpp
         src/JUnitTestOutput.cpp
         src/math.cpp
-        src/MockActualCall.cpp
         src/MockActualCallTrace.cpp
         src/MockCheckedActualCall.cpp
         src/MockCheckedExpectedCall.cpp
-        src/MockExpectedCall.cpp
         src/MockExpectedCallsList.cpp
         src/MockFailure.cpp
         src/MockIgnoredExpectedCall.cpp
@@ -50,7 +48,6 @@ target_sources(CppMu
         src/MockSupportPlugin.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
-        src/StringBufferTestOutput.cpp
         src/StringCollection.cpp
         src/TeamCityTestOutput.cpp
         src/Test.cpp

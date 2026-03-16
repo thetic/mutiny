@@ -18,7 +18,7 @@ class MockNamedValueComparatorsAndCopiersRepository
   MockNamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };
 
 public:
-  MockNamedValueComparatorsAndCopiersRepository();
+  MockNamedValueComparatorsAndCopiersRepository() = default;
   virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
   virtual void install_comparator(const cppmu::String& name,

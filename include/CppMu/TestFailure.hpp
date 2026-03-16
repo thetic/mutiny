@@ -31,9 +31,9 @@ public:
       const String& the_message);
   TestFailure(TestShell*, const String& the_message);
   TestFailure(TestShell*, const char* file_name, size_t line_number);
-  TestFailure(const TestFailure&);
+  TestFailure(const TestFailure&) = default;
   TestFailure(TestFailure&&) noexcept;
-  virtual ~TestFailure();
+  virtual ~TestFailure() = default;
 
   virtual String get_file_name() const;
   virtual String get_test_name() const;

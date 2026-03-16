@@ -10,8 +10,8 @@
 class Printer
 {
 public:
-  explicit Printer();
-  virtual ~Printer();
+  explicit Printer() = default;
+  virtual ~Printer() = default;
 
   virtual void print(const char*);
   virtual void print(long int);

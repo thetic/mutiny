@@ -40,7 +40,7 @@ bool has_destructor_of_the_destructor_checked_been_called;
 class HasTheDestructorBeenCalledChecker
 {
 public:
-  HasTheDestructorBeenCalledChecker() {}
+  HasTheDestructorBeenCalledChecker() = default;
   ~HasTheDestructorBeenCalledChecker()
   {
     has_destructor_of_the_destructor_checked_been_called = true;

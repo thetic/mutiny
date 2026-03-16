@@ -1,7 +1,5 @@
 #include "EventDispatcher.hpp"
 
-EventDispatcher::EventDispatcher() {}
-
 void
 EventDispatcher::register_observer(EventType type, EventObserver* observer)
 {

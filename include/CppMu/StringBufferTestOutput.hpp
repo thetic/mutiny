@@ -14,9 +14,9 @@ namespace cppmu {
 class StringBufferTestOutput : public TestOutput
 {
 public:
-  explicit StringBufferTestOutput() {}
+  explicit StringBufferTestOutput() = default;
 
-  ~StringBufferTestOutput() override;
+  ~StringBufferTestOutput() override = default;
 
   void print_buffer(const char* s) override { output_ += s; }
 

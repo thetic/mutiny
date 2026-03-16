@@ -20,7 +20,7 @@ class TestResult
 public:
   TestResult(TestOutput&);
   TestResult(const TestResult&) = default;
-  virtual ~TestResult();
+  virtual ~TestResult() = default;
 
   virtual void tests_started();
   virtual void tests_ended();

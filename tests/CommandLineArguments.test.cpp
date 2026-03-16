@@ -11,7 +11,7 @@ public:
     : TestPlugin(name)
   {
   }
-  ~OptionsPlugin() override {}
+  ~OptionsPlugin() override = default;
   bool parse_arguments(int, const char* const*, int) override { return true; }
 };
 

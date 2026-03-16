@@ -40,8 +40,8 @@ public:
     very_verbose
   };
 
-  explicit TestOutput();
-  virtual ~TestOutput();
+  explicit TestOutput() = default;
+  virtual ~TestOutput() = default;
 
   virtual void print_tests_started();
   virtual void print_tests_ended(const TestResult& result);

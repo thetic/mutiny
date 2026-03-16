@@ -9,7 +9,7 @@ class IgnoredTestShell : public TestShell
 {
 public:
   IgnoredTestShell();
-  ~IgnoredTestShell() override;
+  ~IgnoredTestShell() override = default;
   explicit IgnoredTestShell(const char* group_name,
       const char* test_name,
       const char* file_name,

@@ -26,10 +26,6 @@ helper_do_test_teardown(void* data)
 }
 } // namespace
 
-Test::Test() {}
-
-Test::~Test() {}
-
 #if CPPMU_HAVE_EXCEPTIONS
 
 void

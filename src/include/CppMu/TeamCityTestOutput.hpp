@@ -10,7 +10,7 @@ class TeamCityTestOutput : public ConsoleTestOutput
 {
 public:
   TeamCityTestOutput(void);
-  ~TeamCityTestOutput(void) override;
+  ~TeamCityTestOutput(void) override = default;
 
   void print_current_test_started(const TestShell& test) override;
   void print_current_test_ended(const TestResult& res) override;
@@ -19,7 +19,6 @@ public:
 
   void print_failure(const TestFailure& failure) override;
 
-protected:
 private:
   void print_escaped(const char* s);
   const TestShell* currtest_{ nullptr };

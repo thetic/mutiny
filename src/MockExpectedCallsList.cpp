@@ -5,8 +5,6 @@
 
 namespace cppmu {
 
-MockExpectedCallsList::MockExpectedCallsList() {}
-
 MockExpectedCallsList::~MockExpectedCallsList()
 {
   while (head_) {

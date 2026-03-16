@@ -2,10 +2,6 @@
 
 #include <stdio.h>
 
-Printer::Printer() {}
-
-Printer::~Printer() {}
-
 void
 Printer::print(const char* s)
 {

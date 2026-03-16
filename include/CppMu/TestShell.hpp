@@ -36,7 +36,7 @@ public:
       const char* test_name,
       const char* file_name,
       size_t line_number);
-  virtual ~TestShell();
+  virtual ~TestShell() = default;
 
   virtual TestShell* add_test(TestShell* test);
   virtual TestShell* get_next() const;

@@ -10,7 +10,7 @@ namespace cppmu {
 
 struct JUnitTestCaseResultNode
 {
-  JUnitTestCaseResultNode() {}
+  JUnitTestCaseResultNode() = default;
 
   String name;
   size_t exec_time{ 0 };
@@ -24,7 +24,7 @@ struct JUnitTestCaseResultNode
 
 struct JUnitTestGroupResult
 {
-  JUnitTestGroupResult() {}
+  JUnitTestGroupResult() = default;
 
   size_t test_count{ 0 };
   size_t failure_count{ 0 };

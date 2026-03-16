@@ -7,10 +7,6 @@ namespace cppmu {
 
 OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
-OrderedTestShell::OrderedTestShell() {}
-
-OrderedTestShell::~OrderedTestShell() {}
-
 bool
 OrderedTestShell::is_ordered() const
 {
@@ -124,7 +120,5 @@ OrderedTestInstaller::add_ordered_test_in_order_not_at_head_position(
   test->add_ordered_test(current->get_next_ordered_test());
   current->add_ordered_test(test);
 }
-
-OrderedTestInstaller::~OrderedTestInstaller() {}
 
 } // namespace cppmu

@@ -21,7 +21,7 @@ class EventObserver
 public:
   virtual void notify(const Event& event, int time_out_in_seconds) = 0;
   virtual void notify_registration(EventObserver* new_observer) = 0;
-  virtual ~EventObserver() {}
+  virtual ~EventObserver() = default;
 };
 
 class EventDispatcher
@@ -29,7 +29,7 @@ class EventDispatcher
   std::list<std::pair<EventType, EventObserver*>> observer_list_;
 
 public:
-  EventDispatcher();
+  EventDispatcher() = default;
 
   void register_observer(EventType type, EventObserver* observer);
   void dispatch_event(const Event& event, int timeout_seconds);

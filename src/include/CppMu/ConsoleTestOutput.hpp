@@ -14,8 +14,8 @@ namespace cppmu {
 class ConsoleTestOutput : public TestOutput
 {
 public:
-  explicit ConsoleTestOutput() {}
-  ~ConsoleTestOutput() override {}
+  explicit ConsoleTestOutput() = default;
+  ~ConsoleTestOutput() override = default;
 
   void print_buffer(const char* s) override;
   void flush() override;

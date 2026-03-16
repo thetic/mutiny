@@ -25,8 +25,8 @@ private:
 class ExecFunction
 {
 public:
-  ExecFunction();
-  virtual ~ExecFunction();
+  ExecFunction() = default;
+  virtual ~ExecFunction() = default;
 
   virtual void exec() = 0;
 };
@@ -37,7 +37,7 @@ public:
   void (*test_function)();
 
   ExecFunctionWithoutParameters(void (*test_function)());
-  ~ExecFunctionWithoutParameters() override;
+  ~ExecFunctionWithoutParameters() override = default;
 
   void exec() override;
 };
@@ -60,7 +60,7 @@ public:
   }
 
   Test* create_test() override { return new ExecFunctionTest(this); }
-  ~ExecFunctionTestShell() override;
+  ~ExecFunctionTestShell() override = default;
 };
 
 } // namespace cppmu

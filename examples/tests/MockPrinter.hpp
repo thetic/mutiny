@@ -17,8 +17,8 @@
 class MockPrinter : public Printer
 {
 public:
-  explicit MockPrinter() {}
-  ~MockPrinter() override {}
+  explicit MockPrinter() = default;
+  ~MockPrinter() override = default;
 
   void print(const char* s) override { saved_output_ += s; }
 

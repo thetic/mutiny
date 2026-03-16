@@ -12,8 +12,8 @@ class MockFailure;
 class MockActualCall
 {
 public:
-  MockActualCall();
-  virtual ~MockActualCall();
+  MockActualCall() = default;
+  virtual ~MockActualCall() = default;
 
   virtual MockActualCall& with_name(const cppmu::String& name) = 0;
   virtual MockActualCall& with_call_order(unsigned int call_order) = 0;

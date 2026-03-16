@@ -59,7 +59,7 @@ class FileSystemForJUnitTestOutputTests
   FileForJUnitTestOutputs* first_file_{ nullptr };
 
 public:
-  FileSystemForJUnitTestOutputTests() {}
+  FileSystemForJUnitTestOutputTests() = default;
   ~FileSystemForJUnitTestOutputTests() { clear(); }
 
   void clear(void)

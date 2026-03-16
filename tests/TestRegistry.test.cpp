@@ -46,7 +46,7 @@ public:
     reset_count();
   }
 
-  ~MockTestResult() override {}
+  ~MockTestResult() override = default;
 
   void reset_count()
   {
@@ -85,7 +85,7 @@ public:
     : TestPlugin(name)
   {
   }
-  ~MyTestPluginDummy() override {}
+  ~MyTestPluginDummy() override = default;
   void run_all_pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
   }

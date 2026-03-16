@@ -8,8 +8,8 @@ namespace cppmu {
 class OrderedTestShell : public cppmu::TestShell
 {
 public:
-  OrderedTestShell();
-  ~OrderedTestShell() override;
+  OrderedTestShell() = default;
+  ~OrderedTestShell() override = default;
 
   virtual OrderedTestShell* add_ordered_test(OrderedTestShell* test);
   virtual OrderedTestShell* get_next_ordered_test();
@@ -41,7 +41,7 @@ public:
       const char* file_name,
       size_t line_number,
       int level);
-  virtual ~OrderedTestInstaller();
+  virtual ~OrderedTestInstaller() = default;
 
 private:
   void add_ordered_test_in_order(OrderedTestShell* test);

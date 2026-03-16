@@ -13,8 +13,8 @@ string_from(const MockNamedValue& parameter);
 class MockExpectedCall
 {
 public:
-  MockExpectedCall();
-  virtual ~MockExpectedCall();
+  MockExpectedCall() = default;
+  virtual ~MockExpectedCall() = default;
 
   virtual MockExpectedCall& with_name(const cppmu::String& name) = 0;
   virtual MockExpectedCall& with_call_order(unsigned int) = 0;

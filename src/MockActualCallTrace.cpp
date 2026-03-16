@@ -6,10 +6,6 @@ namespace cppmu {
 
 MockActualCallTrace* MockActualCallTrace::instance_ = nullptr;
 
-MockActualCallTrace::MockActualCallTrace() {}
-
-MockActualCallTrace::~MockActualCallTrace() {}
-
 MockActualCall&
 MockActualCallTrace::with_name(const String& name)
 {

@@ -18,8 +18,6 @@ TestPlugin::TestPlugin(TestPlugin* next)
 {
 }
 
-TestPlugin::~TestPlugin() {}
-
 TestPlugin*
 TestPlugin::add_plugin(TestPlugin* plugin)
 {

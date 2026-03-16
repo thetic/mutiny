@@ -812,7 +812,7 @@ public:
     TestShell::get_current_test_terminator_without_exceptions()
         .exit_current_test();
   }
-  ~MockFailureReporterTestTerminatorForInCOnlyCode() override {}
+  ~MockFailureReporterTestTerminatorForInCOnlyCode() override = default;
 
 private:
   bool crash_on_failure_;
@@ -861,7 +861,7 @@ public:
     , to_string(ts)
   {
   }
-  ~MockCFunctionComparatorNode() override {}
+  ~MockCFunctionComparatorNode() override = default;
 
   bool is_equal(const void* object1, const void* object2) override
   {
@@ -888,7 +888,7 @@ public:
     , copier(cp)
   {
   }
-  ~MockCFunctionCopierNode() override {}
+  ~MockCFunctionCopierNode() override = default;
 
   void copy(void* dst, const void* src) override { copier(dst, src); }
 

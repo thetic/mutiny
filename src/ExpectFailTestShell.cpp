@@ -7,8 +7,6 @@
 
 namespace cppmu {
 
-ExpectFailTestShell::ExpectFailTestShell() {}
-
 ExpectFailTestShell::ExpectFailTestShell(const char* group_name,
     const char* test_name,
     const char* file_name,
@@ -16,8 +14,6 @@ ExpectFailTestShell::ExpectFailTestShell(const char* group_name,
   : TestShell(group_name, test_name, file_name, line_number)
 {
 }
-
-ExpectFailTestShell::~ExpectFailTestShell() {}
 
 String
 ExpectFailTestShell::get_macro_name() const

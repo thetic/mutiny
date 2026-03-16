@@ -46,7 +46,7 @@ class ClassFromProductionCode
 {
 public:
   virtual void important_function() {}
-  virtual ~ClassFromProductionCode() {}
+  virtual ~ClassFromProductionCode() = default;
 };
 
 class ClassFromProductionCodeMock : public ClassFromProductionCode

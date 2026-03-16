@@ -44,8 +44,6 @@ MockNamedValueListNode::get_type() const
   return data_->get_type();
 }
 
-MockNamedValueList::MockNamedValueList() {}
-
 void
 MockNamedValueList::clear()
 {

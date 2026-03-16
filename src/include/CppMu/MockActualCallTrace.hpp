@@ -8,8 +8,8 @@ namespace cppmu {
 class MockActualCallTrace : public MockActualCall
 {
 public:
-  MockActualCallTrace();
-  ~MockActualCallTrace() override;
+  MockActualCallTrace() = default;
+  ~MockActualCallTrace() override = default;
 
   MockActualCall& with_name(const cppmu::String& name) override;
   MockActualCall& with_call_order(unsigned int) override;

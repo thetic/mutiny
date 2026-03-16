@@ -18,8 +18,6 @@ TestInstaller::TestInstaller(TestShell& shell,
   TestRegistry::get_current_registry()->add_test(&shell);
 }
 
-TestInstaller::~TestInstaller() {}
-
 void
 TestInstaller::un_do()
 {

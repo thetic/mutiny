@@ -16,8 +16,8 @@ protected:
   bool crash_on_failure_{ false };
 
 public:
-  MockFailureReporter() {}
-  virtual ~MockFailureReporter() {}
+  MockFailureReporter() = default;
+  virtual ~MockFailureReporter() = default;
 
   virtual void fail_test(MockFailure failure);
   virtual void report_failure(const MockFailure& failure);
@@ -35,7 +35,7 @@ class MockFailure : public cppmu::TestFailure
 public:
   MockFailure(cppmu::TestShell* test);
   MockFailure(MockFailure&&) noexcept = default;
-  ~MockFailure() override {}
+  ~MockFailure() override = default;
 
 protected:
   void add_expectations_and_call_history(

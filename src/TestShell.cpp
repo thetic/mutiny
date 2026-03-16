@@ -26,7 +26,7 @@ class OutsideTestRunnerUTest : public TestShell
 public:
   static OutsideTestRunnerUTest& instance();
   virtual TestResult& get_test_result() { return default_test_result_; }
-  ~OutsideTestRunnerUTest() override {}
+  ~OutsideTestRunnerUTest() override = default;
 
 private:
   OutsideTestRunnerUTest()
@@ -93,6 +93,7 @@ const CrashingTestTerminatorWithoutExceptions
     crashing_test_terminator_without_exceptions =
         CrashingTestTerminatorWithoutExceptions();
 
+void (*please_crash_me_right_now)() = abort;
 } // namespace
 
 bool
@@ -153,12 +154,6 @@ TestShell::TestShell(const char* group_name,
   , has_failed_(false)
 {
 }
-
-TestShell::~TestShell() {}
-
-namespace {
-void (*please_crash_me_right_now)() = abort;
-} // namespace
 
 void
 TestShell::set_crash_method(void (*crashme)())

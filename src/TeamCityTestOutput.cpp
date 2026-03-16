@@ -9,8 +9,6 @@ TeamCityTestOutput::TeamCityTestOutput()
 {
 }
 
-TeamCityTestOutput::~TeamCityTestOutput() {}
-
 void
 TeamCityTestOutput::print_current_test_started(const TestShell& test)
 {

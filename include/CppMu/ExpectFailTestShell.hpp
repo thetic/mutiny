@@ -8,12 +8,12 @@ namespace cppmu {
 class ExpectFailTestShell : public TestShell
 {
 public:
-  ExpectFailTestShell();
+  ExpectFailTestShell() = default;
   explicit ExpectFailTestShell(const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number);
-  ~ExpectFailTestShell() override;
+  ~ExpectFailTestShell() override = default;
 
 protected:
   String get_macro_name() const override;

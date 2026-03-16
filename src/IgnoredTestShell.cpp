@@ -19,8 +19,6 @@ IgnoredTestShell::IgnoredTestShell(const char* group_name,
 {
 }
 
-IgnoredTestShell::~IgnoredTestShell() {}
-
 bool
 IgnoredTestShell::will_run() const
 {

@@ -10,8 +10,6 @@ TestRegistry::TestRegistry()
 {
 }
 
-TestRegistry::~TestRegistry() {}
-
 void
 TestRegistry::add_test(TestShell* test)
 {

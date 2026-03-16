@@ -11,8 +11,8 @@ namespace cppmu {
 class MockNamedValueCopier
 {
 public:
-  MockNamedValueCopier() {}
-  virtual ~MockNamedValueCopier() {}
+  MockNamedValueCopier() = default;
+  virtual ~MockNamedValueCopier() = default;
 
   virtual void copy(void* out, const void* in) = 0;
 };

@@ -2,20 +2,12 @@
 
 namespace cppmu {
 
-ExecFunctionTestShell::~ExecFunctionTestShell() {}
-
 //////////////////// ExecFunction
-
-ExecFunction::ExecFunction() {}
-
-ExecFunction::~ExecFunction() {}
 
 ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(void (*fn)())
   : test_function(fn)
 {
 }
-
-ExecFunctionWithoutParameters::~ExecFunctionWithoutParameters() {}
 
 void
 ExecFunctionWithoutParameters::exec()

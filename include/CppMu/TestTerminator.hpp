@@ -7,28 +7,28 @@ class TestTerminator
 {
 public:
   virtual void exit_current_test() const = 0;
-  virtual ~TestTerminator();
+  virtual ~TestTerminator() = default;
 };
 
 class NormalTestTerminator : public TestTerminator
 {
 public:
   void exit_current_test() const override;
-  ~NormalTestTerminator() override;
+  ~NormalTestTerminator() override = default;
 };
 
 class TestTerminatorWithoutExceptions : public TestTerminator
 {
 public:
   void exit_current_test() const override;
-  ~TestTerminatorWithoutExceptions() override;
+  ~TestTerminatorWithoutExceptions() override = default;
 };
 
 class CrashingTestTerminator : public NormalTestTerminator
 {
 public:
   void exit_current_test() const override;
-  ~CrashingTestTerminator() override;
+  ~CrashingTestTerminator() override = default;
 };
 
 class CrashingTestTerminatorWithoutExceptions
@@ -36,7 +36,7 @@ class CrashingTestTerminatorWithoutExceptions
 {
 public:
   void exit_current_test() const override;
-  ~CrashingTestTerminatorWithoutExceptions() override;
+  ~CrashingTestTerminatorWithoutExceptions() override = default;
 };
 
 } // namespace cppmu
