@@ -43,6 +43,13 @@ exit_test_method()
   FAIL("Should not get here");
 }
 
+class PassingExecFunction : public cppmu::ExecFunction
+{
+public:
+  bool has_run{ false };
+  void exec() override { has_run = true; }
+};
+
 bool cppmu_has_crashed;
 
 void
@@ -138,6 +145,14 @@ TEST(TestShell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
   fixture.set_test_function(passing_check_equal_test_method);
   fixture.run_all_tests();
   LONGS_EQUAL(1, fixture.get_check_count());
+}
+
+TEST(TestShell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
+{
+  PassingExecFunction exec_func;
+  fixture.set_test_function(&exec_func);
+  fixture.run_all_tests();
+  CHECK(exec_func.has_run);
 }
 
 IGNORE_TEST(TestShell, IgnoreTestAccessingFixture)
@@ -339,6 +354,98 @@ TestShell, StandardExceptionIsRethrownIfEnabled)
   LONGS_EQUAL(0, stop_after_failure);
   cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
+
+#endif // CPPMU_USE_STD_CPP_LIB
+
+TEST(TestShell, TeardownStopsAfterUnknownExceptionIsThrown)
+{
+  bool initial_rethrow_exceptions =
+      cppmu::TestShell::is_rethrowing_exceptions();
+  cppmu::TestShell::set_rethrow_exceptions(false);
+  stop_after_failure = 0;
+  should_throw_exception = true;
+  fixture.set_teardown(thrown_unknown_exception_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains(
+      "Unexpected exception of unknown type was thrown");
+  LONGS_EQUAL(0, stop_after_failure);
+  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+}
+
+TEST(
+TestShell, TeardownUnknownExceptionIsRethrownIfEnabled)
+{
+  bool initial_rethrow_exceptions =
+      cppmu::TestShell::is_rethrowing_exceptions();
+  bool exception_rethrown = false;
+  stop_after_failure = 0;
+  cppmu::TestShell::set_rethrow_exceptions(true);
+  should_throw_exception = true;
+  fixture.set_teardown(thrown_unknown_exception_method);
+  try {
+    fixture.run_all_tests();
+    stop_after_failure++;
+  } catch (...) {
+    exception_rethrown = true;
+  }
+  CHECK_TRUE(exception_rethrown);
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains(
+      "Unexpected exception of unknown type was thrown");
+  LONGS_EQUAL(0, stop_after_failure);
+  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+}
+
+#if CPPMU_USE_STD_CPP_LIB
+
+TEST(TestShell, TeardownStopsAfterStandardExceptionIsThrown)
+{
+  bool initial_rethrow_exceptions =
+      cppmu::TestShell::is_rethrowing_exceptions();
+  cppmu::TestShell::set_rethrow_exceptions(false);
+  stop_after_failure = 0;
+  should_throw_exception = true;
+  fixture.set_teardown(thrown_standard_exception_method);
+  fixture.run_all_tests();
+  LONGS_EQUAL(1, fixture.get_failure_count());
+#if CPPMU_HAVE_RTTI
+  fixture.assert_print_contains("Unexpected exception of type '");
+  fixture.assert_print_contains("runtime_error");
+  fixture.assert_print_contains("' was thrown: exception text");
+#else
+  fixture.assert_print_contains(
+      "Unexpected exception of unknown type was thrown");
+#endif
+  LONGS_EQUAL(0, stop_after_failure);
+  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+}
+
+TEST(
+TestShell, TeardownStandardExceptionIsRethrownIfEnabled)
+{
+  bool initial_rethrow_exceptions =
+      cppmu::TestShell::is_rethrowing_exceptions();
+  bool exception_rethrown = false;
+  stop_after_failure = 0;
+  cppmu::TestShell::set_rethrow_exceptions(true);
+  should_throw_exception = true;
+  fixture.set_teardown(thrown_standard_exception_method);
+  try {
+    fixture.run_all_tests();
+    stop_after_failure++;
+  } catch (const std::exception&) {
+    exception_rethrown = true;
+  }
+  CHECK_TRUE(exception_rethrown);
+  LONGS_EQUAL(1, fixture.get_failure_count());
+  fixture.assert_print_contains("Unexpected exception of type '");
+  fixture.assert_print_contains("runtime_error");
+  fixture.assert_print_contains("' was thrown: exception text");
+  LONGS_EQUAL(0, stop_after_failure);
+  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+}
+
 #endif // CPPMU_USE_STD_CPP_LIB
 #endif // CPPMU_HAVE_EXCEPTIONS
 
@@ -2049,6 +2156,11 @@ TEST(UtestStringMacros, STRCMP_EQUALBehavesAsProperMacro)
     STRCMP_EQUAL("1", "1");
 }
 
+TEST(UtestStringMacros, STRCMP_EQUALBothNullPasses)
+{
+  STRCMP_EQUAL(nullptr, nullptr);
+}
+
 IGNORE_TEST(UtestStringMacros, STRCMP_EQUALWorksInAnIgnoredTest)
 {
   STRCMP_EQUAL("Hello", "World");
@@ -2090,6 +2202,11 @@ TEST(UtestStringMacros, STRNCMP_EQUALBehavesAsProperMacro)
     STRNCMP_EQUAL("1", "1", 1);
 }
 
+TEST(UtestStringMacros, STRNCMP_EQUALBothNullPasses)
+{
+  STRNCMP_EQUAL(nullptr, nullptr, 0);
+}
+
 IGNORE_TEST(UtestStringMacros, STRNCMP_EQUALWorksInAnIgnoredTest)
 {
   STRNCMP_EQUAL("Hello", "World", 3);
@@ -2129,6 +2246,11 @@ TEST(UtestStringMacros, STRCMP_CONTAINSBehavesAsProperMacro)
     STRCMP_CONTAINS("1", "2");
   else
     STRCMP_CONTAINS("1", "1");
+}
+
+TEST(UtestStringMacros, STRCMP_CONTAINSBothNullPasses)
+{
+  STRCMP_CONTAINS(nullptr, nullptr);
 }
 
 IGNORE_TEST(UtestStringMacros, STRCMP_CONTAINSWorksInAnIgnoredTest)

@@ -287,11 +287,6 @@ JUnitTestOutput::print(size_t)
 }
 
 void
-JUnitTestOutput::flush()
-{
-}
-
-void
 JUnitTestOutput::print_failure(const TestFailure& failure)
 {
   if (impl_->results.tail->failure == nullptr) {

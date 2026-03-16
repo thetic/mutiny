@@ -260,3 +260,40 @@ TEST(MockCheckedActualCall, MockActualCallTraceClear)
   actual.clear();
   STRCMP_EQUAL("", actual.get_trace_output());
 }
+
+TEST(MockCheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
+{
+  cppmu::MockCheckedExpectedCall call1;
+  call1.with_name("func");
+  list->add_expected_call(&call1);
+
+  const unsigned char buf[] = { 0x01, 0x02 };
+  cppmu::String name("mem");
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *list);
+  actual_call.with_name("func").with_memory_buffer_parameter(
+      name, buf, sizeof(buf));
+
+  cppmu::MockNamedValue parameter(name);
+  parameter.set_memory_buffer(buf, sizeof(buf));
+  cppmu::MockUnexpectedInputParameterFailure expected_failure(
+      mock_failure_test(), "func", parameter, *list);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+}
+
+TEST(MockCheckedActualCall, noComparatorForParameterOfTypeStringOverload)
+{
+  cppmu::MockCheckedExpectedCall call1;
+  call1.with_name("func");
+  list->add_expected_call(&call1);
+
+  int value = 0;
+  cppmu::String type_name("MyCustomType");
+  cppmu::String param_name("param");
+  cppmu::MockCheckedActualCall actual_call(1, reporter, *list);
+  actual_call.with_name("func").with_parameter_of_type(
+      type_name, param_name, &value);
+
+  cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
+      mock_failure_test(), type_name);
+  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+}

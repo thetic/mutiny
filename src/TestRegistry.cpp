@@ -242,8 +242,7 @@ TestRegistry::get_plugin_by_name(const String& name)
 void
 TestRegistry::remove_plugin_by_name(const String& name)
 {
-  if (first_plugin_->remove_plugin_by_name(name) == first_plugin_)
-    first_plugin_ = first_plugin_->get_next();
+  first_plugin_->remove_plugin_by_name(name);
   if (first_plugin_->get_name() == name)
     first_plugin_ = first_plugin_->get_next();
   first_plugin_->remove_plugin_by_name(name);

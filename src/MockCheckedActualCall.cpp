@@ -8,12 +8,6 @@
 
 namespace cppmu {
 
-void
-MockCheckedActualCall::set_name(const String& name)
-{
-  function_name_ = name;
-}
-
 const String&
 MockCheckedActualCall::get_name() const
 {

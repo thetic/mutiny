@@ -10,6 +10,13 @@ extern "C"
 #endif
 
   int test_set_jmp(void (*function)(void*), void* data);
+#ifdef __cplusplus
+  [[noreturn]]
+#elif defined(_MSC_VER)
+__declspec(noreturn)
+#else
+_Noreturn
+#endif
   void test_long_jmp(void);
   void test_restore_jump_buffer(void);
 

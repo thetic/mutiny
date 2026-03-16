@@ -141,20 +141,6 @@ TestShell::TestShell(const char* group_name,
 {
 }
 
-TestShell::TestShell(const char* group_name,
-    const char* test_name,
-    const char* file_name,
-    size_t line_number,
-    TestShell* next_test)
-  : group_(group_name)
-  , name_(test_name)
-  , file_(file_name)
-  , line_number_(line_number)
-  , next_(next_test)
-  , has_failed_(false)
-{
-}
-
 void
 TestShell::set_crash_method(void (*crashme)())
 {
@@ -373,20 +359,6 @@ TestShell::should_run(const TestFilter* group_filters,
     const TestFilter* name_filters) const
 {
   return match(group_, group_filters) && match(name_, name_filters);
-}
-
-void
-TestShell::fail_with(const TestFailure& failure)
-{
-  fail_with(failure, get_current_test_terminator());
-}
-
-void
-TestShell::fail_with(const TestFailure& failure,
-    const TestTerminator& terminator)
-{
-  add_failure(failure);
-  terminator.exit_current_test();
 }
 
 void
@@ -738,12 +710,6 @@ TestShell::print(const char* text, const char* file_name, size_t line_number)
   string_to_print += " ";
   string_to_print += text;
   get_test_result()->print(string_to_print.c_str());
-}
-
-void
-TestShell::print(const String& text, const char* file_name, size_t line_number)
-{
-  print(text.c_str(), file_name, line_number);
 }
 
 void

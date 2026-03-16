@@ -166,9 +166,6 @@ public:
   virtual void print(const char* text,
       const char* file_name,
       size_t line_number);
-  virtual void print(const String& text,
-      const char* file_name,
-      size_t line_number);
   virtual void print_very_verbose(const char* text);
 
   void set_file_name(const char* file_name);
@@ -189,19 +186,10 @@ public:
   virtual void run_one_test_in_current_process(TestPlugin* plugin,
       TestResult& result);
 
-  virtual void fail_with(const TestFailure& failure);
-  virtual void fail_with(const TestFailure& failure,
-      const TestTerminator& terminator);
-
   virtual void add_failure(const TestFailure& failure);
 
 protected:
   TestShell();
-  TestShell(const char* group_name,
-      const char* test_name,
-      const char* file_name,
-      size_t line_number,
-      TestShell* next_test);
 
   virtual String get_macro_name() const;
   TestResult* get_test_result();

@@ -117,7 +117,6 @@ public:
   void set_name_and_check(cppmu::String name);
 
 protected:
-  void set_name(const cppmu::String& name);
   const cppmu::String& get_name() const;
   virtual cppmu::TestShell* get_test() const;
   virtual void call_has_succeeded();

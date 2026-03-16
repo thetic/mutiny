@@ -34,6 +34,12 @@ TEST_GROUP(MockSupportPlugin)
   }
 };
 
+TEST(MockSupportPlugin, canBeDeletedThroughBasePointer)
+{
+  cppmu::TestPlugin* p = new cppmu::MockSupportPlugin;
+  delete p;
+}
+
 TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 {
   MockFailureReporterInstaller failure_reporter_installer;

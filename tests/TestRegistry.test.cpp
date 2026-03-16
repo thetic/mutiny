@@ -1,6 +1,7 @@
 #include "CppMu/TestRegistry.hpp"
 
 #include "CppMu/CppMu.hpp"
+#include "CppMu/OrderedTest.hpp"
 #include "CppMu/StringBufferTestOutput.hpp"
 #include "CppMu/TestOutput.hpp"
 #include "CppMu/time.hpp"
@@ -28,6 +29,12 @@ public:
   }
 
   bool has_run{ false };
+};
+
+class MockOrderedTest : public cppmu::OrderedTestShell
+{
+public:
+  void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override {}
 };
 
 class MockTestResult : public cppmu::TestResult
@@ -104,6 +111,7 @@ TEST_GROUP(TestRegistry)
   MockTest* test2;
   MockTest* test3;
   MockTest* test4;
+  MockOrderedTest* ordered_test;
   cppmu::TestResult* result;
   MockTestResult* mock_result;
   void setup() override
@@ -115,6 +123,7 @@ TEST_GROUP(TestRegistry)
     test2 = new MockTest();
     test3 = new MockTest("group2");
     test4 = new MockTest();
+    ordered_test = new MockOrderedTest();
     my_registry = new cppmu::TestRegistry();
     my_registry->set_current_registry(my_registry);
   }
@@ -127,6 +136,7 @@ TEST_GROUP(TestRegistry)
     delete test2;
     delete test3;
     delete test4;
+    delete ordered_test;
     delete result;
     delete output;
   }
@@ -363,6 +373,23 @@ TEST(TestRegistry,
                "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
                "testa.cpp.100\n",
       s.c_str());
+}
+
+TEST(TestRegistry, listOrderedTestLocations_onlyIncludesOrderedTests)
+{
+  ordered_test->set_group_name("GROUP_A");
+  ordered_test->set_test_name("test_a");
+  ordered_test->set_file_name("my_tests/testa.cpp");
+  ordered_test->set_line_number(100);
+  my_registry->add_test(ordered_test);
+
+  test1->set_group_name("GROUP_B");
+  test1->set_test_name("test_b");
+  my_registry->add_test(test1);
+
+  my_registry->list_ordered_test_locations(*result);
+  STRCMP_EQUAL(
+      "GROUP_A.test_a.my_tests/testa.cpp.100\n", output->get_output().c_str());
 }
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)

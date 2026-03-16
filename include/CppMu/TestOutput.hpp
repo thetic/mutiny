@@ -63,7 +63,7 @@ public:
 
   virtual void print_very_verbose(const char*);
 
-  virtual void flush() = 0;
+  virtual void flush() {}
 
 protected:
   virtual void print_progress_indicator();
