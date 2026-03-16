@@ -33,10 +33,6 @@ target_include_directories(ExampleTests
         .
 )
 
-target_compile_options(ExampleTests
-    PRIVATE $<$<BOOL:${MSVC}>:/wd4723>
-)
-
 target_compile_definitions(ExampleTests
     PRIVATE CPPMU_HAVE_FENV=$<BOOL:${CPPMU_HAVE_FENV}>
 )

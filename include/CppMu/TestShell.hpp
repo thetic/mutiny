@@ -284,6 +284,17 @@ public:
         !(condition), checkString, conditionString, text, file, line);         \
   } while (0)
 
+// MSVC C4127: suppress "conditional expression is constant" for the
+// self-comparison guards (x != x) used to detect NaN-like side-effect cases.
+#ifdef _MSC_VER
+#define CPPMU_SUPPRESS_C4127_PUSH                                              \
+  __pragma(warning(push)) __pragma(warning(disable : 4127))
+#define CPPMU_SUPPRESS_C4127_POP __pragma(warning(pop))
+#else
+#define CPPMU_SUPPRESS_C4127_PUSH
+#define CPPMU_SUPPRESS_C4127_POP
+#endif
+
 // This check needs the operator!=(), and a string_from(YourType) function
 #define CHECK_EQUAL(expected, actual)                                          \
   CHECK_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
@@ -292,6 +303,7 @@ public:
   CHECK_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LOCATION(expected, actual, text, file, line)               \
+  CPPMU_SUPPRESS_C4127_PUSH                                                    \
   do {                                                                         \
     if ((expected) != (actual)) {                                              \
       if ((actual) != (actual))                                                \
@@ -318,7 +330,7 @@ public:
       cppmu::TestShell::get_current()->assert_longs_equal(                     \
           static_cast<long>(0), static_cast<long>(0), nullptr, file, line);    \
     }                                                                          \
-  } while (0)
+  } while (0) CPPMU_SUPPRESS_C4127_POP
 
 #define CHECK_EQUAL_ZERO(actual) CHECK_EQUAL(0, (actual))
 

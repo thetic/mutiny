@@ -24,7 +24,8 @@ TEST_GROUP(FEDemo)
 IGNORE_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
 {
   float f = 1.0f;
-  CHECK((f /= 0.0f) >= INFINITY);
+  volatile float zero = 0.0f;
+  CHECK((f /= zero) >= INFINITY);
 }
 
 IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)

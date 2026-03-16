@@ -517,7 +517,8 @@ copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
 {
   char* new_buffer = alloc_string_buffer(buffer_size, __FILE__, __LINE__);
   str_n_cpy(new_buffer, buffer_to_copy, buffer_size);
-  new_buffer[buffer_size - 1] = '\0';
+  if (buffer_size > 0)
+    new_buffer[buffer_size - 1] = '\0';
   return new_buffer;
 }
 
