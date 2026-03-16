@@ -1,9 +1,14 @@
-include(CheckSourceCompiles)
-check_source_compiles(CXX
+include(CheckSourceRuns)
+# Verify that FP exception flags are actually raised at runtime, not just that
+# fenv.h compiles.  Soft-float targets (e.g. ARM without -mfpu/-mfloat-abi)
+# compile fenv.h cleanly but never write FPSCR, so fetestexcept() returns 0.
+check_source_runs(CXX
     "#include <fenv.h>
-     int main() {
-         feclearexcept(FE_ALL_EXCEPT);
-         return fetestexcept(FE_OVERFLOW);
+     int main(void) {
+         volatile float z = 0.0f;
+         volatile float r = 1.0f / z;
+         (void)r;
+         return fetestexcept(FE_DIVBYZERO) ? 0 : 1;
      }"
     CPPMU_HAVE_FENV
 )

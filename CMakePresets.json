@@ -69,8 +69,8 @@
         "CMAKE_SYSTEM_NAME": "Generic",
         "CMAKE_SYSTEM_PROCESSOR": "cortex-m4",
         "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
-        "CMAKE_C_FLAGS_INIT": "-mcpu=cortex-m4",
-        "CMAKE_CXX_FLAGS_INIT": "-mcpu=cortex-m4",
+        "CMAKE_C_FLAGS_INIT": "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
+        "CMAKE_CXX_FLAGS_INIT": "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
         "CMAKE_EXE_LINKER_FLAGS_INIT": "-specs=rdimon.specs",
         "CMAKE_CROSSCOMPILING_EMULATOR": "docker;run;--rm;-v=${sourceDir}:${sourceDir};multiarch/qemu-user-static:arm-7.1.0-2;qemu-arm-static;-cpu;cortex-m4"
       }
