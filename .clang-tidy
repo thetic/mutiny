@@ -6,6 +6,7 @@ Checks:
   - -bugprone-easily-swappable-parameters
   - misc-use-anonymous-namespace
   - modernize-use-auto
+  - modernize-use-override
   - modernize-use-using
   - readability-identifier-naming
   - readability-static-definition-in-anonymous-namespace

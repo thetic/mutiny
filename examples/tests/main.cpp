@@ -8,12 +8,12 @@
 class MyDummyComparator : public cppmu::MockNamedValueComparator
 {
 public:
-  virtual bool is_equal(const void* object1, const void* object2) override
+  bool is_equal(const void* object1, const void* object2) override
   {
     return object1 == object2;
   }
 
-  virtual cppmu::String value_to_string(const void* object) override
+  cppmu::String value_to_string(const void* object) override
   {
     return cppmu::string_from(object);
   }

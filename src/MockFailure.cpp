@@ -15,7 +15,7 @@ public:
   {
   }
 
-  virtual void exit_current_test() const override
+  void exit_current_test() const override
   {
     if (crash_on_failure_)
       cppmu::TestShell::crash();
@@ -23,7 +23,7 @@ public:
     cppmu::TestShell::get_current_test_terminator().exit_current_test();
   }
 
-  virtual ~MockFailureReporterTestTerminator() override {}
+  ~MockFailureReporterTestTerminator() override {}
 
 private:
   bool crash_on_failure_;

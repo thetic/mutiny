@@ -18,19 +18,16 @@ public:
   {
   }
 
-  virtual void fail_test(MockFailure failure) override
+  void fail_test(MockFailure failure) override { result_.add_failure(failure); }
+
+  void report_failure(const MockFailure& failure) override
   {
     result_.add_failure(failure);
   }
 
-  virtual void report_failure(const MockFailure& failure) override
-  {
-    result_.add_failure(failure);
-  }
+  void exit_test() override {}
 
-  virtual void exit_test() override {}
-
-  virtual cppmu::TestShell* get_test_to_fail() override { return &test_; }
+  cppmu::TestShell* get_test_to_fail() override { return &test_; }
 };
 
 MockSupportPlugin::MockSupportPlugin(const String& name)

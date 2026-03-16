@@ -9,7 +9,7 @@ class OrderedTestShell : public cppmu::TestShell
 {
 public:
   OrderedTestShell();
-  virtual ~OrderedTestShell() override;
+  ~OrderedTestShell() override;
 
   virtual OrderedTestShell* add_ordered_test(OrderedTestShell* test);
   virtual OrderedTestShell* get_next_ordered_test();

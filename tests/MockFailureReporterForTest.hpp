@@ -16,9 +16,9 @@ class MockFailureReporterForTest : public cppmu::MockFailureReporter
 public:
   cppmu::String mock_failure_string;
 
-  virtual void fail_test(cppmu::MockFailure failure) override;
-  virtual void report_failure(const cppmu::MockFailure& failure) override;
-  virtual void exit_test() override;
+  void fail_test(cppmu::MockFailure failure) override;
+  void report_failure(const cppmu::MockFailure& failure) override;
+  void exit_test() override;
   static MockFailureReporterForTest* get_reporter();
   static void clear_reporter();
 

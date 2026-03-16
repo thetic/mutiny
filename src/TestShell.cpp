@@ -26,7 +26,7 @@ class OutsideTestRunnerUTest : public TestShell
 public:
   static OutsideTestRunnerUTest& instance();
   virtual TestResult& get_test_result() { return default_test_result_; }
-  virtual ~OutsideTestRunnerUTest() override {}
+  ~OutsideTestRunnerUTest() override {}
 
 private:
   OutsideTestRunnerUTest()

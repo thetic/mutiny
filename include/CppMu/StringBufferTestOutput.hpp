@@ -16,7 +16,7 @@ class StringBufferTestOutput : public TestOutput
 public:
   explicit StringBufferTestOutput() {}
 
-  virtual ~StringBufferTestOutput() override;
+  ~StringBufferTestOutput() override;
 
   void print_buffer(const char* s) override { output_ += s; }
 

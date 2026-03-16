@@ -19,9 +19,9 @@ class CompositeTestOutputTestStringBufferTestOutput
   : public cppmu::StringBufferTestOutput
 {
 public:
-  virtual void print_tests_started() override { output_ += "Test Start\n"; }
+  void print_tests_started() override { output_ += "Test Start\n"; }
 
-  virtual void print_tests_ended(const cppmu::TestResult& result) override
+  void print_tests_ended(const cppmu::TestResult& result) override
   {
     output_ += cppmu::string_from_format(
         "Test End %d\n", static_cast<int>(result.get_test_count()));
@@ -39,7 +39,7 @@ public:
         "Group End %d\n", static_cast<int>(res.get_test_count()));
   }
 
-  virtual void print_current_test_started(const cppmu::TestShell&) override
+  void print_current_test_started(const cppmu::TestShell&) override
   {
     output_ += "s";
   }

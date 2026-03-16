@@ -13,22 +13,22 @@ class JUnitTestOutput : public TestOutput
 {
 public:
   JUnitTestOutput();
-  virtual ~JUnitTestOutput() override;
+  ~JUnitTestOutput() override;
 
-  virtual void print_tests_started() override;
-  virtual void print_tests_ended(const TestResult& result) override;
-  virtual void print_current_test_started(const TestShell& test) override;
-  virtual void print_current_test_ended(const TestResult& res) override;
-  virtual void print_current_group_started(const TestShell& test) override;
-  virtual void print_current_group_ended(const TestResult& res) override;
+  void print_tests_started() override;
+  void print_tests_ended(const TestResult& result) override;
+  void print_current_test_started(const TestShell& test) override;
+  void print_current_test_ended(const TestResult& res) override;
+  void print_current_group_started(const TestShell& test) override;
+  void print_current_group_ended(const TestResult& res) override;
 
-  virtual void print_buffer(const char*) override;
-  virtual void print(const char*) override;
-  virtual void print(long) override;
-  virtual void print(size_t) override;
-  virtual void print_failure(const TestFailure& failure) override;
+  void print_buffer(const char*) override;
+  void print(const char*) override;
+  void print(long) override;
+  void print(size_t) override;
+  void print_failure(const TestFailure& failure) override;
 
-  virtual void flush() override;
+  void flush() override;
 
   virtual String create_file_name(const String& group);
   void set_package_name(const String& package);

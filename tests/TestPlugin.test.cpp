@@ -24,13 +24,13 @@ public:
   {
   }
 
-  virtual void pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
     pre_action++;
     pre_action_sequence = sequence_number++;
   }
 
-  virtual void post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
     post_action++;
     post_action_sequence = sequence_number++;
@@ -50,9 +50,7 @@ public:
   {
   }
 
-  virtual bool parse_arguments(int argc,
-      const char* const* argv,
-      int index) override
+  bool parse_arguments(int argc, const char* const* argv, int index) override
   {
     cppmu::String argument(argv[index]);
     if (argument == "-paccept")

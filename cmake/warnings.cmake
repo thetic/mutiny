@@ -37,7 +37,6 @@ elseif(
     set(WARNING_CXX_FLAGS
         ${WARNING_COMMON_FLAGS}
         -Woverloaded-virtual
-        -Wsuggest-override
         -Wold-style-cast
     )
 endif()

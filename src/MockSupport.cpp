@@ -810,7 +810,7 @@ public:
   {
   }
 
-  virtual void exit_current_test() const override
+  void exit_current_test() const override
   {
     if (crash_on_failure_)
       cppmu::TestShell::crash();
@@ -818,7 +818,7 @@ public:
     TestShell::get_current_test_terminator_without_exceptions()
         .exit_current_test();
   }
-  virtual ~MockFailureReporterTestTerminatorForInCOnlyCode() override {}
+  ~MockFailureReporterTestTerminatorForInCOnlyCode() override {}
 
 private:
   bool crash_on_failure_;
@@ -867,13 +867,13 @@ public:
     , to_string(ts)
   {
   }
-  virtual ~MockCFunctionComparatorNode() override {}
+  ~MockCFunctionComparatorNode() override {}
 
-  virtual bool is_equal(const void* object1, const void* object2) override
+  bool is_equal(const void* object1, const void* object2) override
   {
     return equal(object1, object2) != 0;
   }
-  virtual cppmu::String value_to_string(const void* object) override
+  cppmu::String value_to_string(const void* object) override
   {
     return cppmu::String(to_string(object));
   }
@@ -894,9 +894,9 @@ public:
     , copier(cp)
   {
   }
-  virtual ~MockCFunctionCopierNode() override {}
+  ~MockCFunctionCopierNode() override {}
 
-  virtual void copy(void* dst, const void* src) override { copier(dst, src); }
+  void copy(void* dst, const void* src) override { copier(dst, src); }
 
   MockCFunctionCopierNode* next;
   MockTypeCopyFunction copier;

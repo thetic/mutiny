@@ -23,7 +23,7 @@ public:
   {
   }
 
-  virtual bool parse_arguments(int, const char* const*, int) override
+  bool parse_arguments(int, const char* const*, int) override
   {
     /* Remove ourselves from the count */
     amount_of_plugins = registry_->count_plugins() - 1;
@@ -92,7 +92,7 @@ public:
     : IgnoredTestShell(group_name, test_name, file_name, line_number)
   {
   }
-  virtual cppmu::Test* create_test() override { return new RunIgnoredTest; }
+  cppmu::Test* create_test() override { return new RunIgnoredTest; }
 };
 } // namespace
 

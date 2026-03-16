@@ -18,11 +18,11 @@ class MockPrinter : public Printer
 {
 public:
   explicit MockPrinter() {}
-  virtual ~MockPrinter() override {}
+  ~MockPrinter() override {}
 
-  virtual void print(const char* s) override { saved_output_ += s; }
+  void print(const char* s) override { saved_output_ += s; }
 
-  virtual void print(long int value) override
+  void print(long int value) override
   {
     cppmu::String buffer;
     buffer = cppmu::string_from_format("%ld", value);

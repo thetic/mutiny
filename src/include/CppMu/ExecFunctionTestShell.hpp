@@ -13,8 +13,8 @@ class ExecFunctionTest : public Test
 public:
   ExecFunctionTest(ExecFunctionTestShell* shell);
   void test_body() override;
-  virtual void setup() override;
-  virtual void teardown() override;
+  void setup() override;
+  void teardown() override;
 
 private:
   ExecFunctionTestShell* shell_;
@@ -37,9 +37,9 @@ public:
   void (*test_function)();
 
   ExecFunctionWithoutParameters(void (*test_function)());
-  virtual ~ExecFunctionWithoutParameters() override;
+  ~ExecFunctionWithoutParameters() override;
 
-  virtual void exec() override;
+  void exec() override;
 };
 
 //////////////////// ExecFunctionTestShell
@@ -60,7 +60,7 @@ public:
   }
 
   Test* create_test() override { return new ExecFunctionTest(this); }
-  virtual ~ExecFunctionTestShell() override;
+  ~ExecFunctionTestShell() override;
 };
 
 } // namespace cppmu

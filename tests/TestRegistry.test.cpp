@@ -22,7 +22,7 @@ public:
     , has_run(false)
   {
   }
-  virtual void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override
+  void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override
   {
     has_run = true;
   }
@@ -46,7 +46,7 @@ public:
     reset_count();
   }
 
-  virtual ~MockTestResult() override {}
+  ~MockTestResult() override {}
 
   void reset_count()
   {
@@ -58,21 +58,21 @@ public:
     count_current_group_ended = 0;
   }
 
-  virtual void tests_started() override { count_tests_started++; }
-  virtual void tests_ended() override { count_tests_ended++; }
-  virtual void current_test_started(cppmu::TestShell* /*test*/) override
+  void tests_started() override { count_tests_started++; }
+  void tests_ended() override { count_tests_ended++; }
+  void current_test_started(cppmu::TestShell* /*test*/) override
   {
     count_current_test_started++;
   }
-  virtual void current_test_ended(cppmu::TestShell* /*test*/) override
+  void current_test_ended(cppmu::TestShell* /*test*/) override
   {
     count_current_test_ended++;
   }
-  virtual void current_group_started(cppmu::TestShell* /*test*/) override
+  void current_group_started(cppmu::TestShell* /*test*/) override
   {
     count_current_group_started++;
   }
-  virtual void current_group_ended(cppmu::TestShell* /*test*/) override
+  void current_group_ended(cppmu::TestShell* /*test*/) override
   {
     count_current_group_ended++;
   }
@@ -85,13 +85,11 @@ public:
     : TestPlugin(name)
   {
   }
-  virtual ~MyTestPluginDummy() override {}
-  virtual void run_all_pre_test_action(cppmu::TestShell&,
-      cppmu::TestResult&) override
+  ~MyTestPluginDummy() override {}
+  void run_all_pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
   }
-  virtual void run_all_post_test_action(cppmu::TestShell&,
-      cppmu::TestResult&) override
+  void run_all_post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
   {
   }
 };

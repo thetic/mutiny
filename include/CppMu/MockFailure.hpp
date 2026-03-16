@@ -38,7 +38,7 @@ class MockFailure : public cppmu::TestFailure
 public:
   MockFailure(cppmu::TestShell* test);
   MockFailure(MockFailure&&) noexcept = default;
-  virtual ~MockFailure() override {}
+  ~MockFailure() override {}
 
 protected:
   void add_expectations_and_call_history(

@@ -54,10 +54,8 @@ class NullTestPlugin : public TestPlugin
 public:
   NullTestPlugin();
 
-  virtual void run_all_pre_test_action(TestShell& test,
-      TestResult& result) override;
-  virtual void run_all_post_test_action(TestShell& test,
-      TestResult& result) override;
+  void run_all_pre_test_action(TestShell& test, TestResult& result) override;
+  void run_all_post_test_action(TestShell& test, TestResult& result) override;
 
   static NullTestPlugin* instance();
 };

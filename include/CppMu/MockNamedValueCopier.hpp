@@ -27,7 +27,7 @@ public:
   {
   }
 
-  virtual void copy(void* dst, const void* src) override { copier_(dst, src); }
+  void copy(void* dst, const void* src) override { copier_(dst, src); }
 
 private:
   CopyFunction copier_;

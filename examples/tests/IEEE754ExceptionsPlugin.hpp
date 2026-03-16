@@ -13,9 +13,9 @@ public:
   IEEE754ExceptionsPlugin(
       const cppmu::String& name = "IEEE754ExceptionsPlugin");
 
-  virtual void pre_test_action(cppmu::TestShell& test,
+  void pre_test_action(cppmu::TestShell& test,
       cppmu::TestResult& result) override;
-  virtual void post_test_action(cppmu::TestShell& test,
+  void post_test_action(cppmu::TestShell& test,
       cppmu::TestResult& result) override;
 
   static void disable_inexact(void);

@@ -17,7 +17,7 @@ class SetPointerPlugin : public TestPlugin
 {
 public:
   SetPointerPlugin(const String& name);
-  virtual void post_test_action(TestShell&, TestResult&) override;
+  void post_test_action(TestShell&, TestResult&) override;
 
   static constexpr int max_set = 32;
 

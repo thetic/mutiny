@@ -93,10 +93,7 @@ public:
 class FunctionPointerShell : public cppmu::TestShell
 {
 public:
-  virtual cppmu::Test* create_test() override
-  {
-    return new FunctionPointerGroup();
-  }
+  cppmu::Test* create_test() override { return new FunctionPointerGroup(); }
 };
 
 TEST(SetPointerPlugin, installTwoFunctionPointer)
@@ -140,7 +137,7 @@ public:
   {
   }
 
-  virtual cppmu::Test* create_test() override
+  cppmu::Test* create_test() override
   {
     return new MaxFunctionPointerGroup(num_of_fp_sets);
   }

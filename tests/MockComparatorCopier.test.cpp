@@ -27,14 +27,14 @@ public:
 class MyTypeForTestingComparator : public cppmu::MockNamedValueComparator
 {
 public:
-  virtual bool is_equal(const void* object1, const void* object2) override
+  bool is_equal(const void* object1, const void* object2) override
   {
     auto* obj1 = static_cast<const MyTypeForTesting*>(object1);
     auto* obj2 = static_cast<const MyTypeForTesting*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
 
-  virtual cppmu::String value_to_string(const void* object) override
+  cppmu::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const MyTypeForTesting*>(object);
     return cppmu::string_from(*(obj->value));
@@ -44,7 +44,7 @@ public:
 class MyTypeForTestingCopier : public cppmu::MockNamedValueCopier
 {
 public:
-  virtual void copy(void* dst, const void* src) override
+  void copy(void* dst, const void* src) override
   {
     auto* typed_dst = static_cast<MyTypeForTesting*>(dst);
     auto* typed_src = static_cast<const MyTypeForTesting*>(src);
@@ -700,8 +700,8 @@ class StubComparator
   : public MyTypeForTestingComparator::MockNamedValueComparator
 {
 public:
-  virtual bool is_equal(const void*, const void*) override { return true; }
-  virtual cppmu::String value_to_string(const void*) override { return ""; }
+  bool is_equal(const void*, const void*) override { return true; }
+  cppmu::String value_to_string(const void*) override { return ""; }
 };
 
 struct SomeClass

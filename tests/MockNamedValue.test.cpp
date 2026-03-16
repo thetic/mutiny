@@ -10,19 +10,19 @@ class MyComparator : public cppmu::MockNamedValueComparator
 {
 public:
   MyComparator() {}
-  virtual ~MyComparator() override {}
+  ~MyComparator() override {}
 
-  virtual bool is_equal(const void*, const void*) override { return false; }
-  virtual cppmu::String value_to_string(const void*) override { return ""; }
+  bool is_equal(const void*, const void*) override { return false; }
+  cppmu::String value_to_string(const void*) override { return ""; }
 };
 
 class MyCopier : public cppmu::MockNamedValueCopier
 {
 public:
   MyCopier() {}
-  virtual ~MyCopier() override {}
+  ~MyCopier() override {}
 
-  virtual void copy(void*, const void*) override {}
+  void copy(void*, const void*) override {}
 };
 
 TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)

@@ -10,14 +10,14 @@ class TeamCityTestOutput : public ConsoleTestOutput
 {
 public:
   TeamCityTestOutput(void);
-  virtual ~TeamCityTestOutput(void) override;
+  ~TeamCityTestOutput(void) override;
 
-  virtual void print_current_test_started(const TestShell& test) override;
-  virtual void print_current_test_ended(const TestResult& res) override;
-  virtual void print_current_group_started(const TestShell& test) override;
-  virtual void print_current_group_ended(const TestResult& res) override;
+  void print_current_test_started(const TestShell& test) override;
+  void print_current_test_ended(const TestResult& res) override;
+  void print_current_group_started(const TestShell& test) override;
+  void print_current_group_ended(const TestResult& res) override;
 
-  virtual void print_failure(const TestFailure& failure) override;
+  void print_failure(const TestFailure& failure) override;
 
 protected:
 private:

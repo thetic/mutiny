@@ -8,7 +8,7 @@ using cppmu::mock;
 class ObserverMock : public EventObserver
 {
 public:
-  virtual void notify(const Event& event, int time_out_in_seconds) override
+  void notify(const Event& event, int time_out_in_seconds) override
   {
     mock()
         .actual_call("notify")
@@ -17,7 +17,7 @@ public:
             "Event", "event", static_cast<const void*>(&event))
         .with_parameter("timeOutInSeconds", time_out_in_seconds);
   }
-  virtual void notify_registration(EventObserver* new_observer) override
+  void notify_registration(EventObserver* new_observer) override
   {
     mock()
         .actual_call("notifyRegistration")
@@ -29,12 +29,12 @@ public:
 class EventComparator : public cppmu::MockNamedValueComparator
 {
 public:
-  virtual bool is_equal(const void* object1, const void* object2) override
+  bool is_equal(const void* object1, const void* object2) override
   {
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  virtual cppmu::String value_to_string(const void* object) override
+  cppmu::String value_to_string(const void* object) override
   {
     return cppmu::string_from(static_cast<const Event*>(object)->type);
   }

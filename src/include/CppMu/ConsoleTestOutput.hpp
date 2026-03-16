@@ -15,10 +15,10 @@ class ConsoleTestOutput : public TestOutput
 {
 public:
   explicit ConsoleTestOutput() {}
-  virtual ~ConsoleTestOutput() override {}
+  ~ConsoleTestOutput() override {}
 
-  virtual void print_buffer(const char* s) override;
-  virtual void flush() override;
+  void print_buffer(const char* s) override;
+  void flush() override;
 
 private:
   ConsoleTestOutput(const ConsoleTestOutput&);
