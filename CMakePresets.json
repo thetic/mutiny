@@ -84,6 +84,7 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_PROJECT_CppMu_INCLUDE": "${sourceDir}/cmake/lcov.cmake",
         "CPPMU_EXAMPLES": false
       }
     },

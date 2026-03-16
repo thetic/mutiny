@@ -174,15 +174,10 @@ jobs:
           ctest --test-dir examples_build
         if: ${{ matrix.install }}
 
-      - name: Coverage
-        run: |
-          lcov --ignore-errors mismatch --capture --directory . --no-external --output-file lcov.info
-          lcov --remove lcov.info --output-file lcov.info '*/tests/*'
-        if: ${{ matrix.name == 'Coverage' }}
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
-          path-to-lcov: lcov.info
+          path-to-lcov: build/coverage/coverage.lcov
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ matrix.name == 'Coverage' }}
 
