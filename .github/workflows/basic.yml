@@ -136,9 +136,6 @@ jobs:
             os: macos-latest
             cmake_args: -DCMAKE_CXX_STANDARD=14
             preset: GNU
-          - name: Cygwin
-            os: windows-latest
-            preset: GNU
     name: CMake ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -153,20 +150,8 @@ jobs:
       - uses: carlosperate/arm-none-eabi-gcc-action@v1
         if: ${{ matrix.name == 'GCC ARM embedded' }}
 
-      - run: git config --global core.autocrlf input
-        if: ${{ matrix.name == 'Cygwin' }}
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install Cygwin
-        uses: cygwin/cygwin-install-action@v6
-        with:
-          packages: >
-            cmake
-            gcc-core
-            gcc-g++
-            make
-        if: ${{ matrix.name == 'Cygwin' }}
 
       ## BUILD AND TEST
 
@@ -255,6 +240,29 @@ jobs:
             mingw-w64-x86_64-make
       - name: Configure
         run: cmake --preset=GNU
+      - name: Build
+        run: cmake --build build -j
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  cmake_cygwin:
+    name: CMake Cygwin
+    runs-on: windows-latest
+    steps:
+      - name: Set line endings
+        run: git config --global core.autocrlf input
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Cygwin
+        uses: cygwin/cygwin-install-action@v6
+        with:
+          packages: >
+            cmake
+            gcc-core
+            gcc-g++
+            ninja
+      - name: Configure
+        run: cmake --preset=GNU -G Ninja
       - name: Build
         run: cmake --build build -j
       - name: Test
