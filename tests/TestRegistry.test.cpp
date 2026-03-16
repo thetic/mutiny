@@ -19,7 +19,7 @@ class MockTest : public cppmu::TestShell
 public:
   MockTest(const char* group = "Group")
     : TestShell(group, "Name", "File", test_line_number)
-    , has_run(false)
+
   {
   }
   void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override
@@ -27,7 +27,7 @@ public:
     has_run = true;
   }
 
-  bool has_run;
+  bool has_run{ false };
 };
 
 class MockTestResult : public cppmu::TestResult

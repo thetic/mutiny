@@ -27,9 +27,7 @@ CommandLineTestRunner::run_all_tests(int argc, const char* const* argv)
 CommandLineTestRunner::CommandLineTestRunner(int argc,
     const char* const* argv,
     TestRegistry* registry)
-  : output_(nullptr)
-  , arguments_(nullptr)
-  , registry_(registry)
+  : registry_(registry)
 {
   arguments_ = new CommandLineArguments(argc, argv);
 }

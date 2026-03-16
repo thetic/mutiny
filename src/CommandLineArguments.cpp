@@ -9,25 +9,7 @@ namespace cppmu {
 CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   : ac_(argc)
   , av_(argv)
-  , need_help_(false)
-  , verbose_(false)
-  , very_verbose_(false)
-  , color_(false)
-  , list_test_group_names_(false)
-  , list_test_group_and_case_names_(false)
-  , list_test_locations_(false)
-  , list_ordered_test_locations_(false)
-  , run_ignored_(false)
-  , reversing_(false)
-  , crash_on_fail_(false)
-  , rethrow_exceptions_(true)
-  , shuffling_(false)
-  , shuffling_pre_seeded_(false)
-  , repeat_(1)
-  , shuffle_seed_(0)
-  , group_filters_(nullptr)
-  , name_filters_(nullptr)
-  , output_type_(OutputType::eclipse)
+
 {
 }
 

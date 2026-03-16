@@ -9,18 +9,7 @@ namespace cppmu {
 
 TestResult::TestResult(TestOutput& p)
   : output_(p)
-  , test_count_(0)
-  , run_count_(0)
-  , check_count_(0)
-  , failure_count_(0)
-  , filtered_out_count_(0)
-  , ignored_count_(0)
-  , total_execution_time_(0)
-  , time_started_(0)
-  , current_test_time_started_(0)
-  , current_test_total_execution_time_(0)
-  , current_group_time_started_(0)
-  , current_group_total_execution_time_(0)
+
 {
 }
 

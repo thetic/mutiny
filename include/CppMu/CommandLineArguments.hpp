@@ -51,25 +51,25 @@ private:
   int ac_;
   const char* const* av_;
 
-  bool need_help_;
-  bool verbose_;
-  bool very_verbose_;
-  bool color_;
-  bool list_test_group_names_;
-  bool list_test_group_and_case_names_;
-  bool list_test_locations_;
-  bool list_ordered_test_locations_;
-  bool run_ignored_;
-  bool reversing_;
-  bool crash_on_fail_;
-  bool rethrow_exceptions_;
-  bool shuffling_;
-  bool shuffling_pre_seeded_;
-  size_t repeat_;
-  size_t shuffle_seed_;
-  TestFilter* group_filters_;
-  TestFilter* name_filters_;
-  OutputType output_type_;
+  bool need_help_{ false };
+  bool verbose_{ false };
+  bool very_verbose_{ false };
+  bool color_{ false };
+  bool list_test_group_names_{ false };
+  bool list_test_group_and_case_names_{ false };
+  bool list_test_locations_{ false };
+  bool list_ordered_test_locations_{ false };
+  bool run_ignored_{ false };
+  bool reversing_{ false };
+  bool crash_on_fail_{ false };
+  bool rethrow_exceptions_{ true };
+  bool shuffling_{ false };
+  bool shuffling_pre_seeded_{ false };
+  size_t repeat_{ 1 };
+  size_t shuffle_seed_{ 0 };
+  TestFilter* group_filters_{ nullptr };
+  TestFilter* name_filters_{ nullptr };
+  OutputType output_type_{ OutputType::eclipse };
   String package_name_;
 
   String get_parameter_field(int argc,

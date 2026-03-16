@@ -11,14 +11,12 @@ namespace {
 class DummyPluginWhichCountsThePlugins : public cppmu::TestPlugin
 {
 public:
-  bool return_value;
-  int amount_of_plugins;
+  bool return_value{ true };
+  int amount_of_plugins{ 0 };
 
   DummyPluginWhichCountsThePlugins(const cppmu::String& name,
       cppmu::TestRegistry* registry)
     : TestPlugin(name)
-    , return_value(true)
-    , amount_of_plugins(0)
     , registry_(registry)
   {
   }
@@ -38,17 +36,21 @@ class CommandLineTestRunnerWithStringBufferOutput
   : public cppmu::CommandLineTestRunner
 {
 public:
-  cppmu::StringBufferTestOutput* fake_j_unit_output_which_is_really_a_buffer;
-  cppmu::StringBufferTestOutput* fake_console_output_which_is_really_a_buffer;
-  cppmu::StringBufferTestOutput* fake_tc_output_which_is_really_a_buffer;
+  cppmu::StringBufferTestOutput* fake_j_unit_output_which_is_really_a_buffer{
+    nullptr
+  };
+  cppmu::StringBufferTestOutput* fake_console_output_which_is_really_a_buffer{
+    nullptr
+  };
+  cppmu::StringBufferTestOutput* fake_tc_output_which_is_really_a_buffer{
+    nullptr
+  };
 
   CommandLineTestRunnerWithStringBufferOutput(int argc,
       const char* const* argv,
       cppmu::TestRegistry* registry)
     : CommandLineTestRunner(argc, argv, registry)
-    , fake_j_unit_output_which_is_really_a_buffer(nullptr)
-    , fake_console_output_which_is_really_a_buffer(nullptr)
-    , fake_tc_output_which_is_really_a_buffer(nullptr)
+
   {
   }
 

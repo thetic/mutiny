@@ -17,10 +17,7 @@ class DummyPlugin : public cppmu::TestPlugin
 public:
   DummyPlugin(const cppmu::String& name)
     : TestPlugin(name)
-    , pre_action(0)
-    , pre_action_sequence(0)
-    , post_action(0)
-    , post_action_sequence(0)
+
   {
   }
 
@@ -36,10 +33,10 @@ public:
     post_action_sequence = sequence_number++;
   }
 
-  int pre_action;
-  int pre_action_sequence;
-  int post_action;
-  int post_action_sequence;
+  int pre_action{ 0 };
+  int pre_action_sequence{ 0 };
+  int post_action{ 0 };
+  int post_action_sequence{ 0 };
 };
 
 class DummyPluginWhichAcceptsParameters : public DummyPlugin

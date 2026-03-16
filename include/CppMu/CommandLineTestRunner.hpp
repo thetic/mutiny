@@ -30,10 +30,10 @@ protected:
   virtual TestOutput* create_composite_output(TestOutput* output_one,
       TestOutput* output_two);
 
-  TestOutput* output_;
+  TestOutput* output_{ nullptr };
 
 private:
-  CommandLineArguments* arguments_;
+  CommandLineArguments* arguments_{ nullptr };
   TestRegistry* registry_;
 
   bool parse_arguments(TestPlugin*);

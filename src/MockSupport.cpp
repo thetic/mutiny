@@ -22,18 +22,17 @@ class MockSupport::Impl
   friend class MockSupport;
 
   MockFailureReporter default_reporter_;
-  MockFailureReporter* active_reporter_;
+  MockFailureReporter* active_reporter_{ nullptr };
   MockFailureReporter* standard_reporter_;
   MockExpectedCallsList expectations_;
-  MockCheckedActualCall* last_actual_function_call_;
+  MockCheckedActualCall* last_actual_function_call_{ nullptr };
   MockNamedValueComparatorsAndCopiersRepository
       comparators_and_copiers_repository_;
   MockNamedValueList data_;
 
   Impl()
-    : active_reporter_(nullptr)
-    , standard_reporter_(&default_reporter_)
-    , last_actual_function_call_(nullptr)
+    : standard_reporter_(&default_reporter_)
+
   {
   }
 };
@@ -56,13 +55,8 @@ mock(const String& mock_name,
 
 MockSupport::MockSupport(const String& mock_name)
   : impl_(new Impl())
-  , actual_call_order_(0)
-  , expected_call_order_(0)
-  , strict_ordering_(false)
-  , ignore_other_calls_(false)
-  , enabled_(true)
   , mock_name_(mock_name)
-  , tracing_(false)
+
 {
 }
 

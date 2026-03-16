@@ -25,10 +25,7 @@ MockNamedValue::get_default_comparators_and_copiers_repository()
 MockNamedValue::MockNamedValue(const String& name)
   : name_(name)
   , type_("int")
-  , is_const_object_(false)
-  , size_(0)
-  , comparator_(nullptr)
-  , copier_(nullptr)
+
 {
   value_.int_value = 0;
 }

@@ -12,7 +12,7 @@ namespace {
 class FileForJUnitTestOutputs
 {
   cppmu::String name_;
-  bool is_open_;
+  bool is_open_{ true };
   cppmu::String buffer_;
   FileForJUnitTestOutputs* next_;
 
@@ -22,7 +22,6 @@ public:
   FileForJUnitTestOutputs(const cppmu::String& filename,
       FileForJUnitTestOutputs* next)
     : name_(filename)
-    , is_open_(true)
     , next_(next)
   {
   }
@@ -57,13 +56,10 @@ public:
 
 class FileSystemForJUnitTestOutputTests
 {
-  FileForJUnitTestOutputs* first_file_;
+  FileForJUnitTestOutputs* first_file_{ nullptr };
 
 public:
-  FileSystemForJUnitTestOutputTests()
-    : first_file_(nullptr)
-  {
-  }
+  FileSystemForJUnitTestOutputTests() {}
   ~FileSystemForJUnitTestOutputTests() { clear(); }
 
   void clear(void)
@@ -125,22 +121,17 @@ class JUnitTestOutputTestRunner
 {
   cppmu::TestResult result_;
 
-  const char* current_group_name_;
-  cppmu::TestShell* current_test_;
-  bool first_test_in_group_;
-  unsigned int time_the_test_takes_;
-  unsigned int number_of_checks_in_test_;
-  cppmu::TestFailure* test_failure_;
+  const char* current_group_name_{ nullptr };
+  cppmu::TestShell* current_test_{ nullptr };
+  bool first_test_in_group_{ true };
+  unsigned int time_the_test_takes_{ 0 };
+  unsigned int number_of_checks_in_test_{ 0 };
+  cppmu::TestFailure* test_failure_{ nullptr };
 
 public:
   explicit JUnitTestOutputTestRunner(const cppmu::TestResult& result)
     : result_(result)
-    , current_group_name_(nullptr)
-    , current_test_(nullptr)
-    , first_test_in_group_(true)
-    , time_the_test_takes_(0)
-    , number_of_checks_in_test_(0)
-    , test_failure_(nullptr)
+
   {
     millis_time = 0;
     the_time = "1978-10-03T00:00:00";

@@ -21,7 +21,7 @@ public:
 
 private:
   MockNamedValue* data_;
-  MockNamedValueListNode* next_;
+  MockNamedValueListNode* next_{ nullptr };
 };
 
 class MockNamedValueList
@@ -37,7 +37,7 @@ public:
   MockNamedValue* get_value_by_name(const cppmu::String& name);
 
 private:
-  MockNamedValueListNode* head_;
+  MockNamedValueListNode* head_{ nullptr };
 };
 
 } // namespace cppmu

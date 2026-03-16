@@ -59,18 +59,18 @@ public:
 
 private:
   TestOutput& output_;
-  size_t test_count_;
-  size_t run_count_;
-  size_t check_count_;
-  size_t failure_count_;
-  size_t filtered_out_count_;
-  size_t ignored_count_;
-  size_t total_execution_time_;
-  size_t time_started_;
-  size_t current_test_time_started_;
-  size_t current_test_total_execution_time_;
-  size_t current_group_time_started_;
-  size_t current_group_total_execution_time_;
+  size_t test_count_{ 0 };
+  size_t run_count_{ 0 };
+  size_t check_count_{ 0 };
+  size_t failure_count_{ 0 };
+  size_t filtered_out_count_{ 0 };
+  size_t ignored_count_{ 0 };
+  size_t total_execution_time_{ 0 };
+  size_t time_started_{ 0 };
+  size_t current_test_time_started_{ 0 };
+  size_t current_test_total_execution_time_{ 0 };
+  size_t current_group_time_started_{ 0 };
+  size_t current_group_total_execution_time_{ 0 };
 };
 
 } // namespace cppmu

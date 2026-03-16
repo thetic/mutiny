@@ -9,8 +9,7 @@ namespace cppmu {
 int (*rand)() = ::rand;
 
 TestShellPointerArray::TestShellPointerArray(TestShell* first_test)
-  : array_of_tests_(nullptr)
-  , count_(0)
+
 {
   count_ = (first_test) ? first_test->count_tests() : 0;
   if (count_ == 0)

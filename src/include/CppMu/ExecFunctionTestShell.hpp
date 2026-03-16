@@ -49,13 +49,13 @@ class ExecFunctionTestShell : public TestShell
 public:
   void (*setup)();
   void (*teardown)();
-  ExecFunction* test_function;
+  ExecFunction* test_function{ nullptr };
 
   ExecFunctionTestShell(void (*set)() = nullptr, void (*tear)() = nullptr)
     : TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1)
     , setup(set)
     , teardown(tear)
-    , test_function(nullptr)
+
   {
   }
 

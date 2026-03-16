@@ -141,9 +141,9 @@ private:
   unsigned int call_order_;
   MockFailureReporter* reporter_;
 
-  ActualCallState state_;
-  bool expectations_checked_;
-  MockCheckedExpectedCall* matching_expectation_;
+  ActualCallState state_{ ActualCallState::success };
+  bool expectations_checked_{ false };
+  MockCheckedExpectedCall* matching_expectation_{ nullptr };
 
   MockExpectedCallsList potentially_matching_expectations_;
   const MockExpectedCallsList& all_expectations_;
@@ -155,19 +155,19 @@ private:
     cppmu::String type;
     void* ptr;
 
-    MockOutputParametersListNode* next;
+    MockOutputParametersListNode* next{ nullptr };
     MockOutputParametersListNode(const cppmu::String& n,
         const cppmu::String& t,
         void* p)
       : name(n)
       , type(t)
       , ptr(p)
-      , next(nullptr)
+
     {
     }
   };
 
-  MockOutputParametersListNode* output_parameter_expectations_;
+  MockOutputParametersListNode* output_parameter_expectations_{ nullptr };
 
   virtual void add_output_parameter(const cppmu::String& name,
       const cppmu::String& type,

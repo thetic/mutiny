@@ -37,13 +37,7 @@ FOpenFunc f_open = f_open_impl;
 FPutsFunc f_puts = f_puts_impl;
 FCloseFunc f_close = f_close_impl;
 
-TestOutput::TestOutput()
-  : dot_count_(0)
-  , verbose_(VerbosityLevel::quiet)
-  , color_(false)
-  , progress_indication_(".")
-{
-}
+TestOutput::TestOutput() {}
 
 TestOutput::~TestOutput() {}
 

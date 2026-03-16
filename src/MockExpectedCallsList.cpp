@@ -5,10 +5,7 @@
 
 namespace cppmu {
 
-MockExpectedCallsList::MockExpectedCallsList()
-  : head_(nullptr)
-{
-}
+MockExpectedCallsList::MockExpectedCallsList() {}
 
 MockExpectedCallsList::~MockExpectedCallsList()
 {

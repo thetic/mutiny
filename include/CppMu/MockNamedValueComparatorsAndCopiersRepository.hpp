@@ -15,7 +15,7 @@ namespace cppmu {
 struct MockNamedValueComparatorsAndCopiersRepositoryNode;
 class MockNamedValueComparatorsAndCopiersRepository
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_;
+  MockNamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };
 
 public:
   MockNamedValueComparatorsAndCopiersRepository();

@@ -13,13 +13,10 @@ class MockFailure;
 class MockFailureReporter
 {
 protected:
-  bool crash_on_failure_;
+  bool crash_on_failure_{ false };
 
 public:
-  MockFailureReporter()
-    : crash_on_failure_(false)
-  {
-  }
+  MockFailureReporter() {}
   virtual ~MockFailureReporter() {}
 
   virtual void fail_test(MockFailure failure);

@@ -133,7 +133,7 @@ private:
     bool is_matching_actual_call() const;
 
   private:
-    bool matches_actual_call_;
+    bool matches_actual_call_{ false };
   };
 
   MockExpectedFunctionParameter* item(MockNamedValueListNode* node);

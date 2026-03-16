@@ -75,16 +75,16 @@ protected:
   public:
     MockCheckedExpectedCall* expected_call;
 
-    MockExpectedCallsListNode* next;
+    MockExpectedCallsListNode* next{ nullptr };
     MockExpectedCallsListNode(MockCheckedExpectedCall* ec)
       : expected_call(ec)
-      , next(nullptr)
+
     {
     }
   };
 
 private:
-  MockExpectedCallsListNode* head_;
+  MockExpectedCallsListNode* head_{ nullptr };
 
   MockExpectedCallsList(const MockExpectedCallsList&);
 };

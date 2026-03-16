@@ -397,11 +397,8 @@ TestShell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 
 TEST_BASE(MyOwnTest)
 {
-  MyOwnTest()
-    : in_test(false)
-  {
-  }
-  bool in_test;
+  MyOwnTest() {}
+  bool in_test{ false };
 
   void setup() override
   {

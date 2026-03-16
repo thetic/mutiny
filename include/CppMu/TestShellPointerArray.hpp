@@ -24,8 +24,8 @@ public:
 private:
   void swap(size_t index1, size_t index2);
 
-  TestShell** array_of_tests_;
-  size_t count_;
+  TestShell** array_of_tests_{ nullptr };
+  size_t count_{ 0 };
 };
 
 } // namespace cppmu

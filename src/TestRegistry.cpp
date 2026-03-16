@@ -5,12 +5,8 @@
 namespace cppmu {
 
 TestRegistry::TestRegistry()
-  : tests_(nullptr)
-  , name_filters_(nullptr)
-  , group_filters_(nullptr)
-  , first_plugin_(NullTestPlugin::instance())
-  , current_repetition_(0)
-  , run_ignored_(false)
+  : first_plugin_(NullTestPlugin::instance())
+
 {
 }
 

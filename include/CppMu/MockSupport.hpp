@@ -122,13 +122,13 @@ private:
   class Impl;
   Impl* impl_;
 
-  unsigned int actual_call_order_;
-  unsigned int expected_call_order_;
-  bool strict_ordering_;
-  bool ignore_other_calls_;
-  bool enabled_;
+  unsigned int actual_call_order_{ 0 };
+  unsigned int expected_call_order_{ 0 };
+  bool strict_ordering_{ false };
+  bool ignore_other_calls_{ false };
+  bool enabled_{ true };
   const cppmu::String mock_name_;
-  bool tracing_;
+  bool tracing_{ false };
 
   void check_expectations_of_last_actual_call();
   bool was_last_actual_call_fulfilled();

@@ -25,11 +25,8 @@ MockCheckedActualCall::MockCheckedActualCall(unsigned int call_order,
     const MockExpectedCallsList& all_expectations)
   : call_order_(call_order)
   , reporter_(reporter)
-  , state_(ActualCallState::success)
-  , expectations_checked_(false)
-  , matching_expectation_(nullptr)
   , all_expectations_(all_expectations)
-  , output_parameter_expectations_(nullptr)
+
 {
   potentially_matching_expectations_.add_potentially_matching_expectations(
       all_expectations);

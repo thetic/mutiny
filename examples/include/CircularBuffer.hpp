@@ -25,13 +25,13 @@ public:
   void print(Printer*);
 
 private:
-  int index_;
-  int outdex_;
+  int index_{ 0 };
+  int outdex_{ 0 };
   int* buffer_;
   int capacity_;
   static constexpr int default_capacity = 5;
-  bool empty_;
-  bool full_;
+  bool empty_{ true };
+  bool full_{ false };
 
   CircularBuffer(const CircularBuffer&);
   CircularBuffer& operator=(const CircularBuffer&);

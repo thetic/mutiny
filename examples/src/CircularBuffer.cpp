@@ -5,11 +5,8 @@
 #include <stddef.h>
 
 CircularBuffer::CircularBuffer(int capacity)
-  : index_(0)
-  , outdex_(0)
-  , capacity_(capacity)
-  , empty_(true)
-  , full_(false)
+  : capacity_(capacity)
+
 {
   buffer_ = new int[static_cast<size_t>(this->capacity_)];
 }

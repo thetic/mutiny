@@ -27,9 +27,9 @@ public:
 
 private:
   static OrderedTestShell* ordered_tests_head_;
-  OrderedTestShell* next_ordered_test_;
+  OrderedTestShell* next_ordered_test_{ nullptr };
 
-  int level_;
+  int level_{ 0 };
 };
 
 class OrderedTestInstaller

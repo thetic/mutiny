@@ -22,7 +22,7 @@ public:
 protected:
 private:
   void print_escaped(const char* s);
-  const TestShell* currtest_;
+  const TestShell* currtest_{ nullptr };
   String curr_group_;
 };
 

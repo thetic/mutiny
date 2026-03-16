@@ -58,13 +58,13 @@ private:
   bool test_should_run(TestShell* test, TestResult& result);
   bool end_of_group(TestShell* test);
 
-  TestShell* tests_;
-  const TestFilter* name_filters_;
-  const TestFilter* group_filters_;
+  TestShell* tests_{ nullptr };
+  const TestFilter* name_filters_{ nullptr };
+  const TestFilter* group_filters_{ nullptr };
   TestPlugin* first_plugin_;
   static TestRegistry* current_registry_;
-  int current_repetition_;
-  bool run_ignored_;
+  int current_repetition_{ 0 };
+  bool run_ignored_{ false };
 };
 
 } // namespace cppmu

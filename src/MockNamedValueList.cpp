@@ -28,7 +28,7 @@ MockNamedValueListNode::destroy()
 
 MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* new_value)
   : data_(new_value)
-  , next_(nullptr)
+
 {
 }
 
@@ -44,10 +44,7 @@ MockNamedValueListNode::get_type() const
   return data_->get_type();
 }
 
-MockNamedValueList::MockNamedValueList()
-  : head_(nullptr)
-{
-}
+MockNamedValueList::MockNamedValueList() {}
 
 void
 MockNamedValueList::clear()

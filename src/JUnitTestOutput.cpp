@@ -10,47 +10,30 @@ namespace cppmu {
 
 struct JUnitTestCaseResultNode
 {
-  JUnitTestCaseResultNode()
-    : exec_time(0)
-    , failure(nullptr)
-    , ignored(false)
-    , line_number(0)
-    , check_count(0)
-    , next(nullptr)
-  {
-  }
+  JUnitTestCaseResultNode() {}
 
   String name;
-  size_t exec_time;
-  TestFailure* failure;
-  bool ignored;
+  size_t exec_time{ 0 };
+  TestFailure* failure{ nullptr };
+  bool ignored{ false };
   String file;
-  size_t line_number;
-  size_t check_count;
-  JUnitTestCaseResultNode* next;
+  size_t line_number{ 0 };
+  size_t check_count{ 0 };
+  JUnitTestCaseResultNode* next{ nullptr };
 };
 
 struct JUnitTestGroupResult
 {
-  JUnitTestGroupResult()
-    : test_count(0)
-    , failure_count(0)
-    , total_check_count(0)
-    , start_time(0)
-    , group_exec_time(0)
-    , head(nullptr)
-    , tail(nullptr)
-  {
-  }
+  JUnitTestGroupResult() {}
 
-  size_t test_count;
-  size_t failure_count;
-  size_t total_check_count;
-  size_t start_time;
-  size_t group_exec_time;
+  size_t test_count{ 0 };
+  size_t failure_count{ 0 };
+  size_t total_check_count{ 0 };
+  size_t start_time{ 0 };
+  size_t group_exec_time{ 0 };
   String group;
-  JUnitTestCaseResultNode* head;
-  JUnitTestCaseResultNode* tail;
+  JUnitTestCaseResultNode* head{ nullptr };
+  JUnitTestCaseResultNode* tail{ nullptr };
 };
 
 struct JUnitTestOutputImpl

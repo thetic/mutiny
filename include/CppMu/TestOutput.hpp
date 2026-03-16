@@ -78,10 +78,10 @@ protected:
   TestOutput(const TestOutput&);
   TestOutput& operator=(const TestOutput&);
 
-  int dot_count_;
-  VerbosityLevel verbose_;
-  bool color_;
-  const char* progress_indication_;
+  int dot_count_{ 0 };
+  VerbosityLevel verbose_{ VerbosityLevel::quiet };
+  bool color_{ false };
+  const char* progress_indication_{ "." };
 };
 
 TestOutput&

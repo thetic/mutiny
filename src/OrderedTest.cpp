@@ -7,11 +7,7 @@ namespace cppmu {
 
 OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
-OrderedTestShell::OrderedTestShell()
-  : next_ordered_test_(nullptr)
-  , level_(0)
-{
-}
+OrderedTestShell::OrderedTestShell() {}
 
 OrderedTestShell::~OrderedTestShell() {}
 

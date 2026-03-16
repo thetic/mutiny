@@ -5,8 +5,7 @@
 namespace cppmu {
 
 TeamCityTestOutput::TeamCityTestOutput()
-  : currtest_(nullptr)
-  , curr_group_()
+  : curr_group_()
 {
 }
 

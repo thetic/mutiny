@@ -84,7 +84,7 @@ public:
 private:
   cppmu::String name_;
   cppmu::String type_;
-  bool is_const_object_;
+  bool is_const_object_{ false };
   union
   {
     bool bool_value;
@@ -108,9 +108,9 @@ private:
     void* object_pointer_value;
     const void* output_pointer_value;
   } value_;
-  size_t size_;
-  MockNamedValueComparator* comparator_;
-  MockNamedValueCopier* copier_;
+  size_t size_{ 0 };
+  MockNamedValueComparator* comparator_{ nullptr };
+  MockNamedValueCopier* copier_{ nullptr };
   static MockNamedValueComparatorsAndCopiersRepository* default_repository_;
 };
 

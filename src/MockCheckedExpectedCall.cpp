@@ -520,7 +520,7 @@ MockCheckedExpectedCall::item(MockNamedValueListNode* node)
 MockCheckedExpectedCall::MockExpectedFunctionParameter::
     MockExpectedFunctionParameter(const String& name)
   : MockNamedValue(name)
-  , matches_actual_call_(false)
+
 {
 }
 

@@ -40,7 +40,7 @@ struct MockNamedValueComparatorsAndCopiersRepositoryNode
 
 MockNamedValueComparatorsAndCopiersRepository::
     MockNamedValueComparatorsAndCopiersRepository()
-  : head_(nullptr)
+
 {
 }
 
