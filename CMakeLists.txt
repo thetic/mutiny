@@ -129,6 +129,19 @@ include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPMU_HAVE_GETTIMEOFDAY)
 
+# test_jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
+# must be able to propagate through test_set_jmp() at runtime.  On ARM EHABI
+# the unwinder requires every function in the unwind chain to have an
+# .ARM.exidx entry; C files get none unless -funwind-tables is passed.
+include(CheckCCompilerFlag)
+check_c_compiler_flag(-funwind-tables CPPMU_C_HAS_FUNWIND_TABLES)
+if(CPPMU_C_HAS_FUNWIND_TABLES)
+    set_source_files_properties(
+        src/test_jump_buffer.c
+        PROPERTIES COMPILE_OPTIONS "-funwind-tables"
+    )
+endif()
+
 target_compile_features(CppMu
     INTERFACE c_std_11
     PUBLIC cxx_std_11
