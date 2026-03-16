@@ -3,7 +3,7 @@
   "configurePresets": [
     {
       "name": "defaults",
-      "binaryDir": "build",
+      "binaryDir": "${sourceDir}/build/${presetName}",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "CMAKE_COMPILE_WARNING_AS_ERROR": true,
@@ -143,6 +143,156 @@
       "cacheVariables": {
         "CPPMU_TESTS_DETAILED": true
       }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "verbose": true,
+      "jobs": 0
+    },
+    { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
+    { "name": "GNU",           "inherits": "base", "configurePreset": "GNU" },
+    { "name": "Clang",         "inherits": "base", "configurePreset": "Clang" },
+    { "name": "clang-tidy",    "inherits": "base", "configurePreset": "clang-tidy" },
+    { "name": "MSVC",          "inherits": "base", "configurePreset": "MSVC",          "configuration": "Debug" },
+    { "name": "ClangCL",       "inherits": "base", "configurePreset": "ClangCL",       "configuration": "Debug" },
+    { "name": "MinGW",         "inherits": "base", "configurePreset": "MinGW" },
+    { "name": "arm-embedded",  "inherits": "base", "configurePreset": "arm-embedded" },
+    { "name": "coverage",      "inherits": "base", "configurePreset": "coverage" },
+    { "name": "no-std-cpp",    "inherits": "base", "configurePreset": "no-std-cpp" },
+    { "name": "no-rtti",       "inherits": "base", "configurePreset": "no-rtti" },
+    { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
+    { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
+    { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
+    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" },
+    {
+      "name": "verify-headers",
+      "inherits": "base",
+      "configurePreset": "GNU",
+      "targets": ["all_verify_interface_header_sets"]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
+    { "name": "GNU",           "inherits": "base", "configurePreset": "GNU" },
+    { "name": "Clang",         "inherits": "base", "configurePreset": "Clang" },
+    { "name": "clang-tidy",    "inherits": "base", "configurePreset": "clang-tidy" },
+    { "name": "MSVC",          "inherits": "base", "configurePreset": "MSVC",          "configuration": "Debug" },
+    { "name": "ClangCL",       "inherits": "base", "configurePreset": "ClangCL",       "configuration": "Debug" },
+    { "name": "MinGW",         "inherits": "base", "configurePreset": "MinGW" },
+    { "name": "arm-embedded",  "inherits": "base", "configurePreset": "arm-embedded" },
+    { "name": "coverage",      "inherits": "base", "configurePreset": "coverage" },
+    { "name": "no-std-cpp",    "inherits": "base", "configurePreset": "no-std-cpp" },
+    { "name": "no-rtti",       "inherits": "base", "configurePreset": "no-rtti" },
+    { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
+    { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
+    { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
+    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
+  ],
+  "workflowPresets": [
+    {
+      "name": "GNU",
+      "steps": [
+        { "type": "configure", "name": "GNU" },
+        { "type": "build",     "name": "GNU" },
+        { "type": "test",      "name": "GNU" }
+      ]
+    },
+    {
+      "name": "Clang",
+      "steps": [
+        { "type": "configure", "name": "Clang" },
+        { "type": "build",     "name": "Clang" },
+        { "type": "test",      "name": "Clang" }
+      ]
+    },
+    {
+      "name": "clang-tidy",
+      "steps": [
+        { "type": "configure", "name": "clang-tidy" },
+        { "type": "build",     "name": "clang-tidy" }
+      ]
+    },
+    {
+      "name": "MinGW",
+      "steps": [
+        { "type": "configure", "name": "MinGW" },
+        { "type": "build",     "name": "MinGW" },
+        { "type": "test",      "name": "MinGW" }
+      ]
+    },
+    {
+      "name": "arm-embedded",
+      "steps": [
+        { "type": "configure", "name": "arm-embedded" },
+        { "type": "build",     "name": "arm-embedded" },
+        { "type": "test",      "name": "arm-embedded" }
+      ]
+    },
+    {
+      "name": "coverage",
+      "steps": [
+        { "type": "configure", "name": "coverage" },
+        { "type": "build",     "name": "coverage" },
+        { "type": "test",      "name": "coverage" }
+      ]
+    },
+    {
+      "name": "no-std-cpp",
+      "steps": [
+        { "type": "configure", "name": "no-std-cpp" },
+        { "type": "build",     "name": "no-std-cpp" },
+        { "type": "test",      "name": "no-std-cpp" }
+      ]
+    },
+    {
+      "name": "no-rtti",
+      "steps": [
+        { "type": "configure", "name": "no-rtti" },
+        { "type": "build",     "name": "no-rtti" },
+        { "type": "test",      "name": "no-rtti" }
+      ]
+    },
+    {
+      "name": "no-exceptions",
+      "steps": [
+        { "type": "configure", "name": "no-exceptions" },
+        { "type": "build",     "name": "no-exceptions" },
+        { "type": "test",      "name": "no-exceptions" }
+      ]
+    },
+    {
+      "name": "asan",
+      "steps": [
+        { "type": "configure", "name": "asan" },
+        { "type": "build",     "name": "asan" },
+        { "type": "test",      "name": "asan" }
+      ]
+    },
+    {
+      "name": "msan",
+      "steps": [
+        { "type": "configure", "name": "msan" },
+        { "type": "build",     "name": "msan" },
+        { "type": "test",      "name": "msan" }
+      ]
+    },
+    {
+      "name": "detailed",
+      "steps": [
+        { "type": "configure", "name": "detailed" },
+        { "type": "build",     "name": "detailed" },
+        { "type": "test",      "name": "detailed" }
+      ]
     }
   ]
 }

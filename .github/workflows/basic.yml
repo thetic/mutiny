@@ -26,22 +26,18 @@ jobs:
             os: windows-latest
             preset: MSVC
             install: true
-            ctest_args: -C Debug
           - name: MSVC 23
             os: windows-latest
             cmake_args: -DCMAKE_CXX_STANDARD=23
             preset: MSVC
-            ctest_args: -C Debug
           - name: MSVC 20
             os: windows-latest
             cmake_args: -DCMAKE_CXX_STANDARD=20
             preset: MSVC
-            ctest_args: -C Debug
           - name: ClangCL
             os: windows-latest
             cmake_args: -DCMAKE_CXX_STANDARD=17
             preset: ClangCL
-            ctest_args: -C Debug
           - name: Clang-Tidy
             os: ubuntu-latest
             preset: clang-tidy
@@ -158,22 +154,18 @@ jobs:
       - name: Configure
         run: cmake --preset ${{ matrix.preset }} ${{ matrix.cmake_args }}
       - name: Build
-        run: cmake --build build --verbose -j
+        run: cmake --build --preset ${{ matrix.preset }}
       - name: Test
-        run: >
-          ctest
-          --test-dir build
-          ${{ matrix.ctest_args }}
-          --output-on-failure
+        run: ctest --preset ${{ matrix.preset }}
 
       # POST PROCESSING
 
       - name: Install (*nix)
         run: |
-          sudo cmake --install build/
+          sudo cmake --install build/${{ matrix.preset }}/
         if: ${{ matrix.install && !startswith(matrix.os, 'windows')}}
       - name: Install (Windows)
-        run: cmake --install build/ --config=Debug
+        run: cmake --install build/${{ matrix.preset }}/ --config=Debug
         if: ${{ matrix.install && startswith(matrix.os, 'windows')}}
       - name: Use install
         run: |
@@ -200,13 +192,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cmake --preset=defaults -DCPPUTEST_JUNIT_REPORT=TRUE
-      - run: cmake --build build -j
-      - run: ctest --test-dir build
+      - run: cmake --build --preset defaults
+      - run: ctest --preset defaults
       - uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
           name: test-results
-          path: "build/**/cpputest_*.xml"
+          path: "build/defaults/**/cpputest_*.xml"
 
   verify_headers:
     name: Verify Interface Header Sets
@@ -216,7 +208,7 @@ jobs:
       - name: Configure
         run: cmake --preset GNU
       - name: Build
-        run: cmake --build build --target all_verify_interface_header_sets
+        run: cmake --build --preset verify-headers
 
   cmake_msys:
     name: CMake MSYS
@@ -241,9 +233,9 @@ jobs:
       - name: Configure
         run: cmake --preset=GNU
       - name: Build
-        run: cmake --build build -j
+        run: cmake --build --preset GNU
       - name: Test
-        run: ctest --test-dir build --output-on-failure
+        run: ctest --preset GNU
 
   cmake_cygwin:
     name: CMake Cygwin
@@ -264,7 +256,6 @@ jobs:
       - name: Configure
         run: cmake --preset=GNU -G Ninja
       - name: Build
-        run: cmake --build build -j
+        run: cmake --build --preset GNU
       - name: Test
-        run: ctest --test-dir build --output-on-failure
-
+        run: ctest --preset GNU
