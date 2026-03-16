@@ -58,7 +58,7 @@ target_sources(CppMu
         src/TestFilter.cpp
         src/OrderedTest.cpp
         src/TestInstaller.cpp
-        src/TestJumpBuffer.cpp
+        src/test_jump_buffer.c
         src/TestOutput.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
@@ -121,7 +121,7 @@ target_sources(CppMu
             src/include/CppMu/MockNamedValueList.hpp
             src/include/CppMu/StringCollection.hpp
             src/include/CppMu/TeamCityTestOutput.hpp
-            src/include/CppMu/TestJumpBuffer.hpp
+            src/include/CppMu/test_jump_buffer.h
             src/include/CppMu/time.hpp
 )
 

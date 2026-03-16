@@ -1,8 +1,8 @@
 #include "CppMu/Test.hpp"
 
 #include "CppMu/TestFailure.hpp"
-#include "CppMu/TestJumpBuffer.hpp"
 #include "CppMu/TestShell.hpp"
+#include "CppMu/test_jump_buffer.h"
 
 namespace cppmu {
 

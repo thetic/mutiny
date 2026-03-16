@@ -3,11 +3,11 @@
 #include "CppMu/ConsoleTestOutput.hpp"
 #include "CppMu/Test.hpp"
 #include "CppMu/TestFailure.hpp"
-#include "CppMu/TestJumpBuffer.hpp"
 #include "CppMu/TestPlugin.hpp"
 #include "CppMu/TestRegistry.hpp"
 #include "CppMu/TestResult.hpp"
 #include "CppMu/math.hpp"
+#include "CppMu/test_jump_buffer.h"
 
 #include <math.h>
 #include <stdlib.h>

@@ -1,13 +1,9 @@
-#include "CppMu/TestJumpBuffer.hpp"
+#include "CppMu/test_jump_buffer.h"
 
 #include <setjmp.h>
 
-namespace {
-
-jmp_buf test_exit_jmp_buf[10];
-int jmp_buf_index = 0;
-
-} // namespace
+static jmp_buf test_exit_jmp_buf[10];
+static int jmp_buf_index = 0;
 
 int
 test_set_jmp(void (*function)(void*), void* data)
@@ -22,14 +18,14 @@ test_set_jmp(void (*function)(void*), void* data)
 }
 
 void
-test_long_jmp()
+test_long_jmp(void)
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
 void
-test_restore_jump_buffer()
+test_restore_jump_buffer(void)
 {
   jmp_buf_index--;
 }
