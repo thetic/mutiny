@@ -150,7 +150,6 @@
     {
       "name": "base",
       "hidden": true,
-      "verbose": true,
       "jobs": 0
     },
     { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
