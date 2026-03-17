@@ -20,9 +20,7 @@ add_executable(ExampleTests
     FEDemo.test.cpp
     hello.test.cpp
     hello.test.c
-    IEEE754ExceptionsPlugin.c
     IEEE754ExceptionsPlugin.cpp
-    IEEE754ExceptionsPlugin.test.cpp
     MockCheatSheet.test.cpp
     MockDocumentation.test.c
     MockDocumentation.test.cpp
