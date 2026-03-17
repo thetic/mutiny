@@ -32,6 +32,9 @@
 
 namespace cppmu {
 
+#if CPPMU_USE_STD_CPP_LIB
+using String = std::string;
+#else
 class String
 {
   friend bool operator==(const String& left, const String& right);
@@ -87,6 +90,7 @@ private:
 
   char* get_empty_string() const;
 };
+#endif
 
 bool
 string_contains(const String& str, const String& substr);
@@ -104,8 +108,8 @@ bool
 is_control(char ch);
 bool
 is_control_with_short_escape_sequence(char ch);
-char*
-str_n_cpy(char* s1, const char* s2, size_t n);
+size_t
+str_len(const char* str);
 const char*
 str_str(const char* s1, const char* s2);
 
@@ -193,6 +197,11 @@ string_from(double value, int precision = 6);
 String
 string_from(const String& other);
 
+#if CPPMU_USE_STD_CPP_LIB
+String
+string_from(const std::nullptr_t value);
+#endif
+
 #if CPPMU_HAS_ATTRIBUTE(format)
 #define CPPMU_CHECK_FORMAT(type, format_parameter, other_parameters)           \
   __attribute__((format(type, format_parameter, other_parameters)))
@@ -246,14 +255,6 @@ brackets_formatted_hex_string_from(signed char value);
 
 String
 brackets_formatted_hex_string(String hex_string);
-
-#if CPPMU_USE_STD_CPP_LIB
-String
-string_from(const std::nullptr_t value);
-
-String
-string_from(const std::string& other);
-#endif
 
 } // namespace cppmu
 

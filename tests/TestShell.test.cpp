@@ -1455,7 +1455,7 @@ TEST(UtestMacros, FailureWithLONGS_EQUALShowsSymbolicParameters)
       "LONGS_EQUAL(MONDAY, day_of_the_week) failed");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2 (0x2)>");
-  CHECK_FALSE(string_contains(fixture.get_output(), "Message: "));
+  CHECK_FALSE(cppmu::string_contains(fixture.get_output(), "Message: "));
 }
 
 TEST(UtestMacros, LONGS_EQUALBehavesAsProperMacro)
@@ -2126,7 +2126,7 @@ TEST(UtestStringMacros, FailureWithSTRCMP_CONTAINSAndExpectedIsNULL)
 {
   fixture.run_test_with_method(
       strcmp_contains_with_expected_is_null_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <(null)>");
 }
 
 TEST(UtestStringMacros, FailureWithSTRNCMP_EQUALAndActualIsNULL)

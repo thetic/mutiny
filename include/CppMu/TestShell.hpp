@@ -227,8 +227,7 @@ public:
 // Different checking macros
 
 #define CHECK(condition)                                                       \
-  CHECK_TRUE_LOCATION(                                                         \
-      condition, "CHECK", #condition, nullptr, __FILE__, __LINE__)
+  CHECK_TRUE_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
 
 #define CHECK_TEXT(condition, text)                                            \
   CHECK_TRUE_LOCATION(static_cast<bool>(condition),                            \
@@ -242,7 +241,7 @@ public:
   CHECK_TRUE_LOCATION(static_cast<bool>(condition),                            \
       "CHECK_TRUE",                                                            \
       #condition,                                                              \
-      nullptr,                                                                 \
+      "",                                                                      \
       __FILE__,                                                                \
       __LINE__)
 
@@ -252,7 +251,7 @@ public:
 
 #define CHECK_FALSE(condition)                                                 \
   CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, nullptr, __FILE__, __LINE__)
+      condition, "CHECK_FALSE", #condition, "", __FILE__, __LINE__)
 
 #define CHECK_FALSE_TEXT(condition, text)                                      \
   CHECK_FALSE_LOCATION(                                                        \
@@ -285,7 +284,7 @@ public:
 
 // This check needs the operator!=(), and a string_from(YourType) function
 #define CHECK_EQUAL(expected, actual)                                          \
-  CHECK_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
+  CHECK_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_TEXT(expected, actual, text)                               \
   CHECK_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
@@ -316,7 +315,7 @@ public:
           line);                                                               \
     } else {                                                                   \
       cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), nullptr, file, line);    \
+          static_cast<long>(0), static_cast<long>(0), "", file, line);         \
     }                                                                          \
   } while (0) CPPMU_SUPPRESS_C4127_POP
 
@@ -326,7 +325,7 @@ public:
   CHECK_EQUAL_TEXT(0, (actual), (text))
 
 #define CHECK_COMPARE(first, relop, second)                                    \
-  CHECK_COMPARE_TEXT(first, relop, second, nullptr)
+  CHECK_COMPARE_TEXT(first, relop, second, "")
 
 #define CHECK_COMPARE_TEXT(first, relop, second, text)                         \
   CHECK_COMPARE_LOCATION(first, relop, second, text, __FILE__, __LINE__)
@@ -354,7 +353,7 @@ public:
 // This makes up for the fact that CHECK_EQUAL only compares the pointers to
 // char*'s
 #define STRCMP_EQUAL(expected, actual)                                         \
-  STRCMP_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
+  STRCMP_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
 
 #define STRCMP_EQUAL_TEXT(expected, actual, text)                              \
   STRCMP_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
@@ -366,7 +365,7 @@ public:
   } while (0)
 
 #define STRNCMP_EQUAL(expected, actual, length)                                \
-  STRNCMP_EQUAL_LOCATION(expected, actual, length, nullptr, __FILE__, __LINE__)
+  STRNCMP_EQUAL_LOCATION(expected, actual, length, "", __FILE__, __LINE__)
 
 #define STRNCMP_EQUAL_TEXT(expected, actual, length, text)                     \
   STRNCMP_EQUAL_LOCATION(expected, actual, length, text, __FILE__, __LINE__)
@@ -378,7 +377,7 @@ public:
   } while (0)
 
 #define STRCMP_CONTAINS(expected, actual)                                      \
-  STRCMP_CONTAINS_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
+  STRCMP_CONTAINS_LOCATION(expected, actual, "", __FILE__, __LINE__)
 
 #define STRCMP_CONTAINS_TEXT(expected, actual, text)                           \
   STRCMP_CONTAINS_LOCATION(expected, actual, text, __FILE__, __LINE__)
@@ -401,8 +400,7 @@ public:
   LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
 
 #define UNSIGNED_LONGS_EQUAL(expected, actual)                                 \
-  UNSIGNED_LONGS_EQUAL_LOCATION(                                               \
-      (expected), (actual), nullptr, __FILE__, __LINE__)
+  UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
 
 #define UNSIGNED_LONGS_EQUAL_TEXT(expected, actual, text)                      \
   UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
@@ -428,14 +426,13 @@ public:
   } while (0)
 
 #define LONGLONGS_EQUAL(expected, actual)                                      \
-  LONGLONGS_EQUAL_LOCATION(expected, actual, nullptr, __FILE__, __LINE__)
+  LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
 
 #define LONGLONGS_EQUAL_TEXT(expected, actual, text)                           \
   LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define UNSIGNED_LONGLONGS_EQUAL(expected, actual)                             \
-  UNSIGNED_LONGLONGS_EQUAL_LOCATION(                                           \
-      expected, actual, nullptr, __FILE__, __LINE__)
+  UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
 
 #define UNSIGNED_LONGLONGS_EQUAL_TEXT(expected, actual, text)                  \
   UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
@@ -472,7 +469,7 @@ public:
 #define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_signed_bytes_equal(                \
-        expected, actual, nullptr, file, line);                                \
+        expected, actual, "", file, line);                                     \
   } while (0)
 
 #define SIGNED_BYTES_EQUAL_TEXT(expected, actual, text)                        \
@@ -485,7 +482,7 @@ public:
   } while (0)
 
 #define POINTERS_EQUAL(expected, actual)                                       \
-  POINTERS_EQUAL_LOCATION((expected), (actual), nullptr, __FILE__, __LINE__)
+  POINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
 
 #define POINTERS_EQUAL_TEXT(expected, actual, text)                            \
   POINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
@@ -501,8 +498,7 @@ public:
   } while (0)
 
 #define FUNCTIONPOINTERS_EQUAL(expected, actual)                               \
-  FUNCTIONPOINTERS_EQUAL_LOCATION(                                             \
-      (expected), (actual), nullptr, __FILE__, __LINE__)
+  FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
 
 #define FUNCTIONPOINTERS_EQUAL_TEXT(expected, actual, text)                    \
   FUNCTIONPOINTERS_EQUAL_LOCATION(                                             \
@@ -520,8 +516,7 @@ public:
 
 // Check two doubles for equality within a tolerance threshold
 #define DOUBLES_EQUAL(expected, actual, threshold)                             \
-  DOUBLES_EQUAL_LOCATION(                                                      \
-      expected, actual, threshold, nullptr, __FILE__, __LINE__)
+  DOUBLES_EQUAL_LOCATION(expected, actual, threshold, "", __FILE__, __LINE__)
 
 #define DOUBLES_EQUAL_TEXT(expected, actual, threshold, text)                  \
   DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
@@ -533,7 +528,7 @@ public:
   } while (0)
 
 #define MEMCMP_EQUAL(expected, actual, size)                                   \
-  MEMCMP_EQUAL_LOCATION(expected, actual, size, nullptr, __FILE__, __LINE__)
+  MEMCMP_EQUAL_LOCATION(expected, actual, size, "", __FILE__, __LINE__)
 
 #define MEMCMP_EQUAL_TEXT(expected, actual, size, text)                        \
   MEMCMP_EQUAL_LOCATION(expected, actual, size, text, __FILE__, __LINE__)
@@ -552,7 +547,7 @@ public:
 
 #define ENUMS_EQUAL_TYPE(underlying_type, expected, actual)                    \
   ENUMS_EQUAL_TYPE_LOCATION(                                                   \
-      underlying_type, expected, actual, nullptr, __FILE__, __LINE__)
+      underlying_type, expected, actual, "", __FILE__, __LINE__)
 
 #define ENUMS_EQUAL_TYPE_TEXT(underlying_type, expected, actual, text)         \
   ENUMS_EQUAL_TYPE_LOCATION(                                                   \
@@ -574,7 +569,7 @@ public:
           line);                                                               \
     } else {                                                                   \
       cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), nullptr, file, line);    \
+          static_cast<long>(0), static_cast<long>(0), "", file, line);         \
     }                                                                          \
   } while (0)
 

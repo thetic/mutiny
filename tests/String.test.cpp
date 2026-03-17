@@ -41,7 +41,7 @@ TEST(String, CreateRepeatedChar)
 TEST(String, CreateRepeatedCharZero)
 {
   cppmu::String expected("");
-  cppmu::String actual(0, 'x');
+  cppmu::String actual(0, 'x'); // NOLINT(bugprone-string-constructor)
 
   CHECK_EQUAL(expected, actual);
 }
@@ -131,14 +131,14 @@ TEST(String, stringContains)
   cppmu::String mid("l");
   cppmu::String not_part_of_string("xxxx");
 
-  CHECK(string_contains(s, empty));
-  CHECK(string_contains(s, beginning));
-  CHECK(string_contains(s, end));
-  CHECK(string_contains(s, mid));
-  CHECK(!string_contains(s, not_part_of_string));
+  CHECK(cppmu::string_contains(s, empty));
+  CHECK(cppmu::string_contains(s, beginning));
+  CHECK(cppmu::string_contains(s, end));
+  CHECK(cppmu::string_contains(s, mid));
+  CHECK(!cppmu::string_contains(s, not_part_of_string));
 
-  CHECK(string_contains(empty, empty));
-  CHECK(!string_contains(empty, s));
+  CHECK(cppmu::string_contains(empty, empty));
+  CHECK(!cppmu::string_contains(empty, s));
 }
 
 TEST(String, startsWith)
@@ -146,25 +146,25 @@ TEST(String, startsWith)
   cppmu::String hi("Hi you!");
   cppmu::String part("Hi");
   cppmu::String diff("Hrrm Hi you! ffdsfd");
-  CHECK(string_starts_with(hi, part));
-  CHECK(!string_starts_with(part, hi));
-  CHECK(!string_starts_with(diff, hi));
+  CHECK(cppmu::string_starts_with(hi, part));
+  CHECK(!cppmu::string_starts_with(part, hi));
+  CHECK(!cppmu::string_starts_with(diff, hi));
 }
 
 TEST(String, stringEndsWith)
 {
   cppmu::String str("Hello World");
-  CHECK(string_ends_with(str, "World"));
-  CHECK(!string_ends_with(str, "Worl"));
-  CHECK(!string_ends_with(str, "Hello"));
+  CHECK(cppmu::string_ends_with(str, "World"));
+  CHECK(!cppmu::string_ends_with(str, "Worl"));
+  CHECK(!cppmu::string_ends_with(str, "Hello"));
   cppmu::String str2("ah");
-  CHECK(string_ends_with(str2, "ah"));
-  CHECK(!string_ends_with(str2, "baah"));
+  CHECK(cppmu::string_ends_with(str2, "ah"));
+  CHECK(!cppmu::string_ends_with(str2, "baah"));
   cppmu::String str3("");
-  CHECK(!string_ends_with(str3, "baah"));
+  CHECK(!cppmu::string_ends_with(str3, "baah"));
 
   cppmu::String str4("ha ha ha ha");
-  CHECK(string_ends_with(str4, "ha"));
+  CHECK(cppmu::string_ends_with(str4, "ha"));
 }
 
 TEST(String, stringReplaceCharWithChar)
@@ -229,12 +229,6 @@ TEST(String, subStringFromPos6ToEndOfString)
 {
   cppmu::String str("Hello World");
   STRCMP_EQUAL("World", str.substr(6).c_str());
-}
-
-TEST(String, subStringBeginPosOutOfBounds)
-{
-  cppmu::String str("Hello World");
-  STRCMP_EQUAL("", str.substr(13, 5).c_str());
 }
 
 TEST(String, findNormal)
@@ -304,12 +298,6 @@ TEST(String, index)
 {
   cppmu::String str("Hello World");
   BYTES_EQUAL('H', str[0]);
-}
-
-TEST(String, ContainsNull)
-{
-  cppmu::String s(nullptr);
-  STRCMP_EQUAL("", s.c_str());
 }
 
 TEST(String, NULLReportsNullString)
@@ -481,7 +469,7 @@ TEST(String, StringFromFormatLarge)
 
 TEST(String, StringFromConstString)
 {
-  STRCMP_EQUAL("bla", string_from(cppmu::String("bla")).c_str());
+  STRCMP_EQUAL("bla", cppmu::string_from(cppmu::String("bla")).c_str());
 }
 
 TEST(String, PlatformSpecificSprintf_fits)
@@ -507,7 +495,7 @@ TEST(String, PadStringsToSameLengthString1Larger)
   cppmu::String str1("1");
   cppmu::String str2("222");
 
-  pad_strings_to_same_length(str1, str2, '4');
+  cppmu::pad_strings_to_same_length(str1, str2, '4');
   STRCMP_EQUAL("441", str1.c_str());
   STRCMP_EQUAL("222", str2.c_str());
 }
@@ -517,7 +505,7 @@ TEST(String, PadStringsToSameLengthString2Larger)
   cppmu::String str1("    ");
   cppmu::String str2("");
 
-  pad_strings_to_same_length(str1, str2, ' ');
+  cppmu::pad_strings_to_same_length(str1, str2, ' ');
   STRCMP_EQUAL("    ", str1.c_str());
   STRCMP_EQUAL("    ", str2.c_str());
 }
@@ -527,7 +515,7 @@ TEST(String, PadStringsToSameLengthWithSameLengthStrings)
   cppmu::String str1("123");
   cppmu::String str2("123");
 
-  pad_strings_to_same_length(str1, str2, ' ');
+  cppmu::pad_strings_to_same_length(str1, str2, ' ');
   STRCMP_EQUAL("123", str1.c_str());
   STRCMP_EQUAL("123", str2.c_str());
 }

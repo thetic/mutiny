@@ -460,13 +460,18 @@ TestShell::assert_cstr_contains(const char* expected,
   if (actual == nullptr && expected == nullptr)
     return;
   if (actual == nullptr || expected == nullptr) {
-    add_failure(
-        ContainsFailure(this, file_name, line_number, expected, actual, text));
+    add_failure(ContainsFailure(this,
+        file_name,
+        line_number,
+        string_from_or_null(expected),
+        string_from_or_null(actual),
+        text ? text : ""));
     exit_test(get_current_test_terminator());
+    return;
   }
   if (!string_contains(actual, expected)) {
-    add_failure(
-        ContainsFailure(this, file_name, line_number, expected, actual, text));
+    add_failure(ContainsFailure(
+        this, file_name, line_number, expected, actual, text ? text : ""));
     exit_test(get_current_test_terminator());
   }
 }
@@ -673,12 +678,8 @@ TestShell::assert_equals(bool failed,
   if (failed) {
     add_failure(CheckEqualFailure(
         this, file, line, expected.c_str(), actual.c_str(), text));
-    {
-      String e(static_cast<String&&>(expected));
-    }
-    {
-      String a(static_cast<String&&>(actual));
-    }
+    expected.clear();
+    actual.clear();
     test_terminator.exit_current_test();
   }
 }

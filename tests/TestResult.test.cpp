@@ -36,7 +36,7 @@ TEST_GROUP(TestResult)
 TEST(TestResult, TestEndedWillPrintResultsAndExecutionTime)
 {
   res->tests_ended();
-  CHECK(string_contains(mock->get_output(), "10 ms"));
+  CHECK(cppmu::string_contains(mock->get_output(), "10 ms"));
 }
 
 TEST(TestResult, ResultIsOkIfTestIsRunWithNoFailures)

@@ -11,110 +11,7 @@
 namespace cppmu {
 
 namespace {
-char*
-copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size);
-bool
-is_digit(char ch);
-bool
-is_space(char ch);
-bool
-is_upper(char ch);
-} // namespace
-
-size_t
-str_len(const char*);
-char*
-alloc_string_buffer(size_t size, const char* file, size_t line);
-void
-dealloc_string_buffer(char* str, size_t size, const char* file, size_t line);
-
-char*
-alloc_string_buffer(size_t size, const char*, size_t)
-{
-  return new char[size];
-}
-
-void
-dealloc_string_buffer(char* str, size_t, const char*, size_t)
-{
-  delete[] str;
-}
-
-char*
-String::get_empty_string() const
-{
-  char* buf = alloc_string_buffer(1, __FILE__, __LINE__);
-  buf[0] = '\0';
-  return buf;
-}
-
-// does not support + or - prefixes
-unsigned
-ato_u(const char* str)
-{
-  while (is_space(*str))
-    str++;
-
-  unsigned result = 0;
-  for (; is_digit(*str) && *str >= '0'; str++) {
-    result *= 10;
-    result += static_cast<unsigned>(*str - '0');
-  }
-  return result;
-}
-
-int
-ato_i(const char* str)
-{
-  while (is_space(*str))
-    str++;
-
-  char first_char = *str;
-  if (first_char == '-' || first_char == '+')
-    str++;
-
-  int result = 0;
-  for (; is_digit(*str); str++) {
-    result *= 10;
-    result += *str - '0';
-  }
-  return (first_char == '-') ? -result : result;
-}
-
-int
-str_cmp(const char* s1, const char* s2)
-{
-  while (*s1 && *s1 == *s2) {
-    ++s1;
-    ++s2;
-  }
-  return *reinterpret_cast<const unsigned char*>(s1) -
-         *reinterpret_cast<const unsigned char*>(s2);
-}
-
-size_t
-str_len(const char* str)
-{
-  auto n = static_cast<size_t>(-1);
-  do
-    n++;
-  while (*str++);
-  return n;
-}
-
-int
-str_n_cmp(const char* s1, const char* s2, size_t n)
-{
-  while (n && *s1 && *s1 == *s2) {
-    --n;
-    ++s1;
-    ++s2;
-  }
-  return n ? *reinterpret_cast<const unsigned char*>(s1) -
-                 *reinterpret_cast<const unsigned char*>(s2)
-           : 0;
-}
-
+#if !CPPMU_USE_STD_CPP_LIB
 char*
 str_n_cpy(char* s1, const char* s2, size_t n)
 {
@@ -130,45 +27,50 @@ str_n_cpy(char* s1, const char* s2, size_t n)
   return result;
 }
 
-const char*
-str_str(const char* s1, const char* s2)
+char*
+copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
 {
-  if (!*s2)
-    return s1;
-  for (; *s1; s1++)
-    if (str_n_cmp(s1, s2, str_len(s2)) == 0)
-      return s1;
-  return nullptr;
+  char* new_buffer = new char[buffer_size];
+  str_n_cpy(new_buffer, buffer_to_copy, buffer_size);
+  if (buffer_size > 0)
+    new_buffer[buffer_size - 1] = '\0';
+  return new_buffer;
+}
+#endif
+
+bool
+is_digit(char ch)
+{
+  return '0' <= ch && '9' >= ch;
 }
 
-char
-to_lower(char ch)
+bool
+is_space(char ch)
 {
-  return is_upper(ch) ? static_cast<char>(static_cast<int>(ch) + ('a' - 'A'))
-                      : ch;
+  return (ch == ' ') || (0x08 < ch && 0x0E > ch);
 }
 
-int
-mem_cmp(const void* s1, const void* s2, size_t n)
+bool
+is_upper(char ch)
 {
-  auto* p1 = static_cast<const unsigned char*>(s1);
-  auto* p2 = static_cast<const unsigned char*>(s2);
+  return 'A' <= ch && 'Z' >= ch;
+}
+} // namespace
 
-  while (n--)
-    if (*p1 != *p2) {
-      return *p1 - *p2;
-    } else {
-      ++p1;
-      ++p2;
-    }
-  return 0;
+#if !CPPMU_USE_STD_CPP_LIB
+char*
+String::get_empty_string() const
+{
+  char* buf = new char[1];
+  buf[0] = '\0';
+  return buf;
 }
 
 void
 String::deallocate_internal_buffer()
 {
   if (buffer_) {
-    dealloc_string_buffer(buffer_, buffer_size_, __FILE__, __LINE__);
+    delete[] buffer_;
     buffer_ = nullptr;
     buffer_size_ = 0;
   }
@@ -200,7 +102,7 @@ String::reserve(size_t new_capacity)
   if (needed <= buffer_size_)
     return;
 
-  char* new_buffer = alloc_string_buffer(needed, __FILE__, __LINE__);
+  char* new_buffer = new char[needed];
   str_n_cpy(new_buffer, buffer_, buffer_size_);
   new_buffer[needed - 1] = '\0';
   deallocate_internal_buffer();
@@ -251,7 +153,7 @@ String::String(size_t count, char ch)
   , buffer_size_(0)
 {
   buffer_size_ = count + 1;
-  buffer_ = alloc_string_buffer(buffer_size_, __FILE__, __LINE__);
+  buffer_ = new char[buffer_size_];
   for (size_t i = 0; i < count; i++)
     buffer_[i] = ch;
   buffer_[count] = '\0';
@@ -291,71 +193,6 @@ String::operator=(const String& other)
   if (this != &other)
     copy_buffer_to_new_internal_buffer(other);
   return *this;
-}
-
-bool
-string_contains(const String& str, const String& substr)
-{
-  return str_str(str.c_str(), substr.c_str()) != nullptr;
-}
-
-bool
-string_starts_with(const String& str, const String& prefix)
-{
-  if (prefix.size() == 0)
-    return true;
-  else if (str.size() == 0)
-    return false;
-  else
-    return str_str(str.c_str(), prefix.c_str()) == str.c_str();
-}
-
-bool
-string_ends_with(const String& str, const String& suffix)
-{
-  size_t len = str.size();
-  size_t other_len = suffix.size();
-
-  if (other_len == 0)
-    return true;
-  if (len == 0)
-    return false;
-  if (len < other_len)
-    return false;
-
-  return str_cmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
-}
-
-void
-string_replace(String& str, char from, char to)
-{
-  size_t s = str.size();
-  for (size_t i = 0; i < s; i++) {
-    if (str[i] == from)
-      str[i] = to;
-  }
-}
-
-void
-string_replace(String& str, const char* from, const char* to)
-{
-  size_t fromlen = str_len(from);
-  if (fromlen == 0)
-    return;
-
-  String result;
-  size_t pos = 0;
-  size_t found = str.find(from, pos);
-  while (found != String::npos) {
-    result += str.substr(pos, found - pos);
-    result += to;
-    pos = found + fromlen;
-    found = str.find(from, pos);
-  }
-  if (pos == 0)
-    return;
-  result += str.substr(pos);
-  str = result;
 }
 
 const char*
@@ -432,17 +269,6 @@ String::operator+=(const char* rhs)
   return *this;
 }
 
-void
-pad_strings_to_same_length(String& str1, String& str2, char pad_character)
-{
-  if (str1.size() > str2.size()) {
-    pad_strings_to_same_length(str2, str1, pad_character);
-    return;
-  }
-
-  str1 = String(str2.size() - str1.size(), pad_character) + str1;
-}
-
 String
 String::substr(size_t begin_pos, size_t amount) const
 {
@@ -489,36 +315,184 @@ operator<(const String& left, const String& right)
 {
   return str_cmp(left.c_str(), right.c_str()) < 0;
 }
+#endif
 
-namespace {
-char*
-copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
+bool
+string_contains(const String& str, const String& substr)
 {
-  char* new_buffer = alloc_string_buffer(buffer_size, __FILE__, __LINE__);
-  str_n_cpy(new_buffer, buffer_to_copy, buffer_size);
-  if (buffer_size > 0)
-    new_buffer[buffer_size - 1] = '\0';
-  return new_buffer;
+  return str_str(str.c_str(), substr.c_str()) != nullptr;
 }
 
 bool
-is_digit(char ch)
+string_starts_with(const String& str, const String& prefix)
 {
-  return '0' <= ch && '9' >= ch;
+  if (prefix.size() == 0)
+    return true;
+  else if (str.size() == 0)
+    return false;
+  else
+    return str_str(str.c_str(), prefix.c_str()) == str.c_str();
 }
 
 bool
-is_space(char ch)
+string_ends_with(const String& str, const String& suffix)
 {
-  return (ch == ' ') || (0x08 < ch && 0x0E > ch);
+  size_t len = str.size();
+  size_t other_len = suffix.size();
+
+  if (other_len == 0)
+    return true;
+  if (len == 0)
+    return false;
+  if (len < other_len)
+    return false;
+
+  return str_cmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
 }
 
-bool
-is_upper(char ch)
+void
+string_replace(String& str, char from, char to)
 {
-  return 'A' <= ch && 'Z' >= ch;
+  size_t s = str.size();
+  for (size_t i = 0; i < s; i++) {
+    if (str[i] == from)
+      str[i] = to;
+  }
 }
-} // namespace
+
+void
+string_replace(String& str, const char* from, const char* to)
+{
+  size_t fromlen = str_len(from);
+  if (fromlen == 0)
+    return;
+
+  String result;
+  size_t pos = 0;
+  size_t found = str.find(from, pos);
+  while (found != String::npos) {
+    result += str.substr(pos, found - pos);
+    result += to;
+    pos = found + fromlen;
+    found = str.find(from, pos);
+  }
+  if (pos == 0)
+    return;
+  result += str.substr(pos);
+  str = result;
+}
+
+// does not support + or - prefixes
+unsigned
+ato_u(const char* str)
+{
+  while (is_space(*str))
+    str++;
+
+  unsigned result = 0;
+  for (; is_digit(*str) && *str >= '0'; str++) {
+    result *= 10;
+    result += static_cast<unsigned>(*str - '0');
+  }
+  return result;
+}
+
+int
+ato_i(const char* str)
+{
+  while (is_space(*str))
+    str++;
+
+  char first_char = *str;
+  if (first_char == '-' || first_char == '+')
+    str++;
+
+  int result = 0;
+  for (; is_digit(*str); str++) {
+    result *= 10;
+    result += *str - '0';
+  }
+  return (first_char == '-') ? -result : result;
+}
+
+int
+str_cmp(const char* s1, const char* s2)
+{
+  while (*s1 && *s1 == *s2) {
+    ++s1;
+    ++s2;
+  }
+  return *reinterpret_cast<const unsigned char*>(s1) -
+         *reinterpret_cast<const unsigned char*>(s2);
+}
+
+size_t
+str_len(const char* str)
+{
+  auto n = static_cast<size_t>(-1);
+  do
+    n++;
+  while (*str++);
+  return n;
+}
+
+int
+str_n_cmp(const char* s1, const char* s2, size_t n)
+{
+  while (n && *s1 && *s1 == *s2) {
+    --n;
+    ++s1;
+    ++s2;
+  }
+  return n ? *reinterpret_cast<const unsigned char*>(s1) -
+                 *reinterpret_cast<const unsigned char*>(s2)
+           : 0;
+}
+
+const char*
+str_str(const char* s1, const char* s2)
+{
+  if (!*s2)
+    return s1;
+  for (; *s1; s1++)
+    if (str_n_cmp(s1, s2, str_len(s2)) == 0)
+      return s1;
+  return nullptr;
+}
+
+char
+to_lower(char ch)
+{
+  return is_upper(ch) ? static_cast<char>(static_cast<int>(ch) + ('a' - 'A'))
+                      : ch;
+}
+
+int
+mem_cmp(const void* s1, const void* s2, size_t n)
+{
+  auto* p1 = static_cast<const unsigned char*>(s1);
+  auto* p2 = static_cast<const unsigned char*>(s2);
+
+  while (n--)
+    if (*p1 != *p2) {
+      return *p1 - *p2;
+    } else {
+      ++p1;
+      ++p2;
+    }
+  return 0;
+}
+
+void
+pad_strings_to_same_length(String& str1, String& str2, char pad_character)
+{
+  if (str1.size() > str2.size()) {
+    pad_strings_to_same_length(str2, str1, pad_character);
+    return;
+  }
+
+  str1 = String(str2.size() - str1.size(), pad_character) + str1;
+}
 
 bool
 is_control(char ch)
@@ -742,16 +716,6 @@ string_from(unsigned int i)
 {
   return string_from_format("%u", i);
 }
-
-#if CPPMU_USE_STD_CPP_LIB
-
-String
-string_from(const std::string& value)
-{
-  return String(value.c_str());
-}
-
-#endif
 
 String
 string_from(unsigned long i)

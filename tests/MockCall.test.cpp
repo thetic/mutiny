@@ -470,9 +470,9 @@ TEST(MockCall, shouldntFailTwice)
   mock().actual_call("bar");
   mock().check_expectations();
 
-  CHECK(!string_contains(
+  CHECK(!cppmu::string_contains(
       MockFailureReporterForTest::get_reporter()->mock_failure_string, "bar"));
-  CHECK(string_contains(
+  CHECK(cppmu::string_contains(
       MockFailureReporterForTest::get_reporter()->mock_failure_string, "boo"));
 }
 

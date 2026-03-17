@@ -87,7 +87,7 @@ TEST(TestFilter, notEqual)
 TEST(TestFilter, stringFrom)
 {
   cppmu::TestFilter filter("filter");
-  STRCMP_EQUAL("TestFilter: \"filter\"", string_from(filter).c_str());
+  STRCMP_EQUAL("TestFilter: \"filter\"", cppmu::string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictMatching)
@@ -95,7 +95,7 @@ TEST(TestFilter, stringFromWithStrictMatching)
   cppmu::TestFilter filter("filter");
   filter.strict_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict matching",
-      string_from(filter).c_str());
+      cppmu::string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithInvertMatching)
@@ -103,7 +103,7 @@ TEST(TestFilter, stringFromWithInvertMatching)
   cppmu::TestFilter filter("filter");
   filter.invert_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with invert matching",
-      string_from(filter).c_str());
+      cppmu::string_from(filter).c_str());
 }
 
 TEST(TestFilter, stringFromWithStrictInvertMatching)
@@ -112,7 +112,7 @@ TEST(TestFilter, stringFromWithStrictInvertMatching)
   filter.strict_matching();
   filter.invert_matching();
   STRCMP_EQUAL("TestFilter: \"filter\" with strict, invert matching",
-      string_from(filter).c_str());
+      cppmu::string_from(filter).c_str());
 }
 
 TEST(TestFilter, listOfFilters)
@@ -123,9 +123,9 @@ TEST(TestFilter, listOfFilters)
   list_of_filters = first.add(list_of_filters);
   list_of_filters = secnd.add(list_of_filters);
   cppmu::TestFilter* current = list_of_filters;
-  STRCMP_EQUAL("TestFilter: \"bar\"", string_from(*current).c_str());
+  STRCMP_EQUAL("TestFilter: \"bar\"", cppmu::string_from(*current).c_str());
   current = current->get_next();
-  STRCMP_EQUAL("TestFilter: \"foo\"", string_from(*current).c_str());
+  STRCMP_EQUAL("TestFilter: \"foo\"", cppmu::string_from(*current).c_str());
   POINTERS_EQUAL(nullptr, current->get_next());
 }
 
