@@ -15,7 +15,7 @@ int pointer_table_index;
 CppMuPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
-SetPointerPlugin::SetPointerPlugin(const String& name)
+SetPointerPlugin::SetPointerPlugin()
   : TestPlugin(name)
 {
   pointer_table_index = 0;

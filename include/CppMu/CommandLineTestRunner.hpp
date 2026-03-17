@@ -47,6 +47,4 @@ private:
 
 } // namespace cppmu
 
-#define DEF_PLUGIN_SET_POINTER "SetPointerPlugin"
-
 #endif

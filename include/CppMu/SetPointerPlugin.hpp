@@ -16,10 +16,11 @@ namespace cppmu {
 class SetPointerPlugin : public TestPlugin
 {
 public:
-  SetPointerPlugin(const String& name);
+  SetPointerPlugin();
   void post_test_action(TestShell&, TestResult&) override;
 
   static constexpr int max_set = 32;
+  static constexpr const char* name{ "SetPointerPlugin" };
 
   template<typename T>
   static void set_pointer(T*& a, T* b)

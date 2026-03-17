@@ -43,13 +43,13 @@ int CommandLineTestRunner::run_all_tests_main()
 {
   int test_result = 1;
 
-  SetPointerPlugin p_plugin(DEF_PLUGIN_SET_POINTER);
-  registry_->install_plugin(&p_plugin);
+  SetPointerPlugin plugin;
+  registry_->install_plugin(&plugin);
 
   if (parse_arguments(registry_->get_first_plugin()))
     test_result = run_all_tests();
 
-  registry_->remove_plugin_by_name(DEF_PLUGIN_SET_POINTER);
+  registry_->remove_plugin_by_name(plugin.name);
   return test_result;
 }
 

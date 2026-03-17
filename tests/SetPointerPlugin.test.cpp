@@ -45,7 +45,7 @@ TEST_GROUP(SetPointerPlugin)
   void setup() override
   {
     my_registry = new cppmu::TestRegistry();
-    plugin = new cppmu::SetPointerPlugin("TestSetPlugin");
+    plugin = new cppmu::SetPointerPlugin;
     my_registry->set_current_registry(my_registry);
     my_registry->install_plugin(plugin);
     output = new cppmu::StringBufferTestOutput();
