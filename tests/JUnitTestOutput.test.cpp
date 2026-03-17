@@ -175,8 +175,7 @@ public:
 
   JUnitTestOutputTestRunner& with_group(const char* group_name)
   {
-    run_previous_test();
-    end_of_previous_test_group();
+    end_group_and_clear_test();
 
     current_group_name_ = group_name;
     return *this;
@@ -265,6 +264,15 @@ public:
     test_failure_ = new cppmu::TestFailure(current_test_, file, line, message);
     return *this;
   }
+
+#if CPPMU_HAVE_EXCEPTIONS
+  JUnitTestOutputTestRunner& that_errors()
+  {
+    // NOLINTNEXTLINE(bugprone-throw-keyword-missing)
+    test_failure_ = new cppmu::UnexpectedExceptionFailure(current_test_);
+    return *this;
+  }
+#endif
 
   JUnitTestOutputTestRunner& at_time(const char* new_time)
   {
@@ -373,7 +381,7 @@ TEST(JUnitTestOutput,
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   output_file = file_system.file("cppmu_groupname.xml");
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" "
                "name=\"groupname\" tests=\"1\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2));
@@ -434,7 +442,7 @@ TEST(JUnitTestOutput,
 
   output_file = file_system.file("cppmu_twoTestsGroup.xml");
 
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" "
                "name=\"twoTestsGroup\" tests=\"2\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2));
@@ -460,7 +468,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
 
   output_file = file_system.file("cppmu_timeGroup.xml");
 
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" "
                "name=\"timeGroup\" tests=\"1\" time=\"0.010\" "
                "timestamp=\"2013-07-04T22:28:00\">\n",
       output_file->line(2));
@@ -479,7 +487,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
       .end();
 
   output_file = file_system.file("cppmu_twoTestsGroup.xml");
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" "
                "name=\"twoTestsGroup\" tests=\"2\" time=\"0.060\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2));
@@ -502,7 +510,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
       .end();
 
   output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" "
                "name=\"testGroupWithFailingTest\" tests=\"1\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2));
@@ -513,8 +521,9 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
   STRCMP_EQUAL("<failure message=\"thisfile:10: Test failed\" "
                "type=\"AssertionFailedError\">\n",
       output_file->line(6));
-  STRCMP_EQUAL("</failure>\n", output_file->line(7));
-  STRCMP_EQUAL("</testcase>\n", output_file->line(8));
+  STRCMP_EQUAL("thisfile:10: Test failed\n", output_file->line(7));
+  STRCMP_EQUAL("</failure>\n", output_file->line(8));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(9));
 }
 
 TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
@@ -528,7 +537,7 @@ TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
 
   output_file = file_system.file("cppmu_testGroupWithFailingTest.xml");
 
-  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" hostname=\"localhost\" "
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"1\" "
                "name=\"testGroupWithFailingTest\" tests=\"2\" time=\"0.000\" "
                "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2));
@@ -651,7 +660,7 @@ TEST(JUnitTestOutput, aCoupleOfTestFailures)
       output_file->line(8));
   STRCMP_EQUAL("<failure message=\"anotherFile:10: otherFailure\" "
                "type=\"AssertionFailedError\">\n",
-      output_file->line(16));
+      output_file->line(17));
 }
 
 TEST(JUnitTestOutput, testFailuresInSeparateGroups)
@@ -675,7 +684,7 @@ TEST(JUnitTestOutput, testFailuresInSeparateGroups)
   output_file = file_system.file("cppmu_AnotherGroup.xml");
   STRCMP_EQUAL("<failure message=\"anotherFile:10: otherFailure\" "
                "type=\"AssertionFailedError\">\n",
-      output_file->line(8));
+      output_file->line(6));
 }
 
 TEST(JUnitTestOutput, twoTestGroupsWriteToTwoDifferentFiles)
@@ -859,3 +868,72 @@ TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutputWithSpecials)
       "\\mainly\\ down the Dr&amp;in&#10;</system-out>\n",
       output_file->line_from_the_back(3));
 }
+
+#if CPPMU_HAVE_EXCEPTIONS
+TEST(JUnitTestOutput, unexpectedExceptionCountsAsErrorNotFailure)
+{
+  test_case_runner->start()
+      .with_group("errorGroup")
+      .with_test("errorTest")
+      .that_errors()
+      .end();
+
+  output_file = file_system.file("cppmu_errorGroup.xml");
+  STRCMP_EQUAL("<testsuite errors=\"1\" failures=\"0\" "
+               "name=\"errorGroup\" tests=\"1\" time=\"0.000\" "
+               "timestamp=\"1978-10-03T00:00:00\">\n",
+      output_file->line(2));
+}
+
+TEST(JUnitTestOutput, unexpectedExceptionEmitsErrorElement)
+{
+  test_case_runner->start()
+      .with_group("errorGroup")
+      .with_test("errorTest")
+      .that_errors()
+      .end();
+
+  output_file = file_system.file("cppmu_errorGroup.xml");
+  STRCMP_EQUAL(
+      "<error message=\"Unexpected exception of unknown type was thrown.\""
+      " type=\"UnexpectedException\">\n",
+      output_file->line(6));
+  STRCMP_EQUAL("Unexpected exception of unknown type was thrown.\n",
+      output_file->line(7));
+  STRCMP_EQUAL("</error>\n", output_file->line(8));
+}
+
+TEST(JUnitTestOutput, errorCountResetBetweenGroups)
+{
+  test_case_runner->start()
+      .with_group("errorGroup")
+      .with_test("errorTest")
+      .that_errors()
+      .with_group("cleanGroup")
+      .with_test("passingTest")
+      .end();
+
+  output_file = file_system.file("cppmu_cleanGroup.xml");
+  STRCMP_EQUAL("<testsuite errors=\"0\" failures=\"0\" "
+               "name=\"cleanGroup\" tests=\"1\" time=\"0.000\" "
+               "timestamp=\"1978-10-03T00:00:00\">\n",
+      output_file->line(2));
+}
+
+TEST(JUnitTestOutput, mixedErrorAndFailureCountedSeparately)
+{
+  test_case_runner->start()
+      .with_group("mixedGroup")
+      .with_test("failingTest")
+      .that_fails("assertion failed", "somefile", 5)
+      .with_test("errorTest")
+      .that_errors()
+      .end();
+
+  output_file = file_system.file("cppmu_mixedGroup.xml");
+  STRCMP_EQUAL("<testsuite errors=\"1\" failures=\"1\" "
+               "name=\"mixedGroup\" tests=\"2\" time=\"0.000\" "
+               "timestamp=\"1978-10-03T00:00:00\">\n",
+      output_file->line(2));
+}
+#endif

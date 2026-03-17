@@ -15,6 +15,7 @@ struct JUnitTestCaseResultNode
   String name;
   size_t exec_time{ 0 };
   TestFailure* failure{ nullptr };
+  bool failure_is_error{ false };
   bool ignored{ false };
   String file;
   size_t line_number{ 0 };
@@ -28,6 +29,7 @@ struct JUnitTestGroupResult
 
   size_t test_count{ 0 };
   size_t failure_count{ 0 };
+  size_t error_count{ 0 };
   size_t total_check_count{ 0 };
   size_t start_time{ 0 };
   size_t group_exec_time{ 0 };
@@ -60,6 +62,7 @@ JUnitTestOutput::reset_test_group_result()
 {
   impl_->results.test_count = 0;
   impl_->results.failure_count = 0;
+  impl_->results.error_count = 0;
   impl_->results.group = "";
   JUnitTestCaseResultNode* cur = impl_->results.head;
   while (cur) {
@@ -168,8 +171,9 @@ void
 JUnitTestOutput::write_test_suite_summary()
 {
   String buf = string_from_format(
-      "<testsuite errors=\"0\" failures=\"%d\" hostname=\"localhost\" "
+      "<testsuite errors=\"%d\" failures=\"%d\" "
       "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
+      static_cast<int>(impl_->results.error_count),
       static_cast<int>(impl_->results.failure_count),
       impl_->results.group.c_str(),
       static_cast<int>(impl_->results.test_count),
@@ -222,7 +226,10 @@ JUnitTestOutput::write_test_cases()
     impl_->results.total_check_count = cur->check_count;
 
     if (cur->failure) {
-      write_failure(cur);
+      if (cur->failure_is_error)
+        write_error(cur);
+      else
+        write_failure(cur);
     } else if (cur->ignored) {
       write_to_file("<skipped />\n");
     }
@@ -234,13 +241,31 @@ JUnitTestOutput::write_test_cases()
 void
 JUnitTestOutput::write_failure(JUnitTestCaseResultNode* node)
 {
+  String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
-      "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n",
+      "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
+      "%s:%d: %s\n",
       node->failure->get_file_name().c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
-      encode_xml_text(node->failure->get_message()).c_str());
+      msg.c_str(),
+      node->failure->get_file_name().c_str(),
+      static_cast<int>(node->failure->get_failure_line_number()),
+      msg.c_str());
   write_to_file(buf.c_str());
   write_to_file("</failure>\n");
+}
+
+void
+JUnitTestOutput::write_error(JUnitTestCaseResultNode* node)
+{
+  String msg = encode_xml_text(node->failure->get_message());
+  String buf =
+      string_from_format("<error message=\"%s\" type=\"UnexpectedException\">\n"
+                         "%s\n",
+          msg.c_str(),
+          msg.c_str());
+  write_to_file(buf.c_str());
+  write_to_file("</error>\n");
 }
 
 void
@@ -290,7 +315,12 @@ void
 JUnitTestOutput::print_failure(const TestFailure& failure)
 {
   if (impl_->results.tail->failure == nullptr) {
-    impl_->results.failure_count++;
+    if (failure.is_error()) {
+      impl_->results.error_count++;
+      impl_->results.tail->failure_is_error = true;
+    } else {
+      impl_->results.failure_count++;
+    }
     impl_->results.tail->failure = new TestFailure(failure);
   }
 }

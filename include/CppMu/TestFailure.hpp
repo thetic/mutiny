@@ -42,6 +42,7 @@ public:
   virtual String get_message() const;
   virtual String get_test_file_name() const;
   virtual size_t get_test_line_number() const;
+  virtual bool is_error() const { return false; }
   bool is_outside_test_file() const;
   bool is_in_helper_function() const;
 
@@ -248,6 +249,7 @@ public:
 class UnexpectedExceptionFailure : public TestFailure
 {
 public:
+  bool is_error() const override { return true; }
   UnexpectedExceptionFailure(TestShell* test);
 #if CPPMU_USE_STD_CPP_LIB
   UnexpectedExceptionFailure(TestShell* test, const std::exception& e);

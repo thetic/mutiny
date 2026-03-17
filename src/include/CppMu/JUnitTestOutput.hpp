@@ -47,6 +47,7 @@ protected:
   virtual String encode_xml_text(const String& textbody);
   virtual String encode_file_name(const String& file_name);
   virtual void write_failure(JUnitTestCaseResultNode* node);
+  virtual void write_error(JUnitTestCaseResultNode* node);
   virtual void write_file_ending();
 };
 
