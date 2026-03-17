@@ -117,6 +117,13 @@ mock_get_time_string()
   return the_time;
 }
 
+struct PendingProperty
+{
+  const char* name;
+  const char* value;
+  PendingProperty* next{ nullptr };
+};
+
 class JUnitTestOutputTestRunner
 {
   cppmu::TestResult result_;
@@ -127,6 +134,7 @@ class JUnitTestOutputTestRunner
   unsigned int time_the_test_takes_{ 0 };
   unsigned int number_of_checks_in_test_{ 0 };
   cppmu::TestFailure* test_failure_{ nullptr };
+  PendingProperty* pending_properties_{ nullptr };
 
 public:
   explicit JUnitTestOutputTestRunner(const cppmu::TestResult& result)
@@ -234,6 +242,14 @@ public:
     }
     number_of_checks_in_test_ = 0;
 
+    while (pending_properties_) {
+      result_.add_test_property(
+          pending_properties_->name, pending_properties_->value);
+      PendingProperty* tmp = pending_properties_->next;
+      delete pending_properties_;
+      pending_properties_ = tmp;
+    }
+
     if (test_failure_) {
       result_.add_failure(*test_failure_);
       delete test_failure_;
@@ -284,6 +300,19 @@ public:
   {
     run_previous_test();
     result_.print(output);
+    return *this;
+  }
+
+  JUnitTestOutputTestRunner& with_property(const char* name, const char* value)
+  {
+    auto* prop = new PendingProperty;
+    prop->name = name;
+    prop->value = value;
+    prop->next = nullptr;
+    PendingProperty** tail = &pending_properties_;
+    while (*tail)
+      tail = &(*tail)->next;
+    *tail = prop;
     return *this;
   }
 };
@@ -937,3 +966,88 @@ TEST(JUnitTestOutput, mixedErrorAndFailureCountedSeparately)
       output_file->line(2));
 }
 #endif
+
+TEST(JUnitTestOutput, testWithOnePropertyEmitsPropertiesBlock)
+{
+  test_case_runner->start()
+      .with_group("propGroup")
+      .with_test("propTest")
+      .with_property("ticket_id", "12345")
+      .end();
+
+  output_file = file_system.file("cppmu_propGroup.xml");
+  STRCMP_EQUAL("<testcase classname=\"propGroup\" name=\"propTest\" "
+               "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(5));
+  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+  STRCMP_EQUAL(
+      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(7));
+  STRCMP_EQUAL("</properties>\n", output_file->line(8));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(9));
+}
+
+TEST(JUnitTestOutput, testWithMultiplePropertiesEmitsAllInOrder)
+{
+  test_case_runner->start()
+      .with_group("propGroup")
+      .with_test("propTest")
+      .with_property("ticket_id", "12345")
+      .with_property("size", "10MB")
+      .end();
+
+  output_file = file_system.file("cppmu_propGroup.xml");
+  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+  STRCMP_EQUAL(
+      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(7));
+  STRCMP_EQUAL(
+      "<property name=\"size\" value=\"10MB\"/>\n", output_file->line(8));
+  STRCMP_EQUAL("</properties>\n", output_file->line(9));
+}
+
+TEST(JUnitTestOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
+{
+  test_case_runner->start()
+      .with_group("noPropGroup")
+      .with_test("noPropTest")
+      .end();
+
+  output_file = file_system.file("cppmu_noPropGroup.xml");
+  STRCMP_EQUAL("<testcase classname=\"noPropGroup\" name=\"noPropTest\" "
+               "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(5));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+}
+
+TEST(JUnitTestOutput, testPropertyNameAndValueAreXmlEncoded)
+{
+  test_case_runner->start()
+      .with_group("encodeGroup")
+      .with_test("encodeTest")
+      .with_property("k&ey", "<val>")
+      .end();
+
+  output_file = file_system.file("cppmu_encodeGroup.xml");
+  STRCMP_EQUAL("<property name=\"k&amp;ey\" value=\"&lt;val&gt;\"/>\n",
+      output_file->line(7));
+}
+
+TEST(JUnitTestOutput, propertiesAccumulateCorrectlyAcrossGroups)
+{
+  test_case_runner->start()
+      .with_group("groupA")
+      .with_test("testA")
+      .with_property("key", "val")
+      .end_group_and_clear_test()
+      .with_group("groupB")
+      .with_test("testB")
+      .end();
+
+  output_file = file_system.file("cppmu_groupA.xml");
+  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+
+  output_file = file_system.file("cppmu_groupB.xml");
+  STRCMP_EQUAL("<testcase classname=\"groupB\" name=\"testB\" "
+               "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(5));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+}

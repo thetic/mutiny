@@ -257,3 +257,9 @@ check_c_location(int condition,
       line_number,
       cppmu::TestShell::get_current_test_terminator_without_exceptions());
 }
+
+void
+add_test_property_c(const char* name, const char* value)
+{
+  cppmu::TestShell::get_current()->add_test_property(name, value);
+}

@@ -369,6 +369,12 @@ TestShell::add_failure(const TestFailure& failure)
 }
 
 void
+TestShell::add_test_property(const char* name, const char* value)
+{
+  get_test_result()->add_test_property(name, value);
+}
+
+void
 TestShell::exit_test(const TestTerminator& terminator)
 {
   terminator.exit_current_test();

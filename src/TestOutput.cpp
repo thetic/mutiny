@@ -204,6 +204,11 @@ TestOutput::print_test_run(size_t number, size_t total)
 }
 
 void
+TestOutput::print_test_property(const char* /*name*/, const char* /*value*/)
+{
+}
+
+void
 TestOutput::print_failure(const TestFailure& failure)
 {
   if (failure.is_outside_test_file() || failure.is_in_helper_function())

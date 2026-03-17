@@ -8,6 +8,17 @@
 
 namespace cppmu {
 
+namespace {
+
+struct TestProperty
+{
+  String name;
+  String value;
+  TestProperty* next{ nullptr };
+};
+
+} // namespace
+
 struct JUnitTestCaseResultNode
 {
   JUnitTestCaseResultNode() = default;
@@ -20,6 +31,8 @@ struct JUnitTestCaseResultNode
   String file;
   size_t line_number{ 0 };
   size_t check_count{ 0 };
+  TestProperty* properties{ nullptr };
+  TestProperty* properties_tail{ nullptr };
   JUnitTestCaseResultNode* next{ nullptr };
 };
 
@@ -68,6 +81,12 @@ JUnitTestOutput::reset_test_group_result()
   while (cur) {
     JUnitTestCaseResultNode* tmp = cur->next;
     delete cur->failure;
+    TestProperty* prop = cur->properties;
+    while (prop) {
+      TestProperty* prop_tmp = prop->next;
+      delete prop;
+      prop = prop_tmp;
+    }
     delete cur;
     cur = tmp;
   }
@@ -225,6 +244,18 @@ JUnitTestOutput::write_test_cases()
 
     impl_->results.total_check_count = cur->check_count;
 
+    if (cur->properties) {
+      write_to_file("<properties>\n");
+      for (TestProperty* prop = cur->properties; prop; prop = prop->next) {
+        String prop_buf =
+            string_from_format("<property name=\"%s\" value=\"%s\"/>\n",
+                encode_xml_text(prop->name).c_str(),
+                encode_xml_text(prop->value).c_str());
+        write_to_file(prop_buf.c_str());
+      }
+      write_to_file("</properties>\n");
+    }
+
     if (cur->failure) {
       if (cur->failure_is_error)
         write_error(cur);
@@ -309,6 +340,23 @@ JUnitTestOutput::print(long)
 void
 JUnitTestOutput::print(size_t)
 {
+}
+
+void
+JUnitTestOutput::print_test_property(const char* name, const char* value)
+{
+  if (impl_->results.tail == nullptr)
+    return;
+  auto* prop = new TestProperty;
+  prop->name = name;
+  prop->value = value;
+  if (impl_->results.tail->properties == nullptr) {
+    impl_->results.tail->properties = prop;
+    impl_->results.tail->properties_tail = prop;
+  } else {
+    impl_->results.tail->properties_tail->next = prop;
+    impl_->results.tail->properties_tail = prop;
+  }
 }
 
 void

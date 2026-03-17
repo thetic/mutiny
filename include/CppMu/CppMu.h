@@ -106,6 +106,8 @@
 #define CHECK_C_TEXT(condition, text)                                          \
   check_c_location(condition, #condition, text, __FILE__, __LINE__)
 
+#define TEST_PROPERTY_C(name, value) add_test_property_c((name), (value))
+
 /******************************************************************************
  *
  * TEST macros for in C.
@@ -249,6 +251,7 @@ extern "C"
       const char* text,
       const char* file_name,
       size_t line_number);
+  void add_test_property_c(const char* name, const char* value);
 
 #ifdef __cplusplus
 }

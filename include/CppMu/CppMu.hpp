@@ -138,4 +138,7 @@
   } /* namespace */                                                            \
   void EXPECT_FAIL##testGroup##_##testName##_Test::test_body()
 
+#define TEST_PROPERTY(name, value)                                             \
+  cppmu::TestShell::get_current()->add_test_property((name), (value))
+
 #endif

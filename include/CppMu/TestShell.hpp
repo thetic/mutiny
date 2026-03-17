@@ -187,6 +187,7 @@ public:
       TestResult& result);
 
   virtual void add_failure(const TestFailure& failure);
+  virtual void add_test_property(const char* name, const char* value);
 
 protected:
   TestShell();

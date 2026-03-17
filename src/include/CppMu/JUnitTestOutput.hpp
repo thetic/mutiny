@@ -27,6 +27,7 @@ public:
   void print(long) override;
   void print(size_t) override;
   void print_failure(const TestFailure& failure) override;
+  void print_test_property(const char* name, const char* value) override;
 
   virtual String create_file_name(const String& group);
   void set_package_name(const String& package);

@@ -58,6 +58,7 @@ public:
   virtual void print(size_t);
   virtual void print_double(double);
   virtual void print_failure(const TestFailure& failure);
+  virtual void print_test_property(const char* name, const char* value);
   virtual void print_test_run(size_t number, size_t total);
   virtual void set_progress_indicator(const char*);
 

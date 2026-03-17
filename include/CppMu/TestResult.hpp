@@ -35,6 +35,7 @@ public:
   virtual void count_filtered_out();
   virtual void count_ignored();
   virtual void add_failure(const TestFailure& failure);
+  virtual void add_test_property(const char* name, const char* value);
   virtual void print(const char* text);
   virtual void print_very_verbose(const char* text);
 
