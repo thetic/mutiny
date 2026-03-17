@@ -5,6 +5,7 @@
 
 namespace cppmu {
 
+class TestOutput;
 class TestShell;
 class TestResult;
 
@@ -19,6 +20,9 @@ public:
   virtual void post_test_action(TestShell&, TestResult&) {}
 
   virtual bool parse_arguments(int, const char* const*, int) { return false; }
+
+  virtual TestOutput* create_output() { return nullptr; }
+  virtual TestOutput* create_all_outputs();
 
   virtual void run_all_pre_test_action(TestShell&, TestResult&);
   virtual void run_all_post_test_action(TestShell&, TestResult&);

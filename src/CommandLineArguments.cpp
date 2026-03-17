@@ -138,7 +138,7 @@ const char* CommandLineArguments::usage() const
          "[-t|st|xt|xst <groupName>.<testName>]...\n"
          "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
          "<testName>)\"]...\n"
-         "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n";
+         "      [-o{normal|eclipse|junit}] [-k <packageName>]\n";
 }
 
 const char* CommandLineArguments::help() const
@@ -166,8 +166,6 @@ const char* CommandLineArguments::help() const
          "Options that change the output location:\n"
          "  -onormal          - no output to files\n"
          "  -oeclipse         - equivalent to -onormal\n"
-         "  -oteamcity        - output to xml files (as the name suggests, for "
-         "TeamCity)\n"
          "  -ojunit           - output to JUnit ant plugin style xml files "
          "(for CI systems)\n"
          "  -k <packageName>  - add a package name in JUnit output (for "
@@ -540,10 +538,6 @@ bool CommandLineArguments::set_output_type(
     output_type_ = OutputType::junit;
     return true;
   }
-  if (output_type == "teamcity") {
-    output_type_ = OutputType::teamcity;
-    return true;
-  }
 
   return false;
 }
@@ -556,11 +550,6 @@ bool CommandLineArguments::is_eclipse_output() const
 bool CommandLineArguments::is_j_unit_output() const
 {
   return output_type_ == OutputType::junit;
-}
-
-bool CommandLineArguments::is_team_city_output() const
-{
-  return output_type_ == OutputType::teamcity;
 }
 
 const String& CommandLineArguments::get_package_name() const

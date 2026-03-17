@@ -26,7 +26,6 @@ public:
   int run_all_tests_main();
 
 protected:
-  virtual TestOutput* create_team_city_output();
   virtual TestOutput* create_j_unit_output(const String& package_name);
   virtual TestOutput* create_console_output();
   virtual TestOutput* create_composite_output(

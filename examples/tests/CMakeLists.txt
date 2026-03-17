@@ -25,6 +25,8 @@ add_executable(ExampleTests
     MockDocumentation.test.c
     MockDocumentation.test.cpp
     Printer.test.cpp
+    TeamCityOutputPlugin.cpp
+    TeamCityTestOutput.test.cpp
 )
 
 if(CPPMU_USE_STD_CPP_LIB)

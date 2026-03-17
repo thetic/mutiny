@@ -44,9 +44,6 @@ public:
   cppmu::StringBufferTestOutput* fake_console_output_which_is_really_a_buffer{
     nullptr
   };
-  cppmu::StringBufferTestOutput* fake_tc_output_which_is_really_a_buffer{
-    nullptr
-  };
 
   CommandLineTestRunnerWithStringBufferOutput(
       int argc,
@@ -70,12 +67,6 @@ public:
     fake_j_unit_output_which_is_really_a_buffer =
         new cppmu::StringBufferTestOutput;
     return fake_j_unit_output_which_is_really_a_buffer;
-  }
-
-  cppmu::TestOutput* create_team_city_output() override
-  {
-    fake_tc_output_which_is_really_a_buffer = new cppmu::StringBufferTestOutput;
-    return fake_tc_output_which_is_really_a_buffer;
   }
 };
 
@@ -217,19 +208,6 @@ TEST(CommandLineTestRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
   int returned = command_line_test_runner.run_all_tests_main();
 
   LONGS_EQUAL(1, returned);
-}
-
-TEST(CommandLineTestRunner, TeamcityOutputEnabled)
-{
-  const char* argv[] = { "tests.exe", "-oteamcity" };
-  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
-      2, argv, &registry
-  );
-  command_line_test_runner.run_all_tests_main();
-  CHECK(
-      command_line_test_runner.fake_tc_output_which_is_really_a_buffer !=
-      nullptr
-  );
 }
 
 TEST(CommandLineTestRunner, JunitOutputEnabled)
@@ -483,36 +461,6 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
       fake_output.file.c_str()
   );
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());
-}
-
-TEST(CommandLineTestRunner, realTeamCityOutputShouldBeCreatedAndWorkProperly)
-{
-  const char* argv[] = {
-    "tests.exe",
-    "-oteamcity",
-    "-v",
-    "-kpackage",
-  };
-
-  FakeOutput fake_output; /* CPPMU_PTR_SET() is not reentrant */
-
-  cppmu::CommandLineTestRunner command_line_test_runner(4, argv, &registry);
-  command_line_test_runner.run_all_tests_main();
-
-  fake_output.restore_originals();
-
-  STRCMP_CONTAINS(
-      "##teamcity[testSuiteStarted name='group1'", fake_output.console.c_str()
-  );
-  STRCMP_CONTAINS(
-      "##teamcity[testStarted name='test1'", fake_output.console.c_str()
-  );
-  STRCMP_CONTAINS(
-      "##teamcity[testFinished name='test1'", fake_output.console.c_str()
-  );
-  STRCMP_CONTAINS(
-      "##teamcity[testSuiteFinished name='group1'", fake_output.console.c_str()
-  );
 }
 
 TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)

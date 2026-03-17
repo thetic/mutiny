@@ -1,17 +1,17 @@
-#include "CppMu/TeamCityTestOutput.hpp"
+#include "TeamCityOutputPlugin.hpp"
 
 #include "CppMu/TestFailure.hpp"
 #include "CppMu/TestResult.hpp"
 #include "CppMu/TestShell.hpp"
-
-namespace cppmu {
 
 TeamCityTestOutput::TeamCityTestOutput()
   : curr_group_()
 {
 }
 
-void TeamCityTestOutput::print_current_test_started(const TestShell& test)
+void TeamCityTestOutput::print_current_test_started(
+    const cppmu::TestShell& test
+)
 {
   print("##teamcity[testStarted name='");
   print_escaped(test.get_name().c_str());
@@ -24,7 +24,7 @@ void TeamCityTestOutput::print_current_test_started(const TestShell& test)
   currtest_ = &test;
 }
 
-void TeamCityTestOutput::print_current_test_ended(const TestResult& res)
+void TeamCityTestOutput::print_current_test_ended(const cppmu::TestResult& res)
 {
   if (!currtest_)
     return;
@@ -36,7 +36,9 @@ void TeamCityTestOutput::print_current_test_ended(const TestResult& res)
   print("']\n");
 }
 
-void TeamCityTestOutput::print_current_group_started(const TestShell& test)
+void TeamCityTestOutput::print_current_group_started(
+    const cppmu::TestShell& test
+)
 {
   curr_group_ = test.get_group();
   print("##teamcity[testSuiteStarted name='");
@@ -44,7 +46,8 @@ void TeamCityTestOutput::print_current_group_started(const TestShell& test)
   print("']\n");
 }
 
-void TeamCityTestOutput::print_current_group_ended(const TestResult& /*res*/)
+void TeamCityTestOutput::
+    print_current_group_ended(const cppmu::TestResult& /*res*/)
 {
   if (curr_group_ == "")
     return;
@@ -79,7 +82,7 @@ void TeamCityTestOutput::print_escaped(const char* s)
   }
 }
 
-void TeamCityTestOutput::print_failure(const TestFailure& failure)
+void TeamCityTestOutput::print_failure(const cppmu::TestFailure& failure)
 {
   print("##teamcity[testFailed name='");
   print_escaped(failure.get_test_name_only().c_str());
@@ -101,4 +104,28 @@ void TeamCityTestOutput::print_failure(const TestFailure& failure)
   print("']\n");
 }
 
-} // namespace cppmu
+TeamCityOutputPlugin::TeamCityOutputPlugin()
+  : cppmu::TestPlugin("TeamCityOutputPlugin")
+{
+}
+
+bool TeamCityOutputPlugin::parse_arguments(
+    int /*argc*/,
+    const char* const* argv,
+    int index
+)
+{
+  cppmu::String arg = argv[index];
+  if (arg.size() > 2 && cppmu::String(arg.c_str() + 2) == "teamcity") {
+    active_ = true;
+    return true;
+  }
+  return false;
+}
+
+cppmu::TestOutput* TeamCityOutputPlugin::create_output()
+{
+  if (active_)
+    return new TeamCityTestOutput;
+  return nullptr;
+}

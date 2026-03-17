@@ -1,9 +1,9 @@
 #include "CppMu/CommandLineTestRunner.hpp"
 
 #include "CppMu/CompositeTestOutput.hpp"
+#include "CppMu/ConsoleTestOutput.hpp"
 #include "CppMu/JUnitTestOutput.hpp"
 #include "CppMu/SetPointerPlugin.hpp"
-#include "CppMu/TeamCityTestOutput.hpp"
 #include "CppMu/TestOutput.hpp"
 #include "CppMu/TestRegistry.hpp"
 
@@ -129,11 +129,6 @@ int CommandLineTestRunner::run_all_tests()
   );
 }
 
-TestOutput* CommandLineTestRunner::create_team_city_output()
-{
-  return new TeamCityTestOutput;
-}
-
 TestOutput* CommandLineTestRunner::create_j_unit_output(
     const String& package_name
 )
@@ -175,10 +170,11 @@ bool CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
     output_ = create_j_unit_output(arguments_->get_package_name());
     if (arguments_->is_verbose() || arguments_->is_very_verbose())
       output_ = create_composite_output(output_, create_console_output());
-  } else if (arguments_->is_team_city_output()) {
-    output_ = create_team_city_output();
-  } else
-    output_ = create_console_output();
+  } else {
+    TestOutput* plugin_output =
+        registry_->get_first_plugin()->create_all_outputs();
+    output_ = plugin_output ? plugin_output : create_console_output();
+  }
   return true;
 }
 

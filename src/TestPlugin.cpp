@@ -1,6 +1,7 @@
 #include "CppMu/TestPlugin.hpp"
 
 #include "CppMu/NullTestPlugin.hpp"
+#include "CppMu/TestOutput.hpp"
 
 namespace cppmu {
 
@@ -54,6 +55,16 @@ bool TestPlugin::parse_all_arguments(
   if (next_)
     return next_->parse_all_arguments(argc, argv, index);
   return false;
+}
+
+TestOutput* TestPlugin::create_all_outputs()
+{
+  TestOutput* out = create_output();
+  if (out)
+    return out;
+  if (next_)
+    return next_->create_all_outputs();
+  return nullptr;
 }
 
 const String& TestPlugin::get_name()

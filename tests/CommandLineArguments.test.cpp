@@ -447,14 +447,6 @@ TEST(CommandLineArguments, setJUnitOutputDifferentParameter)
   CHECK(args->is_j_unit_output());
 }
 
-TEST(CommandLineArguments, setTeamCityOutputDifferentParameter)
-{
-  int argc = 3;
-  const char* argv[] = { "tests.exe", "-o", "teamcity" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_team_city_output());
-}
-
 TEST(CommandLineArguments, setOutputToGarbage)
 {
   int argc = 3;
@@ -495,7 +487,7 @@ TEST(CommandLineArguments, printUsage)
       "[-t|st|xt|xst <groupName>.<testName>]...\n"
       "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
       "<testName>)\"]...\n"
-      "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n",
+      "      [-o{normal|eclipse|junit}] [-k <packageName>]\n",
       args->usage()
   );
 }

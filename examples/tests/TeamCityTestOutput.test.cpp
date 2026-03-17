@@ -1,10 +1,10 @@
-#include "CppMu/TeamCityTestOutput.hpp"
+#include "TeamCityOutputPlugin.hpp"
 
 #include "CppMu/CppMu.hpp"
 #include "CppMu/time.hpp"
 
 namespace {
-class TeamCityOutputToBuffer : public cppmu::TeamCityTestOutput
+class TeamCityOutputToBuffer : public TeamCityTestOutput
 {
 public:
   explicit TeamCityOutputToBuffer() = default;
@@ -32,7 +32,7 @@ unsigned long mock_get_time_in_millis()
 
 TEST_GROUP(TeamCityTestOutput)
 {
-  cppmu::TeamCityTestOutput* tcout;
+  TeamCityTestOutput* tcout;
   TeamCityOutputToBuffer* mock;
   cppmu::TestShell* tst;
   cppmu::TestFailure *f, *f2, *f3;
@@ -209,8 +209,3 @@ TEST(TeamCityTestOutput, TestNameEscaped_Fail)
                          "details='failure message']\n";
   STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
-
-/* Todo:
- * -Detect when running in TeamCity and switch output to -o teamcity
- * automatically
- */

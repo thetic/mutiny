@@ -37,7 +37,6 @@ public:
   const TestFilter* get_name_filters() const;
   bool is_j_unit_output() const;
   bool is_eclipse_output() const;
-  bool is_team_city_output() const;
   const String& get_package_name() const;
   const char* usage() const;
   const char* help() const;
@@ -46,8 +45,7 @@ private:
   enum class OutputType
   {
     eclipse,
-    junit,
-    teamcity
+    junit
   };
 
   int ac_;

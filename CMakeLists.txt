@@ -50,7 +50,6 @@ target_sources(CppMu
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringCollection.cpp
-        src/TeamCityTestOutput.cpp
         src/Test.cpp
         src/TestFailure.cpp
         src/TestFilter.cpp
@@ -71,6 +70,7 @@ target_sources(CppMu
         FILES
             include/CppMu/CommandLineArguments.hpp
             include/CppMu/CommandLineTestRunner.hpp
+            include/CppMu/ConsoleTestOutput.hpp
             include/CppMu/CppMu.h
             include/CppMu/CppMu.hpp
             include/CppMu/ExpectFailTestShell.hpp
@@ -102,11 +102,11 @@ target_sources(CppMu
             include/CppMu/TestShellPointerArray.hpp
             include/CppMu/TestTerminator.hpp
             include/CppMu/TestTestingFixture.hpp
+            include/CppMu/time.hpp
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS src/include
         FILES
             src/include/CppMu/CompositeTestOutput.hpp
-            src/include/CppMu/ConsoleTestOutput.hpp
             src/include/CppMu/ExecFunctionTestShell.hpp
             src/include/CppMu/JUnitTestOutput.hpp
             src/include/CppMu/math.hpp
@@ -119,9 +119,7 @@ target_sources(CppMu
             src/include/CppMu/MockNamedValueList.hpp
             src/include/CppMu/NullTestPlugin.hpp
             src/include/CppMu/StringCollection.hpp
-            src/include/CppMu/TeamCityTestOutput.hpp
             src/include/CppMu/test_jump_buffer.h
-            src/include/CppMu/time.hpp
 )
 
 include(CheckCXXSymbolExists)

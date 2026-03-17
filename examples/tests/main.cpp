@@ -1,4 +1,5 @@
 #include "IEEE754ExceptionsPlugin.hpp"
+#include "TeamCityOutputPlugin.hpp"
 
 #include "CppMu/CommandLineTestRunner.hpp"
 #include "CppMu/MockSupportPlugin.hpp"
@@ -24,9 +25,11 @@ int main(int argc, char** argv)
   MyDummyComparator dummy_comparator;
   cppmu::MockSupportPlugin mock_plugin;
   IEEE754ExceptionsPlugin ieee754_plugin;
+  TeamCityOutputPlugin tc_plugin;
 
   mock_plugin.install_comparator("MyDummyType", dummy_comparator);
   cppmu::TestRegistry::get_current_registry()->install_plugin(&mock_plugin);
   cppmu::TestRegistry::get_current_registry()->install_plugin(&ieee754_plugin);
+  cppmu::TestRegistry::get_current_registry()->install_plugin(&tc_plugin);
   return cppmu::CommandLineTestRunner::run_all_tests(argc, argv);
 }

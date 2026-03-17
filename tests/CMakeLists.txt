@@ -37,7 +37,6 @@ add_executable(CppMuTests
     SetPointerPlugin.test.cpp
     String.test.cpp
     StringCollection.test.cpp
-    TeamCityTestOutput.test.cpp
     TestFailure.test.cpp
     TestFailureNaN.test.cpp
     TestFilter.test.cpp
