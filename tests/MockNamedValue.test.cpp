@@ -1,69 +1,6 @@
 #include "CppMu/MockNamedValue.hpp"
 
 #include "CppMu/CppMu.hpp"
-#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
-
-TEST_GROUP(ComparatorsAndCopiersRepository)
-{};
-
-class MyComparator : public cppmu::MockNamedValueComparator
-{
-public:
-  MyComparator() = default;
-  ~MyComparator() override = default;
-
-  bool is_equal(const void*, const void*) override { return false; }
-  cppmu::String value_to_string(const void*) override { return ""; }
-};
-
-class MyCopier : public cppmu::MockNamedValueCopier
-{
-public:
-  MyCopier() = default;
-  ~MyCopier() override = default;
-
-  void copy(void*, const void*) override {}
-};
-
-TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
-{
-  MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
-  repository.install_copier("MyType", copier);
-  POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
-  repository.clear();
-}
-
-TEST(ComparatorsAndCopiersRepository, ComparatorAndCopierByTheSameNameShouldBothBeFound)
-{
-  MyComparator comparator;
-  MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
-  repository.install_copier("MyType", copier);
-  repository.install_comparator("MyType", comparator);
-  POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("MyType"));
-  POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
-  repository.clear();
-}
-
-TEST(ComparatorsAndCopiersRepository, InstallComparatorsAndCopiersFromRepository)
-{
-  MyComparator comparator;
-  MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository source;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository target;
-
-  source.install_copier("MyType", copier);
-  source.install_comparator("MyType", comparator);
-
-  target.install_comparators_and_copiers(source);
-
-  POINTERS_EQUAL(&comparator, target.get_comparator_for_type("MyType"));
-  POINTERS_EQUAL(&copier, target.get_copier_for_type("MyType"));
-
-  source.clear();
-  target.clear();
-}
 
 TEST_GROUP(MockNamedValue)
 {

@@ -1,5 +1,5 @@
-#ifndef ORDEREDTEST_H
-#define ORDEREDTEST_H
+#ifndef INCLUDED_ORDEREDTEST_H
+#define INCLUDED_ORDEREDTEST_H
 
 #ifdef __cplusplus
 extern "C"
@@ -12,4 +12,4 @@ extern "C"
 }
 #endif
 
-#endif /* ORDEREDTEST_H */
+#endif /* INCLUDED_ORDEREDTEST_H */

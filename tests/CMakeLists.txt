@@ -3,6 +3,7 @@ add_executable(CppMuTests
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp
+    CompositeTestOutput.test.cpp
     CppMuC.test.c
     CppMuC.test.cpp
     CppMuCFixture.test.cpp
@@ -15,6 +16,8 @@ add_executable(CppMuTests
     MockComparatorCopier.test.cpp
     MockExpectedCall.test.cpp
     MockExpectedCallsList.test.cpp
+    MockIgnoredExpectedCall.test.cpp
+    MockNamedValueComparatorsAndCopiersRepository.test.cpp
     MockFailure.test.cpp
     MockFailureReporterForTest.cpp
     MockHierarchy.test.cpp
@@ -24,10 +27,12 @@ add_executable(CppMuTests
     MockStrictOrder.test.cpp
     MockSupport.c
     MockSupport.test.cpp
+    MockSupportWithFixture.test.cpp
     MockSupport_c.test.cpp
     MockSupportPlugin.test.cpp
-    OrderedTest.test.c
+    OrderedTestC.test.c
     OrderedTest.test.cpp
+    OrderedTestC.test.cpp
     Preprocessor.test.cpp
     SetPointerPlugin.test.cpp
     String.test.cpp
@@ -42,7 +47,11 @@ add_executable(CppMuTests
     TestRegistry.test.cpp
     TestResult.test.cpp
     TestShell.test.cpp
+    TestShellCustomBase.test.cpp
+    TestShellMacros.test.cpp
     TestShellPointerArray.test.cpp
+    TestShellProperty.test.cpp
+    TestShellStringMacros.test.cpp
 )
 
 target_link_libraries(CppMuTests
