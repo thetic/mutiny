@@ -3,8 +3,10 @@ add_executable(CppMuTests
     CommandLineArguments.test.cpp
     CommandLineTestRunner.test.cpp
     Compatibility.test.cpp
-    CppMu.test.c
-    CppMu.test.cpp
+    CppMuC.test.c
+    CppMuC.test.cpp
+    CppMuCFixture.test.cpp
+    fail_method_c_body.c
     ExpectFailTestShell.test.cpp
     IgnoredTestShell.test.cpp
     JUnitTestOutput.test.cpp

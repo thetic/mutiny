@@ -227,25 +227,25 @@ Include `"CppMu/CppMu.h"` and use the C-specific macros:
 #include "CppMu/CppMu.h"
 #include "mymodule.h"
 
-TEST_GROUP_C_SETUP(MyGroup)
+TEST_GROUP_SETUP(MyGroup)
 {
   /* runs before each test */
 }
 
-TEST_GROUP_C_TEARDOWN(MyGroup)
+TEST_GROUP_TEARDOWN(MyGroup)
 {
   /* runs after each test */
 }
 
-TEST_C(MyGroup, SomeTest)
+TEST(MyGroup, SomeTest)
 {
-  CHECK_EQUAL_C_INT(42, mymodule_compute());
+  CHECK_EQUAL_INT(42, mymodule_compute());
 }
 ```
 
-Available typed assertion macros: `CHECK_C()`, `CHECK_EQUAL_C_INT()`,
-`CHECK_EQUAL_C_UINT()`, `CHECK_EQUAL_C_LONG()`, `CHECK_EQUAL_C_STRING()`,
-`CHECK_EQUAL_C_REAL()`, `CHECK_EQUAL_C_POINTER()`, `CHECK_EQUAL_C_MEMCMP()`,
+Available typed assertion macros: `CHECK()`, `CHECK_EQUAL_INT()`,
+`CHECK_EQUAL_UINT()`, `CHECK_EQUAL_LONG()`, `CHECK_EQUAL_STRING()`,
+`CHECK_EQUAL_REAL()`, `CHECK_EQUAL_POINTER()`, `CHECK_EQUAL_MEMCMP()`,
 and more (see `CppMu/CppMu.h`).
 
 ### The companion `.test.cpp` wrapper
@@ -253,7 +253,7 @@ and more (see `CppMu/CppMu.h`).
 Create a `.test.cpp` file that bridges the C functions into the C++ test runner:
 
 ```cpp
-#include "CppMu/CppMu.h"
+#include "CppMu/CppMu.hpp"
 
 TEST_GROUP_C_WRAPPER(MyGroup)
 {

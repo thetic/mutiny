@@ -9,164 +9,129 @@
 
 #include <stddef.h>
 
-#define CHECK_EQUAL_C_BOOL(expected, actual)                                   \
-  check_equal_c_bool_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_BOOL_TEXT(expected, actual, text)                        \
-  check_equal_c_bool_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_INT(expected, actual)                                    \
-  check_equal_c_int_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_INT_TEXT(expected, actual, text)                         \
-  check_equal_c_int_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_UINT(expected, actual)                                   \
-  check_equal_c_uint_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_UINT_TEXT(expected, actual, text)                        \
-  check_equal_c_uint_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_LONG(expected, actual)                                   \
-  check_equal_c_long_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_LONG_TEXT(expected, actual, text)                        \
-  check_equal_c_long_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_ULONG(expected, actual)                                  \
-  check_equal_c_ulong_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_ULONG_TEXT(expected, actual, text)                       \
-  check_equal_c_ulong_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_LONGLONG(expected, actual)                               \
-  check_equal_c_longlong_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_LONGLONG_TEXT(expected, actual, text)                    \
-  check_equal_c_longlong_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_ULONGLONG(expected, actual)                              \
-  check_equal_c_ulonglong_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_ULONGLONG_TEXT(expected, actual, text)                   \
-  check_equal_c_ulonglong_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_REAL(expected, actual, threshold)                        \
-  check_equal_c_real_location(                                                 \
-      expected, actual, threshold, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_REAL_TEXT(expected, actual, threshold, text)             \
-  check_equal_c_real_location(                                                 \
-      expected, actual, threshold, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_CHAR(expected, actual)                                   \
-  check_equal_c_char_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_CHAR_TEXT(expected, actual, text)                        \
-  check_equal_c_char_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_UBYTE(expected, actual)                                  \
-  check_equal_c_ubyte_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_UBYTE_TEXT(expected, actual, text)                       \
-  check_equal_c_ubyte_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_SBYTE(expected, actual)                                  \
-  check_equal_c_sbyte_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_SBYTE_TEXT(expected, actual, text)                       \
-  check_equal_c_sbyte_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_STRING(expected, actual)                                 \
-  check_equal_c_string_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_STRING_TEXT(expected, actual, text)                      \
-  check_equal_c_string_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_POINTER(expected, actual)                                \
-  check_equal_c_pointer_location(expected, actual, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_POINTER_TEXT(expected, actual, text)                     \
-  check_equal_c_pointer_location(expected, actual, text, __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_MEMCMP(expected, actual, size)                           \
-  check_equal_c_memcmp_location(expected, actual, size, "", __FILE__, __LINE__)
-
-#define CHECK_EQUAL_C_MEMCMP_TEXT(expected, actual, size, text)                \
-  check_equal_c_memcmp_location(                                               \
-      expected, actual, size, text, __FILE__, __LINE__)
-
-#define FAIL_TEXT_C(text) fail_text_c_location(text, __FILE__, __LINE__)
-
-#define FAIL_C() fail_c_location(__FILE__, __LINE__)
-
-#define CHECK_C(condition)                                                     \
-  check_c_location(condition, #condition, "", __FILE__, __LINE__)
-
-#define CHECK_C_TEXT(condition, text)                                          \
-  check_c_location(condition, #condition, text, __FILE__, __LINE__)
-
-#define TEST_PROPERTY_C(name, value) add_test_property_c((name), (value))
-
-/******************************************************************************
- *
- * TEST macros for in C.
- *
- *******************************************************************************/
-
-/* For use in C file */
-#define TEST_GROUP_C_SETUP(group_name)                                         \
-  extern void group_##group_name##_setup_wrapper_c(void);                      \
-  void group_##group_name##_setup_wrapper_c(void)
-
-#define TEST_GROUP_C_TEARDOWN(group_name)                                      \
-  extern void group_##group_name##_teardown_wrapper_c(void);                   \
-  void group_##group_name##_teardown_wrapper_c(void)
-
-#define TEST_C(group_name, test_name)                                          \
-  extern void test_##group_name##_##test_name##_wrapper_c(void);               \
-  void test_##group_name##_##test_name##_wrapper_c(void)
-
-#define IGNORE_TEST_C(group_name, test_name)                                   \
-  extern void ignore_##group_name##_##test_name##_wrapper_c(void);             \
-  void ignore_##group_name##_##test_name##_wrapper_c(void)
-
-/* For use in C++ file */
-
-#define TEST_GROUP_C_WRAPPER(group_name)                                       \
-  extern "C" void group_##group_name##_setup_wrapper_c(void);                  \
-  extern "C" void group_##group_name##_teardown_wrapper_c(void);               \
-  TEST_GROUP(group_name)
-
-#define TEST_GROUP_C_SETUP_WRAPPER(group_name)                                 \
-  void setup() override                                                        \
-  {                                                                            \
-    group_##group_name##_setup_wrapper_c();                                    \
-  }
-
-#define TEST_GROUP_C_TEARDOWN_WRAPPER(group_name)                              \
-  void teardown() override                                                     \
-  {                                                                            \
-    group_##group_name##_teardown_wrapper_c();                                 \
-  }
-
-#define TEST_C_WRAPPER(group_name, test_name)                                  \
-  extern "C" void test_##group_name##_##test_name##_wrapper_c();               \
-  TEST(group_name, test_name)                                                  \
-  {                                                                            \
-    test_##group_name##_##test_name##_wrapper_c();                             \
-  }
-
-#define IGNORE_TEST_C_WRAPPER(group_name, test_name)                           \
-  extern "C" void ignore_##group_name##_##test_name##_wrapper_c();             \
-  IGNORE_TEST(group_name, test_name)                                           \
-  {                                                                            \
-    ignore_##group_name##_##test_name##_wrapper_c();                           \
-  }
-
 #ifdef __cplusplus
 extern "C"
 {
+#else
+
+#define CHECK_EQUAL_BOOL(expected, actual)                                     \
+  check_equal_c_bool_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_BOOL_TEXT(expected, actual, text)                          \
+  check_equal_c_bool_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_INT(expected, actual)                                      \
+  check_equal_c_int_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_INT_TEXT(expected, actual, text)                           \
+  check_equal_c_int_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_UINT(expected, actual)                                     \
+  check_equal_c_uint_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_UINT_TEXT(expected, actual, text)                          \
+  check_equal_c_uint_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_LONG(expected, actual)                                     \
+  check_equal_c_long_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_LONG_TEXT(expected, actual, text)                          \
+  check_equal_c_long_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_ULONG(expected, actual)                                    \
+  check_equal_c_ulong_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_ULONG_TEXT(expected, actual, text)                         \
+  check_equal_c_ulong_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_LONGLONG(expected, actual)                                 \
+  check_equal_c_longlong_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_LONGLONG_TEXT(expected, actual, text)                      \
+  check_equal_c_longlong_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_ULONGLONG(expected, actual)                                \
+  check_equal_c_ulonglong_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_ULONGLONG_TEXT(expected, actual, text)                     \
+  check_equal_c_ulonglong_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_REAL(expected, actual, threshold)                          \
+  check_equal_c_real_location(                                                 \
+      expected, actual, threshold, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_REAL_TEXT(expected, actual, threshold, text)               \
+  check_equal_c_real_location(                                                 \
+      expected, actual, threshold, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_CHAR(expected, actual)                                     \
+  check_equal_c_char_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_CHAR_TEXT(expected, actual, text)                          \
+  check_equal_c_char_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_UBYTE(expected, actual)                                    \
+  check_equal_c_ubyte_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_UBYTE_TEXT(expected, actual, text)                         \
+  check_equal_c_ubyte_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_SBYTE(expected, actual)                                    \
+  check_equal_c_sbyte_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_SBYTE_TEXT(expected, actual, text)                         \
+  check_equal_c_sbyte_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_STRING(expected, actual)                                   \
+  check_equal_c_string_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_STRING_TEXT(expected, actual, text)                        \
+  check_equal_c_string_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_POINTER(expected, actual)                                  \
+  check_equal_c_pointer_location(expected, actual, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_POINTER_TEXT(expected, actual, text)                       \
+  check_equal_c_pointer_location(expected, actual, text, __FILE__, __LINE__)
+
+#define CHECK_EQUAL_MEMCMP(expected, actual, size)                             \
+  check_equal_c_memcmp_location(expected, actual, size, "", __FILE__, __LINE__)
+
+#define CHECK_EQUAL_MEMCMP_TEXT(expected, actual, size, text)                  \
+  check_equal_c_memcmp_location(                                               \
+      expected, actual, size, text, __FILE__, __LINE__)
+
+#define FAIL_TEXT(text) fail_text_c_location(text, __FILE__, __LINE__)
+
+#define FAIL() fail_c_location(__FILE__, __LINE__)
+
+#define CHECK(condition)                                                       \
+  check_c_location(condition, #condition, "", __FILE__, __LINE__)
+
+#define CHECK_TEXT(condition, text)                                            \
+  check_c_location(condition, #condition, text, __FILE__, __LINE__)
+
+#define TEST_PROPERTY(name, value) add_test_property_c((name), (value))
+
+#define TEST_GROUP_SETUP(group_name)                                           \
+  extern void group_##group_name##_setup_wrapper_c(void);                      \
+  void group_##group_name##_setup_wrapper_c(void)
+
+#define TEST_GROUP_TEARDOWN(group_name)                                        \
+  extern void group_##group_name##_teardown_wrapper_c(void);                   \
+  void group_##group_name##_teardown_wrapper_c(void)
+
+#define TEST(group_name, test_name)                                            \
+  extern void test_##group_name##_##test_name##_wrapper_c(void);               \
+  void test_##group_name##_##test_name##_wrapper_c(void)
+
+#define IGNORE_TEST(group_name, test_name)                                     \
+  extern void ignore_##group_name##_##test_name##_wrapper_c(void);             \
+  void ignore_##group_name##_##test_name##_wrapper_c(void)
+
+#define EXPECT_FAIL_TEST(group_name, test_name)                                \
+  extern void expect_fail_##group_name##_##test_name##_wrapper_c(void);        \
+  void expect_fail_##group_name##_##test_name##_wrapper_c(void)
 #endif
 
   /* CHECKS that can be used from C code */

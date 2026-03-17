@@ -250,7 +250,7 @@ check_c_location(int condition,
     size_t line_number)
 {
   cppmu::TestShell::get_current()->assert_true(condition != 0,
-      "CHECK_C",
+      "CHECK",
       condition_string,
       text,
       file_name,

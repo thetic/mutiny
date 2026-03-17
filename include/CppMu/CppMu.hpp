@@ -141,4 +141,42 @@
 #define TEST_PROPERTY(name, value)                                             \
   cppmu::TestShell::get_current()->add_test_property((name), (value))
 
+#define TEST_GROUP_C_WRAPPER(group_name)                                       \
+  extern "C" void group_##group_name##_setup_wrapper_c(void);                  \
+  extern "C" void group_##group_name##_teardown_wrapper_c(void);               \
+  TEST_GROUP(group_name)
+
+#define TEST_GROUP_C_SETUP_WRAPPER(group_name)                                 \
+  void setup() override                                                        \
+  {                                                                            \
+    group_##group_name##_setup_wrapper_c();                                    \
+  }
+
+#define TEST_GROUP_C_TEARDOWN_WRAPPER(group_name)                              \
+  void teardown() override                                                     \
+  {                                                                            \
+    group_##group_name##_teardown_wrapper_c();                                 \
+  }
+
+#define TEST_C_WRAPPER(group_name, test_name)                                  \
+  extern "C" void test_##group_name##_##test_name##_wrapper_c();               \
+  TEST(group_name, test_name)                                                  \
+  {                                                                            \
+    test_##group_name##_##test_name##_wrapper_c();                             \
+  }
+
+#define IGNORE_TEST_C_WRAPPER(group_name, test_name)                           \
+  extern "C" void ignore_##group_name##_##test_name##_wrapper_c();             \
+  IGNORE_TEST(group_name, test_name)                                           \
+  {                                                                            \
+    ignore_##group_name##_##test_name##_wrapper_c();                           \
+  }
+
+#define EXPECT_FAIL_TEST_C_WRAPPER(group_name, test_name)                      \
+  extern "C" void expect_fail_##group_name##_##test_name##_wrapper_c();        \
+  EXPECT_FAIL_TEST(group_name, test_name)                                      \
+  {                                                                            \
+    expect_fail_##group_name##_##test_name##_wrapper_c();                      \
+  }
+
 #endif

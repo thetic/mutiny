@@ -14,7 +14,7 @@ to_string_method(const void* object)
   return "string";
 }
 
-TEST_C(MockDocumentation_C, CInterface)
+TEST(MockDocumentation_C, CInterface)
 {
   void* object = (void*)0x1;
 
@@ -27,7 +27,7 @@ TEST_C(MockDocumentation_C, CInterface)
                  ->with_int_parameters("integer", 10)
                  ->return_value()
                  .value.double_value;
-  CHECK_EQUAL_C_REAL(1.11, d, 0.00001);
+  CHECK_EQUAL_REAL(1.11, d, 0.00001);
 
   mock()->install_comparator("type", equal_method, to_string_method);
   mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(

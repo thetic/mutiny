@@ -12,20 +12,20 @@ capture_output(const char* format, ...)
   return 1;
 }
 
-TEST_GROUP_C_SETUP(hello)
+TEST_GROUP_SETUP(hello)
 {
   saved_print = print_formated;
   print_formated = capture_output;
   output_ptr = NULL;
 }
 
-TEST_GROUP_C_TEARDOWN(hello)
+TEST_GROUP_TEARDOWN(hello)
 {
   print_formated = saved_print;
 }
 
-TEST_C(hello, PrintsHelloWorld)
+TEST(hello, PrintsHelloWorld)
 {
   print_hello_world();
-  CHECK_EQUAL_C_STRING("Hello World!\n", output_ptr);
+  CHECK_EQUAL_STRING("Hello World!\n", output_ptr);
 }
