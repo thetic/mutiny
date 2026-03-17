@@ -534,6 +534,15 @@ TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
   RunIgnoredTest::checker_ = false;
 }
 
+TEST(CommandLineTestRunner, listOrderedTestLocations)
+{
+  const char* argv[] = { "tests.exe", "-llo" };
+  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
+      2, argv, &registry
+  );
+  LONGS_EQUAL(0, command_line_test_runner.run_all_tests_main());
+}
+
 TEST(CommandLineTestRunner, IgnoreTestWillGetRunIfOptionSpecified)
 {
   cppmu::TestRegistry ignored_registry;

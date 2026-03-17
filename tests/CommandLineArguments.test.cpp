@@ -600,6 +600,20 @@ TEST(CommandLineArguments, setOptCrashOnFail)
   CHECK(args->is_crashing_on_fail());
 }
 
+TEST(CommandLineArguments, setOutputTypeWithBareOptionReturnsFalse)
+{
+  int argc = 2;
+  const char* argv[] = { "tests.exe", "-o" };
+  CHECK_FALSE(new_argument_parser(argc, argv));
+}
+
+TEST(CommandLineArguments, testVerboseOutputMissingClosingBracketSucceeds)
+{
+  int argc = 2;
+  const char* argv[] = { "tests.exe", "TEST(Group, Name" };
+  CHECK(new_argument_parser(argc, argv));
+}
+
 TEST(CommandLineArguments, setOptRethrowExceptions)
 {
   int argc = 2;

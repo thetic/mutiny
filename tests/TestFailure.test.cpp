@@ -588,6 +588,23 @@ TEST(TestFailure, FeatureUnsupported)
   );
 }
 
+TEST(TestFailure, EqualsFailureWithShortEscapeControlChar)
+{
+  cppmu::CheckEqualFailure f(
+      test, fail_file_name, fail_line_number, "a\tb", "a\nb", ""
+  );
+  STRCMP_CONTAINS("\\t", f.get_message().c_str());
+  STRCMP_CONTAINS("\\n", f.get_message().c_str());
+}
+
+TEST(TestFailure, EqualsFailureWithHexEscapeControlChar)
+{
+  cppmu::CheckEqualFailure f(
+      test, fail_file_name, fail_line_number, "a\x01z", "b\x01z", ""
+  );
+  STRCMP_CONTAINS("\\x01", f.get_message().c_str());
+}
+
 #if CPPMU_HAVE_EXCEPTIONS
 TEST(TestFailure, UnexpectedExceptionFailure_UnknownException)
 {

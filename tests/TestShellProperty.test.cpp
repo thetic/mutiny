@@ -1,7 +1,9 @@
+#include "CppMu/CppMu.h"
 #include "CppMu/CppMu.hpp"
 #include "CppMu/StringBufferTestOutput.hpp"
 #include "CppMu/TestResult.hpp"
 #include "CppMu/TestShell.hpp"
+#include "CppMu/TestTestingFixture.hpp"
 
 namespace {
 
@@ -17,6 +19,18 @@ public:
     recorded_name = name;
     recorded_value = value;
     call_count++;
+  }
+};
+
+class PropertyCapturingFixture : public cppmu::TestTestingFixture
+{
+public:
+  PropertyRecordingOutput* capture;
+
+  PropertyCapturingFixture()
+    : capture(new PropertyRecordingOutput())
+  {
+    replace_output(capture);
   }
 };
 
@@ -52,4 +66,15 @@ TEST(TestShellProperty, addTestPropertyOnShellRoutesToResult)
   LONGS_EQUAL(1, output.call_count);
   STRCMP_EQUAL("suite", output.recorded_name);
   STRCMP_EQUAL("smoke", output.recorded_value);
+}
+
+TEST(TestShellProperty, addTestPropertyCRoutesGetCurrentToOutput)
+{
+  PropertyCapturingFixture fixture;
+  fixture.set_test_function([] { add_test_property_c("ticket", "123"); });
+  fixture.run_all_tests();
+
+  LONGS_EQUAL(1, fixture.capture->call_count);
+  STRCMP_EQUAL("ticket", fixture.capture->recorded_name);
+  STRCMP_EQUAL("123", fixture.capture->recorded_value);
 }

@@ -256,30 +256,6 @@ MockActualCall& MockSupport::actual_call(const char* function_name)
   return *call;
 }
 
-MockActualCall& MockSupport::actual_call(const String& function_name)
-{
-  String scope_function_name = append_scope_to_name(function_name);
-
-  if (impl_->last_actual_function_call_) {
-    impl_->last_actual_function_call_->check_expectations();
-    delete impl_->last_actual_function_call_;
-    impl_->last_actual_function_call_ = nullptr;
-  }
-
-  if (!enabled_)
-    return MockIgnoredActualCall::instance();
-  if (tracing_)
-    return MockActualCallTrace::instance().with_name(scope_function_name);
-
-  if (call_is_ignored(scope_function_name)) {
-    return MockIgnoredActualCall::instance();
-  }
-
-  MockCheckedActualCall* call = create_actual_call();
-  call->set_name_and_check(static_cast<String&&>(scope_function_name));
-  return *call;
-}
-
 void MockSupport::ignore_other_calls()
 {
   ignore_other_calls_ = true;

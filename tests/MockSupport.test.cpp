@@ -171,3 +171,17 @@ TEST(MockSupport, tracingWorksHierarchically)
   STRCMP_CONTAINS("boo", mock().get_trace_output());
   STRCMP_CONTAINS("foo", mock().get_trace_output());
 }
+
+TEST(MockSupport, ignoredCallAcceptsAllParameterTypes)
+{
+  int obj = 0;
+  unsigned char buf[] = { 0x01, 0x02 };
+  mock().ignore_other_calls();
+  mock()
+      .actual_call("anything")
+      .with_string_parameter("s", "hello")
+      .with_pointer_parameter("p", &obj)
+      .with_memory_buffer_parameter("buf", buf, sizeof(buf))
+      .with_parameter_of_type("MyType", "t", &obj)
+      .on_object(&obj);
+}

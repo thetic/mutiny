@@ -33,7 +33,6 @@ public:
       unsigned int amount,
       const cppmu::String& function_name
   );
-  virtual MockActualCall& actual_call(const cppmu::String& function_name);
   virtual MockActualCall& actual_call(const char* function_name);
   virtual bool has_return_value();
   virtual MockNamedValue return_value();

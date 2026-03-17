@@ -323,6 +323,27 @@ TEST(MockFailure, MockExpectedParameterDidntHappenFailure)
   );
 }
 
+TEST(MockFailure, MockExpectedParameterDidntHappenWithTwoMissingOutputParams)
+{
+  int val1 = 1;
+  int val2 = 2;
+  call1->with_name("foo")
+      .with_output_parameter_returning("out1", &val1, sizeof(val1))
+      .with_output_parameter_returning("out2", &val2, sizeof(val2));
+
+  MockExpectedCallsListForTest::MockExpectedCallsList matching_calls;
+  matching_calls.add_expected_call(call1);
+  list->add_expected_call(call1);
+
+  cppmu::MockExpectedParameterDidntHappenFailure failure(
+      cppmu::TestShell::get_current(), "foo", *list, matching_calls
+  );
+  STRCMP_CONTAINS(
+      "MISSING parameters: const void* out1, const void* out2",
+      failure.get_message().c_str()
+  );
+}
+
 TEST(MockFailure, MockNoWayToCompareCustomTypeFailure)
 {
   cppmu::MockNoWayToCompareCustomTypeFailure failure(

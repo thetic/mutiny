@@ -1182,6 +1182,27 @@ TEST(MockParameter, expectMultipleCallsWithParameters)
   mock().check_expectations();
 }
 
+TEST(MockParameter, twoOutputParametersSucceeds)
+{
+  int param1 = 1;
+  int param2 = 3;
+  const int retval1 = 2;
+  const int retval2 = 4;
+
+  mock()
+      .expect_one_call("function")
+      .with_output_parameter_returning("p1", &retval1, sizeof(retval1))
+      .with_output_parameter_returning("p2", &retval2, sizeof(retval2));
+  mock()
+      .actual_call("function")
+      .with_output_parameter("p1", &param1)
+      .with_output_parameter("p2", &param2);
+
+  CHECK_EQUAL(2, param1);
+  CHECK_EQUAL(4, param2);
+  mock().check_expectations();
+}
+
 TEST(MockParameter, expectMultipleMultipleCallsWithParameters)
 {
   mock()

@@ -7,6 +7,14 @@ namespace cppmu {
 
 bool TestTestingFixture::line_of_code_executed_after_check_ = false;
 
+void TestTestingFixture::replace_output(StringBufferTestOutput* new_output)
+{
+  delete result_;
+  delete output_;
+  output_ = new_output;
+  result_ = new TestResult(*output_);
+}
+
 TestTestingFixture::TestTestingFixture()
 {
   output_ = new StringBufferTestOutput();

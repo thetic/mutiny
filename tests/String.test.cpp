@@ -893,3 +893,24 @@ TEST(String, BracketsFormattedHexStringFromForULongLong)
       "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
   );
 }
+
+TEST(String, StartsWithEmptyPrefixIsAlwaysTrue)
+{
+  CHECK(cppmu::string_starts_with("anything", ""));
+}
+
+TEST(String, StartsWithOnEmptyStringIsAlwaysFalse)
+{
+  CHECK_FALSE(cppmu::string_starts_with("", "abc"));
+}
+
+TEST(String, EndsWithEmptySuffixIsAlwaysTrue)
+{
+  CHECK(cppmu::string_ends_with("anything", ""));
+}
+
+TEST(String, HexStringFromPositiveSignedChar)
+{
+  signed char value = 13;
+  STRCMP_EQUAL("d", cppmu::hex_string_from(value).c_str());
+}

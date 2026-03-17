@@ -778,3 +778,23 @@ TEST(MockComparatorCopier, shouldSupportConstParameters)
 
   mock().check_expectations();
 }
+
+TEST(MockComparatorCopier, customObjectParameterWithStringTypeAndNameArgSucceeds)
+{
+  MyTypeForTesting object(1);
+  MyTypeForTestingComparator comparator;
+  mock().install_comparator("MyTypeForTesting", comparator);
+
+  mock()
+      .expect_one_call("function")
+      .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
+  mock()
+      .actual_call("function")
+      .with_parameter_of_type(
+          cppmu::String("MyTypeForTesting"),
+          cppmu::String("parameterName"),
+          &object
+      );
+
+  mock().check_expectations();
+}

@@ -45,9 +45,6 @@ void TestShellPointerArray::shuffle(size_t seed)
   srand(static_cast<unsigned int>(seed));
 
   for (size_t i = count_ - 1; i >= 1; --i) {
-    if (count_ == 0)
-      return;
-
     const size_t j =
         static_cast<size_t>(rand()) %
         (i + 1); // distribution biased by modulo, but good enough for shuffling

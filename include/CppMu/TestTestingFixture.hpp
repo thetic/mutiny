@@ -49,6 +49,9 @@ public:
 
   static void line_executed_after_check();
 
+protected:
+  void replace_output(StringBufferTestOutput* new_output);
+
 private:
   void clear_exec_function();
 
