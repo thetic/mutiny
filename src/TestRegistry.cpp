@@ -1,6 +1,9 @@
 #include "CppMu/TestRegistry.hpp"
 
-#include "CppMu/CppMu.hpp"
+#include "CppMu/NullTestPlugin.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/TestShell.hpp"
+#include "CppMu/TestShellPointerArray.hpp"
 
 namespace cppmu {
 

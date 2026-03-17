@@ -46,6 +46,7 @@ target_sources(CppMu
         src/MockNamedValueList.cpp
         src/MockSupport.cpp
         src/MockSupportPlugin.cpp
+        src/NullTestPlugin.cpp
         src/SetPointerPlugin.cpp
         src/String.cpp
         src/StringCollection.cpp
@@ -116,6 +117,7 @@ target_sources(CppMu
             src/include/CppMu/MockIgnoredActualCall.hpp
             src/include/CppMu/MockIgnoredExpectedCall.hpp
             src/include/CppMu/MockNamedValueList.hpp
+            src/include/CppMu/NullTestPlugin.hpp
             src/include/CppMu/StringCollection.hpp
             src/include/CppMu/TeamCityTestOutput.hpp
             src/include/CppMu/test_jump_buffer.h

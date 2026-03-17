@@ -2,6 +2,7 @@
 
 #include "CppMu/CppMu.hpp"
 #include "CppMu/ExecFunctionTestShell.hpp"
+#include "CppMu/NullTestPlugin.hpp"
 #include "CppMu/StringBufferTestOutput.hpp"
 #include "CppMu/TestOutput.hpp"
 #include "CppMu/TestTestingFixture.hpp"
