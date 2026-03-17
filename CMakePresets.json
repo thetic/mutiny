@@ -178,6 +178,9 @@
     {
       "name": "base",
       "hidden": true,
+      "execution": {
+        "jobs": 0
+      },
       "output": {
         "outputOnFailure": true
       }
