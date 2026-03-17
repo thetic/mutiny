@@ -1,7 +1,6 @@
 #include "CppMu/CommandLineTestRunner.hpp"
 
 #include "CppMu/CompositeTestOutput.hpp"
-#include "CppMu/CppMu.hpp"
 #include "CppMu/JUnitTestOutput.hpp"
 #include "CppMu/SetPointerPlugin.hpp"
 #include "CppMu/TeamCityTestOutput.hpp"

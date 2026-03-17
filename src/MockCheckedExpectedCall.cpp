@@ -1,7 +1,5 @@
 #include "CppMu/MockCheckedExpectedCall.hpp"
 
-#include "CppMu/CppMu.hpp"
-
 namespace cppmu {
 
 String string_from(const MockNamedValue& parameter)

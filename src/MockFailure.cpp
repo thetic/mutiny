@@ -1,9 +1,9 @@
 #include "CppMu/MockFailure.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/MockExpectedCall.hpp"
 #include "CppMu/MockExpectedCallsList.hpp"
 #include "CppMu/MockNamedValue.hpp"
+#include "CppMu/TestShell.hpp"
 
 namespace cppmu {
 

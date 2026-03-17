@@ -1,6 +1,5 @@
 #include "CppMu/TestPlugin.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/NullTestPlugin.hpp"
 
 namespace cppmu {

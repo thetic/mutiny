@@ -1,7 +1,5 @@
 #include "CppMu/MockActualCallTrace.hpp"
 
-#include "CppMu/CppMu.hpp"
-
 namespace cppmu {
 
 MockActualCallTrace* MockActualCallTrace::instance_ = nullptr;

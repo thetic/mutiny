@@ -1,6 +1,8 @@
 #include "CppMu/TeamCityTestOutput.hpp"
 
-#include "CppMu/CppMu.hpp"
+#include "CppMu/TestFailure.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/TestShell.hpp"
 
 namespace cppmu {
 

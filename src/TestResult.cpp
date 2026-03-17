@@ -1,6 +1,5 @@
 #include "CppMu/TestResult.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/TestFailure.hpp"
 #include "CppMu/TestOutput.hpp"
 #include "CppMu/time.hpp"
@@ -9,7 +8,6 @@ namespace cppmu {
 
 TestResult::TestResult(TestOutput& p)
   : output_(p)
-
 {
 }
 

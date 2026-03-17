@@ -1,6 +1,5 @@
 #include "CppMu/MockExpectedCallsList.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/MockCheckedExpectedCall.hpp"
 
 namespace cppmu {

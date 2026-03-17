@@ -1,7 +1,7 @@
 #include "CppMu/CommandLineArguments.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/StringCollection.hpp"
+#include "CppMu/TestPlugin.hpp"
 #include "CppMu/time.hpp"
 
 namespace cppmu {

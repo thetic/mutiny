@@ -1,6 +1,5 @@
 #include "CppMu/OrderedTest.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/TestRegistry.hpp"
 
 namespace cppmu {

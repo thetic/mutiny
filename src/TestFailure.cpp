@@ -1,8 +1,8 @@
 #include "CppMu/TestFailure.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/String.hpp"
 #include "CppMu/TestOutput.hpp"
+#include "CppMu/TestShell.hpp"
 #include "CppMu/math.hpp"
 
 #if CPPMU_USE_STD_CPP_LIB

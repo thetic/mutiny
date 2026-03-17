@@ -1,8 +1,8 @@
 #include "CppMu/MockCheckedActualCall.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/MockCheckedExpectedCall.hpp"
 #include "CppMu/MockFailure.hpp"
+#include "CppMu/TestShell.hpp"
 
 #include <string.h>
 

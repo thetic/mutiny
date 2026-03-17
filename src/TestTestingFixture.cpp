@@ -1,7 +1,7 @@
 #include "CppMu/TestTestingFixture.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/ExecFunctionTestShell.hpp"
+#include "CppMu/TestResult.hpp"
 
 namespace cppmu {
 

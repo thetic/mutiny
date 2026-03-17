@@ -1,6 +1,5 @@
 #include "CppMu/MockSupport.h"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/MockActualCallTrace.hpp"
 #include "CppMu/MockCheckedActualCall.hpp"
 #include "CppMu/MockCheckedExpectedCall.hpp"
@@ -12,6 +11,7 @@
 #include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
 #include "CppMu/MockNamedValueList.hpp"
 #include "CppMu/MockSupport.hpp"
+#include "CppMu/TestShell.hpp"
 
 #define MOCK_SUPPORT_SCOPE_PREFIX "!!!$$$MockingSupportScope$$$!!!"
 

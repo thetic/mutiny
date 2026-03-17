@@ -1,8 +1,9 @@
 #include "CppMu/MockSupportPlugin.hpp"
 
-#include "CppMu/CppMu.hpp"
 #include "CppMu/MockFailure.hpp"
 #include "CppMu/MockSupport.hpp"
+#include "CppMu/TestResult.hpp"
+#include "CppMu/TestShell.hpp"
 
 namespace cppmu {
 
