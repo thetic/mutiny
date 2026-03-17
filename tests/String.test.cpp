@@ -8,14 +8,12 @@
 
 namespace {
 
-int
-always_true(double)
+int always_true(double)
 {
   return true;
 }
 
-int
-wrapped_up_vsn_printf(char* buf, size_t n, const char* format, ...)
+int wrapped_up_vsn_printf(char* buf, size_t n, const char* format, ...)
 {
   va_list arguments;
   va_start(arguments, format);
@@ -302,8 +300,9 @@ TEST(String, index)
 
 TEST(String, NULLReportsNullString)
 {
-  STRCMP_EQUAL("(null)",
-      cppmu::string_from_or_null(static_cast<char*>(nullptr)).c_str());
+  STRCMP_EQUAL(
+      "(null)", cppmu::string_from_or_null(static_cast<char*>(nullptr)).c_str()
+  );
 }
 
 TEST(String, Booleans)
@@ -335,7 +334,8 @@ TEST(String, Characters)
 TEST(String, NegativeSignedBytes)
 {
   STRCMP_EQUAL(
-      "-15", cppmu::string_from(static_cast<signed char>(-15)).c_str());
+      "-15", cppmu::string_from(static_cast<signed char>(-15)).c_str()
+  );
 }
 
 TEST(String, PositiveSignedBytes)
@@ -414,7 +414,8 @@ TEST(String, nullptr_type)
 TEST(String, HexStrings)
 {
   STRCMP_EQUAL(
-      "f3", cppmu::hex_string_from(static_cast<signed char>(-13)).c_str());
+      "f3", cppmu::hex_string_from(static_cast<signed char>(-13)).c_str()
+  );
 
   cppmu::String h1 = cppmu::hex_string_from(0xffffL);
   STRCMP_EQUAL("ffff", h1.c_str());
@@ -462,9 +463,12 @@ TEST(String, StringFromFormatLarge)
   const char* s =
       "ThisIsAPrettyLargeStringAndIfWeAddThisManyTimesToABufferItWillbeFull";
   cppmu::String h1 = cppmu::string_from_format(
-      "%s%s%s%s%s%s%s%s%s%s", s, s, s, s, s, s, s, s, s, s);
-  LONGS_EQUAL(10 * static_cast<long>(cppmu::String(s).size()),
-      static_cast<long>(h1.size()));
+      "%s%s%s%s%s%s%s%s%s%s", s, s, s, s, s, s, s, s, s, s
+  );
+  LONGS_EQUAL(
+      10 * static_cast<long>(cppmu::String(s).size()),
+      static_cast<long>(h1.size())
+  );
 }
 
 TEST(String, StringFromConstString)
@@ -544,8 +548,10 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
 {
   long value = -1;
 
-  STRCMP_EQUAL("(0xffffffffffffffff)",
-      cppmu::brackets_formatted_hex_string_from(value).c_str());
+  STRCMP_EQUAL(
+      "(0xffffffffffffffff)",
+      cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 
 #else
@@ -555,7 +561,8 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
   long value = -1;
 
   STRCMP_EQUAL(
-      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 
 #endif
@@ -570,7 +577,8 @@ TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
   long value = -1;
 
   STRCMP_EQUAL(
-      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 #endif
 
@@ -602,15 +610,13 @@ TEST(String, fromStdString)
   STRCMP_EQUAL("hello", s1.c_str());
 }
 
-TEST(
-String, CHECK_EQUAL_unsigned_long)
+TEST( String, CHECK_EQUAL_unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
   CHECK_EQUAL(i, i);
 }
 
-TEST(
-String, unsigned_long)
+TEST( String, unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
 
@@ -722,9 +728,12 @@ TEST(String, Binary)
   const char expected_string[] = "00 01 2A FF";
 
   STRCMP_EQUAL(
-      expected_string, cppmu::string_from_binary(value, sizeof(value)).c_str());
-  STRCMP_EQUAL(expected_string,
-      cppmu::string_from_binary_or_null(value, sizeof(value)).c_str());
+      expected_string, cppmu::string_from_binary(value, sizeof(value)).c_str()
+  );
+  STRCMP_EQUAL(
+      expected_string,
+      cppmu::string_from_binary_or_null(value, sizeof(value)).c_str()
+  );
   STRCMP_EQUAL("", cppmu::string_from_binary(value, 0).c_str());
   STRCMP_EQUAL("(null)", cppmu::string_from_binary_or_null(nullptr, 0).c_str());
 }
@@ -734,15 +743,21 @@ TEST(String, BinaryWithSize)
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
   const char expected_string[] = "Size = 3 | HexContents = 12 FE A1";
 
-  STRCMP_EQUAL(expected_string,
-      cppmu::string_from_binary_with_size(value, sizeof(value)).c_str());
-  STRCMP_EQUAL(expected_string,
-      cppmu::string_from_binary_with_size_or_null(value, sizeof(value))
-          .c_str());
-  STRCMP_EQUAL("Size = 0 | HexContents = ",
-      cppmu::string_from_binary_with_size(value, 0).c_str());
-  STRCMP_EQUAL("(null)",
-      cppmu::string_from_binary_with_size_or_null(nullptr, 0).c_str());
+  STRCMP_EQUAL(
+      expected_string,
+      cppmu::string_from_binary_with_size(value, sizeof(value)).c_str()
+  );
+  STRCMP_EQUAL(
+      expected_string,
+      cppmu::string_from_binary_with_size_or_null(value, sizeof(value)).c_str()
+  );
+  STRCMP_EQUAL(
+      "Size = 0 | HexContents = ",
+      cppmu::string_from_binary_with_size(value, 0).c_str()
+  );
+  STRCMP_EQUAL(
+      "(null)", cppmu::string_from_binary_with_size_or_null(nullptr, 0).c_str()
+  );
 }
 
 TEST(String, BinaryWithSizeLargerThan128)
@@ -751,8 +766,10 @@ TEST(String, BinaryWithSizeLargerThan128)
   value[127] = 0x00;
   value[128] = 0xff;
 
-  STRCMP_CONTAINS("00 ...",
-      cppmu::string_from_binary_with_size(value, sizeof(value)).c_str());
+  STRCMP_CONTAINS(
+      "00 ...",
+      cppmu::string_from_binary_with_size(value, sizeof(value)).c_str()
+  );
 }
 
 TEST(String, MemCmp)
@@ -811,7 +828,8 @@ TEST(String, BracketsFormattedHexStringFromForSignedChar)
   signed char value = 'c';
 
   STRCMP_EQUAL(
-      "(0x63)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x63)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 
 TEST(String, BracketsFormattedHexStringFromForUnsignedInt)
@@ -819,7 +837,8 @@ TEST(String, BracketsFormattedHexStringFromForUnsignedInt)
   unsigned int value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 
 TEST(String, BracketsFormattedHexStringFromForUnsignedLong)
@@ -827,7 +846,8 @@ TEST(String, BracketsFormattedHexStringFromForUnsignedLong)
   unsigned long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 
 #if (INT_MAX == 0x7fff)
@@ -836,14 +856,16 @@ TEST(String, BracketsFormattedHexStringFromForInt)
   int value = -1;
 
   STRCMP_EQUAL(
-      "(0xffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0xffff)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 #else
 TEST(String, BracketsFormattedHexStringFromForInt)
 {
   int value = -1;
   STRCMP_EQUAL(
-      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0xffffffff)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 #endif
 
@@ -852,19 +874,22 @@ TEST(String, BracketsFormattedHexStringFromForLong)
   long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 TEST(String, BracketsFormattedHexStringFromForLongLong)
 {
   long long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }
 TEST(String, BracketsFormattedHexStringFromForULongLong)
 {
   unsigned long long value = 1;
 
   STRCMP_EQUAL(
-      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str());
+      "(0x1)", cppmu::brackets_formatted_hex_string_from(value).c_str()
+  );
 }

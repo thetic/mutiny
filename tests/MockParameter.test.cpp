@@ -60,11 +60,13 @@ TEST(MockParameter, expectOneLongLongIntegerParameterAndValue)
 TEST(MockParameter, mismatchedIntegerTypesIntAndLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1));
+      "parameter", static_cast<int>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1));
+      "parameter", static_cast<long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
 
   mock().check_expectations();
@@ -73,12 +75,15 @@ TEST(MockParameter, mismatchedIntegerTypesIntAndLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1));
+      "parameter", static_cast<int>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
 
   mock().check_expectations();
@@ -87,12 +92,15 @@ TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1));
+      "parameter", static_cast<int>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
 
   mock().check_expectations();
@@ -101,13 +109,16 @@ TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1));
+      "parameter", static_cast<long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
 
   mock().check_expectations();
 }
@@ -115,14 +126,18 @@ TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndUnsignedLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
 
   mock().check_expectations();
 }
@@ -130,12 +145,15 @@ TEST(MockParameter, mismatchedIntegerTypesUnsignedAndUnsignedLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1));
+      "parameter", static_cast<long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
 
   mock().check_expectations();
@@ -144,12 +162,15 @@ TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesIntAndLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1));
+      "parameter", static_cast<int>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
 
   mock().check_expectations();
@@ -158,12 +179,15 @@ TEST(MockParameter, mismatchedIntegerTypesIntAndLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1));
+      "parameter", static_cast<int>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
 
   mock().check_expectations();
@@ -172,14 +196,18 @@ TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
 
   mock().check_expectations();
 }
@@ -187,30 +215,37 @@ TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndUnsignedLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1));
+      "parameter", static_cast<unsigned>(1)
+  );
 
   mock().check_expectations();
 }
 
-TEST(MockParameter,
-    mismatchedIntegerTypesUnsignedLongAndUnsignedLongLongAreAllowed)
+TEST(MockParameter, mismatchedIntegerTypesUnsignedLongAndUnsignedLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
 
   mock().check_expectations();
 }
@@ -218,12 +253,15 @@ TEST(MockParameter,
 TEST(MockParameter, mismatchedIntegerTypesLongAndLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1));
+      "parameter", static_cast<long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
 
   mock().check_expectations();
@@ -232,12 +270,15 @@ TEST(MockParameter, mismatchedIntegerTypesLongAndLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1));
+      "parameter", static_cast<long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
 
   mock().check_expectations();
@@ -246,14 +287,18 @@ TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesUnsignedLongAndLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1));
+      "parameter", static_cast<unsigned long>(1)
+  );
 
   mock().check_expectations();
 }
@@ -261,54 +306,63 @@ TEST(MockParameter, mismatchedIntegerTypesUnsignedLongAndLongLongAreAllowed)
 TEST(MockParameter, mismatchedIntegerTypesLongLongAndUnsignedLongLongAreAllowed)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1));
+      "parameter", static_cast<unsigned long long>(1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1));
+      "parameter", static_cast<long long>(1)
+  );
 
   mock().check_expectations();
 }
 
-TEST(MockParameter,
-    longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreatedAsEqual)
+TEST(MockParameter, longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreatedAsEqual)
 {
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
-      "parameter", static_cast<long>(-1));
+      "parameter", static_cast<long>(-1)
+  );
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(static_cast<unsigned long>(-1));
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(-1));
+      "parameter", static_cast<long>(-1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(-1));
+      "parameter", static_cast<unsigned long>(-1)
+  );
 
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockParameter,
-    unsignedLongAndLongWithSameBitRepresentationShouldnotBeTreatedAsEqual)
+TEST(MockParameter, unsignedLongAndLongWithSameBitRepresentationShouldnotBeTreatedAsEqual)
 {
   MockFailureReporterInstaller failure_reporter_installer;
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
-      "parameter", static_cast<unsigned long>(-1));
+      "parameter", static_cast<unsigned long>(-1)
+  );
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(static_cast<long>(-1));
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(-1));
+      "parameter", static_cast<unsigned long>(-1)
+  );
   mock().actual_call("foo").with_parameter("parameter", static_cast<long>(-1));
 
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -339,7 +393,8 @@ TEST(MockParameter, doubleParameterNotEqualIfOutsideTolerance)
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(106.0);
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", 100.0, 5.0);
   mock().actual_call("foo").with_parameter("parameter", 106.0);
@@ -358,9 +413,11 @@ TEST(MockParameter, expectOneStringParameterAndValue)
 TEST(MockParameter, expectOnePointerParameterAndValue)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", reinterpret_cast<void*>(0x01));
+      "parameter", reinterpret_cast<void*>(0x01)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", reinterpret_cast<void*>(0x01));
+      "parameter", reinterpret_cast<void*>(0x01)
+  );
 
   mock().check_expectations();
 }
@@ -368,9 +425,11 @@ TEST(MockParameter, expectOnePointerParameterAndValue)
 TEST(MockParameter, expectOneConstPointerParameterAndValue)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", reinterpret_cast<const void*>(0x01));
+      "parameter", reinterpret_cast<const void*>(0x01)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", reinterpret_cast<const void*>(0x01));
+      "parameter", reinterpret_cast<const void*>(0x01)
+  );
 
   mock().check_expectations();
 }
@@ -378,9 +437,11 @@ TEST(MockParameter, expectOneConstPointerParameterAndValue)
 TEST(MockParameter, expectOneFunctionPointerParameterAndValue)
 {
   mock().expect_one_call("foo").with_parameter(
-      "parameter", reinterpret_cast<void (*)()>(0x01));
+      "parameter", reinterpret_cast<void (*)()>(0x01)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", reinterpret_cast<void (*)()>(0x01));
+      "parameter", reinterpret_cast<void (*)()>(0x01)
+  );
 
   mock().check_expectations();
 }
@@ -390,9 +451,11 @@ TEST(MockParameter, expectOneMemBufferParameterAndValue)
   unsigned char mem_buffer1[] = { 0x12, 0x15, 0xFF };
   unsigned char mem_buffer2[] = { 0x12, 0x15, 0xFF };
   mock().expect_one_call("foo").with_parameter(
-      "parameter", mem_buffer1, sizeof(mem_buffer1));
+      "parameter", mem_buffer1, sizeof(mem_buffer1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", mem_buffer2, sizeof(mem_buffer2));
+      "parameter", mem_buffer2, sizeof(mem_buffer2)
+  );
 
   mock().check_expectations();
 }
@@ -405,16 +468,20 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToContents)
   unsigned char mem_buffer2[] = { 0x12, 0x05, 0xFF };
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
-      "parameter", mem_buffer1, sizeof(mem_buffer1));
+      "parameter", mem_buffer1, sizeof(mem_buffer1)
+  );
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", mem_buffer1, sizeof(mem_buffer1));
+      "parameter", mem_buffer1, sizeof(mem_buffer1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", mem_buffer2, sizeof(mem_buffer2));
+      "parameter", mem_buffer2, sizeof(mem_buffer2)
+  );
 
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -428,16 +495,20 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToSize)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
-      "parameter", mem_buffer1, sizeof(mem_buffer1));
+      "parameter", mem_buffer1, sizeof(mem_buffer1)
+  );
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter(
-      "parameter", mem_buffer1, sizeof(mem_buffer1));
+      "parameter", mem_buffer1, sizeof(mem_buffer1)
+  );
   mock().actual_call("foo").with_parameter(
-      "parameter", mem_buffer2, sizeof(mem_buffer2));
+      "parameter", mem_buffer2, sizeof(mem_buffer2)
+  );
 
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
@@ -451,7 +522,8 @@ TEST(MockParameter, expectOneStringParameterAndValueFails)
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value("different");
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", "string");
   mock().actual_call("foo").with_parameter("parameter", "different");
@@ -469,7 +541,8 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToParameterName)
   cppmu::MockNamedValue parameter("different");
   parameter.set_value(value);
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", value);
   mock().actual_call("foo").with_parameter("different", value);
@@ -486,7 +559,8 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToParameterName)
   cppmu::MockNamedValue parameter("different");
   parameter.set_value(10);
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
   mock().actual_call("foo").with_parameter("different", 10);
@@ -505,7 +579,8 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToValue)
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(actual_value);
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", expected_value);
   mock().actual_call("foo").with_parameter("parameter", actual_value);
@@ -522,7 +597,8 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToValue)
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value(8);
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
   mock().actual_call("foo").with_parameter("parameter", 8);
@@ -539,7 +615,8 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToTypes)
   cppmu::MockNamedValue parameter("parameter");
   parameter.set_value("heh");
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("parameter", 10);
   mock().actual_call("foo").with_parameter("parameter", "heh");
@@ -547,8 +624,7 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToTypes)
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockParameter,
-    expectMultipleCallsWithDifferentParametersThatHappenOutOfOrder)
+TEST(MockParameter, expectMultipleCallsWithDifferentParametersThatHappenOutOfOrder)
 {
   mock().expect_one_call("foo").with_parameter("p1", 1);
   mock().expect_one_call("foo").with_parameter("p1", 2);
@@ -558,12 +634,12 @@ TEST(MockParameter,
   mock().check_expectations();
 }
 
-TEST(MockParameter,
-    expectMultipleCallsWithMultipleDifferentParametersThatHappenOutOfOrder)
+TEST(MockParameter, expectMultipleCallsWithMultipleDifferentParametersThatHappenOutOfOrder)
 {
   mock().expect_one_call("foo").with_parameter("p1", 1).with_parameter("p2", 2);
   mock().expect_one_call("foo").with_parameter("p1", 1).with_parameter(
-      "p2", 20);
+      "p2", 20
+  );
 
   mock().actual_call("foo").with_parameter("p1", 1).with_parameter("p2", 20);
   mock().actual_call("foo").with_parameter("p1", 1).with_parameter("p2", 2);
@@ -588,7 +664,8 @@ TEST(MockParameter, calledWithoutParameters)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
   cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "foo", expectations, expectations);
+      mock_failure_test(), "foo", expectations, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("p1", 1);
   mock().actual_call("foo");
@@ -628,7 +705,8 @@ TEST(MockParameter, ignoreOtherParametersButExpectedParameterDidntHappen)
       ->with_parameter("p1", 1)
       .ignore_other_parameters();
   cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "foo", expectations, expectations);
+      mock_failure_test(), "foo", expectations, expectations
+  );
 
   mock()
       .expect_one_call("foo")
@@ -675,7 +753,8 @@ TEST(MockParameter, ignoreOtherParametersMultipleCallsButOneDidntHappen)
   call->ignore_other_parameters();
   expectations.add_function("boo")->ignore_other_parameters();
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().expect_one_call("boo").ignore_other_parameters();
   mock().expect_one_call("boo").ignore_other_parameters();
@@ -692,7 +771,8 @@ TEST(MockParameter, newCallStartsWhileNotAllParametersWerePassed)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
   cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "foo", expectations, expectations);
+      mock_failure_test(), "foo", expectations, expectations
+  );
 
   mock().expect_one_call("foo").with_parameter("p1", 1);
   mock().actual_call("foo");
@@ -709,7 +789,8 @@ TEST(MockParameter, outputParameterSucceeds)
   mock()
       .expect_one_call("function")
       .with_output_parameter_returning(
-          "parameterName", &retval, sizeof(retval));
+          "parameterName", &retval, sizeof(retval)
+      );
   mock().actual_call("function").with_output_parameter("parameterName", &param);
 
   CHECK_EQUAL(param, 2);
@@ -737,12 +818,15 @@ TEST(MockParameter, noActualCallForOutputParameter)
   int output = 0;
   MockExpectedCallsListForTest expectations;
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "output", &output, sizeof(output));
+      "output", &output, sizeof(output)
+  );
 
   expectations.add_function("foo")->with_output_parameter_returning(
-      "output", &output, sizeof(output));
+      "output", &output, sizeof(output)
+  );
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().check_expectations();
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -757,7 +841,8 @@ TEST(MockParameter, noActualCallForUnmodifiedOutputParameter)
 
   expectations.add_function("foo")->with_unmodified_output_parameter("output");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().check_expectations();
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -776,7 +861,8 @@ TEST(MockParameter, unexpectedOutputParameter)
   cppmu::MockNamedValue parameter("parameterName");
   parameter.set_value(&param);
   cppmu::MockUnexpectedOutputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations);
+      mock_failure_test(), "foo", parameter, expectations
+  );
 
   mock().check_expectations();
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -789,13 +875,16 @@ TEST(MockParameter, outputParameterMissing)
   int output = 0;
   MockExpectedCallsListForTest expectations;
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "output", &output, sizeof(output));
+      "output", &output, sizeof(output)
+  );
   mock().actual_call("foo");
 
   expectations.add_function("foo")->with_output_parameter_returning(
-      "output", &output, sizeof(output));
+      "output", &output, sizeof(output)
+  );
   cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "foo", expectations, expectations);
+      mock_failure_test(), "foo", expectations, expectations
+  );
 
   mock().check_expectations();
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -811,12 +900,14 @@ TEST(MockParameter, twoOutputParameters)
   mock()
       .expect_one_call("function")
       .with_output_parameter_returning(
-          "parameterName", &retval1, sizeof(retval1))
+          "parameterName", &retval1, sizeof(retval1)
+      )
       .with_parameter("id", 1);
   mock()
       .expect_one_call("function")
       .with_output_parameter_returning(
-          "parameterName", &retval2, sizeof(retval2))
+          "parameterName", &retval2, sizeof(retval2)
+      )
       .with_parameter("id", 2);
   mock()
       .actual_call("function")
@@ -842,12 +933,14 @@ TEST(MockParameter, twoInterleavedOutputParameters)
   mock()
       .expect_one_call("function")
       .with_output_parameter_returning(
-          "parameterName", &retval1, sizeof(retval1))
+          "parameterName", &retval1, sizeof(retval1)
+      )
       .with_parameter("id", 1);
   mock()
       .expect_one_call("function")
       .with_output_parameter_returning(
-          "parameterName", &retval2, sizeof(retval2))
+          "parameterName", &retval2, sizeof(retval2)
+      )
       .with_parameter("id", 2);
   mock()
       .actual_call("function")
@@ -886,14 +979,14 @@ TEST(MockParameter, twoDifferentOutputParametersInSameFunctionCallSucceeds)
   mock().check_expectations();
 }
 
-TEST(MockParameter,
-    outputAndIntParametersOfSameNameInDifferentFunctionCallsOfSameFunctionSucceeds)
+TEST(MockParameter, outputAndIntParametersOfSameNameInDifferentFunctionCallsOfSameFunctionSucceeds)
 {
   int param = 1;
   int retval = 2;
 
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "bar", &retval, sizeof(retval));
+      "bar", &retval, sizeof(retval)
+  );
   mock().expect_one_call("foo").with_int_parameter("bar", 25);
   mock().actual_call("foo").with_output_parameter("bar", &param);
   mock().actual_call("foo").with_int_parameter("bar", 25);
@@ -903,8 +996,7 @@ TEST(MockParameter,
   mock().check_expectations();
 }
 
-TEST(MockParameter,
-    twoOutputParameterOfSameNameInDifferentFunctionCallsOfSameFunctionSucceeds)
+TEST(MockParameter, twoOutputParameterOfSameNameInDifferentFunctionCallsOfSameFunctionSucceeds)
 {
   int param1 = 1;
   int param2 = 1;
@@ -912,9 +1004,11 @@ TEST(MockParameter,
   int retval2 = 3;
 
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "bar", &retval1, sizeof(retval1));
+      "bar", &retval1, sizeof(retval1)
+  );
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "bar", &retval2, sizeof(retval2));
+      "bar", &retval2, sizeof(retval2)
+  );
   mock().actual_call("foo").with_output_parameter("bar", &param1);
   mock().actual_call("foo").with_output_parameter("bar", &param2);
 
@@ -931,7 +1025,8 @@ TEST(MockParameter, twoOutputParametersOfSameNameInDifferentFunctionsSucceeds)
   int retval = 2;
 
   mock().expect_one_call("foo1").with_output_parameter_returning(
-      "bar", &retval, sizeof(retval));
+      "bar", &retval, sizeof(retval)
+  );
   mock().expect_one_call("foo2").with_int_parameter("bar", 25);
   mock().actual_call("foo1").with_output_parameter("bar", &param);
   mock().actual_call("foo2").with_int_parameter("bar", 25);
@@ -950,9 +1045,11 @@ TEST(MockParameter, outputAndInputParameter)
       .expect_one_call("foo")
       .with_parameter("bar", 10)
       .with_output_parameter_returning(
-          "bar", &return_value, sizeof(return_value));
+          "bar", &return_value, sizeof(return_value)
+      );
   mock().actual_call("foo").with_parameter("bar", 10).with_output_parameter(
-      "bar", &returned_value);
+      "bar", &returned_value
+  );
 
   LONGS_EQUAL(5, returned_value);
   mock().check_expectations();
@@ -966,7 +1063,8 @@ TEST(MockParameter, outputParameterTraced)
   mock().actual_call("someFunc").with_output_parameter("someParameter", &param);
   mock().check_expectations();
   STRCMP_CONTAINS(
-      "Function name:someFunc someParameter:", mock().get_trace_output());
+      "Function name:someFunc someParameter:", mock().get_trace_output()
+  );
 
   mock().check_expectations();
 }
@@ -1010,10 +1108,12 @@ TEST(MockParameter, properOutputParametersAreCopied)
   mock()
       .expect_one_call("foo")
       .with_output_parameter_returning(
-          "param", &expected_value1, sizeof(expected_value1))
+          "param", &expected_value1, sizeof(expected_value1)
+      )
       .ignore_other_parameters();
   mock().expect_one_call("foo").with_output_parameter_returning(
-      "param", &expected_value2, sizeof(expected_value2));
+      "param", &expected_value2, sizeof(expected_value2)
+  );
 
   int returned_value1 = 0;
   int returned_value2 = 0;
@@ -1024,9 +1124,11 @@ TEST(MockParameter, properOutputParametersAreCopied)
       .with_parameter("optional", 50);
 
   CHECK_EQUAL_TEXT(
-      expected_value2, returned_value1, "Wrong output value in 1st call");
+      expected_value2, returned_value1, "Wrong output value in 1st call"
+  );
   CHECK_EQUAL_TEXT(
-      expected_value1, returned_value2, "Wrong output value in 2nd call");
+      expected_value1, returned_value2, "Wrong output value in 2nd call"
+  );
 
   mock().check_expectations();
 }

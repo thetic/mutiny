@@ -41,9 +41,11 @@ public:
   bool has_test_failed();
   void assert_print_contains(const String& contains);
   void assert_print_contains_not(const String& contains);
-  void check_test_fails_with_proper_test_location(const char* text,
+  void check_test_fails_with_proper_test_location(
+      const char* text,
       const char* file,
-      size_t line);
+      size_t line
+  );
 
   static void line_executed_after_check();
 

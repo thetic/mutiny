@@ -2,10 +2,7 @@
 
 namespace {
 void (*real_one)();
-void
-stub()
-{
-}
+void stub() {}
 }
 
 /* Declare TestGroup with name CheatSheet */

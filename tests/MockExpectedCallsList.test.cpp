@@ -112,8 +112,7 @@ TEST(MockExpectedCallsList, onlyKeepExpectationsRelatedTo)
   LONGS_EQUAL(1, list->size());
 }
 
-TEST(MockExpectedCallsList,
-    removeAllExpectationsExceptThisThatRelateToTheWoleList)
+TEST(MockExpectedCallsList, removeAllExpectationsExceptThisThatRelateToTheWoleList)
 {
   call1->with_name("relate");
   call2->with_name("relate");
@@ -182,8 +181,7 @@ TEST(MockExpectedCallsList, addPotentiallyMatchingExpectationsWithEmptyList)
   LONGS_EQUAL(0, new_list.size());
 }
 
-TEST(MockExpectedCallsList,
-    addPotentiallyMatchingExpectationsMultipleUnmatchedExpectations)
+TEST(MockExpectedCallsList, addPotentiallyMatchingExpectationsMultipleUnmatchedExpectations)
 {
   call2->call_was_made(1);
   list->add_expected_call(call1);
@@ -226,31 +224,37 @@ TEST(MockExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->add_expected_call(call3);
 
   cppmu::String expected_string;
-  expected_string = cppmu::string_from_format("%s\n%s",
-      call1->call_to_string().c_str(),
-      call2->call_to_string().c_str());
+  expected_string = cppmu::string_from_format(
+      "%s\n%s", call1->call_to_string().c_str(), call2->call_to_string().c_str()
+  );
   STRCMP_EQUAL(
-      expected_string.c_str(), list->unfulfilled_calls_to_string().c_str());
+      expected_string.c_str(), list->unfulfilled_calls_to_string().c_str()
+  );
 }
 
 TEST(MockExpectedCallsList, callsWithMissingParametersToString)
 {
   call1->with_name("foo").with_parameter("boo", 0);
   call2->with_name("bar").with_parameter("baa", 10).with_parameter(
-      "baz", "blah");
+      "baz", "blah"
+  );
   call2->input_parameter_was_passed("baa");
 
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
   cppmu::String expected_string;
-  expected_string = cppmu::string_from_format("-%s\n-#%s\n-%s\n-#%s",
+  expected_string = cppmu::string_from_format(
+      "-%s\n-#%s\n-%s\n-#%s",
       call1->call_to_string().c_str(),
       call1->missing_parameters_to_string().c_str(),
       call2->call_to_string().c_str(),
-      call2->missing_parameters_to_string().c_str());
-  STRCMP_EQUAL(expected_string.c_str(),
-      list->calls_with_missing_parameters_to_string("-", "#").c_str());
+      call2->missing_parameters_to_string().c_str()
+  );
+  STRCMP_EQUAL(
+      expected_string.c_str(),
+      list->calls_with_missing_parameters_to_string("-", "#").c_str()
+  );
 }
 
 TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
@@ -265,11 +269,12 @@ TEST(MockExpectedCallsList, callToStringForFulfilledFunctions)
   list->add_expected_call(call2);
 
   cppmu::String expected_string;
-  expected_string = cppmu::string_from_format("%s\n%s",
-      call1->call_to_string().c_str(),
-      call2->call_to_string().c_str());
+  expected_string = cppmu::string_from_format(
+      "%s\n%s", call1->call_to_string().c_str(), call2->call_to_string().c_str()
+  );
   STRCMP_EQUAL(
-      expected_string.c_str(), list->fulfilled_calls_to_string().c_str());
+      expected_string.c_str(), list->fulfilled_calls_to_string().c_str()
+  );
 }
 
 TEST(MockExpectedCallsList, removeOneFinalizedMatchingExpectationFromEmptyList)
@@ -292,8 +297,7 @@ TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_emptyList)
   CHECK(!list->has_finalized_matching_expectations());
 }
 
-TEST(MockExpectedCallsList,
-    hasFinalizedMatchingExpectations_listHasNonMatchingCalls)
+TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_listHasNonMatchingCalls)
 {
   call1->with_parameter("param", 0);
   call2->with_parameter("param", 0);
@@ -305,8 +309,7 @@ TEST(MockExpectedCallsList,
   CHECK(!list->has_finalized_matching_expectations());
 }
 
-TEST(MockExpectedCallsList,
-    hasFinalizedMatchingExpectations_listHasMatchingButNotFinalizedCall)
+TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_listHasMatchingButNotFinalizedCall)
 {
   list->add_expected_call(call1);
   list->add_expected_call(call2);
@@ -316,8 +319,7 @@ TEST(MockExpectedCallsList,
   CHECK(!list->has_finalized_matching_expectations());
 }
 
-TEST(MockExpectedCallsList,
-    hasFinalizedMatchingExpectations_listHasFinalizedCallThatIgnoresParameters)
+TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_listHasFinalizedCallThatIgnoresParameters)
 {
   list->add_expected_call(call1);
   list->add_expected_call(call2);
@@ -329,8 +331,7 @@ TEST(MockExpectedCallsList,
   CHECK(list->has_finalized_matching_expectations());
 }
 
-TEST(MockExpectedCallsList,
-    hasFinalizedMatchingExpectations_listHasFinalizedCallThatDoesntIgnoreParameters)
+TEST(MockExpectedCallsList, hasFinalizedMatchingExpectations_listHasFinalizedCallThatDoesntIgnoreParameters)
 {
   list->add_expected_call(call1);
   list->add_expected_call(call2);

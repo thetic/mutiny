@@ -7,20 +7,17 @@
 namespace cppmu {
 
 namespace {
-void
-helper_do_test_setup(void* data)
+void helper_do_test_setup(void* data)
 {
   static_cast<Test*>(data)->setup();
 }
 
-void
-helper_do_test_body(void* data)
+void helper_do_test_body(void* data)
 {
   static_cast<Test*>(data)->test_body();
 }
 
-void
-helper_do_test_teardown(void* data)
+void helper_do_test_teardown(void* data)
 {
   static_cast<Test*>(data)->teardown();
 }
@@ -28,8 +25,7 @@ helper_do_test_teardown(void* data)
 
 #if CPPMU_HAVE_EXCEPTIONS
 
-void
-Test::run()
+void Test::run()
 {
   TestShell* current = TestShell::get_current();
   int jump_result = 0;
@@ -89,8 +85,7 @@ Test::run()
 }
 #else
 
-void
-Test::run()
+void Test::run()
 {
   if (test_set_jmp(helper_do_test_setup, this)) {
     test_set_jmp(helper_do_test_body, this);
@@ -100,19 +95,10 @@ Test::run()
 
 #endif
 
-void
-Test::setup()
-{
-}
+void Test::setup() {}
 
-void
-Test::test_body()
-{
-}
+void Test::test_body() {}
 
-void
-Test::teardown()
-{
-}
+void Test::teardown() {}
 
 } // namespace cppmu

@@ -35,20 +35,20 @@ MockSupportPlugin::~MockSupportPlugin()
   clear();
 }
 
-void
-MockSupportPlugin::clear()
+void MockSupportPlugin::clear()
 {
   repository_.clear();
 }
 
-void
-MockSupportPlugin::pre_test_action(cppmu::TestShell&, TestResult&)
+void MockSupportPlugin::pre_test_action(cppmu::TestShell&, TestResult&)
 {
   mock().install_comparators_and_copiers(repository_);
 }
 
-void
-MockSupportPlugin::post_test_action(cppmu::TestShell& test, TestResult& result)
+void MockSupportPlugin::post_test_action(
+    cppmu::TestShell& test,
+    TestResult& result
+)
 {
   MockSupportPluginReporter reporter(test, result);
   mock().set_mock_failure_standard_reporter(&reporter);
@@ -59,16 +59,18 @@ MockSupportPlugin::post_test_action(cppmu::TestShell& test, TestResult& result)
   mock().remove_all_comparators_and_copiers();
 }
 
-void
-MockSupportPlugin::install_comparator(const String& name,
-    MockNamedValueComparator& comparator)
+void MockSupportPlugin::install_comparator(
+    const String& name,
+    MockNamedValueComparator& comparator
+)
 {
   repository_.install_comparator(name, comparator);
 }
 
-void
-MockSupportPlugin::install_copier(const String& name,
-    MockNamedValueCopier& copier)
+void MockSupportPlugin::install_copier(
+    const String& name,
+    MockNamedValueCopier& copier
+)
 {
   repository_.install_copier(name, copier);
 }

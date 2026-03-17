@@ -11,12 +11,17 @@ class IEEE754ExceptionsPlugin : public cppmu::TestPlugin
 {
 public:
   IEEE754ExceptionsPlugin(
-      const cppmu::String& name = "IEEE754ExceptionsPlugin");
+      const cppmu::String& name = "IEEE754ExceptionsPlugin"
+  );
 
-  void pre_test_action(cppmu::TestShell& test,
-      cppmu::TestResult& result) override;
-  void post_test_action(cppmu::TestShell& test,
-      cppmu::TestResult& result) override;
+  void pre_test_action(
+      cppmu::TestShell& test,
+      cppmu::TestResult& result
+  ) override;
+  void post_test_action(
+      cppmu::TestShell& test,
+      cppmu::TestResult& result
+  ) override;
 
   static void disable_inexact(void);
   static void enable_inexact(void);
@@ -26,10 +31,12 @@ public:
   static bool check_ieee754_div_by_zero_exception_flag();
 
 private:
-  void ieee754_check(cppmu::TestShell& test,
+  void ieee754_check(
+      cppmu::TestShell& test,
       cppmu::TestResult& result,
       int flag,
-      const char* text);
+      const char* text
+  );
   static bool inexact_disabled_;
 };
 

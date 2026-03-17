@@ -6,25 +6,13 @@
 #include "CppMu/TestRegistry.hpp"
 
 namespace {
-void
-orig_func1()
-{
-}
+void orig_func1() {}
 
-void
-stub_func1()
-{
-}
+void stub_func1() {}
 
-void
-orig_func2()
-{
-}
+void orig_func2() {}
 
-void
-stub_func2()
-{
-}
+void stub_func2() {}
 
 void (*fp1)();
 void (*fp2)();

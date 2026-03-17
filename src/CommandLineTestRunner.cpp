@@ -10,23 +10,24 @@
 
 namespace cppmu {
 
-int
-CommandLineTestRunner::run_all_tests(int argc, char** argv)
+int CommandLineTestRunner::run_all_tests(int argc, char** argv)
 {
   return run_all_tests(argc, reinterpret_cast<const char* const*>(argv));
 }
 
-int
-CommandLineTestRunner::run_all_tests(int argc, const char* const* argv)
+int CommandLineTestRunner::run_all_tests(int argc, const char* const* argv)
 {
   CommandLineTestRunner runner(
-      argc, argv, TestRegistry::get_current_registry());
+      argc, argv, TestRegistry::get_current_registry()
+  );
   return runner.run_all_tests_main();
 }
 
-CommandLineTestRunner::CommandLineTestRunner(int argc,
+CommandLineTestRunner::CommandLineTestRunner(
+    int argc,
     const char* const* argv,
-    TestRegistry* registry)
+    TestRegistry* registry
+)
   : registry_(registry)
 {
   arguments_ = new CommandLineArguments(argc, argv);
@@ -38,8 +39,7 @@ CommandLineTestRunner::~CommandLineTestRunner()
   delete output_;
 }
 
-int
-CommandLineTestRunner::run_all_tests_main()
+int CommandLineTestRunner::run_all_tests_main()
 {
   int test_result = 1;
 
@@ -53,8 +53,7 @@ CommandLineTestRunner::run_all_tests_main()
   return test_result;
 }
 
-void
-CommandLineTestRunner::initialize_test_run()
+void CommandLineTestRunner::initialize_test_run()
 {
   registry_->set_group_filters(arguments_->get_group_filters());
   registry_->set_name_filters(arguments_->get_name_filters());
@@ -73,8 +72,7 @@ CommandLineTestRunner::initialize_test_run()
   TestShell::set_rethrow_exceptions(arguments_->is_rethrowing_exceptions());
 }
 
-int
-CommandLineTestRunner::run_all_tests()
+int CommandLineTestRunner::run_all_tests()
 {
   initialize_test_run();
   size_t loop_count = 0;
@@ -128,17 +126,18 @@ CommandLineTestRunner::run_all_tests()
     }
   }
   return static_cast<int>(
-      failed_test_count != 0 ? failed_test_count : failed_execution_count);
+      failed_test_count != 0 ? failed_test_count : failed_execution_count
+  );
 }
 
-TestOutput*
-CommandLineTestRunner::create_team_city_output()
+TestOutput* CommandLineTestRunner::create_team_city_output()
 {
   return new TeamCityTestOutput;
 }
 
-TestOutput*
-CommandLineTestRunner::create_j_unit_output(const String& package_name)
+TestOutput* CommandLineTestRunner::create_j_unit_output(
+    const String& package_name
+)
 {
   auto* junit_output = new JUnitTestOutput;
   if (junit_output != nullptr) {
@@ -147,15 +146,15 @@ CommandLineTestRunner::create_j_unit_output(const String& package_name)
   return junit_output;
 }
 
-TestOutput*
-CommandLineTestRunner::create_console_output()
+TestOutput* CommandLineTestRunner::create_console_output()
 {
   return new ConsoleTestOutput;
 }
 
-TestOutput*
-CommandLineTestRunner::create_composite_output(TestOutput* output_one,
-    TestOutput* output_two)
+TestOutput* CommandLineTestRunner::create_composite_output(
+    TestOutput* output_one,
+    TestOutput* output_two
+)
 {
   auto* composite = new CompositeTestOutput;
   composite->set_output_one(output_one);
@@ -163,13 +162,13 @@ CommandLineTestRunner::create_composite_output(TestOutput* output_one,
   return composite;
 }
 
-bool
-CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
+bool CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
 {
   if (!arguments_->parse(plugin)) {
     output_ = create_console_output();
     output_->print(
-        (arguments_->need_help()) ? arguments_->help() : arguments_->usage());
+        (arguments_->need_help()) ? arguments_->help() : arguments_->usage()
+    );
     return false;
   }
 

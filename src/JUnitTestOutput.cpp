@@ -70,8 +70,7 @@ JUnitTestOutput::~JUnitTestOutput()
   delete impl_;
 }
 
-void
-JUnitTestOutput::reset_test_group_result()
+void JUnitTestOutput::reset_test_group_result()
 {
   impl_->results.test_count = 0;
   impl_->results.failure_count = 0;
@@ -94,31 +93,20 @@ JUnitTestOutput::reset_test_group_result()
   impl_->results.tail = nullptr;
 }
 
-void
-JUnitTestOutput::print_tests_started()
-{
-}
+void JUnitTestOutput::print_tests_started() {}
 
-void
-JUnitTestOutput::print_current_group_started(const TestShell& /*test*/)
-{
-}
+void JUnitTestOutput::print_current_group_started(const TestShell& /*test*/) {}
 
-void
-JUnitTestOutput::print_current_test_ended(const TestResult& result)
+void JUnitTestOutput::print_current_test_ended(const TestResult& result)
 {
   impl_->results.tail->exec_time =
       result.get_current_test_total_execution_time();
   impl_->results.tail->check_count = result.get_check_count();
 }
 
-void
-JUnitTestOutput::print_tests_ended(const TestResult& /*result*/)
-{
-}
+void JUnitTestOutput::print_tests_ended(const TestResult& /*result*/) {}
 
-void
-JUnitTestOutput::print_current_group_ended(const TestResult& result)
+void JUnitTestOutput::print_current_group_ended(const TestResult& result)
 {
   impl_->results.group_exec_time =
       result.get_current_group_total_execution_time();
@@ -126,8 +114,7 @@ JUnitTestOutput::print_current_group_ended(const TestResult& result)
   reset_test_group_result();
 }
 
-void
-JUnitTestOutput::print_current_test_started(const TestShell& test)
+void JUnitTestOutput::print_current_test_started(const TestShell& test)
 {
   impl_->results.test_count++;
   impl_->results.group = test.get_group();
@@ -147,8 +134,7 @@ JUnitTestOutput::print_current_test_started(const TestShell& test)
   }
 }
 
-String
-JUnitTestOutput::create_file_name(const String& group)
+String JUnitTestOutput::create_file_name(const String& group)
 {
   String file_name = "cppmu_";
   if (!impl_->package.empty()) {
@@ -159,8 +145,7 @@ JUnitTestOutput::create_file_name(const String& group)
   return encode_file_name(file_name) + ".xml";
 }
 
-String
-JUnitTestOutput::encode_file_name(const String& file_name)
+String JUnitTestOutput::encode_file_name(const String& file_name)
 {
   // special character list based on: https://en.wikipedia.org/wiki/Filename
   static const char* const forbidden_characters = "/\\?%*:|\"<>";
@@ -172,22 +157,19 @@ JUnitTestOutput::encode_file_name(const String& file_name)
   return result;
 }
 
-void
-JUnitTestOutput::set_package_name(const String& package)
+void JUnitTestOutput::set_package_name(const String& package)
 {
   if (impl_ != nullptr) {
     impl_->package = package;
   }
 }
 
-void
-JUnitTestOutput::write_xml_header()
+void JUnitTestOutput::write_xml_header()
 {
   write_to_file("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
 }
 
-void
-JUnitTestOutput::write_test_suite_summary()
+void JUnitTestOutput::write_test_suite_summary()
 {
   String buf = string_from_format(
       "<testsuite errors=\"%d\" failures=\"%d\" "
@@ -198,19 +180,18 @@ JUnitTestOutput::write_test_suite_summary()
       static_cast<int>(impl_->results.test_count),
       static_cast<int>(impl_->results.group_exec_time / 1000),
       static_cast<int>(impl_->results.group_exec_time % 1000),
-      cppmu::get_time_string());
+      cppmu::get_time_string()
+  );
   write_to_file(buf.c_str());
 }
 
-void
-JUnitTestOutput::write_properties()
+void JUnitTestOutput::write_properties()
 {
   write_to_file("<properties>\n");
   write_to_file("</properties>\n");
 }
 
-String
-JUnitTestOutput::encode_xml_text(const String& textbody)
+String JUnitTestOutput::encode_xml_text(const String& textbody)
 {
   String buf = textbody.c_str();
   string_replace(buf, "&", "&amp;");
@@ -222,8 +203,7 @@ JUnitTestOutput::encode_xml_text(const String& textbody)
   return buf;
 }
 
-void
-JUnitTestOutput::write_test_cases()
+void JUnitTestOutput::write_test_cases()
 {
   JUnitTestCaseResultNode* cur = impl_->results.head;
 
@@ -239,7 +219,8 @@ JUnitTestOutput::write_test_cases()
         static_cast<int>(cur->exec_time / 1000),
         static_cast<int>(cur->exec_time % 1000),
         cur->file.c_str(),
-        static_cast<int>(cur->line_number));
+        static_cast<int>(cur->line_number)
+    );
     write_to_file(buf.c_str());
 
     impl_->results.total_check_count = cur->check_count;
@@ -247,10 +228,11 @@ JUnitTestOutput::write_test_cases()
     if (cur->properties) {
       write_to_file("<properties>\n");
       for (TestProperty* prop = cur->properties; prop; prop = prop->next) {
-        String prop_buf =
-            string_from_format("<property name=\"%s\" value=\"%s\"/>\n",
-                encode_xml_text(prop->name).c_str(),
-                encode_xml_text(prop->value).c_str());
+        String prop_buf = string_from_format(
+            "<property name=\"%s\" value=\"%s\"/>\n",
+            encode_xml_text(prop->name).c_str(),
+            encode_xml_text(prop->value).c_str()
+        );
         write_to_file(prop_buf.c_str());
       }
       write_to_file("</properties>\n");
@@ -269,8 +251,7 @@ JUnitTestOutput::write_test_cases()
   }
 }
 
-void
-JUnitTestOutput::write_failure(JUnitTestCaseResultNode* node)
+void JUnitTestOutput::write_failure(JUnitTestCaseResultNode* node)
 {
   String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
@@ -281,26 +262,26 @@ JUnitTestOutput::write_failure(JUnitTestCaseResultNode* node)
       msg.c_str(),
       node->failure->get_file_name().c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
-      msg.c_str());
+      msg.c_str()
+  );
   write_to_file(buf.c_str());
   write_to_file("</failure>\n");
 }
 
-void
-JUnitTestOutput::write_error(JUnitTestCaseResultNode* node)
+void JUnitTestOutput::write_error(JUnitTestCaseResultNode* node)
 {
   String msg = encode_xml_text(node->failure->get_message());
-  String buf =
-      string_from_format("<error message=\"%s\" type=\"UnexpectedException\">\n"
-                         "%s\n",
-          msg.c_str(),
-          msg.c_str());
+  String buf = string_from_format(
+      "<error message=\"%s\" type=\"UnexpectedException\">\n"
+      "%s\n",
+      msg.c_str(),
+      msg.c_str()
+  );
   write_to_file(buf.c_str());
   write_to_file("</error>\n");
 }
 
-void
-JUnitTestOutput::write_file_ending()
+void JUnitTestOutput::write_file_ending()
 {
   write_to_file("<system-out>");
   write_to_file(encode_xml_text(impl_->std_output));
@@ -309,8 +290,7 @@ JUnitTestOutput::write_file_ending()
   write_to_file("</testsuite>\n");
 }
 
-void
-JUnitTestOutput::write_test_group_to_file()
+void JUnitTestOutput::write_test_group_to_file()
 {
   open_file_for_write(create_file_name(impl_->results.group));
   write_xml_header();
@@ -321,29 +301,18 @@ JUnitTestOutput::write_test_group_to_file()
   close_file();
 }
 
-void
-JUnitTestOutput::print_buffer(const char*)
-{
-}
+void JUnitTestOutput::print_buffer(const char*) {}
 
-void
-JUnitTestOutput::print(const char* output)
+void JUnitTestOutput::print(const char* output)
 {
   impl_->std_output += output;
 }
 
-void
-JUnitTestOutput::print(long)
-{
-}
+void JUnitTestOutput::print(long) {}
 
-void
-JUnitTestOutput::print(size_t)
-{
-}
+void JUnitTestOutput::print(size_t) {}
 
-void
-JUnitTestOutput::print_test_property(const char* name, const char* value)
+void JUnitTestOutput::print_test_property(const char* name, const char* value)
 {
   if (impl_->results.tail == nullptr)
     return;
@@ -359,8 +328,7 @@ JUnitTestOutput::print_test_property(const char* name, const char* value)
   }
 }
 
-void
-JUnitTestOutput::print_failure(const TestFailure& failure)
+void JUnitTestOutput::print_failure(const TestFailure& failure)
 {
   if (impl_->results.tail->failure == nullptr) {
     if (failure.is_error()) {
@@ -373,20 +341,17 @@ JUnitTestOutput::print_failure(const TestFailure& failure)
   }
 }
 
-void
-JUnitTestOutput::open_file_for_write(const String& file_name)
+void JUnitTestOutput::open_file_for_write(const String& file_name)
 {
   impl_->file = cppmu::f_open(file_name.c_str(), "w");
 }
 
-void
-JUnitTestOutput::write_to_file(const String& buffer)
+void JUnitTestOutput::write_to_file(const String& buffer)
 {
   cppmu::f_puts(buffer.c_str(), impl_->file);
 }
 
-void
-JUnitTestOutput::close_file()
+void JUnitTestOutput::close_file()
 {
   cppmu::f_close(impl_->file);
 }

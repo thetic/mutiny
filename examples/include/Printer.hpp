@@ -20,9 +20,7 @@ public:
   virtual void print(long int);
 };
 
-Printer&
-operator<<(Printer&, const char*);
-Printer&
-operator<<(Printer&, long int);
+Printer& operator<<(Printer&, const char*);
+Printer& operator<<(Printer&, long int);
 
 #endif // INCLUDED_PRINTER_HPP

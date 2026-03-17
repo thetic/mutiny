@@ -18,28 +18,38 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_unsigned_int_parameter(const cppmu::String&,
-      unsigned int) override
+  MockActualCall& with_unsigned_int_parameter(
+      const cppmu::String&,
+      unsigned int
+  ) override
   {
     return *this;
   }
-  MockActualCall& with_long_int_parameter(const cppmu::String&,
-      long int) override
+  MockActualCall& with_long_int_parameter(
+      const cppmu::String&,
+      long int
+  ) override
   {
     return *this;
   }
-  MockActualCall& with_unsigned_long_int_parameter(const cppmu::String&,
-      unsigned long int) override
+  MockActualCall& with_unsigned_long_int_parameter(
+      const cppmu::String&,
+      unsigned long int
+  ) override
   {
     return *this;
   }
-  MockActualCall& with_long_long_int_parameter(const cppmu::String&,
-      long long) override
+  MockActualCall& with_long_long_int_parameter(
+      const cppmu::String&,
+      long long
+  ) override
   {
     return *this;
   }
-  MockActualCall& with_unsigned_long_long_int_parameter(const cppmu::String&,
-      unsigned long long) override
+  MockActualCall& with_unsigned_long_long_int_parameter(
+      const cppmu::String&,
+      unsigned long long
+  ) override
   {
     return *this;
   }
@@ -47,8 +57,10 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_string_parameter(const cppmu::String&,
-      const char*) override
+  MockActualCall& with_string_parameter(
+      const cppmu::String&,
+      const char*
+  ) override
   {
     return *this;
   }
@@ -56,37 +68,49 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_const_pointer_parameter(const cppmu::String&,
-      const void*) override
-  {
-    return *this;
-  }
-  MockActualCall& with_function_pointer_parameter(const cppmu::String&,
-      void (*)()) override
-  {
-    return *this;
-  }
-  MockActualCall& with_memory_buffer_parameter(const cppmu::String&,
-      const unsigned char*,
-      size_t) override
-  {
-    return *this;
-  }
-  MockActualCall& with_memory_buffer_parameter(const char*,
-      const unsigned char*,
-      size_t) override
-  {
-    return *this;
-  }
-  MockActualCall& with_parameter_of_type(const cppmu::String&,
+  MockActualCall& with_const_pointer_parameter(
       const cppmu::String&,
-      const void*) override
+      const void*
+  ) override
   {
     return *this;
   }
-  MockActualCall& with_parameter_of_type(const char*,
+  MockActualCall& with_function_pointer_parameter(
+      const cppmu::String&,
+      void (*)()
+  ) override
+  {
+    return *this;
+  }
+  MockActualCall& with_memory_buffer_parameter(
+      const cppmu::String&,
+      const unsigned char*,
+      size_t
+  ) override
+  {
+    return *this;
+  }
+  MockActualCall& with_memory_buffer_parameter(
       const char*,
-      const void*) override
+      const unsigned char*,
+      size_t
+  ) override
+  {
+    return *this;
+  }
+  MockActualCall& with_parameter_of_type(
+      const cppmu::String&,
+      const cppmu::String&,
+      const void*
+  ) override
+  {
+    return *this;
+  }
+  MockActualCall& with_parameter_of_type(
+      const char*,
+      const char*,
+      const void*
+  ) override
   {
     return *this;
   }
@@ -94,9 +118,11 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_output_parameter_of_type(const cppmu::String&,
+  MockActualCall& with_output_parameter_of_type(
       const cppmu::String&,
-      void*) override
+      const cppmu::String&,
+      void*
+  ) override
   {
     return *this;
   }
@@ -112,7 +138,8 @@ public:
 
   unsigned long int return_unsigned_long_int_value() override { return 0; }
   unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int value) override
+      unsigned long int value
+  ) override
   {
     return value;
   }
@@ -129,7 +156,8 @@ public:
   }
 
   unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long value) override
+      unsigned long long value
+  ) override
   {
     return value;
   }
@@ -170,7 +198,8 @@ public:
     return nullptr;
   }
   FunctionPointerReturnValue return_function_pointer_value_or_default(
-      void (*value)()) override
+      void (*value)()
+  ) override
   {
     return value;
   }

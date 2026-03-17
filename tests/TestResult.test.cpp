@@ -5,8 +5,7 @@
 #include "CppMu/time.hpp"
 
 namespace {
-unsigned long
-mock_get_time_in_millis()
+unsigned long mock_get_time_in_millis()
 {
   return 10;
 }
@@ -57,8 +56,11 @@ TEST(TestResult, ResultIsNotOkIfFailures)
 {
   res->count_test();
   res->count_run();
-  res->add_failure(cppmu::TestFailure(
-      cppmu::TestShell::get_current(), cppmu::string_from("dummy message")));
+  res->add_failure(
+      cppmu::TestFailure(
+          cppmu::TestShell::get_current(), cppmu::string_from("dummy message")
+      )
+  );
   CHECK_TRUE(res->is_failure());
 }
 

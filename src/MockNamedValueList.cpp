@@ -2,26 +2,22 @@
 
 namespace cppmu {
 
-void
-MockNamedValueListNode::set_next(MockNamedValueListNode* node)
+void MockNamedValueListNode::set_next(MockNamedValueListNode* node)
 {
   next_ = node;
 }
 
-MockNamedValueListNode*
-MockNamedValueListNode::next()
+MockNamedValueListNode* MockNamedValueListNode::next()
 {
   return next_;
 }
 
-MockNamedValue*
-MockNamedValueListNode::item()
+MockNamedValue* MockNamedValueListNode::item()
 {
   return data_;
 }
 
-void
-MockNamedValueListNode::destroy()
+void MockNamedValueListNode::destroy()
 {
   delete data_;
 }
@@ -32,20 +28,17 @@ MockNamedValueListNode::MockNamedValueListNode(MockNamedValue* new_value)
 {
 }
 
-String
-MockNamedValueListNode::get_name() const
+String MockNamedValueListNode::get_name() const
 {
   return data_->get_name();
 }
 
-String
-MockNamedValueListNode::get_type() const
+String MockNamedValueListNode::get_type() const
 {
   return data_->get_type();
 }
 
-void
-MockNamedValueList::clear()
+void MockNamedValueList::clear()
 {
   while (head_) {
     MockNamedValueListNode* n = head_->next();
@@ -55,8 +48,7 @@ MockNamedValueList::clear()
   }
 }
 
-void
-MockNamedValueList::add(MockNamedValue* new_value)
+void MockNamedValueList::add(MockNamedValue* new_value)
 {
   auto* new_node = new MockNamedValueListNode(new_value);
   if (head_ == nullptr)
@@ -69,8 +61,7 @@ MockNamedValueList::add(MockNamedValue* new_value)
   }
 }
 
-MockNamedValue*
-MockNamedValueList::get_value_by_name(const String& name)
+MockNamedValue* MockNamedValueList::get_value_by_name(const String& name)
 {
   for (MockNamedValueListNode* p = head_; p; p = p->next())
     if (p->get_name() == name)
@@ -78,8 +69,7 @@ MockNamedValueList::get_value_by_name(const String& name)
   return nullptr;
 }
 
-MockNamedValueListNode*
-MockNamedValueList::begin()
+MockNamedValueListNode* MockNamedValueList::begin()
 {
   return head_;
 }

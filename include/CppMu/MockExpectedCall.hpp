@@ -7,8 +7,7 @@ namespace cppmu {
 
 class MockNamedValue;
 
-cppmu::String
-string_from(const MockNamedValue& parameter);
+cppmu::String string_from(const MockNamedValue& parameter);
 
 class MockExpectedCall
 {
@@ -27,8 +26,10 @@ public:
   {
     return with_int_parameter(name, value);
   }
-  MockExpectedCall& with_parameter(const cppmu::String& name,
-      unsigned int value)
+  MockExpectedCall& with_parameter(
+      const cppmu::String& name,
+      unsigned int value
+  )
   {
     return with_unsigned_int_parameter(name, value);
   }
@@ -36,8 +37,10 @@ public:
   {
     return with_long_int_parameter(name, value);
   }
-  MockExpectedCall& with_parameter(const cppmu::String& name,
-      unsigned long int value)
+  MockExpectedCall& with_parameter(
+      const cppmu::String& name,
+      unsigned long int value
+  )
   {
     return with_unsigned_long_int_parameter(name, value);
   }
@@ -45,8 +48,10 @@ public:
   {
     return with_long_long_int_parameter(name, value);
   }
-  MockExpectedCall& with_parameter(const cppmu::String& name,
-      unsigned long long value)
+  MockExpectedCall& with_parameter(
+      const cppmu::String& name,
+      unsigned long long value
+  )
   {
     return with_unsigned_long_long_int_parameter(name, value);
   }
@@ -54,9 +59,11 @@ public:
   {
     return with_double_parameter(name, value);
   }
-  MockExpectedCall& with_parameter(const cppmu::String& name,
+  MockExpectedCall& with_parameter(
+      const cppmu::String& name,
       double value,
-      double tolerance)
+      double tolerance
+  )
   {
     return with_double_parameter(name, value, tolerance);
   }
@@ -76,65 +83,92 @@ public:
   {
     return with_function_pointer_parameter(name, value);
   }
-  MockExpectedCall& with_parameter(const cppmu::String& name,
+  MockExpectedCall& with_parameter(
+      const cppmu::String& name,
       const unsigned char* value,
-      size_t size)
+      size_t size
+  )
   {
     return with_memory_buffer_parameter(name, value, size);
   }
   virtual MockExpectedCall& with_parameter_of_type(
       const cppmu::String& type_name,
       const cppmu::String& name,
-      const void* value) = 0;
+      const void* value
+  ) = 0;
   virtual MockExpectedCall& with_output_parameter_returning(
       const cppmu::String& name,
       const void* value,
-      size_t size) = 0;
+      size_t size
+  ) = 0;
   virtual MockExpectedCall& with_output_parameter_of_type_returning(
       const cppmu::String& type_name,
       const cppmu::String& name,
-      const void* value) = 0;
+      const void* value
+  ) = 0;
   virtual MockExpectedCall& with_unmodified_output_parameter(
-      const cppmu::String& name) = 0;
+      const cppmu::String& name
+  ) = 0;
   virtual MockExpectedCall& ignore_other_parameters() = 0;
 
-  virtual MockExpectedCall& with_bool_parameter(const cppmu::String& name,
-      bool value) = 0;
-  virtual MockExpectedCall& with_int_parameter(const cppmu::String& name,
-      int value) = 0;
+  virtual MockExpectedCall& with_bool_parameter(
+      const cppmu::String& name,
+      bool value
+  ) = 0;
+  virtual MockExpectedCall& with_int_parameter(
+      const cppmu::String& name,
+      int value
+  ) = 0;
   virtual MockExpectedCall& with_unsigned_int_parameter(
       const cppmu::String& name,
-      unsigned int value) = 0;
-  virtual MockExpectedCall& with_long_int_parameter(const cppmu::String& name,
-      long int value) = 0;
+      unsigned int value
+  ) = 0;
+  virtual MockExpectedCall& with_long_int_parameter(
+      const cppmu::String& name,
+      long int value
+  ) = 0;
   virtual MockExpectedCall& with_unsigned_long_int_parameter(
       const cppmu::String& name,
-      unsigned long int value) = 0;
+      unsigned long int value
+  ) = 0;
   virtual MockExpectedCall& with_long_long_int_parameter(
       const cppmu::String& name,
-      long long value) = 0;
+      long long value
+  ) = 0;
   virtual MockExpectedCall& with_unsigned_long_long_int_parameter(
       const cppmu::String& name,
-      unsigned long long value) = 0;
-  virtual MockExpectedCall& with_double_parameter(const cppmu::String& name,
-      double value) = 0;
-  virtual MockExpectedCall& with_double_parameter(const cppmu::String& name,
+      unsigned long long value
+  ) = 0;
+  virtual MockExpectedCall& with_double_parameter(
+      const cppmu::String& name,
+      double value
+  ) = 0;
+  virtual MockExpectedCall& with_double_parameter(
+      const cppmu::String& name,
       double value,
-      double tolerance) = 0;
-  virtual MockExpectedCall& with_string_parameter(const cppmu::String& name,
-      const char* value) = 0;
-  virtual MockExpectedCall& with_pointer_parameter(const cppmu::String& name,
-      void* value) = 0;
+      double tolerance
+  ) = 0;
+  virtual MockExpectedCall& with_string_parameter(
+      const cppmu::String& name,
+      const char* value
+  ) = 0;
+  virtual MockExpectedCall& with_pointer_parameter(
+      const cppmu::String& name,
+      void* value
+  ) = 0;
   virtual MockExpectedCall& with_function_pointer_parameter(
       const cppmu::String& name,
-      void (*value)()) = 0;
+      void (*value)()
+  ) = 0;
   virtual MockExpectedCall& with_const_pointer_parameter(
       const cppmu::String& name,
-      const void* value) = 0;
+      const void* value
+  ) = 0;
   virtual MockExpectedCall& with_memory_buffer_parameter(
       const cppmu::String& name,
       const unsigned char* value,
-      size_t size) = 0;
+      size_t size
+  ) = 0;
   virtual MockExpectedCall& and_return_value(bool value) = 0;
   virtual MockExpectedCall& and_return_value(int value) = 0;
   virtual MockExpectedCall& and_return_value(unsigned int value) = 0;

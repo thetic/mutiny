@@ -11,14 +11,12 @@ TEST_GROUP(MockDocumentation)
 {};
 
 namespace {
-void
-production_code()
+void production_code()
 {
   cppmu::mock().actual_call("productionCode");
 }
 
-void
-parameters_function(int p1, const char* p2)
+void parameters_function(int p1, const char* p2)
 {
   void* object = reinterpret_cast<void*>(1);
   cppmu::mock()
@@ -28,10 +26,7 @@ parameters_function(int p1, const char* p2)
       .with_parameter("p2", p2);
 }
 
-void
-do_something_that_would_otherwise_blow_up_the_mocking_framework()
-{
-}
+void do_something_that_would_otherwise_blow_up_the_mocking_framework() {}
 
 } // namespace
 
@@ -119,12 +114,14 @@ TEST(MockDocumentation, setData)
   ClassFromProductionCode object;
   cppmu::mock().set_data("importantValue", 10);
   cppmu::mock().set_data_object(
-      "importantObject", "ClassFromProductionCode", &object);
+      "importantObject", "ClassFromProductionCode", &object
+  );
 
   ClassFromProductionCode* pobject;
   int value = cppmu::mock().get_data("importantValue").get_int_value();
   pobject = static_cast<ClassFromProductionCode*>(
-      cppmu::mock().get_data("importantObject").get_object_pointer());
+      cppmu::mock().get_data("importantObject").get_object_pointer()
+  );
 
   LONGS_EQUAL(10, value);
   POINTERS_EQUAL(pobject, &object);

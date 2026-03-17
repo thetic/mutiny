@@ -9,8 +9,7 @@
 namespace {
 unsigned long millis_time;
 
-unsigned long
-mock_get_time_in_millis()
+unsigned long mock_get_time_in_millis()
 {
   return millis_time;
 }
@@ -24,7 +23,8 @@ public:
   void print_tests_ended(const cppmu::TestResult& result) override
   {
     output_ += cppmu::string_from_format(
-        "Test End %d\n", static_cast<int>(result.get_test_count()));
+        "Test End %d\n", static_cast<int>(result.get_test_count())
+    );
   }
 
   void print_current_group_started(const cppmu::TestShell& test) override
@@ -36,7 +36,8 @@ public:
   void print_current_group_ended(const cppmu::TestResult& res) override
   {
     output_ += cppmu::string_from_format(
-        "Group End %d\n", static_cast<int>(res.get_test_count()));
+        "Group End %d\n", static_cast<int>(res.get_test_count())
+    );
   }
 
   void print_current_test_started(const cppmu::TestShell&) override
@@ -143,8 +144,10 @@ TEST(TestOutput, PrintTestALot)
   for (int i = 0; i < 60; ++i) {
     printer->print_current_test_ended(*result);
   }
-  STRCMP_EQUAL("..................................................\n..........",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "..................................................\n..........",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
@@ -164,7 +167,8 @@ TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
       "..................................................\n.........."
       "\nOK (60 tests, 60 ran, 0 checks, 0 ignored, 0 filtered out, 10 ms)\n\n"
       "..................................................\n..........",
-      mock->get_output().c_str());
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, SetProgressIndicator)
@@ -200,9 +204,11 @@ TEST(TestOutput, printColorWithSuccess)
   mock->color();
   run_one_test();
   printer->print_tests_ended(*result);
-  STRCMP_EQUAL("\n\033[32;1mOK (1 tests, 1 ran, 0 checks, 0 ignored, 0 "
-               "filtered out, 10 ms)\033[m\n\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "\n\033[32;1mOK (1 tests, 1 ran, 0 checks, 0 ignored, 0 "
+      "filtered out, 10 ms)\033[m\n\n",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, printColorWithFailures)
@@ -212,10 +218,12 @@ TEST(TestOutput, printColorWithFailures)
   result->add_failure(*f);
   printer->flush();
   printer->print_tests_ended(*result);
-  STRCMP_EQUAL("\n\033[31;1mErrors (1 failures, 1 tests, 1 ran, 0 checks, 0 "
-               "ignored, 0 filtered out, 10 ms)"
-               "\033[m\n\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "\n\033[31;1mErrors (1 failures, 1 tests, 1 ran, 0 checks, 0 "
+      "ignored, 0 filtered out, 10 ms)"
+      "\033[m\n\n",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, PrintTestRun)
@@ -233,8 +241,10 @@ TEST(TestOutput, PrintTestRunOnlyOne)
 TEST(TestOutput, PrintWithFailureInSameFile)
 {
   printer->print_failure(*f2);
-  STRCMP_EQUAL("\nfile:20: error: Failure in TEST(group, test)\n\tmessage\n\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "\nfile:20: error: Failure in TEST(group, test)\n\tmessage\n\n",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, PrintFailureWithFailInDifferentFile)
@@ -271,7 +281,8 @@ TEST(TestOutput, printTestsEnded)
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
       "\nOK (1 tests, 3 ran, 1 checks, 2 ignored, 0 filtered out, 10 ms)\n\n",
-      mock->get_output().c_str());
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, printTestsEndedWithFailures)
@@ -279,9 +290,11 @@ TEST(TestOutput, printTestsEndedWithFailures)
   result->add_failure(*f);
   printer->flush();
   printer->print_tests_ended(*result);
-  STRCMP_EQUAL("\nErrors (1 failures, 0 tests, 0 ran, 0 checks, 0 ignored, 0 "
-               "filtered out, 10 ms)\n\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "\nErrors (1 failures, 0 tests, 0 ran, 0 checks, 0 ignored, 0 "
+      "filtered out, 10 ms)\n\n",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
@@ -296,7 +309,8 @@ TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
       "something went wrong. "
       "This often happens because of linking errors or typos in test "
       "filter.\n\n",
-      mock->get_output().c_str());
+      mock->get_output().c_str()
+  );
 }
 
 TEST_GROUP(CompositeTestOutput)
@@ -345,9 +359,11 @@ TEST(CompositeTestOutput, CurrentGroupStartedAndEnded)
   composite_output.print_current_group_started(*test);
   composite_output.print_current_group_ended(*result);
   STRCMP_EQUAL(
-      "Group Group Start\nGroup End 0\n", output1->get_output().c_str());
+      "Group Group Start\nGroup End 0\n", output1->get_output().c_str()
+  );
   STRCMP_EQUAL(
-      "Group Group Start\nGroup End 0\n", output2->get_output().c_str());
+      "Group Group Start\nGroup End 0\n", output2->get_output().c_str()
+  );
 }
 
 TEST(CompositeTestOutput, PrintBuffer)
@@ -405,10 +421,14 @@ TEST(CompositeTestOutput, PrintTestFailure)
 {
   cppmu::TestFailure failure(test, "file", 10, "failed");
   composite_output.print_failure(failure);
-  STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
-      output1->get_output().c_str());
-  STRCMP_EQUAL("\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
-      output2->get_output().c_str());
+  STRCMP_EQUAL(
+      "\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
+      output1->get_output().c_str()
+  );
+  STRCMP_EQUAL(
+      "\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
+      output2->get_output().c_str()
+  );
 }
 
 TEST(CompositeTestOutput, PrintTestRun)

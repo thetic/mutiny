@@ -21,8 +21,7 @@ SetPointerPlugin::SetPointerPlugin(const String& name)
   pointer_table_index = 0;
 }
 
-void
-SetPointerPlugin::store(void** function)
+void SetPointerPlugin::store(void** function)
 {
   if (pointer_table_index >= SetPointerPlugin::max_set) {
     FAIL("Maximum number of function pointers installed!");
@@ -32,8 +31,8 @@ SetPointerPlugin::store(void** function)
   pointer_table_index++;
 }
 
-void
-SetPointerPlugin::post_test_action(TestShell& /*test*/, TestResult& /*result*/)
+void SetPointerPlugin::
+    post_test_action(TestShell& /*test*/, TestResult& /*result*/)
 {
   for (int i = pointer_table_index - 1; i >= 0; i--)
     *reinterpret_cast<void**>(setlist[i].orig) = setlist[i].orig_value;

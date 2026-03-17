@@ -12,8 +12,7 @@ namespace cppmu {
 
 namespace {
 #if !CPPMU_USE_STD_CPP_LIB
-char*
-str_n_cpy(char* s1, const char* s2, size_t n)
+char* str_n_cpy(char* s1, const char* s2, size_t n)
 {
   char* result = s1;
 
@@ -27,8 +26,7 @@ str_n_cpy(char* s1, const char* s2, size_t n)
   return result;
 }
 
-char*
-copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
+char* copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
 {
   char* new_buffer = new char[buffer_size];
   str_n_cpy(new_buffer, buffer_to_copy, buffer_size);
@@ -38,36 +36,31 @@ copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
 }
 #endif
 
-bool
-is_digit(char ch)
+bool is_digit(char ch)
 {
   return '0' <= ch && '9' >= ch;
 }
 
-bool
-is_space(char ch)
+bool is_space(char ch)
 {
   return (ch == ' ') || (0x08 < ch && 0x0E > ch);
 }
 
-bool
-is_upper(char ch)
+bool is_upper(char ch)
 {
   return 'A' <= ch && 'Z' >= ch;
 }
 } // namespace
 
 #if !CPPMU_USE_STD_CPP_LIB
-char*
-String::get_empty_string() const
+char* String::get_empty_string() const
 {
   char* buf = new char[1];
   buf[0] = '\0';
   return buf;
 }
 
-void
-String::deallocate_internal_buffer()
+void String::deallocate_internal_buffer()
 {
   if (buffer_) {
     delete[] buffer_;
@@ -76,8 +69,7 @@ String::deallocate_internal_buffer()
   }
 }
 
-void
-String::set_internal_buffer_as_empty_string()
+void String::set_internal_buffer_as_empty_string()
 {
   deallocate_internal_buffer();
 
@@ -85,9 +77,10 @@ String::set_internal_buffer_as_empty_string()
   buffer_ = get_empty_string();
 }
 
-void
-String::copy_buffer_to_new_internal_buffer(const char* other_buffer,
-    size_t buffer_size)
+void String::copy_buffer_to_new_internal_buffer(
+    const char* other_buffer,
+    size_t buffer_size
+)
 {
   deallocate_internal_buffer();
 
@@ -95,8 +88,7 @@ String::copy_buffer_to_new_internal_buffer(const char* other_buffer,
   buffer_ = copy_to_new_buffer(other_buffer, buffer_size_);
 }
 
-void
-String::reserve(size_t new_capacity)
+void String::reserve(size_t new_capacity)
 {
   size_t needed = new_capacity + 1;
   if (needed <= buffer_size_)
@@ -110,14 +102,12 @@ String::reserve(size_t new_capacity)
   buffer_size_ = needed;
 }
 
-void
-String::clear()
+void String::clear()
 {
   set_internal_buffer_as_empty_string();
 }
 
-void
-String::set_internal_buffer_to(char* buffer, size_t buffer_size)
+void String::set_internal_buffer_to(char* buffer, size_t buffer_size)
 {
   deallocate_internal_buffer();
 
@@ -125,15 +115,14 @@ String::set_internal_buffer_to(char* buffer, size_t buffer_size)
   buffer_ = buffer;
 }
 
-void
-String::copy_buffer_to_new_internal_buffer(const String& other_buffer)
+void String::copy_buffer_to_new_internal_buffer(const String& other_buffer)
 {
   copy_buffer_to_new_internal_buffer(
-      other_buffer.buffer_, other_buffer.size() + 1);
+      other_buffer.buffer_, other_buffer.size() + 1
+  );
 }
 
-void
-String::copy_buffer_to_new_internal_buffer(const char* other_buffer)
+void String::copy_buffer_to_new_internal_buffer(const char* other_buffer)
 {
   copy_buffer_to_new_internal_buffer(other_buffer, str_len(other_buffer) + 1);
 }
@@ -174,8 +163,7 @@ String::String(String&& other) noexcept
   other.buffer_size_ = 0;
 }
 
-String&
-String::operator=(String&& other) noexcept
+String& String::operator=(String&& other) noexcept
 {
   if (this != &other) {
     deallocate_internal_buffer();
@@ -187,40 +175,34 @@ String::operator=(String&& other) noexcept
   return *this;
 }
 
-String&
-String::operator=(const String& other)
+String& String::operator=(const String& other)
 {
   if (this != &other)
     copy_buffer_to_new_internal_buffer(other);
   return *this;
 }
 
-const char*
-String::c_str() const
+const char* String::c_str() const
 {
   return buffer_;
 }
 
-const char*
-String::data() const
+const char* String::data() const
 {
   return buffer_;
 }
 
-char*
-String::data()
+char* String::data()
 {
   return buffer_;
 }
 
-size_t
-String::size() const
+size_t String::size() const
 {
   return str_len(c_str());
 }
 
-bool
-String::empty() const
+bool String::empty() const
 {
   return size() == 0;
 }
@@ -230,34 +212,29 @@ String::~String()
   deallocate_internal_buffer();
 }
 
-bool
-operator==(const String& left, const String& right)
+bool operator==(const String& left, const String& right)
 {
   return 0 == str_cmp(left.c_str(), right.c_str());
 }
 
-bool
-operator!=(const String& left, const String& right)
+bool operator!=(const String& left, const String& right)
 {
   return !(left == right);
 }
 
-String
-String::operator+(const String& rhs) const
+String String::operator+(const String& rhs) const
 {
   String t(c_str());
   t += rhs.c_str();
   return t;
 }
 
-String&
-String::operator+=(const String& rhs)
+String& String::operator+=(const String& rhs)
 {
   return operator+=(rhs.c_str());
 }
 
-String&
-String::operator+=(const char* rhs)
+String& String::operator+=(const char* rhs)
 {
   size_t original_size = this->size();
   size_t additional_string_size = str_len(rhs) + 1;
@@ -269,8 +246,7 @@ String::operator+=(const char* rhs)
   return *this;
 }
 
-String
-String::substr(size_t begin_pos, size_t amount) const
+String String::substr(size_t begin_pos, size_t amount) const
 {
   if (begin_pos > size() - 1)
     return "";
@@ -283,14 +259,12 @@ String::substr(size_t begin_pos, size_t amount) const
   return new_string;
 }
 
-String
-String::substr(size_t begin_pos) const
+String String::substr(size_t begin_pos) const
 {
   return substr(begin_pos, npos);
 }
 
-size_t
-String::find(char ch, size_t pos) const
+size_t String::find(char ch, size_t pos) const
 {
   size_t len = size();
   for (size_t i = pos; i < len; i++)
@@ -299,8 +273,7 @@ String::find(char ch, size_t pos) const
   return npos;
 }
 
-size_t
-String::find(const char* s, size_t pos) const
+size_t String::find(const char* s, size_t pos) const
 {
   if (pos > size())
     return npos;
@@ -310,21 +283,18 @@ String::find(const char* s, size_t pos) const
   return static_cast<size_t>(found - c_str());
 }
 
-bool
-operator<(const String& left, const String& right)
+bool operator<(const String& left, const String& right)
 {
   return str_cmp(left.c_str(), right.c_str()) < 0;
 }
 #endif
 
-bool
-string_contains(const String& str, const String& substr)
+bool string_contains(const String& str, const String& substr)
 {
   return str_str(str.c_str(), substr.c_str()) != nullptr;
 }
 
-bool
-string_starts_with(const String& str, const String& prefix)
+bool string_starts_with(const String& str, const String& prefix)
 {
   if (prefix.size() == 0)
     return true;
@@ -334,8 +304,7 @@ string_starts_with(const String& str, const String& prefix)
     return str_str(str.c_str(), prefix.c_str()) == str.c_str();
 }
 
-bool
-string_ends_with(const String& str, const String& suffix)
+bool string_ends_with(const String& str, const String& suffix)
 {
   size_t len = str.size();
   size_t other_len = suffix.size();
@@ -350,8 +319,7 @@ string_ends_with(const String& str, const String& suffix)
   return str_cmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
 }
 
-void
-string_replace(String& str, char from, char to)
+void string_replace(String& str, char from, char to)
 {
   size_t s = str.size();
   for (size_t i = 0; i < s; i++) {
@@ -360,8 +328,7 @@ string_replace(String& str, char from, char to)
   }
 }
 
-void
-string_replace(String& str, const char* from, const char* to)
+void string_replace(String& str, const char* from, const char* to)
 {
   size_t fromlen = str_len(from);
   if (fromlen == 0)
@@ -383,8 +350,7 @@ string_replace(String& str, const char* from, const char* to)
 }
 
 // does not support + or - prefixes
-unsigned
-ato_u(const char* str)
+unsigned ato_u(const char* str)
 {
   while (is_space(*str))
     str++;
@@ -397,8 +363,7 @@ ato_u(const char* str)
   return result;
 }
 
-int
-ato_i(const char* str)
+int ato_i(const char* str)
 {
   while (is_space(*str))
     str++;
@@ -415,8 +380,7 @@ ato_i(const char* str)
   return (first_char == '-') ? -result : result;
 }
 
-int
-str_cmp(const char* s1, const char* s2)
+int str_cmp(const char* s1, const char* s2)
 {
   while (*s1 && *s1 == *s2) {
     ++s1;
@@ -426,8 +390,7 @@ str_cmp(const char* s1, const char* s2)
          *reinterpret_cast<const unsigned char*>(s2);
 }
 
-size_t
-str_len(const char* str)
+size_t str_len(const char* str)
 {
   auto n = static_cast<size_t>(-1);
   do
@@ -436,8 +399,7 @@ str_len(const char* str)
   return n;
 }
 
-int
-str_n_cmp(const char* s1, const char* s2, size_t n)
+int str_n_cmp(const char* s1, const char* s2, size_t n)
 {
   while (n && *s1 && *s1 == *s2) {
     --n;
@@ -449,8 +411,7 @@ str_n_cmp(const char* s1, const char* s2, size_t n)
            : 0;
 }
 
-const char*
-str_str(const char* s1, const char* s2)
+const char* str_str(const char* s1, const char* s2)
 {
   if (!*s2)
     return s1;
@@ -460,15 +421,13 @@ str_str(const char* s1, const char* s2)
   return nullptr;
 }
 
-char
-to_lower(char ch)
+char to_lower(char ch)
 {
   return is_upper(ch) ? static_cast<char>(static_cast<int>(ch) + ('a' - 'A'))
                       : ch;
 }
 
-int
-mem_cmp(const void* s1, const void* s2, size_t n)
+int mem_cmp(const void* s1, const void* s2, size_t n)
 {
   auto* p1 = static_cast<const unsigned char*>(s1);
   auto* p2 = static_cast<const unsigned char*>(s2);
@@ -483,8 +442,7 @@ mem_cmp(const void* s1, const void* s2, size_t n)
   return 0;
 }
 
-void
-pad_strings_to_same_length(String& str1, String& str2, char pad_character)
+void pad_strings_to_same_length(String& str1, String& str2, char pad_character)
 {
   if (str1.size() > str2.size()) {
     pad_strings_to_same_length(str2, str1, pad_character);
@@ -494,74 +452,62 @@ pad_strings_to_same_length(String& str1, String& str2, char pad_character)
   str1 = String(str2.size() - str1.size(), pad_character) + str1;
 }
 
-bool
-is_control(char ch)
+bool is_control(char ch)
 {
   return ch < ' ' || ch == char(0x7F);
 }
 
-bool
-is_control_with_short_escape_sequence(char ch)
+bool is_control_with_short_escape_sequence(char ch)
 {
   return '\a' <= ch && '\r' >= ch;
 }
 
-String
-string_from(bool value)
+String string_from(bool value)
 {
   return String(string_from_format("%s", value ? "true" : "false"));
 }
 
-String
-string_from(const char* value)
+String string_from(const char* value)
 {
   return String(value);
 }
 
-String
-string_from_or_null(const char* expected)
+String string_from_or_null(const char* expected)
 {
   return (expected) ? string_from(expected) : string_from("(null)");
 }
 
-String
-string_from(int value)
+String string_from(int value)
 {
   return string_from_format("%d", value);
 }
 
-String
-string_from(long value)
+String string_from(long value)
 {
   return string_from_format("%ld", value);
 }
 
-String
-string_from(const void* value)
+String string_from(const void* value)
 {
   return String("0x") + hex_string_from(value);
 }
 
-String
-string_from(void (*value)())
+String string_from(void (*value)())
 {
   return String("0x") + hex_string_from(value);
 }
 
-String
-hex_string_from(long value)
+String hex_string_from(long value)
 {
   return hex_string_from(static_cast<unsigned long>(value));
 }
 
-String
-hex_string_from(int value)
+String hex_string_from(int value)
 {
   return hex_string_from(static_cast<unsigned int>(value));
 }
 
-String
-hex_string_from(signed char value)
+String hex_string_from(signed char value)
 {
   String result = string_from_format("%x", value);
   if (value < 0) {
@@ -571,113 +517,95 @@ hex_string_from(signed char value)
   return result;
 }
 
-String
-hex_string_from(unsigned long value)
+String hex_string_from(unsigned long value)
 {
   return string_from_format("%lx", value);
 }
 
-String
-hex_string_from(unsigned int value)
+String hex_string_from(unsigned int value)
 {
   return string_from_format("%x", value);
 }
 
-String
-brackets_formatted_hex_string_from(int value)
+String brackets_formatted_hex_string_from(int value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string_from(unsigned int value)
+String brackets_formatted_hex_string_from(unsigned int value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string_from(long value)
+String brackets_formatted_hex_string_from(long value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string_from(unsigned long value)
+String brackets_formatted_hex_string_from(unsigned long value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string_from(signed char value)
+String brackets_formatted_hex_string_from(signed char value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string(String hex_string)
+String brackets_formatted_hex_string(String hex_string)
 {
   return String("(0x") + hex_string + ")";
 }
 
 #if CPPMU_USE_STD_CPP_LIB
-String
-string_from(const std::nullptr_t value)
+String string_from(const std::nullptr_t value)
 {
   (void)value;
   return "(null)";
 }
 #endif
 
-String
-string_from(long long value)
+String string_from(long long value)
 {
   return string_from_format("%lld", value);
 }
 
-String
-string_from(unsigned long long value)
+String string_from(unsigned long long value)
 {
   return string_from_format("%llu", value);
 }
 
-String
-hex_string_from(long long value)
+String hex_string_from(long long value)
 {
   return hex_string_from(static_cast<unsigned long long>(value));
 }
 
-String
-hex_string_from(unsigned long long value)
+String hex_string_from(unsigned long long value)
 {
   return string_from_format("%llx", value);
 }
 
-String
-hex_string_from(const void* value)
+String hex_string_from(const void* value)
 {
   return hex_string_from(reinterpret_cast<unsigned long long>(value));
 }
 
-String
-hex_string_from(void (*value)())
+String hex_string_from(void (*value)())
 {
   return hex_string_from(reinterpret_cast<unsigned long long>(value));
 }
 
-String
-brackets_formatted_hex_string_from(long long value)
+String brackets_formatted_hex_string_from(long long value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-brackets_formatted_hex_string_from(unsigned long long value)
+String brackets_formatted_hex_string_from(unsigned long long value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String
-string_from(double value, int precision)
+String string_from(double value, int precision)
 {
   if (cppmu::is_nan(value))
     return "Nan - Not a number";
@@ -687,20 +615,17 @@ string_from(double value, int precision)
     return string_from_format("%.*g", precision, value);
 }
 
-String
-string_from(char value)
+String string_from(char value)
 {
   return string_from_format("%c", value);
 }
 
-String
-string_from(const String& value)
+String string_from(const String& value)
 {
   return String(value);
 }
 
-String
-string_from_format(const char* format, ...)
+String string_from_format(const char* format, ...)
 {
   String result_string;
   va_list arguments;
@@ -711,20 +636,17 @@ string_from_format(const char* format, ...)
   return result_string;
 }
 
-String
-string_from(unsigned int i)
+String string_from(unsigned int i)
 {
   return string_from_format("%u", i);
 }
 
-String
-string_from(unsigned long i)
+String string_from(unsigned long i)
 {
   return string_from_format("%lu", i);
 }
 
-String
-v_string_from_format(const char* format, va_list args)
+String v_string_from_format(const char* format, va_list args)
 {
   va_list args_copy;
   va_copy(args_copy, args);
@@ -733,7 +655,8 @@ v_string_from_format(const char* format, va_list args)
   String result_string;
 
   auto size = static_cast<size_t>(
-      vsnprintf(default_buffer, size_ofdefault_buffer, format, args));
+      vsnprintf(default_buffer, size_ofdefault_buffer, format, args)
+  );
   if (size < size_ofdefault_buffer) {
     result_string = String(default_buffer);
   } else {
@@ -748,8 +671,7 @@ v_string_from_format(const char* format, va_list args)
   return result_string;
 }
 
-String
-string_from_binary(const unsigned char* value, size_t size)
+String string_from_binary(const unsigned char* value, size_t size)
 {
   String result;
 
@@ -761,17 +683,16 @@ string_from_binary(const unsigned char* value, size_t size)
   return result;
 }
 
-String
-string_from_binary_or_null(const unsigned char* value, size_t size)
+String string_from_binary_or_null(const unsigned char* value, size_t size)
 {
   return (value) ? string_from_binary(value, size) : string_from("(null)");
 }
 
-String
-string_from_binary_with_size(const unsigned char* value, size_t size)
+String string_from_binary_with_size(const unsigned char* value, size_t size)
 {
   String result = string_from_format(
-      "Size = %u | HexContents = ", static_cast<unsigned>(size));
+      "Size = %u | HexContents = ", static_cast<unsigned>(size)
+  );
   size_t displayed_size = ((size > 128) ? 128 : size);
   result += string_from_binary_or_null(value, displayed_size);
   if (size > displayed_size) {
@@ -780,15 +701,16 @@ string_from_binary_with_size(const unsigned char* value, size_t size)
   return result;
 }
 
-String
-string_from_binary_with_size_or_null(const unsigned char* value, size_t size)
+String string_from_binary_with_size_or_null(
+    const unsigned char* value,
+    size_t size
+)
 {
   return (value) ? string_from_binary_with_size(value, size)
                  : string_from("(null)");
 }
 
-String
-string_from_ordinal_number(unsigned int number)
+String string_from_ordinal_number(unsigned int number)
 {
   const char* suffix = "th";
 

@@ -5,8 +5,7 @@
 
 namespace cppmu {
 
-void
-NormalTestTerminator::exit_current_test() const
+void NormalTestTerminator::exit_current_test() const
 {
 #if CPPMU_HAVE_EXCEPTIONS
   throw FailedException();
@@ -15,21 +14,18 @@ NormalTestTerminator::exit_current_test() const
 #endif
 }
 
-void
-TestTerminatorWithoutExceptions::exit_current_test() const
+void TestTerminatorWithoutExceptions::exit_current_test() const
 {
   test_long_jmp();
 }
 
-void
-CrashingTestTerminator::exit_current_test() const
+void CrashingTestTerminator::exit_current_test() const
 {
   TestShell::crash();
   NormalTestTerminator::exit_current_test();
 }
 
-void
-CrashingTestTerminatorWithoutExceptions::exit_current_test() const
+void CrashingTestTerminatorWithoutExceptions::exit_current_test() const
 {
   TestShell::crash();
   TestTerminatorWithoutExceptions::exit_current_test();

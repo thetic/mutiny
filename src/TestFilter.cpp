@@ -25,33 +25,28 @@ TestFilter::TestFilter(const char* filter)
   filter_ = filter;
 }
 
-TestFilter*
-TestFilter::add(TestFilter* filter)
+TestFilter* TestFilter::add(TestFilter* filter)
 {
   next_ = filter;
   return this;
 }
 
-TestFilter*
-TestFilter::get_next() const
+TestFilter* TestFilter::get_next() const
 {
   return next_;
 }
 
-void
-TestFilter::strict_matching()
+void TestFilter::strict_matching()
 {
   strict_matching_ = true;
 }
 
-void
-TestFilter::invert_matching()
+void TestFilter::invert_matching()
 {
   invert_matching_ = true;
 }
 
-bool
-TestFilter::match(const String& name) const
+bool TestFilter::match(const String& name) const
 {
   bool matches = false;
 
@@ -63,22 +58,21 @@ TestFilter::match(const String& name) const
   return invert_matching_ ? !matches : matches;
 }
 
-bool
-TestFilter::operator==(const TestFilter& filter) const
+bool TestFilter::operator==(const TestFilter& filter) const
 {
-  return (filter_ == filter.filter_ &&
-          strict_matching_ == filter.strict_matching_ &&
-          invert_matching_ == filter.invert_matching_);
+  return (
+      filter_ == filter.filter_ &&
+      strict_matching_ == filter.strict_matching_ &&
+      invert_matching_ == filter.invert_matching_
+  );
 }
 
-bool
-TestFilter::operator!=(const TestFilter& filter) const
+bool TestFilter::operator!=(const TestFilter& filter) const
 {
   return !(filter == *this);
 }
 
-String
-TestFilter::as_string() const
+String TestFilter::as_string() const
 {
   String text_filter =
       string_from_format("TestFilter: \"%s\"", filter_.c_str());
@@ -92,8 +86,7 @@ TestFilter::as_string() const
   return text_filter;
 }
 
-String
-string_from(const TestFilter& filter)
+String string_from(const TestFilter& filter)
 {
   return filter.as_string();
 }

@@ -38,7 +38,8 @@ TEST_GROUP(OrderedTest)
   void install_ordered_test(cppmu::OrderedTestShell& test, int level)
   {
     cppmu::OrderedTestInstaller(
-        test, "testgroup", "testname", __FILE__, __LINE__, level);
+        test, "testgroup", "testname", __FILE__, __LINE__, level
+    );
   }
 
   void install_normal_test(cppmu::TestShell& test)
@@ -57,7 +58,8 @@ TEST_GROUP(OrderedTest)
 TEST(OrderedTest, TestInstallerSetsFields)
 {
   cppmu::OrderedTestInstaller installer(
-      ordered_test, "testgroup", "testname", "this.cpp", 10, 5);
+      ordered_test, "testgroup", "testname", "this.cpp", 10, 5
+  );
   STRCMP_EQUAL("testgroup", ordered_test.get_group().c_str());
   STRCMP_EQUAL("testname", ordered_test.get_name().c_str());
   STRCMP_EQUAL("this.cpp", ordered_test.get_file().c_str());
@@ -149,7 +151,8 @@ TEST_GROUP(OrderedTestC)
   void setup() override
   {
     OrderedTestTestingFixture::check_run(
-        cppmu::TestRegistry::get_current_registry()->get_current_repetition());
+        cppmu::TestRegistry::get_current_registry()->get_current_repetition()
+    );
   }
 };
 
@@ -210,8 +213,7 @@ TEST_ORDERED(OrderedTestC, Test8, 8)
   CHECK(OrderedTestTestingFixture::count() == 10);
 }
 
-int
-ordered_test_fixture_c_wrapper(void)
+int ordered_test_fixture_c_wrapper(void)
 {
   return OrderedTestTestingFixture::count();
 }

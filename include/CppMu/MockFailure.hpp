@@ -39,90 +39,112 @@ public:
 
 protected:
   void add_expectations_and_call_history(
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
   void add_expectations_and_call_history_related_to(
       const cppmu::String& function,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockExpectedCallsDidntHappenFailure : public MockFailure
 {
 public:
-  MockExpectedCallsDidntHappenFailure(cppmu::TestShell* test,
-      const MockExpectedCallsList& expectations);
+  MockExpectedCallsDidntHappenFailure(
+      cppmu::TestShell* test,
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockUnexpectedCallHappenedFailure : public MockFailure
 {
 public:
-  MockUnexpectedCallHappenedFailure(cppmu::TestShell* test,
+  MockUnexpectedCallHappenedFailure(
+      cppmu::TestShell* test,
       const cppmu::String& name,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockCallOrderFailure : public MockFailure
 {
 public:
-  MockCallOrderFailure(cppmu::TestShell* test,
-      const MockExpectedCallsList& expectations);
+  MockCallOrderFailure(
+      cppmu::TestShell* test,
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockUnexpectedInputParameterFailure : public MockFailure
 {
 public:
-  MockUnexpectedInputParameterFailure(cppmu::TestShell* test,
+  MockUnexpectedInputParameterFailure(
+      cppmu::TestShell* test,
       const cppmu::String& function_name,
       MockNamedValue parameter,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockUnexpectedOutputParameterFailure : public MockFailure
 {
 public:
-  MockUnexpectedOutputParameterFailure(cppmu::TestShell* test,
+  MockUnexpectedOutputParameterFailure(
+      cppmu::TestShell* test,
       const cppmu::String& function_name,
       MockNamedValue parameter,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockExpectedParameterDidntHappenFailure : public MockFailure
 {
 public:
-  MockExpectedParameterDidntHappenFailure(cppmu::TestShell* test,
+  MockExpectedParameterDidntHappenFailure(
+      cppmu::TestShell* test,
       const cppmu::String& function_name,
       const MockExpectedCallsList& all_expectations,
-      const MockExpectedCallsList& matching_expectations);
+      const MockExpectedCallsList& matching_expectations
+  );
 };
 
 class MockNoWayToCompareCustomTypeFailure : public MockFailure
 {
 public:
-  MockNoWayToCompareCustomTypeFailure(cppmu::TestShell* test,
-      cppmu::String type_name);
+  MockNoWayToCompareCustomTypeFailure(
+      cppmu::TestShell* test,
+      cppmu::String type_name
+  );
 };
 
 class MockNoWayToCopyCustomTypeFailure : public MockFailure
 {
 public:
-  MockNoWayToCopyCustomTypeFailure(cppmu::TestShell* test,
-      cppmu::String type_name);
+  MockNoWayToCopyCustomTypeFailure(
+      cppmu::TestShell* test,
+      cppmu::String type_name
+  );
 };
 
 class MockUnexpectedObjectFailure : public MockFailure
 {
 public:
-  MockUnexpectedObjectFailure(cppmu::TestShell* test,
+  MockUnexpectedObjectFailure(
+      cppmu::TestShell* test,
       const cppmu::String& function_name,
       const void* expected,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 class MockExpectedObjectDidntHappenFailure : public MockFailure
 {
 public:
-  MockExpectedObjectDidntHappenFailure(cppmu::TestShell* test,
+  MockExpectedObjectDidntHappenFailure(
+      cppmu::TestShell* test,
       const cppmu::String& function_name,
-      const MockExpectedCallsList& expectations);
+      const MockExpectedCallsList& expectations
+  );
 };
 
 } // namespace cppmu

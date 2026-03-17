@@ -5,8 +5,7 @@ using cppmu::mock;
 
 namespace {
 /* Stubbed out product code using linker, function pointer, or overriding */
-int
-foo(const char* param_string, int param_int)
+int foo(const char* param_string, int param_int)
 {
   /* Tell CppMu Mocking what we mock. Also return recorded value */
   return mock()
@@ -17,8 +16,7 @@ foo(const char* param_string, int param_int)
       .get_int_value();
 }
 
-void
-bar(double param_double, const char* param_string)
+void bar(double param_double, const char* param_string)
 {
   mock()
       .actual_call("Bar")
@@ -27,8 +25,7 @@ bar(double param_double, const char* param_string)
 }
 
 /* Production code calls to the methods we stubbed */
-int
-production_code_foo_calls()
+int production_code_foo_calls()
 {
   int return_value;
   return_value = foo("value_string", 10);
@@ -37,8 +34,7 @@ production_code_foo_calls()
   return return_value;
 }
 
-void
-production_code_bar_calls()
+void production_code_bar_calls()
 {
   bar(1.5, "more");
   bar(1.5, "more");

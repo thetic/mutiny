@@ -23,8 +23,7 @@ public:
   }
 };
 
-void
-fail_method()
+void fail_method()
 {
   HasTheDestructorBeenCalledChecker checker;
   fail_method_c_body();
@@ -32,8 +31,7 @@ fail_method()
 
 bool cppmu_has_crashed;
 
-void
-crash_method()
+void crash_method()
 {
   cppmu_has_crashed = true;
 }

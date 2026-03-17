@@ -74,34 +74,44 @@ private:
   OutputType output_type_{ OutputType::eclipse };
   String package_name_;
 
-  String get_parameter_field(int argc,
+  String get_parameter_field(
+      int argc,
       const char* const* argv,
       int& i,
-      const String& parameter_name);
+      const String& parameter_name
+  );
   void set_repeat_count(int argc, const char* const* argv, int& index);
   bool set_shuffle(int argc, const char* const* argv, int& index);
   void add_group_filter(int argc, const char* const* argv, int& index);
-  bool add_group_dot_name_filter(int argc,
+  bool add_group_dot_name_filter(
+      int argc,
       const char* const* argv,
       int& index,
       const String& parameter_name,
       bool strict,
-      bool exclude);
+      bool exclude
+  );
   void add_strict_group_filter(int argc, const char* const* argv, int& index);
   void add_exclude_group_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_strict_group_filter(int argc,
+  void add_exclude_strict_group_filter(
+      int argc,
       const char* const* argv,
-      int& index);
+      int& index
+  );
   void add_name_filter(int argc, const char* const* argv, int& index);
   void add_strict_name_filter(int argc, const char* const* argv, int& index);
   void add_exclude_name_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_strict_name_filter(int argc,
+  void add_exclude_strict_name_filter(
+      int argc,
       const char* const* argv,
-      int& index);
-  void add_test_to_run_based_on_verbose_output(int argc,
+      int& index
+  );
+  void add_test_to_run_based_on_verbose_output(
+      int argc,
       const char* const* argv,
       int& index,
-      const char* parameter_name);
+      const char* parameter_name
+  );
   bool set_output_type(int argc, const char* const* argv, int& index);
   void set_package_name(int argc, const char* const* argv, int& index);
 };

@@ -22,9 +22,11 @@ public:
 
   virtual void run_all_pre_test_action(TestShell&, TestResult&);
   virtual void run_all_post_test_action(TestShell&, TestResult&);
-  virtual bool parse_all_arguments(int argc,
+  virtual bool parse_all_arguments(
+      int argc,
       const char* const* argv,
-      int index);
+      int index
+  );
   virtual bool parse_all_arguments(int argc, char** argv, int index);
 
   virtual TestPlugin* add_plugin(TestPlugin*);

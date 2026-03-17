@@ -9,8 +9,7 @@ TeamCityTestOutput::TeamCityTestOutput()
 {
 }
 
-void
-TeamCityTestOutput::print_current_test_started(const TestShell& test)
+void TeamCityTestOutput::print_current_test_started(const TestShell& test)
 {
   print("##teamcity[testStarted name='");
   print_escaped(test.get_name().c_str());
@@ -23,8 +22,7 @@ TeamCityTestOutput::print_current_test_started(const TestShell& test)
   currtest_ = &test;
 }
 
-void
-TeamCityTestOutput::print_current_test_ended(const TestResult& res)
+void TeamCityTestOutput::print_current_test_ended(const TestResult& res)
 {
   if (!currtest_)
     return;
@@ -36,8 +34,7 @@ TeamCityTestOutput::print_current_test_ended(const TestResult& res)
   print("']\n");
 }
 
-void
-TeamCityTestOutput::print_current_group_started(const TestShell& test)
+void TeamCityTestOutput::print_current_group_started(const TestShell& test)
 {
   curr_group_ = test.get_group();
   print("##teamcity[testSuiteStarted name='");
@@ -45,8 +42,7 @@ TeamCityTestOutput::print_current_group_started(const TestShell& test)
   print("']\n");
 }
 
-void
-TeamCityTestOutput::print_current_group_ended(const TestResult& /*res*/)
+void TeamCityTestOutput::print_current_group_ended(const TestResult& /*res*/)
 {
   if (curr_group_ == "")
     return;
@@ -56,8 +52,7 @@ TeamCityTestOutput::print_current_group_ended(const TestResult& /*res*/)
   print("']\n");
 }
 
-void
-TeamCityTestOutput::print_escaped(const char* s)
+void TeamCityTestOutput::print_escaped(const char* s)
 {
   while (*s) {
     char str[3];
@@ -82,8 +77,7 @@ TeamCityTestOutput::print_escaped(const char* s)
   }
 }
 
-void
-TeamCityTestOutput::print_failure(const TestFailure& failure)
+void TeamCityTestOutput::print_failure(const TestFailure& failure)
 {
   print("##teamcity[testFailed name='");
   print_escaped(failure.get_test_name_only().c_str());

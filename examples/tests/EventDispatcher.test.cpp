@@ -14,7 +14,8 @@ public:
         .actual_call("notify")
         .on_object(this)
         .with_parameter_of_type(
-            "Event", "event", static_cast<const void*>(&event))
+            "Event", "event", static_cast<const void*>(&event)
+        )
         .with_parameter("timeOutInSeconds", time_out_in_seconds);
   }
   void notify_registration(EventObserver* new_observer) override
@@ -85,8 +86,7 @@ TEST(EventDispatcher, DifferentEventWithRegistrationDoesNotResultIntoCallback)
   dispatcher->dispatch_event(event, 10);
 }
 
-TEST(EventDispatcher,
-    RegisterTwoObserversResultIntoTwoCallsAndARegistrationNotification)
+TEST(EventDispatcher, RegisterTwoObserversResultIntoTwoCallsAndARegistrationNotification)
 {
   mock()
       .expect_one_call("notify")

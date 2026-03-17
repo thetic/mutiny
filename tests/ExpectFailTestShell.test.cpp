@@ -53,8 +53,10 @@ TEST(ExpectFailTestShell, getFormattedName_showsEXPECT_FAIL_TEST)
   cppmu::ExpectFailTestShell shell;
   shell.set_group_name("TestGroup");
   shell.set_test_name("TestName");
-  STRCMP_EQUAL("EXPECT_FAIL_TEST(TestGroup, TestName)",
-      shell.get_formatted_name().c_str());
+  STRCMP_EQUAL(
+      "EXPECT_FAIL_TEST(TestGroup, TestName)",
+      shell.get_formatted_name().c_str()
+  );
 }
 
 TEST(ExpectFailTestShell, verbose_printsEXPECT_FAIL_TEST)

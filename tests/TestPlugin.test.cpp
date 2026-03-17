@@ -168,9 +168,11 @@ TEST(TestPlugin, ParseArgumentsForUnknownArgumentsFails)
 {
   registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
-  CHECK(registry->get_first_plugin()->parse_all_arguments(2,
-            const_cast<char**>(cmd_line),
-            0) == false); /* cover non-const wrapper, too */
+  CHECK(
+      registry->get_first_plugin()->parse_all_arguments(
+          2, const_cast<char**>(cmd_line), 0
+      ) == false
+  ); /* cover non-const wrapper, too */
 }
 
 TEST(TestPlugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
@@ -178,5 +180,6 @@ TEST(TestPlugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
   registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };
   CHECK(registry->get_first_plugin()->parse_all_arguments(
-      2, const_cast<char**>(cmd_line), 0)); /* cover non-const wrapper, too */
+      2, const_cast<char**>(cmd_line), 0
+  )); /* cover non-const wrapper, too */
 }

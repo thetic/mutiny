@@ -1,7 +1,6 @@
 #include "CppMu/CommandLineTestRunner.hpp"
 
-int
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   int return_value = 0;
 
@@ -12,7 +11,8 @@ main(int argc, char** argv)
     LONGS_EQUAL(1, 1);
 
     return_value = cppmu::CommandLineTestRunner::run_all_tests(
-        argc, argv); /* cover alternate method */
+        argc, argv
+    ); /* cover alternate method */
   }
 
   return return_value;

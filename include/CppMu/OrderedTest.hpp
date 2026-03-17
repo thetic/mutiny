@@ -35,12 +35,14 @@ private:
 class OrderedTestInstaller
 {
 public:
-  explicit OrderedTestInstaller(OrderedTestShell& test,
+  explicit OrderedTestInstaller(
+      OrderedTestShell& test,
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number,
-      int level);
+      int level
+  );
   virtual ~OrderedTestInstaller() = default;
 
 private:
@@ -80,7 +82,8 @@ private:
       #testName,                                                               \
       __FILE__,                                                                \
       __LINE__,                                                                \
-      testLevel);                                                              \
+      testLevel                                                                \
+  );                                                                           \
   } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::test_body()
 

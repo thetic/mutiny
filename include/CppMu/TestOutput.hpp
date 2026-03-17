@@ -74,7 +74,8 @@ protected:
   void print_failure_message(String reason);
   void print_error_in_file_on_line_formatted_for_working_environment(
       String test_file,
-      size_t line_number);
+      size_t line_number
+  );
 
   TestOutput(const TestOutput&);
   TestOutput& operator=(const TestOutput&);
@@ -85,10 +86,8 @@ protected:
   const char* progress_indication_{ "." };
 };
 
-TestOutput&
-operator<<(TestOutput&, const char*);
-TestOutput&
-operator<<(TestOutput&, long);
+TestOutput& operator<<(TestOutput&, const char*);
+TestOutput& operator<<(TestOutput&, long);
 
 } // namespace cppmu
 

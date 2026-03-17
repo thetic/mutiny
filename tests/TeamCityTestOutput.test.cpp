@@ -23,8 +23,7 @@ private:
 
 unsigned long millis_time;
 
-unsigned long
-mock_get_time_in_millis()
+unsigned long mock_get_time_in_millis()
 {
   return millis_time;
 }
@@ -47,7 +46,8 @@ TEST_GROUP(TeamCityTestOutput)
     f = new cppmu::TestFailure(tst, "failfile", 20, "failure message");
     f2 = new cppmu::TestFailure(tst, "file", 20, "message");
     f3 = new cppmu::TestFailure(
-        tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF");
+        tst, "file", 30, "apos' pipe| [brackets]\r\nCRLF"
+    );
     result = new cppmu::TestResult(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
@@ -67,8 +67,9 @@ TEST_GROUP(TeamCityTestOutput)
 TEST(TeamCityTestOutput, PrintGroupStarted)
 {
   result->current_group_started(tst);
-  STRCMP_EQUAL("##teamcity[testSuiteStarted name='group']\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "##teamcity[testSuiteStarted name='group']\n", mock->get_output().c_str()
+  );
 }
 
 TEST(TeamCityTestOutput, PrintGroupStartedAndEnded)
@@ -90,7 +91,8 @@ TEST(TeamCityTestOutput, PrintTestStarted)
 {
   tcout->print_current_test_started(*tst);
   STRCMP_EQUAL(
-      "##teamcity[testStarted name='test']\n", mock->get_output().c_str());
+      "##teamcity[testStarted name='test']\n", mock->get_output().c_str()
+  );
 }
 
 TEST(TeamCityTestOutput, PrintTestStartedAndEnded)
@@ -98,9 +100,11 @@ TEST(TeamCityTestOutput, PrintTestStartedAndEnded)
   result->current_test_started(tst);
   millis_time = 42;
   result->current_test_ended(tst);
-  STRCMP_EQUAL("##teamcity[testStarted name='test']\n##teamcity[testFinished "
-               "name='test' duration='42']\n",
-      mock->get_output().c_str());
+  STRCMP_EQUAL(
+      "##teamcity[testStarted name='test']\n##teamcity[testFinished "
+      "name='test' duration='42']\n",
+      mock->get_output().c_str()
+  );
 }
 
 TEST(TeamCityTestOutput, PrintTestEndedButNotStarted)

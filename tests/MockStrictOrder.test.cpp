@@ -43,7 +43,8 @@ TEST(MockStrictOrder, orderViolated)
   expectations.add_function_ordered("foo1", 2)->call_was_made(3);
   expectations.add_function_ordered("foo2", 3)->call_was_made(2);
   cppmu::MockCallOrderFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().expect_one_call("foo1");
   mock().expect_one_call("foo1");
@@ -66,7 +67,8 @@ TEST(MockStrictOrder, orderViolatedWorksHierarchically)
   expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
   cppmu::MockCallOrderFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock("bla").expect_one_call("foo1");
   mock("foo").expect_one_call("foo1");
@@ -91,7 +93,8 @@ TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
   expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
   cppmu::MockCallOrderFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock("bla").expect_one_call("foo1");
   mock("foo").expect_one_call("foo1");
@@ -116,7 +119,8 @@ TEST(MockStrictOrder, orderViolatedWithinAScope)
   expectations.add_function_ordered("scope::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("scope::foo2", 2)->call_was_made(1);
   cppmu::MockCallOrderFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock("scope").expect_one_call("foo1");
   mock("scope").expect_one_call("foo2");

@@ -12,30 +12,27 @@ using cppmu::mock;
 namespace {
 bool cppmu_has_crashed;
 
-void
-crash_method()
+void crash_method()
 {
   cppmu_has_crashed = true;
 }
 
-void
-unexpected_call_test_function(void)
+void unexpected_call_test_function(void)
 {
   mock().actual_call("unexpected");
 }
 
-void
-check_expected_mock_failure_location_failed_test_method()
+void check_expected_mock_failure_location_failed_test_method()
 {
   MockExpectedCallsListForTest::MockExpectedCallsList list;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      cppmu::TestShell::get_current(), "unexpected", list);
+      cppmu::TestShell::get_current(), "unexpected", list
+  );
   mock().actual_call("boo");
   check_expected_mock_failure_location(expected_failure, "file", 1);
 }
 
-void
-check_no_mock_failure_location_failed_test_method()
+void check_no_mock_failure_location_failed_test_method()
 {
   mock().actual_call("boo");
   check_no_mock_failure_location("file", 1);
@@ -130,7 +127,8 @@ TEST(MockSupport, setDataUnsignedLongInt)
   unsigned long int i = 100;
   mock().set_data("data", i);
   UNSIGNED_LONGS_EQUAL(
-      i, mock().get_data("data").get_unsigned_long_int_value());
+      i, mock().get_data("data").get_unsigned_long_int_value()
+  );
 }
 
 TEST(MockSupport, setDataPointer)
@@ -152,7 +150,8 @@ TEST(MockSupport, setDataFunctionPointer)
   auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().set_data("data", ptr);
   FUNCTIONPOINTERS_EQUAL(
-      ptr, mock().get_data("data").get_function_pointer_value());
+      ptr, mock().get_data("data").get_function_pointer_value()
+  );
 }
 
 TEST(MockSupport, setDataObject)
@@ -218,28 +217,34 @@ TEST_GROUP(MockSupportWithFixture)
 TEST(MockSupportWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 {
   mock().set_mock_failure_standard_reporter(
-      MockFailureReporterForTest::get_reporter());
+      MockFailureReporterForTest::get_reporter()
+  );
   fixture.set_test_function(
-      check_expected_mock_failure_location_failed_test_method);
+      check_expected_mock_failure_location_failed_test_method
+  );
   fixture.run_all_tests();
   fixture.assert_print_contains("MockFailures are different.");
   fixture.assert_print_contains("Expected MockFailure:");
   fixture.assert_print_contains(
-      "Mock Failure: Unexpected call to function: unexpected");
+      "Mock Failure: Unexpected call to function: unexpected"
+  );
   fixture.assert_print_contains("Actual MockFailure:");
   fixture.assert_print_contains(
-      "Mock Failure: Unexpected call to function: boo");
+      "Mock Failure: Unexpected call to function: boo"
+  );
 }
 
 TEST(MockSupportWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 {
   mock().set_mock_failure_standard_reporter(
-      MockFailureReporterForTest::get_reporter());
+      MockFailureReporterForTest::get_reporter()
+  );
   fixture.set_test_function(check_no_mock_failure_location_failed_test_method);
   fixture.run_all_tests();
   fixture.assert_print_contains("Unexpected mock failure:");
   fixture.assert_print_contains(
-      "Mock Failure: Unexpected call to function: boo");
+      "Mock Failure: Unexpected call to function: boo"
+  );
 }
 
 TEST(MockSupportWithFixture, shouldCrashOnFailure)
@@ -294,7 +299,8 @@ TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)
     fixture.assert_print_contains("Unexpected call to function: unexpected");
     fixture.assert_print_contains(
         "Errors (1 failures, 1 tests, 1 ran, 0 checks, "
-        "0 ignored, 0 filtered out");
+        "0 ignored, 0 filtered out"
+    );
     fixture.flush_output_and_reset_result();
   }
 }

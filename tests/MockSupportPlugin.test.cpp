@@ -47,14 +47,16 @@ TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      test, expectations);
+      test, expectations
+  );
 
   mock().expect_one_call("foobar");
 
   plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS(
-      expected_failure.get_message().c_str(), output.get_output().c_str());
+      expected_failure.get_message().c_str(), output.get_output().c_str()
+  );
   LONGS_EQUAL(0, mock().expected_calls_left());
   CHECK_NO_MOCK_FAILURE();
 }
@@ -67,7 +69,8 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   expectations.add_function("differentScope::foobar")
       ->on_object(reinterpret_cast<void*>(1));
   cppmu::MockExpectedObjectDidntHappenFailure expected_failure(
-      test, "differentScope::foobar", expectations);
+      test, "differentScope::foobar", expectations
+  );
 
   mock("differentScope")
       .expect_one_call("foobar")
@@ -77,7 +80,8 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS(
-      expected_failure.get_message().c_str(), output.get_output().c_str());
+      expected_failure.get_message().c_str(), output.get_output().c_str()
+  );
   CHECK_NO_MOCK_FAILURE();
 }
 
@@ -91,15 +95,15 @@ public:
   cppmu::String value_to_string(const void*) override { return "string"; }
 };
 
-TEST(MockSupportPlugin,
-    installComparatorRecordsTheComparatorButNotInstallsItYet)
+TEST(MockSupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
 {
   MockFailureReporterInstaller failure_reporter_installer;
 
   DummyComparator comparator;
   plugin.install_comparator("myType", comparator);
   mock().expect_one_call("foo").with_parameter_of_type(
-      "myType", "name", nullptr);
+      "myType", "name", nullptr
+  );
   mock().actual_call("foo").with_parameter_of_type("myType", "name", nullptr);
 
   cppmu::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
@@ -124,9 +128,11 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
   DummyCopier copier;
   plugin.install_copier("myType", copier);
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
-      "myType", "name", nullptr);
+      "myType", "name", nullptr
+  );
   mock().actual_call("foo").with_output_parameter_of_type(
-      "myType", "name", nullptr);
+      "myType", "name", nullptr
+  );
 
   cppmu::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
@@ -134,8 +140,7 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
   plugin.clear();
 }
 
-TEST(MockSupportPlugin,
-    preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
+TEST(MockSupportPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
 {
   DummyComparator comparator;
   DummyComparator comparator2;
@@ -144,13 +149,17 @@ TEST(MockSupportPlugin,
 
   plugin.pre_test_action(*test, *result);
   mock().expect_one_call("foo").with_parameter_of_type(
-      "myType", "name", &comparator);
+      "myType", "name", &comparator
+  );
   mock().expect_one_call("foo").with_parameter_of_type(
-      "myOtherType", "name", &comparator);
+      "myOtherType", "name", &comparator
+  );
   mock().actual_call("foo").with_parameter_of_type(
-      "myType", "name", &comparator);
+      "myType", "name", &comparator
+  );
   mock().actual_call("foo").with_parameter_of_type(
-      "myOtherType", "name", &comparator);
+      "myOtherType", "name", &comparator
+  );
 
   mock().check_expectations();
   LONGS_EQUAL(0, result->get_failure_count());
@@ -159,8 +168,7 @@ TEST(MockSupportPlugin,
 }
 
 namespace {
-void
-fail_twice_function()
+void fail_twice_function()
 {
   mock().expect_one_call("foobar");
   FAIL("This failed");

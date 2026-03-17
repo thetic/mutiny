@@ -16,9 +16,11 @@ public:
   static int run_all_tests(int argc, const char* const* argv);
   static int run_all_tests(int argc, char** argv);
 
-  CommandLineTestRunner(int argc,
+  CommandLineTestRunner(
+      int argc,
       const char* const* argv,
-      TestRegistry* registry);
+      TestRegistry* registry
+  );
   virtual ~CommandLineTestRunner();
 
   int run_all_tests_main();
@@ -27,8 +29,10 @@ protected:
   virtual TestOutput* create_team_city_output();
   virtual TestOutput* create_j_unit_output(const String& package_name);
   virtual TestOutput* create_console_output();
-  virtual TestOutput* create_composite_output(TestOutput* output_one,
-      TestOutput* output_two);
+  virtual TestOutput* create_composite_output(
+      TestOutput* output_one,
+      TestOutput* output_two
+  );
 
   TestOutput* output_{ nullptr };
 

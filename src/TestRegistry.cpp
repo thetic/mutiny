@@ -10,14 +10,12 @@ TestRegistry::TestRegistry()
 {
 }
 
-void
-TestRegistry::add_test(TestShell* test)
+void TestRegistry::add_test(TestShell* test)
 {
   tests_ = test->add_test(tests_);
 }
 
-void
-TestRegistry::run_all_tests(TestResult& result)
+void TestRegistry::run_all_tests(TestResult& result)
 {
   bool group_start = true;
 
@@ -47,8 +45,7 @@ TestRegistry::run_all_tests(TestResult& result)
   current_repetition_++;
 }
 
-void
-TestRegistry::list_test_group_names(TestResult& result)
+void TestRegistry::list_test_group_names(TestResult& result)
 {
   String group_list;
 
@@ -71,8 +68,7 @@ TestRegistry::list_test_group_names(TestResult& result)
   result.print(group_list.c_str());
 }
 
-void
-TestRegistry::list_test_group_and_case_names(TestResult& result)
+void TestRegistry::list_test_group_and_case_names(TestResult& result)
 {
   String group_and_name_list;
 
@@ -100,8 +96,7 @@ TestRegistry::list_test_group_and_case_names(TestResult& result)
   result.print(group_and_name_list.c_str());
 }
 
-void
-TestRegistry::list_test_locations(TestResult& result)
+void TestRegistry::list_test_locations(TestResult& result)
 {
   String test_locations;
 
@@ -122,8 +117,7 @@ TestRegistry::list_test_locations(TestResult& result)
   result.print(test_locations.c_str());
 }
 
-void
-TestRegistry::list_ordered_test_locations(TestResult& result)
+void TestRegistry::list_ordered_test_locations(TestResult& result)
 {
   String test_locations;
 
@@ -146,66 +140,58 @@ TestRegistry::list_ordered_test_locations(TestResult& result)
   result.print(test_locations.c_str());
 }
 
-bool
-TestRegistry::end_of_group(TestShell* test)
+bool TestRegistry::end_of_group(TestShell* test)
 {
-  return (!test || !test->get_next() ||
-          test->get_group() != test->get_next()->get_group());
+  return (
+      !test || !test->get_next() ||
+      test->get_group() != test->get_next()->get_group()
+  );
 }
 
-size_t
-TestRegistry::count_tests()
+size_t TestRegistry::count_tests()
 {
   return tests_ ? tests_->count_tests() : 0;
 }
 
 TestRegistry* TestRegistry::current_registry_ = nullptr;
 
-TestRegistry*
-TestRegistry::get_current_registry()
+TestRegistry* TestRegistry::get_current_registry()
 {
   static TestRegistry registry;
   return (current_registry_ == nullptr) ? &registry : current_registry_;
 }
 
-void
-TestRegistry::set_current_registry(TestRegistry* registry)
+void TestRegistry::set_current_registry(TestRegistry* registry)
 {
   current_registry_ = registry;
 }
 
-void
-TestRegistry::un_do_last_add_test()
+void TestRegistry::un_do_last_add_test()
 {
   tests_ = tests_ ? tests_->get_next() : nullptr;
 }
 
-void
-TestRegistry::set_name_filters(const TestFilter* filters)
+void TestRegistry::set_name_filters(const TestFilter* filters)
 {
   name_filters_ = filters;
 }
 
-void
-TestRegistry::set_group_filters(const TestFilter* filters)
+void TestRegistry::set_group_filters(const TestFilter* filters)
 {
   group_filters_ = filters;
 }
 
-void
-TestRegistry::set_run_ignored()
+void TestRegistry::set_run_ignored()
 {
   run_ignored_ = true;
 }
 
-int
-TestRegistry::get_current_repetition()
+int TestRegistry::get_current_repetition()
 {
   return current_repetition_;
 }
 
-bool
-TestRegistry::test_should_run(TestShell* test, TestResult& result)
+bool TestRegistry::test_should_run(TestShell* test, TestResult& result)
 {
   if (test->should_run(group_filters_, name_filters_))
     return true;
@@ -215,32 +201,27 @@ TestRegistry::test_should_run(TestShell* test, TestResult& result)
   }
 }
 
-void
-TestRegistry::reset_plugins()
+void TestRegistry::reset_plugins()
 {
   first_plugin_ = NullTestPlugin::instance();
 }
 
-void
-TestRegistry::install_plugin(TestPlugin* plugin)
+void TestRegistry::install_plugin(TestPlugin* plugin)
 {
   first_plugin_ = plugin->add_plugin(first_plugin_);
 }
 
-TestPlugin*
-TestRegistry::get_first_plugin()
+TestPlugin* TestRegistry::get_first_plugin()
 {
   return first_plugin_;
 }
 
-TestPlugin*
-TestRegistry::get_plugin_by_name(const String& name)
+TestPlugin* TestRegistry::get_plugin_by_name(const String& name)
 {
   return first_plugin_->get_plugin_by_name(name);
 }
 
-void
-TestRegistry::remove_plugin_by_name(const String& name)
+void TestRegistry::remove_plugin_by_name(const String& name)
 {
   first_plugin_->remove_plugin_by_name(name);
   if (first_plugin_->get_name() == name)
@@ -248,40 +229,35 @@ TestRegistry::remove_plugin_by_name(const String& name)
   first_plugin_->remove_plugin_by_name(name);
 }
 
-int
-TestRegistry::count_plugins()
+int TestRegistry::count_plugins()
 {
   int count = 0;
   for (TestPlugin* plugin = first_plugin_; plugin != NullTestPlugin::instance();
-      plugin = plugin->get_next())
+       plugin = plugin->get_next())
     count++;
   return count;
 }
 
-TestShell*
-TestRegistry::get_first_test()
+TestShell* TestRegistry::get_first_test()
 {
   return tests_;
 }
 
-void
-TestRegistry::shuffle_tests(size_t seed)
+void TestRegistry::shuffle_tests(size_t seed)
 {
   TestShellPointerArray array(get_first_test());
   array.shuffle(seed);
   tests_ = array.get_first_test();
 }
 
-void
-TestRegistry::reverse_tests()
+void TestRegistry::reverse_tests()
 {
   TestShellPointerArray array(get_first_test());
   array.reverse();
   tests_ = array.get_first_test();
 }
 
-TestShell*
-TestRegistry::get_test_with_next(TestShell* test)
+TestShell* TestRegistry::get_test_with_next(TestShell* test)
 {
   TestShell* current = tests_;
   while (current && current->get_next() != test)
@@ -289,8 +265,7 @@ TestRegistry::get_test_with_next(TestShell* test)
   return current;
 }
 
-TestShell*
-TestRegistry::find_test_with_name(const String& name)
+TestShell* TestRegistry::find_test_with_name(const String& name)
 {
   TestShell* current = tests_;
   while (current) {
@@ -301,8 +276,7 @@ TestRegistry::find_test_with_name(const String& name)
   return nullptr;
 }
 
-TestShell*
-TestRegistry::find_test_with_group(const String& group)
+TestShell* TestRegistry::find_test_with_group(const String& group)
 {
   TestShell* current = tests_;
   while (current) {

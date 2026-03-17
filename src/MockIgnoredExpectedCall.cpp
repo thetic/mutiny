@@ -2,8 +2,7 @@
 
 namespace cppmu {
 
-MockExpectedCall&
-MockIgnoredExpectedCall::instance()
+MockExpectedCall& MockIgnoredExpectedCall::instance()
 {
   static MockIgnoredExpectedCall call;
   return call;

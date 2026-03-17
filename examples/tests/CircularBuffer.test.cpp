@@ -152,7 +152,8 @@ TEST(CircularBuffer, PrintNotYetWrappedOrFull)
   buffer->put(3);
   buffer->print(&mock);
   STRCMP_EQUAL(
-      "Circular buffer content:\n<1, 2, 3>\n", mock.get_output().c_str());
+      "Circular buffer content:\n<1, 2, 3>\n", mock.get_output().c_str()
+  );
 }
 
 TEST(CircularBuffer, PrintNotYetWrappedAndIsFull)

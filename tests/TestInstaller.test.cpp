@@ -18,7 +18,8 @@ TEST_GROUP(TestInstaller)
     my_registry = new cppmu::TestRegistry();
     my_registry->set_current_registry(my_registry);
     test_installer = new cppmu::TestInstaller(
-        shell, "TestInstaller", "test", __FILE__, __LINE__);
+        shell, "TestInstaller", "test", __FILE__, __LINE__
+    );
   }
   void teardown() override
   {
@@ -29,6 +30,4 @@ TEST_GROUP(TestInstaller)
   }
 };
 
-TEST(TestInstaller, Create)
-{
-}
+TEST(TestInstaller, Create) {}

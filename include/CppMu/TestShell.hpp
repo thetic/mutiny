@@ -12,8 +12,7 @@ class TestPlugin;
 class TestFailure;
 class TestFilter;
 
-bool
-doubles_equal(double d1, double d2, double threshold);
+bool doubles_equal(double d1, double d2, double threshold);
 
 //////////////////// TestShell
 
@@ -32,18 +31,22 @@ public:
   static bool is_rethrowing_exceptions();
 
 public:
-  TestShell(const char* group_name,
+  TestShell(
+      const char* group_name,
       const char* test_name,
       const char* file_name,
-      size_t line_number);
+      size_t line_number
+  );
   virtual ~TestShell() = default;
 
   virtual TestShell* add_test(TestShell* test);
   virtual TestShell* get_next() const;
   virtual size_t count_tests();
 
-  bool should_run(const TestFilter* group_filters,
-      const TestFilter* name_filters) const;
+  bool should_run(
+      const TestFilter* group_filters,
+      const TestFilter* name_filters
+  ) const;
   const String get_name() const;
   const String get_group() const;
   virtual String get_formatted_name() const;
@@ -54,118 +57,155 @@ public:
   virtual bool is_ordered() const;
   void count_check();
 
-  virtual void assert_true(bool condition,
+  virtual void assert_true(
+      bool condition,
       const char* check_string,
       const char* condition_string,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_cstr_equal(const char* expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_cstr_equal(
+      const char* expected,
       const char* actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_cstr_n_equal(const char* expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_cstr_n_equal(
+      const char* expected,
       const char* actual,
       size_t length,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_cstr_contains(const char* expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_cstr_contains(
+      const char* expected,
       const char* actual,
       const char* text,
       const char* file_name,
-      size_t line_number);
-  virtual void assert_longs_equal(long expected,
+      size_t line_number
+  );
+  virtual void assert_longs_equal(
+      long expected,
       long actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_unsigned_longs_equal(unsigned long expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_unsigned_longs_equal(
+      unsigned long expected,
       unsigned long actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_long_longs_equal(long long expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_long_longs_equal(
+      long long expected,
       long long actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_unsigned_long_longs_equal(unsigned long long expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_unsigned_long_longs_equal(
+      unsigned long long expected,
       unsigned long long actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_signed_bytes_equal(signed char expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_signed_bytes_equal(
+      signed char expected,
       signed char actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_pointers_equal(const void* expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_pointers_equal(
+      const void* expected,
       const void* actual,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_function_pointers_equal(void (*expected)(),
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_function_pointers_equal(
+      void (*expected)(),
       void (*actual)(),
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_doubles_equal(double expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_doubles_equal(
+      double expected,
       double actual,
       double threshold,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_equals(bool failed,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_equals(
+      bool failed,
       const char* expected,
       const char* actual,
       const char* text,
       const char* file,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_equals(bool failed,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_equals(
+      bool failed,
       String expected,
       String actual,
       const char* text,
       const char* file,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_binary_equal(const void* expected,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_binary_equal(
+      const void* expected,
       const void* actual,
       size_t length,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void assert_compare(bool comparison,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void assert_compare(
+      bool comparison,
       const char* check_string,
       const char* comparison_string,
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
-  virtual void fail(const char* text,
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
+  virtual void fail(
+      const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator());
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
   virtual void exit_test(
-      const TestTerminator& test_terminator = get_current_test_terminator());
+      const TestTerminator& test_terminator = get_current_test_terminator()
+  );
 
-  virtual void print(const char* text,
+  virtual void print(
+      const char* text,
       const char* file_name,
-      size_t line_number);
+      size_t line_number
+  );
   virtual void print_very_verbose(const char* text);
 
   void set_file_name(const char* file_name);
@@ -183,8 +223,10 @@ public:
   virtual void destroy_test(class Test* test);
 
   virtual void run_one_test(TestPlugin* plugin, TestResult& result);
-  virtual void run_one_test_in_current_process(TestPlugin* plugin,
-      TestResult& result);
+  virtual void run_one_test_in_current_process(
+      TestPlugin* plugin,
+      TestResult& result
+  );
 
   virtual void add_failure(const TestFailure& failure);
   virtual void add_test_property(const char* name, const char* value);
@@ -231,45 +273,56 @@ public:
   CHECK_TRUE_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
 
 #define CHECK_TEXT(condition, text)                                            \
-  CHECK_TRUE_LOCATION(static_cast<bool>(condition),                            \
+  CHECK_TRUE_LOCATION(                                                         \
+      static_cast<bool>(condition),                                            \
       "CHECK",                                                                 \
       #condition,                                                              \
       text,                                                                    \
       __FILE__,                                                                \
-      __LINE__)
+      __LINE__                                                                 \
+  )
 
 #define CHECK_TRUE(condition)                                                  \
-  CHECK_TRUE_LOCATION(static_cast<bool>(condition),                            \
+  CHECK_TRUE_LOCATION(                                                         \
+      static_cast<bool>(condition),                                            \
       "CHECK_TRUE",                                                            \
       #condition,                                                              \
       "",                                                                      \
       __FILE__,                                                                \
-      __LINE__)
+      __LINE__                                                                 \
+  )
 
 #define CHECK_TRUE_TEXT(condition, text)                                       \
   CHECK_TRUE_LOCATION(                                                         \
-      condition, "CHECK_TRUE", #condition, text, __FILE__, __LINE__)
+      condition, "CHECK_TRUE", #condition, text, __FILE__, __LINE__            \
+  )
 
 #define CHECK_FALSE(condition)                                                 \
   CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, "", __FILE__, __LINE__)
+      condition, "CHECK_FALSE", #condition, "", __FILE__, __LINE__             \
+  )
 
 #define CHECK_FALSE_TEXT(condition, text)                                      \
   CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, text, __FILE__, __LINE__)
+      condition, "CHECK_FALSE", #condition, text, __FILE__, __LINE__           \
+  )
 
 #define CHECK_TRUE_LOCATION(                                                   \
-    condition, checkString, conditionString, text, file, line)                 \
+    condition, checkString, conditionString, text, file, line                  \
+)                                                                              \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_true(                              \
-        (condition), checkString, conditionString, text, file, line);          \
+        (condition), checkString, conditionString, text, file, line            \
+    );                                                                         \
   } while (0)
 
 #define CHECK_FALSE_LOCATION(                                                  \
-    condition, checkString, conditionString, text, file, line)                 \
+    condition, checkString, conditionString, text, file, line                  \
+)                                                                              \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_true(                              \
-        !(condition), checkString, conditionString, text, file, line);         \
+        !(condition), checkString, conditionString, text, file, line           \
+    );                                                                         \
   } while (0)
 
 // MSVC C4127: suppress "conditional expression is constant" for the
@@ -300,23 +353,28 @@ public:
             "multiple times resulting in different values.\n\tThus the value " \
             "in the error message is probably incorrect.",                     \
             file,                                                              \
-            line);                                                             \
+            line                                                               \
+        );                                                                     \
       if ((expected) != (expected))                                            \
         cppmu::TestShell::get_current()->print(                                \
             "WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated "   \
             "multiple times resulting in different values.\n\tThus the value " \
             "in the error message is probably incorrect.",                     \
             file,                                                              \
-            line);                                                             \
-      cppmu::TestShell::get_current()->assert_equals(true,                     \
+            line                                                               \
+        );                                                                     \
+      cppmu::TestShell::get_current()->assert_equals(                          \
+          true,                                                                \
           cppmu::string_from(expected).c_str(),                                \
           cppmu::string_from(actual).c_str(),                                  \
           text,                                                                \
           file,                                                                \
-          line);                                                               \
+          line                                                                 \
+      );                                                                       \
     } else {                                                                   \
       cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), "", file, line);         \
+          static_cast<long>(0), static_cast<long>(0), "", file, line           \
+      );                                                                       \
     }                                                                          \
   } while (0) CPPMU_SUPPRESS_C4127_POP
 
@@ -341,12 +399,14 @@ public:
       conditionString += #relop;                                               \
       conditionString += " ";                                                  \
       conditionString += cppmu::string_from(second);                           \
-      cppmu::TestShell::get_current()->assert_compare(false,                   \
+      cppmu::TestShell::get_current()->assert_compare(                         \
+          false,                                                               \
           "CHECK_COMPARE",                                                     \
           conditionString.c_str(),                                             \
           text,                                                                \
           __FILE__,                                                            \
-          __LINE__);                                                           \
+          __LINE__                                                             \
+      );                                                                       \
     }                                                                          \
   } while (0)
 
@@ -362,7 +422,8 @@ public:
 #define STRCMP_EQUAL_LOCATION(expected, actual, text, file, line)              \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_cstr_equal(                        \
-        expected, actual, text, file, line);                                   \
+        expected, actual, text, file, line                                     \
+    );                                                                         \
   } while (0)
 
 #define STRNCMP_EQUAL(expected, actual, length)                                \
@@ -374,7 +435,8 @@ public:
 #define STRNCMP_EQUAL_LOCATION(expected, actual, length, text, file, line)     \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_cstr_n_equal(                      \
-        expected, actual, length, text, file, line);                           \
+        expected, actual, length, text, file, line                             \
+    );                                                                         \
   } while (0)
 
 #define STRCMP_CONTAINS(expected, actual)                                      \
@@ -386,16 +448,19 @@ public:
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_cstr_contains(                     \
-        expected, actual, text, file, line);                                   \
+        expected, actual, text, file, line                                     \
+    );                                                                         \
   } while (0)
 
 // Check two long integers for equality
 #define LONGS_EQUAL(expected, actual)                                          \
-  LONGS_EQUAL_LOCATION((expected),                                             \
+  LONGS_EQUAL_LOCATION(                                                        \
+      (expected),                                                              \
       (actual),                                                                \
       "LONGS_EQUAL(" #expected ", " #actual ") failed",                        \
       __FILE__,                                                                \
-      __LINE__)
+      __LINE__                                                                 \
+  )
 
 #define LONGS_EQUAL_TEXT(expected, actual, text)                               \
   LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
@@ -413,7 +478,8 @@ public:
         static_cast<long>(actual),                                             \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 #define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)      \
@@ -423,7 +489,8 @@ public:
         static_cast<unsigned long>(actual),                                    \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 #define LONGLONGS_EQUAL(expected, actual)                                      \
@@ -445,7 +512,8 @@ public:
         static_cast<long long>(actual),                                        \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 #define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)  \
@@ -455,7 +523,8 @@ public:
         static_cast<unsigned long long>(actual),                               \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 #define BYTES_EQUAL(expected, actual)                                          \
@@ -470,7 +539,8 @@ public:
 #define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_signed_bytes_equal(                \
-        expected, actual, "", file, line);                                     \
+        expected, actual, "", file, line                                       \
+    );                                                                         \
   } while (0)
 
 #define SIGNED_BYTES_EQUAL_TEXT(expected, actual, text)                        \
@@ -479,7 +549,8 @@ public:
 #define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line)   \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_signed_bytes_equal(                \
-        expected, actual, text, file, line);                                   \
+        expected, actual, text, file, line                                     \
+    );                                                                         \
   } while (0)
 
 #define POINTERS_EQUAL(expected, actual)                                       \
@@ -495,7 +566,8 @@ public:
         static_cast<const void*>(actual),                                      \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 #define FUNCTIONPOINTERS_EQUAL(expected, actual)                               \
@@ -503,7 +575,8 @@ public:
 
 #define FUNCTIONPOINTERS_EQUAL_TEXT(expected, actual, text)                    \
   FUNCTIONPOINTERS_EQUAL_LOCATION(                                             \
-      (expected), (actual), text, __FILE__, __LINE__)
+      (expected), (actual), text, __FILE__, __LINE__                           \
+  )
 
 #define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)    \
   do {                                                                         \
@@ -512,7 +585,8 @@ public:
         reinterpret_cast<void (*)()>(actual),                                  \
         text,                                                                  \
         file,                                                                  \
-        line);                                                                 \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 // Check two doubles for equality within a tolerance threshold
@@ -525,7 +599,8 @@ public:
 #define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)  \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_doubles_equal(                     \
-        expected, actual, threshold, text, file, line);                        \
+        expected, actual, threshold, text, file, line                          \
+    );                                                                         \
   } while (0)
 
 #define MEMCMP_EQUAL(expected, actual, size)                                   \
@@ -537,7 +612,8 @@ public:
 #define MEMCMP_EQUAL_LOCATION(expected, actual, size, text, file, line)        \
   do {                                                                         \
     cppmu::TestShell::get_current()->assert_binary_equal(                      \
-        expected, actual, size, text, file, line);                             \
+        expected, actual, size, text, file, line                               \
+    );                                                                         \
   } while (0)
 
 #define ENUMS_EQUAL_INT(expected, actual)                                      \
@@ -548,29 +624,35 @@ public:
 
 #define ENUMS_EQUAL_TYPE(underlying_type, expected, actual)                    \
   ENUMS_EQUAL_TYPE_LOCATION(                                                   \
-      underlying_type, expected, actual, "", __FILE__, __LINE__)
+      underlying_type, expected, actual, "", __FILE__, __LINE__                \
+  )
 
 #define ENUMS_EQUAL_TYPE_TEXT(underlying_type, expected, actual, text)         \
   ENUMS_EQUAL_TYPE_LOCATION(                                                   \
-      underlying_type, expected, actual, text, __FILE__, __LINE__)
+      underlying_type, expected, actual, text, __FILE__, __LINE__              \
+  )
 
 #define ENUMS_EQUAL_TYPE_LOCATION(                                             \
-    underlying_type, expected, actual, text, file, line)                       \
+    underlying_type, expected, actual, text, file, line                        \
+)                                                                              \
   do {                                                                         \
     underlying_type expected_underlying_value =                                \
         static_cast<underlying_type>(expected);                                \
     underlying_type actual_underlying_value =                                  \
         static_cast<underlying_type>(actual);                                  \
     if (expected_underlying_value != actual_underlying_value) {                \
-      cppmu::TestShell::get_current()->assert_equals(true,                     \
+      cppmu::TestShell::get_current()->assert_equals(                          \
+          true,                                                                \
           cppmu::string_from(expected_underlying_value).c_str(),               \
           cppmu::string_from(actual_underlying_value).c_str(),                 \
           text,                                                                \
           file,                                                                \
-          line);                                                               \
+          line                                                                 \
+      );                                                                       \
     } else {                                                                   \
       cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), "", file, line);         \
+          static_cast<long>(0), static_cast<long>(0), "", file, line           \
+      );                                                                       \
     }                                                                          \
   } while (0)
 
@@ -601,7 +683,8 @@ public:
 #define CHECK_THROWS(expected, expression)                                     \
   do {                                                                         \
     cppmu::String failure_msg(                                                 \
-        "expected to throw " #expected "\nbut threw nothing");                 \
+        "expected to throw " #expected "\nbut threw nothing"                   \
+    );                                                                         \
     bool caught_expected = false;                                              \
     try {                                                                      \
       (expression);                                                            \
@@ -613,7 +696,8 @@ public:
     }                                                                          \
     if (!caught_expected) {                                                    \
       cppmu::TestShell::get_current()->fail(                                   \
-          failure_msg.c_str(), __FILE__, __LINE__);                            \
+          failure_msg.c_str(), __FILE__, __LINE__                              \
+      );                                                                       \
     } else {                                                                   \
       cppmu::TestShell::get_current()->count_check();                          \
     }                                                                          \

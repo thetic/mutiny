@@ -39,7 +39,8 @@ TEST(MockCheckedActualCall, unExpectedCall)
   actual_call.with_name("unexpected");
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "unexpected", *list);
+      mock_failure_test(), "unexpected", *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -49,7 +50,8 @@ TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
   actual_call.with_name("unexpected").with_parameter("bar", 0);
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "unexpected", *list);
+      mock_failure_test(), "unexpected", *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -59,7 +61,8 @@ TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
   actual_call.with_name("unexpected").with_output_parameter("bar", nullptr);
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "unexpected", *list);
+      mock_failure_test(), "unexpected", *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -71,21 +74,23 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
   actual_call.with_name("unexpected").on_object(&object);
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "unexpected", *list);
+      mock_failure_test(), "unexpected", *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 
-  CHECK(actual_call
-          .has_failed()); // Checks that onObject() doesn't "reset" call state
+  CHECK(
+      actual_call.has_failed()
+  ); // Checks that onObject() doesn't "reset" call state
 }
 
-TEST(MockCheckedActualCall,
-    actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
+TEST(MockCheckedActualCall, actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
   cppmu::MockCheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("noreturn").with_call_order(0).return_value();
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "noreturn", *list);
+      mock_failure_test(), "noreturn", *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -102,7 +107,8 @@ TEST(MockCheckedActualCall, unExpectedParameterName)
   parameter.set_value(1);
 
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "func", parameter, *list);
+      mock_failure_test(), "func", parameter, *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -158,16 +164,24 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());
-  CHECK(reinterpret_cast<void*>(0x2) ==
-        actual.return_pointer_value_or_default(reinterpret_cast<void*>(0x2)));
+  CHECK(
+      reinterpret_cast<void*>(0x2) ==
+      actual.return_pointer_value_or_default(reinterpret_cast<void*>(0x2))
+  );
   CHECK(nullptr == actual.return_const_pointer_value());
-  CHECK(reinterpret_cast<const void*>(0x2) ==
-        actual.return_const_pointer_value_or_default(
-            reinterpret_cast<const void*>(0x2)));
+  CHECK(
+      reinterpret_cast<const void*>(0x2) ==
+      actual.return_const_pointer_value_or_default(
+          reinterpret_cast<const void*>(0x2)
+      )
+  );
   CHECK(nullptr == actual.return_function_pointer_value());
-  CHECK(reinterpret_cast<void (*)()>(1) ==
-        actual.return_function_pointer_value_or_default(
-            reinterpret_cast<void (*)()>(0x1)));
+  CHECK(
+      reinterpret_cast<void (*)()>(1) ==
+      actual.return_function_pointer_value_or_default(
+          reinterpret_cast<void (*)()>(0x1)
+      )
+  );
   CHECK_FALSE(actual.has_return_value());
   CHECK(actual.return_value().equals(cppmu::MockNamedValue("")));
 }
@@ -185,19 +199,24 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 
   actual.with_bool_parameter("bool", true);
   actual.with_unsigned_int_parameter(
-      "unsigned_int", static_cast<unsigned int>(1));
+      "unsigned_int", static_cast<unsigned int>(1)
+  );
   actual.with_unsigned_long_int_parameter(
-      "unsigned_long", static_cast<unsigned long>(1));
+      "unsigned_long", static_cast<unsigned long>(1)
+  );
   actual.with_long_int_parameter("long_int", static_cast<long int>(1));
   actual.with_long_long_int_parameter(
-      "long_long_int", static_cast<long long int>(1));
+      "long_long_int", static_cast<long long int>(1)
+  );
   actual.with_unsigned_long_long_int_parameter(
-      "unsigned_long_long_int", static_cast<unsigned long long int>(1));
+      "unsigned_long_long_int", static_cast<unsigned long long int>(1)
+  );
   actual.with_pointer_parameter("pointer", &value);
   actual.with_const_pointer_parameter("const_pointer", &const_value);
   actual.with_function_pointer_parameter("function_pointer", function_value);
   actual.with_memory_buffer_parameter(
-      "mem_buffer", mem_buffer, sizeof(mem_buffer));
+      "mem_buffer", mem_buffer, sizeof(mem_buffer)
+  );
   actual.with_parameter_of_type("int", "named_type", &const_value);
 
   cppmu::String expected_string("\nFunction name:func");
@@ -243,14 +262,22 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());
-  CHECK(nullptr ==
-        actual.return_pointer_value_or_default(static_cast<void*>(nullptr)));
+  CHECK(
+      nullptr ==
+      actual.return_pointer_value_or_default(static_cast<void*>(nullptr))
+  );
   CHECK(nullptr == actual.return_const_pointer_value());
-  CHECK(nullptr == actual.return_const_pointer_value_or_default(
-                       static_cast<const void*>(nullptr)));
+  CHECK(
+      nullptr == actual.return_const_pointer_value_or_default(
+                     static_cast<const void*>(nullptr)
+                 )
+  );
   CHECK(nullptr == actual.return_function_pointer_value());
-  CHECK(nullptr == actual.return_function_pointer_value_or_default(
-                       static_cast<void (*)()>(nullptr)));
+  CHECK(
+      nullptr == actual.return_function_pointer_value_or_default(
+                     static_cast<void (*)()>(nullptr)
+                 )
+  );
 }
 
 TEST(MockCheckedActualCall, MockActualCallTraceClear)
@@ -271,12 +298,14 @@ TEST(MockCheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
   cppmu::String name("mem");
   cppmu::MockCheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_memory_buffer_parameter(
-      name, buf, sizeof(buf));
+      name, buf, sizeof(buf)
+  );
 
   cppmu::MockNamedValue parameter(name);
   parameter.set_memory_buffer(buf, sizeof(buf));
   cppmu::MockUnexpectedInputParameterFailure expected_failure(
-      mock_failure_test(), "func", parameter, *list);
+      mock_failure_test(), "func", parameter, *list
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -291,9 +320,11 @@ TEST(MockCheckedActualCall, noComparatorForParameterOfTypeStringOverload)
   cppmu::String param_name("param");
   cppmu::MockCheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_parameter_of_type(
-      type_name, param_name, &value);
+      type_name, param_name, &value
+  );
 
   cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
-      mock_failure_test(), type_name);
+      mock_failure_test(), type_name
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }

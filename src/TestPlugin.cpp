@@ -18,37 +18,36 @@ TestPlugin::TestPlugin(TestPlugin* next)
 {
 }
 
-TestPlugin*
-TestPlugin::add_plugin(TestPlugin* plugin)
+TestPlugin* TestPlugin::add_plugin(TestPlugin* plugin)
 {
   next_ = plugin;
   return this;
 }
 
-void
-TestPlugin::run_all_pre_test_action(TestShell& test, TestResult& result)
+void TestPlugin::run_all_pre_test_action(TestShell& test, TestResult& result)
 {
   if (enabled_)
     pre_test_action(test, result);
   next_->run_all_pre_test_action(test, result);
 }
 
-void
-TestPlugin::run_all_post_test_action(TestShell& test, TestResult& result)
+void TestPlugin::run_all_post_test_action(TestShell& test, TestResult& result)
 {
   next_->run_all_post_test_action(test, result);
   if (enabled_)
     post_test_action(test, result);
 }
 
-bool
-TestPlugin::parse_all_arguments(int argc, char** argv, int index)
+bool TestPlugin::parse_all_arguments(int argc, char** argv, int index)
 {
   return parse_all_arguments(argc, const_cast<const char* const*>(argv), index);
 }
 
-bool
-TestPlugin::parse_all_arguments(int argc, const char* const* argv, int index)
+bool TestPlugin::parse_all_arguments(
+    int argc,
+    const char* const* argv,
+    int index
+)
 {
   if (parse_arguments(argc, argv, index))
     return true;
@@ -57,14 +56,12 @@ TestPlugin::parse_all_arguments(int argc, const char* const* argv, int index)
   return false;
 }
 
-const String&
-TestPlugin::get_name()
+const String& TestPlugin::get_name()
 {
   return name_;
 }
 
-TestPlugin*
-TestPlugin::get_plugin_by_name(const String& name)
+TestPlugin* TestPlugin::get_plugin_by_name(const String& name)
 {
   if (name == name_)
     return this;
@@ -73,13 +70,11 @@ TestPlugin::get_plugin_by_name(const String& name)
   return (next_);
 }
 
-TestPlugin*
-TestPlugin::get_next()
+TestPlugin* TestPlugin::get_next()
 {
   return next_;
 }
-TestPlugin*
-TestPlugin::remove_plugin_by_name(const String& name)
+TestPlugin* TestPlugin::remove_plugin_by_name(const String& name)
 {
   TestPlugin* removed = nullptr;
   if (next_ && next_->get_name() == name) {
@@ -89,20 +84,17 @@ TestPlugin::remove_plugin_by_name(const String& name)
   return removed;
 }
 
-void
-TestPlugin::disable()
+void TestPlugin::disable()
 {
   enabled_ = false;
 }
 
-void
-TestPlugin::enable()
+void TestPlugin::enable()
 {
   enabled_ = true;
 }
 
-bool
-TestPlugin::is_enabled()
+bool TestPlugin::is_enabled()
 {
   return enabled_;
 }
@@ -114,21 +106,14 @@ NullTestPlugin::NullTestPlugin()
 {
 }
 
-NullTestPlugin*
-NullTestPlugin::instance()
+NullTestPlugin* NullTestPlugin::instance()
 {
   static NullTestPlugin instance;
   return &instance;
 }
 
-void
-NullTestPlugin::run_all_pre_test_action(TestShell&, TestResult&)
-{
-}
+void NullTestPlugin::run_all_pre_test_action(TestShell&, TestResult&) {}
 
-void
-NullTestPlugin::run_all_post_test_action(TestShell&, TestResult&)
-{
-}
+void NullTestPlugin::run_all_post_test_action(TestShell&, TestResult&) {}
 
 } // namespace cppmu

@@ -4,14 +4,12 @@
 #include "CppMu/IgnoredTestShell.hpp"
 
 namespace {
-int
-get_zero()
+int get_zero()
 {
   return 0;
 }
 
-int
-get_one()
+int get_one()
 {
   return 1;
 }

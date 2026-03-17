@@ -29,8 +29,7 @@ TestShellPointerArray::~TestShellPointerArray()
   delete[] array_of_tests_;
 }
 
-void
-TestShellPointerArray::swap(size_t index1, size_t index2)
+void TestShellPointerArray::swap(size_t index1, size_t index2)
 {
   TestShell* e2 = array_of_tests_[index2];
   TestShell* e1 = array_of_tests_[index1];
@@ -38,8 +37,7 @@ TestShellPointerArray::swap(size_t index1, size_t index2)
   array_of_tests_[index2] = e1;
 }
 
-void
-TestShellPointerArray::shuffle(size_t seed)
+void TestShellPointerArray::shuffle(size_t seed)
 {
   if (count_ == 0)
     return;
@@ -58,8 +56,7 @@ TestShellPointerArray::shuffle(size_t seed)
   relink_tests_in_order();
 }
 
-void
-TestShellPointerArray::reverse()
+void TestShellPointerArray::reverse()
 {
   if (count_ == 0)
     return;
@@ -72,22 +69,19 @@ TestShellPointerArray::reverse()
   relink_tests_in_order();
 }
 
-void
-TestShellPointerArray::relink_tests_in_order()
+void TestShellPointerArray::relink_tests_in_order()
 {
   TestShell* tests = nullptr;
   for (size_t i = 0; i < count_; i++)
     tests = array_of_tests_[count_ - i - 1]->add_test(tests);
 }
 
-TestShell*
-TestShellPointerArray::get_first_test() const
+TestShell* TestShellPointerArray::get_first_test() const
 {
   return get(0);
 }
 
-TestShell*
-TestShellPointerArray::get(size_t index) const
+TestShell* TestShellPointerArray::get(size_t index) const
 {
   if (index >= count_)
     return nullptr;

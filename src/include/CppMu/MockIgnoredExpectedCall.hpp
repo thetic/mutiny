@@ -22,28 +22,38 @@ public:
   {
     return *this;
   }
-  MockExpectedCall& with_unsigned_int_parameter(const cppmu::String&,
-      unsigned int) override
+  MockExpectedCall& with_unsigned_int_parameter(
+      const cppmu::String&,
+      unsigned int
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_long_int_parameter(const cppmu::String&,
-      long int) override
+  MockExpectedCall& with_long_int_parameter(
+      const cppmu::String&,
+      long int
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_unsigned_long_int_parameter(const cppmu::String&,
-      unsigned long int) override
+  MockExpectedCall& with_unsigned_long_int_parameter(
+      const cppmu::String&,
+      unsigned long int
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_long_long_int_parameter(const cppmu::String&,
-      long long) override
+  MockExpectedCall& with_long_long_int_parameter(
+      const cppmu::String&,
+      long long
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_unsigned_long_long_int_parameter(const cppmu::String&,
-      unsigned long long) override
+  MockExpectedCall& with_unsigned_long_long_int_parameter(
+      const cppmu::String&,
+      unsigned long long
+  ) override
   {
     return *this;
   }
@@ -51,14 +61,18 @@ public:
   {
     return *this;
   }
-  MockExpectedCall& with_double_parameter(const cppmu::String&,
+  MockExpectedCall& with_double_parameter(
+      const cppmu::String&,
       double,
-      double) override
+      double
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_string_parameter(const cppmu::String&,
-      const char*) override
+  MockExpectedCall& with_string_parameter(
+      const cppmu::String&,
+      const char*
+  ) override
   {
     return *this;
   }
@@ -66,43 +80,55 @@ public:
   {
     return *this;
   }
-  MockExpectedCall& with_const_pointer_parameter(const cppmu::String&,
-      const void*) override
-  {
-    return *this;
-  }
-  MockExpectedCall& with_function_pointer_parameter(const cppmu::String&,
-      void (*)()) override
-  {
-    return *this;
-  }
-  MockExpectedCall& with_memory_buffer_parameter(const cppmu::String&,
-      const unsigned char*,
-      size_t) override
-  {
-    return *this;
-  }
-  MockExpectedCall& with_parameter_of_type(const cppmu::String&,
+  MockExpectedCall& with_const_pointer_parameter(
       const cppmu::String&,
-      const void*) override
+      const void*
+  ) override
   {
     return *this;
   }
-  MockExpectedCall& with_output_parameter_returning(const cppmu::String&,
+  MockExpectedCall& with_function_pointer_parameter(
+      const cppmu::String&,
+      void (*)()
+  ) override
+  {
+    return *this;
+  }
+  MockExpectedCall& with_memory_buffer_parameter(
+      const cppmu::String&,
+      const unsigned char*,
+      size_t
+  ) override
+  {
+    return *this;
+  }
+  MockExpectedCall& with_parameter_of_type(
+      const cppmu::String&,
+      const cppmu::String&,
+      const void*
+  ) override
+  {
+    return *this;
+  }
+  MockExpectedCall& with_output_parameter_returning(
+      const cppmu::String&,
       const void*,
-      size_t) override
+      size_t
+  ) override
   {
     return *this;
   }
   MockExpectedCall& with_output_parameter_of_type_returning(
       const cppmu::String&,
       const cppmu::String&,
-      const void*) override
+      const void*
+  ) override
   {
     return *this;
   }
   MockExpectedCall& with_unmodified_output_parameter(
-      const cppmu::String&) override
+      const cppmu::String&
+  ) override
   {
     return *this;
   }

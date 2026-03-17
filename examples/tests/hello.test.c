@@ -5,8 +5,7 @@
 static const char* output_ptr;
 static int (*saved_print)(const char*, ...);
 
-static int
-capture_output(const char* format, ...)
+static int capture_output(const char* format, ...)
 {
   output_ptr = format;
   return 1;

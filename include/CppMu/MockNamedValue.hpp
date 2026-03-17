@@ -37,8 +37,10 @@ public:
   virtual void set_value(void (*value)());
   virtual void set_value(const char* value);
   virtual void set_memory_buffer(const unsigned char* value, size_t size);
-  virtual void set_const_object_pointer(const cppmu::String& type,
-      const void* object_ptr);
+  virtual void set_const_object_pointer(
+      const cppmu::String& type,
+      const void* object_ptr
+  );
   virtual void set_object_pointer(const cppmu::String& type, void* object_ptr);
   virtual void set_size(size_t size);
 
@@ -75,7 +77,8 @@ public:
   virtual MockNamedValueCopier* get_copier() const;
 
   static void set_default_comparators_and_copiers_repository(
-      MockNamedValueComparatorsAndCopiersRepository* repository);
+      MockNamedValueComparatorsAndCopiersRepository* repository
+  );
   static MockNamedValueComparatorsAndCopiersRepository*
   get_default_comparators_and_copiers_repository();
 

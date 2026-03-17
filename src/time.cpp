@@ -10,8 +10,7 @@
 
 namespace {
 
-unsigned long
-get_time_in_millis_impl()
+unsigned long get_time_in_millis_impl()
 {
 #if defined(_WIN32)
   static LARGE_INTEGER s_frequency;
@@ -20,7 +19,8 @@ get_time_in_millis_impl()
     LARGE_INTEGER now;
     QueryPerformanceCounter(&now);
     return static_cast<unsigned long>(
-        now.QuadPart * 1000 / s_frequency.QuadPart);
+        now.QuadPart * 1000 / s_frequency.QuadPart
+    );
   } else {
     return static_cast<unsigned long>(GetTickCount64());
   }
@@ -35,8 +35,7 @@ get_time_in_millis_impl()
 #endif
 }
 
-const char*
-get_time_string_impl()
+const char* get_time_string_impl()
 {
   time_t the_time = time(nullptr);
   static char date_time[80];

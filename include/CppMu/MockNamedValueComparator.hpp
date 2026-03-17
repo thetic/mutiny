@@ -26,8 +26,10 @@ public:
   using IsEqualFunction = bool (*)(const void*, const void*);
   using ValueToStringFunction = cppmu::String (*)(const void*);
 
-  MockFunctionComparator(IsEqualFunction equal,
-      ValueToStringFunction val_to_string)
+  MockFunctionComparator(
+      IsEqualFunction equal,
+      ValueToStringFunction val_to_string
+  )
     : equal_(equal)
     , value_to_string_(val_to_string)
   {

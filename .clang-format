@@ -1,7 +1,10 @@
 ---
 BasedOnStyle: Mozilla
-AlignAfterOpenBracket: DontAlign
+AlignAfterOpenBracket: BlockIndent
 ContinuationIndentWidth: 4
+BreakAfterReturnType: None
+AlwaysBreakAfterDefinitionReturnType: None
+PenaltyReturnTypeOnItsOwnLine: 10000
 Standard: Cpp11
 SortIncludes: CaseSensitive
 IncludeBlocks: Regroup

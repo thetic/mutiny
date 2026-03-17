@@ -45,8 +45,7 @@ TEST(MockHierarchy, EnableDisableWorkHierarchically)
   mock("first").clear();
 }
 
-TEST(MockHierarchy,
-    EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreated)
+TEST(MockHierarchy, EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreated)
 {
   mock().disable();
   mock("first").expect_one_call("boo");
@@ -75,7 +74,8 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchically)
   expectations.add_function("first::foobar");
   expectations.add_function("second::helloworld");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock("first").expect_one_call("foobar");
   mock("second").expect_one_call("helloworld");
@@ -108,7 +108,8 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("first::foobar")->with_parameter("boo", 1);
   cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "first::foobar", expectations, expectations);
+      mock_failure_test(), "first::foobar", expectations, expectations
+  );
 
   mock("first").expect_one_call("foobar").with_parameter("boo", 1);
   mock("first").actual_call("foobar");
@@ -125,6 +126,7 @@ TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
   mock("differentScope").actual_call("foobar");
 
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "differentScope::foobar", expectations);
+      mock_failure_test(), "differentScope::foobar", expectations
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }

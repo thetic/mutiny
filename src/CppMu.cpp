@@ -2,28 +2,32 @@
 
 #include "CppMu/TestShell.hpp"
 
-void
-check_equal_c_bool_location(int expected,
+void check_equal_c_bool_location(
+    int expected,
     int actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_equals(!!expected != !!actual,
+  cppmu::TestShell::get_current()->assert_equals(
+      !!expected != !!actual,
       expected ? "true" : "false",
       actual ? "true" : "false",
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_int_location(int expected,
+void check_equal_c_int_location(
+    int expected,
     int actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
   cppmu::TestShell::get_current()->assert_longs_equal(
       static_cast<long>(expected),
@@ -31,15 +35,17 @@ check_equal_c_int_location(int expected,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_uint_location(unsigned int expected,
+void check_equal_c_uint_location(
+    unsigned int expected,
     unsigned int actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
   cppmu::TestShell::get_current()->assert_unsigned_longs_equal(
       static_cast<unsigned long>(expected),
@@ -47,219 +53,259 @@ check_equal_c_uint_location(unsigned int expected,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_long_location(long expected,
+void check_equal_c_long_location(
+    long expected,
     long actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_longs_equal(expected,
+  cppmu::TestShell::get_current()->assert_longs_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_ulong_location(unsigned long expected,
+void check_equal_c_ulong_location(
+    unsigned long expected,
     unsigned long actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_unsigned_longs_equal(expected,
+  cppmu::TestShell::get_current()->assert_unsigned_longs_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_longlong_location(long long expected,
+void check_equal_c_longlong_location(
+    long long expected,
     long long actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_long_longs_equal(expected,
+  cppmu::TestShell::get_current()->assert_long_longs_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_ulonglong_location(unsigned long long expected,
+void check_equal_c_ulonglong_location(
+    unsigned long long expected,
     unsigned long long actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_unsigned_long_longs_equal(expected,
+  cppmu::TestShell::get_current()->assert_unsigned_long_longs_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_real_location(double expected,
+void check_equal_c_real_location(
+    double expected,
     double actual,
     double threshold,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_doubles_equal(expected,
+  cppmu::TestShell::get_current()->assert_doubles_equal(
+      expected,
       actual,
       threshold,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_char_location(char expected,
+void check_equal_c_char_location(
+    char expected,
     char actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_equals(((expected) != (actual)),
+  cppmu::TestShell::get_current()->assert_equals(
+      ((expected) != (actual)),
       cppmu::string_from(expected),
       cppmu::string_from(actual),
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_ubyte_location(unsigned char expected,
+void check_equal_c_ubyte_location(
+    unsigned char expected,
     unsigned char actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_equals(((expected) != (actual)),
+  cppmu::TestShell::get_current()->assert_equals(
+      ((expected) != (actual)),
       cppmu::string_from(static_cast<int>(expected)),
       cppmu::string_from(static_cast<int>(actual)),
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_sbyte_location(char signed expected,
+void check_equal_c_sbyte_location(
+    char signed expected,
     signed char actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_equals(((expected) != (actual)),
+  cppmu::TestShell::get_current()->assert_equals(
+      ((expected) != (actual)),
       cppmu::string_from(static_cast<int>(expected)),
       cppmu::string_from(static_cast<int>(actual)),
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_string_location(const char* expected,
+void check_equal_c_string_location(
+    const char* expected,
     const char* actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_cstr_equal(expected,
+  cppmu::TestShell::get_current()->assert_cstr_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_pointer_location(const void* expected,
+void check_equal_c_pointer_location(
+    const void* expected,
     const void* actual,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_pointers_equal(expected,
+  cppmu::TestShell::get_current()->assert_pointers_equal(
+      expected,
       actual,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_equal_c_memcmp_location(const void* expected,
+void check_equal_c_memcmp_location(
+    const void* expected,
     const void* actual,
     size_t size,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_binary_equal(expected,
+  cppmu::TestShell::get_current()->assert_binary_equal(
+      expected,
       actual,
       size,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-fail_text_c_location(const char* text,
+void fail_text_c_location(
+    const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->fail(text,
+  cppmu::TestShell::get_current()->fail(
+      text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-fail_c_location(const char* file_name, size_t line_number)
+void fail_c_location(const char* file_name, size_t line_number)
 {
-  cppmu::TestShell::get_current()->fail("",
+  cppmu::TestShell::get_current()->fail(
+      "",
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-check_c_location(int condition,
+void check_c_location(
+    int condition,
     const char* condition_string,
     const char* text,
     const char* file_name,
-    size_t line_number)
+    size_t line_number
+)
 {
-  cppmu::TestShell::get_current()->assert_true(condition != 0,
+  cppmu::TestShell::get_current()->assert_true(
+      condition != 0,
       "CHECK",
       condition_string,
       text,
       file_name,
       line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions());
+      cppmu::TestShell::get_current_test_terminator_without_exceptions()
+  );
 }
 
-void
-add_test_property_c(const char* name, const char* value)
+void add_test_property_c(const char* name, const char* value)
 {
   cppmu::TestShell::get_current()->add_test_property(name, value);
 }

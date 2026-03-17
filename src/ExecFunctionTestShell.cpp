@@ -9,8 +9,7 @@ ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(void (*fn)())
 {
 }
 
-void
-ExecFunctionWithoutParameters::exec()
+void ExecFunctionWithoutParameters::exec()
 {
   if (test_function)
     test_function();
@@ -23,22 +22,19 @@ ExecFunctionTest::ExecFunctionTest(ExecFunctionTestShell* shell)
 {
 }
 
-void
-ExecFunctionTest::test_body()
+void ExecFunctionTest::test_body()
 {
   if (shell_->test_function)
     shell_->test_function->exec();
 }
 
-void
-ExecFunctionTest::setup()
+void ExecFunctionTest::setup()
 {
   if (shell_->setup)
     shell_->setup();
 }
 
-void
-ExecFunctionTest::teardown()
+void ExecFunctionTest::teardown()
 {
   if (shell_->teardown)
     shell_->teardown();

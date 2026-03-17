@@ -17,10 +17,14 @@ public:
   void pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override;
   void post_test_action(cppmu::TestShell&, cppmu::TestResult&) override;
 
-  virtual void install_comparator(const cppmu::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void install_copier(const cppmu::String& name,
-      MockNamedValueCopier& copier);
+  virtual void install_comparator(
+      const cppmu::String& name,
+      MockNamedValueComparator& comparator
+  );
+  virtual void install_copier(
+      const cppmu::String& name,
+      MockNamedValueCopier& copier
+  );
 
   void clear();
 

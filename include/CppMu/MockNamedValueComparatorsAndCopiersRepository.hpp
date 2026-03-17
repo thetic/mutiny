@@ -21,14 +21,20 @@ public:
   MockNamedValueComparatorsAndCopiersRepository() = default;
   virtual ~MockNamedValueComparatorsAndCopiersRepository();
 
-  virtual void install_comparator(const cppmu::String& name,
-      MockNamedValueComparator& comparator);
-  virtual void install_copier(const cppmu::String& name,
-      MockNamedValueCopier& copier);
+  virtual void install_comparator(
+      const cppmu::String& name,
+      MockNamedValueComparator& comparator
+  );
+  virtual void install_copier(
+      const cppmu::String& name,
+      MockNamedValueCopier& copier
+  );
   virtual void install_comparators_and_copiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
+      const MockNamedValueComparatorsAndCopiersRepository& repository
+  );
   virtual MockNamedValueComparator* get_comparator_for_type(
-      const cppmu::String& name);
+      const cppmu::String& name
+  );
   virtual MockNamedValueCopier* get_copier_for_type(const cppmu::String& name);
 
   void clear();

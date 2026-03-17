@@ -1,14 +1,12 @@
 #include "CppMu/CppMu.h"
 #include "CppMu/MockSupport.h"
 
-static int
-equal_method(const void* object1, const void* object2)
+static int equal_method(const void* object1, const void* object2)
 {
   return object1 == object2;
 }
 
-static const char*
-to_string_method(const void* object)
+static const char* to_string_method(const void* object)
 {
   (void)object;
   return "string";
@@ -31,9 +29,11 @@ TEST(MockDocumentation_C, CInterface)
 
   mock()->install_comparator("type", equal_method, to_string_method);
   mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
-      "type", "name", object);
+      "type", "name", object
+  );
   mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
-      "type", "name", object);
+      "type", "name", object
+  );
   mock()->remove_all_comparators_and_copiers();
 
   mock()->set_int_data("important", 10);

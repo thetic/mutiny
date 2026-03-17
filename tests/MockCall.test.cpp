@@ -71,7 +71,8 @@ TEST(MockCall, checkExpectationsClearsTheExpectations)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().expect_one_call("foobar");
   mock().check_expectations();
@@ -88,7 +89,8 @@ TEST(MockCall, expectOneCallInScopeButNotHappen)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("scope::foobar");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock("scope").expect_one_call("foobar");
   mock().check_expectations();
@@ -102,7 +104,8 @@ TEST(MockCall, unexpectedCallHappened)
 
   MockExpectedCallsListForTest empty_expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "func", empty_expectations);
+      mock_failure_test(), "func", empty_expectations
+  );
 
   mock().actual_call("func");
 
@@ -115,7 +118,8 @@ TEST(MockCall, unexpectedScopeCallHappened)
 
   MockExpectedCallsListForTest empty_expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "scope::func", empty_expectations);
+      mock_failure_test(), "scope::func", empty_expectations
+  );
 
   mock("scope").actual_call("func");
 
@@ -128,7 +132,8 @@ TEST(MockCall, expectOneCallInOneScopeButActualCallInAnotherScope)
 
   MockExpectedCallsListForTest empty_expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "class::foo", empty_expectations);
+      mock_failure_test(), "class::foo", empty_expectations
+  );
 
   mock("scope").expect_one_call("foo");
   mock("class").actual_call("foo");
@@ -143,7 +148,8 @@ TEST(MockCall, expectOneCallInScopeButActualCallInGlobal)
 
   MockExpectedCallsListForTest empty_expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "foo", empty_expectations);
+      mock_failure_test(), "foo", empty_expectations
+  );
 
   mock("scope").expect_one_call("foo");
   mock().actual_call("foo");
@@ -169,7 +175,8 @@ TEST(MockCall, expectOneCallHoweverMultipleHappened)
   expectations.add_function("foo")->call_was_made(1);
   expectations.add_function("foo")->call_was_made(2);
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "foo", expectations);
+      mock_failure_test(), "foo", expectations
+  );
 
   mock().expect_one_call("foo");
   mock().expect_one_call("foo");
@@ -187,7 +194,8 @@ TEST(MockCall, expectNoCallThatHappened)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "lazy", expectations);
+      mock_failure_test(), "lazy", expectations
+  );
 
   mock().expect_no_call("lazy");
   mock().actual_call("lazy");
@@ -203,7 +211,8 @@ TEST(MockCall, expectNoCallDoesntInfluenceExpectOneCall)
   expectations.add_function(0, "lazy");
   expectations.add_function("influence")->call_was_made(1);
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "lazy", expectations);
+      mock_failure_test(), "lazy", expectations
+  );
 
   mock().expect_no_call("lazy");
   mock().expect_one_call("influence");
@@ -220,7 +229,8 @@ TEST(MockCall, expectNoCallOnlyFailureOnceWhenMultipleHappened)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "lazy", expectations);
+      mock_failure_test(), "lazy", expectations
+  );
 
   mock().expect_no_call("lazy");
   mock().actual_call("lazy");
@@ -235,7 +245,8 @@ TEST(MockCall, ignoreOtherCallsExceptForTheUnExpectedOne)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "lazy");
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "lazy", expectations);
+      mock_failure_test(), "lazy", expectations
+  );
 
   mock().expect_no_call("lazy");
   mock().ignore_other_calls();
@@ -254,7 +265,8 @@ TEST(MockCall, expectNoCallInScopeThatHappened)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(0, "scope::lazy");
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "scope::lazy", expectations);
+      mock_failure_test(), "scope::lazy", expectations
+  );
 
   mock("scope").expect_no_call("lazy");
   mock("scope").actual_call("lazy");
@@ -268,7 +280,8 @@ TEST(MockCall, expectNoCallInScopeButActualCallInAnotherScope)
 
   MockExpectedCallsListForTest expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "scope2::lazy", expectations);
+      mock_failure_test(), "scope2::lazy", expectations
+  );
 
   mock("scope1").expect_no_call("lazy");
   mock("scope2").actual_call("lazy");
@@ -282,7 +295,8 @@ TEST(MockCall, expectNoCallInScopeButActualCallInGlobal)
 
   MockExpectedCallsListForTest expectations;
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "lazy", expectations);
+      mock_failure_test(), "lazy", expectations
+  );
 
   mock("scope1").expect_no_call("lazy");
   mock().actual_call("lazy");
@@ -306,7 +320,8 @@ TEST(MockCall, ignoreOtherCallsDoesntIgnoreMultipleCallsOfTheSameFunction)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo")->call_was_made(1);
   cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "foo", expectations);
+      mock_failure_test(), "foo", expectations
+  );
 
   mock().expect_one_call("foo");
   mock().ignore_other_calls();
@@ -324,7 +339,8 @@ TEST(MockCall, ignoreOtherStillFailsIfExpectedOneDidntHappen)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo");
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().expect_one_call("foo");
   mock().ignore_other_calls();
@@ -410,7 +426,8 @@ TEST(MockCall, OnObjectFails)
   mock().actual_call("boo").on_object(object_ptr2);
 
   cppmu::MockUnexpectedObjectFailure expected_failure(
-      mock_failure_test(), "boo", object_ptr2, expectations);
+      mock_failure_test(), "boo", object_ptr2, expectations
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
@@ -429,7 +446,8 @@ TEST(MockCall, OnObjectExpectedButNotCalled)
   mock().actual_call("boo");
 
   cppmu::MockExpectedObjectDidntHappenFailure expected_failure(
-      mock_failure_test(), "boo", expectations);
+      mock_failure_test(), "boo", expectations
+  );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
   mock().check_expectations();
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -450,7 +468,8 @@ TEST(MockCall, expectNCalls_NotFulfilled)
   MockExpectedCallsListForTest expectations;
   expectations.add_function(2, "boo")->call_was_made(1);
   cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations);
+      mock_failure_test(), expectations
+  );
 
   mock().expect_n_calls(2, "boo");
   mock().actual_call("boo");
@@ -471,9 +490,13 @@ TEST(MockCall, shouldntFailTwice)
   mock().check_expectations();
 
   CHECK(!cppmu::string_contains(
-      MockFailureReporterForTest::get_reporter()->mock_failure_string, "bar"));
-  CHECK(cppmu::string_contains(
-      MockFailureReporterForTest::get_reporter()->mock_failure_string, "boo"));
+      MockFailureReporterForTest::get_reporter()->mock_failure_string, "bar"
+  ));
+  CHECK(
+      cppmu::string_contains(
+          MockFailureReporterForTest::get_reporter()->mock_failure_string, "boo"
+      )
+  );
 }
 
 TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
@@ -491,8 +514,7 @@ IGNORE_TEST(MockCall, testForPerformanceProfiling)
 }
 
 namespace {
-void
-mocks_are_counted_as_checks_test_function()
+void mocks_are_counted_as_checks_test_function()
 {
   mock().expect_one_call("foo");
   mock().expect_n_calls(3, "bar");

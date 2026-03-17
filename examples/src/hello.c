@@ -2,8 +2,7 @@
 
 #include <stdio.h>
 
-void
-print_hello_world(void)
+void print_hello_world(void)
 {
   print_formated("Hello World!\n");
 }

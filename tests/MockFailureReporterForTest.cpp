@@ -4,28 +4,26 @@
 
 using cppmu::mock;
 
-void
-MockFailureReporterForTest::fail_test(cppmu::MockFailure failure)
+void MockFailureReporterForTest::fail_test(cppmu::MockFailure failure)
 {
   mock_failure_string = failure.get_message();
 }
 
-void
-MockFailureReporterForTest::report_failure(const cppmu::MockFailure& failure)
+void MockFailureReporterForTest::report_failure(
+    const cppmu::MockFailure& failure
+)
 {
   mock_failure_string = failure.get_message();
 }
 
-void
-MockFailureReporterForTest::exit_test()
+void MockFailureReporterForTest::exit_test()
 {
   // suppress exit in test-spy mode
 }
 
 MockFailureReporterForTest* MockFailureReporterForTest::instance_ = nullptr;
 
-MockFailureReporterForTest*
-MockFailureReporterForTest::get_reporter()
+MockFailureReporterForTest* MockFailureReporterForTest::get_reporter()
 {
   if (instance_ == nullptr)
     instance_ = new MockFailureReporterForTest;
@@ -33,8 +31,7 @@ MockFailureReporterForTest::get_reporter()
   return instance_;
 }
 
-void
-MockFailureReporterForTest::clear_reporter()
+void MockFailureReporterForTest::clear_reporter()
 {
   delete instance_;
   instance_ = nullptr;
@@ -43,7 +40,8 @@ MockFailureReporterForTest::clear_reporter()
 MockFailureReporterInstaller::MockFailureReporterInstaller()
 {
   mock().set_mock_failure_standard_reporter(
-      MockFailureReporterForTest::get_reporter());
+      MockFailureReporterForTest::get_reporter()
+  );
 }
 
 MockFailureReporterInstaller::~MockFailureReporterInstaller()
@@ -52,28 +50,26 @@ MockFailureReporterInstaller::~MockFailureReporterInstaller()
   MockFailureReporterForTest::clear_reporter();
 }
 
-cppmu::TestShell*
-mock_failure_test()
+cppmu::TestShell* mock_failure_test()
 {
   return MockFailureReporterForTest::get_reporter()->get_test_to_fail();
 }
 
-cppmu::String
-mock_failure_string()
+cppmu::String mock_failure_string()
 {
   return MockFailureReporterForTest::get_reporter()->mock_failure_string;
 }
 
-void
-clear_mock_failure()
+void clear_mock_failure()
 {
   MockFailureReporterForTest::get_reporter()->mock_failure_string = "";
 }
 
-void
-check_expected_mock_failure_location(const cppmu::MockFailure& expected_failure,
+void check_expected_mock_failure_location(
+    const cppmu::MockFailure& expected_failure,
     const char* file,
-    size_t line)
+    size_t line
+)
 {
   cppmu::String expected_failure_string = expected_failure.get_message();
   cppmu::String actual_failure_string = mock_failure_string();
@@ -88,8 +84,7 @@ check_expected_mock_failure_location(const cppmu::MockFailure& expected_failure,
   }
 }
 
-void
-check_no_mock_failure_location(const char* file, size_t line)
+void check_no_mock_failure_location(const char* file, size_t line)
 {
   if (mock_failure_string() != "") {
     cppmu::String error = "Unexpected mock failure:\n";
@@ -105,8 +100,9 @@ MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
   delete_all_expectations_and_clear_list();
 }
 
-cppmu::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::add_function(const cppmu::String& name)
+cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::add_function(
+    const cppmu::String& name
+)
 {
   auto* new_call = new cppmu::MockCheckedExpectedCall;
   new_call->with_name(name);
@@ -114,9 +110,10 @@ MockExpectedCallsListForTest::add_function(const cppmu::String& name)
   return new_call;
 }
 
-cppmu::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::add_function(unsigned int num_calls,
-    const cppmu::String& name)
+cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::add_function(
+    unsigned int num_calls,
+    const cppmu::String& name
+)
 {
   auto* new_call = new cppmu::MockCheckedExpectedCall(num_calls);
   new_call->with_name(name);
@@ -124,9 +121,8 @@ MockExpectedCallsListForTest::add_function(unsigned int num_calls,
   return new_call;
 }
 
-cppmu::MockCheckedExpectedCall*
-MockExpectedCallsListForTest::add_function_ordered(const cppmu::String& name,
-    unsigned int order)
+cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::
+    add_function_ordered(const cppmu::String& name, unsigned int order)
 {
   auto* new_call = add_function(name);
   new_call->with_call_order(order);

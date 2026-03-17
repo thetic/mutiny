@@ -57,8 +57,7 @@ TEST(IEEE754ExceptionsPlugin, should_fail_when_FE_INEXACT_is_set_and_enabled)
   fixture.assert_print_contains("IEEE754_CHECK_CLEAR(FE_INEXACT) failed");
 }
 
-TEST(IEEE754ExceptionsPlugin,
-    should_succeed_when_FE_INEXACT_is_set_and_disabled)
+TEST(IEEE754ExceptionsPlugin, should_succeed_when_FE_INEXACT_is_set_and_disabled)
 {
   IEEE754ExceptionsPlugin::enable_inexact();
   IEEE754ExceptionsPlugin::disable_inexact();
@@ -67,14 +66,14 @@ TEST(IEEE754ExceptionsPlugin,
   fixture.assert_print_contains("OK");
 }
 
-TEST(IEEE754ExceptionsPlugin,
-    should_succeed_with_5_checks_when_no_flags_are_set)
+TEST(IEEE754ExceptionsPlugin, should_succeed_with_5_checks_when_no_flags_are_set)
 {
   IEEE754ExceptionsPlugin::enable_inexact();
   fixture.set_test_function(set_nothing_c);
   fixture.run_all_tests();
   fixture.assert_print_contains(
-      "OK (1 tests, 1 ran, 5 checks, 0 ignored, 0 filtered out");
+      "OK (1 tests, 1 ran, 5 checks, 0 ignored, 0 filtered out"
+  );
   IEEE754ExceptionsPlugin::disable_inexact();
 }
 
@@ -93,16 +92,14 @@ TEST(IEEE754ExceptionsPlugin, should_fail_only_once_when_all_flags_are_set)
 }
 
 namespace {
-void
-set_everything_but_already_failed(void)
+void set_everything_but_already_failed(void)
 {
   set_everything_c();
   CHECK(1 == 2);
 }
 }
 
-TEST(IEEE754ExceptionsPlugin,
-    should_not_fail_again_when_test_has_already_failed)
+TEST(IEEE754ExceptionsPlugin, should_not_fail_again_when_test_has_already_failed)
 {
   fixture.set_test_function(set_everything_but_already_failed);
   fixture.run_all_tests();

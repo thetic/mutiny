@@ -10,11 +10,13 @@ class TestShell;
 class TestInstaller
 {
 public:
-  explicit TestInstaller(TestShell& shell,
+  explicit TestInstaller(
+      TestShell& shell,
       const char* group_name,
       const char* test_name,
       const char* file_name,
-      size_t line_number);
+      size_t line_number
+  );
   virtual ~TestInstaller() = default;
   TestInstaller(const TestInstaller&) = delete;
   TestInstaller& operator=(const TestInstaller&) = delete;

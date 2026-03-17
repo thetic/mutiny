@@ -8,8 +8,7 @@
 
 namespace {
 
-int
-is_nan_impl(double d)
+int is_nan_impl(double d)
 {
 #if defined(_MSC_VER)
   return _isnan(d);
@@ -18,8 +17,7 @@ is_nan_impl(double d)
 #endif
 }
 
-int
-is_inf_impl(double d)
+int is_inf_impl(double d)
 {
 #if defined(_MSC_VER)
   return !_finite(d);

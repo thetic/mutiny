@@ -16,17 +16,20 @@ IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const cppmu::String& name)
 {
 }
 
-void
-IEEE754ExceptionsPlugin::pre_test_action(cppmu::TestShell&, cppmu::TestResult&)
+void IEEE754ExceptionsPlugin::pre_test_action(
+    cppmu::TestShell&,
+    cppmu::TestResult&
+)
 {
 #if CPPMU_HAVE_FENV
   CHECK(!feclearexcept(FE_ALL_EXCEPT));
 #endif
 }
 
-void
-IEEE754ExceptionsPlugin::post_test_action(cppmu::TestShell& test,
-    cppmu::TestResult& result)
+void IEEE754ExceptionsPlugin::post_test_action(
+    cppmu::TestShell& test,
+    cppmu::TestResult& result
+)
 {
 #if CPPMU_HAVE_FENV
   if (!test.has_failed()) {
@@ -42,20 +45,17 @@ IEEE754ExceptionsPlugin::post_test_action(cppmu::TestShell& test,
 #endif
 }
 
-void
-IEEE754ExceptionsPlugin::disable_inexact()
+void IEEE754ExceptionsPlugin::disable_inexact()
 {
   inexact_disabled_ = true;
 }
 
-void
-IEEE754ExceptionsPlugin::enable_inexact()
+void IEEE754ExceptionsPlugin::enable_inexact()
 {
   inexact_disabled_ = false;
 }
 
-bool
-IEEE754ExceptionsPlugin::check_ieee754_overflow_exception_flag()
+bool IEEE754ExceptionsPlugin::check_ieee754_overflow_exception_flag()
 {
 #if CPPMU_HAVE_FENV
   return fetestexcept(FE_OVERFLOW) != 0;
@@ -64,8 +64,7 @@ IEEE754ExceptionsPlugin::check_ieee754_overflow_exception_flag()
 #endif
 }
 
-bool
-IEEE754ExceptionsPlugin::check_ieee754_underflow_exception_flag()
+bool IEEE754ExceptionsPlugin::check_ieee754_underflow_exception_flag()
 {
 #if CPPMU_HAVE_FENV
   return fetestexcept(FE_UNDERFLOW) != 0;
@@ -74,8 +73,7 @@ IEEE754ExceptionsPlugin::check_ieee754_underflow_exception_flag()
 #endif
 }
 
-bool
-IEEE754ExceptionsPlugin::check_ieee754_inexact_exception_flag()
+bool IEEE754ExceptionsPlugin::check_ieee754_inexact_exception_flag()
 {
 #if CPPMU_HAVE_FENV
   return fetestexcept(FE_INEXACT) != 0;
@@ -84,8 +82,7 @@ IEEE754ExceptionsPlugin::check_ieee754_inexact_exception_flag()
 #endif
 }
 
-bool
-IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
+bool IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
 {
 #if CPPMU_HAVE_FENV
   return fetestexcept(FE_DIVBYZERO) != 0;
@@ -94,11 +91,12 @@ IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
 #endif
 }
 
-void
-IEEE754ExceptionsPlugin::ieee754_check(cppmu::TestShell& test,
+void IEEE754ExceptionsPlugin::ieee754_check(
+    cppmu::TestShell& test,
     cppmu::TestResult& result,
     int flag,
-    const char* text)
+    const char* text
+)
 {
 #if CPPMU_HAVE_FENV
   result.count_check();
@@ -107,7 +105,8 @@ IEEE754ExceptionsPlugin::ieee754_check(cppmu::TestShell& test,
   if (fetestexcept(flag)) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
     cppmu::CheckFailure failure(
-        &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text);
+        &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text
+    );
     result.add_failure(failure);
   }
 #else

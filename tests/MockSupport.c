@@ -2,20 +2,17 @@
 
 #include "CppMu/MockSupport.h"
 
-static int
-type_name_is_equal(const void* object1, const void* object2)
+static int type_name_is_equal(const void* object1, const void* object2)
 {
   return object1 == object2;
 }
 
-static const char*
-type_name_value_to_string(const void* object)
+static const char* type_name_value_to_string(const void* object)
 {
   return (const char*)object;
 }
 
-void
-all_mock_support_c_calls(void)
+void all_mock_support_c_calls(void)
 {
   mock()->strict_order();
   mock()->expect_one_call("boo");
@@ -32,10 +29,12 @@ all_mock_support_c_calls(void)
       ->with_unsigned_int_parameters("unsigned", 1)
       ->with_long_int_parameters("long int", (long int)-1)
       ->with_unsigned_long_int_parameters(
-          "unsigned long int", (unsigned long int)1)
+          "unsigned long int", (unsigned long int)1
+      )
       ->with_long_long_int_parameters("long long int", (long long int)-1)
       ->with_unsigned_long_long_int_parameters(
-          "unsigned long long int", (unsigned long long int)1)
+          "unsigned long long int", (unsigned long long int)1
+      )
       ->with_double_parameters("double", 1.0)
       ->with_double_parameters_and_tolerance("doubleWithTolerance", 1.0, 1.0)
       ->with_string_parameters("string", "string")
@@ -52,10 +51,12 @@ all_mock_support_c_calls(void)
       ->with_unsigned_int_parameters("unsigned", 1)
       ->with_long_int_parameters("long int", (long int)-1)
       ->with_unsigned_long_int_parameters(
-          "unsigned long int", (unsigned long int)1)
+          "unsigned long int", (unsigned long int)1
+      )
       ->with_long_long_int_parameters("long long int", (long long int)-1)
       ->with_unsigned_long_long_int_parameters(
-          "unsigned long long int", (unsigned long long int)1)
+          "unsigned long long int", (unsigned long long int)1
+      )
       ->with_double_parameters("double", 1.0)
       ->with_double_parameters("doubleWithTolerance", 0.0)
       ->with_string_parameters("string", "string")
@@ -81,11 +82,14 @@ all_mock_support_c_calls(void)
   mock()->clear();
 
   mock()->install_comparator(
-      "typeName", type_name_is_equal, type_name_value_to_string);
+      "typeName", type_name_is_equal, type_name_value_to_string
+  );
   mock()->expect_one_call("boo")->with_parameter_of_type(
-      "typeName", "name", (void*)1);
+      "typeName", "name", (void*)1
+  );
   mock()->actual_call("boo")->with_parameter_of_type(
-      "typeName", "name", (void*)1);
+      "typeName", "name", (void*)1
+  );
   mock()->clear();
   mock()->remove_all_comparators_and_copiers();
 
@@ -137,46 +141,56 @@ all_mock_support_c_calls(void)
   mock()->const_pointer_return_value();
 
   mock()->expect_one_call("boo8")->and_return_function_pointer_value(
-      (void (*)(void))10);
+      (void (*)(void))10
+  );
   mock()->actual_call("boo8")->function_pointer_return_value();
   mock()->function_pointer_return_value();
 
   mock()->set_bool_data("bool", 1);
   mock()->expect_one_call("bla")->with_bool_parameters("bool", 1);
   mock()->actual_call("bla")->with_bool_parameters(
-      "bool", mock()->get_data("bool").value.bool_value);
+      "bool", mock()->get_data("bool").value.bool_value
+  );
 
   mock()->set_int_data("int", 5);
   mock()->expect_one_call("bla")->with_int_parameters("int", 5);
   mock()->actual_call("bla")->with_int_parameters(
-      "int", mock()->get_data("int").value.int_value);
+      "int", mock()->get_data("int").value.int_value
+  );
 
   mock()->set_string_data("string", "lol");
   mock()->expect_one_call("bla")->with_string_parameters("str", "lol");
   mock()->actual_call("bla")->with_string_parameters(
-      "str", mock()->get_data("string").value.string_value);
+      "str", mock()->get_data("string").value.string_value
+  );
 
   mock()->set_double_data("double", 0.001);
   mock()->expect_one_call("bla")->with_double_parameters("double", 0.001);
   mock()->actual_call("bla")->with_double_parameters(
-      "double", mock()->get_data("double").value.double_value);
+      "double", mock()->get_data("double").value.double_value
+  );
 
   mock()->set_pointer_data("ptr", (void*)1);
   mock()->expect_one_call("bla")->with_pointer_parameters("ptr", (void*)1);
   mock()->actual_call("bla")->with_pointer_parameters(
-      "ptr", mock()->get_data("ptr").value.pointer_value);
+      "ptr", mock()->get_data("ptr").value.pointer_value
+  );
 
   mock()->set_const_pointer_data("cptr", (const void*)1);
   mock()->expect_one_call("bla")->with_const_pointer_parameters(
-      "cptr", (const void*)1);
+      "cptr", (const void*)1
+  );
   mock()->actual_call("bla")->with_const_pointer_parameters(
-      "cptr", mock()->get_data("ptr").value.const_pointer_value);
+      "cptr", mock()->get_data("ptr").value.const_pointer_value
+  );
 
   mock()->set_function_pointer_data("ptr", (void (*)(void))1);
   mock()->expect_one_call("bla")->with_function_pointer_parameters(
-      "ptr", (void (*)(void))1);
+      "ptr", (void (*)(void))1
+  );
   mock()->actual_call("bla")->with_function_pointer_parameters(
-      "ptr", mock()->get_data("ptr").value.function_pointer_value);
+      "ptr", mock()->get_data("ptr").value.function_pointer_value
+  );
 
   mock()->clear();
 

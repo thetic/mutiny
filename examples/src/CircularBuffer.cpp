@@ -16,20 +16,17 @@ CircularBuffer::~CircularBuffer()
   delete[] buffer_;
 }
 
-bool
-CircularBuffer::is_empty()
+bool CircularBuffer::is_empty()
 {
   return empty_;
 }
 
-bool
-CircularBuffer::is_full()
+bool CircularBuffer::is_full()
 {
   return full_;
 }
 
-void
-CircularBuffer::put(int i)
+void CircularBuffer::put(int i)
 {
   empty_ = false;
   buffer_[index_] = i;
@@ -40,8 +37,7 @@ CircularBuffer::put(int i)
     full_ = true;
 }
 
-int
-CircularBuffer::get()
+int CircularBuffer::get()
 {
   int result = -1;
   full_ = false;
@@ -55,22 +51,19 @@ CircularBuffer::get()
   return result;
 }
 
-int
-CircularBuffer::capacity()
+int CircularBuffer::capacity()
 {
   return capacity_;
 }
 
-int
-CircularBuffer::next(int i)
+int CircularBuffer::next(int i)
 {
   if (++i >= capacity_)
     i = 0;
   return i;
 }
 
-void
-CircularBuffer::print(Printer* p)
+void CircularBuffer::print(Printer* p)
 {
   p->print("Circular buffer content:\n<");
 

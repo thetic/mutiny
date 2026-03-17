@@ -60,17 +60,19 @@ TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
   ignored_test.set_run_ignored();
   fixture.run_all_tests();
   STRCMP_EQUAL(
-      "TEST(TestGroup, TestName)", ignored_test.get_formatted_name().c_str());
+      "TEST(TestGroup, TestName)", ignored_test.get_formatted_name().c_str()
+  );
 }
 
-TEST(IgnoredTestShell,
-    runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
+TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
 {
   ignored_test.set_group_name("TestGroup");
   ignored_test.set_test_name("TestName");
   fixture.run_all_tests();
-  STRCMP_EQUAL("IGNORE_TEST(TestGroup, TestName)",
-      ignored_test.get_formatted_name().c_str());
+  STRCMP_EQUAL(
+      "IGNORE_TEST(TestGroup, TestName)",
+      ignored_test.get_formatted_name().c_str()
+  );
 }
 
 TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)

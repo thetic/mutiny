@@ -19,8 +19,7 @@ public:
   }
 };
 
-int
-main(int argc, char** argv)
+int main(int argc, char** argv)
 {
   MyDummyComparator dummy_comparator;
   cppmu::MockSupportPlugin mock_plugin;

@@ -32,8 +32,7 @@ private:
   TestFilter* next_;
 };
 
-String
-string_from(const TestFilter& filter);
+String string_from(const TestFilter& filter);
 
 } // namespace cppmu
 

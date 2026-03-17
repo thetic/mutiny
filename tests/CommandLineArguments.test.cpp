@@ -38,9 +38,7 @@ TEST_GROUP(CommandLineArguments)
   }
 };
 
-TEST(CommandLineArguments, Create)
-{
-}
+TEST(CommandLineArguments, Create) {}
 
 TEST(CommandLineArguments, verboseSetMultipleParameters)
 {
@@ -218,8 +216,7 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
-TEST(CommandLineArguments,
-    setCompleteExcludeStrictGroupDotNameFilterInvalidArgument)
+TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "groupname" };
@@ -407,7 +404,7 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe",
-    "IGNORE_TEST(testgroup, testname) - stuff" };
+                         "IGNORE_TEST(testgroup, testname) - stuff" };
   CHECK(new_argument_parser(argc, argv));
 
   cppmu::TestFilter name_filter("testname");
@@ -499,7 +496,8 @@ TEST(CommandLineArguments, printUsage)
       "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
       "<testName>)\"]...\n"
       "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n",
-      args->usage());
+      args->usage()
+  );
 }
 
 TEST(CommandLineArguments, helpPrintsTheHelp)
@@ -560,29 +558,22 @@ TEST(CommandLineArguments, setPackageName)
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
 {
   int argc = 10;
-  const char* argv[] = { "tests.exe",
-    "-sggroup1",
-    "-xntest1",
-    "-sggroup2",
-    "-sntest2",
-    "-sntest3",
-    "-sggroup3",
-    "-sntest4",
-    "-sggroup4",
-    "-sntest5" };
+  const char* argv[] = { "tests.exe", "-sggroup1", "-xntest1",  "-sggroup2",
+                         "-sntest2",  "-sntest3",  "-sggroup3", "-sntest4",
+                         "-sggroup4", "-sntest5" };
   CHECK(new_argument_parser(argc, argv));
   cppmu::TestFilter name_filter("test1");
   name_filter.invert_matching();
   cppmu::TestFilter group_filter("group1");
   group_filter.strict_matching();
-  CHECK_EQUAL(name_filter,
-      *args->get_name_filters()
-          ->get_next()
-          ->get_next()
-          ->get_next()
-          ->get_next());
-  CHECK_EQUAL(group_filter,
-      *args->get_group_filters()->get_next()->get_next()->get_next());
+  CHECK_EQUAL(
+      name_filter,
+      *args->get_name_filters()->get_next()->get_next()->get_next()->get_next()
+  );
+  CHECK_EQUAL(
+      group_filter,
+      *args->get_group_filters()->get_next()->get_next()->get_next()
+  );
 }
 
 TEST(CommandLineArguments, lastParameterFieldMissing)

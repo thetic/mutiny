@@ -9,10 +9,12 @@ class ExpectFailTestShell : public TestShell
 {
 public:
   ExpectFailTestShell() = default;
-  explicit ExpectFailTestShell(const char* group_name,
+  explicit ExpectFailTestShell(
+      const char* group_name,
       const char* test_name,
       const char* file_name,
-      size_t line_number);
+      size_t line_number
+  );
   ~ExpectFailTestShell() override = default;
   ExpectFailTestShell(const ExpectFailTestShell&) = delete;
   ExpectFailTestShell& operator=(const ExpectFailTestShell&) = delete;

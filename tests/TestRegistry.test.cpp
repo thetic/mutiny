@@ -9,8 +9,7 @@
 namespace {
 const int test_line_number = 1;
 
-int
-get_zero()
+int get_zero()
 {
   return 0;
 }
@@ -245,13 +244,15 @@ TEST(TestRegistry, findTestWithName)
   my_registry->add_test(test1);
   my_registry->add_test(test2);
   CHECK(
-      my_registry->find_test_with_name("NameOfATestThatDoesExist") != nullptr);
+      my_registry->find_test_with_name("NameOfATestThatDoesExist") != nullptr
+  );
 }
 
 TEST(TestRegistry, findTestWithGroupDoesntExist)
 {
-  CHECK(my_registry->find_test_with_group("ThisTestGroupDoesntExists") ==
-        nullptr);
+  CHECK(
+      my_registry->find_test_with_group("ThisTestGroupDoesntExists") == nullptr
+  );
 }
 
 TEST(TestRegistry, findTestWithGroup)
@@ -260,8 +261,9 @@ TEST(TestRegistry, findTestWithGroup)
   test2->set_group_name("SomeOtherGroup");
   my_registry->add_test(test1);
   my_registry->add_test(test2);
-  CHECK(my_registry->find_test_with_group("GroupOfATestThatDoesExist") !=
-        nullptr);
+  CHECK(
+      my_registry->find_test_with_group("GroupOfATestThatDoesExist") != nullptr
+  );
 }
 
 TEST(TestRegistry, nameFilterWorks)
@@ -312,8 +314,7 @@ TEST(TestRegistry, ResetPluginsWorks)
   LONGS_EQUAL(0, my_registry->count_plugins());
 }
 
-TEST(TestRegistry,
-    listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
+TEST(TestRegistry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
 {
   test1->set_group_name("GROUP_1");
   my_registry->add_test(test1);
@@ -329,8 +330,7 @@ TEST(TestRegistry,
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
-TEST(TestRegistry,
-    listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+TEST(TestRegistry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->set_group_name("GROUP_A");
   test1->set_test_name("test_a");
@@ -347,8 +347,7 @@ TEST(TestRegistry,
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
-TEST(TestRegistry,
-    listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->set_group_name("GROUP_A");
   test1->set_test_name("test_a");
@@ -368,11 +367,13 @@ TEST(TestRegistry,
 
   my_registry->list_test_locations(*result);
   cppmu::String s = output->get_output();
-  STRCMP_EQUAL("GROUP_A.test_aa.cpptest_simple/my_tests/"
-               "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
-               "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
-               "testa.cpp.100\n",
-      s.c_str());
+  STRCMP_EQUAL(
+      "GROUP_A.test_aa.cpptest_simple/my_tests/"
+      "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
+      "tests/testb.cpp.200\nGROUP_A.test_a.cpptest_simple/my_tests/"
+      "testa.cpp.100\n",
+      s.c_str()
+  );
 }
 
 TEST(TestRegistry, listOrderedTestLocations_onlyIncludesOrderedTests)
@@ -389,7 +390,8 @@ TEST(TestRegistry, listOrderedTestLocations_onlyIncludesOrderedTests)
 
   my_registry->list_ordered_test_locations(*result);
   STRCMP_EQUAL(
-      "GROUP_A.test_a.my_tests/testa.cpp.100\n", output->get_output().c_str());
+      "GROUP_A.test_a.my_tests/testa.cpp.100\n", output->get_output().c_str()
+  );
 }
 
 TEST(TestRegistry, shuffleEmptyListIsNoOp)

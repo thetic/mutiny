@@ -15,9 +15,10 @@ class MockNamedValueListNode;
 class MockSupport;
 
 /* This allows access to "the global" mocking support for easier testing */
-MockSupport&
-mock(const cppmu::String& mock_name = "",
-    MockFailureReporter* failure_reporter_for_this_call = nullptr);
+MockSupport& mock(
+    const cppmu::String& mock_name = "",
+    MockFailureReporter* failure_reporter_for_this_call = nullptr
+);
 
 class MockSupport
 {
@@ -28,8 +29,10 @@ public:
   virtual void strict_order();
   virtual MockExpectedCall& expect_one_call(const cppmu::String& function_name);
   virtual void expect_no_call(const cppmu::String& function_name);
-  virtual MockExpectedCall& expect_n_calls(unsigned int amount,
-      const cppmu::String& function_name);
+  virtual MockExpectedCall& expect_n_calls(
+      unsigned int amount,
+      const cppmu::String& function_name
+  );
   virtual MockActualCall& actual_call(const cppmu::String& function_name);
   virtual MockActualCall& actual_call(const char* function_name);
   virtual bool has_return_value();
@@ -43,15 +46,19 @@ public:
   virtual long int return_long_int_value_or_default(long int default_value);
   virtual unsigned long int unsigned_long_int_return_value();
   virtual unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int default_value);
+      unsigned long int default_value
+  );
   virtual long long long_long_int_return_value();
   virtual long long return_long_long_int_value_or_default(
-      long long default_value);
+      long long default_value
+  );
   virtual unsigned long long unsigned_long_long_int_return_value();
   virtual unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value);
+      unsigned long long default_value
+  );
   virtual unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value);
+      unsigned int default_value
+  );
   virtual const char* string_return_value();
   virtual const char* return_string_value_or_default(const char* default_value);
   virtual double return_double_value_or_default(double default_value);
@@ -59,10 +66,10 @@ public:
   virtual void* pointer_return_value();
   virtual void* return_pointer_value_or_default(void* default_value);
   virtual const void* return_const_pointer_value_or_default(
-      const void* default_value);
+      const void* default_value
+  );
   virtual const void* const_pointer_return_value();
-  virtual void (
-      *return_function_pointer_value_or_default(void (*default_value)()))();
+  virtual void (*return_function_pointer_value_or_default(void (*default_value)()))();
   virtual void (*function_pointer_return_value())();
 
   bool has_data(const cppmu::String& name);
@@ -76,12 +83,16 @@ public:
   void set_data(const cppmu::String& name, void* value);
   void set_data(const cppmu::String& name, const void* value);
   void set_data(const cppmu::String& name, void (*value)());
-  void set_data_object(const cppmu::String& name,
+  void set_data_object(
+      const cppmu::String& name,
       const cppmu::String& type,
-      void* value);
-  void set_data_const_object(const cppmu::String& name,
+      void* value
+  );
+  void set_data_const_object(
+      const cppmu::String& name,
       const cppmu::String& type,
-      const void* value);
+      const void* value
+  );
   MockNamedValue get_data(const cppmu::String& name);
 
   MockSupport* get_mock_support_scope(const cppmu::String& name);
@@ -100,16 +111,22 @@ public:
   virtual void crash_on_failure(bool should_fail = true);
 
   virtual void set_mock_failure_standard_reporter(
-      MockFailureReporter* reporter);
+      MockFailureReporter* reporter
+  );
   virtual void set_active_reporter(MockFailureReporter* active_reporter);
   virtual void set_default_comparators_and_copiers_repository();
 
-  virtual void install_comparator(const cppmu::String& type_name,
-      MockNamedValueComparator& comparator);
-  virtual void install_copier(const cppmu::String& type_name,
-      MockNamedValueCopier& copier);
+  virtual void install_comparator(
+      const cppmu::String& type_name,
+      MockNamedValueComparator& comparator
+  );
+  virtual void install_copier(
+      const cppmu::String& type_name,
+      MockNamedValueCopier& copier
+  );
   virtual void install_comparators_and_copiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository);
+      const MockNamedValueComparatorsAndCopiersRepository& repository
+  );
   virtual void remove_all_comparators_and_copiers();
 
 protected:

@@ -14,22 +14,19 @@ CompositeTestOutput::~CompositeTestOutput()
   delete output_two_;
 }
 
-void
-CompositeTestOutput::set_output_one(TestOutput* output)
+void CompositeTestOutput::set_output_one(TestOutput* output)
 {
   delete output_one_;
   output_one_ = output;
 }
 
-void
-CompositeTestOutput::set_output_two(TestOutput* output)
+void CompositeTestOutput::set_output_two(TestOutput* output)
 {
   delete output_two_;
   output_two_ = output;
 }
 
-void
-CompositeTestOutput::print_tests_started()
+void CompositeTestOutput::print_tests_started()
 {
   if (output_one_)
     output_one_->print_tests_started();
@@ -37,8 +34,7 @@ CompositeTestOutput::print_tests_started()
     output_two_->print_tests_started();
 }
 
-void
-CompositeTestOutput::print_tests_ended(const TestResult& result)
+void CompositeTestOutput::print_tests_ended(const TestResult& result)
 {
   if (output_one_)
     output_one_->print_tests_ended(result);
@@ -46,8 +42,7 @@ CompositeTestOutput::print_tests_ended(const TestResult& result)
     output_two_->print_tests_ended(result);
 }
 
-void
-CompositeTestOutput::print_current_test_started(const TestShell& test)
+void CompositeTestOutput::print_current_test_started(const TestShell& test)
 {
   if (output_one_)
     output_one_->print_current_test_started(test);
@@ -55,8 +50,7 @@ CompositeTestOutput::print_current_test_started(const TestShell& test)
     output_two_->print_current_test_started(test);
 }
 
-void
-CompositeTestOutput::print_current_test_ended(const TestResult& res)
+void CompositeTestOutput::print_current_test_ended(const TestResult& res)
 {
   if (output_one_)
     output_one_->print_current_test_ended(res);
@@ -64,8 +58,7 @@ CompositeTestOutput::print_current_test_ended(const TestResult& res)
     output_two_->print_current_test_ended(res);
 }
 
-void
-CompositeTestOutput::print_current_group_started(const TestShell& test)
+void CompositeTestOutput::print_current_group_started(const TestShell& test)
 {
   if (output_one_)
     output_one_->print_current_group_started(test);
@@ -73,8 +66,7 @@ CompositeTestOutput::print_current_group_started(const TestShell& test)
     output_two_->print_current_group_started(test);
 }
 
-void
-CompositeTestOutput::print_current_group_ended(const TestResult& res)
+void CompositeTestOutput::print_current_group_ended(const TestResult& res)
 {
   if (output_one_)
     output_one_->print_current_group_ended(res);
@@ -82,8 +74,7 @@ CompositeTestOutput::print_current_group_ended(const TestResult& res)
     output_two_->print_current_group_ended(res);
 }
 
-void
-CompositeTestOutput::verbose(VerbosityLevel level)
+void CompositeTestOutput::verbose(VerbosityLevel level)
 {
   if (output_one_)
     output_one_->verbose(level);
@@ -91,8 +82,7 @@ CompositeTestOutput::verbose(VerbosityLevel level)
     output_two_->verbose(level);
 }
 
-void
-CompositeTestOutput::color()
+void CompositeTestOutput::color()
 {
   if (output_one_)
     output_one_->color();
@@ -100,8 +90,7 @@ CompositeTestOutput::color()
     output_two_->color();
 }
 
-void
-CompositeTestOutput::print_buffer(const char* buffer)
+void CompositeTestOutput::print_buffer(const char* buffer)
 {
   if (output_one_)
     output_one_->print_buffer(buffer);
@@ -109,8 +98,7 @@ CompositeTestOutput::print_buffer(const char* buffer)
     output_two_->print_buffer(buffer);
 }
 
-void
-CompositeTestOutput::print(const char* buffer)
+void CompositeTestOutput::print(const char* buffer)
 {
   if (output_one_)
     output_one_->print(buffer);
@@ -118,8 +106,7 @@ CompositeTestOutput::print(const char* buffer)
     output_two_->print(buffer);
 }
 
-void
-CompositeTestOutput::print(long number)
+void CompositeTestOutput::print(long number)
 {
   if (output_one_)
     output_one_->print(number);
@@ -127,8 +114,7 @@ CompositeTestOutput::print(long number)
     output_two_->print(number);
 }
 
-void
-CompositeTestOutput::print(size_t number)
+void CompositeTestOutput::print(size_t number)
 {
   if (output_one_)
     output_one_->print(number);
@@ -136,8 +122,7 @@ CompositeTestOutput::print(size_t number)
     output_two_->print(number);
 }
 
-void
-CompositeTestOutput::print_double(double number)
+void CompositeTestOutput::print_double(double number)
 {
   if (output_one_)
     output_one_->print_double(number);
@@ -145,8 +130,7 @@ CompositeTestOutput::print_double(double number)
     output_two_->print_double(number);
 }
 
-void
-CompositeTestOutput::print_failure(const TestFailure& failure)
+void CompositeTestOutput::print_failure(const TestFailure& failure)
 {
   if (output_one_)
     output_one_->print_failure(failure);
@@ -154,8 +138,7 @@ CompositeTestOutput::print_failure(const TestFailure& failure)
     output_two_->print_failure(failure);
 }
 
-void
-CompositeTestOutput::set_progress_indicator(const char* indicator)
+void CompositeTestOutput::set_progress_indicator(const char* indicator)
 {
   if (output_one_)
     output_one_->set_progress_indicator(indicator);
@@ -163,8 +146,7 @@ CompositeTestOutput::set_progress_indicator(const char* indicator)
     output_two_->set_progress_indicator(indicator);
 }
 
-void
-CompositeTestOutput::print_very_verbose(const char* str)
+void CompositeTestOutput::print_very_verbose(const char* str)
 {
   if (output_one_)
     output_one_->print_very_verbose(str);
@@ -172,8 +154,7 @@ CompositeTestOutput::print_very_verbose(const char* str)
     output_two_->print_very_verbose(str);
 }
 
-void
-CompositeTestOutput::flush()
+void CompositeTestOutput::flush()
 {
   if (output_one_)
     output_one_->flush();

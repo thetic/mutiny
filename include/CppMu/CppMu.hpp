@@ -64,7 +64,8 @@
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
-      __LINE__);                                                               \
+      __LINE__                                                                 \
+  );                                                                           \
   } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::test_body()
 
@@ -100,7 +101,8 @@
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
-      __LINE__);                                                               \
+      __LINE__                                                                 \
+  );                                                                           \
   } /* namespace */                                                            \
   void IGNORE##testGroup##_##testName##_Test::test_body()
 
@@ -134,7 +136,8 @@
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
-      __LINE__);                                                               \
+      __LINE__                                                                 \
+  );                                                                           \
   } /* namespace */                                                            \
   void EXPECT_FAIL##testGroup##_##testName##_Test::test_body()
 

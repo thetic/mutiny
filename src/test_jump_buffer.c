@@ -5,8 +5,7 @@
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
 
-int
-test_set_jmp(void (*function)(void*), void* data)
+int test_set_jmp(void (*function)(void*), void* data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
     jmp_buf_index++;
@@ -17,15 +16,13 @@ test_set_jmp(void (*function)(void*), void* data)
   return 0;
 }
 
-void
-test_long_jmp(void)
+void test_long_jmp(void)
 {
   jmp_buf_index--;
   longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
 }
 
-void
-test_restore_jump_buffer(void)
+void test_restore_jump_buffer(void)
 {
   jmp_buf_index--;
 }

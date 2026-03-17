@@ -7,10 +7,11 @@
 namespace cppmu {
 
 namespace {
-String
-sub_string_from_till(const String& str,
+String sub_string_from_till(
+    const String& str,
     char start_char,
-    char last_excluded_char)
+    char last_excluded_char
+)
 {
   size_t begin_pos = str.find(start_char);
   if (begin_pos == String::npos)
@@ -45,8 +46,7 @@ CommandLineArguments::~CommandLineArguments()
   }
 }
 
-bool
-CommandLineArguments::parse(TestPlugin* plugin)
+bool CommandLineArguments::parse(TestPlugin* plugin)
 {
   bool correct_parameters = true;
   for (int i = 1; i < ac_; i++) {
@@ -129,8 +129,7 @@ CommandLineArguments::parse(TestPlugin* plugin)
   return true;
 }
 
-const char*
-CommandLineArguments::usage() const
+const char* CommandLineArguments::usage() const
 {
   return "use -h for more extensive help\n"
          "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
@@ -142,8 +141,7 @@ CommandLineArguments::usage() const
          "      [-o{normal|eclipse|junit|teamcity}] [-k <packageName>]\n";
 }
 
-const char*
-CommandLineArguments::help() const
+const char* CommandLineArguments::help() const
 {
   return "Thanks for using CppMu.\n"
          "\n"
@@ -219,112 +217,96 @@ CommandLineArguments::help() const
          "-e)\n";
 }
 
-bool
-CommandLineArguments::need_help() const
+bool CommandLineArguments::need_help() const
 {
   return need_help_;
 }
 
-bool
-CommandLineArguments::is_verbose() const
+bool CommandLineArguments::is_verbose() const
 {
   return verbose_;
 }
 
-bool
-CommandLineArguments::is_very_verbose() const
+bool CommandLineArguments::is_very_verbose() const
 {
   return very_verbose_;
 }
 
-bool
-CommandLineArguments::is_color() const
+bool CommandLineArguments::is_color() const
 {
   return color_;
 }
 
-bool
-CommandLineArguments::is_listing_test_group_names() const
+bool CommandLineArguments::is_listing_test_group_names() const
 {
   return list_test_group_names_;
 }
 
-bool
-CommandLineArguments::is_listing_test_group_and_case_names() const
+bool CommandLineArguments::is_listing_test_group_and_case_names() const
 {
   return list_test_group_and_case_names_;
 }
 
-bool
-CommandLineArguments::is_listing_test_locations() const
+bool CommandLineArguments::is_listing_test_locations() const
 {
   return list_test_locations_;
 }
 
-bool
-CommandLineArguments::is_listing_ordered_test_locations() const
+bool CommandLineArguments::is_listing_ordered_test_locations() const
 {
   return list_ordered_test_locations_;
 }
 
-bool
-CommandLineArguments::is_run_ignored() const
+bool CommandLineArguments::is_run_ignored() const
 {
   return run_ignored_;
 }
 
-size_t
-CommandLineArguments::get_repeat_count() const
+size_t CommandLineArguments::get_repeat_count() const
 {
   return repeat_;
 }
 
-bool
-CommandLineArguments::is_reversing() const
+bool CommandLineArguments::is_reversing() const
 {
   return reversing_;
 }
 
-bool
-CommandLineArguments::is_crashing_on_fail() const
+bool CommandLineArguments::is_crashing_on_fail() const
 {
   return crash_on_fail_;
 }
 
-bool
-CommandLineArguments::is_rethrowing_exceptions() const
+bool CommandLineArguments::is_rethrowing_exceptions() const
 {
   return rethrow_exceptions_;
 }
 
-bool
-CommandLineArguments::is_shuffling() const
+bool CommandLineArguments::is_shuffling() const
 {
   return shuffling_;
 }
 
-size_t
-CommandLineArguments::get_shuffle_seed() const
+size_t CommandLineArguments::get_shuffle_seed() const
 {
   return shuffle_seed_;
 }
 
-const TestFilter*
-CommandLineArguments::get_group_filters() const
+const TestFilter* CommandLineArguments::get_group_filters() const
 {
   return group_filters_;
 }
 
-const TestFilter*
-CommandLineArguments::get_name_filters() const
+const TestFilter* CommandLineArguments::get_name_filters() const
 {
   return name_filters_;
 }
 
-void
-CommandLineArguments::set_repeat_count(int argc,
+void CommandLineArguments::set_repeat_count(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   repeat_ = 0;
 
@@ -341,8 +323,11 @@ CommandLineArguments::set_repeat_count(int argc,
     repeat_ = 2;
 }
 
-bool
-CommandLineArguments::set_shuffle(int argc, const char* const* argv, int& i)
+bool CommandLineArguments::set_shuffle(
+    int argc,
+    const char* const* argv,
+    int& i
+)
 {
   shuffling_ = true;
   shuffle_seed_ = static_cast<unsigned int>(cppmu::get_time_in_millis());
@@ -364,11 +349,12 @@ CommandLineArguments::set_shuffle(int argc, const char* const* argv, int& i)
   return (shuffle_seed_ != 0);
 }
 
-String
-CommandLineArguments::get_parameter_field(int argc,
+String CommandLineArguments::get_parameter_field(
+    int argc,
     const char* const* argv,
     int& i,
-    const String& parameter_name)
+    const String& parameter_name
+)
 {
   size_t parameter_length = parameter_name.size();
   String parameter(argv[i]);
@@ -379,22 +365,24 @@ CommandLineArguments::get_parameter_field(int argc,
   return "";
 }
 
-void
-CommandLineArguments::add_group_filter(int argc,
+void CommandLineArguments::add_group_filter(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   auto* group_filter = new TestFilter(get_parameter_field(argc, argv, i, "-g"));
   group_filters_ = group_filter->add(group_filters_);
 }
 
-bool
-CommandLineArguments::add_group_dot_name_filter(int argc,
+bool CommandLineArguments::add_group_dot_name_filter(
+    int argc,
     const char* const* argv,
     int& i,
     const String& parameter_name,
     bool strict,
-    bool exclude)
+    bool exclude
+)
 {
   String group_dot_name = get_parameter_field(argc, argv, i, parameter_name);
   StringCollection collection(group_dot_name, '.');
@@ -418,10 +406,11 @@ CommandLineArguments::add_group_dot_name_filter(int argc,
   return true;
 }
 
-void
-CommandLineArguments::add_strict_group_filter(int argc,
+void CommandLineArguments::add_strict_group_filter(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   auto* group_filter =
       new TestFilter(get_parameter_field(argc, argv, i, "-sg"));
@@ -429,10 +418,11 @@ CommandLineArguments::add_strict_group_filter(int argc,
   group_filters_ = group_filter->add(group_filters_);
 }
 
-void
-CommandLineArguments::add_exclude_group_filter(int argc,
+void CommandLineArguments::add_exclude_group_filter(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   auto* group_filter =
       new TestFilter(get_parameter_field(argc, argv, i, "-xg"));
@@ -440,10 +430,11 @@ CommandLineArguments::add_exclude_group_filter(int argc,
   group_filters_ = group_filter->add(group_filters_);
 }
 
-void
-CommandLineArguments::add_exclude_strict_group_filter(int argc,
+void CommandLineArguments::add_exclude_strict_group_filter(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   auto* group_filter =
       new TestFilter(get_parameter_field(argc, argv, i, "-xsg"));
@@ -452,17 +443,21 @@ CommandLineArguments::add_exclude_strict_group_filter(int argc,
   group_filters_ = group_filter->add(group_filters_);
 }
 
-void
-CommandLineArguments::add_name_filter(int argc, const char* const* argv, int& i)
+void CommandLineArguments::add_name_filter(
+    int argc,
+    const char* const* argv,
+    int& i
+)
 {
   auto* name_filter = new TestFilter(get_parameter_field(argc, argv, i, "-n"));
   name_filters_ = name_filter->add(name_filters_);
 }
 
-void
-CommandLineArguments::add_strict_name_filter(int argc,
+void CommandLineArguments::add_strict_name_filter(
+    int argc,
     const char* const* argv,
-    int& index)
+    int& index
+)
 {
   auto* name_filter =
       new TestFilter(get_parameter_field(argc, argv, index, "-sn"));
@@ -470,10 +465,11 @@ CommandLineArguments::add_strict_name_filter(int argc,
   name_filters_ = name_filter->add(name_filters_);
 }
 
-void
-CommandLineArguments::add_exclude_name_filter(int argc,
+void CommandLineArguments::add_exclude_name_filter(
+    int argc,
     const char* const* argv,
-    int& index)
+    int& index
+)
 {
   auto* name_filter =
       new TestFilter(get_parameter_field(argc, argv, index, "-xn"));
@@ -481,10 +477,11 @@ CommandLineArguments::add_exclude_name_filter(int argc,
   name_filters_ = name_filter->add(name_filters_);
 }
 
-void
-CommandLineArguments::add_exclude_strict_name_filter(int argc,
+void CommandLineArguments::add_exclude_strict_name_filter(
+    int argc,
     const char* const* argv,
-    int& index)
+    int& index
+)
 {
   auto* name_filter =
       new TestFilter(get_parameter_field(argc, argv, index, "-xsn"));
@@ -493,11 +490,12 @@ CommandLineArguments::add_exclude_strict_name_filter(int argc,
   name_filters_ = name_filter->add(name_filters_);
 }
 
-void
-CommandLineArguments::add_test_to_run_based_on_verbose_output(int argc,
+void CommandLineArguments::add_test_to_run_based_on_verbose_output(
+    int argc,
     const char* const* argv,
     int& index,
-    const char* parameter_name)
+    const char* parameter_name
+)
 {
   String wholename = get_parameter_field(argc, argv, index, parameter_name);
   String testname = sub_string_from_till(wholename, ',', ')');
@@ -511,10 +509,11 @@ CommandLineArguments::add_test_to_run_based_on_verbose_output(int argc,
   name_filters_ = namefilter->add(name_filters_);
 }
 
-void
-CommandLineArguments::set_package_name(int argc,
+void CommandLineArguments::set_package_name(
+    int argc,
     const char* const* argv,
-    int& i)
+    int& i
+)
 {
   String package_name = get_parameter_field(argc, argv, i, "-k");
   if (package_name.size() == 0)
@@ -523,8 +522,11 @@ CommandLineArguments::set_package_name(int argc,
   package_name_ = package_name;
 }
 
-bool
-CommandLineArguments::set_output_type(int argc, const char* const* argv, int& i)
+bool CommandLineArguments::set_output_type(
+    int argc,
+    const char* const* argv,
+    int& i
+)
 {
   String output_type = get_parameter_field(argc, argv, i, "-o");
   if (output_type.size() == 0)
@@ -546,26 +548,22 @@ CommandLineArguments::set_output_type(int argc, const char* const* argv, int& i)
   return false;
 }
 
-bool
-CommandLineArguments::is_eclipse_output() const
+bool CommandLineArguments::is_eclipse_output() const
 {
   return output_type_ == OutputType::eclipse;
 }
 
-bool
-CommandLineArguments::is_j_unit_output() const
+bool CommandLineArguments::is_j_unit_output() const
 {
   return output_type_ == OutputType::junit;
 }
 
-bool
-CommandLineArguments::is_team_city_output() const
+bool CommandLineArguments::is_team_city_output() const
 {
   return output_type_ == OutputType::teamcity;
 }
 
-const String&
-CommandLineArguments::get_package_name() const
+const String& CommandLineArguments::get_package_name() const
 {
   return package_name_;
 }

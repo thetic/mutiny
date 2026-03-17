@@ -34,8 +34,7 @@ TEST(ComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
   repository.clear();
 }
 
-TEST(ComparatorsAndCopiersRepository,
-    ComparatorAndCopierByTheSameNameShouldBothBeFound)
+TEST(ComparatorsAndCopiersRepository, ComparatorAndCopierByTheSameNameShouldBothBeFound)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -47,8 +46,7 @@ TEST(ComparatorsAndCopiersRepository,
   repository.clear();
 }
 
-TEST(ComparatorsAndCopiersRepository,
-    InstallComparatorsAndCopiersFromRepository)
+TEST(ComparatorsAndCopiersRepository, InstallComparatorsAndCopiersFromRepository)
 {
   MyComparator comparator;
   MyCopier copier;
@@ -78,9 +76,11 @@ TEST_GROUP(MockNamedValue)
 TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->set_value(0.2);
-  DOUBLES_EQUAL(cppmu::MockNamedValue::default_double_tolerance,
+  DOUBLES_EQUAL(
+      cppmu::MockNamedValue::default_double_tolerance,
       value->get_double_tolerance(),
-      0.0);
+      0.0
+  );
 }
 
 TEST(MockNamedValue, GivenToleranceUsed)

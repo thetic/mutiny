@@ -2,8 +2,7 @@
 
 namespace cppmu {
 namespace {
-size_t
-count_substr(const String& string, const String& substr)
+size_t count_substr(const String& string, const String& substr)
 {
   size_t num = 0;
   const char* str = string.c_str();
@@ -32,8 +31,7 @@ StringCollection::~StringCollection()
   delete[] collection_;
 }
 
-void
-StringCollection::split_string(String const& string, char d)
+void StringCollection::split_string(String const& string, char d)
 {
   auto delimiter = string_from(d);
 
@@ -53,8 +51,7 @@ StringCollection::split_string(String const& string, char d)
   }
 }
 
-void
-StringCollection::allocate(size_t size)
+void StringCollection::allocate(size_t size)
 {
   delete[] collection_;
 
@@ -62,14 +59,12 @@ StringCollection::allocate(size_t size)
   collection_ = new String[size_];
 }
 
-size_t
-StringCollection::size() const
+size_t StringCollection::size() const
 {
   return size_;
 }
 
-String&
-StringCollection::operator[](size_t index)
+String& StringCollection::operator[](size_t index)
 {
   if (index >= size_) {
     empty_ = "";
