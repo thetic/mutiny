@@ -42,27 +42,19 @@ printable(String const& str)
   };
 
   String result;
-  result.reserve(get_printable_size(str) + 1);
+  result.reserve(get_printable_size(str));
 
   size_t str_size = str.size();
-  size_t j = 0;
   for (size_t i = 0; i < str_size; i++) {
     char c = str.c_str()[i];
     if (is_control_with_short_escape_sequence(c)) {
-      str_n_cpy(&result.data()[j],
-          short_escape_codes[static_cast<unsigned char>(c - '\a')],
-          2);
-      j += 2;
+      result += short_escape_codes[static_cast<unsigned char>(c - '\a')];
     } else if (is_control(c)) {
-      String hex_escape_code = string_from_format("\\x%02X ", c);
-      str_n_cpy(&result.data()[j], hex_escape_code.c_str(), 4);
-      j += 4;
+      result += string_from_format("\\x%02X ", c);
     } else {
-      result.data()[j] = c;
-      j++;
+      result += string_from(c);
     }
   }
-  result.data()[j] = 0;
 
   return result;
 }
@@ -194,7 +186,7 @@ TestFailure::create_difference_at_pos_string(const String& actual,
   const size_t half_of_extra_characters_window = extra_characters_window / 2;
 
   String padding_for_preventing_out_of_bounds(
-      " ", half_of_extra_characters_window);
+      half_of_extra_characters_window, ' ');
   String actual_string = padding_for_preventing_out_of_bounds + actual +
                          padding_for_preventing_out_of_bounds;
   String different_string =
@@ -207,7 +199,7 @@ TestFailure::create_difference_at_pos_string(const String& actual,
       actual_string.substr(offset, extra_characters_window).c_str());
 
   result += string_from_format("\t%s^",
-      String(" ", (different_string.size() + half_of_extra_characters_window))
+      String(different_string.size() + half_of_extra_characters_window, ' ')
           .c_str());
   return result;
 }

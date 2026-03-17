@@ -30,18 +30,18 @@ wrapped_up_vsn_printf(char* buf, size_t n, const char* format, ...)
 TEST_GROUP(String)
 {};
 
-TEST(String, CreateSequence)
+TEST(String, CreateRepeatedChar)
 {
-  cppmu::String expected("hellohello");
-  cppmu::String actual("hello", 2);
+  cppmu::String expected("aaaa");
+  cppmu::String actual(4, 'a');
 
   CHECK_EQUAL(expected, actual);
 }
 
-TEST(String, CreateSequenceOfZero)
+TEST(String, CreateRepeatedCharZero)
 {
   cppmu::String expected("");
-  cppmu::String actual("hello", 0);
+  cppmu::String actual(0, 'x');
 
   CHECK_EQUAL(expected, actual);
 }
@@ -167,31 +167,31 @@ TEST(String, stringEndsWith)
   CHECK(string_ends_with(str4, "ha"));
 }
 
-TEST(String, replaceCharWithChar)
+TEST(String, stringReplaceCharWithChar)
 {
   cppmu::String str("abcabcabca");
-  str.replace('a', 'b');
+  cppmu::string_replace(str, 'a', 'b');
   STRCMP_EQUAL("bbcbbcbbcb", str.c_str());
 }
 
-TEST(String, replaceEmptyStringWithEmptyString)
+TEST(String, stringReplaceEmptyStringWithEmptyString)
 {
   cppmu::String str;
-  str.replace("", "");
+  cppmu::string_replace(str, "", "");
   STRCMP_EQUAL("", str.c_str());
 }
 
-TEST(String, replaceWholeString)
+TEST(String, stringReplaceWholeString)
 {
   cppmu::String str("boo");
-  str.replace("boo", "");
+  cppmu::string_replace(str, "boo", "");
   STRCMP_EQUAL("", str.c_str());
 }
 
-TEST(String, replaceStringWithString)
+TEST(String, stringReplaceStringWithString)
 {
   cppmu::String str("boo baa boo baa boo");
-  str.replace("boo", "boohoo");
+  cppmu::string_replace(str, "boo", "boohoo");
   STRCMP_EQUAL("boohoo baa boohoo baa boohoo", str.c_str());
 }
 
@@ -237,36 +237,67 @@ TEST(String, subStringBeginPosOutOfBounds)
   STRCMP_EQUAL("", str.substr(13, 5).c_str());
 }
 
-TEST(String, subStringFromTillNormal)
-{
-  cppmu::String str("Hello World");
-  STRCMP_EQUAL("Hello", str.sub_string_from_till('H', ' ').c_str());
-}
-
-TEST(String, subStringFromTillOutOfBounds)
-{
-  cppmu::String str("Hello World");
-  STRCMP_EQUAL("World", str.sub_string_from_till('W', '!').c_str());
-}
-
-TEST(String, subStringFromTillStartDoesntExist)
-{
-  cppmu::String str("Hello World");
-  STRCMP_EQUAL("", str.sub_string_from_till('!', ' ').c_str());
-}
-
-TEST(String, subStringFromTillWhenTheEndAppearsBeforeTheStart)
-{
-  cppmu::String str("Hello World");
-  STRCMP_EQUAL("World", str.sub_string_from_till('W', 'H').c_str());
-}
-
 TEST(String, findNormal)
 {
   cppmu::String str("Hello World");
   LONGS_EQUAL(0, str.find('H'));
   LONGS_EQUAL(1, str.find('e'));
   LONGS_EQUAL(cppmu::String::npos, str.find('!'));
+}
+
+TEST(String, findCharFromPos)
+{
+  cppmu::String str("Hello World");
+  LONGS_EQUAL(2, str.find('l', 0));
+  LONGS_EQUAL(3, str.find('l', 3));
+  LONGS_EQUAL(cppmu::String::npos, str.find('l', 10));
+}
+
+TEST(String, findSubstring)
+{
+  cppmu::String str("Hello World");
+  LONGS_EQUAL(0, str.find("Hello"));
+  LONGS_EQUAL(6, str.find("World"));
+  LONGS_EQUAL(cppmu::String::npos, str.find("xyz"));
+}
+
+TEST(String, findSubstringFromPos)
+{
+  cppmu::String str("abcabc");
+  LONGS_EQUAL(0, str.find("abc", 0));
+  LONGS_EQUAL(3, str.find("abc", 1));
+  LONGS_EQUAL(cppmu::String::npos, str.find("abc", 4));
+}
+
+TEST(String, findEmptySubstring)
+{
+  cppmu::String str("Hello");
+  LONGS_EQUAL(0, str.find(""));
+  LONGS_EQUAL(3, str.find("", 3));
+}
+
+TEST(String, clear)
+{
+  cppmu::String str("Hello");
+  str.clear();
+  STRCMP_EQUAL("", str.c_str());
+  LONGS_EQUAL(0, str.size());
+}
+
+TEST(String, lessThan)
+{
+  cppmu::String a("abc");
+  cppmu::String b("abd");
+  cppmu::String c("abc");
+  CHECK(a < b);
+  CHECK(!(b < a));
+  CHECK(!(a < c));
+}
+
+TEST(String, dataConst)
+{
+  const cppmu::String str("Hello");
+  STRCMP_EQUAL("Hello", str.data());
 }
 
 TEST(String, index)

@@ -6,6 +6,24 @@
 
 namespace cppmu {
 
+namespace {
+String
+sub_string_from_till(const String& str,
+    char start_char,
+    char last_excluded_char)
+{
+  size_t begin_pos = str.find(start_char);
+  if (begin_pos == String::npos)
+    return "";
+
+  size_t end_pos = str.find(last_excluded_char, begin_pos);
+  if (end_pos == String::npos)
+    return str.substr(begin_pos);
+
+  return str.substr(begin_pos, end_pos - begin_pos);
+}
+} // namespace
+
 CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
   : ac_(argc)
   , av_(argv)
@@ -482,11 +500,11 @@ CommandLineArguments::add_test_to_run_based_on_verbose_output(int argc,
     const char* parameter_name)
 {
   String wholename = get_parameter_field(argc, argv, index, parameter_name);
-  String testname = wholename.sub_string_from_till(',', ')');
+  String testname = sub_string_from_till(wholename, ',', ')');
   testname = testname.substr(2);
   auto* namefilter = new TestFilter(testname);
   auto* groupfilter =
-      new TestFilter(wholename.sub_string_from_till(wholename[0], ','));
+      new TestFilter(sub_string_from_till(wholename, wholename[0], ','));
   namefilter->strict_matching();
   groupfilter->strict_matching();
   group_filters_ = groupfilter->add(group_filters_);

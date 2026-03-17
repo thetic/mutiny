@@ -39,7 +39,7 @@ class String
 
 public:
   String(const char* value = "");
-  String(const char* value, size_t repeat_count);
+  String(size_t count, char ch);
   String(const String& other);
   String(String&& other) noexcept;
   ~String();
@@ -54,27 +54,26 @@ public:
 
   char& operator[](size_t pos) { return data()[pos]; }
   const char& operator[](size_t pos) const { return c_str()[pos]; }
-  size_t find(char ch) const;
 
-  void replace(char to, char with);
-  void replace(const char* to, const char* with);
+  size_t find(char ch, size_t pos = 0) const;
+  size_t find(const char* s, size_t pos = 0) const;
 
   String substr(size_t begin_pos) const;
   String substr(size_t begin_pos, size_t amount) const;
-  String sub_string_from_till(char start_char, char last_excluded_char) const;
 
   const char* c_str() const;
+  const char* data() const;
   char* data();
   size_t size() const;
   size_t length() const { return size(); }
   size_t capacity() const { return buffer_size_; }
   bool empty() const;
-  void reserve(size_t buffer_size);
+  void clear();
+  void reserve(size_t new_capacity);
+
+  friend bool operator<(const String& left, const String& right);
 
 private:
-  size_t find_from(size_t starting_position, char ch) const;
-  size_t count(const String& str) const;
-
   void deallocate_internal_buffer();
   void set_internal_buffer_as_empty_string();
   void set_internal_buffer_to(char* buffer, size_t buffer_size);
@@ -95,6 +94,11 @@ bool
 string_starts_with(const String& str, const String& prefix);
 bool
 string_ends_with(const String& str, const String& suffix);
+
+void
+string_replace(String& str, char from, char to);
+void
+string_replace(String& str, const char* from, const char* to);
 
 bool
 is_control(char ch);

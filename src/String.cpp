@@ -194,13 +194,24 @@ String::copy_buffer_to_new_internal_buffer(const char* other_buffer,
 }
 
 void
-String::reserve(size_t buffer_size)
+String::reserve(size_t new_capacity)
 {
-  deallocate_internal_buffer();
+  size_t needed = new_capacity + 1;
+  if (needed <= buffer_size_)
+    return;
 
-  buffer_size_ = buffer_size;
-  buffer_ = alloc_string_buffer(buffer_size_, __FILE__, __LINE__);
-  buffer_[0] = '\0';
+  char* new_buffer = alloc_string_buffer(needed, __FILE__, __LINE__);
+  str_n_cpy(new_buffer, buffer_, buffer_size_);
+  new_buffer[needed - 1] = '\0';
+  deallocate_internal_buffer();
+  buffer_ = new_buffer;
+  buffer_size_ = needed;
+}
+
+void
+String::clear()
+{
+  set_internal_buffer_as_empty_string();
 }
 
 void
@@ -235,19 +246,15 @@ String::String(const char* other_buffer)
     copy_buffer_to_new_internal_buffer(other_buffer);
 }
 
-String::String(const char* other, size_t repeat_count)
+String::String(size_t count, char ch)
   : buffer_(nullptr)
   , buffer_size_(0)
 {
-  size_t other_string_length = str_len(other);
-  reserve(other_string_length * repeat_count + 1);
-
-  char* next = buffer_;
-  for (size_t i = 0; i < repeat_count; i++) {
-    str_n_cpy(next, other, other_string_length + 1);
-    next += other_string_length;
-  }
-  *next = 0;
+  buffer_size_ = count + 1;
+  buffer_ = alloc_string_buffer(buffer_size_, __FILE__, __LINE__);
+  for (size_t i = 0; i < count; i++)
+    buffer_[i] = ch;
+  buffer_[count] = '\0';
 }
 
 String::String(const String& other)
@@ -319,68 +326,46 @@ string_ends_with(const String& str, const String& suffix)
   return str_cmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
 }
 
-size_t
-String::count(const String& substr) const
-{
-  size_t num = 0;
-  const char* str = c_str();
-  const char* strpart = nullptr;
-  if (*str) {
-    strpart = str_str(str, substr.c_str());
-  }
-  while (*str && strpart) {
-    str = strpart;
-    str++;
-    num++;
-    strpart = str_str(str, substr.c_str());
-  }
-  return num;
-}
-
 void
-String::replace(char to, char with)
+string_replace(String& str, char from, char to)
 {
-  size_t s = size();
+  size_t s = str.size();
   for (size_t i = 0; i < s; i++) {
-    if (c_str()[i] == to)
-      buffer_[i] = with;
+    if (str[i] == from)
+      str[i] = to;
   }
 }
 
 void
-String::replace(const char* to, const char* with)
+string_replace(String& str, const char* from, const char* to)
 {
-  size_t c = count(to);
-  if (c == 0) {
+  size_t fromlen = str_len(from);
+  if (fromlen == 0)
     return;
+
+  String result;
+  size_t pos = 0;
+  size_t found = str.find(from, pos);
+  while (found != String::npos) {
+    result += str.substr(pos, found - pos);
+    result += to;
+    pos = found + fromlen;
+    found = str.find(from, pos);
   }
-  size_t len = size();
-  size_t tolen = str_len(to);
-  size_t withlen = str_len(with);
-
-  size_t newsize = len + (withlen * c) - (tolen * c) + 1;
-
-  if (newsize > 1) {
-    char* newbuf = alloc_string_buffer(newsize, __FILE__, __LINE__);
-    for (size_t i = 0, j = 0; i < len;) {
-      if (str_n_cmp(&c_str()[i], to, tolen) == 0) {
-        str_n_cpy(&newbuf[j], with, withlen + 1);
-        j += withlen;
-        i += tolen;
-      } else {
-        newbuf[j] = c_str()[i];
-        j++;
-        i++;
-      }
-    }
-    newbuf[newsize - 1] = '\0';
-    set_internal_buffer_to(newbuf, newsize);
-  } else
-    set_internal_buffer_as_empty_string();
+  if (pos == 0)
+    return;
+  result += str.substr(pos);
+  str = result;
 }
 
 const char*
 String::c_str() const
+{
+  return buffer_;
+}
+
+const char*
+String::data() const
 {
   return buffer_;
 }
@@ -455,10 +440,7 @@ pad_strings_to_same_length(String& str1, String& str2, char pad_character)
     return;
   }
 
-  char pad[2];
-  pad[0] = pad_character;
-  pad[1] = 0;
-  str1 = String(pad, str2.size() - str1.size()) + str1;
+  str1 = String(str2.size() - str1.size(), pad_character) + str1;
 }
 
 String
@@ -482,33 +464,30 @@ String::substr(size_t begin_pos) const
 }
 
 size_t
-String::find(char ch) const
-{
-  return find_from(0, ch);
-}
-
-size_t
-String::find_from(size_t starting_position, char ch) const
+String::find(char ch, size_t pos) const
 {
   size_t len = size();
-  for (size_t i = starting_position; i < len; i++)
+  for (size_t i = pos; i < len; i++)
     if (c_str()[i] == ch)
       return i;
   return npos;
 }
 
-String
-String::sub_string_from_till(char start_char, char last_excluded_char) const
+size_t
+String::find(const char* s, size_t pos) const
 {
-  size_t begin_pos = find(start_char);
-  if (begin_pos == npos)
-    return "";
+  if (pos > size())
+    return npos;
+  const char* found = str_str(c_str() + pos, s);
+  if (found == nullptr)
+    return npos;
+  return static_cast<size_t>(found - c_str());
+}
 
-  size_t end_pos = find_from(begin_pos, last_excluded_char);
-  if (end_pos == npos)
-    return substr(begin_pos);
-
-  return substr(begin_pos, end_pos - begin_pos);
+bool
+operator<(const String& left, const String& right)
+{
+  return str_cmp(left.c_str(), right.c_str()) < 0;
 }
 
 namespace {

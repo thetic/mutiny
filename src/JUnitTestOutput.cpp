@@ -145,7 +145,7 @@ JUnitTestOutput::encode_file_name(const String& file_name)
 
   String result = file_name;
   for (const char* sym = forbidden_characters; *sym; ++sym) {
-    result.replace(*sym, '_');
+    string_replace(result, *sym, '_');
   }
   return result;
 }
@@ -190,12 +190,12 @@ String
 JUnitTestOutput::encode_xml_text(const String& textbody)
 {
   String buf = textbody.c_str();
-  buf.replace("&", "&amp;");
-  buf.replace("\"", "&quot;");
-  buf.replace("<", "&lt;");
-  buf.replace(">", "&gt;");
-  buf.replace("\r", "&#13;");
-  buf.replace("\n", "&#10;");
+  string_replace(buf, "&", "&amp;");
+  string_replace(buf, "\"", "&quot;");
+  string_replace(buf, "<", "&lt;");
+  string_replace(buf, ">", "&gt;");
+  string_replace(buf, "\r", "&#13;");
+  string_replace(buf, "\n", "&#10;");
   return buf;
 }
 

@@ -64,7 +64,7 @@ TestRegistry::list_test_group_names(TestResult& result)
     }
   }
 
-  group_list.replace("#", "");
+  string_replace(group_list, "#", "");
 
   if (string_ends_with(group_list, " "))
     group_list = group_list.substr(0, group_list.size() - 1);
@@ -92,7 +92,7 @@ TestRegistry::list_test_group_and_case_names(TestResult& result)
     }
   }
 
-  group_and_name_list.replace("#", "");
+  string_replace(group_and_name_list, "#", "");
 
   if (string_ends_with(group_and_name_list, " "))
     group_and_name_list =
