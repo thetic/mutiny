@@ -415,45 +415,6 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
-TEST(CommandLineArguments, setNormalOutput)
-{
-  int argc = 2;
-  const char* argv[] = { "tests.exe", "-onormal" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_eclipse_output());
-}
-
-TEST(CommandLineArguments, setEclipseOutput)
-{
-  int argc = 2;
-  const char* argv[] = { "tests.exe", "-oeclipse" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_eclipse_output());
-}
-
-TEST(CommandLineArguments, setNormalOutputDifferentParameter)
-{
-  int argc = 3;
-  const char* argv[] = { "tests.exe", "-o", "normal" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_eclipse_output());
-}
-
-TEST(CommandLineArguments, setJUnitOutputDifferentParameter)
-{
-  int argc = 3;
-  const char* argv[] = { "tests.exe", "-o", "junit" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_j_unit_output());
-}
-
-TEST(CommandLineArguments, setOutputToGarbage)
-{
-  int argc = 3;
-  const char* argv[] = { "tests.exe", "-o", "garbage" };
-  CHECK(!new_argument_parser(argc, argv));
-}
-
 TEST(CommandLineArguments, setPrintGroups)
 {
   int argc = 2;
@@ -486,8 +447,7 @@ TEST(CommandLineArguments, printUsage)
       "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
       "[-t|st|xt|xst <groupName>.<testName>]...\n"
       "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
-      "<testName>)\"]...\n"
-      "      [-o{normal|eclipse|junit}] [-k <packageName>]\n",
+      "<testName>)\"]...\n",
       args->usage()
   );
 }
@@ -518,8 +478,6 @@ TEST(CommandLineArguments, checkDefaultArguments)
   LONGS_EQUAL(1, args->get_repeat_count());
   CHECK(nullptr == args->get_group_filters());
   CHECK(nullptr == args->get_name_filters());
-  CHECK(args->is_eclipse_output());
-  CHECK(cppmu::String("") == args->get_package_name());
   CHECK(!args->is_crashing_on_fail());
   CHECK(args->is_rethrowing_exceptions());
 }
@@ -533,18 +491,8 @@ TEST(CommandLineArguments, checkContinuousIntegrationMode)
   LONGS_EQUAL(1, args->get_repeat_count());
   CHECK(nullptr == args->get_group_filters());
   CHECK(nullptr == args->get_name_filters());
-  CHECK(args->is_eclipse_output());
-  CHECK(cppmu::String("") == args->get_package_name());
   CHECK(!args->is_crashing_on_fail());
   CHECK_FALSE(args->is_rethrowing_exceptions());
-}
-
-TEST(CommandLineArguments, setPackageName)
-{
-  int argc = 3;
-  const char* argv[] = { "tests.exe", "-k", "package" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cppmu::String("package"), args->get_package_name());
 }
 
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
@@ -568,14 +516,6 @@ TEST(CommandLineArguments, lotsOfGroupsAndTests)
   );
 }
 
-TEST(CommandLineArguments, lastParameterFieldMissing)
-{
-  int argc = 2;
-  const char* argv[] = { "tests.exe", "-k" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(cppmu::String(""), args->get_package_name());
-}
-
 TEST(CommandLineArguments, setOptRun)
 {
   int argc = 2;
@@ -590,13 +530,6 @@ TEST(CommandLineArguments, setOptCrashOnFail)
   const char* argv[] = { "tests.exe", "-f" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(args->is_crashing_on_fail());
-}
-
-TEST(CommandLineArguments, setOutputTypeWithBareOptionReturnsFalse)
-{
-  int argc = 2;
-  const char* argv[] = { "tests.exe", "-o" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, testVerboseOutputMissingClosingBracketSucceeds)

@@ -33,6 +33,7 @@ target_sources(CppMu
         src/ExecFunctionTestShell.cpp
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
+        src/JUnitOutputPlugin.cpp
         src/JUnitTestOutput.cpp
         src/math.cpp
         src/MockActualCallTrace.cpp
@@ -108,6 +109,7 @@ target_sources(CppMu
         FILES
             src/include/CppMu/CompositeTestOutput.hpp
             src/include/CppMu/ExecFunctionTestShell.hpp
+            src/include/CppMu/JUnitOutputPlugin.hpp
             src/include/CppMu/JUnitTestOutput.hpp
             src/include/CppMu/math.hpp
             src/include/CppMu/MockActualCallTrace.hpp

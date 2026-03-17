@@ -29,6 +29,8 @@ public:
   void print_failure(const TestFailure& failure) override;
   void print_test_property(const char* name, const char* value) override;
 
+  bool needs_console_companion() const override { return true; }
+
   virtual String create_file_name(const String& group);
   void set_package_name(const String& package);
 

@@ -113,12 +113,8 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
       add_test_to_run_based_on_verbose_output(ac_, av_, i, "TEST(");
     else if (string_starts_with(argument, "IGNORE_TEST("))
       add_test_to_run_based_on_verbose_output(ac_, av_, i, "IGNORE_TEST(");
-    else if (string_starts_with(argument, "-o"))
-      correct_parameters = set_output_type(ac_, av_, i);
     else if (string_starts_with(argument, "-p"))
       correct_parameters = plugin->parse_all_arguments(ac_, av_, i);
-    else if (string_starts_with(argument, "-k"))
-      set_package_name(ac_, av_, i);
     else
       correct_parameters = false;
 
@@ -137,8 +133,7 @@ const char* CommandLineArguments::usage() const
          "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
          "[-t|st|xt|xst <groupName>.<testName>]...\n"
          "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
-         "<testName>)\"]...\n"
-         "      [-o{normal|eclipse|junit}] [-k <packageName>]\n";
+         "<testName>)\"]...\n";
 }
 
 const char* CommandLineArguments::help() const
@@ -162,15 +157,6 @@ const char* CommandLineArguments::help() const
          "  -v                - verbose, print each test name as it runs\n"
          "  -vv               - very verbose, print internal information "
          "during test run\n"
-         "\n"
-         "Options that change the output location:\n"
-         "  -onormal          - no output to files\n"
-         "  -oeclipse         - equivalent to -onormal\n"
-         "  -ojunit           - output to JUnit ant plugin style xml files "
-         "(for CI systems)\n"
-         "  -k <packageName>  - add a package name in JUnit output (for "
-         "classification in CI systems)\n"
-         "\n"
          "\n"
          "Options that control which tests are run:\n"
          "  -g <group>        - only run tests whose group contains <group>\n"
@@ -505,56 +491,6 @@ void CommandLineArguments::add_test_to_run_based_on_verbose_output(
   groupfilter->strict_matching();
   group_filters_ = groupfilter->add(group_filters_);
   name_filters_ = namefilter->add(name_filters_);
-}
-
-void CommandLineArguments::set_package_name(
-    int argc,
-    const char* const* argv,
-    int& i
-)
-{
-  String package_name = get_parameter_field(argc, argv, i, "-k");
-  if (package_name.size() == 0)
-    return;
-
-  package_name_ = package_name;
-}
-
-bool CommandLineArguments::set_output_type(
-    int argc,
-    const char* const* argv,
-    int& i
-)
-{
-  String output_type = get_parameter_field(argc, argv, i, "-o");
-  if (output_type.size() == 0)
-    return false;
-
-  if (output_type == "normal" || output_type == "eclipse") {
-    output_type_ = OutputType::eclipse;
-    return true;
-  }
-  if (output_type == "junit") {
-    output_type_ = OutputType::junit;
-    return true;
-  }
-
-  return false;
-}
-
-bool CommandLineArguments::is_eclipse_output() const
-{
-  return output_type_ == OutputType::eclipse;
-}
-
-bool CommandLineArguments::is_j_unit_output() const
-{
-  return output_type_ == OutputType::junit;
-}
-
-const String& CommandLineArguments::get_package_name() const
-{
-  return package_name_;
 }
 
 } // namespace cppmu

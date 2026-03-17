@@ -1,7 +1,6 @@
 #include "CppMu/CommandLineTestRunner.hpp"
 
 #include "CppMu/CppMu.hpp"
-#include "CppMu/JUnitTestOutput.hpp"
 #include "CppMu/StringCollection.hpp"
 #include "CppMu/TestPlugin.hpp"
 #include "CppMu/TestRegistry.hpp"
@@ -38,9 +37,6 @@ class CommandLineTestRunnerWithStringBufferOutput
   : public cppmu::CommandLineTestRunner
 {
 public:
-  cppmu::StringBufferTestOutput* fake_j_unit_output_which_is_really_a_buffer{
-    nullptr
-  };
   cppmu::StringBufferTestOutput* fake_console_output_which_is_really_a_buffer{
     nullptr
   };
@@ -60,13 +56,6 @@ public:
     fake_console_output_which_is_really_a_buffer =
         new cppmu::StringBufferTestOutput;
     return fake_console_output_which_is_really_a_buffer;
-  }
-
-  cppmu::TestOutput* create_j_unit_output(const cppmu::String&) override
-  {
-    fake_j_unit_output_which_is_really_a_buffer =
-        new cppmu::StringBufferTestOutput;
-    return fake_j_unit_output_which_is_really_a_buffer;
   }
 };
 
@@ -128,7 +117,7 @@ TEST_GROUP(CommandLineTestRunner)
   }
 };
 
-TEST(CommandLineTestRunner, OnePluginGetsInstalledDuringTheRunningTheTests)
+TEST(CommandLineTestRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
 {
   const char* argv[] = { "tests.exe", "-psomething" };
 
@@ -141,7 +130,7 @@ TEST(CommandLineTestRunner, OnePluginGetsInstalledDuringTheRunningTheTests)
   registry.remove_plugin_by_name("PluginCountingPlugin");
 
   LONGS_EQUAL(0, registry.count_plugins());
-  LONGS_EQUAL(1, plugin_counting_plugin->amount_of_plugins);
+  LONGS_EQUAL(2, plugin_counting_plugin->amount_of_plugins);
 }
 
 TEST(CommandLineTestRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
@@ -208,42 +197,6 @@ TEST(CommandLineTestRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
   int returned = command_line_test_runner.run_all_tests_main();
 
   LONGS_EQUAL(1, returned);
-}
-
-TEST(CommandLineTestRunner, JunitOutputEnabled)
-{
-  const char* argv[] = { "tests.exe", "-ojunit" };
-
-  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
-      2, argv, &registry
-  );
-  command_line_test_runner.run_all_tests_main();
-  CHECK(
-      command_line_test_runner.fake_j_unit_output_which_is_really_a_buffer !=
-      nullptr
-  );
-}
-
-TEST(CommandLineTestRunner, JunitOutputAndVerboseEnabled)
-{
-  const char* argv[] = { "tests.exe", "-ojunit", "-v" };
-
-  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
-      3, argv, &registry
-  );
-  command_line_test_runner.run_all_tests_main();
-  STRCMP_CONTAINS(
-      "TEST(group1, test1)",
-      command_line_test_runner.fake_j_unit_output_which_is_really_a_buffer
-          ->get_output()
-          .c_str()
-  );
-  STRCMP_CONTAINS(
-      "TEST(group1, test1)",
-      command_line_test_runner.fake_console_output_which_is_really_a_buffer
-          ->get_output()
-          .c_str()
-  );
 }
 
 TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
@@ -444,21 +397,19 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 {
   const char* argv[] = {
     "tests.exe",
-    "-ojunit",
+    "-pjunit",
     "-v",
-    "-kpackage",
   };
 
   FakeOutput fake_output; /* CPPMU_PTR_SET() is not reentrant */
 
-  cppmu::CommandLineTestRunner command_line_test_runner(4, argv, &registry);
+  cppmu::CommandLineTestRunner command_line_test_runner(3, argv, &registry);
   command_line_test_runner.run_all_tests_main();
 
   fake_output.restore_originals();
 
   STRCMP_CONTAINS(
-      "<testcase classname=\"package.group1\" name=\"test1\"",
-      fake_output.file.c_str()
+      "<testcase classname=\"group1\" name=\"test1\"", fake_output.file.c_str()
   );
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());
 }

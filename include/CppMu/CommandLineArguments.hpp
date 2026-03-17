@@ -35,19 +35,10 @@ public:
   size_t get_shuffle_seed() const;
   const TestFilter* get_group_filters() const;
   const TestFilter* get_name_filters() const;
-  bool is_j_unit_output() const;
-  bool is_eclipse_output() const;
-  const String& get_package_name() const;
   const char* usage() const;
   const char* help() const;
 
 private:
-  enum class OutputType
-  {
-    eclipse,
-    junit
-  };
-
   int ac_;
   const char* const* av_;
 
@@ -69,9 +60,6 @@ private:
   size_t shuffle_seed_{ 0 };
   TestFilter* group_filters_{ nullptr };
   TestFilter* name_filters_{ nullptr };
-  OutputType output_type_{ OutputType::eclipse };
-  String package_name_;
-
   String get_parameter_field(
       int argc,
       const char* const* argv,
@@ -110,8 +98,6 @@ private:
       int& index,
       const char* parameter_name
   );
-  bool set_output_type(int argc, const char* const* argv, int& index);
-  void set_package_name(int argc, const char* const* argv, int& index);
 };
 
 } // namespace cppmu

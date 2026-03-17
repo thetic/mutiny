@@ -2,7 +2,7 @@
 
 #include "CppMu/CompositeTestOutput.hpp"
 #include "CppMu/ConsoleTestOutput.hpp"
-#include "CppMu/JUnitTestOutput.hpp"
+#include "CppMu/JUnitOutputPlugin.hpp"
 #include "CppMu/SetPointerPlugin.hpp"
 #include "CppMu/TestOutput.hpp"
 #include "CppMu/TestRegistry.hpp"
@@ -42,13 +42,16 @@ int CommandLineTestRunner::run_all_tests_main()
 {
   int test_result = 1;
 
-  SetPointerPlugin plugin;
-  registry_->install_plugin(&plugin);
+  SetPointerPlugin set_pointer_plugin;
+  JUnitOutputPlugin junit_plugin;
+  registry_->install_plugin(&set_pointer_plugin);
+  registry_->install_plugin(&junit_plugin);
 
   if (parse_arguments(registry_->get_first_plugin()))
     test_result = run_all_tests();
 
-  registry_->remove_plugin_by_name(plugin.name);
+  registry_->remove_plugin_by_name(set_pointer_plugin.name);
+  registry_->remove_plugin_by_name(junit_plugin.name);
   return test_result;
 }
 
@@ -129,17 +132,6 @@ int CommandLineTestRunner::run_all_tests()
   );
 }
 
-TestOutput* CommandLineTestRunner::create_j_unit_output(
-    const String& package_name
-)
-{
-  auto* junit_output = new JUnitTestOutput;
-  if (junit_output != nullptr) {
-    junit_output->set_package_name(package_name);
-  }
-  return junit_output;
-}
-
 TestOutput* CommandLineTestRunner::create_console_output()
 {
   return new ConsoleTestOutput;
@@ -166,14 +158,15 @@ bool CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
     return false;
   }
 
-  if (arguments_->is_j_unit_output()) {
-    output_ = create_j_unit_output(arguments_->get_package_name());
-    if (arguments_->is_verbose() || arguments_->is_very_verbose())
+  TestOutput* plugin_output =
+      registry_->get_first_plugin()->create_all_outputs();
+  if (plugin_output) {
+    output_ = plugin_output;
+    if ((arguments_->is_verbose() || arguments_->is_very_verbose()) &&
+        plugin_output->needs_console_companion())
       output_ = create_composite_output(output_, create_console_output());
   } else {
-    TestOutput* plugin_output =
-        registry_->get_first_plugin()->create_all_outputs();
-    output_ = plugin_output ? plugin_output : create_console_output();
+    output_ = create_console_output();
   }
   return true;
 }

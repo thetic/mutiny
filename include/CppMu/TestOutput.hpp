@@ -64,6 +64,8 @@ public:
 
   virtual void print_very_verbose(const char*);
 
+  virtual bool needs_console_companion() const { return false; }
+
   virtual void flush() {}
 
 protected:
