@@ -4,12 +4,6 @@
 #include "CppMu/ConsoleTestOutput.hpp"
 #include "CppMu/TestPlugin.hpp"
 
-namespace cppmu {
-class TestFailure;
-class TestResult;
-class TestShell;
-} // namespace cppmu
-
 class TeamCityTestOutput : public cppmu::ConsoleTestOutput
 {
 public:

@@ -1,7 +1,6 @@
 #ifndef INCLUDED_CPPMU_MOCKACTUALCALL_HPP
 #define INCLUDED_CPPMU_MOCKACTUALCALL_HPP
 
-#include "CppMu/CppMu.h"
 #include "CppMu/MockNamedValue.hpp"
 
 namespace cppmu {
