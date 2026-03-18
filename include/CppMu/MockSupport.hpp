@@ -12,14 +12,7 @@ class MockFailureReporter;
 class MockNamedValueComparatorsAndCopiersRepository;
 class MockNamedValueListNode;
 
-class MockSupport;
-
 /* This allows access to "the global" mocking support for easier testing */
-MockSupport& mock(
-    const cppmu::String& mock_name = "",
-    MockFailureReporter* failure_reporter_for_this_call = nullptr
-);
-
 class MockSupport
 {
 public:
@@ -160,6 +153,11 @@ private:
 
   cppmu::String append_scope_to_name(const cppmu::String& function_name);
 };
+
+MockSupport& mock(
+    const cppmu::String& mock_name = "",
+    MockFailureReporter* failure_reporter_for_this_call = nullptr
+);
 
 } // namespace cppmu
 

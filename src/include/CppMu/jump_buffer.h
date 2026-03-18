@@ -1,5 +1,7 @@
-#ifndef INCLUDED_CPPMU_TEST_JUMP_BUFFER_H
-#define INCLUDED_CPPMU_TEST_JUMP_BUFFER_H
+#ifndef INCLUDED_CPPMU_JUMP_BUFFER_H
+#define INCLUDED_CPPMU_JUMP_BUFFER_H
+
+#include <stdbool.h>
 
 /* Internal interface for the setjmp/longjmp test-exception mechanism.
  * Not part of the public API. */
@@ -9,7 +11,8 @@ extern "C"
 {
 #endif
 
-  int test_set_jmp(void (*function)(void*), void* data);
+  bool cppmu_set_jmp(void (*function)(void*), void* data);
+
 #ifdef __cplusplus
   [[noreturn]]
 #elif defined(_MSC_VER)
@@ -17,11 +20,12 @@ __declspec(noreturn)
 #else
 _Noreturn
 #endif
-  void test_long_jmp(void);
-  void test_restore_jump_buffer(void);
+  void cppmu_long_jmp(void);
+
+  void cppmu_restore_jump_buffer(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* INCLUDED_CPPMU_TEST_JUMP_BUFFER_H */
+#endif /* INCLUDED_CPPMU_JUMP_BUFFER_H */

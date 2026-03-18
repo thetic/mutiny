@@ -7,6 +7,7 @@
 #ifndef INCLUDED_CPPMU_CPPMU_H
 #define INCLUDED_CPPMU_CPPMU_H
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #ifdef __cplusplus
@@ -15,106 +16,102 @@ extern "C"
 #else
 
 #define CHECK_EQUAL_BOOL(expected, actual)                                     \
-  check_equal_c_bool_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_bool(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_BOOL_TEXT(expected, actual, text)                          \
-  check_equal_c_bool_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_bool(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_INT(expected, actual)                                      \
-  check_equal_c_int_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_int(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_INT_TEXT(expected, actual, text)                           \
-  check_equal_c_int_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_int(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_UINT(expected, actual)                                     \
-  check_equal_c_uint_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_uint(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_UINT_TEXT(expected, actual, text)                          \
-  check_equal_c_uint_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_uint(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LONG(expected, actual)                                     \
-  check_equal_c_long_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_long(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LONG_TEXT(expected, actual, text)                          \
-  check_equal_c_long_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_long(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_ULONG(expected, actual)                                    \
-  check_equal_c_ulong_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_ulong(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_ULONG_TEXT(expected, actual, text)                         \
-  check_equal_c_ulong_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_ulong(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LONGLONG(expected, actual)                                 \
-  check_equal_c_longlong_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_longlong(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LONGLONG_TEXT(expected, actual, text)                      \
-  check_equal_c_longlong_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_longlong(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_ULONGLONG(expected, actual)                                \
-  check_equal_c_ulonglong_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_ulonglong(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_ULONGLONG_TEXT(expected, actual, text)                     \
-  check_equal_c_ulonglong_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_ulonglong(expected, actual, text, __FILE__, __LINE__)
 
-#define CHECK_EQUAL_REAL(expected, actual, threshold)                          \
-  check_equal_c_real_location(                                                 \
-      expected, actual, threshold, "", __FILE__, __LINE__                      \
-  )
+#define CHECK_EQUAL_DOUBLE(expected, actual, threshold)                        \
+  cppmu_check_equal_double(expected, actual, threshold, "", __FILE__, __LINE__)
 
-#define CHECK_EQUAL_REAL_TEXT(expected, actual, threshold, text)               \
-  check_equal_c_real_location(                                                 \
+#define CHECK_EQUAL_DOUBLE_TEXT(expected, actual, threshold, text)             \
+  cppmu_check_equal_double(                                                    \
       expected, actual, threshold, text, __FILE__, __LINE__                    \
   )
 
 #define CHECK_EQUAL_CHAR(expected, actual)                                     \
-  check_equal_c_char_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_char(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_CHAR_TEXT(expected, actual, text)                          \
-  check_equal_c_char_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_char(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_UBYTE(expected, actual)                                    \
-  check_equal_c_ubyte_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_ubyte(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_UBYTE_TEXT(expected, actual, text)                         \
-  check_equal_c_ubyte_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_ubyte(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_SBYTE(expected, actual)                                    \
-  check_equal_c_sbyte_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_sbyte(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_SBYTE_TEXT(expected, actual, text)                         \
-  check_equal_c_sbyte_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_sbyte(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_STRING(expected, actual)                                   \
-  check_equal_c_string_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_string(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_STRING_TEXT(expected, actual, text)                        \
-  check_equal_c_string_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_string(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_POINTER(expected, actual)                                  \
-  check_equal_c_pointer_location(expected, actual, "", __FILE__, __LINE__)
+  cppmu_check_equal_pointer(expected, actual, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_POINTER_TEXT(expected, actual, text)                       \
-  check_equal_c_pointer_location(expected, actual, text, __FILE__, __LINE__)
+  cppmu_check_equal_pointer(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_MEMCMP(expected, actual, size)                             \
-  check_equal_c_memcmp_location(expected, actual, size, "", __FILE__, __LINE__)
+  cppmu_check_equal_memcmp(expected, actual, size, "", __FILE__, __LINE__)
 
 #define CHECK_EQUAL_MEMCMP_TEXT(expected, actual, size, text)                  \
-  check_equal_c_memcmp_location(                                               \
-      expected, actual, size, text, __FILE__, __LINE__                         \
-  )
+  cppmu_check_equal_memcmp(expected, actual, size, text, __FILE__, __LINE__)
 
-#define FAIL_TEXT(text) fail_text_c_location(text, __FILE__, __LINE__)
+#define FAIL_TEXT(text) cppmu_fail(text, __FILE__, __LINE__)
 
-#define FAIL() fail_c_location(__FILE__, __LINE__)
+#define FAIL() cppmu_fail("", __FILE__, __LINE__)
 
 #define CHECK(condition)                                                       \
-  check_c_location(condition, #condition, "", __FILE__, __LINE__)
+  cppmu_check(condition, #condition, "", __FILE__, __LINE__)
 
 #define CHECK_TEXT(condition, text)                                            \
-  check_c_location(condition, #condition, text, __FILE__, __LINE__)
+  cppmu_check(condition, #condition, text, __FILE__, __LINE__)
 
-#define TEST_PROPERTY(name, value) add_test_property_c((name), (value))
+#define TEST_PROPERTY(name, value) cppmu_add_test_property_c((name), (value))
 
 #define TEST_GROUP_SETUP(group_name)                                           \
   extern void group_##group_name##_setup_wrapper_c(void);                      \
@@ -137,57 +134,56 @@ extern "C"
   void expect_fail_##group_name##_##test_name##_wrapper_c(void)
 #endif
 
-  /* CHECKS that can be used from C code */
-  void check_equal_c_bool_location(
+  void cppmu_check_equal_bool(
+      bool expected,
+      bool actual,
+      const char* text,
+      const char* file_name,
+      size_t line_number
+  );
+  void cppmu_check_equal_int(
       int expected,
       int actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_int_location(
-      int expected,
-      int actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number
-  );
-  void check_equal_c_uint_location(
+  void cppmu_check_equal_uint(
       unsigned int expected,
       unsigned int actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_long_location(
+  void cppmu_check_equal_long(
       long expected,
       long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_ulong_location(
+  void cppmu_check_equal_ulong(
       unsigned long expected,
       unsigned long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_longlong_location(
+  void cppmu_check_equal_longlong(
       long long expected,
       long long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_ulonglong_location(
+  void cppmu_check_equal_ulonglong(
       unsigned long long expected,
       unsigned long long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_real_location(
+  void cppmu_check_equal_double(
       double expected,
       double actual,
       double threshold,
@@ -195,42 +191,42 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_char_location(
+  void cppmu_check_equal_char(
       char expected,
       char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_ubyte_location(
+  void cppmu_check_equal_ubyte(
       unsigned char expected,
       unsigned char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_sbyte_location(
+  void cppmu_check_equal_sbyte(
       signed char expected,
       signed char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_string_location(
+  void cppmu_check_equal_string(
       const char* expected,
       const char* actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_pointer_location(
+  void cppmu_check_equal_pointer(
       const void* expected,
       const void* actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void check_equal_c_memcmp_location(
+  void cppmu_check_equal_memcmp(
       const void* expected,
       const void* actual,
       size_t size,
@@ -238,20 +234,15 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
-  void fail_text_c_location(
-      const char* text,
-      const char* file_name,
-      size_t line_number
-  );
-  void fail_c_location(const char* file_name, size_t line_number);
-  void check_c_location(
+  void cppmu_fail(const char* text, const char* file_name, size_t line_number);
+  void cppmu_check(
       int condition,
       const char* condition_string,
       const char* text,
       const char* file_name,
       size_t line_number
   );
-  void add_test_property_c(const char* name, const char* value);
+  void cppmu_add_test_property(const char* name, const char* value);
 
 #ifdef __cplusplus
 }

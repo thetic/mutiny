@@ -6,8 +6,8 @@
 #include "CppMu/TestPlugin.hpp"
 #include "CppMu/TestRegistry.hpp"
 #include "CppMu/TestResult.hpp"
+#include "CppMu/jump_buffer.h"
 #include "CppMu/math.hpp"
-#include "CppMu/test_jump_buffer.h"
 
 #include <math.h>
 #include <stdlib.h>
@@ -162,7 +162,7 @@ void TestShell::run_one_test(TestPlugin* plugin, TestResult& result)
   has_failed_ = false;
   result.count_run();
   HelperTestRunInfo run_info(this, plugin, &result);
-  test_set_jmp(helper_do_run_one_test_in_current_process, &run_info);
+  cppmu_set_jmp(helper_do_run_one_test_in_current_process, &run_info);
 }
 
 Test* TestShell::create_test()

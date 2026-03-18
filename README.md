@@ -245,7 +245,7 @@ TEST(MyGroup, SomeTest)
 
 Available typed assertion macros: `CHECK()`, `CHECK_EQUAL_INT()`,
 `CHECK_EQUAL_UINT()`, `CHECK_EQUAL_LONG()`, `CHECK_EQUAL_STRING()`,
-`CHECK_EQUAL_REAL()`, `CHECK_EQUAL_POINTER()`, `CHECK_EQUAL_MEMCMP()`,
+`CHECK_EQUAL_DOUBLE()`, `CHECK_EQUAL_POINTER()`, `CHECK_EQUAL_MEMCMP()`,
 and more (see `CppMu/CppMu.h`).
 
 ### The companion `.test.cpp` wrapper

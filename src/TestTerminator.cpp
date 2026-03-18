@@ -1,7 +1,7 @@
 #include "CppMu/TestTerminator.hpp"
 
 #include "CppMu/TestShell.hpp"
-#include "CppMu/test_jump_buffer.h"
+#include "CppMu/jump_buffer.h"
 
 namespace cppmu {
 
@@ -16,7 +16,7 @@ void NormalTestTerminator::exit_current_test() const
 
 void TestTerminatorWithoutExceptions::exit_current_test() const
 {
-  test_long_jmp();
+  cppmu_long_jmp();
 }
 
 void CrashingTestTerminator::exit_current_test() const

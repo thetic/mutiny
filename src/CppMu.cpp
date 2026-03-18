@@ -2,16 +2,16 @@
 
 #include "CppMu/TestShell.hpp"
 
-void check_equal_c_bool_location(
-    int expected,
-    int actual,
+void cppmu_check_equal_bool(
+    bool expected,
+    bool actual,
     const char* text,
     const char* file_name,
     size_t line_number
 )
 {
   cppmu::TestShell::get_current()->assert_equals(
-      !!expected != !!actual,
+      expected != actual,
       expected ? "true" : "false",
       actual ? "true" : "false",
       text,
@@ -21,7 +21,7 @@ void check_equal_c_bool_location(
   );
 }
 
-void check_equal_c_int_location(
+void cppmu_check_equal_int(
     int expected,
     int actual,
     const char* text,
@@ -39,7 +39,7 @@ void check_equal_c_int_location(
   );
 }
 
-void check_equal_c_uint_location(
+void cppmu_check_equal_uint(
     unsigned int expected,
     unsigned int actual,
     const char* text,
@@ -57,7 +57,7 @@ void check_equal_c_uint_location(
   );
 }
 
-void check_equal_c_long_location(
+void cppmu_check_equal_long(
     long expected,
     long actual,
     const char* text,
@@ -75,7 +75,7 @@ void check_equal_c_long_location(
   );
 }
 
-void check_equal_c_ulong_location(
+void cppmu_check_equal_ulong(
     unsigned long expected,
     unsigned long actual,
     const char* text,
@@ -93,7 +93,7 @@ void check_equal_c_ulong_location(
   );
 }
 
-void check_equal_c_longlong_location(
+void cppmu_check_equal_longlong(
     long long expected,
     long long actual,
     const char* text,
@@ -111,7 +111,7 @@ void check_equal_c_longlong_location(
   );
 }
 
-void check_equal_c_ulonglong_location(
+void cppmu_check_equal_ulonglong(
     unsigned long long expected,
     unsigned long long actual,
     const char* text,
@@ -129,7 +129,7 @@ void check_equal_c_ulonglong_location(
   );
 }
 
-void check_equal_c_real_location(
+void cppmu_check_equal_double(
     double expected,
     double actual,
     double threshold,
@@ -149,7 +149,7 @@ void check_equal_c_real_location(
   );
 }
 
-void check_equal_c_char_location(
+void cppmu_check_equal_char(
     char expected,
     char actual,
     const char* text,
@@ -168,7 +168,7 @@ void check_equal_c_char_location(
   );
 }
 
-void check_equal_c_ubyte_location(
+void cppmu_check_equal_ubyte(
     unsigned char expected,
     unsigned char actual,
     const char* text,
@@ -187,7 +187,7 @@ void check_equal_c_ubyte_location(
   );
 }
 
-void check_equal_c_sbyte_location(
+void cppmu_check_equal_sbyte(
     char signed expected,
     signed char actual,
     const char* text,
@@ -206,7 +206,7 @@ void check_equal_c_sbyte_location(
   );
 }
 
-void check_equal_c_string_location(
+void cppmu_check_equal_string(
     const char* expected,
     const char* actual,
     const char* text,
@@ -224,7 +224,7 @@ void check_equal_c_string_location(
   );
 }
 
-void check_equal_c_pointer_location(
+void cppmu_check_equal_pointer(
     const void* expected,
     const void* actual,
     const char* text,
@@ -242,7 +242,7 @@ void check_equal_c_pointer_location(
   );
 }
 
-void check_equal_c_memcmp_location(
+void cppmu_check_equal_memcmp(
     const void* expected,
     const void* actual,
     size_t size,
@@ -262,11 +262,7 @@ void check_equal_c_memcmp_location(
   );
 }
 
-void fail_text_c_location(
-    const char* text,
-    const char* file_name,
-    size_t line_number
-)
+void cppmu_fail(const char* text, const char* file_name, size_t line_number)
 {
   cppmu::TestShell::get_current()->fail(
       text,
@@ -276,17 +272,7 @@ void fail_text_c_location(
   );
 }
 
-void fail_c_location(const char* file_name, size_t line_number)
-{
-  cppmu::TestShell::get_current()->fail(
-      "",
-      file_name,
-      line_number,
-      cppmu::TestShell::get_current_test_terminator_without_exceptions()
-  );
-}
-
-void check_c_location(
+void cppmu_check(
     int condition,
     const char* condition_string,
     const char* text,
@@ -305,7 +291,7 @@ void check_c_location(
   );
 }
 
-void add_test_property_c(const char* name, const char* value)
+void cppmu_add_test_property(const char* name, const char* value)
 {
   cppmu::TestShell::get_current()->add_test_property(name, value);
 }

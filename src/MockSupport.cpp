@@ -796,8 +796,8 @@ class MockCFunctionComparatorNode : public cppmu::MockNamedValueComparator
 public:
   MockCFunctionComparatorNode(
       MockCFunctionComparatorNode* nx,
-      MockTypeEqualFunction eq,
-      MockTypeValueToStringFunction ts
+      CppMuMockTypeEqualFunction eq,
+      CppMuMockTypeValueToStringFunction ts
   )
     : next(nx)
     , equal(eq)
@@ -816,8 +816,8 @@ public:
   }
 
   MockCFunctionComparatorNode* next;
-  MockTypeEqualFunction equal;
-  MockTypeValueToStringFunction to_string;
+  CppMuMockTypeEqualFunction equal;
+  CppMuMockTypeValueToStringFunction to_string;
 };
 
 namespace {
@@ -826,7 +826,10 @@ MockCFunctionComparatorNode* comparator_list = nullptr;
 class MockCFunctionCopierNode : public cppmu::MockNamedValueCopier
 {
 public:
-  MockCFunctionCopierNode(MockCFunctionCopierNode* nx, MockTypeCopyFunction cp)
+  MockCFunctionCopierNode(
+      MockCFunctionCopierNode* nx,
+      CppMuMockTypeCopyFunction cp
+  )
     : next(nx)
     , copier(cp)
   {
@@ -836,20 +839,20 @@ public:
   void copy(void* dst, const void* src) override { copier(dst, src); }
 
   MockCFunctionCopierNode* next;
-  MockTypeCopyFunction copier;
+  CppMuMockTypeCopyFunction copier;
 };
 
 MockCFunctionCopierNode* copier_list = nullptr;
 } // namespace
 
 void strict_order();
-struct MockExpectedCall* expect_one_call(const char* name);
+struct CppMuMockExpectedCall* expect_one_call(const char* name);
 void expect_no_call(const char* name);
-struct MockExpectedCall* expect_n_calls(
+struct CppMuMockExpectedCall* expect_n_calls(
     const unsigned int number,
     const char* name
 );
-struct MockActualCall* actual_call(const char* name);
+struct CppMuMockActualCall* actual_call(const char* name);
 void disable();
 void enable();
 void ignore_other_calls();
@@ -869,7 +872,7 @@ void set_data_const_object(
     const char* type,
     const void* value
 );
-struct MockValue get_data(const char* name);
+struct CppMuMockValue get_data(const char* name);
 int has_return_value();
 
 void check_expectations();
@@ -877,148 +880,164 @@ int expected_calls_left();
 void clear();
 void crash_on_failure(unsigned should_crash);
 
-struct MockExpectedCall* with_bool_parameters(const char* name, int value);
-struct MockExpectedCall* with_int_parameters(const char* name, int value);
-struct MockExpectedCall* with_unsigned_int_parameters(
+struct CppMuMockExpectedCall* with_bool_parameters(const char* name, int value);
+struct CppMuMockExpectedCall* with_int_parameters(const char* name, int value);
+struct CppMuMockExpectedCall* with_unsigned_int_parameters(
     const char* name,
     unsigned int value
 );
-struct MockExpectedCall* with_long_int_parameters(
+struct CppMuMockExpectedCall* with_long_int_parameters(
     const char* name,
     long int value
 );
-struct MockExpectedCall* with_unsigned_long_int_parameters(
+struct CppMuMockExpectedCall* with_unsigned_long_int_parameters(
     const char* name,
     unsigned long int value
 );
-struct MockExpectedCall* with_long_long_int_parameters(
+struct CppMuMockExpectedCall* with_long_long_int_parameters(
     const char* name,
     long long value
 );
-struct MockExpectedCall* with_unsigned_long_long_int_parameters(
+struct CppMuMockExpectedCall* with_unsigned_long_long_int_parameters(
     const char* name,
     unsigned long long value
 );
-struct MockExpectedCall* with_double_parameters(const char* name, double value);
-struct MockExpectedCall* with_double_parameters_and_tolerance(
+struct CppMuMockExpectedCall* with_double_parameters(
+    const char* name,
+    double value
+);
+struct CppMuMockExpectedCall* with_double_parameters_and_tolerance(
     const char* name,
     double value,
     double tolerance
 );
-struct MockExpectedCall* with_string_parameters(
+struct CppMuMockExpectedCall* with_string_parameters(
     const char* name,
     const char* value
 );
-struct MockExpectedCall* with_pointer_parameters(const char* name, void* value);
-struct MockExpectedCall* with_const_pointer_parameters(
+struct CppMuMockExpectedCall* with_pointer_parameters(
+    const char* name,
+    void* value
+);
+struct CppMuMockExpectedCall* with_const_pointer_parameters(
     const char* name,
     const void* value
 );
-struct MockExpectedCall* with_function_pointer_parameters(
+struct CppMuMockExpectedCall* with_function_pointer_parameters(
     const char* name,
     void (*value)()
 );
-struct MockExpectedCall* with_memory_buffer_parameters(
+struct CppMuMockExpectedCall* with_memory_buffer_parameters(
     const char* name,
     const unsigned char* value,
     size_t size
 );
-struct MockExpectedCall* with_parameter_of_type(
+struct CppMuMockExpectedCall* with_parameter_of_type(
     const char* type,
     const char* name,
     const void* value
 );
-struct MockExpectedCall* with_output_parameter_returning(
+struct CppMuMockExpectedCall* with_output_parameter_returning(
     const char* name,
     const void* value,
     size_t size
 );
-struct MockExpectedCall* with_output_parameter_of_type_returning(
+struct CppMuMockExpectedCall* with_output_parameter_of_type_returning(
     const char* type,
     const char* name,
     const void* value
 );
-struct MockExpectedCall* with_unmodified_output_parameter(const char* name);
-struct MockExpectedCall* ignore_other_parameters();
-struct MockExpectedCall* and_return_bool_value(int value);
-struct MockExpectedCall* and_return_int_value(int value);
-struct MockExpectedCall* and_return_unsigned_int_value(unsigned int value);
-struct MockExpectedCall* and_return_long_int_value(long int value);
-struct MockExpectedCall* and_return_unsigned_long_int_value(
+struct CppMuMockExpectedCall* with_unmodified_output_parameter(
+    const char* name
+);
+struct CppMuMockExpectedCall* ignore_other_parameters();
+struct CppMuMockExpectedCall* and_return_bool_value(int value);
+struct CppMuMockExpectedCall* and_return_int_value(int value);
+struct CppMuMockExpectedCall* and_return_unsigned_int_value(unsigned int value);
+struct CppMuMockExpectedCall* and_return_long_int_value(long int value);
+struct CppMuMockExpectedCall* and_return_unsigned_long_int_value(
     unsigned long int value
 );
-struct MockExpectedCall* and_return_long_long_int_value(long long value);
-struct MockExpectedCall* and_return_unsigned_long_long_int_value(
+struct CppMuMockExpectedCall* and_return_long_long_int_value(long long value);
+struct CppMuMockExpectedCall* and_return_unsigned_long_long_int_value(
     unsigned long long value
 );
-struct MockExpectedCall* and_return_double_value(double value);
-struct MockExpectedCall* and_return_string_value(const char* value);
-struct MockExpectedCall* and_return_pointer_value(void* value);
-struct MockExpectedCall* and_return_const_pointer_value(const void* value);
-struct MockExpectedCall* and_return_function_pointer_value(void (*value)());
+struct CppMuMockExpectedCall* and_return_double_value(double value);
+struct CppMuMockExpectedCall* and_return_string_value(const char* value);
+struct CppMuMockExpectedCall* and_return_pointer_value(void* value);
+struct CppMuMockExpectedCall* and_return_const_pointer_value(const void* value);
+struct CppMuMockExpectedCall* and_return_function_pointer_value(
+    void (*value)()
+);
 
-struct MockActualCall* with_actual_bool_parameters(const char* name, int value);
-struct MockActualCall* with_actual_int_parameters(const char* name, int value);
-struct MockActualCall* with_actual_unsigned_int_parameters(
+struct CppMuMockActualCall* with_actual_bool_parameters(
+    const char* name,
+    int value
+);
+struct CppMuMockActualCall* with_actual_int_parameters(
+    const char* name,
+    int value
+);
+struct CppMuMockActualCall* with_actual_unsigned_int_parameters(
     const char* name,
     unsigned int value
 );
-struct MockActualCall* with_actual_long_int_parameters(
+struct CppMuMockActualCall* with_actual_long_int_parameters(
     const char* name,
     long int value
 );
-struct MockActualCall* with_actual_unsigned_long_int_parameters(
+struct CppMuMockActualCall* with_actual_unsigned_long_int_parameters(
     const char* name,
     unsigned long int value
 );
-struct MockActualCall* with_actual_long_long_int_parameters(
+struct CppMuMockActualCall* with_actual_long_long_int_parameters(
     const char* name,
     long long value
 );
-struct MockActualCall* with_actual_unsigned_long_long_int_parameters(
+struct CppMuMockActualCall* with_actual_unsigned_long_long_int_parameters(
     const char* name,
     unsigned long long value
 );
-struct MockActualCall* with_actual_double_parameters(
+struct CppMuMockActualCall* with_actual_double_parameters(
     const char* name,
     double value
 );
-struct MockActualCall* with_actual_string_parameters(
+struct CppMuMockActualCall* with_actual_string_parameters(
     const char* name,
     const char* value
 );
-struct MockActualCall* with_actual_pointer_parameters(
+struct CppMuMockActualCall* with_actual_pointer_parameters(
     const char* name,
     void* value
 );
-struct MockActualCall* with_actual_const_pointer_parameters(
+struct CppMuMockActualCall* with_actual_const_pointer_parameters(
     const char* name,
     const void* value
 );
-struct MockActualCall* with_actual_function_pointer_parameters(
+struct CppMuMockActualCall* with_actual_function_pointer_parameters(
     const char* name,
     void (*value)()
 );
-struct MockActualCall* with_actual_memory_buffer_parameters(
+struct CppMuMockActualCall* with_actual_memory_buffer_parameters(
     const char* name,
     const unsigned char* value,
     size_t size
 );
-struct MockActualCall* with_actual_parameter_of_type(
+struct CppMuMockActualCall* with_actual_parameter_of_type(
     const char* type,
     const char* name,
     const void* value
 );
-struct MockActualCall* with_actual_output_parameter(
+struct CppMuMockActualCall* with_actual_output_parameter(
     const char* name,
     void* value
 );
-struct MockActualCall* with_actual_output_parameter_of_type(
+struct CppMuMockActualCall* with_actual_output_parameter_of_type(
     const char* type,
     const char* name,
     void* value
 );
-struct MockValue return_value();
+struct CppMuMockValue return_value();
 int bool_return_value();
 int return_bool_value_or_default(int default_value);
 int int_return_value();
@@ -1051,8 +1070,8 @@ void (*return_function_pointer_value_or_default(void (*default_value)()))();
 namespace {
 void install_comparator(
     const char* type_name,
-    MockTypeEqualFunction is_equal,
-    MockTypeValueToStringFunction value_to_string
+    CppMuMockTypeEqualFunction is_equal,
+    CppMuMockTypeValueToStringFunction value_to_string
 )
 {
   comparator_list = new MockCFunctionComparatorNode(
@@ -1061,7 +1080,7 @@ void install_comparator(
   cppmu::current_mock_support->install_comparator(type_name, *comparator_list);
 }
 
-void install_copier(const char* type_name, MockTypeCopyFunction copier)
+void install_copier(const char* type_name, CppMuMockTypeCopyFunction copier)
 {
   copier_list = new MockCFunctionCopierNode(copier_list, copier);
   cppmu::current_mock_support->install_copier(type_name, *copier_list);
@@ -1084,7 +1103,7 @@ void remove_all_comparators_and_copiers()
 } // namespace
 
 namespace {
-struct MockExpectedCall g_expected_call = {
+struct CppMuMockExpectedCall g_expected_call = {
   with_bool_parameters,
   with_int_parameters,
   with_unsigned_int_parameters,
@@ -1118,7 +1137,7 @@ struct MockExpectedCall g_expected_call = {
   and_return_function_pointer_value,
 };
 
-struct MockActualCall g_actual_call = {
+struct CppMuMockActualCall g_actual_call = {
   with_actual_bool_parameters,
   with_actual_int_parameters,
   with_actual_unsigned_int_parameters,
@@ -1164,20 +1183,20 @@ struct MockActualCall g_actual_call = {
 };
 } // namespace
 
-struct MockExpectedCall* with_bool_parameters(const char* name, int value)
+struct CppMuMockExpectedCall* with_bool_parameters(const char* name, int value)
 {
   cppmu::expected_call =
       &cppmu::expected_call->with_parameter(name, (value != 0));
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_int_parameters(const char* name, int value)
+struct CppMuMockExpectedCall* with_int_parameters(const char* name, int value)
 {
   cppmu::expected_call = &cppmu::expected_call->with_parameter(name, value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_unsigned_int_parameters(
+struct CppMuMockExpectedCall* with_unsigned_int_parameters(
     const char* name,
     unsigned int value
 )
@@ -1186,7 +1205,7 @@ struct MockExpectedCall* with_unsigned_int_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_long_int_parameters(
+struct CppMuMockExpectedCall* with_long_int_parameters(
     const char* name,
     long int value
 )
@@ -1195,7 +1214,7 @@ struct MockExpectedCall* with_long_int_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_unsigned_long_int_parameters(
+struct CppMuMockExpectedCall* with_unsigned_long_int_parameters(
     const char* name,
     unsigned long int value
 )
@@ -1204,7 +1223,7 @@ struct MockExpectedCall* with_unsigned_long_int_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_long_long_int_parameters(
+struct CppMuMockExpectedCall* with_long_long_int_parameters(
     const char* name,
     long long value
 )
@@ -1213,7 +1232,7 @@ struct MockExpectedCall* with_long_long_int_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_unsigned_long_long_int_parameters(
+struct CppMuMockExpectedCall* with_unsigned_long_long_int_parameters(
     const char* name,
     unsigned long long value
 )
@@ -1222,13 +1241,16 @@ struct MockExpectedCall* with_unsigned_long_long_int_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_double_parameters(const char* name, double value)
+struct CppMuMockExpectedCall* with_double_parameters(
+    const char* name,
+    double value
+)
 {
   cppmu::expected_call = &cppmu::expected_call->with_parameter(name, value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_double_parameters_and_tolerance(
+struct CppMuMockExpectedCall* with_double_parameters_and_tolerance(
     const char* name,
     double value,
     double tolerance
@@ -1239,7 +1261,7 @@ struct MockExpectedCall* with_double_parameters_and_tolerance(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_string_parameters(
+struct CppMuMockExpectedCall* with_string_parameters(
     const char* name,
     const char* value
 )
@@ -1248,13 +1270,16 @@ struct MockExpectedCall* with_string_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_pointer_parameters(const char* name, void* value)
+struct CppMuMockExpectedCall* with_pointer_parameters(
+    const char* name,
+    void* value
+)
 {
   cppmu::expected_call = &cppmu::expected_call->with_parameter(name, value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_const_pointer_parameters(
+struct CppMuMockExpectedCall* with_const_pointer_parameters(
     const char* name,
     const void* value
 )
@@ -1263,7 +1288,7 @@ struct MockExpectedCall* with_const_pointer_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_function_pointer_parameters(
+struct CppMuMockExpectedCall* with_function_pointer_parameters(
     const char* name,
     void (*value)()
 )
@@ -1272,7 +1297,7 @@ struct MockExpectedCall* with_function_pointer_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_memory_buffer_parameters(
+struct CppMuMockExpectedCall* with_memory_buffer_parameters(
     const char* name,
     const unsigned char* value,
     size_t size
@@ -1283,7 +1308,7 @@ struct MockExpectedCall* with_memory_buffer_parameters(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_parameter_of_type(
+struct CppMuMockExpectedCall* with_parameter_of_type(
     const char* type,
     const char* name,
     const void* value
@@ -1294,7 +1319,7 @@ struct MockExpectedCall* with_parameter_of_type(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_output_parameter_returning(
+struct CppMuMockExpectedCall* with_output_parameter_returning(
     const char* name,
     const void* value,
     size_t size
@@ -1305,7 +1330,7 @@ struct MockExpectedCall* with_output_parameter_returning(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_output_parameter_of_type_returning(
+struct CppMuMockExpectedCall* with_output_parameter_of_type_returning(
     const char* type,
     const char* name,
     const void* value
@@ -1318,44 +1343,44 @@ struct MockExpectedCall* with_output_parameter_of_type_returning(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* with_unmodified_output_parameter(const char* name)
+struct CppMuMockExpectedCall* with_unmodified_output_parameter(const char* name)
 {
   cppmu::expected_call =
       &cppmu::expected_call->with_unmodified_output_parameter(name);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* ignore_other_parameters()
+struct CppMuMockExpectedCall* ignore_other_parameters()
 {
   cppmu::expected_call = &cppmu::expected_call->ignore_other_parameters();
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_bool_value(int value)
+struct CppMuMockExpectedCall* and_return_bool_value(int value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value != 0);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_unsigned_int_value(unsigned int value)
+struct CppMuMockExpectedCall* and_return_unsigned_int_value(unsigned int value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_int_value(int value)
+struct CppMuMockExpectedCall* and_return_int_value(int value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_long_int_value(long int value)
+struct CppMuMockExpectedCall* and_return_long_int_value(long int value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_unsigned_long_int_value(
+struct CppMuMockExpectedCall* and_return_unsigned_long_int_value(
     unsigned long int value
 )
 {
@@ -1363,13 +1388,13 @@ struct MockExpectedCall* and_return_unsigned_long_int_value(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_long_long_int_value(long long value)
+struct CppMuMockExpectedCall* and_return_long_long_int_value(long long value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_unsigned_long_long_int_value(
+struct CppMuMockExpectedCall* and_return_unsigned_long_long_int_value(
     unsigned long long value
 )
 {
@@ -1377,98 +1402,98 @@ struct MockExpectedCall* and_return_unsigned_long_long_int_value(
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_double_value(double value)
+struct CppMuMockExpectedCall* and_return_double_value(double value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_string_value(const char* value)
+struct CppMuMockExpectedCall* and_return_string_value(const char* value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_pointer_value(void* value)
+struct CppMuMockExpectedCall* and_return_pointer_value(void* value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_const_pointer_value(const void* value)
+struct CppMuMockExpectedCall* and_return_const_pointer_value(const void* value)
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
-struct MockExpectedCall* and_return_function_pointer_value(void (*value)())
+struct CppMuMockExpectedCall* and_return_function_pointer_value(void (*value)())
 {
   cppmu::expected_call = &cppmu::expected_call->and_return_value(value);
   return &g_expected_call;
 }
 
 namespace {
-struct MockValue get_mock_value_c_from_named_value(
+struct CppMuMockValue get_mock_value_c_from_named_value(
     const cppmu::MockNamedValue& named_value
 )
 {
   using cppmu::str_cmp;
-  struct MockValue return_value;
+  struct CppMuMockValue return_value;
   if (str_cmp(named_value.get_type().c_str(), "bool") == 0) {
-    return_value.type = mockvaluetype_bool;
+    return_value.type = cppmu_type_bool;
     return_value.value.bool_value = named_value.get_bool_value() ? 1 : 0;
   } else if (str_cmp(named_value.get_type().c_str(), "int") == 0) {
-    return_value.type = mockvaluetype_integer;
+    return_value.type = cppmu_type_integer;
     return_value.value.int_value = named_value.get_int_value();
   } else if (str_cmp(named_value.get_type().c_str(), "unsigned int") == 0) {
-    return_value.type = mockvaluetype_unsigned_integer;
+    return_value.type = cppmu_type_unsigned_integer;
     return_value.value.unsigned_int_value =
         named_value.get_unsigned_int_value();
   } else if (str_cmp(named_value.get_type().c_str(), "long int") == 0) {
-    return_value.type = mockvaluetype_long_integer;
+    return_value.type = cppmu_type_long_integer;
     return_value.value.long_int_value = named_value.get_long_int_value();
   } else if (str_cmp(named_value.get_type().c_str(), "unsigned long int") ==
              0) {
-    return_value.type = mockvaluetype_unsigned_long_integer;
+    return_value.type = cppmu_type_unsigned_long_integer;
     return_value.value.unsigned_long_int_value =
         named_value.get_unsigned_long_int_value();
   } else if (str_cmp(named_value.get_type().c_str(), "long long int") == 0) {
-    return_value.type = mockvaluetype_long_long_integer;
+    return_value.type = cppmu_type_long_long_integer;
     return_value.value.long_long_int_value =
         named_value.get_long_long_int_value();
   } else if (str_cmp(
                  named_value.get_type().c_str(), "unsigned long long int"
              ) == 0) {
-    return_value.type = mockvaluetype_unsigned_long_long_integer;
+    return_value.type = cppmu_type_unsigned_long_long_integer;
     return_value.value.unsigned_long_long_int_value =
         named_value.get_unsigned_long_long_int_value();
   } else if (str_cmp(named_value.get_type().c_str(), "double") == 0) {
-    return_value.type = mockvaluetype_double;
+    return_value.type = cppmu_type_double;
     return_value.value.double_value = named_value.get_double_value();
   } else if (str_cmp(named_value.get_type().c_str(), "const char*") == 0) {
-    return_value.type = mockvaluetype_string;
+    return_value.type = cppmu_type_string;
     return_value.value.string_value = named_value.get_string_value();
   } else if (str_cmp(named_value.get_type().c_str(), "void*") == 0) {
-    return_value.type = mockvaluetype_pointer;
+    return_value.type = cppmu_type_pointer;
     return_value.value.pointer_value = named_value.get_pointer_value();
   } else if (str_cmp(named_value.get_type().c_str(), "const void*") == 0) {
-    return_value.type = mockvaluetype_const_pointer;
+    return_value.type = cppmu_type_const_pointer;
     return_value.value.const_pointer_value =
         named_value.get_const_pointer_value();
   } else if (str_cmp(named_value.get_type().c_str(), "void (*)()") == 0) {
-    return_value.type = mockvaluetype_functionpointer;
+    return_value.type = cppmu_type_functionpointer;
     return_value.value.function_pointer_value =
         named_value.get_function_pointer_value();
   } else if (str_cmp(named_value.get_type().c_str(), "const unsigned char*") ==
              0) {
-    return_value.type = mockvaluetype_memorybuffer;
+    return_value.type = cppmu_type_memorybuffer;
     return_value.value.memory_buffer_value = named_value.get_memory_buffer();
   } else if (named_value.is_const_object()) {
-    return_value.type = mockvaluetype_const_object;
+    return_value.type = cppmu_type_const_object;
     return_value.value.const_object_value =
         named_value.get_const_object_pointer();
   } else {
-    return_value.type = mockvaluetype_object;
+    return_value.type = cppmu_type_object;
     return_value.value.object_value = named_value.get_object_pointer();
   }
   return return_value;
@@ -1480,7 +1505,7 @@ void strict_order()
   cppmu::current_mock_support->strict_order();
 }
 
-struct MockExpectedCall* expect_one_call(const char* name)
+struct CppMuMockExpectedCall* expect_one_call(const char* name)
 {
   cppmu::expected_call = &cppmu::current_mock_support->expect_one_call(name);
   return &g_expected_call;
@@ -1491,7 +1516,7 @@ void expect_no_call(const char* name)
   cppmu::current_mock_support->expect_no_call(name);
 }
 
-struct MockExpectedCall* expect_n_calls(
+struct CppMuMockExpectedCall* expect_n_calls(
     const unsigned int number,
     const char* name
 )
@@ -1501,25 +1526,31 @@ struct MockExpectedCall* expect_n_calls(
   return &g_expected_call;
 }
 
-struct MockActualCall* actual_call(const char* name)
+struct CppMuMockActualCall* actual_call(const char* name)
 {
   cppmu::actual_call = &cppmu::current_mock_support->actual_call(name);
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_bool_parameters(const char* name, int value)
+struct CppMuMockActualCall* with_actual_bool_parameters(
+    const char* name,
+    int value
+)
 {
   cppmu::actual_call = &cppmu::actual_call->with_parameter(name, (value != 0));
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_int_parameters(const char* name, int value)
+struct CppMuMockActualCall* with_actual_int_parameters(
+    const char* name,
+    int value
+)
 {
   cppmu::actual_call = &cppmu::actual_call->with_parameter(name, value);
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_unsigned_int_parameters(
+struct CppMuMockActualCall* with_actual_unsigned_int_parameters(
     const char* name,
     unsigned int value
 )
@@ -1528,7 +1559,7 @@ struct MockActualCall* with_actual_unsigned_int_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_long_int_parameters(
+struct CppMuMockActualCall* with_actual_long_int_parameters(
     const char* name,
     long int value
 )
@@ -1537,7 +1568,7 @@ struct MockActualCall* with_actual_long_int_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_unsigned_long_int_parameters(
+struct CppMuMockActualCall* with_actual_unsigned_long_int_parameters(
     const char* name,
     unsigned long int value
 )
@@ -1546,7 +1577,7 @@ struct MockActualCall* with_actual_unsigned_long_int_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_long_long_int_parameters(
+struct CppMuMockActualCall* with_actual_long_long_int_parameters(
     const char* name,
     long long value
 )
@@ -1555,7 +1586,7 @@ struct MockActualCall* with_actual_long_long_int_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_unsigned_long_long_int_parameters(
+struct CppMuMockActualCall* with_actual_unsigned_long_long_int_parameters(
     const char* name,
     unsigned long long value
 )
@@ -1564,7 +1595,7 @@ struct MockActualCall* with_actual_unsigned_long_long_int_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_double_parameters(
+struct CppMuMockActualCall* with_actual_double_parameters(
     const char* name,
     double value
 )
@@ -1573,7 +1604,7 @@ struct MockActualCall* with_actual_double_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_string_parameters(
+struct CppMuMockActualCall* with_actual_string_parameters(
     const char* name,
     const char* value
 )
@@ -1582,7 +1613,7 @@ struct MockActualCall* with_actual_string_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_pointer_parameters(
+struct CppMuMockActualCall* with_actual_pointer_parameters(
     const char* name,
     void* value
 )
@@ -1591,7 +1622,7 @@ struct MockActualCall* with_actual_pointer_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_const_pointer_parameters(
+struct CppMuMockActualCall* with_actual_const_pointer_parameters(
     const char* name,
     const void* value
 )
@@ -1600,7 +1631,7 @@ struct MockActualCall* with_actual_const_pointer_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_function_pointer_parameters(
+struct CppMuMockActualCall* with_actual_function_pointer_parameters(
     const char* name,
     void (*value)()
 )
@@ -1609,7 +1640,7 @@ struct MockActualCall* with_actual_function_pointer_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_memory_buffer_parameters(
+struct CppMuMockActualCall* with_actual_memory_buffer_parameters(
     const char* name,
     const unsigned char* value,
     size_t size
@@ -1619,7 +1650,7 @@ struct MockActualCall* with_actual_memory_buffer_parameters(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_parameter_of_type(
+struct CppMuMockActualCall* with_actual_parameter_of_type(
     const char* type,
     const char* name,
     const void* value
@@ -1630,7 +1661,7 @@ struct MockActualCall* with_actual_parameter_of_type(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_output_parameter(
+struct CppMuMockActualCall* with_actual_output_parameter(
     const char* name,
     void* value
 )
@@ -1639,7 +1670,7 @@ struct MockActualCall* with_actual_output_parameter(
   return &g_actual_call;
 }
 
-struct MockActualCall* with_actual_output_parameter_of_type(
+struct CppMuMockActualCall* with_actual_output_parameter_of_type(
     const char* type,
     const char* name,
     void* value
@@ -1650,7 +1681,7 @@ struct MockActualCall* with_actual_output_parameter_of_type(
   return &g_actual_call;
 }
 
-struct MockValue return_value()
+struct CppMuMockValue return_value()
 {
   return get_mock_value_c_from_named_value(cppmu::actual_call->return_value());
 }
@@ -1894,7 +1925,7 @@ void set_data_const_object(
   cppmu::current_mock_support->set_data_const_object(name, type, value);
 }
 
-struct MockValue get_data(const char* name)
+struct CppMuMockValue get_data(const char* name)
 {
   return get_mock_value_c_from_named_value(
       cppmu::current_mock_support->get_data(name)
@@ -1927,7 +1958,7 @@ void crash_on_failure(unsigned should_crash)
 }
 
 namespace {
-struct MockSupport g_mock_support = {
+struct CppMuMockSupport g_mock_support = {
   strict_order,
   expect_one_call,
   expect_no_call,
@@ -1987,13 +2018,13 @@ struct MockSupport g_mock_support = {
 
 } // namespace c
 
-struct MockSupport* mock()
+struct CppMuMockSupport* cppmu_mock()
 {
   cppmu::current_mock_support = &mock("", &cppmu::failure_reporter_for_c);
   return &c::g_mock_support;
 }
 
-struct MockSupport* mock_scope(const char* scope)
+struct CppMuMockSupport* cppmu_mock_scope(const char* scope)
 {
   cppmu::current_mock_support = &mock(scope, &cppmu::failure_reporter_for_c);
   return &c::g_mock_support;

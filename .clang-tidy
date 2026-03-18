@@ -89,3 +89,19 @@ WarningsAsErrors: "*"
 FormatStyle: file
 UseColor: true
 HeaderFilterRegex: .*
+---
+# TODO: figure out why this isn't working.
+Language: C
+CheckOptions:
+  - key: readability-identifier-naming.GlobalFunctionPrefix
+    value: 'cppmu_'
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: 'cppmu_'
+  - key: readability-identifier-naming.GlobalConstantPrefix
+    value: 'cppmu_'
+  - key: readability-identifier-naming.EnumPrefix
+    value: 'CppMu'
+  - key: readability-identifier-naming.StructPrefix
+    value: 'CppMu'
+  - key: readability-identifier-naming.UnionPrefix
+    value: 'CppMu'

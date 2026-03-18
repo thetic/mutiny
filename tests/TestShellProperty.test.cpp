@@ -71,7 +71,7 @@ TEST(TestShellProperty, addTestPropertyOnShellRoutesToResult)
 TEST(TestShellProperty, addTestPropertyCRoutesGetCurrentToOutput)
 {
   PropertyCapturingFixture fixture;
-  fixture.set_test_function([] { add_test_property_c("ticket", "123"); });
+  fixture.set_test_function([] { cppmu_add_test_property("ticket", "123"); });
   fixture.run_all_tests();
 
   LONGS_EQUAL(1, fixture.capture->call_count);

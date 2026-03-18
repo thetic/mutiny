@@ -2,7 +2,7 @@
 
 #include "CppMu/TestFailure.hpp"
 #include "CppMu/TestShell.hpp"
-#include "CppMu/test_jump_buffer.h"
+#include "CppMu/jump_buffer.h"
 
 namespace cppmu {
 
@@ -31,21 +31,21 @@ void Test::run()
   int jump_result = 0;
   try {
     current->print_very_verbose("\n-------- before setup: ");
-    jump_result = test_set_jmp(helper_do_test_setup, this);
+    jump_result = cppmu_set_jmp(helper_do_test_setup, this);
     current->print_very_verbose("\n-------- after  setup: ");
 
     if (jump_result) {
       current->print_very_verbose("\n----------  before body: ");
-      test_set_jmp(helper_do_test_body, this);
+      cppmu_set_jmp(helper_do_test_body, this);
       current->print_very_verbose("\n----------  after body: ");
     }
   } catch (FailedException&) {
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
   }
 #if CPPMU_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -53,7 +53,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -61,15 +61,15 @@ void Test::run()
 
   try {
     current->print_very_verbose("\n--------  before teardown: ");
-    test_set_jmp(helper_do_test_teardown, this);
+    cppmu_set_jmp(helper_do_test_teardown, this);
     current->print_very_verbose("\n--------  after teardown: ");
   } catch (FailedException&) {
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
   }
 #if CPPMU_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -77,7 +77,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    test_restore_jump_buffer();
+    cppmu_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -87,10 +87,10 @@ void Test::run()
 
 void Test::run()
 {
-  if (test_set_jmp(helper_do_test_setup, this)) {
-    test_set_jmp(helper_do_test_body, this);
+  if (cppmu_set_jmp(helper_do_test_setup, this)) {
+    cppmu_set_jmp(helper_do_test_body, this);
   }
-  test_set_jmp(helper_do_test_teardown, this);
+  cppmu_set_jmp(helper_do_test_teardown, this);
 }
 
 #endif

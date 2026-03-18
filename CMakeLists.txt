@@ -33,6 +33,7 @@ target_sources(CppMu
         src/ExecFunctionTestShell.cpp
         src/ExpectFailTestShell.cpp
         src/IgnoredTestShell.cpp
+        src/jump_buffer.c
         src/JUnitOutputPlugin.cpp
         src/JUnitTestOutput.cpp
         src/math.cpp
@@ -56,7 +57,6 @@ target_sources(CppMu
         src/TestFilter.cpp
         src/OrderedTest.cpp
         src/TestInstaller.cpp
-        src/test_jump_buffer.c
         src/TestOutput.cpp
         src/TestPlugin.cpp
         src/TestRegistry.cpp
@@ -109,6 +109,7 @@ target_sources(CppMu
         FILES
             src/include/CppMu/CompositeTestOutput.hpp
             src/include/CppMu/ExecFunctionTestShell.hpp
+            src/include/CppMu/jump_buffer.h
             src/include/CppMu/JUnitOutputPlugin.hpp
             src/include/CppMu/JUnitTestOutput.hpp
             src/include/CppMu/math.hpp
@@ -121,22 +122,21 @@ target_sources(CppMu
             src/include/CppMu/MockNamedValueList.hpp
             src/include/CppMu/NullTestPlugin.hpp
             src/include/CppMu/StringCollection.hpp
-            src/include/CppMu/test_jump_buffer.h
 )
 
 include(CheckCXXSymbolExists)
 set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
 check_cxx_symbol_exists(gettimeofday "sys/time.h" CPPMU_HAVE_GETTIMEOFDAY)
 
-# test_jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
-# must be able to propagate through test_set_jmp() at runtime.  On ARM EHABI
+# jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
+# must be able to propagate through cppmu_set_jmp() at runtime.  On ARM EHABI
 # the unwinder requires every function in the unwind chain to have an
 # .ARM.exidx entry; C files get none unless -funwind-tables is passed.
 include(CheckCCompilerFlag)
 check_c_compiler_flag(-funwind-tables CPPMU_C_HAS_FUNWIND_TABLES)
 if(CPPMU_C_HAS_FUNWIND_TABLES)
     set_source_files_properties(
-        src/test_jump_buffer.c
+        src/jump_buffer.c
         PROPERTIES COMPILE_OPTIONS "-funwind-tables"
     )
 endif()

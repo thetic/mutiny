@@ -16,27 +16,27 @@ TEST(MockDocumentation_C, CInterface)
 {
   void* object = (void*)0x1;
 
-  mock()
+  cppmu_mock()
       ->expect_one_call("foo")
       ->with_int_parameters("integer", 10)
       ->and_return_double_value(1.11);
-  double d = mock()
+  double d = cppmu_mock()
                  ->actual_call("foo")
                  ->with_int_parameters("integer", 10)
                  ->return_value()
                  .value.double_value;
-  CHECK_EQUAL_REAL(1.11, d, 0.00001);
+  CHECK_EQUAL_DOUBLE(1.11, d, 0.00001);
 
-  mock()->install_comparator("type", equal_method, to_string_method);
-  mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
+  cppmu_mock()->install_comparator("type", equal_method, to_string_method);
+  cppmu_mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
       "type", "name", object
   );
-  mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
+  cppmu_mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
       "type", "name", object
   );
-  mock()->remove_all_comparators_and_copiers();
+  cppmu_mock()->remove_all_comparators_and_copiers();
 
-  mock()->set_int_data("important", 10);
-  mock()->check_expectations();
-  mock()->clear();
+  cppmu_mock()->set_int_data("important", 10);
+  cppmu_mock()->check_expectations();
+  cppmu_mock()->clear();
 }

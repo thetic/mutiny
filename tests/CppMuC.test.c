@@ -116,13 +116,13 @@ TEST(CppMuC, uLongLongText)
 TEST(CppMuC, real)
 {
   test_was_called_in_test_group_in_c++;
-  CHECK_EQUAL_REAL(1.0, 1.1, 0.5);
+  CHECK_EQUAL_DOUBLE(1.0, 1.1, 0.5);
 }
 
 TEST(CppMuC, realText)
 {
   test_was_called_in_test_group_in_c++;
-  CHECK_EQUAL_REAL_TEXT(1.0, 1.1, 0.5, "Text");
+  CHECK_EQUAL_DOUBLE_TEXT(1.0, 1.1, 0.5, "Text");
 }
 
 TEST(CppMuC, char)
@@ -296,13 +296,13 @@ EXPECT_FAIL_TEST(CppMuC, uLongLongTextFail)
 EXPECT_FAIL_TEST(CppMuC, realFail)
 {
   test_was_called_in_test_group_in_c++;
-  CHECK_EQUAL_REAL(1.0, 3.0, 0.5);
+  CHECK_EQUAL_DOUBLE(1.0, 3.0, 0.5);
 }
 
 EXPECT_FAIL_TEST(CppMuC, realTextFail)
 {
   test_was_called_in_test_group_in_c++;
-  CHECK_EQUAL_REAL_TEXT(1.0, 3.0, 0.5, "Text");
+  CHECK_EQUAL_DOUBLE_TEXT(1.0, 3.0, 0.5, "Text");
 }
 
 EXPECT_FAIL_TEST(CppMuC, charFail)
