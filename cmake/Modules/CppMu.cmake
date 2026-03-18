@@ -56,7 +56,7 @@ function(cppmu_discover_tests target)
     endif()
 
     if(_JUNIT OR CPPMU_JUNIT_REPORT)
-        list(APPEND _EXTRA_ARGS -ojunit)
+        list(APPEND _EXTRA_ARGS -pjunit)
     endif()
 
     set(CTEST_INCLUDE_FILE "${CMAKE_CURRENT_BINARY_DIR}/${target}_include.cmake")
