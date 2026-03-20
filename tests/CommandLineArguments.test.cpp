@@ -4,6 +4,7 @@
 #include "CppMu/String.hpp"
 #include "CppMu/TestRegistry.hpp"
 
+namespace {
 class OptionsPlugin : public cppmu::TestPlugin
 {
 public:
@@ -14,6 +15,20 @@ public:
   ~OptionsPlugin() override = default;
   bool parse_arguments(int, const char* const*, int) override { return true; }
 };
+
+class HelpPlugin : public cppmu::TestPlugin
+{
+public:
+  HelpPlugin()
+    : TestPlugin("help")
+  {
+  }
+  cppmu::String get_help() const override
+  {
+    return "  -phelp             - help text\n";
+  }
+};
+}
 
 TEST_GROUP(CommandLineArguments)
 {
@@ -438,20 +453,6 @@ TEST(CommandLineArguments, weirdParamatersReturnsFalse)
   CHECK(!new_argument_parser(argc, argv));
 }
 
-TEST(CommandLineArguments, printUsage)
-{
-  STRCMP_EQUAL(
-      "use -h for more extensive help\n"
-      "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
-      "[-f] [-e] [-ci] [-pplugin]\n"
-      "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
-      "[-t|st|xt|xst <groupName>.<testName>]...\n"
-      "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
-      "<testName>)\"]...\n",
-      args->help().c_str()
-  );
-}
-
 TEST(CommandLineArguments, helpPrintsTheHelp)
 {
   int argc = 2;
@@ -460,38 +461,16 @@ TEST(CommandLineArguments, helpPrintsTheHelp)
   CHECK(args->need_help());
 }
 
-class HelpPlugin : public cppmu::TestPlugin
-{
-public:
-  HelpPlugin()
-    : TestPlugin("help")
-  {
-  }
-  cppmu::String get_help() const override
-  {
-    return "  -phelp             - help text\n";
-  }
-};
-
 TEST(CommandLineArguments, pluginHelp)
 {
   HelpPlugin help_plugin;
   cppmu::TestRegistry::get_current_registry()->install_plugin(&help_plugin);
-  cppmu::String help_str = args->help(true);
+  cppmu::String help_str = args->help();
   CHECK(
       help_str.find("Options that are provided by plugins:") !=
       cppmu::String::npos
   );
   CHECK(help_str.find("-phelp             - help text") != cppmu::String::npos);
-  cppmu::TestRegistry::get_current_registry()->remove_plugin_by_name("help");
-}
-
-TEST(CommandLineArguments, pluginUsage)
-{
-  HelpPlugin help_plugin;
-  cppmu::TestRegistry::get_current_registry()->install_plugin(&help_plugin);
-  cppmu::String usage = args->help();
-  CHECK(usage.find("[-pplugin]") != cppmu::String::npos);
   cppmu::TestRegistry::get_current_registry()->remove_plugin_by_name("help");
 }
 
@@ -515,19 +494,6 @@ TEST(CommandLineArguments, checkDefaultArguments)
   CHECK(nullptr == args->get_name_filters());
   CHECK(!args->is_crashing_on_fail());
   CHECK(args->is_rethrowing_exceptions());
-}
-
-TEST(CommandLineArguments, checkContinuousIntegrationMode)
-{
-  int argc = 2;
-  const char* argv[] = { "tests.exe", "-ci" };
-  CHECK(new_argument_parser(argc, argv));
-  CHECK(!args->is_verbose());
-  LONGS_EQUAL(1, args->get_repeat_count());
-  CHECK(nullptr == args->get_group_filters());
-  CHECK(nullptr == args->get_name_filters());
-  CHECK(!args->is_crashing_on_fail());
-  CHECK_FALSE(args->is_rethrowing_exceptions());
 }
 
 TEST(CommandLineArguments, lotsOfGroupsAndTests)

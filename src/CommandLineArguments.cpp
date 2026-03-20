@@ -76,7 +76,7 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
       run_ignored_ = true;
     else if (argument == "-f")
       crash_on_fail_ = true;
-    else if ((argument == "-e") || (argument == "-ci"))
+    else if (argument == "-e")
       rethrow_exceptions_ = false;
     else if (string_starts_with(argument, "-r"))
       set_repeat_count(ac_, av_, i);
@@ -126,33 +126,9 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
   return true;
 }
 
-String CommandLineArguments::help(bool detailed) const
+String CommandLineArguments::help() const
 {
-  TestPlugin* plugin = TestRegistry::get_current_registry()->get_first_plugin();
-  String plugin_help = plugin->get_all_help();
-
-  if (!detailed) {
-    String usage_str =
-        "use -h for more extensive help\n"
-        "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
-        "[-f] [-e] [-ci]";
-
-    if (plugin_help != "")
-      usage_str += " [-pplugin]";
-
-    usage_str +=
-        "\n"
-        "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
-        "[-t|st|xt|xst <groupName>.<testName>]...\n"
-        "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
-        "<testName>)\"]...\n";
-
-    return usage_str;
-  }
-
   String help_str =
-      "Thanks for using CppMu.\n"
-      "\n"
       "Options that do not run tests but query:\n"
       "  -h                - this wonderful help screen. Joy!\n"
       "  -lg               - print a list of group names, separated by "
@@ -170,6 +146,9 @@ String CommandLineArguments::help(bool detailed) const
       "  -v                - verbose, print each test name as it runs\n"
       "  -vv               - very verbose, print internal information "
       "during test run\n";
+
+  TestPlugin* plugin = TestRegistry::get_current_registry()->get_first_plugin();
+  String plugin_help = plugin->get_all_help();
 
   if (plugin_help != "") {
     help_str += "\nOptions that are provided by plugins:\n";
@@ -216,9 +195,7 @@ String CommandLineArguments::help(bool detailed) const
       "  -f                - Cause the tests to crash on failure (to allow "
       "the test to be debugged if necessary)\n"
       "  -e                - do not rethrow unexpected exceptions on "
-      "failure\n"
-      "  -ci               - continuous integration mode (equivalent to "
-      "-e)\n";
+      "failure\n";
 
   return help_str;
 }

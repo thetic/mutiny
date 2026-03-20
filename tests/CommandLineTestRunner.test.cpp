@@ -168,7 +168,7 @@ TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelp)
 
   LONGS_EQUAL(1, returned);
   STRCMP_CONTAINS(
-      "Thanks for using CppMu.",
+      "Options that do not run tests but query:",
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output()
           .c_str()
