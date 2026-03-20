@@ -457,7 +457,7 @@ TEST(CommandLineArguments, helpPrintsTheHelp)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-h" };
-  CHECK(!new_argument_parser(argc, argv));
+  CHECK(new_argument_parser(argc, argv));
   CHECK(args->need_help());
 }
 

@@ -82,6 +82,24 @@ public:
   }
   cppmu::Test* create_test() override { return new RunIgnoredTest; }
 };
+
+class TestExecutionVerifier : public cppmu::Test
+{
+public:
+  static bool was_run_;
+  void test_body() override { was_run_ = true; }
+};
+bool TestExecutionVerifier::was_run_ = false;
+
+class TestExecutionVerifierShell : public cppmu::TestShell
+{
+public:
+  TestExecutionVerifierShell()
+    : TestShell("VerifierGroup", "VerifierTest", "file", 1)
+  {
+  }
+  cppmu::Test* create_test() override { return new TestExecutionVerifier; }
+};
 } // namespace
 
 TEST_GROUP(CommandLineTestRunner)
@@ -157,12 +175,37 @@ TEST(CommandLineTestRunner, ReturnsOneWhenTheArgumentsAreInvalid)
   LONGS_EQUAL(1, returned);
 }
 
-TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelp)
+TEST(CommandLineTestRunner, ReturnsZeroPrintsHelpOnHelp)
 {
   const char* argv[] = { "tests.exe", "-h" };
+  TestExecutionVerifierShell verifier_test;
+  registry.add_test(&verifier_test);
+  TestExecutionVerifier::was_run_ = false;
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
+  );
+  int returned = command_line_test_runner.run_all_tests_main();
+
+  LONGS_EQUAL(0, returned);
+  STRCMP_CONTAINS(
+      "Options that do not run tests but query:",
+      command_line_test_runner.fake_console_output_which_is_really_a_buffer
+          ->get_output()
+          .c_str()
+  );
+  CHECK_FALSE(TestExecutionVerifier::was_run_);
+}
+
+TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
+{
+  const char* argv[] = { "tests.exe", "-h", "-invalid" };
+  TestExecutionVerifierShell verifier_test;
+  registry.add_test(&verifier_test);
+  TestExecutionVerifier::was_run_ = false;
+
+  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
+      3, argv, &registry
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
@@ -173,6 +216,7 @@ TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelp)
           ->get_output()
           .c_str()
   );
+  CHECK_FALSE(TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)

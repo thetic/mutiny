@@ -47,8 +47,14 @@ int CommandLineTestRunner::run_all_tests_main()
   registry_->install_plugin(&set_pointer_plugin);
   registry_->install_plugin(&junit_plugin);
 
-  if (parse_arguments(registry_->get_first_plugin()))
-    test_result = run_all_tests();
+  if (parse_arguments(registry_->get_first_plugin())) {
+    if (arguments_->need_help()) {
+      output_->print(arguments_->help().c_str());
+      test_result = 0;
+    } else {
+      test_result = run_all_tests();
+    }
+  }
 
   registry_->remove_plugin_by_name(set_pointer_plugin.name);
   registry_->remove_plugin_by_name(junit_plugin.name);

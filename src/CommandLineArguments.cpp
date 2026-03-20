@@ -55,7 +55,6 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
 
     if (argument == "-h") {
       need_help_ = true;
-      correct_parameters = false;
     } else if (argument == "-v")
       verbose_ = true;
     else if (argument == "-vv")
