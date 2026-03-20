@@ -54,7 +54,7 @@ struct JUnitTestGroupResult
 struct JUnitTestOutputImpl
 {
   JUnitTestGroupResult results;
-  cppmu::File file;
+  TestOutput::File file;
   String package;
   String std_output;
 };
@@ -118,7 +118,7 @@ void JUnitTestOutput::print_current_test_started(const TestShell& test)
 {
   impl_->results.test_count++;
   impl_->results.group = test.get_group();
-  impl_->results.start_time = static_cast<size_t>(cppmu::get_time_in_millis());
+  impl_->results.start_time = static_cast<size_t>(get_time_in_millis());
 
   if (impl_->results.tail == nullptr) {
     impl_->results.head = impl_->results.tail = new JUnitTestCaseResultNode;
@@ -180,7 +180,7 @@ void JUnitTestOutput::write_test_suite_summary()
       static_cast<int>(impl_->results.test_count),
       static_cast<int>(impl_->results.group_exec_time / 1000),
       static_cast<int>(impl_->results.group_exec_time % 1000),
-      cppmu::get_time_string()
+      get_time_string()
   );
   write_to_file(buf.c_str());
 }
@@ -343,17 +343,17 @@ void JUnitTestOutput::print_failure(const TestFailure& failure)
 
 void JUnitTestOutput::open_file_for_write(const String& file_name)
 {
-  impl_->file = cppmu::f_open(file_name.c_str(), "w");
+  impl_->file = fopen_(file_name.c_str(), "w");
 }
 
 void JUnitTestOutput::write_to_file(const String& buffer)
 {
-  cppmu::f_puts(buffer.c_str(), impl_->file);
+  fputs_(buffer.c_str(), impl_->file);
 }
 
 void JUnitTestOutput::close_file()
 {
-  cppmu::f_close(impl_->file);
+  fclose_(impl_->file);
 }
 
 } // namespace cppmu

@@ -12,19 +12,7 @@
 
 #include "CppMu/String.hpp"
 
-#include <stdio.h>
-
 namespace cppmu {
-
-using File = void*;
-using FOpenFunc = File (*)(const char* filename, const char* flag);
-using FPutsFunc = void (*)(const char* str, File file);
-using FCloseFunc = void (*)(File file);
-
-extern File std_out;
-extern FOpenFunc f_open;
-extern FPutsFunc f_puts;
-extern FCloseFunc f_close;
 
 class TestShell;
 class TestFailure;
@@ -67,6 +55,18 @@ public:
   virtual bool needs_console_companion() const { return false; }
 
   virtual void flush() {}
+
+  using File = void*;
+  static File stdout_;
+
+  using FOpenFunc = File (*)(const char* filename, const char* flag);
+  static FOpenFunc fopen_;
+
+  using FPutsFunc = void (*)(const char* str, File file);
+  static FPutsFunc fputs_;
+
+  using FCloseFunc = void (*)(File file);
+  static FCloseFunc fclose_;
 
 protected:
   virtual void print_progress_indicator();

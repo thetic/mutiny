@@ -335,9 +335,6 @@ namespace {
 struct FakeOutput
 {
   FakeOutput()
-    : save_f_open_(cppmu::f_open)
-    , save_f_puts_(cppmu::f_puts)
-    , save_f_close_(cppmu::f_close)
   {
     install_fakes();
     current_fake_ = this;
@@ -351,33 +348,33 @@ struct FakeOutput
 
   void install_fakes()
   {
-    cppmu::f_open = fopen_fake;
-    cppmu::f_puts = fputs_fake;
-    cppmu::f_close = fclose_fake;
+    cppmu::TestOutput::fopen_ = fopen_fake;
+    cppmu::TestOutput::fputs_ = fputs_fake;
+    cppmu::TestOutput::fclose_ = fclose_fake;
   }
 
   void restore_originals()
   {
-    cppmu::f_open = save_f_open_;
-    cppmu::f_puts = save_f_puts_;
-    cppmu::f_close = save_f_close_;
+    cppmu::TestOutput::fopen_ = save_f_open_;
+    cppmu::TestOutput::fputs_ = save_f_puts_;
+    cppmu::TestOutput::fclose_ = save_f_close_;
   }
 
-  static cppmu::File fopen_fake(const char*, const char*)
+  static cppmu::TestOutput::File fopen_fake(const char*, const char*)
   {
-    return static_cast<cppmu::File>(nullptr);
+    return static_cast<cppmu::TestOutput::File>(nullptr);
   }
 
-  static void fputs_fake(const char* str, cppmu::File f)
+  static void fputs_fake(const char* str, cppmu::TestOutput::File f)
   {
-    if (f == cppmu::std_out) {
+    if (f == cppmu::TestOutput::stdout_) {
       current_fake_->console += str;
     } else {
       current_fake_->file += str;
     }
   }
 
-  static void fclose_fake(cppmu::File) {}
+  static void fclose_fake(cppmu::TestOutput::File) {}
 
   cppmu::String file;
   cppmu::String console;
@@ -385,9 +382,9 @@ struct FakeOutput
   static FakeOutput* current_fake_;
 
 private:
-  cppmu::FOpenFunc save_f_open_;
-  cppmu::FPutsFunc save_f_puts_;
-  cppmu::FCloseFunc save_f_close_;
+  cppmu::TestOutput::FOpenFunc save_f_open_{ cppmu::TestOutput::fopen_ };
+  cppmu::TestOutput::FPutsFunc save_f_puts_{ cppmu::TestOutput::fputs_ };
+  cppmu::TestOutput::FCloseFunc save_f_close_{ cppmu::TestOutput::fclose_ };
 };
 
 FakeOutput* FakeOutput::current_fake_ = nullptr;

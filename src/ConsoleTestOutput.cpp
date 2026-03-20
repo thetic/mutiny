@@ -6,7 +6,7 @@ namespace cppmu {
 
 void ConsoleTestOutput::print_buffer(const char* s)
 {
-  cppmu::f_puts(s, cppmu::std_out);
+  TestOutput::fputs_(s, stdout_);
   flush();
 }
 

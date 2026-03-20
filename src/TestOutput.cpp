@@ -4,37 +4,39 @@
 #include "CppMu/TestResult.hpp"
 #include "CppMu/TestShell.hpp"
 
+#include <stdio.h>
+
 namespace cppmu {
 
 namespace {
 
-File f_open_impl(const char* filename, const char* flag)
+TestOutput::File fopen_impl(const char* filename, const char* flag)
 {
 #if defined(__STDC_LIB_EXT1__) || defined(__STDC_SECURE_LIB__)
   FILE* file;
-  fopen_s(&file, filename, flag);
+  ::fopen_s(&file, filename, flag);
   return file;
 #else
-  return fopen(filename, flag);
+  return ::fopen(filename, flag);
 #endif
 }
 
-void f_puts_impl(const char* str, cppmu::File file)
+void fputs_impl(const char* str, TestOutput::File file)
 {
-  fputs(str, static_cast<FILE*>(file));
+  ::fputs(str, static_cast<FILE*>(file));
 }
 
-void f_close_impl(cppmu::File file)
+void fclose_impl(TestOutput::File file)
 {
-  fclose(static_cast<FILE*>(file));
+  ::fclose(static_cast<FILE*>(file));
 }
 
 } // namespace
 
-File std_out = stdout;
-FOpenFunc f_open = f_open_impl;
-FPutsFunc f_puts = f_puts_impl;
-FCloseFunc f_close = f_close_impl;
+TestOutput::File TestOutput::stdout_ = stdout;
+TestOutput::FOpenFunc TestOutput::fopen_ = fopen_impl;
+TestOutput::FPutsFunc TestOutput::fputs_ = fputs_impl;
+TestOutput::FCloseFunc TestOutput::fclose_ = fclose_impl;
 
 void TestOutput::verbose(VerbosityLevel level)
 {

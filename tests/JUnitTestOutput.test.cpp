@@ -3,7 +3,6 @@
 #include "CppMu/CppMu.hpp"
 #include "CppMu/String.hpp"
 #include "CppMu/StringCollection.hpp"
-#include "CppMu/TestOutput.hpp"
 #include "CppMu/TestResult.hpp"
 #include "CppMu/time.hpp"
 
@@ -323,14 +322,14 @@ public:
 FileSystemForJUnitTestOutputTests file_system;
 FileForJUnitTestOutputs* current_file = nullptr;
 
-cppmu::File mock_f_open(const char* filename, const char*)
+cppmu::JUnitTestOutput::File mock_f_open(const char* filename, const char*)
 {
   current_file = file_system.open_file(filename);
   return current_file;
 }
 
-void (*original_f_puts)(const char* str, cppmu::File file);
-void mock_f_puts(const char* str, cppmu::File file)
+void (*original_f_puts)(const char* str, cppmu::JUnitTestOutput::File file);
+void mock_f_puts(const char* str, cppmu::JUnitTestOutput::File file)
 {
   if (file == current_file) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
@@ -339,7 +338,7 @@ void mock_f_puts(const char* str, cppmu::File file)
   }
 }
 
-void mock_f_close(cppmu::File file)
+void mock_f_close(cppmu::JUnitTestOutput::File file)
 {
   current_file = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
@@ -356,10 +355,10 @@ TEST_GROUP(JUnitTestOutput)
 
   void setup() override
   {
-    CPPMU_PTR_SET(cppmu::f_open, mock_f_open);
-    original_f_puts = cppmu::f_puts;
-    CPPMU_PTR_SET(cppmu::f_puts, mock_f_puts);
-    CPPMU_PTR_SET(cppmu::f_close, mock_f_close);
+    CPPMU_PTR_SET(cppmu::JUnitTestOutput::fopen_, mock_f_open);
+    original_f_puts = cppmu::JUnitTestOutput::fputs_;
+    CPPMU_PTR_SET(cppmu::JUnitTestOutput::fputs_, mock_f_puts);
+    CPPMU_PTR_SET(cppmu::JUnitTestOutput::fclose_, mock_f_close);
     junit_output = new cppmu::JUnitTestOutput();
     result = new cppmu::TestResult(*junit_output);
     test_case_runner = new JUnitTestOutputTestRunner(*result);
