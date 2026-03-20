@@ -11,7 +11,7 @@ extern "C"
 {
 #endif
 
-  bool cppmu_set_jmp(void (*function)(void*), void* data);
+  bool cppmu_set_jmp(void (*volatile function)(void*), void* volatile data);
 
 #ifdef __cplusplus
   [[noreturn]]

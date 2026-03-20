@@ -5,7 +5,7 @@
 static jmp_buf test_exit_jmp_buf[10];
 static int jmp_buf_index = 0;
 
-bool cppmu_set_jmp(void (*function)(void*), void* data)
+bool cppmu_set_jmp(void (*volatile function)(void*), void* volatile data)
 {
   if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
     jmp_buf_index++;
