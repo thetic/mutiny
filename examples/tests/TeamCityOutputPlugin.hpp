@@ -29,6 +29,7 @@ public:
   TeamCityOutputPlugin();
 
   bool parse_arguments(int argc, const char* const* argv, int index) override;
+  cppmu::String get_help() const override;
   cppmu::TestOutput* create_output() override;
 
 private:

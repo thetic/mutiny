@@ -123,6 +123,11 @@ bool TeamCityOutputPlugin::parse_arguments(
   return false;
 }
 
+cppmu::String TeamCityOutputPlugin::get_help() const
+{
+  return "  -pteamcity        - output TeamCity output\n";
+}
+
 cppmu::TestOutput* TeamCityOutputPlugin::create_output()
 {
   if (active_)

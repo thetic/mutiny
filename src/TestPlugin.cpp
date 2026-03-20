@@ -57,6 +57,14 @@ bool TestPlugin::parse_all_arguments(
   return false;
 }
 
+String TestPlugin::get_all_help() const
+{
+  String help = get_help();
+  if (next_)
+    help += next_->get_all_help();
+  return help;
+}
+
 TestOutput* TestPlugin::create_all_outputs()
 {
   TestOutput* out = create_output();

@@ -35,8 +35,7 @@ public:
   size_t get_shuffle_seed() const;
   const TestFilter* get_group_filters() const;
   const TestFilter* get_name_filters() const;
-  const char* usage() const;
-  const char* help() const;
+  String help(bool detailed = false) const;
 
 private:
   int ac_;

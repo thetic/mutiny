@@ -2,6 +2,7 @@
 
 #include "CppMu/StringCollection.hpp"
 #include "CppMu/TestPlugin.hpp"
+#include "CppMu/TestRegistry.hpp"
 #include "CppMu/time.hpp"
 
 namespace cppmu {
@@ -125,80 +126,101 @@ bool CommandLineArguments::parse(TestPlugin* plugin)
   return true;
 }
 
-const char* CommandLineArguments::usage() const
+String CommandLineArguments::help(bool detailed) const
 {
-  return "use -h for more extensive help\n"
-         "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
-         "[-f] [-e] [-ci]\n"
-         "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
-         "[-t|st|xt|xst <groupName>.<testName>]...\n"
-         "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
-         "<testName>)\"]...\n";
-}
+  TestPlugin* plugin = TestRegistry::get_current_registry()->get_first_plugin();
+  String plugin_help = plugin->get_all_help();
 
-const char* CommandLineArguments::help() const
-{
-  return "Thanks for using CppMu.\n"
-         "\n"
-         "Options that do not run tests but query:\n"
-         "  -h                - this wonderful help screen. Joy!\n"
-         "  -lg               - print a list of group names, separated by "
-         "spaces\n"
-         "  -ln               - print a list of test names in the form of "
-         "group.name, separated by spaces\n"
-         "  -ll               - print a list of test names in the form of "
-         "group.name.test_file_path.line\n"
-         "  -llo              - print a list of ordered test names in the form "
-         "of group.name.test_file_path.line\n"
-         "\n"
-         "Options that change the output format:\n"
-         "  -c                - colorize output, print green if OK, or red if "
-         "failed\n"
-         "  -v                - verbose, print each test name as it runs\n"
-         "  -vv               - very verbose, print internal information "
-         "during test run\n"
-         "\n"
-         "Options that control which tests are run:\n"
-         "  -g <group>        - only run tests whose group contains <group>\n"
-         "  -n <name>         - only run tests whose name contains <name>\n"
-         "  -t <group>.<name> - only run tests whose group and name contain "
-         "<group> and <name>\n"
-         "  -sg <group>       - only run tests whose group exactly matches "
-         "<group>\n"
-         "  -sn <name>        - only run tests whose name exactly matches "
-         "<name>\n"
-         "  -st <grp>.<name>  - only run tests whose group and name exactly "
-         "match <grp> and <name>\n"
-         "  -xg <group>       - exclude tests whose group contains <group>\n"
-         "  -xn <name>        - exclude tests whose name contains <name>\n"
-         "  -xt <grp>.<name>  - exclude tests whose group and name contain "
-         "<grp> and <name>\n"
-         "  -xsg <group>      - exclude tests whose group exactly matches "
-         "<group>\n"
-         "  -xsn <name>       - exclude tests whose name exactly matches "
-         "<name>\n"
-         "  -xst <grp>.<name> - exclude tests whose group and name exactly "
-         "match <grp> and <name>\n"
-         "  \"[IGNORE_]TEST(<group>, <name>)\"\n"
-         "                    - only run tests whose group and name exactly "
-         "match <group> and <name>\n"
-         "                      (this can be used to copy-paste output from "
-         "the -v option on the command line)\n"
-         "\n"
-         "Options that control how the tests are run:\n"
-         "  -b                - run the tests backwards, reversing the normal "
-         "way\n"
-         "  -s [<seed>]       - shuffle tests randomly (randomization seed is "
-         "optional, must be greater than 0)\n"
-         "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is "
-         "not specified)\n"
-         "  -ri               - run ignored tests as if they are not ignored\n"
-         "  -f                - Cause the tests to crash on failure (to allow "
-         "the test to be debugged if necessary)\n"
-         "  -e                - do not rethrow unexpected exceptions on "
-         "failure\n"
-         "  -ci               - continuous integration mode (equivalent to "
-         "-e)\n";
+  if (!detailed) {
+    String usage_str =
+        "use -h for more extensive help\n"
+        "usage [-h] [-v] [-vv] [-c] [-lg] [-ln] [-ll] [-llo] [-ri] [-r[<#>]] "
+        "[-f] [-e] [-ci]";
+
+    if (plugin_help != "")
+      usage_str += " [-pplugin]";
+
+    usage_str +=
+        "\n"
+        "      [-g|sg|xg|xsg <groupName>]... [-n|sn|xn|xsn <testName>]... "
+        "[-t|st|xt|xst <groupName>.<testName>]...\n"
+        "      [-b] [-s [<seed>]] [\"[IGNORE_]TEST(<groupName>, "
+        "<testName>)\"]...\n";
+
+    return usage_str;
+  }
+
+  String help_str =
+      "Thanks for using CppMu.\n"
+      "\n"
+      "Options that do not run tests but query:\n"
+      "  -h                - this wonderful help screen. Joy!\n"
+      "  -lg               - print a list of group names, separated by "
+      "spaces\n"
+      "  -ln               - print a list of test names in the form of "
+      "group.name, separated by spaces\n"
+      "  -ll               - print a list of test names in the form of "
+      "group.name.test_file_path.line\n"
+      "  -llo              - print a list of ordered test names in the form "
+      "of group.name.test_file_path.line\n"
+      "\n"
+      "Options that change the output format:\n"
+      "  -c                - colorize output, print green if OK, or red if "
+      "failed\n"
+      "  -v                - verbose, print each test name as it runs\n"
+      "  -vv               - very verbose, print internal information "
+      "during test run\n";
+
+  if (plugin_help != "") {
+    help_str += "\nOptions that are provided by plugins:\n";
+    help_str += plugin_help;
+  }
+
+  help_str +=
+      "\n"
+      "Options that control which tests are run:\n"
+      "  -g <group>        - only run tests whose group contains <group>\n"
+      "  -n <name>         - only run tests whose name contains <name>\n"
+      "  -t <group>.<name> - only run tests whose group and name contain "
+      "<group> and <name>\n"
+      "  -sg <group>       - only run tests whose group exactly matches "
+      "<group>\n"
+      "  -sn <name>        - only run tests whose name exactly matches "
+      "<name>\n"
+      "  -st <grp>.<name>  - only run tests whose group and name exactly "
+      "match <grp> and <name>\n"
+      "  -xg <group>       - exclude tests whose group contains <group>\n"
+      "  -xn <name>        - exclude tests whose name contains <name>\n"
+      "  -xt <grp>.<name>  - exclude tests whose group and name contain "
+      "<grp> and <name>\n"
+      "  -xsg <group>      - exclude tests whose group exactly matches "
+      "<group>\n"
+      "  -xsn <name>       - exclude tests whose name exactly matches "
+      "<name>\n"
+      "  -xst <grp>.<name> - exclude tests whose group and name exactly "
+      "match <grp> and <name>\n"
+      "  \"[IGNORE_]TEST(<group>, <name>)\"\n"
+      "                    - only run tests whose group and name exactly "
+      "match <group> and <name>\n"
+      "                      (this can be used to copy-paste output from "
+      "the -v option on the command line)\n"
+      "\n"
+      "Options that control how the tests are run:\n"
+      "  -b                - run the tests backwards, reversing the normal "
+      "way\n"
+      "  -s [<seed>]       - shuffle tests randomly (randomization seed is "
+      "optional, must be greater than 0)\n"
+      "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is "
+      "not specified)\n"
+      "  -ri               - run ignored tests as if they are not ignored\n"
+      "  -f                - Cause the tests to crash on failure (to allow "
+      "the test to be debugged if necessary)\n"
+      "  -e                - do not rethrow unexpected exceptions on "
+      "failure\n"
+      "  -ci               - continuous integration mode (equivalent to "
+      "-e)\n";
+
+  return help_str;
 }
 
 bool CommandLineArguments::need_help() const

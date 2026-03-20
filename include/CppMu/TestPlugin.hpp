@@ -20,6 +20,7 @@ public:
   virtual void post_test_action(TestShell&, TestResult&) {}
 
   virtual bool parse_arguments(int, const char* const*, int) { return false; }
+  virtual String get_help() const { return ""; }
 
   virtual TestOutput* create_output() { return nullptr; }
   virtual TestOutput* create_all_outputs();
@@ -32,6 +33,7 @@ public:
       int index
   );
   virtual bool parse_all_arguments(int argc, char** argv, int index);
+  virtual String get_all_help() const;
 
   virtual TestPlugin* add_plugin(TestPlugin*);
   virtual TestPlugin* remove_plugin_by_name(const String& name);

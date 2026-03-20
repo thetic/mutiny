@@ -24,6 +24,11 @@ bool JUnitOutputPlugin::parse_arguments(
   return false;
 }
 
+String JUnitOutputPlugin::get_help() const
+{
+  return "  -pjunit           - output JUnit XML output\n";
+}
+
 TestOutput* JUnitOutputPlugin::create_output()
 {
   if (active_)
