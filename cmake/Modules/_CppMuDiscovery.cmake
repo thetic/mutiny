@@ -30,7 +30,7 @@ endif()
 macro(add_test_to_script TEST_NAME TEST_LOCATION SELECT_ARG)
     add_command(
         add_test
-        "${TEST_NAME}"
+        "${TARGET_NAME}.${TEST_NAME}"
         ${EMULATOR}
         "${EXECUTABLE}"
         ${ARGS}
@@ -39,7 +39,7 @@ macro(add_test_to_script TEST_NAME TEST_LOCATION SELECT_ARG)
     )
     add_command(
         set_tests_properties
-        "${TEST_NAME}"
+        "${TARGET_NAME}.${TEST_NAME}"
         PROPERTIES
         DEF_SOURCE_LINE
         "${TEST_LOCATION}"

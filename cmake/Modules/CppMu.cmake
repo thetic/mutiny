@@ -83,6 +83,7 @@ function(cppmu_discover_tests target)
             "${CMAKE_COMMAND}"
             -D "TESTS_DETAILED:BOOL=${_DETAILED}"
             -D "EXECUTABLE=$<TARGET_FILE:${target}>"
+            -D "TARGET_NAME=${target}"
             -D "EMULATOR=${emulator}"
             -D "ARGS=${_EXTRA_ARGS}"
             -D "CTEST_FILE=${CTEST_GENERATED_FILE}"
