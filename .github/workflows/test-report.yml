@@ -1,5 +1,8 @@
 ---
 name: 'Test Report'
+# This workflow must live in a separate file and be triggered by 'workflow_run' 
+# to allow it to have 'write' permissions (for creating checks and PR comments) 
+# even when the triggering workflow ('Basic builds') is run from a fork.
 "on":
   workflow_run:
     workflows: ['Basic builds']
@@ -13,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: dorny/test-reporter@v1
+      - uses: dorny/test-reporter@v2
         with:
           artifact: test-results
           name: JUnit Tests
