@@ -160,6 +160,9 @@ See `examples/tests/MockDocumentation.test.c` for a complete C mock example.
 
 ---
 
-## Complete Example
+## Examples
 
-See `examples/tests/hello.test.c` and the companion `hello.test.cpp` for a working two-file pattern that stubs a function pointer and checks the output.
+| Files | Demonstrates |
+|-------|-------------|
+| [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | Two-file pattern: stubs a function pointer with `CPPMU_PTR_SET`, checks output with `CHECK_EQUAL_STRING` |
+| [`examples/tests/MockDocumentation.test.c`](../examples/tests/MockDocumentation.test.c) + [`MockDocumentation.test.cpp`](../examples/tests/MockDocumentation.test.cpp) | C mock interface: `cppmu_mock()`, typed parameters, custom comparator, data store |

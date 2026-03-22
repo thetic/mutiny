@@ -122,3 +122,10 @@ These bridge C test files into the C++ test runner. See [testing-in-c.md](testin
 | `TEST_C_WRAPPER(group, name)` | Wires a C test function into a C++ `TEST` |
 | `IGNORE_TEST_C_WRAPPER(group, name)` | Same as above but ignored |
 | `EXPECT_FAIL_TEST_C_WRAPPER(group, name)` | Same as above but expected to fail |
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `TEST_GROUP`, `TEST`, `setup()`, `teardown()`, and `CPPMU_PTR_SET` |
+| [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | C-wrapper two-file pattern with `TEST_GROUP_SETUP`, `TEST`, and `TEST_C_WRAPPER` |

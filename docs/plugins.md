@@ -90,3 +90,9 @@ cppmu::TestRegistry::get_current_registry()->install_plugin(&log);
 | `JUnitOutputPlugin` | `CppMu/JUnitOutputPlugin.hpp` | Write JUnit XML output via `-pjunit` | [junit-output.md](junit-output.md) |
 
 `SetPointerPlugin` is automatically created and available through the `CPPMU_PTR_SET` macro — you do not need to install it manually if you only use the macro.
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/main.cpp`](../examples/tests/main.cpp) | Installing `MockSupportPlugin` with a custom comparator, plus additional plugins, before calling `run_all_tests` |

@@ -188,3 +188,10 @@ void assert_valid_id(int id, const char* file, size_t line)
 
 #define ASSERT_VALID_ID(id) assert_valid_id((id), __FILE__, __LINE__)
 ```
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `LONGS_EQUAL`, `CHECK`, `STRCMP_EQUAL` in a minimal test |
+| [`examples/tests/CircularBuffer.test.cpp`](../examples/tests/CircularBuffer.test.cpp) | `CHECK`, `LONGS_EQUAL`, `STRCMP_EQUAL` across a variety of test scenarios |

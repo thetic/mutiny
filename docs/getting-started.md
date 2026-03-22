@@ -138,3 +138,10 @@ ctest --preset GNU -R Widget
 ```
 
 See [command-line-reference.md](command-line-reference.md) for all flags.
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | Minimal `TEST_GROUP` + `TEST` with `setup()`, `CPPMU_PTR_SET`, and a handful of assertion macros |
+| [`examples/tests/CircularBuffer.test.cpp`](../examples/tests/CircularBuffer.test.cpp) | Full group with setup/teardown, helper methods, and multiple assertion styles |

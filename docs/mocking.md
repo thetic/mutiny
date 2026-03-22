@@ -264,3 +264,12 @@ reg->install_plugin(&mock_plugin);
 ```
 
 With the plugin installed, tests no longer need explicit `check_expectations()`/`clear()` calls. See [plugins.md](plugins.md).
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/MockCheatSheet.test.cpp`](../examples/tests/MockCheatSheet.test.cpp) | `expect_one_call`, `expect_n_calls`, `with_parameter`, `and_return_value`, `ignore_other_parameters`, `check_expectations`, `clear` |
+| [`examples/tests/MockDocumentation.test.cpp`](../examples/tests/MockDocumentation.test.cpp) | `on_object`, `set_data`, custom comparator, scoped mock, `crash_on_failure`, `disable`/`enable`, `ignore_other_calls` |
+| [`examples/tests/EventDispatcher.test.cpp`](../examples/tests/EventDispatcher.test.cpp) | Real-world example: virtual mock class, custom comparator installed in `setup()`, `with_parameter_of_type` |
+| [`examples/tests/main.cpp`](../examples/tests/main.cpp) | Installing `MockSupportPlugin` with a custom comparator alongside other plugins |

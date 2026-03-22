@@ -73,3 +73,10 @@ Exceeding 32 calls in a single test body will crash or corrupt memory. If you ne
 ## How It Works
 
 `SetPointerPlugin` is a `TestPlugin` with a `post_test_action` that iterates the saved location/value pairs and writes each original value back. The static storage array means no heap allocation is needed, which is safe even in environments without `malloc`.
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `CPPMU_PTR_SET` swapping a function pointer in `setup()` |
+| [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | Function pointer stub pattern in C (manual save/restore instead of the macro, showing the underlying technique) |
