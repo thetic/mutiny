@@ -26,7 +26,7 @@ public:
 void fail_method()
 {
   HasTheDestructorBeenCalledChecker checker;
-  fail_method_c_body();
+  cppmu_fail_method_c_body();
 }
 
 bool cppmu_has_crashed;

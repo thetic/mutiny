@@ -1,0 +1,28 @@
+---
+# C-only clang-tidy config for the CppMu library target.
+# Applied only to the library (not tests or examples) via set_target_properties
+# in CMakeLists.txt — see the C_CLANG_TIDY property on the CppMu target.
+#
+# InheritParentConfig: true walks the config FILE's directory hierarchy to
+# merge with the project-root .clang-tidy, avoiding duplication.
+InheritParentConfig: true
+CheckOptions:
+  # Linkable extern symbols must carry the cppmu_ prefix.
+  - key: readability-identifier-naming.GlobalFunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalFunctionPrefix
+    value: 'cppmu_'
+  # Global variables (all file-scope, including static): require cppmu_ prefix.
+  # StaticVariable does not take priority over GlobalVariable in clang-tidy, so
+  # there is no way to target extern-only; the rule applies uniformly.
+  - key: readability-identifier-naming.GlobalVariableCase
+    value: lower_case
+  - key: readability-identifier-naming.GlobalVariablePrefix
+    value: 'cppmu_'
+  # Type tag names (struct/enum/union tags used across TUs) must carry CppMu.
+  - key: readability-identifier-naming.EnumPrefix
+    value: 'CppMu'
+  - key: readability-identifier-naming.StructPrefix
+    value: 'CppMu'
+  - key: readability-identifier-naming.UnionPrefix
+    value: 'CppMu'

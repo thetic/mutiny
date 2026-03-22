@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-  void fail_method_c_body(void);
+  void cppmu_fail_method_c_body(void);
 
 #ifdef __cplusplus
 }

@@ -155,6 +155,14 @@ target_compile_definitions(CppMu
 
 add_library(CppMu::CppMu ALIAS CppMu)
 
+# Apply C-specific naming rules (cppmu_ prefix) only to the library target.
+# Tests and examples are not subject to this convention.
+if(CMAKE_C_CLANG_TIDY)
+    set_target_properties(CppMu PROPERTIES
+        C_CLANG_TIDY "${CMAKE_C_CLANG_TIDY};--config-file=${CMAKE_CURRENT_SOURCE_DIR}/cmake/c.clang-tidy"
+    )
+endif()
+
 if (CPPMU_BUILD_TESTING)
     add_subdirectory(tests)
 endif ()

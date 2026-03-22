@@ -26,7 +26,7 @@ int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
 }
 
-int ordered_test_fixture_c_wrapper(void)
+int cppmu_ordered_test_fixture_c_wrapper(void)
 {
   return OrderedTestTestingFixture::count();
 }

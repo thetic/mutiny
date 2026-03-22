@@ -2,15 +2,15 @@
 
 #include <setjmp.h>
 
-static jmp_buf test_exit_jmp_buf[10];
-static int jmp_buf_index = 0;
+static jmp_buf cppmu_jmp_buf[10];
+static int cppmu_jmp_buf_depth = 0;
 
 bool cppmu_set_jmp(void (*volatile function)(void*), void* volatile data)
 {
-  if (0 == setjmp(test_exit_jmp_buf[jmp_buf_index])) {
-    jmp_buf_index++;
+  if (0 == setjmp(cppmu_jmp_buf[cppmu_jmp_buf_depth])) {
+    cppmu_jmp_buf_depth++;
     function(data);
-    jmp_buf_index--;
+    cppmu_jmp_buf_depth--;
     return true;
   }
   return false;
@@ -18,11 +18,11 @@ bool cppmu_set_jmp(void (*volatile function)(void*), void* volatile data)
 
 void cppmu_long_jmp(void)
 {
-  jmp_buf_index--;
-  longjmp(test_exit_jmp_buf[jmp_buf_index], 1);
+  cppmu_jmp_buf_depth--;
+  longjmp(cppmu_jmp_buf[cppmu_jmp_buf_depth], 1);
 }
 
 void cppmu_restore_jump_buffer(void)
 {
-  jmp_buf_index--;
+  cppmu_jmp_buf_depth--;
 }

@@ -12,7 +12,7 @@ static const char* type_name_value_to_string(const void* object)
   return (const char*)object;
 }
 
-void all_mock_support_c_calls(void)
+void cppmu_all_mock_support_c_calls(void)
 {
   cppmu_mock()->strict_order();
   cppmu_mock()->expect_one_call("boo");

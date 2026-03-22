@@ -1004,7 +1004,7 @@ TEST(MockSupport_c, MockSupportSetDataConstObject)
 
 TEST(MockSupport_c, WorksInCFile)
 {
-  all_mock_support_c_calls();
+  cppmu_all_mock_support_c_calls();
 }
 
 // Silly wrapper because of a test that only fails in Visual C++ due to
