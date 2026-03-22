@@ -1,8 +1,29 @@
-/******************************************************************************
+/**
+ * @file CppMu.h
+ * @brief C interface for writing CppMu tests in pure C.
  *
- * Provides an interface for when working with pure C
+ * Include this header in .c test files. Test definitions use the same macro
+ * names as the C++ interface (TEST, IGNORE_TEST, EXPECT_FAIL_TEST) but expand
+ * to C function stubs that are called by corresponding C++ wrapper macros in
+ * the bridging .cpp file.
  *
- *******************************************************************************/
+ * Assertion macros use type-specific names (CHECK_EQUAL_INT, CHECK_EQUAL_LONG,
+ * etc.) because C has no function overloading.
+ *
+ * @code
+ * // my_tests.c
+ * #include "CppMu/CppMu.h"
+ *
+ * TEST(MyGroup, something_works)
+ * {
+ *   int result = compute();
+ *   CHECK_EQUAL_INT(42, result);
+ * }
+ * @endcode
+ *
+ * @see CppMu.hpp for the C++ interface
+ * @see TEST_GROUP_C_WRAPPER and friends in CppMu.hpp for the .cpp bridge
+ */
 
 #ifndef INCLUDED_CPPMU_CPPMU_H
 #define INCLUDED_CPPMU_CPPMU_H
@@ -15,125 +36,283 @@ extern "C"
 {
 #else
 
+/**
+ * @brief Fail if @p expected != @p actual (bool).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_BOOL(expected, actual)                                     \
   cppmu_check_equal_bool(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_BOOL with a custom failure message. @see CHECK_EQUAL_BOOL
+ */
 #define CHECK_EQUAL_BOOL_TEXT(expected, actual, text)                          \
   cppmu_check_equal_bool(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (int).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_INT(expected, actual)                                      \
   cppmu_check_equal_int(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_INT with a custom failure message. @see CHECK_EQUAL_INT
+ */
 #define CHECK_EQUAL_INT_TEXT(expected, actual, text)                           \
   cppmu_check_equal_int(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (unsigned int).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_UINT(expected, actual)                                     \
   cppmu_check_equal_uint(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_UINT with a custom failure message. @see CHECK_EQUAL_UINT
+ */
 #define CHECK_EQUAL_UINT_TEXT(expected, actual, text)                          \
   cppmu_check_equal_uint(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (long).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_LONG(expected, actual)                                     \
   cppmu_check_equal_long(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_LONG with a custom failure message. @see CHECK_EQUAL_LONG
+ */
 #define CHECK_EQUAL_LONG_TEXT(expected, actual, text)                          \
   cppmu_check_equal_long(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (unsigned long).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_ULONG(expected, actual)                                    \
   cppmu_check_equal_ulong(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_ULONG with a custom failure message. @see
+ * CHECK_EQUAL_ULONG */
 #define CHECK_EQUAL_ULONG_TEXT(expected, actual, text)                         \
   cppmu_check_equal_ulong(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (long long).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_LONGLONG(expected, actual)                                 \
   cppmu_check_equal_longlong(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_LONGLONG with a custom failure message. @see
+ * CHECK_EQUAL_LONGLONG */
 #define CHECK_EQUAL_LONGLONG_TEXT(expected, actual, text)                      \
   cppmu_check_equal_longlong(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (unsigned long long).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_ULONGLONG(expected, actual)                                \
   cppmu_check_equal_ulonglong(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_ULONGLONG with a custom failure message. @see
+ * CHECK_EQUAL_ULONGLONG */
 #define CHECK_EQUAL_ULONGLONG_TEXT(expected, actual, text)                     \
   cppmu_check_equal_ulonglong(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected and @p actual differ by more than @p threshold
+ * (double).
+ * @param expected   Expected value.
+ * @param actual     Actual value.
+ * @param threshold  Maximum allowed absolute difference.
+ */
 #define CHECK_EQUAL_DOUBLE(expected, actual, threshold)                        \
   cppmu_check_equal_double(expected, actual, threshold, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_DOUBLE with a custom failure message. @see
+ * CHECK_EQUAL_DOUBLE */
 #define CHECK_EQUAL_DOUBLE_TEXT(expected, actual, threshold, text)             \
   cppmu_check_equal_double(                                                    \
       expected, actual, threshold, text, __FILE__, __LINE__                    \
   )
 
+/**
+ * @brief Fail if @p expected != @p actual (char).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_CHAR(expected, actual)                                     \
   cppmu_check_equal_char(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_CHAR with a custom failure message. @see CHECK_EQUAL_CHAR
+ */
 #define CHECK_EQUAL_CHAR_TEXT(expected, actual, text)                          \
   cppmu_check_equal_char(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (unsigned char / byte).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_UBYTE(expected, actual)                                    \
   cppmu_check_equal_ubyte(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_UBYTE with a custom failure message. @see
+ * CHECK_EQUAL_UBYTE */
 #define CHECK_EQUAL_UBYTE_TEXT(expected, actual, text)                         \
   cppmu_check_equal_ubyte(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p expected != @p actual (signed char).
+ * @param expected  Expected value.
+ * @param actual    Actual value.
+ */
 #define CHECK_EQUAL_SBYTE(expected, actual)                                    \
   cppmu_check_equal_sbyte(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_SBYTE with a custom failure message. @see
+ * CHECK_EQUAL_SBYTE */
 #define CHECK_EQUAL_SBYTE_TEXT(expected, actual, text)                         \
   cppmu_check_equal_sbyte(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if the C strings @p expected and @p actual differ (strcmp).
+ * @param expected  Expected C string.
+ * @param actual    Actual C string.
+ */
 #define CHECK_EQUAL_STRING(expected, actual)                                   \
   cppmu_check_equal_string(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_STRING with a custom failure message. @see
+ * CHECK_EQUAL_STRING */
 #define CHECK_EQUAL_STRING_TEXT(expected, actual, text)                        \
   cppmu_check_equal_string(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if pointer values @p expected and @p actual differ.
+ * @param expected  Expected pointer.
+ * @param actual    Actual pointer.
+ */
 #define CHECK_EQUAL_POINTER(expected, actual)                                  \
   cppmu_check_equal_pointer(expected, actual, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_POINTER with a custom failure message. @see
+ * CHECK_EQUAL_POINTER */
 #define CHECK_EQUAL_POINTER_TEXT(expected, actual, text)                       \
   cppmu_check_equal_pointer(expected, actual, text, __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p size bytes at @p expected and @p actual differ (memcmp).
+ * @param expected  Pointer to expected memory region.
+ * @param actual    Pointer to actual memory region.
+ * @param size      Number of bytes to compare.
+ */
 #define CHECK_EQUAL_MEMCMP(expected, actual, size)                             \
   cppmu_check_equal_memcmp(expected, actual, size, "", __FILE__, __LINE__)
 
+/** @brief CHECK_EQUAL_MEMCMP with a custom failure message. @see
+ * CHECK_EQUAL_MEMCMP */
 #define CHECK_EQUAL_MEMCMP_TEXT(expected, actual, size, text)                  \
   cppmu_check_equal_memcmp(expected, actual, size, text, __FILE__, __LINE__)
 
+/**
+ * @brief Unconditionally fail with a message.
+ * @param text  Human-readable failure message.
+ */
 #define FAIL_TEXT(text) cppmu_fail(text, __FILE__, __LINE__)
 
+/** @brief Unconditionally fail with an empty message. @see FAIL_TEXT */
 #define FAIL() cppmu_fail("", __FILE__, __LINE__)
 
+/**
+ * @brief Fail if @p condition is zero (false).
+ * @param condition  Integer condition to test.
+ */
 #define CHECK(condition)                                                       \
   cppmu_check(condition, #condition, "", __FILE__, __LINE__)
 
+/** @brief CHECK with a custom failure message. @see CHECK */
 #define CHECK_TEXT(condition, text)                                            \
   cppmu_check(condition, #condition, text, __FILE__, __LINE__)
 
+/**
+ * @brief Attach a key/value property to the currently running test.
+ *
+ * Properties appear in JUnit XML output. This macro is available in both
+ * C and C++ test files.
+ *
+ * @param name   Property name.
+ * @param value  Property value.
+ */
 #define TEST_PROPERTY(name, value) cppmu_add_test_property_c((name), (value))
 
+/**
+ * @brief Define the C setup function for a group declared with
+ * TEST_GROUP_C_WRAPPER.
+ *
+ * The body you write runs before each test in the group.
+ *
+ * @param group_name  Must match the TEST_GROUP_C_WRAPPER declaration.
+ */
 #define TEST_GROUP_SETUP(group_name)                                           \
   extern void group_##group_name##_setup_wrapper_c(void);                      \
   void group_##group_name##_setup_wrapper_c(void)
 
+/**
+ * @brief Define the C teardown function for a group declared with
+ * TEST_GROUP_C_WRAPPER.
+ *
+ * @param group_name  Must match the TEST_GROUP_C_WRAPPER declaration.
+ */
 #define TEST_GROUP_TEARDOWN(group_name)                                        \
   extern void group_##group_name##_teardown_wrapper_c(void);                   \
   void group_##group_name##_teardown_wrapper_c(void)
 
+/**
+ * @brief Define a C test function body.
+ *
+ * The function stub is called by the corresponding TEST_C_WRAPPER macro in the
+ * .cpp bridge file.
+ *
+ * @param group_name  Test group.
+ * @param test_name   Test name.
+ */
 #define TEST(group_name, test_name)                                            \
   extern void test_##group_name##_##test_name##_wrapper_c(void);               \
   void test_##group_name##_##test_name##_wrapper_c(void)
 
+/**
+ * @brief Define a C ignored-test function body (body is not executed).
+ *
+ * @param group_name  Test group.
+ * @param test_name   Test name.
+ */
 #define IGNORE_TEST(group_name, test_name)                                     \
   extern void ignore_##group_name##_##test_name##_wrapper_c(void);             \
   void ignore_##group_name##_##test_name##_wrapper_c(void)
 
+/**
+ * @brief Define a C expected-to-fail test function body.
+ *
+ * @param group_name  Test group.
+ * @param test_name   Test name.
+ */
 #define EXPECT_FAIL_TEST(group_name, test_name)                                \
   extern void expect_fail_##group_name##_##test_name##_wrapper_c(void);        \
   void expect_fail_##group_name##_##test_name##_wrapper_c(void)
 #endif
 
+  /** @brief C implementation of CHECK_EQUAL_BOOL. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_bool(
       bool expected,
       bool actual,
@@ -141,6 +320,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_INT. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_int(
       int expected,
       int actual,
@@ -148,6 +330,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_UINT. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_uint(
       unsigned int expected,
       unsigned int actual,
@@ -155,6 +340,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_LONG. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_long(
       long expected,
       long actual,
@@ -162,6 +350,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_ULONG. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_ulong(
       unsigned long expected,
       unsigned long actual,
@@ -169,6 +360,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_LONGLONG. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_longlong(
       long long expected,
       long long actual,
@@ -176,6 +370,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_ULONGLONG. @param expected
+   * Expected. @param actual Actual. @param text Message. @param file_name File.
+   * @param line_number Line. */
   void cppmu_check_equal_ulonglong(
       unsigned long long expected,
       unsigned long long actual,
@@ -183,6 +380,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_DOUBLE. @param expected Expected.
+   * @param actual Actual. @param threshold Threshold. @param text Message.
+   * @param file_name File. @param line_number Line. */
   void cppmu_check_equal_double(
       double expected,
       double actual,
@@ -191,6 +391,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_CHAR. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_char(
       char expected,
       char actual,
@@ -198,6 +401,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_UBYTE. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_ubyte(
       unsigned char expected,
       unsigned char actual,
@@ -205,6 +411,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_SBYTE. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_sbyte(
       signed char expected,
       signed char actual,
@@ -212,6 +421,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_STRING. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_string(
       const char* expected,
       const char* actual,
@@ -219,6 +431,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_POINTER. @param expected Expected.
+   * @param actual Actual. @param text Message. @param file_name File. @param
+   * line_number Line. */
   void cppmu_check_equal_pointer(
       const void* expected,
       const void* actual,
@@ -226,6 +441,9 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of CHECK_EQUAL_MEMCMP. @param expected Expected
+   * buffer. @param actual Actual buffer. @param size Bytes to compare. @param
+   * text Message. @param file_name File. @param line_number Line. */
   void cppmu_check_equal_memcmp(
       const void* expected,
       const void* actual,
@@ -234,7 +452,12 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation of FAIL/FAIL_TEXT. @param text Message. @param
+   * file_name File. @param line_number Line. */
   void cppmu_fail(const char* text, const char* file_name, size_t line_number);
+  /** @brief C implementation of CHECK/CHECK_TEXT. @param condition Condition
+   * (non-zero = true). @param condition_string Stringified condition. @param
+   * text Message. @param file_name File. @param line_number Line. */
   void cppmu_check(
       int condition,
       const char* condition_string,
@@ -242,6 +465,8 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+  /** @brief C implementation backing TEST_PROPERTY in C files. @param name
+   * Property name. @param value Property value. */
   void cppmu_add_test_property(const char* name, const char* value);
 
 #ifdef __cplusplus

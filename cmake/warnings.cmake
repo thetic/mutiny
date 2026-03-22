@@ -20,6 +20,7 @@ else()
         -Wconversion
         -Wsign-conversion
         -Wmissing-include-dirs
+        -Wdocumentation
     )
     set(_warning_c_flags   ${_common_flags} -Wstrict-prototypes)
     set(_warning_cxx_flags ${_common_flags} -Woverloaded-virtual -Wold-style-cast)

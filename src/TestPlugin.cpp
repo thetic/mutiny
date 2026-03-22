@@ -25,6 +25,8 @@ TestPlugin* TestPlugin::add_plugin(TestPlugin* plugin)
   return this;
 }
 
+void TestPlugin::pre_test_action(TestShell&, TestResult&) {}
+
 void TestPlugin::run_all_pre_test_action(TestShell& test, TestResult& result)
 {
   if (enabled_)
@@ -32,11 +34,18 @@ void TestPlugin::run_all_pre_test_action(TestShell& test, TestResult& result)
   next_->run_all_pre_test_action(test, result);
 }
 
+void TestPlugin::post_test_action(TestShell&, TestResult&) {}
+
 void TestPlugin::run_all_post_test_action(TestShell& test, TestResult& result)
 {
   next_->run_all_post_test_action(test, result);
   if (enabled_)
     post_test_action(test, result);
+}
+
+bool TestPlugin::parse_arguments(int, const char* const*, int)
+{
+  return false;
 }
 
 bool TestPlugin::parse_all_arguments(int argc, char** argv, int index)
