@@ -48,3 +48,9 @@ Avoid them when:
 
 - Tests can be made independent through `setup()`/`teardown()` — independent tests are more robust and can be run in isolation.
 - You want the `-s` (shuffle) flag to help detect ordering dependencies — ordered tests are excluded from the shuffle.
+
+## Examples
+
+| File | Demonstrates |
+|------|-------------|
+| [`examples/tests/OrderedTest.test.cpp`](../examples/tests/OrderedTest.test.cpp) | Four-phase lifecycle (init → events → verify → shutdown) with two tests sharing level 20, plus a regular `TEST` that runs before the ordered block |
