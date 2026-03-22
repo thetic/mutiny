@@ -1,0 +1,1 @@
+Cannot discover tests for target "MyLib" which is not an executable

@@ -1,0 +1,1 @@
+Cannot discover tests for target "NotATarget" which is not built by this project\.

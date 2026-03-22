@@ -1,0 +1,28 @@
+# Fake CppMu test executable for use in discovery script tests.
+#
+# When invoked as "cmake -P mock_test_exe.cmake -ll" it prints mock test
+# location lines to stdout in the format expected by _CppMuDiscovery.cmake:
+#   GROUP.NAME.FILE.LINE
+#
+# When invoked with -llo it prints only the ordered-test group line.
+
+set(mode "")
+math(EXPR last "${CMAKE_ARGC} - 1")
+foreach(i RANGE 0 "${last}")
+    if("${CMAKE_ARGV${i}}" STREQUAL "-ll")
+        set(mode ll)
+    elseif("${CMAKE_ARGV${i}}" STREQUAL "-llo")
+        set(mode llo)
+    endif()
+endforeach()
+
+if(mode STREQUAL "ll")
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "Group1.Test1.file1.cpp.10")
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "Group1.Test2.file1.cpp.20")
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "Group2.Test3.file2.cpp.30")
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "OrderedGroup.Test4.file3.cpp.40")
+elseif(mode STREQUAL "llo")
+    execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "OrderedGroup.Test4.file3.cpp.40")
+else()
+    message(FATAL_ERROR "Expected -ll or -llo flag")
+endif()

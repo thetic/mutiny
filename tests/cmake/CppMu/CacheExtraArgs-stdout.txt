@@ -1,0 +1,1 @@
+DISCOVER_ARGS: --custom-arg

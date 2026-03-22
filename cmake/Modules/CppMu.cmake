@@ -4,14 +4,21 @@ set(_CPPMU_DISCOVERY_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/_CppMuDiscovery.cmake
 
 option(CPPMU_TESTS_DETAILED "Run discovered tests individually")
 option(CPPMU_JUNIT_REPORT "Output JUnit test reports")
+set(CPPMU_EXTRA_ARGS "-v" CACHE STRING
+    "Default extra arguments passed to each discovered test run"
+)
+# _CPPMU_CMAKE_VERSION_OVERRIDE lets tests exercise the legacy code path.
+set(_CPPMU_CMAKE_VERSION_OVERRIDE "" CACHE STRING
+    "Override the cmake version used by cppmu_discover_tests (for testing only)"
+)
+mark_as_advanced(_CPPMU_CMAKE_VERSION_OVERRIDE)
 
 function(cppmu_discover_tests target)
-    set(options JUNIT)
     set(oneValueArgs DETAILED)
     set(multiValueArgs EXTRA_ARGS)
     cmake_parse_arguments(
         ""
-        "${options}"
+        ""
         "${oneValueArgs}"
         "${multiValueArgs}"
         ${ARGN}
@@ -48,16 +55,21 @@ function(cppmu_discover_tests target)
     endif()
 
     if(NOT DEFINED _EXTRA_ARGS)
-        set(_EXTRA_ARGS -v)
+        set(_EXTRA_ARGS ${CPPMU_EXTRA_ARGS})
     endif()
 
     if(NOT DEFINED _DETAILED)
         set(_DETAILED ${CPPMU_TESTS_DETAILED})
     endif()
 
-    if(_JUNIT OR CPPMU_JUNIT_REPORT)
+    if(CPPMU_JUNIT_REPORT)
         list(APPEND _EXTRA_ARGS -pjunit)
     endif()
+
+    set_target_properties(${target} PROPERTIES
+        CPPMU_DISCOVER_ARGS    "${_EXTRA_ARGS}"
+        CPPMU_DISCOVER_DETAILED "${_DETAILED}"
+    )
 
     set(CTEST_INCLUDE_FILE "${CMAKE_CURRENT_BINARY_DIR}/${target}_include.cmake")
     if(CMAKE_CONFIGURATION_TYPES)
@@ -92,7 +104,13 @@ function(cppmu_discover_tests target)
         VERBATIM
     )
 
-    if(${CMAKE_VERSION} VERSION_LESS "3.10")
+    if(_CPPMU_CMAKE_VERSION_OVERRIDE)
+        set(_cppmu_cmake_version "${_CPPMU_CMAKE_VERSION_OVERRIDE}")
+    else()
+        set(_cppmu_cmake_version "${CMAKE_VERSION}")
+    endif()
+
+    if(_cppmu_cmake_version VERSION_LESS "3.10")
         # We can only set one.
         get_property(already_set
             DIRECTORY
@@ -101,7 +119,7 @@ function(cppmu_discover_tests target)
         )
         if(${already_set})
             message(FATAL_ERROR
-                "Cannot discovery multiple tests from the same file"
+                "Cannot discover multiple tests from the same file"
             )
         endif()
         set_property(

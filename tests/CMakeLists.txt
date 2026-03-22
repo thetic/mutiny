@@ -64,3 +64,16 @@ target_include_directories(CppMuTests PRIVATE
 include(CppMu)
 
 cppmu_discover_tests(CppMuTests)
+
+add_test(
+    NAME cppmu_discover_tests
+    COMMAND ${CMAKE_COMMAND}
+        -D "RunCMake_GENERATOR=${CMAKE_GENERATOR}"
+        -D "RunCMake_GENERATOR_PLATFORM=${CMAKE_GENERATOR_PLATFORM}"
+        -D "RunCMake_GENERATOR_TOOLSET=${CMAKE_GENERATOR_TOOLSET}"
+        -D "RunCMake_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/cmake/CppMu"
+        -D "RunCMake_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}/cmake/CppMu"
+        -D "CPPMU_MODULE_PATH=${PROJECT_SOURCE_DIR}/cmake/Modules"
+        -D "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/cmake/CppMu/RunCMakeTest.cmake"
+)
