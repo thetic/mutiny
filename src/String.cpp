@@ -270,25 +270,15 @@ String& String::operator+=(const char* rhs)
 
 String& String::operator+=(char ch)
 {
-  size_t new_size = size_ + 1;
-  size_t needed = new_size + 1;
+  size_t needed = size_ + 2;
   if (needed <= buffer_size_) {
     buffer_[size_] = ch;
-    buffer_[new_size] = '\0';
-  } else {
-    size_t new_cap = buffer_size_ * 2;
-    if (new_cap < needed)
-      new_cap = needed;
-    char* nb = new char[new_cap];
-    str_n_cpy(nb, buffer_, size_ + 1);
-    nb[size_] = ch;
-    nb[new_size] = '\0';
-    delete[] buffer_;
-    buffer_ = nb;
-    buffer_size_ = new_cap;
+    buffer_[size_ + 1] = '\0';
+    size_ += 1;
+    return *this;
   }
-  size_ = new_size;
-  return *this;
+  char tmp[2] = { ch, '\0' };
+  return operator+=(tmp);
 }
 
 void String::resize(size_t new_size)
