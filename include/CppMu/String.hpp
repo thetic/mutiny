@@ -130,6 +130,16 @@ String string_from(int value);
 
 String string_from(unsigned int value);
 
+inline String string_from(signed char value)
+{
+  return string_from(static_cast<int>(value));
+}
+
+inline String string_from(unsigned char value)
+{
+  return string_from(static_cast<unsigned int>(value));
+}
+
 String string_from(long value);
 
 String string_from(unsigned long value);
@@ -162,6 +172,42 @@ String string_from(const String& other);
 
 #if CPPMU_USE_STD_CPP_LIB
 String string_from(const std::nullptr_t value);
+#endif
+
+inline String string_from(void* value)
+{
+  return string_from(static_cast<const void*>(value));
+}
+
+// Catch any pointer type that lacks its own overload and route to const void*.
+// This template is more specialised than the fallback below, so it wins
+// in partial ordering when the argument is a non-void pointer.
+template<typename T>
+inline String string_from(T* value)
+{
+  return string_from(static_cast<const void*>(value));
+}
+
+// Fallback: fires only for class types (structs/classes) that have no
+// string_from() overload.  Enums and arithmetic types are excluded so they
+// continue to use their existing implicit-conversion overloads (e.g. enum→int).
+// When the standard library is available we use std::is_class to express this
+// constraint via SFINAE; without it the fallback is omitted and a missing
+// overload surfaces as a linker error instead.
+#if CPPMU_USE_STD_CPP_LIB
+#include <type_traits>
+template<
+    typename T,
+    typename std::enable_if<std::is_class<T>::value, int>::type = 0>
+String string_from(const T&)
+{
+  static_assert(
+      sizeof(T) == 0,
+      "No cppmu::string_from() overload for this type. "
+      "Provide: cppmu::String cppmu::string_from(const YourType&);"
+  );
+  return String();
+}
 #endif
 
 #if CPPMU_HAS_ATTRIBUTE(format)

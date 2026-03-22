@@ -49,6 +49,21 @@ private:
   ValueToStringFunction value_to_string_;
 };
 
+template<typename T>
+class TypedMockComparator : public MockNamedValueComparator
+{
+public:
+  bool is_equal(const void* object1, const void* object2) override
+  {
+    return *static_cast<const T*>(object1) == *static_cast<const T*>(object2);
+  }
+
+  cppmu::String value_to_string(const void* object) override
+  {
+    return string_from(*static_cast<const T*>(object));
+  }
+};
+
 } // namespace cppmu
 
 #endif

@@ -265,6 +265,83 @@ public:
   int dummy;
 };
 
+template<typename T, typename U>
+void check_equal(
+    const T& expected,
+    const U& actual,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  // Deduce the common type via the conditional operator's arithmetic
+  // conversion rules (the same implicit promotion the old macro relied on),
+  // then cast both operands explicitly so the comparison is same-type and
+  // no -Wsign-compare/-Wsign-conversion warning fires.
+  using Common = decltype(true ? expected : actual);
+  if (static_cast<Common>(expected) != static_cast<Common>(actual)) {
+    TestShell::get_current()->assert_equals(
+        true,
+        string_from(expected).c_str(),
+        string_from(actual).c_str(),
+        text,
+        file,
+        line
+    );
+  } else {
+    TestShell::get_current()->count_check();
+  }
+}
+
+template<typename T, typename U>
+void check_compare(
+    const T& first,
+    const U& second,
+    bool success,
+    const char* relop_str,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  // The bool result of the relop is pre-computed at the call site (in the
+  // macro), so no sign-compare issue here. The parameters first/second are
+  // used only for string_from(), not compared against each other.
+  if (!success) {
+    String condition;
+    condition += string_from(first);
+    condition += " ";
+    condition += relop_str;
+    condition += " ";
+    condition += string_from(second);
+    TestShell::get_current()->assert_compare(
+        false, "CHECK_COMPARE", condition.c_str(), text, file, line
+    );
+  } else {
+    TestShell::get_current()->count_check();
+  }
+}
+
+template<typename UNDERLYING_TYPE, typename ENUM_TYPE>
+void check_enum_equal(
+    ENUM_TYPE expected,
+    ENUM_TYPE actual,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  auto e = static_cast<UNDERLYING_TYPE>(expected);
+  auto a = static_cast<UNDERLYING_TYPE>(actual);
+  if (e != a) {
+    TestShell::get_current()->assert_equals(
+        true, string_from(e).c_str(), string_from(a).c_str(), text, file, line
+    );
+  } else {
+    TestShell::get_current()->count_check();
+  }
+}
+
 } // namespace cppmu
 
 // Different checking macros
@@ -325,17 +402,6 @@ public:
     );                                                                         \
   } while (0)
 
-// MSVC C4127: suppress "conditional expression is constant" for the
-// self-comparison guards (x != x) used to detect NaN-like side-effect cases.
-#ifdef _MSC_VER
-#define CPPMU_SUPPRESS_C4127_PUSH                                              \
-  __pragma(warning(push)) __pragma(warning(disable : 4127))
-#define CPPMU_SUPPRESS_C4127_POP __pragma(warning(pop))
-#else
-#define CPPMU_SUPPRESS_C4127_PUSH
-#define CPPMU_SUPPRESS_C4127_POP
-#endif
-
 // This check needs the operator!=(), and a string_from(YourType) function
 #define CHECK_EQUAL(expected, actual)                                          \
   CHECK_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
@@ -344,39 +410,7 @@ public:
   CHECK_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
 #define CHECK_EQUAL_LOCATION(expected, actual, text, file, line)               \
-  CPPMU_SUPPRESS_C4127_PUSH                                                    \
-  do {                                                                         \
-    if ((expected) != (actual)) {                                              \
-      if ((actual) != (actual))                                                \
-        cppmu::TestShell::get_current()->print(                                \
-            "WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated "     \
-            "multiple times resulting in different values.\n\tThus the value " \
-            "in the error message is probably incorrect.",                     \
-            file,                                                              \
-            line                                                               \
-        );                                                                     \
-      if ((expected) != (expected))                                            \
-        cppmu::TestShell::get_current()->print(                                \
-            "WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated "   \
-            "multiple times resulting in different values.\n\tThus the value " \
-            "in the error message is probably incorrect.",                     \
-            file,                                                              \
-            line                                                               \
-        );                                                                     \
-      cppmu::TestShell::get_current()->assert_equals(                          \
-          true,                                                                \
-          cppmu::string_from(expected).c_str(),                                \
-          cppmu::string_from(actual).c_str(),                                  \
-          text,                                                                \
-          file,                                                                \
-          line                                                                 \
-      );                                                                       \
-    } else {                                                                   \
-      cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), "", file, line           \
-      );                                                                       \
-    }                                                                          \
-  } while (0) CPPMU_SUPPRESS_C4127_POP
+  cppmu::check_equal((expected), (actual), text, file, line)
 
 #define CHECK_EQUAL_ZERO(actual) CHECK_EQUAL(0, (actual))
 
@@ -390,25 +424,9 @@ public:
   CHECK_COMPARE_LOCATION(first, relop, second, text, __FILE__, __LINE__)
 
 #define CHECK_COMPARE_LOCATION(first, relop, second, text, file, line)         \
-  do {                                                                         \
-    bool success = (first)relop(second);                                       \
-    if (!success) {                                                            \
-      cppmu::String conditionString;                                           \
-      conditionString += cppmu::string_from(first);                            \
-      conditionString += " ";                                                  \
-      conditionString += #relop;                                               \
-      conditionString += " ";                                                  \
-      conditionString += cppmu::string_from(second);                           \
-      cppmu::TestShell::get_current()->assert_compare(                         \
-          false,                                                               \
-          "CHECK_COMPARE",                                                     \
-          conditionString.c_str(),                                             \
-          text,                                                                \
-          __FILE__,                                                            \
-          __LINE__                                                             \
-      );                                                                       \
-    }                                                                          \
-  } while (0)
+  cppmu::check_compare(                                                        \
+      (first), (second), (first)relop(second), #relop, text, file, line        \
+  )
 
 // This check checks for char* string equality using strcmp.
 // This makes up for the fact that CHECK_EQUAL only compares the pointers to
@@ -635,26 +653,9 @@ public:
 #define ENUMS_EQUAL_TYPE_LOCATION(                                             \
     underlying_type, expected, actual, text, file, line                        \
 )                                                                              \
-  do {                                                                         \
-    underlying_type expected_underlying_value =                                \
-        static_cast<underlying_type>(expected);                                \
-    underlying_type actual_underlying_value =                                  \
-        static_cast<underlying_type>(actual);                                  \
-    if (expected_underlying_value != actual_underlying_value) {                \
-      cppmu::TestShell::get_current()->assert_equals(                          \
-          true,                                                                \
-          cppmu::string_from(expected_underlying_value).c_str(),               \
-          cppmu::string_from(actual_underlying_value).c_str(),                 \
-          text,                                                                \
-          file,                                                                \
-          line                                                                 \
-      );                                                                       \
-    } else {                                                                   \
-      cppmu::TestShell::get_current()->assert_longs_equal(                     \
-          static_cast<long>(0), static_cast<long>(0), "", file, line           \
-      );                                                                       \
-    }                                                                          \
-  } while (0)
+  cppmu::check_enum_equal<underlying_type>(                                    \
+      (expected), (actual), text, file, line                                   \
+  )
 
 // Fail if you get to this macro
 // The macro FAIL may already be taken, so allow FAIL_TEST too

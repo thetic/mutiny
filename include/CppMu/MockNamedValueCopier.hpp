@@ -33,6 +33,16 @@ private:
   CopyFunction copier_;
 };
 
+template<typename T>
+class TypedMockCopier : public MockNamedValueCopier
+{
+public:
+  void copy(void* dst, const void* src) override
+  {
+    *static_cast<T*>(dst) = *static_cast<const T*>(src);
+  }
+};
+
 } // namespace cppmu
 
 #endif

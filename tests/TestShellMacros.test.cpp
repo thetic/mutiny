@@ -119,16 +119,6 @@ int counting_method()
   return count_in_counting_method++;
 }
 
-void failing_check_equal_with_actual_being_evaluates_multiple_times_will_give_a_warning()
-{
-  CHECK_EQUAL(12345, counting_method());
-}
-
-void failing_check_equal_with_expected_being_evaluates_multiple_times_will_give_a_warning()
-{
-  CHECK_EQUAL(counting_method(), 12345);
-}
-
 void failing_test_method_with_check_equal_text()
 {
   CHECK_EQUAL_TEXT(1, 2, "Failed because it failed");
@@ -139,12 +129,6 @@ void failing_test_method_with_check_equal_zero()
 {
   CHECK_EQUAL_ZERO(1);
   cppmu::TestTestingFixture::line_executed_after_check();
-}
-
-void failing_check_equal_zero_with_actual_being_evaluates_multiple_times_will_give_a_warning()
-{
-  count_in_counting_method = 1;
-  CHECK_EQUAL_ZERO(counting_method());
 }
 
 void failing_test_method_with_check_equal_zero_text()
@@ -739,30 +723,6 @@ TEST(TestShellMacros, passingCheckEqualWillNotBeEvaluatedMultipleTimesWithCHECK_
   LONGS_EQUAL(1, count_in_counting_method);
 }
 
-TEST(TestShellMacros, failing_CHECK_EQUAL_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning)
-{
-  fixture.run_test_with_method(
-      failing_check_equal_with_actual_being_evaluates_multiple_times_will_give_a_warning
-  );
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated multiple "
-      "times resulting in different values.\n\tThus the value in the error "
-      "message is probably incorrect."
-  );
-}
-
-TEST(TestShellMacros, failing_CHECK_EQUAL_WithExpectedBeingEvaluatesMultipleTimesWillGiveAWarning)
-{
-  fixture.run_test_with_method(
-      failing_check_equal_with_expected_being_evaluates_multiple_times_will_give_a_warning
-  );
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "WARNING:\n\tThe \"Expected Parameter\" parameter is evaluated multiple "
-      "times resulting in different values.\n\tThus the value in the error "
-      "message is probably incorrect."
-  );
-}
-
 TEST(TestShellMacros, failing_CHECK_EQUAL_withParamatersThatDontChangeWillNotGiveAnyWarning)
 {
   fixture.run_test_with_method(failing_test_method_with_check_equal);
@@ -816,18 +776,6 @@ TEST(TestShellMacros, passingCheckEqualWillNotBeEvaluatedMultipleTimesWithCHECK_
   CHECK_EQUAL_ZERO(counting_method());
 
   LONGS_EQUAL(1, count_in_counting_method);
-}
-
-TEST(TestShellMacros, failing_CHECK_EQUAL_ZERO_WithActualBeingEvaluatesMultipleTimesWillGiveAWarning)
-{
-  fixture.run_test_with_method(
-      failing_check_equal_zero_with_actual_being_evaluates_multiple_times_will_give_a_warning
-  );
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "WARNING:\n\tThe \"Actual Parameter\" parameter is evaluated multiple "
-      "times resulting in different values.\n\tThus the value in the error "
-      "message is probably incorrect."
-  );
 }
 
 TEST(TestShellMacros, failing_CHECK_EQUAL_ZERO_withParamatersThatDontChangeWillNotGiveAnyWarning)
