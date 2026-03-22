@@ -47,10 +47,10 @@ public:
       const TestFilter* group_filters,
       const TestFilter* name_filters
   ) const;
-  const String get_name() const;
-  const String get_group() const;
+  const char* get_name() const;
+  const char* get_group() const;
   virtual String get_formatted_name() const;
-  const String get_file() const;
+  const char* get_file() const;
   size_t get_line_number() const;
   virtual bool will_run() const;
   virtual bool has_failed() const;

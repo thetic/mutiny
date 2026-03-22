@@ -72,10 +72,10 @@ protected:
   virtual void print_progress_indicator();
   void print_file_and_line_for_test_and_failure(const TestFailure& failure);
   void print_file_and_line_for_failure(const TestFailure& failure);
-  void print_failure_in_test(String test_name);
-  void print_failure_message(String reason);
+  void print_failure_in_test(const String& test_name);
+  void print_failure_message(const String& reason);
   void print_error_in_file_on_line_formatted_for_working_environment(
-      String test_file,
+      const String& test_file,
       size_t line_number
   );
 

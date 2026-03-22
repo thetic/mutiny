@@ -37,12 +37,12 @@ public:
   TestFailure(TestFailure&&) noexcept;
   virtual ~TestFailure() = default;
 
-  virtual String get_file_name() const;
-  virtual String get_test_name() const;
-  virtual String get_test_name_only() const;
+  virtual const String& get_file_name() const;
+  virtual const String& get_test_name() const;
+  virtual const String& get_test_name_only() const;
   virtual size_t get_failure_line_number() const;
-  virtual String get_message() const;
-  virtual String get_test_file_name() const;
+  virtual const String& get_message() const;
+  virtual const String& get_test_file_name() const;
   virtual size_t get_test_line_number() const;
   virtual bool is_error() const { return false; }
   bool is_outside_test_file() const;

@@ -49,7 +49,7 @@ String printable(String const& str)
     } else if (is_control(c)) {
       result += string_from_format("\\x%02X ", c);
     } else {
-      result += string_from(c);
+      result += c;
     }
   }
 
@@ -115,22 +115,22 @@ TestFailure::TestFailure(TestFailure&& f) noexcept
 {
 }
 
-String TestFailure::get_file_name() const
+const String& TestFailure::get_file_name() const
 {
   return file_name_;
 }
 
-String TestFailure::get_test_file_name() const
+const String& TestFailure::get_test_file_name() const
 {
   return test_file_name_;
 }
 
-String TestFailure::get_test_name() const
+const String& TestFailure::get_test_name() const
 {
   return test_name_;
 }
 
-String TestFailure::get_test_name_only() const
+const String& TestFailure::get_test_name_only() const
 {
   return test_name_only_;
 }
@@ -145,7 +145,7 @@ size_t TestFailure::get_test_line_number() const
   return test_line_number_;
 }
 
-String TestFailure::get_message() const
+const String& TestFailure::get_message() const
 {
   return message_;
 }

@@ -22,8 +22,7 @@ public:
 
   void print_current_group_started(const cppmu::TestShell& test) override
   {
-    output_ +=
-        cppmu::string_from_format("Group %s Start\n", test.get_group().c_str());
+    output_ += cppmu::string_from_format("Group %s Start\n", test.get_group());
   }
 
   void print_current_group_ended(const cppmu::TestResult& res) override

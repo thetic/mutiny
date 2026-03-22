@@ -243,14 +243,14 @@ String TestShell::get_macro_name() const
   return "TEST";
 }
 
-const String TestShell::get_name() const
+const char* TestShell::get_name() const
 {
-  return String(name_);
+  return name_;
 }
 
-const String TestShell::get_group() const
+const char* TestShell::get_group() const
 {
-  return String(group_);
+  return group_;
 }
 
 String TestShell::get_formatted_name() const
@@ -307,9 +307,9 @@ void TestShell::set_test_name(const char* test_name)
   name_ = test_name;
 }
 
-const String TestShell::get_file() const
+const char* TestShell::get_file() const
 {
-  return String(file_);
+  return file_;
 }
 
 size_t TestShell::get_line_number() const

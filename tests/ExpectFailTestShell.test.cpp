@@ -71,8 +71,8 @@ TEST(ExpectFailTestShell, verbose_printsEXPECT_FAIL_TEST)
 TEST(ExpectFailTestShell, fourArgConstructor_setsGroupTestFileAndLine)
 {
   cppmu::ExpectFailTestShell shell("MyGroup", "MyTest", "myfile.cpp", 42);
-  STRCMP_EQUAL("MyGroup", shell.get_group().c_str());
-  STRCMP_EQUAL("MyTest", shell.get_name().c_str());
-  STRCMP_EQUAL("myfile.cpp", shell.get_file().c_str());
+  STRCMP_EQUAL("MyGroup", shell.get_group());
+  STRCMP_EQUAL("MyTest", shell.get_name());
+  STRCMP_EQUAL("myfile.cpp", shell.get_file());
   LONGS_EQUAL(42, static_cast<long>(shell.get_line_number()));
 }

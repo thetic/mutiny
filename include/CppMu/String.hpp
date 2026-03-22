@@ -52,6 +52,7 @@ public:
   String operator+(const String&) const;
   String& operator+=(const String&);
   String& operator+=(const char*);
+  String& operator+=(char ch);
 
   static const size_t npos = static_cast<size_t>(-1);
 
@@ -69,10 +70,11 @@ public:
   char* data();
   size_t size() const;
   size_t length() const { return size(); }
-  size_t capacity() const { return buffer_size_; }
+  size_t capacity() const { return buffer_size_ ? buffer_size_ - 1 : 0; }
   bool empty() const;
   void clear();
   void reserve(size_t new_capacity);
+  void resize(size_t new_size);
 
   friend bool operator<(const String& left, const String& right);
 
@@ -89,6 +91,7 @@ private:
 
   char* buffer_;
   size_t buffer_size_;
+  size_t size_;
 
   char* get_empty_string() const;
 };
@@ -252,7 +255,7 @@ String brackets_formatted_hex_string_from(unsigned long long value);
 
 String brackets_formatted_hex_string_from(signed char value);
 
-String brackets_formatted_hex_string(String hex_string);
+String brackets_formatted_hex_string(const String& hex_string);
 
 } // namespace cppmu
 

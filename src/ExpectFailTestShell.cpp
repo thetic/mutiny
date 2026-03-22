@@ -32,7 +32,7 @@ void ExpectFailTestShell::run_one_test(TestPlugin* plugin, TestResult& result)
   if (shadow_result.get_failure_count() == 0) {
     result.add_failure(FailFailure(
         this,
-        get_file().c_str(),
+        get_file(),
         get_line_number(),
         "EXPECT_FAIL_TEST: test was expected to fail but it passed"
     ));

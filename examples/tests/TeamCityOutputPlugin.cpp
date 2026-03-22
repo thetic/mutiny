@@ -14,11 +14,11 @@ void TeamCityTestOutput::print_current_test_started(
 )
 {
   print("##teamcity[testStarted name='");
-  print_escaped(test.get_name().c_str());
+  print_escaped(test.get_name());
   print("']\n");
   if (!test.will_run()) {
     print("##teamcity[testIgnored name='");
-    print_escaped(test.get_name().c_str());
+    print_escaped(test.get_name());
     print("']\n");
   }
   currtest_ = &test;
@@ -30,7 +30,7 @@ void TeamCityTestOutput::print_current_test_ended(const cppmu::TestResult& res)
     return;
 
   print("##teamcity[testFinished name='");
-  print_escaped(currtest_->get_name().c_str());
+  print_escaped(currtest_->get_name());
   print("' duration='");
   print(res.get_current_test_total_execution_time());
   print("']\n");

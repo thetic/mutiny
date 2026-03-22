@@ -219,13 +219,13 @@ void TestOutput::print_file_and_line_for_failure(const TestFailure& failure)
   print_failure_in_test(failure.get_test_name());
 }
 
-void TestOutput::print_failure_in_test(String test_name)
+void TestOutput::print_failure_in_test(const String& test_name)
 {
   print(" Failure in ");
   print(test_name.c_str());
 }
 
-void TestOutput::print_failure_message(String reason)
+void TestOutput::print_failure_message(const String& reason)
 {
   print("\n");
   print("\t");
@@ -234,7 +234,7 @@ void TestOutput::print_failure_message(String reason)
 }
 
 void TestOutput::print_error_in_file_on_line_formatted_for_working_environment(
-    String file,
+    const String& file,
     size_t line_number
 )
 {

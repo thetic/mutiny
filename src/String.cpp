@@ -66,6 +66,7 @@ void String::deallocate_internal_buffer()
     delete[] buffer_;
     buffer_ = nullptr;
     buffer_size_ = 0;
+    size_ = 0;
   }
 }
 
@@ -85,6 +86,7 @@ void String::copy_buffer_to_new_internal_buffer(
   deallocate_internal_buffer();
 
   buffer_size_ = buffer_size;
+  size_ = buffer_size_ - 1;
   buffer_ = copy_to_new_buffer(other_buffer, buffer_size_);
 }
 
@@ -97,9 +99,10 @@ void String::reserve(size_t new_capacity)
   char* new_buffer = new char[needed];
   str_n_cpy(new_buffer, buffer_, buffer_size_);
   new_buffer[needed - 1] = '\0';
-  deallocate_internal_buffer();
+  delete[] buffer_;
   buffer_ = new_buffer;
   buffer_size_ = needed;
+  // size_ is unchanged: the string content was preserved
 }
 
 void String::clear()
@@ -112,6 +115,7 @@ void String::set_internal_buffer_to(char* buffer, size_t buffer_size)
   deallocate_internal_buffer();
 
   buffer_size_ = buffer_size;
+  size_ = buffer_size_ - 1;
   buffer_ = buffer;
 }
 
@@ -130,6 +134,7 @@ void String::copy_buffer_to_new_internal_buffer(const char* other_buffer)
 String::String(const char* other_buffer)
   : buffer_(nullptr)
   , buffer_size_(0)
+  , size_(0)
 {
   if (other_buffer == nullptr)
     set_internal_buffer_as_empty_string();
@@ -140,8 +145,10 @@ String::String(const char* other_buffer)
 String::String(size_t count, char ch)
   : buffer_(nullptr)
   , buffer_size_(0)
+  , size_(0)
 {
   buffer_size_ = count + 1;
+  size_ = count;
   buffer_ = new char[buffer_size_];
   for (size_t i = 0; i < count; i++)
     buffer_[i] = ch;
@@ -151,6 +158,7 @@ String::String(size_t count, char ch)
 String::String(const String& other)
   : buffer_(nullptr)
   , buffer_size_(0)
+  , size_(0)
 {
   copy_buffer_to_new_internal_buffer(other.c_str());
 }
@@ -158,9 +166,11 @@ String::String(const String& other)
 String::String(String&& other) noexcept
   : buffer_(other.buffer_)
   , buffer_size_(other.buffer_size_)
+  , size_(other.size_)
 {
   other.buffer_ = nullptr;
   other.buffer_size_ = 0;
+  other.size_ = 0;
 }
 
 String& String::operator=(String&& other) noexcept
@@ -169,8 +179,10 @@ String& String::operator=(String&& other) noexcept
     deallocate_internal_buffer();
     buffer_ = other.buffer_;
     buffer_size_ = other.buffer_size_;
+    size_ = other.size_;
     other.buffer_ = nullptr;
     other.buffer_size_ = 0;
+    other.size_ = 0;
   }
   return *this;
 }
@@ -199,12 +211,12 @@ char* String::data()
 
 size_t String::size() const
 {
-  return str_len(c_str());
+  return size_;
 }
 
 bool String::empty() const
 {
-  return size() == 0;
+  return size_ == 0;
 }
 
 String::~String()
@@ -236,14 +248,54 @@ String& String::operator+=(const String& rhs)
 
 String& String::operator+=(const char* rhs)
 {
-  size_t original_size = this->size();
-  size_t additional_string_size = str_len(rhs) + 1;
-  size_t size_of_new_string = original_size + additional_string_size;
-  char* tbuffer = copy_to_new_buffer(this->c_str(), size_of_new_string);
-  str_n_cpy(tbuffer + original_size, rhs, additional_string_size);
-
-  set_internal_buffer_to(tbuffer, size_of_new_string);
+  size_t rhs_len = str_len(rhs);
+  size_t new_size = size_ + rhs_len;
+  size_t needed = new_size + 1;
+  if (needed <= buffer_size_) {
+    str_n_cpy(buffer_ + size_, rhs, rhs_len + 1);
+  } else {
+    size_t new_cap = buffer_size_ * 2;
+    if (new_cap < needed)
+      new_cap = needed;
+    char* nb = new char[new_cap];
+    str_n_cpy(nb, buffer_, size_ + 1);
+    str_n_cpy(nb + size_, rhs, rhs_len + 1);
+    delete[] buffer_;
+    buffer_ = nb;
+    buffer_size_ = new_cap;
+  }
+  size_ = new_size;
   return *this;
+}
+
+String& String::operator+=(char ch)
+{
+  size_t new_size = size_ + 1;
+  size_t needed = new_size + 1;
+  if (needed <= buffer_size_) {
+    buffer_[size_] = ch;
+    buffer_[new_size] = '\0';
+  } else {
+    size_t new_cap = buffer_size_ * 2;
+    if (new_cap < needed)
+      new_cap = needed;
+    char* nb = new char[new_cap];
+    str_n_cpy(nb, buffer_, size_ + 1);
+    nb[size_] = ch;
+    nb[new_size] = '\0';
+    delete[] buffer_;
+    buffer_ = nb;
+    buffer_size_ = new_cap;
+  }
+  size_ = new_size;
+  return *this;
+}
+
+void String::resize(size_t new_size)
+{
+  reserve(new_size);
+  buffer_[new_size] = '\0';
+  size_ = new_size;
 }
 
 String String::substr(size_t begin_pos, size_t amount) const
@@ -253,8 +305,10 @@ String String::substr(size_t begin_pos, size_t amount) const
 
   String new_string = c_str() + begin_pos;
 
-  if (new_string.size() > amount)
+  if (new_string.size_ > amount) {
     new_string.buffer_[amount] = '\0';
+    new_string.size_ = amount;
+  }
 
   return new_string;
 }
@@ -415,8 +469,9 @@ const char* str_str(const char* s1, const char* s2)
 {
   if (!*s2)
     return s1;
+  size_t s2_len = str_len(s2);
   for (; *s1; s1++)
-    if (str_n_cmp(s1, s2, str_len(s2)) == 0)
+    if (str_n_cmp(s1, s2, s2_len) == 0)
       return s1;
   return nullptr;
 }
@@ -464,7 +519,7 @@ bool is_control_with_short_escape_sequence(char ch)
 
 String string_from(bool value)
 {
-  return String(string_from_format("%s", value ? "true" : "false"));
+  return String(value ? "true" : "false");
 }
 
 String string_from(const char* value)
@@ -552,7 +607,7 @@ String brackets_formatted_hex_string_from(signed char value)
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
-String brackets_formatted_hex_string(String hex_string)
+String brackets_formatted_hex_string(const String& hex_string)
 {
   return String("(0x") + hex_string + ")";
 }
@@ -617,7 +672,7 @@ String string_from(double value, int precision)
 
 String string_from(char value)
 {
-  return string_from_format("%c", value);
+  return String(1, value);
 }
 
 String string_from(const String& value)
@@ -660,12 +715,16 @@ String v_string_from_format(const char* format, va_list args)
   if (size < size_ofdefault_buffer) {
     result_string = String(default_buffer);
   } else {
+#if !CPPMU_USE_STD_CPP_LIB
+    result_string.resize(size);
+    vsnprintf(result_string.data(), size + 1, format, args_copy);
+#else
     size_t new_buffer_size = size + 1;
     char* new_buffer = new char[new_buffer_size];
     vsnprintf(new_buffer, new_buffer_size, format, args_copy);
     result_string = String(new_buffer);
-
     delete[] new_buffer;
+#endif
   }
   va_end(args_copy);
   return result_string;
@@ -673,13 +732,17 @@ String v_string_from_format(const char* format, va_list args)
 
 String string_from_binary(const unsigned char* value, size_t size)
 {
+  static const char hex_digits[] = "0123456789ABCDEF";
   String result;
-
+  if (size == 0)
+    return result;
+  result.reserve(size * 3 - 1);
   for (size_t i = 0; i < size; i++) {
-    result += string_from_format("%02X ", value[i]);
+    if (i > 0)
+      result += ' ';
+    result += hex_digits[value[i] >> 4];
+    result += hex_digits[value[i] & 0xF];
   }
-  result = result.substr(0, result.size() - 1);
-
   return result;
 }
 
