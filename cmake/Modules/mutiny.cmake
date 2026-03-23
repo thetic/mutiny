@@ -14,6 +14,10 @@ set(_MUTINY_CMAKE_VERSION_OVERRIDE "" CACHE STRING
 mark_as_advanced(_MUTINY_CMAKE_VERSION_OVERRIDE)
 
 function(mutiny_discover_tests target)
+    if(DEFINED BUILD_TESTING AND NOT BUILD_TESTING)
+        return()
+    endif()
+
     set(oneValueArgs DETAILED)
     set(multiValueArgs EXTRA_ARGS)
     cmake_parse_arguments(
