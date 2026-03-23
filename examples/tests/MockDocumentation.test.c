@@ -1,5 +1,5 @@
-#include "CppMu/CppMu.h"
-#include "CppMu/MockSupport.h"
+#include "mutiny/mock.h"
+#include "mutiny/test.h"
 
 static int equal_method(const void* object1, const void* object2)
 {
@@ -16,27 +16,27 @@ TEST(MockDocumentation_C, CInterface)
 {
   void* object = (void*)0x1;
 
-  cppmu_mock()
+  mutiny_mock()
       ->expect_one_call("foo")
       ->with_int_parameters("integer", 10)
       ->and_return_double_value(1.11);
-  double d = cppmu_mock()
+  double d = mutiny_mock()
                  ->actual_call("foo")
                  ->with_int_parameters("integer", 10)
                  ->return_value()
                  .value.double_value;
   CHECK_EQUAL_DOUBLE(1.11, d, 0.00001);
 
-  cppmu_mock()->install_comparator("type", equal_method, to_string_method);
-  cppmu_mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
+  mutiny_mock()->install_comparator("type", equal_method, to_string_method);
+  mutiny_mock_scope("scope")->expect_one_call("bar")->with_parameter_of_type(
       "type", "name", object
   );
-  cppmu_mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
+  mutiny_mock_scope("scope")->actual_call("bar")->with_parameter_of_type(
       "type", "name", object
   );
-  cppmu_mock()->remove_all_comparators_and_copiers();
+  mutiny_mock()->remove_all_comparators_and_copiers();
 
-  cppmu_mock()->set_int_data("important", 10);
-  cppmu_mock()->check_expectations();
-  cppmu_mock()->clear();
+  mutiny_mock()->set_int_data("important", 10);
+  mutiny_mock()->check_expectations();
+  mutiny_mock()->clear();
 }

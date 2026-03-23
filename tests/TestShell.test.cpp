@@ -1,11 +1,10 @@
-#include "CppMu/TestShell.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/ExecFunctionTestShell.hpp"
-#include "CppMu/NullTestPlugin.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/ExecFunctionShell.hpp"
+#include "mutiny/test/NullPlugin.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 #include <limits.h>
 #include <math.h>
@@ -15,7 +14,7 @@
 
 TEST_GROUP(TestShell)
 {
-  cppmu::TestTestingFixture fixture;
+  mu::tiny::test::TestTestingFixture fixture;
 };
 
 namespace {
@@ -40,18 +39,18 @@ void exit_test_method()
   FAIL("Should not get here");
 }
 
-class PassingExecFunction : public cppmu::ExecFunction
+class PassingExecFunction : public mu::tiny::test::ExecFunction
 {
 public:
   bool has_run{ false };
   void exec() override { has_run = true; }
 };
 
-bool cppmu_has_crashed;
+bool mutiny_has_crashed;
 
 void crash_method()
 {
-  cppmu_has_crashed = true;
+  mutiny_has_crashed = true;
 }
 
 int teardown_called = 0;
@@ -68,7 +67,7 @@ void stop_after_failure_method()
   stop_after_failure++;
 }
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 // Prevents -Wunreachable-code; should always be 'true'
 bool should_throw_exception = true;
 
@@ -80,7 +79,7 @@ void thrown_unknown_exception_method()
   stop_after_failure++;
 }
 
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 void thrown_standard_exception_method()
 {
   if (should_throw_exception) {
@@ -96,34 +95,40 @@ void thrown_standard_exception_method()
 
 TEST(TestShell, compareDoubles)
 {
-  CHECK(cppmu::doubles_equal(1.0, 1.001, 0.01));
-  CHECK(!cppmu::doubles_equal(1.0, 1.1, 0.05));
+  CHECK(mu::tiny::test::doubles_equal(1.0, 1.001, 0.01));
+  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.1, 0.05));
   double a = 1.2345678;
-  CHECK(cppmu::doubles_equal(a, a, 0.000000001));
+  CHECK(mu::tiny::test::doubles_equal(a, a, 0.000000001));
 }
 
 #ifdef NAN
 TEST(TestShell, compareDoublesNaN)
 {
-  CHECK(!cppmu::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
-  CHECK(!cppmu::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
-  CHECK(!cppmu::doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
+  CHECK(!mu::tiny::test::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
+  CHECK(!mu::tiny::test::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
+  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
 }
 #endif
 
 #ifdef INFINITY
 TEST(TestShell, compareDoublesInf)
 {
-  CHECK(!cppmu::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01));
-  CHECK(!cppmu::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01));
-  CHECK(cppmu::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY)));
   CHECK(
-      cppmu::doubles_equal(
+      !mu::tiny::test::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01)
+  );
+  CHECK(
+      !mu::tiny::test::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01)
+  );
+  CHECK(
+      mu::tiny::test::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY))
+  );
+  CHECK(
+      mu::tiny::test::doubles_equal(
           static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01
       )
   );
   CHECK(
-      cppmu::doubles_equal(
+      mu::tiny::test::doubles_equal(
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY)
@@ -184,31 +189,31 @@ TEST(TestShell, ExitLeavesQuietly)
 
 TEST(TestShell, FailWillNotCrashIfNotEnabled)
 {
-  cppmu_has_crashed = false;
-  cppmu::TestShell::set_crash_method(crash_method);
+  mutiny_has_crashed = false;
+  mu::tiny::test::TestShell::set_crash_method(crash_method);
 
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
 
-  CHECK_FALSE(cppmu_has_crashed);
+  CHECK_FALSE(mutiny_has_crashed);
   LONGS_EQUAL(1, fixture.get_failure_count());
 
-  cppmu::TestShell::reset_crash_method();
+  mu::tiny::test::TestShell::reset_crash_method();
 }
 
 TEST(TestShell, FailWillCrashIfEnabled)
 {
-  cppmu_has_crashed = false;
-  cppmu::TestShell::set_crash_on_fail();
-  cppmu::TestShell::set_crash_method(crash_method);
+  mutiny_has_crashed = false;
+  mu::tiny::test::TestShell::set_crash_on_fail();
+  mu::tiny::test::TestShell::set_crash_method(crash_method);
 
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
 
-  CHECK(cppmu_has_crashed);
+  CHECK(mutiny_has_crashed);
 
-  cppmu::TestShell::restore_default_test_terminator();
-  cppmu::TestShell::reset_crash_method();
+  mu::tiny::test::TestShell::restore_default_test_terminator();
+  mu::tiny::test::TestShell::reset_crash_method();
 }
 
 TEST(TestShell, TeardownCalledAfterTestFailure)
@@ -242,13 +247,13 @@ TEST(TestShell, TestStopsAfterSetupFailure)
   LONGS_EQUAL(0, stop_after_failure);
 }
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 
 TEST(TestShell, TestStopsAfterUnknownExceptionIsThrown)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
-  cppmu::TestShell::set_rethrow_exceptions(false);
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
+  mu::tiny::test::TestShell::set_rethrow_exceptions(false);
   stop_after_failure = 0;
   should_throw_exception = true;
   fixture.set_test_function(thrown_unknown_exception_method);
@@ -258,16 +263,16 @@ TEST(TestShell, TestStopsAfterUnknownExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
   bool exception_rethrown = false;
   stop_after_failure = 0;
-  cppmu::TestShell::set_rethrow_exceptions(true);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(true);
   should_throw_exception = false;
   fixture.set_test_function(thrown_unknown_exception_method);
   try {
@@ -278,16 +283,16 @@ TEST(TestShell, NoExceptionIsRethrownIfEnabledButNotThrown)
   CHECK_FALSE(exception_rethrown);
   LONGS_EQUAL(0, fixture.get_failure_count());
   LONGS_EQUAL(1, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, UnknownExceptionIsRethrownIfEnabled)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
   bool exception_rethrown = false;
   stop_after_failure = 0;
-  cppmu::TestShell::set_rethrow_exceptions(true);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(true);
   should_throw_exception = true;
   fixture.set_test_function(thrown_unknown_exception_method);
   try {
@@ -302,22 +307,22 @@ TEST(TestShell, UnknownExceptionIsRethrownIfEnabled)
       "Unexpected exception of unknown type was thrown"
   );
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 
 TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
-  cppmu::TestShell::set_rethrow_exceptions(false);
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
+  mu::tiny::test::TestShell::set_rethrow_exceptions(false);
   stop_after_failure = 0;
   should_throw_exception = true;
   fixture.set_test_function(thrown_standard_exception_method);
   fixture.run_all_tests();
   LONGS_EQUAL(1, fixture.get_failure_count());
-#if CPPMU_HAVE_RTTI
+#if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
@@ -327,16 +332,16 @@ TEST(TestShell, TestStopsAfterStandardExceptionIsThrown)
   );
 #endif
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, StandardExceptionIsRethrownIfEnabled)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
   bool exception_rethrown = false;
   stop_after_failure = 0;
-  cppmu::TestShell::set_rethrow_exceptions(true);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(true);
   should_throw_exception = true;
   fixture.set_test_function(thrown_standard_exception_method);
   try {
@@ -351,16 +356,16 @@ TEST(TestShell, StandardExceptionIsRethrownIfEnabled)
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
-#endif // CPPMU_USE_STD_CPP_LIB
+#endif // MUTINY_USE_STD_CPP_LIB
 
 TEST(TestShell, TeardownStopsAfterUnknownExceptionIsThrown)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
-  cppmu::TestShell::set_rethrow_exceptions(false);
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
+  mu::tiny::test::TestShell::set_rethrow_exceptions(false);
   stop_after_failure = 0;
   should_throw_exception = true;
   fixture.set_teardown(thrown_unknown_exception_method);
@@ -370,16 +375,16 @@ TEST(TestShell, TeardownStopsAfterUnknownExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, TeardownUnknownExceptionIsRethrownIfEnabled)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
   bool exception_rethrown = false;
   stop_after_failure = 0;
-  cppmu::TestShell::set_rethrow_exceptions(true);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(true);
   should_throw_exception = true;
   fixture.set_teardown(thrown_unknown_exception_method);
   try {
@@ -394,22 +399,22 @@ TEST(TestShell, TeardownUnknownExceptionIsRethrownIfEnabled)
       "Unexpected exception of unknown type was thrown"
   );
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 
 TEST(TestShell, TeardownStopsAfterStandardExceptionIsThrown)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
-  cppmu::TestShell::set_rethrow_exceptions(false);
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
+  mu::tiny::test::TestShell::set_rethrow_exceptions(false);
   stop_after_failure = 0;
   should_throw_exception = true;
   fixture.set_teardown(thrown_standard_exception_method);
   fixture.run_all_tests();
   LONGS_EQUAL(1, fixture.get_failure_count());
-#if CPPMU_HAVE_RTTI
+#if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
@@ -419,16 +424,16 @@ TEST(TestShell, TeardownStopsAfterStandardExceptionIsThrown)
   );
 #endif
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
 TEST(TestShell, TeardownStandardExceptionIsRethrownIfEnabled)
 {
   bool initial_rethrow_exceptions =
-      cppmu::TestShell::is_rethrowing_exceptions();
+      mu::tiny::test::TestShell::is_rethrowing_exceptions();
   bool exception_rethrown = false;
   stop_after_failure = 0;
-  cppmu::TestShell::set_rethrow_exceptions(true);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(true);
   should_throw_exception = true;
   fixture.set_teardown(thrown_standard_exception_method);
   try {
@@ -443,27 +448,29 @@ TEST(TestShell, TeardownStandardExceptionIsRethrownIfEnabled)
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
   LONGS_EQUAL(0, stop_after_failure);
-  cppmu::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
+  mu::tiny::test::TestShell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
-#endif // CPPMU_USE_STD_CPP_LIB
-#endif // CPPMU_HAVE_EXCEPTIONS
+#endif // MUTINY_USE_STD_CPP_LIB
+#endif // MUTINY_HAVE_EXCEPTIONS
 
 TEST(TestShell, veryVebose)
 {
-  cppmu::TestShell shell("Group", "name", __FILE__, __LINE__);
-  cppmu::StringBufferTestOutput normal_output;
-  normal_output.verbose(cppmu::TestOutput::VerbosityLevel::very_verbose);
-  cppmu::NullTestPlugin plugin;
+  mu::tiny::test::TestShell shell("Group", "name", __FILE__, __LINE__);
+  mu::tiny::test::StringBufferTestOutput normal_output;
+  normal_output.verbose(
+      mu::tiny::test::TestOutput::VerbosityLevel::very_verbose
+  );
+  mu::tiny::test::NullTestPlugin plugin;
 
-  cppmu::TestResult result(normal_output);
+  mu::tiny::test::TestResult result(normal_output);
   shell.run_one_test_in_current_process(&plugin, result);
   STRCMP_CONTAINS(
       "\n------ before runTest", normal_output.get_output().c_str()
   );
 }
 
-class DefaultTestShell : public cppmu::TestShell
+class DefaultTestShell : public mu::tiny::test::TestShell
 {};
 
 TEST(TestShell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods)
@@ -474,7 +481,7 @@ TEST(TestShell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_met
   LONGS_EQUAL(2, fixture.get_test_count());
 }
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 
 namespace {
 bool destructor_was_called_on_failed_test = false;

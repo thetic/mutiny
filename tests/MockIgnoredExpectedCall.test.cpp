@@ -1,10 +1,9 @@
-#include "CppMu/MockIgnoredExpectedCall.hpp"
-
-#include "CppMu/CppMu.hpp"
+#include "mutiny/mock/IgnoredExpectedCall.hpp"
+#include "mutiny/test.hpp"
 
 TEST_GROUP(MockIgnoredExpectedCall)
 {
-  cppmu::MockIgnoredExpectedCall ignored;
+  mu::tiny::mock::MockIgnoredExpectedCall ignored;
 };
 
 TEST(MockIgnoredExpectedCall, worksAsItShould)

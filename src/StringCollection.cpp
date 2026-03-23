@@ -1,6 +1,8 @@
-#include "CppMu/StringCollection.hpp"
+#include "mutiny/test/StringCollection.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 namespace {
 size_t count_substr(const String& string, const String& substr)
 {
@@ -75,3 +77,5 @@ String& StringCollection::operator[](size_t index)
 }
 
 }
+}
+} // namespace mu::tiny::test

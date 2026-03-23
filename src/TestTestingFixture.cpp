@@ -1,9 +1,10 @@
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test/ExecFunctionShell.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
-#include "CppMu/ExecFunctionTestShell.hpp"
-#include "CppMu/TestResult.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 bool TestTestingFixture::line_of_code_executed_after_check_ = false;
 
@@ -188,4 +189,6 @@ void TestTestingFixture::check_test_fails_with_proper_test_location(
     );
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

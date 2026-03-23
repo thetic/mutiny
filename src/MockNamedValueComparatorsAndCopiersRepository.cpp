@@ -1,6 +1,9 @@
-#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 struct MockNamedValueComparatorsAndCopiersRepositoryNode
 {
@@ -112,4 +115,6 @@ void MockNamedValueComparatorsAndCopiersRepository::
     );
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

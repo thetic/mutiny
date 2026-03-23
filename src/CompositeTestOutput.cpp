@@ -1,6 +1,8 @@
-#include "CppMu/CompositeTestOutput.hpp"
+#include "mutiny/test/CompositeOutput.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 CompositeTestOutput::CompositeTestOutput()
   : output_one_(nullptr)
@@ -162,4 +164,6 @@ void CompositeTestOutput::flush()
     output_two_->flush();
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

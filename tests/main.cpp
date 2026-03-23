@@ -1,4 +1,4 @@
-#include "CppMu/CommandLineTestRunner.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
 
 int main(int argc, char** argv)
 {
@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     CHECK(true);
     LONGS_EQUAL(1, 1);
 
-    return_value = cppmu::CommandLineTestRunner::run_all_tests(
+    return_value = mu::tiny::test::CommandLineTestRunner::run_all_tests(
         argc, argv
     ); /* cover alternate method */
   }

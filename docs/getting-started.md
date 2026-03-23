@@ -1,8 +1,8 @@
-# Getting Started with CppMu
+# Getting Started with mutiny
 
-## Building CppMu
+## Building mutiny
 
-CppMu uses CMake. Clone the repository and configure:
+mutiny uses CMake. Clone the repository and configure:
 
 ```bash
 cmake -B build
@@ -10,7 +10,7 @@ cmake --build build
 cmake --install build  # optional system install
 ```
 
-## Adding CppMu to Your Project
+## Adding mutiny to Your Project
 
 The recommended approach is CMake `FetchContent`:
 
@@ -20,64 +20,64 @@ project(my_tests)
 
 include(FetchContent)
 FetchContent_Declare(
-    CppMu
-    GIT_REPOSITORY https://github.com/thetic/cppmu.git
+    mutiny
+    GIT_REPOSITORY https://github.com/thetic/mutiny.git
     GIT_TAG        main
 )
-FetchContent_MakeAvailable(CppMu)
+FetchContent_MakeAvailable(mutiny)
 
 add_executable(my_tests main.cpp widget.test.cpp)
-target_link_libraries(my_tests PRIVATE CppMu::CppMu)
+target_link_libraries(my_tests PRIVATE mutiny::mutiny)
 
 include(CTest)
-include(CppMu)
-cppmu_discover_tests(my_tests)
+include(mutiny)
+mutiny_discover_tests(my_tests)
 ```
 
-If CppMu is already installed system-wide, use `find_package(CppMu REQUIRED)` instead of `FetchContent`.
+If mutiny is already installed system-wide, use `find_package(mutiny REQUIRED)` instead of `FetchContent`.
 
 ### Headers
 
-All public headers live under `include/CppMu/`. The main headers you'll use:
+All public headers live under `include/mutiny/`. The main headers you'll use:
 
 | Header | Purpose |
 |--------|---------|
-| `CppMu/CppMu.hpp` | Test definition macros (`TEST_GROUP`, `TEST`, etc.) |
-| `CppMu/TestShell.hpp` | Assertion macros (`CHECK`, `CHECK_EQUAL`, etc.) |
-| `CppMu/MockSupport.hpp` | Mock framework (`mock()`, `MockSupport`) |
-| `CppMu/CppMu.h` | C interface (include in `.test.c` files) |
-| `CppMu/CommandLineTestRunner.hpp` | `main()` runner |
-| `CppMu/OrderedTest.hpp` | `TEST_ORDERED` macro |
+| `mutiny/test.hpp` | Test definition macros (`TEST_GROUP`, `TEST`, etc.) |
+| `mutiny/test/Shell.hpp` | Assertion macros (`CHECK`, `CHECK_EQUAL`, etc.) |
+| `mutiny/mock.hpp` | Mock framework (`mock()`, `MockSupport`) |
+| `mutiny/test.h` | C interface (include in `.test.c` files) |
+| `mutiny/test/CommandLineRunner.hpp` | `main()` runner |
+| `mutiny/test/Ordered.hpp` | `TEST_ORDERED` macro |
 
 ## Writing `main()`
 
 Every test executable needs a `main()`. The simplest form:
 
 ```cpp
-#include "CppMu/CommandLineTestRunner.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
 
 int main(int argc, char** argv)
 {
-    return cppmu::CommandLineTestRunner::run_all_tests(argc, argv);
+    return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
 }
 ```
 
 To add plugins (e.g. JUnit output, SetPointer, MockSupportPlugin):
 
 ```cpp
-#include "CppMu/CommandLineTestRunner.hpp"
-#include "CppMu/JUnitOutputPlugin.hpp"
-#include "CppMu/MockSupportPlugin.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
+#include "mutiny/test/JUnitOutputPlugin.hpp"
+#include "mutiny/mock/SupportPlugin.hpp"
+#include "mutiny/test/Registry.hpp"
 
 int main(int argc, char** argv)
 {
-    cppmu::JUnitOutputPlugin junit;
-    cppmu::MockSupportPlugin mock_plugin;
-    auto* reg = cppmu::TestRegistry::get_current_registry();
+    mu::tiny::test::JUnitOutputPlugin junit;
+    mu::tiny::mock::MockSupportPlugin mock_plugin;
+    auto* reg = mu::tiny::test::TestRegistry::get_current_registry();
     reg->install_plugin(&junit);
     reg->install_plugin(&mock_plugin);
-    return cppmu::CommandLineTestRunner::run_all_tests(argc, argv);
+    return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
 }
 ```
 
@@ -85,7 +85,7 @@ int main(int argc, char** argv)
 
 ```cpp
 // widget.test.cpp
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 #include "widget.h"
 
 TEST_GROUP(Widget)
@@ -130,7 +130,7 @@ Run the binary directly:
 ./build/GNU/tests/my_tests -n ReturnsInitial  # only tests whose name contains this
 ```
 
-Via CTest (after `cppmu_discover_tests` in CMakeLists):
+Via CTest (after `mutiny_discover_tests` in CMakeLists):
 
 ```bash
 ctest --preset GNU
@@ -143,5 +143,5 @@ See [command-line-reference.md](command-line-reference.md) for all flags.
 
 | File | Demonstrates |
 |------|-------------|
-| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | Minimal `TEST_GROUP` + `TEST` with `setup()`, `CPPMU_PTR_SET`, and a handful of assertion macros |
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | Minimal `TEST_GROUP` + `TEST` with `setup()`, `MUTINY_PTR_SET`, and a handful of assertion macros |
 | [`examples/tests/CircularBuffer.test.cpp`](../examples/tests/CircularBuffer.test.cpp) | Full group with setup/teardown, helper methods, and multiple assertion styles |

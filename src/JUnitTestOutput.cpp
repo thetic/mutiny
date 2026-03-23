@@ -1,12 +1,13 @@
-#include "CppMu/JUnitTestOutput.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/JUnitOutput.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/time.hpp"
 
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/TestShell.hpp"
-#include "CppMu/time.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
 
@@ -136,7 +137,7 @@ void JUnitTestOutput::print_current_test_started(const TestShell& test)
 
 String JUnitTestOutput::create_file_name(const String& group)
 {
-  String file_name = "cppmu_";
+  String file_name = "mutiny_";
   if (!impl_->package.empty()) {
     file_name += impl_->package;
     file_name += "_";
@@ -356,4 +357,6 @@ void JUnitTestOutput::close_file()
   fclose_(impl_->file);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

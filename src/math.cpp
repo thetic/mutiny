@@ -1,4 +1,4 @@
-#include "CppMu/math.hpp"
+#include "mutiny/test/math.hpp"
 
 #include <math.h>
 
@@ -28,9 +28,13 @@ int is_inf_impl(double d)
 
 } // namespace
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 int (*is_nan)(double) = is_nan_impl;
 int (*is_inf)(double) = is_inf_impl;
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

@@ -1,6 +1,6 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestFilter.hpp"
-#include "CppMu/TestShell.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Filter.hpp"
+#include "mutiny/test/Shell.hpp"
 
 TEST_BASE(MyOwnTest)
 {
@@ -26,13 +26,13 @@ TEST(TestShellCustomBase, test)
   CHECK(in_test);
 }
 
-class NullParameterTest : public cppmu::TestShell
+class NullParameterTest : public mu::tiny::test::TestShell
 {};
 
 TEST(TestShellCustomBase, NullParameters)
 {
   NullParameterTest null_test; /* Bug fix tests for creating a test without a
                                  name, fix in String */
-  cppmu::TestFilter empty_filter;
+  mu::tiny::test::TestFilter empty_filter;
   CHECK(null_test.should_run(&empty_filter, &empty_filter));
 }

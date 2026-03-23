@@ -1,13 +1,13 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestShell.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \
   fixture.check_test_fails_with_proper_test_location(text, __FILE__, __LINE__)
 
 TEST_GROUP(TestShellStringMacros)
 {
-  cppmu::TestTestingFixture fixture;
+  mu::tiny::test::TestTestingFixture fixture;
 };
 
 namespace {
@@ -45,61 +45,61 @@ void strncmp_equal_with_expected_is_null_test_method()
 void failing_test_method_with_strcmp_equal()
 {
   STRCMP_EQUAL("hello", "hell");
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_strcmp_equal_text()
 {
   STRCMP_EQUAL_TEXT("hello", "hell", "Failed because it failed");
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_strncmp_equal()
 {
   STRNCMP_EQUAL("hello", "hallo", 5);
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_strncmp_equal_text()
 {
   STRNCMP_EQUAL_TEXT("hello", "hallo", 5, "Failed because it failed");
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_strcmp_contains()
 {
   STRCMP_CONTAINS("hello", "world");
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_strcmp_contains_text()
 {
   STRCMP_CONTAINS_TEXT("hello", "world", "Failed because it failed");
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void compare_n_first_chars_with_upper_and_lowercase()
 {
   STRNCMP_EQUAL("hello world!", "HELLO WORLD!", 12);
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void compare_n_first_chars_with_difference_in_the_middle()
 {
   STRNCMP_EQUAL("Hello World!", "Hello Peter!", 12);
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void compare_n_first_chars_with_empty_string()
 {
   STRNCMP_EQUAL("", "Not empty string", 5);
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 void compare_n_first_chars_with_last_char_different()
 {
   STRNCMP_EQUAL("Not empty string?", "Not empty string!", 17);
-  cppmu::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestTestingFixture::line_executed_after_check();
 }
 
 } // namespace

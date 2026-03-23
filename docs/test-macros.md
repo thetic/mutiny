@@ -1,6 +1,6 @@
 # Test Definition Macros
 
-Include `"CppMu/CppMu.hpp"` for all macros on this page.
+Include `"mutiny/test.hpp"` for all macros on this page.
 
 ## Test Group and Lifecycle
 
@@ -48,7 +48,7 @@ TEST(MyGroup, DoesTheThing)
 
 ### `TEST_BASE(ClassName)`
 
-Defines a custom base class struct that inherits from `cppmu::Test`. Use when you want a reusable base that multiple groups can share.
+Defines a custom base class struct that inherits from `mu::tiny::test::Test`. Use when you want a reusable base that multiple groups can share.
 
 ```cpp
 TEST_BASE(LoggingTestBase)
@@ -60,7 +60,7 @@ TEST_BASE(LoggingTestBase)
 
 ### `TEST_GROUP_BASE(group, baseclass)`
 
-Like `TEST_GROUP`, but inherits from `baseclass` instead of `cppmu::Test`.
+Like `TEST_GROUP`, but inherits from `baseclass` instead of `mu::tiny::test::Test`.
 
 ```cpp
 TEST_GROUP_BASE(Networking, LoggingTestBase)
@@ -127,5 +127,5 @@ These bridge C test files into the C++ test runner. See [testing-in-c.md](testin
 
 | File | Demonstrates |
 |------|-------------|
-| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `TEST_GROUP`, `TEST`, `setup()`, `teardown()`, and `CPPMU_PTR_SET` |
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `TEST_GROUP`, `TEST`, `setup()`, `teardown()`, and `MUTINY_PTR_SET` |
 | [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | C-wrapper two-file pattern with `TEST_GROUP_SETUP`, `TEST`, and `TEST_C_WRAPPER` |

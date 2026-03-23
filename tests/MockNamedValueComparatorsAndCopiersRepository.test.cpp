@@ -1,8 +1,7 @@
-#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
-
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
+#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mutiny/test.hpp"
 
 class TypeForTestingExpectedFunctionCall
 {
@@ -13,7 +12,7 @@ public:
 };
 
 class TypeForTestingExpectedFunctionCallComparator
-  : public cppmu::MockNamedValueComparator
+  : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -24,15 +23,15 @@ public:
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  cppmu::String value_to_string(const void* object) override
+  mu::tiny::test::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
-    return cppmu::string_from(*(obj->value));
+    return mu::tiny::test::string_from(*(obj->value));
   }
 };
 
 class TypeForTestingExpectedFunctionCallCopier
-  : public cppmu::MockNamedValueCopier
+  : public mu::tiny::mock::MockNamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -44,17 +43,17 @@ public:
   }
 };
 
-class MyComparator : public cppmu::MockNamedValueComparator
+class MyComparator : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
   MyComparator() = default;
   ~MyComparator() override = default;
 
   bool is_equal(const void*, const void*) override { return false; }
-  cppmu::String value_to_string(const void*) override { return ""; }
+  mu::tiny::test::String value_to_string(const void*) override { return ""; }
 };
 
-class MyCopier : public cppmu::MockNamedValueCopier
+class MyCopier : public mu::tiny::mock::MockNamedValueCopier
 {
 public:
   MyCopier() = default;
@@ -74,14 +73,14 @@ TEST_GROUP(MockNamedValueComparatorsAndCopiersRepository)
 
 TEST(MockNamedValueComparatorsAndCopiersRepository, getComparatorForNonExistingName)
 {
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   POINTERS_EQUAL(nullptr, repository.get_comparator_for_type("typeName"));
 }
 
 TEST(MockNamedValueComparatorsAndCopiersRepository, installComparator)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_comparator("typeName", comparator);
   POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("typeName"));
 }
@@ -90,7 +89,7 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, installMultipleComparators)
 {
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_comparator("type1", comparator1);
   repository.install_comparator("type2", comparator2);
   repository.install_comparator("type3", comparator3);
@@ -101,14 +100,14 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, installMultipleComparators)
 
 TEST(MockNamedValueComparatorsAndCopiersRepository, getCopierForNonExistingName)
 {
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   POINTERS_EQUAL(nullptr, repository.get_copier_for_type("typeName"));
 }
 
 TEST(MockNamedValueComparatorsAndCopiersRepository, installCopier)
 {
   TypeForTestingExpectedFunctionCallCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("typeName", copier);
   POINTERS_EQUAL(&copier, repository.get_copier_for_type("typeName"));
 }
@@ -116,7 +115,7 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, installCopier)
 TEST(MockNamedValueComparatorsAndCopiersRepository, installMultipleCopiers)
 {
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("type1", copier1);
   repository.install_copier("type2", copier2);
   repository.install_copier("type3", copier3);
@@ -130,7 +129,7 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, installMultipleHandlers)
   TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
   TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
       comparator3;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("type1", copier1);
   repository.install_comparator("type1", comparator1);
   repository.install_copier("type2", copier2);
@@ -148,7 +147,7 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, installMultipleHandlers)
 TEST(MockNamedValueComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
 {
   MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
   POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
   repository.clear();
@@ -158,7 +157,7 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, ComparatorAndCopierByTheSame
 {
   MyComparator comparator;
   MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
   repository.install_comparator("MyType", comparator);
   POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("MyType"));
@@ -170,8 +169,8 @@ TEST(MockNamedValueComparatorsAndCopiersRepository, InstallComparatorsAndCopiers
 {
   MyComparator comparator;
   MyCopier copier;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository source;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository target;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository source;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository target;
 
   source.install_copier("MyType", copier);
   source.install_comparator("MyType", comparator);

@@ -1,8 +1,10 @@
-#include "CppMu/MockExpectedCallsList.hpp"
+#include "mutiny/mock/CheckedExpectedCall.hpp"
+#include "mutiny/mock/ExpectedCallsList.hpp"
 
-#include "CppMu/MockCheckedExpectedCall.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 MockExpectedCallsList::~MockExpectedCallsList()
 {
@@ -384,4 +386,6 @@ bool MockExpectedCallsList::
   return false;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

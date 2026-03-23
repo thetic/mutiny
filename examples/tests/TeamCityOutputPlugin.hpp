@@ -1,36 +1,42 @@
 #ifndef INCLUDED_TEAMCITYOUTPUTPLUGIN_HPP
 #define INCLUDED_TEAMCITYOUTPUTPLUGIN_HPP
 
-#include "CppMu/ConsoleTestOutput.hpp"
-#include "CppMu/TestPlugin.hpp"
+#include "mutiny/test/ConsoleOutput.hpp"
+#include "mutiny/test/Plugin.hpp"
 
-class TeamCityTestOutput : public cppmu::ConsoleTestOutput
+class TeamCityTestOutput : public mu::tiny::test::ConsoleTestOutput
 {
 public:
   TeamCityTestOutput();
   ~TeamCityTestOutput() override = default;
 
-  void print_current_test_started(const cppmu::TestShell& test) override;
-  void print_current_test_ended(const cppmu::TestResult& res) override;
-  void print_current_group_started(const cppmu::TestShell& test) override;
-  void print_current_group_ended(const cppmu::TestResult& res) override;
+  void print_current_test_started(
+      const mu::tiny::test::TestShell& test
+  ) override;
+  void print_current_test_ended(const mu::tiny::test::TestResult& res) override;
+  void print_current_group_started(
+      const mu::tiny::test::TestShell& test
+  ) override;
+  void print_current_group_ended(
+      const mu::tiny::test::TestResult& res
+  ) override;
 
-  void print_failure(const cppmu::TestFailure& failure) override;
+  void print_failure(const mu::tiny::test::TestFailure& failure) override;
 
 private:
   void print_escaped(const char* s);
-  const cppmu::TestShell* currtest_{ nullptr };
-  cppmu::String curr_group_;
+  const mu::tiny::test::TestShell* currtest_{ nullptr };
+  mu::tiny::test::String curr_group_;
 };
 
-class TeamCityOutputPlugin : public cppmu::TestPlugin
+class TeamCityOutputPlugin : public mu::tiny::test::TestPlugin
 {
 public:
   TeamCityOutputPlugin();
 
   bool parse_arguments(int argc, const char* const* argv, int index) override;
-  cppmu::String get_help() const override;
-  cppmu::TestOutput* create_output() override;
+  mu::tiny::test::String get_help() const override;
+  mu::tiny::test::TestOutput* create_output() override;
 
 private:
   bool active_{ false };

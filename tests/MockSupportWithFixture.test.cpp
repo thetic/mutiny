@@ -1,17 +1,17 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockSupport.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 namespace {
-bool cppmu_has_crashed;
+bool mutiny_has_crashed;
 
 void crash_method()
 {
-  cppmu_has_crashed = true;
+  mutiny_has_crashed = true;
 }
 
 void unexpected_call_test_function(void)
@@ -22,8 +22,8 @@ void unexpected_call_test_function(void)
 void check_expected_mock_failure_location_failed_test_method()
 {
   MockExpectedCallsListForTest::MockExpectedCallsList list;
-  cppmu::MockUnexpectedCallHappenedFailure expected_failure(
-      cppmu::TestShell::get_current(), "unexpected", list
+  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+      mu::tiny::test::TestShell::get_current(), "unexpected", list
   );
   mock().actual_call("boo");
   check_expected_mock_failure_location(expected_failure, "file", 1);
@@ -39,7 +39,7 @@ void check_no_mock_failure_location_failed_test_method()
 
 TEST_GROUP(MockSupportWithFixture)
 {
-  cppmu::TestTestingFixture fixture;
+  mu::tiny::test::TestTestingFixture fixture;
 
   void teardown() override
   {
@@ -83,45 +83,45 @@ TEST(MockSupportWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 
 TEST(MockSupportWithFixture, shouldCrashOnFailure)
 {
-  cppmu_has_crashed = false;
+  mutiny_has_crashed = false;
   mock().crash_on_failure(true);
-  cppmu::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::TestShell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
 
   fixture.run_all_tests();
 
-  CHECK(cppmu_has_crashed);
+  CHECK(mutiny_has_crashed);
 
   mock().crash_on_failure(false);
-  cppmu::TestShell::reset_crash_method();
+  mu::tiny::test::TestShell::reset_crash_method();
 }
 
 TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 {
-  cppmu_has_crashed = false;
-  cppmu::TestShell::set_crash_method(crash_method);
+  mutiny_has_crashed = false;
+  mu::tiny::test::TestShell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
-  cppmu::TestShell::reset_crash_method();
+  mu::tiny::test::TestShell::reset_crash_method();
 
   fixture.run_all_tests();
 
   fixture.assert_print_contains("Unexpected call to function: unexpected");
-  CHECK_FALSE(cppmu_has_crashed);
+  CHECK_FALSE(mutiny_has_crashed);
 }
 
-TEST(MockSupportWithFixture, shouldCrashOnFailureWithCppMuSetting)
+TEST(MockSupportWithFixture, shouldCrashOnFailureWithMutinySetting)
 {
-  cppmu_has_crashed = false;
-  cppmu::TestShell::set_crash_on_fail();
-  cppmu::TestShell::set_crash_method(crash_method);
+  mutiny_has_crashed = false;
+  mu::tiny::test::TestShell::set_crash_on_fail();
+  mu::tiny::test::TestShell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
 
   fixture.run_all_tests();
 
-  CHECK(cppmu_has_crashed);
+  CHECK(mutiny_has_crashed);
 
-  cppmu::TestShell::restore_default_test_terminator();
-  cppmu::TestShell::reset_crash_method();
+  mu::tiny::test::TestShell::restore_default_test_terminator();
+  mu::tiny::test::TestShell::reset_crash_method();
 }
 
 TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)

@@ -1,9 +1,8 @@
-#include "CppMu/TestPlugin.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestRegistry.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 #define GENERIC_PLUGIN "GenericPlugin"
 #define GENERIC_PLUGIN2 "GenericPlugin2"
@@ -12,22 +11,28 @@
 namespace {
 int sequence_number;
 
-class DummyPlugin : public cppmu::TestPlugin
+class DummyPlugin : public mu::tiny::test::TestPlugin
 {
 public:
-  DummyPlugin(const cppmu::String& name)
+  DummyPlugin(const mu::tiny::test::String& name)
     : TestPlugin(name)
 
   {
   }
 
-  void pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void pre_test_action(
+      mu::tiny::test::TestShell&,
+      mu::tiny::test::TestResult&
+  ) override
   {
     pre_action++;
     pre_action_sequence = sequence_number++;
   }
 
-  void post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void post_test_action(
+      mu::tiny::test::TestShell&,
+      mu::tiny::test::TestResult&
+  ) override
   {
     post_action++;
     post_action_sequence = sequence_number++;
@@ -42,14 +47,14 @@ public:
 class DummyPluginWhichAcceptsParameters : public DummyPlugin
 {
 public:
-  DummyPluginWhichAcceptsParameters(const cppmu::String& name)
+  DummyPluginWhichAcceptsParameters(const mu::tiny::test::String& name)
     : DummyPlugin(name)
   {
   }
 
   bool parse_arguments(int argc, const char* const* argv, int index) override
   {
-    cppmu::String argument(argv[index]);
+    mu::tiny::test::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
     return TestPlugin::parse_arguments(argc, argv, index);
@@ -63,15 +68,15 @@ TEST_GROUP(TestPlugin)
   DummyPlugin* first_plugin;
   DummyPluginWhichAcceptsParameters* second_plugin;
   DummyPlugin* third_plugin;
-  cppmu::TestTestingFixture* gen_fixture;
-  cppmu::TestRegistry* registry;
+  mu::tiny::test::TestTestingFixture* gen_fixture;
+  mu::tiny::test::TestRegistry* registry;
 
   void setup() override
   {
     first_plugin = new DummyPlugin(GENERIC_PLUGIN);
     second_plugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
     third_plugin = new DummyPlugin(GENERIC_PLUGIN3);
-    gen_fixture = new cppmu::TestTestingFixture;
+    gen_fixture = new mu::tiny::test::TestTestingFixture;
     registry = gen_fixture->get_registry();
     registry->install_plugin(first_plugin);
     sequence_number = 1;
@@ -136,7 +141,7 @@ TEST(TestPlugin, RemovePluginByName)
   LONGS_EQUAL(2, registry->count_plugins());
 }
 
-struct DefaultPlugin : public cppmu::TestPlugin
+struct DefaultPlugin : public mu::tiny::test::TestPlugin
 {
   DefaultPlugin()
     : TestPlugin("default")

@@ -1,13 +1,14 @@
-#include "CppMu/TestTerminator.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/Terminator.hpp"
+#include "mutiny/test/jump_buffer.h"
 
-#include "CppMu/TestShell.hpp"
-#include "CppMu/jump_buffer.h"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 void NormalTestTerminator::exit_current_test() const
 {
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
   throw FailedException();
 #else
   TestTerminatorWithoutExceptions().exit_current_test();
@@ -16,7 +17,7 @@ void NormalTestTerminator::exit_current_test() const
 
 void TestTerminatorWithoutExceptions::exit_current_test() const
 {
-  cppmu_long_jmp();
+  mutiny_long_jmp();
 }
 
 void CrashingTestTerminator::exit_current_test() const
@@ -31,4 +32,6 @@ void CrashingTestTerminatorWithoutExceptions::exit_current_test() const
   TestTerminatorWithoutExceptions::exit_current_test();
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

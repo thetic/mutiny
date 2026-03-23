@@ -1,9 +1,9 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
+#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mutiny/test.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 TEST_GROUP(MockComparatorCopier)
 {
@@ -24,7 +24,8 @@ public:
   long* value;
 };
 
-class MyTypeForTestingComparator : public cppmu::MockNamedValueComparator
+class MyTypeForTestingComparator
+  : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -34,14 +35,14 @@ public:
     return *(obj1->value) == *(obj2->value);
   }
 
-  cppmu::String value_to_string(const void* object) override
+  mu::tiny::test::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const MyTypeForTesting*>(object);
-    return cppmu::string_from(*(obj->value));
+    return mu::tiny::test::string_from(*(obj->value));
   }
 };
 
-class MyTypeForTestingCopier : public cppmu::MockNamedValueCopier
+class MyTypeForTestingCopier : public mu::tiny::mock::MockNamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -65,7 +66,7 @@ TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingAComparisonRep
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
+  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -87,7 +88,7 @@ TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingACopierReposit
           "MyTypeForTesting", "parameterName", &object
       );
 
-  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -118,9 +119,9 @@ bool my_type_is_equal(const void* object1, const void* object2)
          static_cast<const MyTypeForTesting*>(object2)->value;
 }
 
-cppmu::String my_type_value_to_string(const void* object)
+mu::tiny::test::String my_type_value_to_string(const void* object)
 {
-  return cppmu::string_from(
+  return mu::tiny::test::string_from(
       static_cast<const MyTypeForTesting*>(object)->value
   );
 }
@@ -129,7 +130,7 @@ cppmu::String my_type_value_to_string(const void* object)
 TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 {
   MyTypeForTesting object(1);
-  cppmu::MockFunctionComparator comparator(
+  mu::tiny::mock::MockFunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string
   );
   mock().install_comparator("MyTypeForTesting", comparator);
@@ -151,7 +152,7 @@ TEST(MockComparatorCopier, customObjectWithFunctionComparatorThatFailsCoversValu
   MockFailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(5);
-  cppmu::MockFunctionComparator comparator(
+  mu::tiny::mock::MockFunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string
   );
   mock().install_comparator("MyTypeForTesting", comparator);
@@ -159,8 +160,8 @@ TEST(MockComparatorCopier, customObjectWithFunctionComparatorThatFailsCoversValu
   MockExpectedCallsListForTest expectations;
   expectations.add_function("function")
       ->with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
-  cppmu::MockExpectedCallsDidntHappenFailure failure(
-      cppmu::TestShell::get_current(), expectations
+  mu::tiny::mock::MockExpectedCallsDidntHappenFailure failure(
+      mu::tiny::test::TestShell::get_current(), expectations
   );
 
   mock()
@@ -208,7 +209,7 @@ TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -232,9 +233,9 @@ TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foo");
-  cppmu::MockNamedValue parameter("parameterName");
+  mu::tiny::mock::MockNamedValue parameter("parameterName");
   parameter.set_const_object_pointer("MyTypeForTesting", &actual_object);
-  cppmu::MockUnexpectedOutputParameterFailure expected_failure(
+  mu::tiny::mock::MockUnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -261,7 +262,7 @@ TEST(MockComparatorCopier, customTypeOutputParameterMissing)
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  cppmu::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 
@@ -289,9 +290,9 @@ TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  cppmu::MockNamedValue parameter("output");
+  mu::tiny::mock::MockNamedValue parameter("output");
   parameter.set_const_object_pointer("OtherTypeForTesting", &actual_object);
-  cppmu::MockUnexpectedOutputParameterFailure expected_failure(
+  mu::tiny::mock::MockUnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -319,7 +320,7 @@ TEST(MockComparatorCopier, noCopierForCustomTypeOutputParameter)
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
 
@@ -612,7 +613,7 @@ TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 {
   MyTypeForTesting expected_object(9874452);
   MyTypeForTesting actual_object(2034);
-  cppmu::MockFunctionCopier copier(my_type_copy);
+  mu::tiny::mock::MockFunctionCopier copier(my_type_copy);
   mock().install_copier("MyTypeForTesting", copier);
 
   mock()
@@ -649,7 +650,7 @@ TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  cppmu::MockNoWayToCompareCustomTypeFailure expected_failure(
+  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -671,7 +672,7 @@ TEST(MockComparatorCopier, removingCopiersWorksHierachically)
       "MyTypeForTesting", "bar", &object
   );
 
-  cppmu::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -705,7 +706,7 @@ TEST(MockComparatorCopier, installComparatorsWorksHierarchical)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
-  cppmu::MockNamedValueComparatorsAndCopiersRepository repos;
+  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repos;
   repos.install_comparator("MyTypeForTesting", comparator);
 
   mock("existing");
@@ -749,7 +750,7 @@ class StubComparator
 {
 public:
   bool is_equal(const void*, const void*) override { return true; }
-  cppmu::String value_to_string(const void*) override { return ""; }
+  mu::tiny::test::String value_to_string(const void*) override { return ""; }
 };
 
 struct SomeClass
@@ -791,8 +792,8 @@ TEST(MockComparatorCopier, customObjectParameterWithStringTypeAndNameArgSucceeds
   mock()
       .actual_call("function")
       .with_parameter_of_type(
-          cppmu::String("MyTypeForTesting"),
-          cppmu::String("parameterName"),
+          mu::tiny::test::String("MyTypeForTesting"),
+          mu::tiny::test::String("parameterName"),
           &object
       );
 

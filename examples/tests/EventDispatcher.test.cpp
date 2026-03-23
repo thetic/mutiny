@@ -1,9 +1,9 @@
 #include "EventDispatcher.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockSupport.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/test.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 class ObserverMock : public EventObserver
 {
@@ -27,7 +27,7 @@ public:
   }
 };
 
-class EventComparator : public cppmu::MockNamedValueComparator
+class EventComparator : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -35,9 +35,9 @@ public:
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  cppmu::String value_to_string(const void* object) override
+  mu::tiny::test::String value_to_string(const void* object) override
   {
-    return cppmu::string_from(static_cast<const Event*>(object)->type);
+    return mu::tiny::test::string_from(static_cast<const Event*>(object)->type);
   }
 };
 

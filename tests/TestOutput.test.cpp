@@ -1,9 +1,8 @@
-#include "CppMu/TestOutput.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/time.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
+#include "mutiny/test/time.hpp"
 
 namespace {
 unsigned long millis_time;
@@ -17,26 +16,26 @@ unsigned long mock_get_time_in_millis()
 
 TEST_GROUP(TestOutput)
 {
-  cppmu::TestOutput* printer;
-  cppmu::StringBufferTestOutput* mock;
-  cppmu::TestShell* tst;
-  cppmu::TestFailure* f;
-  cppmu::TestFailure* f2;
-  cppmu::TestFailure* f3;
-  cppmu::TestResult* result;
+  mu::tiny::test::TestOutput* printer;
+  mu::tiny::test::StringBufferTestOutput* mock;
+  mu::tiny::test::TestShell* tst;
+  mu::tiny::test::TestFailure* f;
+  mu::tiny::test::TestFailure* f2;
+  mu::tiny::test::TestFailure* f3;
+  mu::tiny::test::TestResult* result;
 
   void setup() override
   {
-    mock = new cppmu::StringBufferTestOutput();
+    mock = new mu::tiny::test::StringBufferTestOutput();
     printer = mock;
-    tst = new cppmu::TestShell("group", "test", "file", 10);
-    f = new cppmu::TestFailure(tst, "failfile", 20, "message");
-    f2 = new cppmu::TestFailure(tst, "file", 20, "message");
-    f3 = new cppmu::TestFailure(tst, "file", 2, "message");
-    result = new cppmu::TestResult(*mock);
+    tst = new mu::tiny::test::TestShell("group", "test", "file", 10);
+    f = new mu::tiny::test::TestFailure(tst, "failfile", 20, "message");
+    f2 = new mu::tiny::test::TestFailure(tst, "file", 20, "message");
+    f3 = new mu::tiny::test::TestFailure(tst, "file", 2, "message");
+    result = new mu::tiny::test::TestResult(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
-    CPPMU_PTR_SET(cppmu::get_time_in_millis, mock_get_time_in_millis);
+    MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -140,14 +139,14 @@ TEST(TestOutput, SetProgressIndicator)
 
 TEST(TestOutput, PrintTestVerboseStarted)
 {
-  mock->verbose(cppmu::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::TestOutput::VerbosityLevel::verbose);
   printer->print_current_test_started(*tst);
   STRCMP_EQUAL("TEST(group, test)", mock->get_output().c_str());
 }
 
 TEST(TestOutput, PrintTestVerboseEnded)
 {
-  mock->verbose(cppmu::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::TestOutput::VerbosityLevel::verbose);
   result->current_test_started(tst);
   millis_time = 5;
   result->current_test_ended(tst);

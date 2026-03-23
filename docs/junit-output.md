@@ -1,6 +1,6 @@
 # JUnit XML Output
 
-CppMu can emit JUnit-compatible XML files via `JUnitOutputPlugin`. CI systems such as Jenkins, GitHub Actions, and GitLab CI can parse this format to display test results in their dashboards.
+mutiny can emit JUnit-compatible XML files via `JUnitOutputPlugin`. CI systems such as Jenkins, GitHub Actions, and GitLab CI can parse this format to display test results in their dashboards.
 
 ## Activating JUnit Output
 
@@ -17,15 +17,15 @@ Pass `-pjunit` when running your test executable:
 Install the plugin before calling `run_all_tests`:
 
 ```cpp
-#include "CppMu/CommandLineTestRunner.hpp"
-#include "CppMu/JUnitOutputPlugin.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
+#include "mutiny/test/JUnitOutputPlugin.hpp"
+#include "mutiny/test/Registry.hpp"
 
 int main(int argc, char** argv)
 {
-    cppmu::JUnitOutputPlugin junit;
-    cppmu::TestRegistry::get_current_registry()->install_plugin(&junit);
-    return cppmu::CommandLineTestRunner::run_all_tests(argc, argv);
+    mu::tiny::test::JUnitOutputPlugin junit;
+    mu::tiny::test::TestRegistry::get_current_registry()->install_plugin(&junit);
+    return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
 }
 ```
 

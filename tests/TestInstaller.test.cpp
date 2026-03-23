@@ -1,7 +1,7 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Registry.hpp"
 
-class TestInstallerTestShell : public cppmu::TestShell
+class TestInstallerTestShell : public mu::tiny::test::TestShell
 {};
 
 // this is file scope because the test is installed
@@ -10,14 +10,14 @@ class TestInstallerTestShell : public cppmu::TestShell
 
 TEST_GROUP(TestInstaller)
 {
-  cppmu::TestInstaller* test_installer;
-  cppmu::TestRegistry* my_registry;
+  mu::tiny::test::TestInstaller* test_installer;
+  mu::tiny::test::TestRegistry* my_registry;
   TestInstallerTestShell shell;
   void setup() override
   {
-    my_registry = new cppmu::TestRegistry();
+    my_registry = new mu::tiny::test::TestRegistry();
     my_registry->set_current_registry(my_registry);
-    test_installer = new cppmu::TestInstaller(
+    test_installer = new mu::tiny::test::TestInstaller(
         shell, "TestInstaller", "test", __FILE__, __LINE__
     );
   }

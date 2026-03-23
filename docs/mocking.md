@@ -1,12 +1,12 @@
 # Mocking
 
-Include `"CppMu/MockSupport.hpp"` for the C++ mock API.
+Include `"mutiny/mock.hpp"` for the C++ mock API.
 
 ## Accessing the Mock Object
 
 ```cpp
-cppmu::mock()           // global mock scope
-cppmu::mock("network")  // named scope — keeps expectations separate
+mu::tiny::mock::mock()           // global mock scope
+mu::tiny::mock::mock("network")  // named scope — keeps expectations separate
 ```
 
 Named scopes are independent: `mock("db")` and `mock("net")` have separate expectation lists.
@@ -195,7 +195,7 @@ Install a comparator to make `with_parameter_of_type` work for your type:
 TypedMockComparator<Packet> packet_cmp;
 mock().install_comparator("Packet", packet_cmp);
 // Requires: operator==(const Packet&, const Packet&)
-// and: cppmu::String string_from(const Packet&)
+// and: mu::tiny::test::String string_from(const Packet&)
 ```
 
 ### Function-based comparator
@@ -205,7 +205,7 @@ MockFunctionComparator packet_cmp(
     [](const void* a, const void* b) {
         return *static_cast<const Packet*>(a) == *static_cast<const Packet*>(b);
     },
-    [](const void* a) -> cppmu::String {
+    [](const void* a) -> mu::tiny::test::String {
         return static_cast<const Packet*>(a)->to_string();
     }
 );
@@ -215,13 +215,13 @@ mock().install_comparator("Packet", packet_cmp);
 ### Subclass comparator
 
 ```cpp
-class PacketComparator : public cppmu::MockNamedValueComparator
+class PacketComparator : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
     bool is_equal(const void* a, const void* b) override {
         return *static_cast<const Packet*>(a) == *static_cast<const Packet*>(b);
     }
-    cppmu::String value_to_string(const void* a) override {
+    mu::tiny::test::String value_to_string(const void* a) override {
         return static_cast<const Packet*>(a)->to_string();
     }
 };
@@ -258,7 +258,7 @@ mock().install_copier("Packet", packet_copier);
 
 ```cpp
 // main.cpp
-cppmu::MockSupportPlugin mock_plugin;
+mu::tiny::mock::MockSupportPlugin mock_plugin;
 mock_plugin.install_comparator("Packet", packet_cmp);
 reg->install_plugin(&mock_plugin);
 ```

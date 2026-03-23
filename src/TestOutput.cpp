@@ -1,12 +1,13 @@
-#include "CppMu/TestOutput.hpp"
-
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/TestShell.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
 
 #include <stdio.h>
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
 
@@ -252,4 +253,6 @@ void TestOutput::print_very_verbose(const char* str)
     print_buffer(str);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

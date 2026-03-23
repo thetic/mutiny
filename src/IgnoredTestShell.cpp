@@ -1,9 +1,10 @@
-#include "CppMu/IgnoredTestShell.hpp"
+#include "mutiny/test/IgnoredShell.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Result.hpp"
 
-#include "CppMu/TestPlugin.hpp"
-#include "CppMu/TestResult.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 IgnoredTestShell::IgnoredTestShell()
   : run_ignored_(false)
@@ -52,4 +53,6 @@ void IgnoredTestShell::set_run_ignored()
   run_ignored_ = true;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

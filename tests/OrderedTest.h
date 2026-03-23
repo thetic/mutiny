@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-  int cppmu_ordered_test_fixture_c_wrapper(void);
+  int mutiny_ordered_test_fixture_c_wrapper(void);
 
 #ifdef __cplusplus
 }

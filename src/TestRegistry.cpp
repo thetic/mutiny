@@ -1,11 +1,12 @@
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test/NullPlugin.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/ShellPointerArray.hpp"
 
-#include "CppMu/NullTestPlugin.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/TestShell.hpp"
-#include "CppMu/TestShellPointerArray.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 TestRegistry::TestRegistry()
   : first_plugin_(NullTestPlugin::instance())
@@ -290,4 +291,6 @@ TestShell* TestRegistry::find_test_with_group(const String& group)
   return nullptr;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

@@ -1,6 +1,8 @@
-#include "CppMu/TestFilter.hpp"
+#include "mutiny/test/Filter.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 TestFilter::TestFilter()
   : strict_matching_(false)
@@ -91,4 +93,6 @@ String string_from(const TestFilter& filter)
   return filter.as_string();
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

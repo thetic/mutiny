@@ -2,12 +2,12 @@
 
 `SetPointerPlugin` solves a common embedded-testing problem: swapping out a function pointer (or any global pointer) for a test stub, then automatically restoring it after the test.
 
-Include `"CppMu/CppMu.hpp"` — `SetPointerPlugin` is included transitively, and the `CPPMU_PTR_SET` macro is available without any additional install step.
+Include `"mutiny/test.hpp"` — `SetPointerPlugin` is included transitively, and the `MUTINY_PTR_SET` macro is available without any additional install step.
 
 ## The Macro
 
 ```cpp
-CPPMU_PTR_SET(pointer, replacement)
+MUTINY_PTR_SET(pointer, replacement)
 ```
 
 - Saves the current value of `pointer`.
@@ -25,7 +25,7 @@ extern int (*platform_read)(int fd, void* buf, size_t n);
 
 ```cpp
 /* module.test.cpp */
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 #include "module.h"
 
 static int stub_read(int, void* buf, size_t n)
@@ -38,7 +38,7 @@ TEST_GROUP(ModuleRead) {};
 
 TEST(ModuleRead, UsesStub)
 {
-    CPPMU_PTR_SET(platform_read, stub_read);
+    MUTINY_PTR_SET(platform_read, stub_read);
     // platform_read now points to stub_read
     // after this test, platform_read is restored automatically
     CHECK_EQUAL(4, read_four_bytes());
@@ -52,7 +52,7 @@ static Logger* fake_logger = new FakeLogger;
 
 TEST(MyGroup, LogsOnError)
 {
-    CPPMU_PTR_SET(g_logger, fake_logger);
+    MUTINY_PTR_SET(g_logger, fake_logger);
     trigger_error();
     CHECK(fake_logger->was_called());
 }
@@ -66,7 +66,7 @@ TEST(MyGroup, LogsOnError)
 
 ## Limit
 
-`SetPointerPlugin::max_set = 32` — at most 32 pointers can be saved simultaneously per test. Each `CPPMU_PTR_SET` call consumes one slot; the slots are released at the end of the test.
+`SetPointerPlugin::max_set = 32` — at most 32 pointers can be saved simultaneously per test. Each `MUTINY_PTR_SET` call consumes one slot; the slots are released at the end of the test.
 
 Exceeding 32 calls in a single test body will crash or corrupt memory. If you need more than 32, consider restructuring your test.
 
@@ -78,5 +78,5 @@ Exceeding 32 calls in a single test body will crash or corrupt memory. If you ne
 
 | File | Demonstrates |
 |------|-------------|
-| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `CPPMU_PTR_SET` swapping a function pointer in `setup()` |
+| [`examples/tests/CheatSheet.test.cpp`](../examples/tests/CheatSheet.test.cpp) | `MUTINY_PTR_SET` swapping a function pointer in `setup()` |
 | [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | Function pointer stub pattern in C (manual save/restore instead of the macro, showing the underlying technique) |

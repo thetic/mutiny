@@ -1,8 +1,10 @@
-#include "CppMu/OrderedTest.hpp"
+#include "mutiny/test/Ordered.hpp"
 
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test/Registry.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 OrderedTestShell* OrderedTestShell::ordered_tests_head_ = nullptr;
 
@@ -38,7 +40,7 @@ bool OrderedTestShell::first_ordered_test()
 
 OrderedTestShell* OrderedTestShell::add_ordered_test(OrderedTestShell* test)
 {
-  cppmu::TestShell::add_test(test);
+  mu::tiny::test::TestShell::add_test(test);
   next_ordered_test_ = test;
   return this;
 }
@@ -46,7 +48,7 @@ OrderedTestShell* OrderedTestShell::add_ordered_test(OrderedTestShell* test)
 void OrderedTestShell::add_ordered_test_to_head(OrderedTestShell* test)
 {
   TestRegistry* reg = TestRegistry::get_current_registry();
-  cppmu::TestShell* head = get_ordered_test_head();
+  mu::tiny::test::TestShell* head = get_ordered_test_head();
 
   if (nullptr == reg->get_first_test() || head == reg->get_first_test()) {
     reg->add_test(test);
@@ -112,4 +114,6 @@ void OrderedTestInstaller::add_ordered_test_in_order_not_at_head_position(
   current->add_ordered_test(test);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

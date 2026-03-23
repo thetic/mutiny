@@ -1,22 +1,23 @@
-#include "CppMu/TestShell.hpp"
-
-#include "CppMu/ConsoleTestOutput.hpp"
-#include "CppMu/Test.hpp"
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestPlugin.hpp"
-#include "CppMu/TestRegistry.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/jump_buffer.h"
-#include "CppMu/math.hpp"
+#include "mutiny/test/ConsoleOutput.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/Test.hpp"
+#include "mutiny/test/jump_buffer.h"
+#include "mutiny/test/math.hpp"
 
 #include <math.h>
 #include <stdlib.h>
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
 
-/* Sometimes stubs use the CppMu assertions.
+/* Sometimes stubs use the mutiny assertions.
  * Its not correct to do so, but this small helper class will prevent a
  * segmentation fault and instead will give an error message and also the
  * file/line of the check that was executed outside the tests.
@@ -98,10 +99,11 @@ void (*please_crash_me_right_now)() = abort;
 
 bool doubles_equal(double d1, double d2, double threshold)
 {
-  if (cppmu::is_nan(d1) || cppmu::is_nan(d2) || cppmu::is_nan(threshold))
+  if (mu::tiny::test::is_nan(d1) || mu::tiny::test::is_nan(d2) ||
+      mu::tiny::test::is_nan(threshold))
     return false;
 
-  if (cppmu::is_inf(d1) && cppmu::is_inf(d2)) {
+  if (mu::tiny::test::is_inf(d1) && mu::tiny::test::is_inf(d2)) {
     return true;
   }
 
@@ -162,7 +164,7 @@ void TestShell::run_one_test(TestPlugin* plugin, TestResult& result)
   has_failed_ = false;
   result.count_run();
   HelperTestRunInfo run_info(this, plugin, &result);
-  cppmu_set_jmp(helper_do_run_one_test_in_current_process, &run_info);
+  mutiny_set_jmp(helper_do_run_one_test_in_current_process, &run_info);
 }
 
 Test* TestShell::create_test()
@@ -193,7 +195,7 @@ void TestShell::run_one_test_in_current_process(
 
   Test* test_to_run = nullptr;
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
   try {
 #endif
     result.print_very_verbose("\n---- before createTest: ");
@@ -206,7 +208,7 @@ void TestShell::run_one_test_in_current_process(
 
     TestShell::set_current_test(saved_test);
     TestShell::set_test_result(saved_result);
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
   } catch (...) {
     destroy_test(test_to_run);
     throw;
@@ -803,4 +805,6 @@ bool TestShell::is_rethrowing_exceptions()
   return rethrow_exceptions_;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

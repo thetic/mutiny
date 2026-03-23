@@ -1,12 +1,14 @@
-#include "CppMu/MockCheckedActualCall.hpp"
-
-#include "CppMu/MockCheckedExpectedCall.hpp"
-#include "CppMu/MockFailure.hpp"
-#include "CppMu/TestShell.hpp"
+#include "mutiny/mock/CheckedActualCall.hpp"
+#include "mutiny/mock/CheckedExpectedCall.hpp"
+#include "mutiny/mock/Failure.hpp"
+#include "mutiny/test/Shell.hpp"
 
 #include <string.h>
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 const String& MockCheckedActualCall::get_name() const
 {
@@ -40,7 +42,7 @@ void MockCheckedActualCall::set_mock_failure_reporter(
   reporter_ = reporter;
 }
 
-cppmu::TestShell* MockCheckedActualCall::get_test() const
+mu::tiny::test::TestShell* MockCheckedActualCall::get_test() const
 {
   return reporter_->get_test_to_fail();
 }
@@ -739,4 +741,6 @@ void MockCheckedActualCall::clean_up_output_parameter_list()
   }
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

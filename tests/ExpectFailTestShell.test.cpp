@@ -1,25 +1,24 @@
-#include "CppMu/ExpectFailTestShell.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/ExpectFailShell.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 namespace {
 
-class FailingTest : public cppmu::Test
+class FailingTest : public mu::tiny::test::Test
 {
   void test_body() override { FAIL("expected failure"); }
 };
 
-class FailingExpectFailTestShell : public cppmu::ExpectFailTestShell
+class FailingExpectFailTestShell : public mu::tiny::test::ExpectFailTestShell
 {
-  cppmu::Test* create_test() override { return new FailingTest; }
+  mu::tiny::test::Test* create_test() override { return new FailingTest; }
 };
 
 } // namespace
 
 TEST_GROUP(ExpectFailTestShell)
 {
-  cppmu::TestTestingFixture fixture;
+  mu::tiny::test::TestTestingFixture fixture;
 };
 
 TEST(ExpectFailTestShell, innerTestFails_outerCountsRunNotFailure)
@@ -34,7 +33,7 @@ TEST(ExpectFailTestShell, innerTestFails_outerCountsRunNotFailure)
 
 TEST(ExpectFailTestShell, innerTestPasses_outerCountsRunAndFailure)
 {
-  cppmu::ExpectFailTestShell shell;
+  mu::tiny::test::ExpectFailTestShell shell;
   fixture.add_test(&shell);
   fixture.run_all_tests();
   // 2 runs: fixture's built-in genTest_ + shell
@@ -44,13 +43,13 @@ TEST(ExpectFailTestShell, innerTestPasses_outerCountsRunAndFailure)
 
 TEST(ExpectFailTestShell, willRun_alwaysReturnsTrue)
 {
-  cppmu::ExpectFailTestShell shell;
+  mu::tiny::test::ExpectFailTestShell shell;
   CHECK_TRUE(shell.will_run());
 }
 
 TEST(ExpectFailTestShell, getFormattedName_showsEXPECT_FAIL_TEST)
 {
-  cppmu::ExpectFailTestShell shell;
+  mu::tiny::test::ExpectFailTestShell shell;
   shell.set_group_name("TestGroup");
   shell.set_test_name("TestName");
   STRCMP_EQUAL(
@@ -70,7 +69,9 @@ TEST(ExpectFailTestShell, verbose_printsEXPECT_FAIL_TEST)
 
 TEST(ExpectFailTestShell, fourArgConstructor_setsGroupTestFileAndLine)
 {
-  cppmu::ExpectFailTestShell shell("MyGroup", "MyTest", "myfile.cpp", 42);
+  mu::tiny::test::ExpectFailTestShell shell(
+      "MyGroup", "MyTest", "myfile.cpp", 42
+  );
   STRCMP_EQUAL("MyGroup", shell.get_group());
   STRCMP_EQUAL("MyTest", shell.get_name());
   STRCMP_EQUAL("myfile.cpp", shell.get_file());

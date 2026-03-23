@@ -13,8 +13,8 @@ IncludeCategories:
   - Regex:           '^"[^/"]*"$'
     Priority:        1
     SortPriority:    1
-  # 2. CppMu core includes
-  - Regex:           '^"CppMu/'
+  # 2. mutiny core includes
+  - Regex:           '^"mutiny/'
     Priority:        2
     SortPriority:    2
   # 5. System/POSIX headers (angle-bracket with subdirectory path)

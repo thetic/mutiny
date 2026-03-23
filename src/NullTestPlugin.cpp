@@ -1,6 +1,8 @@
-#include "CppMu/NullTestPlugin.hpp"
+#include "mutiny/test/NullPlugin.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 NullTestPlugin::NullTestPlugin()
   : TestPlugin(nullptr)
@@ -17,4 +19,6 @@ void NullTestPlugin::run_all_pre_test_action(TestShell&, TestResult&) {}
 
 void NullTestPlugin::run_all_post_test_action(TestShell&, TestResult&) {}
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

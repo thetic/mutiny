@@ -1,6 +1,9 @@
-#include "CppMu/MockIgnoredExpectedCall.hpp"
+#include "mutiny/mock/IgnoredExpectedCall.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 MockExpectedCall& MockIgnoredExpectedCall::instance()
 {
@@ -8,4 +11,6 @@ MockExpectedCall& MockIgnoredExpectedCall::instance()
   return call;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

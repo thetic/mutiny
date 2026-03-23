@@ -1,10 +1,11 @@
-#include "CppMu/TestShellPointerArray.hpp"
-
-#include "CppMu/TestShell.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/ShellPointerArray.hpp"
 
 #include <stdlib.h>
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 int (*rand)() = ::rand;
 
@@ -85,4 +86,6 @@ TestShell* TestShellPointerArray::get(size_t index) const
   return array_of_tests_[index];
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

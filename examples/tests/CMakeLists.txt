@@ -10,7 +10,7 @@ check_source_runs(CXX
          (void)r;
          return fetestexcept(FE_DIVBYZERO) ? 0 : 1;
      }"
-    CPPMU_HAVE_FENV
+    MUTINY_HAVE_FENV
 )
 
 add_executable(ExampleTests
@@ -30,7 +30,7 @@ add_executable(ExampleTests
     TeamCityTestOutput.test.cpp
 )
 
-if(CPPMU_USE_STD_CPP_LIB)
+if(MUTINY_USE_STD_CPP_LIB)
     target_sources(ExampleTests PRIVATE EventDispatcher.test.cpp)
 endif()
 
@@ -40,14 +40,14 @@ target_include_directories(ExampleTests
 )
 
 target_compile_definitions(ExampleTests
-    PRIVATE CPPMU_HAVE_FENV=$<BOOL:${CPPMU_HAVE_FENV}>
+    PRIVATE MUTINY_HAVE_FENV=$<BOOL:${MUTINY_HAVE_FENV}>
 )
 
 target_link_libraries(ExampleTests
     PRIVATE
         ExampleLib
-        CppMu::CppMu
+        mutiny::mutiny
 )
 
-include(CppMu)
-cppmu_discover_tests(ExampleTests)
+include(mutiny)
+mutiny_discover_tests(ExampleTests)

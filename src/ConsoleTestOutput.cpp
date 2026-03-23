@@ -1,8 +1,10 @@
-#include "CppMu/ConsoleTestOutput.hpp"
+#include "mutiny/test/ConsoleOutput.hpp"
 
 #include <stdio.h>
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 void ConsoleTestOutput::print_buffer(const char* s)
 {
@@ -15,4 +17,6 @@ void ConsoleTestOutput::flush()
   fflush(stdout);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

@@ -1,4 +1,4 @@
-# Contributing to CppMu
+# Contributing to mutiny
 
 ## Building for Development
 
@@ -42,7 +42,7 @@ These are enforced by CI via `clang-tidy` and code review:
 - **Anonymous namespaces** instead of file-scope `static` in `.cpp` files (SF.22).
 - **`using`** instead of `typedef` (T.43). Function pointer form: `using F = void (*)()`.
 - **`auto`** to avoid repeating the type when the LHS type equals the RHS constructed type (ES.11). Use `auto*` for pointer types; bare `auto` for function pointer casts. Skip the polymorphic base-pointer pattern (`Base* p = new Derived(...)`) — that is intentional.
-- **Include guards**: `INCLUDED_CPPMU_<NAME>_HPP` / `INCLUDED_CPPMU_<NAME>_H`.
+- **Include guards**: `INCLUDED_MUTINY_<NAME>_HPP` / `INCLUDED_MUTINY_<NAME>_H`.
 
 ## C++ Standard
 
@@ -50,9 +50,9 @@ The minimum supported standard is **C++11**. Library code must compile cleanly u
 
 ## Standard Library Policy
 
-Library code (anything under `include/CppMu/` and `src/`) must compile with and without the C++ standard library.
+Library code (anything under `include/mutiny/` and `src/`) must compile with and without the C++ standard library.
 The `no-std-cpp` preset enforces this.
-This means `<type_traits>`, `<utility>`, `std::enable_if`, and similar are off-limits in library headers and source unless guarded by `CPPMU_USE_STD_CPP_LIB`.
+This means `<type_traits>`, `<utility>`, `std::enable_if`, and similar are off-limits in library headers and source unless guarded by `MUTINY_USE_STD_CPP_LIB`.
 
 ## Warnings Policy
 

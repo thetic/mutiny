@@ -1,5 +1,5 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestOutput.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
 
 #include <math.h>
 
@@ -12,11 +12,11 @@ const char* fail_file_name = "fail.cpp";
 
 TEST_GROUP(TestFailureNaN)
 {
-  cppmu::TestShell* test;
+  mu::tiny::test::TestShell* test;
 
   void setup() override
   {
-    test = new cppmu::TestShell(
+    test = new mu::tiny::test::TestShell(
         "groupname", "testname", fail_file_name, fail_line_number - 1
     );
   }
@@ -27,7 +27,7 @@ TEST_GROUP(TestFailureNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -46,7 +46,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -65,7 +65,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -84,7 +84,7 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -102,7 +102,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 
 TEST(TestFailureNaN, DoublesEqualActualIsInf)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -120,7 +120,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsInf)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,

@@ -1,10 +1,10 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 
-#include "CppMu/CommandLineTestRunner.hpp"
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
+#include "mutiny/test/Registry.hpp"
 
-#if CPPMU_HAVE_FENV
+#if MUTINY_HAVE_FENV
 
 #include <fenv.h>
 #include <math.h>

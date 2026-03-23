@@ -1,8 +1,8 @@
 #include "TeamCityOutputPlugin.hpp"
 
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/TestShell.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
 
 TeamCityTestOutput::TeamCityTestOutput()
   : curr_group_()
@@ -10,7 +10,7 @@ TeamCityTestOutput::TeamCityTestOutput()
 }
 
 void TeamCityTestOutput::print_current_test_started(
-    const cppmu::TestShell& test
+    const mu::tiny::test::TestShell& test
 )
 {
   print("##teamcity[testStarted name='");
@@ -24,7 +24,9 @@ void TeamCityTestOutput::print_current_test_started(
   currtest_ = &test;
 }
 
-void TeamCityTestOutput::print_current_test_ended(const cppmu::TestResult& res)
+void TeamCityTestOutput::print_current_test_ended(
+    const mu::tiny::test::TestResult& res
+)
 {
   if (!currtest_)
     return;
@@ -37,7 +39,7 @@ void TeamCityTestOutput::print_current_test_ended(const cppmu::TestResult& res)
 }
 
 void TeamCityTestOutput::print_current_group_started(
-    const cppmu::TestShell& test
+    const mu::tiny::test::TestShell& test
 )
 {
   curr_group_ = test.get_group();
@@ -47,7 +49,7 @@ void TeamCityTestOutput::print_current_group_started(
 }
 
 void TeamCityTestOutput::
-    print_current_group_ended(const cppmu::TestResult& /*res*/)
+    print_current_group_ended(const mu::tiny::test::TestResult& /*res*/)
 {
   if (curr_group_ == "")
     return;
@@ -82,7 +84,9 @@ void TeamCityTestOutput::print_escaped(const char* s)
   }
 }
 
-void TeamCityTestOutput::print_failure(const cppmu::TestFailure& failure)
+void TeamCityTestOutput::print_failure(
+    const mu::tiny::test::TestFailure& failure
+)
 {
   print("##teamcity[testFailed name='");
   print_escaped(failure.get_test_name_only().c_str());
@@ -105,7 +109,7 @@ void TeamCityTestOutput::print_failure(const cppmu::TestFailure& failure)
 }
 
 TeamCityOutputPlugin::TeamCityOutputPlugin()
-  : cppmu::TestPlugin("TeamCityOutputPlugin")
+  : mu::tiny::test::TestPlugin("TeamCityOutputPlugin")
 {
 }
 
@@ -115,20 +119,20 @@ bool TeamCityOutputPlugin::parse_arguments(
     int index
 )
 {
-  cppmu::String arg = argv[index];
-  if (arg.size() > 2 && cppmu::String(arg.c_str() + 2) == "teamcity") {
+  mu::tiny::test::String arg = argv[index];
+  if (arg.size() > 2 && mu::tiny::test::String(arg.c_str() + 2) == "teamcity") {
     active_ = true;
     return true;
   }
   return false;
 }
 
-cppmu::String TeamCityOutputPlugin::get_help() const
+mu::tiny::test::String TeamCityOutputPlugin::get_help() const
 {
   return "  -pteamcity        - output TeamCity output\n";
 }
 
-cppmu::TestOutput* TeamCityOutputPlugin::create_output()
+mu::tiny::test::TestOutput* TeamCityOutputPlugin::create_output()
 {
   if (active_)
     return new TeamCityTestOutput;

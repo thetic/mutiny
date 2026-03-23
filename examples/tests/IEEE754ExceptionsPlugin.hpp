@@ -1,26 +1,26 @@
 #ifndef INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
 #define INCLUDED_IEEE754EXCEPTIONSPLUGIN_HPP
 
-#ifndef CPPMU_HAVE_FENV
-#define CPPMU_HAVE_FENV 0
+#ifndef MUTINY_HAVE_FENV
+#define MUTINY_HAVE_FENV 0
 #endif
 
-#include "CppMu/TestPlugin.hpp"
+#include "mutiny/test/Plugin.hpp"
 
-class IEEE754ExceptionsPlugin : public cppmu::TestPlugin
+class IEEE754ExceptionsPlugin : public mu::tiny::test::TestPlugin
 {
 public:
   IEEE754ExceptionsPlugin(
-      const cppmu::String& name = "IEEE754ExceptionsPlugin"
+      const mu::tiny::test::String& name = "IEEE754ExceptionsPlugin"
   );
 
   void pre_test_action(
-      cppmu::TestShell& test,
-      cppmu::TestResult& result
+      mu::tiny::test::TestShell& test,
+      mu::tiny::test::TestResult& result
   ) override;
   void post_test_action(
-      cppmu::TestShell& test,
-      cppmu::TestResult& result
+      mu::tiny::test::TestShell& test,
+      mu::tiny::test::TestResult& result
   ) override;
 
   static void disable_inexact(void);
@@ -32,8 +32,8 @@ public:
 
 private:
   void ieee754_check(
-      cppmu::TestShell& test,
-      cppmu::TestResult& result,
+      mu::tiny::test::TestShell& test,
+      mu::tiny::test::TestResult& result,
       int flag,
       const char* text
   );

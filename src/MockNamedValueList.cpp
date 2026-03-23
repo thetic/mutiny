@@ -1,6 +1,9 @@
-#include "CppMu/MockNamedValueList.hpp"
+#include "mutiny/mock/NamedValueList.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 void MockNamedValueListNode::set_next(MockNamedValueListNode* node)
 {
@@ -74,4 +77,6 @@ MockNamedValueListNode* MockNamedValueList::begin()
   return head_;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

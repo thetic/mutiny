@@ -1,7 +1,6 @@
-#include "CppMu/TestShellPointerArray.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/IgnoredTestShell.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/IgnoredShell.hpp"
+#include "mutiny/test/ShellPointerArray.hpp"
 
 namespace {
 int get_zero()
@@ -17,15 +16,15 @@ int get_one()
 
 TEST_GROUP(TestShellPointerArray)
 {
-  cppmu::TestShell* test0;
-  cppmu::TestShell* test1;
-  cppmu::TestShell* test2;
+  mu::tiny::test::TestShell* test0;
+  mu::tiny::test::TestShell* test1;
+  mu::tiny::test::TestShell* test2;
 
   void setup() override
   {
-    test0 = new cppmu::IgnoredTestShell();
-    test1 = new cppmu::IgnoredTestShell();
-    test2 = new cppmu::IgnoredTestShell();
+    test0 = new mu::tiny::test::IgnoredTestShell();
+    test1 = new mu::tiny::test::IgnoredTestShell();
+    test2 = new mu::tiny::test::IgnoredTestShell();
 
     test0->add_test(test1);
     test1->add_test(test2);
@@ -41,14 +40,14 @@ TEST_GROUP(TestShellPointerArray)
 
 TEST(TestShellPointerArray, empty)
 {
-  cppmu::TestShellPointerArray tests(nullptr);
+  mu::tiny::test::TestShellPointerArray tests(nullptr);
   tests.shuffle(0);
   CHECK(nullptr == tests.get_first_test());
 }
 
 TEST(TestShellPointerArray, testsAreInOrder)
 {
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   CHECK(tests.get(0) == test0);
   CHECK(tests.get(1) == test1);
   CHECK(tests.get(2) == test2);
@@ -56,7 +55,7 @@ TEST(TestShellPointerArray, testsAreInOrder)
 
 TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 {
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   tests.relink_tests_in_order();
   CHECK(tests.get(0) == test0);
   CHECK(tests.get(1) == test1);
@@ -65,18 +64,18 @@ TEST(TestShellPointerArray, relinkingTestsWillKeepThemTheSameWhenNothingWasDone)
 
 TEST(TestShellPointerArray, firstTestisNotTheFirstTestWithSeed1234)
 {
-  CPPMU_PTR_SET(cppmu::rand, get_zero);
+  MUTINY_PTR_SET(mu::tiny::test::rand, get_zero);
 
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   tests.shuffle(1234);
   CHECK(tests.get_first_test() != test0);
 }
 
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 {
-  CPPMU_PTR_SET(cppmu::rand, get_zero);
+  MUTINY_PTR_SET(mu::tiny::test::rand, get_zero);
 
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   tests.shuffle(3);
   CHECK(tests.get(0) == test1);
   CHECK(tests.get(1) == test2);
@@ -87,9 +86,9 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningZero)
 // 1, 2
 TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 {
-  CPPMU_PTR_SET(cppmu::rand, get_one);
+  MUTINY_PTR_SET(mu::tiny::test::rand, get_one);
 
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   tests.shuffle(3);
   CHECK(tests.get(0) == test0);
   CHECK(tests.get(1) == test2);
@@ -98,9 +97,9 @@ TEST(TestShellPointerArray, ShuffleListTestWithRandomAlwaysReturningOne)
 
 TEST(TestShellPointerArray, reverse)
 {
-  CPPMU_PTR_SET(cppmu::rand, get_one);
+  MUTINY_PTR_SET(mu::tiny::test::rand, get_one);
 
-  cppmu::TestShellPointerArray tests(test0);
+  mu::tiny::test::TestShellPointerArray tests(test0);
   tests.reverse();
   CHECK(tests.get(0) == test2);
   CHECK(tests.get(1) == test1);

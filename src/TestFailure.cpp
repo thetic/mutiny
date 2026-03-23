@@ -1,11 +1,10 @@
-#include "CppMu/TestFailure.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/String.hpp"
+#include "mutiny/test/math.hpp"
 
-#include "CppMu/String.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestShell.hpp"
-#include "CppMu/math.hpp"
-
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 #include <typeinfo>
 #if defined(__GNUC__)
 #include <memory>
@@ -14,7 +13,9 @@
 #endif
 #endif
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 namespace {
 size_t get_printable_size(String const& str)
 {
@@ -271,8 +272,8 @@ DoublesEqualFailure::DoublesEqualFailure(
   message_ += string_from(threshold, 7);
   message_ += ">";
 
-  if (cppmu::is_nan(expected) || cppmu::is_nan(actual) ||
-      cppmu::is_nan(threshold))
+  if (mu::tiny::test::is_nan(expected) || mu::tiny::test::is_nan(actual) ||
+      mu::tiny::test::is_nan(threshold))
     message_ += "\n\tCannot make comparisons with Nan";
 }
 
@@ -603,14 +604,14 @@ FeatureUnsupportedFailure::FeatureUnsupportedFailure(
   );
 }
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 UnexpectedExceptionFailure::UnexpectedExceptionFailure(TestShell* test)
   : TestFailure(test, "Unexpected exception of unknown type was thrown.")
 {
 }
 
-#if CPPMU_USE_STD_CPP_LIB
-#if CPPMU_HAVE_RTTI
+#if MUTINY_USE_STD_CPP_LIB
+#if MUTINY_HAVE_RTTI
 namespace {
 String get_exception_type_name(const std::exception& e)
 {
@@ -628,7 +629,7 @@ String get_exception_type_name(const std::exception& e)
 #endif
 }
 } // namespace
-#endif // CPPMU_HAVE_RTTI
+#endif // MUTINY_HAVE_RTTI
 
 UnexpectedExceptionFailure::UnexpectedExceptionFailure(
     TestShell* test,
@@ -636,7 +637,7 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(
 )
   : TestFailure(
         test,
-#if CPPMU_HAVE_RTTI
+#if MUTINY_HAVE_RTTI
         string_from_format(
             "Unexpected exception of type '%s' was thrown: %s",
             get_exception_type_name(e).c_str(),
@@ -649,7 +650,9 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(
 {
   (void)e;
 }
-#endif // CPPMU_USE_STD_CPP_LIB
-#endif // CPPMU_HAVE_EXCEPTIONS
+#endif // MUTINY_USE_STD_CPP_LIB
+#endif // MUTINY_HAVE_EXCEPTIONS
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

@@ -1,8 +1,8 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 TEST_GROUP(MockReturnValue)
 {
@@ -31,7 +31,7 @@ TEST(MockReturnValue, UnsignedIntegerReturnValue)
 
   mock().expect_one_call("foo").and_return_value(expected_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   LONGS_EQUAL(
       expected_value, actual_call.return_value().get_unsigned_int_value()
@@ -567,7 +567,7 @@ TEST(MockReturnValue, BooleanReturnValue)
 {
   bool expected_value = true;
   mock().expect_one_call("foo").and_return_value(true);
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   CHECK_EQUAL(expected_value, actual_call.return_value().get_bool_value());
   CHECK_EQUAL(expected_value, actual_call.return_bool_value());
@@ -635,7 +635,7 @@ TEST(MockReturnValue, IntegerReturnValue)
 {
   int expected_value = 1;
   mock().expect_one_call("foo").and_return_value(1);
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   LONGS_EQUAL(expected_value, actual_call.return_value().get_int_value());
   LONGS_EQUAL(expected_value, actual_call.return_int_value());
@@ -704,7 +704,7 @@ TEST(MockReturnValue, LongIntegerReturnValue)
   long int expected_value = 7;
   mock().expect_one_call("foo").and_return_value(expected_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   LONGS_EQUAL(expected_value, actual_call.return_value().get_long_int_value());
   LONGS_EQUAL(expected_value, actual_call.return_long_int_value());
   LONGS_EQUAL(expected_value, mock().return_value().get_long_int_value());
@@ -774,7 +774,7 @@ TEST(MockReturnValue, UnsignedLongIntegerReturnValue)
   unsigned long int expected_value = 7;
   mock().expect_one_call("foo").and_return_value(expected_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   LONGS_EQUAL(
       expected_value, actual_call.return_value().get_unsigned_long_int_value()
   );
@@ -853,7 +853,7 @@ TEST(MockReturnValue, LongLongIntegerReturnValue)
   long long int expected_value = 7;
   mock().expect_one_call("foo").and_return_value(expected_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   LONGLONGS_EQUAL(
       expected_value, actual_call.return_value().get_long_long_int_value()
   );
@@ -931,7 +931,7 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValue)
   unsigned long long int expected_value = 7;
   mock().expect_one_call("foo").and_return_value(expected_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   UNSIGNED_LONGLONGS_EQUAL(
       expected_value,
       actual_call.return_value().get_unsigned_long_long_int_value()
@@ -1096,7 +1096,7 @@ TEST(MockReturnValue, WhenNoStringReturnValueIsExpectedButThereIsADefaultShouldl
 TEST(MockReturnValue, StringReturnValue)
 {
   mock().expect_one_call("foo").and_return_value("hello world");
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   STRCMP_EQUAL("hello world", actual_call.return_value().get_string_value());
   STRCMP_EQUAL("hello world", actual_call.return_string_value());
@@ -1108,7 +1108,7 @@ TEST(MockReturnValue, DoubleReturnValue)
   double expected_return_value = 7.8;
   mock().expect_one_call("foo").and_return_value(expected_return_value);
 
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   DOUBLES_EQUAL(
       expected_return_value, actual_call.return_value().get_double_value(), 0.05
   );
@@ -1219,7 +1219,7 @@ TEST(MockReturnValue, PointerReturnValue)
 {
   void* ptr = reinterpret_cast<void*>(0x00107);
   mock().expect_one_call("foo").and_return_value(ptr);
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   POINTERS_EQUAL(ptr, actual_call.return_value().get_pointer_value());
   POINTERS_EQUAL(ptr, actual_call.return_pointer_value());
@@ -1230,7 +1230,7 @@ TEST(MockReturnValue, ConstPointerReturnValue)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001074);
   mock().expect_one_call("foo").and_return_value(ptr);
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
   POINTERS_EQUAL(ptr, actual_call.return_value().get_const_pointer_value());
   POINTERS_EQUAL(ptr, actual_call.return_const_pointer_value());
   POINTERS_EQUAL(ptr, mock().const_pointer_return_value());
@@ -1240,7 +1240,7 @@ TEST(MockReturnValue, FunctionPointerReturnValue)
 {
   auto ptr = reinterpret_cast<void (*)()>(0x00107);
   mock().expect_one_call("foo").and_return_value(ptr);
-  cppmu::MockActualCall& actual_call = mock().actual_call("foo");
+  mu::tiny::mock::MockActualCall& actual_call = mock().actual_call("foo");
 
   FUNCTIONPOINTERS_EQUAL(
       ptr, actual_call.return_value().get_function_pointer_value()

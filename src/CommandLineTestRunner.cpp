@@ -1,13 +1,14 @@
-#include "CppMu/CommandLineTestRunner.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
+#include "mutiny/test/CompositeOutput.hpp"
+#include "mutiny/test/ConsoleOutput.hpp"
+#include "mutiny/test/JUnitOutputPlugin.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/SetPointerPlugin.hpp"
 
-#include "CppMu/CompositeTestOutput.hpp"
-#include "CppMu/ConsoleTestOutput.hpp"
-#include "CppMu/JUnitOutputPlugin.hpp"
-#include "CppMu/SetPointerPlugin.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestRegistry.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 int CommandLineTestRunner::run_all_tests(int argc, char** argv)
 {
@@ -175,4 +176,6 @@ bool CommandLineTestRunner::parse_arguments(TestPlugin* plugin)
   return true;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

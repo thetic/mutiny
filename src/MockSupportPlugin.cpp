@@ -1,20 +1,22 @@
-#include "CppMu/MockSupportPlugin.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/mock/Failure.hpp"
+#include "mutiny/mock/SupportPlugin.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
 
-#include "CppMu/MockFailure.hpp"
-#include "CppMu/MockSupport.hpp"
-#include "CppMu/TestResult.hpp"
-#include "CppMu/TestShell.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 namespace {
 class MockSupportPluginReporter : public MockFailureReporter
 {
-  cppmu::TestShell& test_;
+  mu::tiny::test::TestShell& test_;
   TestResult& result_;
 
 public:
-  MockSupportPluginReporter(cppmu::TestShell& test, TestResult& result)
+  MockSupportPluginReporter(mu::tiny::test::TestShell& test, TestResult& result)
     : test_(test)
     , result_(result)
   {
@@ -22,7 +24,7 @@ public:
 
   void fail_test(MockFailure failure) override { result_.add_failure(failure); }
 
-  cppmu::TestShell* get_test_to_fail() override { return &test_; }
+  mu::tiny::test::TestShell* get_test_to_fail() override { return &test_; }
 };
 }
 
@@ -41,13 +43,13 @@ void MockSupportPlugin::clear()
   repository_.clear();
 }
 
-void MockSupportPlugin::pre_test_action(cppmu::TestShell&, TestResult&)
+void MockSupportPlugin::pre_test_action(mu::tiny::test::TestShell&, TestResult&)
 {
   mock().install_comparators_and_copiers(repository_);
 }
 
 void MockSupportPlugin::post_test_action(
-    cppmu::TestShell& test,
+    mu::tiny::test::TestShell& test,
     TestResult& result
 )
 {
@@ -76,4 +78,6 @@ void MockSupportPlugin::install_copier(
   repository_.install_copier(name, copier);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

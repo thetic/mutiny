@@ -1,11 +1,13 @@
-#include "CppMu/CommandLineArguments.hpp"
+#include "mutiny/test/CommandLineArguments.hpp"
 
-#include "CppMu/StringCollection.hpp"
-#include "CppMu/TestPlugin.hpp"
-#include "CppMu/TestRegistry.hpp"
-#include "CppMu/time.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/StringCollection.hpp"
+#include "mutiny/test/time.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
 String sub_string_from_till(
@@ -312,7 +314,8 @@ bool CommandLineArguments::set_shuffle(
 )
 {
   shuffling_ = true;
-  shuffle_seed_ = static_cast<unsigned int>(cppmu::get_time_in_millis());
+  shuffle_seed_ =
+      static_cast<unsigned int>(mu::tiny::test::get_time_in_millis());
   if (shuffle_seed_ == 0)
     shuffle_seed_++;
 
@@ -491,4 +494,6 @@ void CommandLineArguments::add_test_to_run_based_on_verbose_output(
   name_filters_ = namefilter->add(name_filters_);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

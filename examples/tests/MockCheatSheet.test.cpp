@@ -1,13 +1,13 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockSupport.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/test.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 namespace {
 /* Stubbed out product code using linker, function pointer, or overriding */
 int foo(const char* param_string, int param_int)
 {
-  /* Tell CppMu Mocking what we mock. Also return recorded value */
+  /* Tell mutiny Mocking what we mock. Also return recorded value */
   return mock()
       .actual_call("Foo")
       .with_parameter("param_string", param_string)

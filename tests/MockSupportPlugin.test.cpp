@@ -1,28 +1,27 @@
-#include "CppMu/MockSupportPlugin.hpp"
-
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockSupport.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/mock/SupportPlugin.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 TEST_GROUP(MockSupportPlugin)
 {
-  cppmu::StringBufferTestOutput output;
+  mu::tiny::test::StringBufferTestOutput output;
 
-  cppmu::TestShell* test;
-  cppmu::TestResult* result;
+  mu::tiny::test::TestShell* test;
+  mu::tiny::test::TestResult* result;
 
-  cppmu::MockSupportPlugin plugin;
+  mu::tiny::mock::MockSupportPlugin plugin;
 
   void setup() override
   {
-    test = new cppmu::TestShell("group", "name", "file", 1);
-    result = new cppmu::TestResult(output);
+    test = new mu::tiny::test::TestShell("group", "name", "file", 1);
+    result = new mu::tiny::test::TestResult(output);
   }
 
   void teardown() override
@@ -36,7 +35,7 @@ TEST_GROUP(MockSupportPlugin)
 
 TEST(MockSupportPlugin, canBeDeletedThroughBasePointer)
 {
-  cppmu::TestPlugin* p = new cppmu::MockSupportPlugin;
+  mu::tiny::test::TestPlugin* p = new mu::tiny::mock::MockSupportPlugin;
   delete p;
 }
 
@@ -46,7 +45,7 @@ TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
 
   MockExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
-  cppmu::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
       test, expectations
   );
 
@@ -68,7 +67,7 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   MockExpectedCallsListForTest expectations;
   expectations.add_function("differentScope::foobar")
       ->on_object(reinterpret_cast<void*>(1));
-  cppmu::MockExpectedObjectDidntHappenFailure expected_failure(
+  mu::tiny::mock::MockExpectedObjectDidntHappenFailure expected_failure(
       test, "differentScope::foobar", expectations
   );
 
@@ -85,14 +84,17 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   CHECK_NO_MOCK_FAILURE();
 }
 
-class DummyComparator : public cppmu::MockNamedValueComparator
+class DummyComparator : public mu::tiny::mock::MockNamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
   {
     return object1 == object2;
   }
-  cppmu::String value_to_string(const void*) override { return "string"; }
+  mu::tiny::test::String value_to_string(const void*) override
+  {
+    return "string";
+  }
 };
 
 TEST(MockSupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
@@ -106,13 +108,13 @@ TEST(MockSupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet
   );
   mock().actual_call("foo").with_parameter_of_type("myType", "name", nullptr);
 
-  cppmu::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
+  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
 }
 
-class DummyCopier : public cppmu::MockNamedValueCopier
+class DummyCopier : public mu::tiny::mock::MockNamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -134,7 +136,7 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
       "myType", "name", nullptr
   );
 
-  cppmu::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
+  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
@@ -177,7 +179,7 @@ void fail_twice_function()
 
 TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
-  cppmu::TestTestingFixture fixture;
+  mu::tiny::test::TestTestingFixture fixture;
   fixture.install_plugin(&plugin);
   fixture.set_test_function(fail_twice_function);
   fixture.run_all_tests();

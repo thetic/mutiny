@@ -1,9 +1,11 @@
-#include "CppMu/MockNamedValue.hpp"
+#include "mutiny/mock/NamedValue.hpp"
+#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mutiny/test/Shell.hpp"
 
-#include "CppMu/MockNamedValueComparatorsAndCopiersRepository.hpp"
-#include "CppMu/TestShell.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 MockNamedValueComparatorsAndCopiersRepository*
     MockNamedValue::default_repository_ = nullptr;
@@ -535,4 +537,6 @@ String MockNamedValue::to_string() const
   );
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

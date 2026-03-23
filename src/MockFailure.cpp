@@ -1,11 +1,13 @@
-#include "CppMu/MockFailure.hpp"
+#include "mutiny/mock/ExpectedCall.hpp"
+#include "mutiny/mock/ExpectedCallsList.hpp"
+#include "mutiny/mock/Failure.hpp"
+#include "mutiny/mock/NamedValue.hpp"
+#include "mutiny/test/Shell.hpp"
 
-#include "CppMu/MockExpectedCall.hpp"
-#include "CppMu/MockExpectedCallsList.hpp"
-#include "CppMu/MockNamedValue.hpp"
-#include "CppMu/TestShell.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 class MockFailureReporterTestTerminator : public TestTerminator
 {
@@ -18,9 +20,10 @@ public:
   void exit_current_test() const override
   {
     if (crash_on_failure_)
-      cppmu::TestShell::crash();
+      mu::tiny::test::TestShell::crash();
 
-    cppmu::TestShell::get_current_test_terminator().exit_current_test();
+    mu::tiny::test::TestShell::get_current_test_terminator()
+        .exit_current_test();
   }
 
   ~MockFailureReporterTestTerminator() override = default;
@@ -51,12 +54,12 @@ void MockFailureReporter::fail_test(MockFailure failure)
   }
 }
 
-cppmu::TestShell* MockFailureReporter::get_test_to_fail()
+mu::tiny::test::TestShell* MockFailureReporter::get_test_to_fail()
 {
-  return cppmu::TestShell::get_current();
+  return mu::tiny::test::TestShell::get_current();
 }
 
-MockFailure::MockFailure(cppmu::TestShell* test)
+MockFailure::MockFailure(mu::tiny::test::TestShell* test)
   : TestFailure(
         test,
         "Test failed with MockFailure without an error! Something went "
@@ -97,7 +100,7 @@ void MockFailure::add_expectations_and_call_history_related_to(
 }
 
 MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const MockExpectedCallsList& expectations
 )
   : MockFailure(test)
@@ -107,7 +110,7 @@ MockExpectedCallsDidntHappenFailure::MockExpectedCallsDidntHappenFailure(
 }
 
 MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const String& name,
     const MockExpectedCallsList& expectations
 )
@@ -131,7 +134,7 @@ MockUnexpectedCallHappenedFailure::MockUnexpectedCallHappenedFailure(
 }
 
 MockCallOrderFailure::MockCallOrderFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const MockExpectedCallsList& expectations
 )
   : MockFailure(test)
@@ -146,7 +149,7 @@ MockCallOrderFailure::MockCallOrderFailure(
 }
 
 MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const String& function_name,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations
@@ -192,7 +195,7 @@ MockUnexpectedInputParameterFailure::MockUnexpectedInputParameterFailure(
 }
 
 MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const String& function_name,
     MockNamedValue parameter,
     const MockExpectedCallsList& expectations
@@ -236,7 +239,7 @@ MockUnexpectedOutputParameterFailure::MockUnexpectedOutputParameterFailure(
 
 MockExpectedParameterDidntHappenFailure::
     MockExpectedParameterDidntHappenFailure(
-        cppmu::TestShell* test,
+        mu::tiny::test::TestShell* test,
         const String& function_name,
         const MockExpectedCallsList& all_expectations,
         const MockExpectedCallsList& matching_expectations
@@ -259,7 +262,7 @@ MockExpectedParameterDidntHappenFailure::
 }
 
 MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     String type_name
 )
   : MockFailure(test)
@@ -272,7 +275,7 @@ MockNoWayToCompareCustomTypeFailure::MockNoWayToCompareCustomTypeFailure(
 }
 
 MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     String type_name
 )
   : MockFailure(test)
@@ -285,7 +288,7 @@ MockNoWayToCopyCustomTypeFailure::MockNoWayToCopyCustomTypeFailure(
 }
 
 MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const String& function_name,
     const void* actual,
     const MockExpectedCallsList& expectations
@@ -302,7 +305,7 @@ MockUnexpectedObjectFailure::MockUnexpectedObjectFailure(
 }
 
 MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
-    cppmu::TestShell* test,
+    mu::tiny::test::TestShell* test,
     const String& function_name,
     const MockExpectedCallsList& expectations
 )
@@ -316,4 +319,6 @@ MockExpectedObjectDidntHappenFailure::MockExpectedObjectDidntHappenFailure(
   add_expectations_and_call_history_related_to(function_name, expectations);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

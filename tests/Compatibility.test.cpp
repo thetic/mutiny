@@ -1,7 +1,7 @@
 
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 
 #include <memory>
 

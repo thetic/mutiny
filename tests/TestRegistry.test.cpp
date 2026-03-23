@@ -1,10 +1,9 @@
-#include "CppMu/TestRegistry.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/OrderedTest.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/time.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Ordered.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
+#include "mutiny/test/time.hpp"
 
 namespace {
 const int test_line_number = 1;
@@ -14,7 +13,7 @@ int get_zero()
   return 0;
 }
 
-class MockTest : public cppmu::TestShell
+class MockTest : public mu::tiny::test::TestShell
 {
 public:
   MockTest(const char* group = "Group")
@@ -22,7 +21,10 @@ public:
 
   {
   }
-  void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override
+  void run_one_test(
+      mu::tiny::test::TestPlugin*,
+      mu::tiny::test::TestResult&
+  ) override
   {
     has_run = true;
   }
@@ -30,13 +32,18 @@ public:
   bool has_run{ false };
 };
 
-class MockOrderedTest : public cppmu::OrderedTestShell
+class MockOrderedTest : public mu::tiny::test::OrderedTestShell
 {
 public:
-  void run_one_test(cppmu::TestPlugin*, cppmu::TestResult&) override {}
+  void run_one_test(
+      mu::tiny::test::TestPlugin*,
+      mu::tiny::test::TestResult&
+  ) override
+  {
+  }
 };
 
-class MockTestResult : public cppmu::TestResult
+class MockTestResult : public mu::tiny::test::TestResult
 {
 public:
   int count_tests_started;
@@ -46,7 +53,7 @@ public:
   int count_current_group_started;
   int count_current_group_ended;
 
-  MockTestResult(cppmu::TestOutput& p)
+  MockTestResult(mu::tiny::test::TestOutput& p)
     : TestResult(p)
   {
     reset_count();
@@ -66,36 +73,42 @@ public:
 
   void tests_started() override { count_tests_started++; }
   void tests_ended() override { count_tests_ended++; }
-  void current_test_started(cppmu::TestShell* /*test*/) override
+  void current_test_started(mu::tiny::test::TestShell* /*test*/) override
   {
     count_current_test_started++;
   }
-  void current_test_ended(cppmu::TestShell* /*test*/) override
+  void current_test_ended(mu::tiny::test::TestShell* /*test*/) override
   {
     count_current_test_ended++;
   }
-  void current_group_started(cppmu::TestShell* /*test*/) override
+  void current_group_started(mu::tiny::test::TestShell* /*test*/) override
   {
     count_current_group_started++;
   }
-  void current_group_ended(cppmu::TestShell* /*test*/) override
+  void current_group_ended(mu::tiny::test::TestShell* /*test*/) override
   {
     count_current_group_ended++;
   }
 };
 
-class MyTestPluginDummy : public cppmu::TestPlugin
+class MyTestPluginDummy : public mu::tiny::test::TestPlugin
 {
 public:
-  MyTestPluginDummy(const cppmu::String& name)
+  MyTestPluginDummy(const mu::tiny::test::String& name)
     : TestPlugin(name)
   {
   }
   ~MyTestPluginDummy() override = default;
-  void run_all_pre_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void run_all_pre_test_action(
+      mu::tiny::test::TestShell&,
+      mu::tiny::test::TestResult&
+  ) override
   {
   }
-  void run_all_post_test_action(cppmu::TestShell&, cppmu::TestResult&) override
+  void run_all_post_test_action(
+      mu::tiny::test::TestShell&,
+      mu::tiny::test::TestResult&
+  ) override
   {
   }
 };
@@ -104,18 +117,18 @@ public:
 
 TEST_GROUP(TestRegistry)
 {
-  cppmu::TestRegistry* my_registry;
-  cppmu::StringBufferTestOutput* output;
+  mu::tiny::test::TestRegistry* my_registry;
+  mu::tiny::test::StringBufferTestOutput* output;
   MockTest* test1;
   MockTest* test2;
   MockTest* test3;
   MockTest* test4;
   MockOrderedTest* ordered_test;
-  cppmu::TestResult* result;
+  mu::tiny::test::TestResult* result;
   MockTestResult* mock_result;
   void setup() override
   {
-    output = new cppmu::StringBufferTestOutput();
+    output = new mu::tiny::test::StringBufferTestOutput();
     mock_result = new MockTestResult(*output);
     result = mock_result;
     test1 = new MockTest();
@@ -123,7 +136,7 @@ TEST_GROUP(TestRegistry)
     test3 = new MockTest("group2");
     test4 = new MockTest();
     ordered_test = new MockOrderedTest();
-    my_registry = new cppmu::TestRegistry();
+    my_registry = new mu::tiny::test::TestRegistry();
     my_registry->set_current_registry(my_registry);
   }
 
@@ -270,7 +283,7 @@ TEST(TestRegistry, nameFilterWorks)
 {
   test1->set_test_name("testname");
   test2->set_test_name("noname");
-  cppmu::TestFilter name_filter("testname");
+  mu::tiny::test::TestFilter name_filter("testname");
   my_registry->set_name_filters(&name_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
@@ -281,7 +294,7 @@ TEST(TestRegistry, groupFilterWorks)
 {
   test1->set_group_name("groupname");
   test2->set_group_name("noname");
-  cppmu::TestFilter group_filter("groupname");
+  mu::tiny::test::TestFilter group_filter("groupname");
   my_registry->set_group_filters(&group_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
@@ -326,7 +339,7 @@ TEST(TestRegistry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGr
   my_registry->add_test(test4);
 
   my_registry->list_test_group_names(*result);
-  cppmu::String s = output->get_output();
+  mu::tiny::test::String s = output->get_output();
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
@@ -343,7 +356,7 @@ TEST(TestRegistry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfter
   my_registry->add_test(test3);
 
   my_registry->list_test_group_and_case_names(*result);
-  cppmu::String s = output->get_output();
+  mu::tiny::test::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
@@ -366,7 +379,7 @@ TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAte
   my_registry->add_test(test3);
 
   my_registry->list_test_locations(*result);
-  cppmu::String s = output->get_output();
+  mu::tiny::test::String s = output->get_output();
   STRCMP_EQUAL(
       "GROUP_A.test_aa.cpptest_simple/my_tests/"
       "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "
@@ -410,14 +423,14 @@ TEST(TestRegistry, shuffleSingleTestIsNoOp)
 
 IGNORE_TEST(TestRegistry, shuffleTestList)
 {
-  CPPMU_PTR_SET(cppmu::rand, get_zero);
+  MUTINY_PTR_SET(mu::tiny::test::rand, get_zero);
   my_registry->add_test(test3);
   my_registry->add_test(test2);
   my_registry->add_test(test1);
 
-  cppmu::TestShell* first_before = my_registry->get_first_test();
-  cppmu::TestShell* second_before = first_before->get_next();
-  cppmu::TestShell* third_before = second_before->get_next();
+  mu::tiny::test::TestShell* first_before = my_registry->get_first_test();
+  mu::tiny::test::TestShell* second_before = first_before->get_next();
+  mu::tiny::test::TestShell* third_before = second_before->get_next();
 
   CHECK_TRUE(first_before == test1);
   CHECK_TRUE(second_before == test2);
@@ -427,9 +440,9 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
   // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
   my_registry->shuffle_tests(0);
 
-  cppmu::TestShell* first_after = my_registry->get_first_test();
-  cppmu::TestShell* second_after = first_after->get_next();
-  cppmu::TestShell* third_after = second_after->get_next();
+  mu::tiny::test::TestShell* first_after = my_registry->get_first_test();
+  mu::tiny::test::TestShell* second_after = first_after->get_next();
+  mu::tiny::test::TestShell* third_after = second_after->get_next();
 
   CHECK_TRUE(first_after == test2);
   CHECK_TRUE(second_after == test3);

@@ -6,7 +6,7 @@ extern "C"
 {
 #endif
 
-  void cppmu_all_mock_support_c_calls(void);
+  void mutiny_all_mock_support_c_calls(void);
 
 #ifdef __cplusplus
 }

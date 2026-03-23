@@ -1,17 +1,19 @@
-#include "CppMu/String.hpp"
+#include "mutiny/test/String.hpp"
 
-#include "CppMu/math.hpp"
+#include "mutiny/test/math.hpp"
 
 #include <limits.h>
 #include <stdio.h>
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 #include <string>
 #endif
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
-#if !CPPMU_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_CPP_LIB
 char* str_n_cpy(char* s1, const char* s2, size_t n)
 {
   char* result = s1;
@@ -52,7 +54,7 @@ bool is_upper(char ch)
 }
 } // namespace
 
-#if !CPPMU_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_CPP_LIB
 char* String::get_empty_string() const
 {
   char* buf = new char[1];
@@ -602,7 +604,7 @@ String brackets_formatted_hex_string(const String& hex_string)
   return String("(0x") + hex_string + ")";
 }
 
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
 String string_from(const std::nullptr_t value)
 {
   (void)value;
@@ -652,9 +654,9 @@ String brackets_formatted_hex_string_from(unsigned long long value)
 
 String string_from(double value, int precision)
 {
-  if (cppmu::is_nan(value))
+  if (mu::tiny::test::is_nan(value))
     return "Nan - Not a number";
-  else if (cppmu::is_inf(value))
+  else if (mu::tiny::test::is_inf(value))
     return "Inf - Infinity";
   else
     return string_from_format("%.*g", precision, value);
@@ -705,7 +707,7 @@ String v_string_from_format(const char* format, va_list args)
   if (size < size_ofdefault_buffer) {
     result_string = String(default_buffer);
   } else {
-#if !CPPMU_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_CPP_LIB
     result_string.resize(size);
     vsnprintf(result_string.data(), size + 1, format, args_copy);
 #else
@@ -781,4 +783,6 @@ String string_from_ordinal_number(unsigned int number)
   return string_from_format("%u%s", number, suffix);
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

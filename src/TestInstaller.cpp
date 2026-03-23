@@ -1,9 +1,10 @@
-#include "CppMu/TestInstaller.hpp"
+#include "mutiny/test/Installer.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/Shell.hpp"
 
-#include "CppMu/TestRegistry.hpp"
-#include "CppMu/TestShell.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 TestInstaller::TestInstaller(
     TestShell& shell,
@@ -25,4 +26,6 @@ void TestInstaller::un_do()
   TestRegistry::get_current_registry()->un_do_last_add_test();
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

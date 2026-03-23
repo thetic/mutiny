@@ -1,6 +1,9 @@
-#include "CppMu/MockCheckedExpectedCall.hpp"
+#include "mutiny/mock/CheckedExpectedCall.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
 
 String string_from(const MockNamedValue& parameter)
 {
@@ -270,7 +273,7 @@ MockExpectedCall& MockCheckedExpectedCall::with_unmodified_output_parameter(
 String MockCheckedExpectedCall::get_input_parameter_type(const String& name)
 {
   MockNamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? p->get_type() : cppmu::string_from("");
+  return (p) ? p->get_type() : mu::tiny::test::string_from("");
 }
 
 bool MockCheckedExpectedCall::has_input_parameter_with_name(const String& name)
@@ -395,7 +398,7 @@ String MockCheckedExpectedCall::get_input_parameter_value_string(
 )
 {
   MockNamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? string_from(*p) : cppmu::string_from("failed");
+  return (p) ? string_from(*p) : mu::tiny::test::string_from("failed");
 }
 
 bool MockCheckedExpectedCall::has_input_parameter(
@@ -665,4 +668,6 @@ unsigned int MockCheckedExpectedCall::get_actual_calls_fulfilled() const
   return actual_calls_;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::mock

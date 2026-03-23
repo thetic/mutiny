@@ -1,9 +1,10 @@
-#include "CppMu/TestPlugin.hpp"
+#include "mutiny/test/NullPlugin.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Plugin.hpp"
 
-#include "CppMu/NullTestPlugin.hpp"
-#include "CppMu/TestOutput.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 TestPlugin::TestPlugin(const String& name)
   : next_(NullTestPlugin::instance())
@@ -127,4 +128,6 @@ bool TestPlugin::is_enabled()
   return enabled_;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

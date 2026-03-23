@@ -1,9 +1,9 @@
-#include "CppMu/SetPointerPlugin.hpp"
+#include "mutiny/test/SetPointerPlugin.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
 
 namespace {
 void orig_func1() {}
@@ -21,35 +21,38 @@ double orig_double = 3.0;
 double* orig_double_ptr = &orig_double;
 double stub_double = 4.0;
 
-class SetDoublePointerGroup : public cppmu::Test
+class SetDoublePointerGroup : public mu::tiny::test::Test
 {
 public:
-  void setup() override { CPPMU_PTR_SET(orig_double_ptr, &stub_double); }
+  void setup() override { MUTINY_PTR_SET(orig_double_ptr, &stub_double); }
   void test_body() override { CHECK(orig_double_ptr == &stub_double); }
 };
 
-class SetDoublePointerShell : public cppmu::TestShell
+class SetDoublePointerShell : public mu::tiny::test::TestShell
 {
 public:
-  cppmu::Test* create_test() override { return new SetDoublePointerGroup(); }
+  mu::tiny::test::Test* create_test() override
+  {
+    return new SetDoublePointerGroup();
+  }
 };
 }
 
 TEST_GROUP(SetPointerPlugin)
 {
-  cppmu::SetPointerPlugin* plugin;
-  cppmu::TestRegistry* my_registry;
-  cppmu::StringBufferTestOutput* output;
-  cppmu::TestResult* result;
+  mu::tiny::test::SetPointerPlugin* plugin;
+  mu::tiny::test::TestRegistry* my_registry;
+  mu::tiny::test::StringBufferTestOutput* output;
+  mu::tiny::test::TestResult* result;
 
   void setup() override
   {
-    my_registry = new cppmu::TestRegistry();
-    plugin = new cppmu::SetPointerPlugin;
+    my_registry = new mu::tiny::test::TestRegistry();
+    plugin = new mu::tiny::test::SetPointerPlugin;
     my_registry->set_current_registry(my_registry);
     my_registry->install_plugin(plugin);
-    output = new cppmu::StringBufferTestOutput();
-    result = new cppmu::TestResult(*output);
+    output = new mu::tiny::test::StringBufferTestOutput();
+    result = new mu::tiny::test::TestResult(*output);
   }
 
   void teardown() override
@@ -62,14 +65,14 @@ TEST_GROUP(SetPointerPlugin)
   }
 };
 
-class FunctionPointerGroup : public cppmu::Test
+class FunctionPointerGroup : public mu::tiny::test::Test
 {
 public:
   void setup() override
   {
-    CPPMU_PTR_SET(fp1, stub_func1);
-    CPPMU_PTR_SET(fp2, stub_func2);
-    CPPMU_PTR_SET(fp2, stub_func2);
+    MUTINY_PTR_SET(fp1, stub_func1);
+    MUTINY_PTR_SET(fp2, stub_func2);
+    MUTINY_PTR_SET(fp2, stub_func2);
   }
   void test_body() override
   {
@@ -78,10 +81,13 @@ public:
   }
 };
 
-class FunctionPointerShell : public cppmu::TestShell
+class FunctionPointerShell : public mu::tiny::test::TestShell
 {
 public:
-  cppmu::Test* create_test() override { return new FunctionPointerGroup(); }
+  mu::tiny::test::Test* create_test() override
+  {
+    return new FunctionPointerGroup();
+  }
 };
 
 TEST(SetPointerPlugin, installTwoFunctionPointer)
@@ -99,7 +105,7 @@ TEST(SetPointerPlugin, installTwoFunctionPointer)
   delete tst;
 }
 
-class MaxFunctionPointerGroup : public cppmu::Test
+class MaxFunctionPointerGroup : public mu::tiny::test::Test
 {
 public:
   int num_of_fp_sets;
@@ -111,12 +117,12 @@ public:
   void setup() override
   {
     for (int i = 0; i < num_of_fp_sets; ++i) {
-      CPPMU_PTR_SET(fp1, stub_func1);
+      MUTINY_PTR_SET(fp1, stub_func1);
     }
   }
 };
 
-class MaxFunctionPointerShell : public cppmu::TestShell
+class MaxFunctionPointerShell : public mu::tiny::test::TestShell
 {
 public:
   int num_of_fp_sets;
@@ -125,7 +131,7 @@ public:
   {
   }
 
-  cppmu::Test* create_test() override
+  mu::tiny::test::Test* create_test() override
   {
     return new MaxFunctionPointerGroup(num_of_fp_sets);
   }
@@ -133,7 +139,9 @@ public:
 
 TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 {
-  auto* tst = new MaxFunctionPointerShell(cppmu::SetPointerPlugin::max_set + 1);
+  auto* tst = new MaxFunctionPointerShell(
+      mu::tiny::test::SetPointerPlugin::max_set + 1
+  );
   my_registry->add_test(tst);
 
   my_registry->run_all_tests(*result);
@@ -144,8 +152,8 @@ TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 
 EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 {
-  for (int i = 0; i <= cppmu::SetPointerPlugin::max_set; ++i) {
-    CPPMU_PTR_SET(fp1, stub_func1);
+  for (int i = 0; i <= mu::tiny::test::SetPointerPlugin::max_set; ++i) {
+    MUTINY_PTR_SET(fp1, stub_func1);
   }
 }
 

@@ -11,7 +11,7 @@
         "CMAKE_CXX_EXTENSIONS": false,
         "CMAKE_C_EXTENSIONS": false,
         "CMAKE_OPTIMIZE_DEPENDENCIES": true,
-        "CMAKE_PROJECT_CppMu_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
+        "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
         "CMAKE_VERIFY_INTERFACE_HEADER_SETS": true
       }
     },
@@ -84,8 +84,8 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PROJECT_CppMu_INCLUDE": "${sourceDir}/cmake/lcov.cmake",
-        "CPPMU_EXAMPLES": false
+        "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cmake/lcov.cmake",
+        "MUTINY_EXAMPLES": false
       }
     },
     {
@@ -95,7 +95,7 @@
         "CXXFLAGS": "-nostdinc++"
       },
       "cacheVariables": {
-        "CPPMU_USE_STD_CPP_LIB": false
+        "MUTINY_USE_STD_CPP_LIB": false
       }
     },
     {
@@ -129,8 +129,8 @@
       "inherits": ["Clang"],
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CPPMU_EXAMPLES": false,
-        "CPPMU_USE_STD_CPP_LIB": false
+        "MUTINY_EXAMPLES": false,
+        "MUTINY_USE_STD_CPP_LIB": false
       },
       "environment": {
         "CFLAGS": "-fsanitize=memory -fno-omit-frame-pointer",
@@ -142,7 +142,7 @@
       "name": "detailed",
       "inherits": ["defaults"],
       "cacheVariables": {
-        "CPPMU_TESTS_DETAILED": true
+        "MUTINY_TESTS_DETAILED": true
       }
     }
   ],

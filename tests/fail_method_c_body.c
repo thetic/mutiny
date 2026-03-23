@@ -1,8 +1,8 @@
 #include "fail_method_c_body.h"
 
-#include "CppMu/CppMu.h"
+#include "mutiny/test.h"
 
-void cppmu_fail_method_c_body(void)
+void mutiny_fail_method_c_body(void)
 {
   FAIL_TEXT("Booo");
 }

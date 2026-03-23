@@ -1,8 +1,8 @@
 #include "OrderedTest.h"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/OrderedTest.hpp"
-#include "CppMu/TestRegistry.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Ordered.hpp"
+#include "mutiny/test/Registry.hpp"
 
 namespace {
 class OrderedTestTestingFixture
@@ -26,7 +26,7 @@ int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
 }
 
-int cppmu_ordered_test_fixture_c_wrapper(void)
+int mutiny_ordered_test_fixture_c_wrapper(void)
 {
   return OrderedTestTestingFixture::count();
 }
@@ -36,7 +36,8 @@ TEST_GROUP(OrderedTestC)
   void setup() override
   {
     OrderedTestTestingFixture::check_run(
-        cppmu::TestRegistry::get_current_registry()->get_current_repetition()
+        mu::tiny::test::TestRegistry::get_current_registry()
+            ->get_current_repetition()
     );
   }
 };

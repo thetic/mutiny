@@ -1,9 +1,11 @@
-#include "CppMu/JUnitOutputPlugin.hpp"
+#include "mutiny/test/JUnitOutputPlugin.hpp"
 
-#include "CppMu/JUnitTestOutput.hpp"
-#include "CppMu/String.hpp"
+#include "mutiny/test/JUnitOutput.hpp"
+#include "mutiny/test/String.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 JUnitOutputPlugin::JUnitOutputPlugin()
   : TestPlugin("JUnitOutputPlugin")
@@ -36,4 +38,6 @@ TestOutput* JUnitOutputPlugin::create_output()
   return nullptr;
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

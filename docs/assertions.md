@@ -1,6 +1,6 @@
 # Assertion Macros
 
-Include `"CppMu/CppMu.hpp"` (C++) or `"CppMu/CppMu.h"` (C) for assertions.
+Include `"mutiny/test.hpp"` (C++) or `"mutiny/test.h"` (C) for assertions.
 
 A failing assertion immediately exits the current test body. Each macro increments an internal check counter on success, which appears in the summary.
 
@@ -40,10 +40,10 @@ CHECK_EQUAL(Status::OK, get_status());
 
 To make `CHECK_EQUAL` work with your own types, provide:
 1. `operator==(const YourType&, const YourType&)`
-2. `cppmu::String string_from(const YourType&)` — used in the failure message
+2. `mu::tiny::test::String string_from(const YourType&)` — used in the failure message
 
 ```cpp
-namespace cppmu {
+namespace mu { namespace tiny { namespace test {
     String string_from(const Colour& c) { return c.name(); }
 }
 ```
@@ -157,7 +157,7 @@ if (unexpected_condition)
 
 ### `CHECK_THROWS(ExceptionType, expression)`
 
-Only available when exceptions are enabled (`CPPMU_HAVE_EXCEPTIONS`). Fails if `expression` does not throw `ExceptionType`.
+Only available when exceptions are enabled (`MUTINY_HAVE_EXCEPTIONS`). Fails if `expression` does not throw `ExceptionType`.
 
 ```cpp
 CHECK_THROWS(std::invalid_argument, parse_int("abc"));

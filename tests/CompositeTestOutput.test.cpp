@@ -1,38 +1,41 @@
-#include "CppMu/CompositeTestOutput.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestOutput.hpp"
-#include "CppMu/TestResult.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/CompositeOutput.hpp"
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
 
 namespace {
 
 class CompositeTestOutputTestStringBufferTestOutput
-  : public cppmu::StringBufferTestOutput
+  : public mu::tiny::test::StringBufferTestOutput
 {
 public:
   void print_tests_started() override { output_ += "Test Start\n"; }
 
-  void print_tests_ended(const cppmu::TestResult& result) override
+  void print_tests_ended(const mu::tiny::test::TestResult& result) override
   {
-    output_ += cppmu::string_from_format(
+    output_ += mu::tiny::test::string_from_format(
         "Test End %d\n", static_cast<int>(result.get_test_count())
     );
   }
 
-  void print_current_group_started(const cppmu::TestShell& test) override
+  void print_current_group_started(
+      const mu::tiny::test::TestShell& test
+  ) override
   {
-    output_ += cppmu::string_from_format("Group %s Start\n", test.get_group());
+    output_ += mu::tiny::test::string_from_format(
+        "Group %s Start\n", test.get_group()
+    );
   }
 
-  void print_current_group_ended(const cppmu::TestResult& res) override
+  void print_current_group_ended(const mu::tiny::test::TestResult& res) override
   {
-    output_ += cppmu::string_from_format(
+    output_ += mu::tiny::test::string_from_format(
         "Group End %d\n", static_cast<int>(res.get_test_count())
     );
   }
 
-  void print_current_test_started(const cppmu::TestShell&) override
+  void print_current_test_started(const mu::tiny::test::TestShell&) override
   {
     output_ += "s";
   }
@@ -56,9 +59,9 @@ TEST_GROUP(CompositeTestOutput)
 {
   CompositeTestOutputTestStringBufferTestOutput* output1;
   CompositeTestOutputTestStringBufferTestOutput* output2;
-  cppmu::CompositeTestOutput composite_output;
-  cppmu::TestResult* result;
-  cppmu::TestShell* test;
+  mu::tiny::test::CompositeTestOutput composite_output;
+  mu::tiny::test::TestResult* result;
+  mu::tiny::test::TestShell* test;
 
   void setup() override
   {
@@ -66,8 +69,8 @@ TEST_GROUP(CompositeTestOutput)
     output2 = new CompositeTestOutputTestStringBufferTestOutput;
     composite_output.set_output_one(output1);
     composite_output.set_output_two(output2);
-    result = new cppmu::TestResult(composite_output);
-    test = new cppmu::TestShell("Group", "Name", "file", 10);
+    result = new mu::tiny::test::TestResult(composite_output);
+    test = new mu::tiny::test::TestShell("Group", "Name", "file", 10);
   }
 
   void teardown() override
@@ -144,7 +147,7 @@ TEST(CompositeTestOutput, printDouble)
 
 TEST(CompositeTestOutput, verbose)
 {
-  composite_output.verbose(cppmu::TestOutput::VerbosityLevel::verbose);
+  composite_output.verbose(mu::tiny::test::TestOutput::VerbosityLevel::verbose);
   CHECK(output1->is_verbose());
   CHECK(output2->is_verbose());
 }
@@ -158,7 +161,7 @@ TEST(CompositeTestOutput, color)
 
 TEST(CompositeTestOutput, PrintTestFailure)
 {
-  cppmu::TestFailure failure(test, "file", 10, "failed");
+  mu::tiny::test::TestFailure failure(test, "file", 10, "failed");
   composite_output.print_failure(failure);
   STRCMP_EQUAL(
       "\nfile:10: error: Failure in TEST(Group, Name)\n\tfailed\n\n",
@@ -193,7 +196,9 @@ TEST(CompositeTestOutput, flush)
 
 TEST(CompositeTestOutput, printVeryVerbose)
 {
-  composite_output.verbose(cppmu::TestOutput::VerbosityLevel::very_verbose);
+  composite_output.verbose(
+      mu::tiny::test::TestOutput::VerbosityLevel::very_verbose
+  );
   composite_output.print_very_verbose("very-verbose");
   STRCMP_EQUAL("very-verbose", output1->get_output().c_str());
   STRCMP_EQUAL("very-verbose", output2->get_output().c_str());

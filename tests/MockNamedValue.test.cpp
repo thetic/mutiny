@@ -1,11 +1,10 @@
-#include "CppMu/MockNamedValue.hpp"
-
-#include "CppMu/CppMu.hpp"
+#include "mutiny/mock/NamedValue.hpp"
+#include "mutiny/test.hpp"
 
 TEST_GROUP(MockNamedValue)
 {
-  cppmu::MockNamedValue* value;
-  void setup() override { value = new cppmu::MockNamedValue("param"); }
+  mu::tiny::mock::MockNamedValue* value;
+  void setup() override { value = new mu::tiny::mock::MockNamedValue("param"); }
 
   void teardown() override { delete value; }
 };
@@ -14,7 +13,7 @@ TEST(MockNamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->set_value(0.2);
   DOUBLES_EQUAL(
-      cppmu::MockNamedValue::default_double_tolerance,
+      mu::tiny::mock::MockNamedValue::default_double_tolerance,
       value->get_double_tolerance(),
       0.0
   );
@@ -31,7 +30,7 @@ TEST(MockNamedValue, GivenToleranceUsed)
 TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 {
   value->set_value(5.0, 0.4);
-  cppmu::MockNamedValue other("param2");
+  mu::tiny::mock::MockNamedValue other("param2");
   other.set_value(5.3);
 
   CHECK_TRUE(value->equals(other));
@@ -40,7 +39,7 @@ TEST(MockNamedValue, DoublesEqualIfWithinTolerance)
 TEST(MockNamedValue, DoublesNotEqualIfOutsideTolerance)
 {
   value->set_value(5.0, 0.4);
-  cppmu::MockNamedValue other("param2");
+  mu::tiny::mock::MockNamedValue other("param2");
   other.set_value(5.5);
 
   CHECK_FALSE(value->equals(other));

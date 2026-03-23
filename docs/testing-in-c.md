@@ -1,17 +1,17 @@
 # Testing C Code
 
-CppMu supports writing tests in pure C. Because the test runner itself is C++, you need two files per test group: a `.test.c` file containing the tests, and a `.test.cpp` wrapper that registers them with the C++ runner.
+mutiny supports writing tests in pure C. Because the test runner itself is C++, you need two files per test group: a `.test.c` file containing the tests, and a `.test.cpp` wrapper that registers them with the C++ runner.
 
 ## The Two-File Pattern
 
 ### `.test.c` — the C test file
 
-Include `"CppMu/CppMu.h"` and use the C macros:
+Include `"mutiny/test.h"` and use the C macros:
 
 ```c
 /* widget.test.c */
 #include "widget.h"
-#include "CppMu/CppMu.h"
+#include "mutiny/test.h"
 
 TEST_GROUP_SETUP(Widget)
 {
@@ -41,7 +41,7 @@ TEST(Widget, CanBeSet)
 
 ```cpp
 /* widget.test.cpp */
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 
 TEST_GROUP_C_WRAPPER(Widget)
 {
@@ -57,12 +57,12 @@ Both files must be compiled together into the same test executable:
 
 ```cmake
 add_executable(my_tests main.cpp widget.test.c widget.test.cpp)
-target_link_libraries(my_tests PRIVATE CppMu::CppMu)
+target_link_libraries(my_tests PRIVATE mutiny::mutiny)
 ```
 
 ---
 
-## C Assertion Macros (`CppMu/CppMu.h`)
+## C Assertion Macros (`mutiny/test.h`)
 
 The C header provides typed macros because C does not have overloaded functions:
 
@@ -119,32 +119,32 @@ Each C macro that defines a test body has a matching C++ wrapper:
 
 ---
 
-## C Mock Interface (`CppMu/MockSupport.h`)
+## C Mock Interface (`mutiny/mock.h`)
 
-The C mock API exposes `struct CppMuMockSupport` through a `cppmu_mock()` function that returns a pointer to a struct of function pointers. This allows chaining calls in C99:
+The C mock API exposes `struct MutinyMockSupport` through a `mutiny_mock()` function that returns a pointer to a struct of function pointers. This allows chaining calls in C99:
 
 ```c
-#include "CppMu/MockSupport.h"
+#include "mutiny/mock.h"
 
 /* expect */
-cppmu_mock()->expect_one_call("send")
+mutiny_mock()->expect_one_call("send")
     ->with_int_parameters("fd", 3)
     ->and_return_int_value(8);
 
 /* actual (in stub) */
-int n = (int)cppmu_mock()
+int n = (int)mutiny_mock()
     ->actual_call("send")
     ->with_int_parameters("fd", fd)
     ->int_return_value();
 ```
 
-For named scopes: `cppmu_mock_scope("name")` returns a pointer to the named `CppMuMockSupport`.
+For named scopes: `mutiny_mock_scope("name")` returns a pointer to the named `MutinyMockSupport`.
 
 ### Data store in C
 
 ```c
-cppmu_mock()->set_int_data("retval", 42);
-int v = cppmu_mock()->get_data("retval").value.int_value;
+mutiny_mock()->set_int_data("retval", 42);
+int v = mutiny_mock()->get_data("retval").value.int_value;
 ```
 
 ### Custom comparators in C
@@ -153,7 +153,7 @@ int v = cppmu_mock()->get_data("retval").value.int_value;
 static int my_equal(const void* a, const void* b) { return a == b; }
 static const char* my_to_string(const void* a) { (void)a; return "obj"; }
 
-cppmu_mock()->install_comparator("MyType", my_equal, my_to_string);
+mutiny_mock()->install_comparator("MyType", my_equal, my_to_string);
 ```
 
 See `examples/tests/MockDocumentation.test.c` for a complete C mock example.
@@ -164,5 +164,5 @@ See `examples/tests/MockDocumentation.test.c` for a complete C mock example.
 
 | Files | Demonstrates |
 |-------|-------------|
-| [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | Two-file pattern: stubs a function pointer with `CPPMU_PTR_SET`, checks output with `CHECK_EQUAL_STRING` |
-| [`examples/tests/MockDocumentation.test.c`](../examples/tests/MockDocumentation.test.c) + [`MockDocumentation.test.cpp`](../examples/tests/MockDocumentation.test.cpp) | C mock interface: `cppmu_mock()`, typed parameters, custom comparator, data store |
+| [`examples/tests/hello.test.c`](../examples/tests/hello.test.c) + [`hello.test.cpp`](../examples/tests/hello.test.cpp) | Two-file pattern: stubs a function pointer with `MUTINY_PTR_SET`, checks output with `CHECK_EQUAL_STRING` |
+| [`examples/tests/MockDocumentation.test.c`](../examples/tests/MockDocumentation.test.c) + [`MockDocumentation.test.cpp`](../examples/tests/MockDocumentation.test.cpp) | C mock interface: `mutiny_mock()`, typed parameters, custom comparator, data store |

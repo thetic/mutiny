@@ -1,13 +1,12 @@
-#include "CppMu/MockSupport.hpp"
-
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
-#include "CppMu/MockExpectedCall.hpp"
-#include "CppMu/MockFailure.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/mock.hpp"
+#include "mutiny/mock/ExpectedCall.hpp"
+#include "mutiny/mock/Failure.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
 TEST_GROUP(MockSupport)
 {

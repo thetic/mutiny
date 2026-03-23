@@ -1,14 +1,13 @@
-#include "CppMu/IgnoredTestShell.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/ExecFunctionTestShell.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/ExecFunctionShell.hpp"
+#include "mutiny/test/IgnoredShell.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 TEST_GROUP(IgnoredTestShell)
 {
-  cppmu::TestTestingFixture fixture;
-  cppmu::IgnoredTestShell ignored_test;
-  cppmu::ExecFunctionTestShell normal_utest_shell;
+  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::IgnoredTestShell ignored_test;
+  mu::tiny::test::ExecFunctionTestShell normal_utest_shell;
 
   void setup() override
   {

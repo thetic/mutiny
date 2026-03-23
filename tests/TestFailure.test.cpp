@@ -1,5 +1,5 @@
-#include "CppMu/CppMu.hpp"
-#include "CppMu/TestOutput.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Output.hpp"
 
 #include <limits.h>
 
@@ -10,11 +10,11 @@ const char* fail_file_name = "fail.cpp";
 
 TEST_GROUP(TestFailure)
 {
-  cppmu::TestShell* test;
+  mu::tiny::test::TestShell* test;
 
   void setup() override
   {
-    test = new cppmu::TestShell(
+    test = new mu::tiny::test::TestShell(
         "groupname", "testname", fail_file_name, fail_line_number - 1
     );
   }
@@ -25,16 +25,16 @@ TEST_GROUP(TestFailure)
 
 TEST(TestFailure, CreateFailure)
 {
-  cppmu::TestFailure f1(
+  mu::tiny::test::TestFailure f1(
       test, fail_file_name, fail_line_number, "the failure message"
   );
-  cppmu::TestFailure f2(test, "the failure message");
-  cppmu::TestFailure f3(test, fail_file_name, fail_line_number);
+  mu::tiny::test::TestFailure f2(test, "the failure message");
+  mu::tiny::test::TestFailure f3(test, fail_file_name, fail_line_number);
 }
 
 TEST(TestFailure, GetTestFileAndLineFromFailure)
 {
-  cppmu::TestFailure f1(
+  mu::tiny::test::TestFailure f1(
       test, fail_file_name, fail_line_number, "the failure message"
   );
   STRCMP_EQUAL(fail_file_name, f1.get_test_file_name().c_str());
@@ -43,7 +43,7 @@ TEST(TestFailure, GetTestFileAndLineFromFailure)
 
 TEST(TestFailure, EqualsFailureWithText)
 {
-  cppmu::EqualsFailure f(
+  mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text"
   );
   FAILURE_EQUAL(
@@ -55,7 +55,7 @@ TEST(TestFailure, EqualsFailureWithText)
 
 TEST(TestFailure, EqualsFailure)
 {
-  cppmu::EqualsFailure f(
+  mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", ""
   );
   FAILURE_EQUAL("expected <expected>\n\tbut was  <actual>", f);
@@ -63,7 +63,7 @@ TEST(TestFailure, EqualsFailure)
 
 TEST(TestFailure, EqualsFailureWithNullAsActual)
 {
-  cppmu::EqualsFailure f(
+  mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", nullptr, ""
   );
   FAILURE_EQUAL("expected <expected>\n\tbut was  <(null)>", f);
@@ -71,7 +71,7 @@ TEST(TestFailure, EqualsFailureWithNullAsActual)
 
 TEST(TestFailure, EqualsFailureWithNullAsExpected)
 {
-  cppmu::EqualsFailure f(
+  mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, nullptr, "actual", ""
   );
   FAILURE_EQUAL("expected <(null)>\n\tbut was  <actual>", f);
@@ -79,7 +79,7 @@ TEST(TestFailure, EqualsFailureWithNullAsExpected)
 
 TEST(TestFailure, CheckEqualFailureWithText)
 {
-  cppmu::CheckEqualFailure f(
+  mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text"
   );
   FAILURE_EQUAL(
@@ -94,7 +94,7 @@ TEST(TestFailure, CheckEqualFailureWithText)
 
 TEST(TestFailure, CheckEqualFailure)
 {
-  cppmu::CheckEqualFailure f(
+  mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", ""
   );
   FAILURE_EQUAL(
@@ -108,13 +108,15 @@ TEST(TestFailure, CheckEqualFailure)
 
 TEST(TestFailure, CheckFailure)
 {
-  cppmu::CheckFailure f(test, fail_file_name, fail_line_number, "CHECK", "chk");
+  mu::tiny::test::CheckFailure f(
+      test, fail_file_name, fail_line_number, "CHECK", "chk"
+  );
   FAILURE_EQUAL("CHECK(chk) failed", f);
 }
 
 TEST(TestFailure, CheckFailureWithText)
 {
-  cppmu::CheckFailure f(
+  mu::tiny::test::CheckFailure f(
       test, fail_file_name, fail_line_number, "CHECK", "chk", "text"
   );
   FAILURE_EQUAL(
@@ -126,13 +128,13 @@ TEST(TestFailure, CheckFailureWithText)
 
 TEST(TestFailure, FailFailure)
 {
-  cppmu::FailFailure f(test, fail_file_name, fail_line_number, "chk");
+  mu::tiny::test::FailFailure f(test, fail_file_name, fail_line_number, "chk");
   FAILURE_EQUAL("chk", f);
 }
 
 TEST(TestFailure, LongsEqualFailureWithText)
 {
-  cppmu::LongsEqualFailure f(
+  mu::tiny::test::LongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "text"
   );
   FAILURE_EQUAL(
@@ -144,13 +146,15 @@ TEST(TestFailure, LongsEqualFailureWithText)
 
 TEST(TestFailure, LongsEqualFailure)
 {
-  cppmu::LongsEqualFailure f(test, fail_file_name, fail_line_number, 1, 2, "");
+  mu::tiny::test::LongsEqualFailure f(
+      test, fail_file_name, fail_line_number, 1, 2, ""
+  );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
 TEST(TestFailure, LongLongsEqualFailure)
 {
-  cppmu::LongLongsEqualFailure f(
+  mu::tiny::test::LongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
   );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
@@ -158,7 +162,7 @@ TEST(TestFailure, LongLongsEqualFailure)
 
 TEST(TestFailure, UnsignedLongLongsEqualFailure)
 {
-  cppmu::UnsignedLongLongsEqualFailure f(
+  mu::tiny::test::UnsignedLongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
   );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
@@ -166,7 +170,7 @@ TEST(TestFailure, UnsignedLongLongsEqualFailure)
 
 TEST(TestFailure, SignedBytesEqualFailure)
 {
-  cppmu::SignedBytesEqualFailure f(
+  mu::tiny::test::SignedBytesEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -179,7 +183,7 @@ TEST(TestFailure, SignedBytesEqualFailure)
 
 TEST(TestFailure, StringsEqualFailureWithText)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", "text"
   );
   FAILURE_EQUAL(
@@ -194,7 +198,7 @@ TEST(TestFailure, StringsEqualFailureWithText)
 
 TEST(TestFailure, StringsEqualFailure)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", ""
   );
   FAILURE_EQUAL(
@@ -208,7 +212,7 @@ TEST(TestFailure, StringsEqualFailure)
 
 TEST(TestFailure, StringsEqualFailureAtTheEnd)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "ab", ""
   );
   FAILURE_EQUAL(
@@ -222,7 +226,7 @@ TEST(TestFailure, StringsEqualFailureAtTheEnd)
 
 TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -241,7 +245,7 @@ TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
 
 TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -261,7 +265,7 @@ TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
 
 TEST(TestFailure, StringsEqualFailureInTheMiddle)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aa", "ab", ""
   );
   FAILURE_EQUAL(
@@ -275,7 +279,7 @@ TEST(TestFailure, StringsEqualFailureInTheMiddle)
 
 TEST(TestFailure, StringsEqualFailureAtTheBeginning)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aaa", "bbb", ""
   );
   FAILURE_EQUAL(
@@ -289,7 +293,7 @@ TEST(TestFailure, StringsEqualFailureAtTheBeginning)
 
 TEST(TestFailure, StringsEqualFailureWithNullAsActual)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", nullptr, ""
   );
   FAILURE_EQUAL(
@@ -301,7 +305,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsActual)
 
 TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
 {
-  cppmu::StringEqualFailure f(
+  mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", ""
   );
   FAILURE_EQUAL(
@@ -313,7 +317,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithText)
 {
-  cppmu::StringEqualNoCaseFailure f(
+  mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", "text"
   );
   FAILURE_EQUAL(
@@ -328,7 +332,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithText)
 
 TEST(TestFailure, StringsEqualNoCaseFailure)
 {
-  cppmu::StringEqualNoCaseFailure f(
+  mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", ""
   );
   FAILURE_EQUAL(
@@ -342,7 +346,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
 {
-  cppmu::StringEqualNoCaseFailure f(
+  mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", nullptr, ""
   );
   FAILURE_EQUAL(
@@ -354,7 +358,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
 
 TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
 {
-  cppmu::StringEqualNoCaseFailure f(
+  mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", ""
   );
   FAILURE_EQUAL(
@@ -366,7 +370,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
 
 TEST(TestFailure, StringsEqualNoCaseFailure2)
 {
-  cppmu::StringEqualNoCaseFailure f(
+  mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ac", "AB", ""
   );
   FAILURE_EQUAL(
@@ -380,7 +384,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure2)
 
 TEST(TestFailure, DoublesEqualNormalWithText)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, "text"
   );
   FAILURE_EQUAL(
@@ -393,7 +397,7 @@ TEST(TestFailure, DoublesEqualNormalWithText)
 
 TEST(TestFailure, DoublesEqualNormal)
 {
-  cppmu::DoublesEqualFailure f(
+  mu::tiny::test::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, ""
   );
   FAILURE_EQUAL(
@@ -407,7 +411,7 @@ TEST(TestFailure, BinaryEqualWithText)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -430,7 +434,7 @@ TEST(TestFailure, BinaryEqualOneByte)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -452,7 +456,7 @@ TEST(TestFailure, BinaryEqualTwoBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01 };
   const unsigned char actual_data[] = { 0x00, 0x02 };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -474,7 +478,7 @@ TEST(TestFailure, BinaryEqualThreeBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01, 0x00 };
   const unsigned char actual_data[] = { 0x00, 0x02, 0x00 };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -499,7 +503,7 @@ TEST(TestFailure, BinaryEqualFullWidth)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00
   };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -524,7 +528,7 @@ TEST(TestFailure, BinaryEqualLast)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
   };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -546,7 +550,7 @@ TEST(TestFailure, BinaryEqualActualNull)
 {
   const unsigned char expected_data[] = { 0x00, 0x00, 0x00, 0x00,
                                           0x00, 0x00, 0x00 };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -563,7 +567,7 @@ TEST(TestFailure, BinaryEqualExpectedNull)
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
   };
-  cppmu::BinaryEqualFailure f(
+  mu::tiny::test::BinaryEqualFailure f(
       test,
       fail_file_name,
       fail_line_number,
@@ -577,7 +581,7 @@ TEST(TestFailure, BinaryEqualExpectedNull)
 
 TEST(TestFailure, FeatureUnsupported)
 {
-  cppmu::FeatureUnsupportedFailure f(
+  mu::tiny::test::FeatureUnsupportedFailure f(
       test, fail_file_name, fail_line_number, "SOME_FEATURE", ""
   );
   FAILURE_EQUAL(
@@ -590,7 +594,7 @@ TEST(TestFailure, FeatureUnsupported)
 
 TEST(TestFailure, EqualsFailureWithShortEscapeControlChar)
 {
-  cppmu::CheckEqualFailure f(
+  mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "a\tb", "a\nb", ""
   );
   STRCMP_CONTAINS("\\t", f.get_message().c_str());
@@ -599,26 +603,26 @@ TEST(TestFailure, EqualsFailureWithShortEscapeControlChar)
 
 TEST(TestFailure, EqualsFailureWithHexEscapeControlChar)
 {
-  cppmu::CheckEqualFailure f(
+  mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "a\x01z", "b\x01z", ""
   );
   STRCMP_CONTAINS("\\x01", f.get_message().c_str());
 }
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 TEST(TestFailure, UnexpectedExceptionFailure_UnknownException)
 {
-  cppmu::UnexpectedExceptionFailure f(test);
+  mu::tiny::test::UnexpectedExceptionFailure f(test);
   FAILURE_EQUAL("Unexpected exception of unknown type was thrown.", f);
 }
 #endif
 
-#if CPPMU_HAVE_EXCEPTIONS && CPPMU_USE_STD_CPP_LIB
+#if MUTINY_HAVE_EXCEPTIONS && MUTINY_USE_STD_CPP_LIB
 TEST(TestFailure, UnexpectedExceptionFailure_StandardException)
 {
   std::runtime_error e("Some error");
-  cppmu::UnexpectedExceptionFailure f(test, e);
-#if CPPMU_HAVE_RTTI
+  mu::tiny::test::UnexpectedExceptionFailure f(test, e);
+#if MUTINY_HAVE_RTTI
   STRCMP_CONTAINS("Unexpected exception of type '", f.get_message().c_str());
   STRCMP_CONTAINS("runtime_error", f.get_message().c_str());
   STRCMP_CONTAINS("' was thrown: Some error", f.get_message().c_str());

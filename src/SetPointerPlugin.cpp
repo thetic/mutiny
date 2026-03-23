@@ -1,18 +1,20 @@
-#include "CppMu/SetPointerPlugin.hpp"
+#include "mutiny/test/SetPointerPlugin.hpp"
 
-#include "CppMu/TestShell.hpp"
+#include "mutiny/test/Shell.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
-struct CppMuPair
+struct MutinyPair
 {
   void** orig;
   void* orig_value;
 };
 
 int pointer_table_index;
-CppMuPair setlist[SetPointerPlugin::max_set];
+MutinyPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
 SetPointerPlugin::SetPointerPlugin()
@@ -40,3 +42,5 @@ void SetPointerPlugin::
 }
 
 }
+}
+} // namespace mu::tiny::test

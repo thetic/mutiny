@@ -1,21 +1,20 @@
-#include "CppMu/CommandLineTestRunner.hpp"
-
-#include "CppMu/CppMu.hpp"
-#include "CppMu/StringCollection.hpp"
-#include "CppMu/TestPlugin.hpp"
-#include "CppMu/TestRegistry.hpp"
-#include "CppMu/TestTestingFixture.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/CommandLineRunner.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Registry.hpp"
+#include "mutiny/test/StringCollection.hpp"
+#include "mutiny/test/TestingFixture.hpp"
 
 namespace {
-class DummyPluginWhichCountsThePlugins : public cppmu::TestPlugin
+class DummyPluginWhichCountsThePlugins : public mu::tiny::test::TestPlugin
 {
 public:
   bool return_value{ true };
   int amount_of_plugins{ 0 };
 
   DummyPluginWhichCountsThePlugins(
-      const cppmu::String& name,
-      cppmu::TestRegistry* registry
+      const mu::tiny::test::String& name,
+      mu::tiny::test::TestRegistry* registry
   )
     : TestPlugin(name)
     , registry_(registry)
@@ -30,36 +29,35 @@ public:
   }
 
 private:
-  cppmu::TestRegistry* registry_;
+  mu::tiny::test::TestRegistry* registry_;
 };
 
 class CommandLineTestRunnerWithStringBufferOutput
-  : public cppmu::CommandLineTestRunner
+  : public mu::tiny::test::CommandLineTestRunner
 {
 public:
-  cppmu::StringBufferTestOutput* fake_console_output_which_is_really_a_buffer{
-    nullptr
-  };
+  mu::tiny::test::StringBufferTestOutput*
+      fake_console_output_which_is_really_a_buffer{ nullptr };
 
   CommandLineTestRunnerWithStringBufferOutput(
       int argc,
       const char* const* argv,
-      cppmu::TestRegistry* registry
+      mu::tiny::test::TestRegistry* registry
   )
     : CommandLineTestRunner(argc, argv, registry)
 
   {
   }
 
-  cppmu::TestOutput* create_console_output() override
+  mu::tiny::test::TestOutput* create_console_output() override
   {
     fake_console_output_which_is_really_a_buffer =
-        new cppmu::StringBufferTestOutput;
+        new mu::tiny::test::StringBufferTestOutput;
     return fake_console_output_which_is_really_a_buffer;
   }
 };
 
-class RunIgnoredTest : public cppmu::Test
+class RunIgnoredTest : public mu::tiny::test::Test
 {
 public:
   static bool checker_;
@@ -68,7 +66,7 @@ public:
 
 bool RunIgnoredTest::checker_ = false;
 
-class RunIgnoredShell : public cppmu::IgnoredTestShell
+class RunIgnoredShell : public mu::tiny::test::IgnoredTestShell
 {
 public:
   RunIgnoredShell(
@@ -80,10 +78,10 @@ public:
     : IgnoredTestShell(group_name, test_name, file_name, line_number)
   {
   }
-  cppmu::Test* create_test() override { return new RunIgnoredTest; }
+  mu::tiny::test::Test* create_test() override { return new RunIgnoredTest; }
 };
 
-class TestExecutionVerifier : public cppmu::Test
+class TestExecutionVerifier : public mu::tiny::test::Test
 {
 public:
   static bool was_run_;
@@ -91,28 +89,31 @@ public:
 };
 bool TestExecutionVerifier::was_run_ = false;
 
-class TestExecutionVerifierShell : public cppmu::TestShell
+class TestExecutionVerifierShell : public mu::tiny::test::TestShell
 {
 public:
   TestExecutionVerifierShell()
     : TestShell("VerifierGroup", "VerifierTest", "file", 1)
   {
   }
-  cppmu::Test* create_test() override { return new TestExecutionVerifier; }
+  mu::tiny::test::Test* create_test() override
+  {
+    return new TestExecutionVerifier;
+  }
 };
 } // namespace
 
 TEST_GROUP(CommandLineTestRunner)
 {
-  cppmu::TestRegistry registry;
-  cppmu::TestShell* test1;
-  cppmu::TestShell* test2;
+  mu::tiny::test::TestRegistry registry;
+  mu::tiny::test::TestShell* test1;
+  mu::tiny::test::TestShell* test2;
   DummyPluginWhichCountsThePlugins* plugin_counting_plugin;
 
   void setup() override
   {
-    test1 = new cppmu::TestShell("group1", "test1", "file1", 1);
-    test2 = new cppmu::TestShell("group2", "test2", "file2", 2);
+    test1 = new mu::tiny::test::TestShell("group1", "test1", "file1", 1);
+    test2 = new mu::tiny::test::TestShell("group2", "test2", "file2", 2);
     registry.add_test(test1);
     plugin_counting_plugin =
         new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
@@ -124,7 +125,7 @@ TEST_GROUP(CommandLineTestRunner)
     delete test1;
   }
 
-  cppmu::String run_and_get_output(const int argc, const char* argv[])
+  mu::tiny::test::String run_and_get_output(const int argc, const char* argv[])
   {
     CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
         argc, argv, &registry
@@ -275,7 +276,7 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
   );
   command_line_test_runner.run_all_tests_main();
 
-  cppmu::StringCollection string_collection(
+  mu::tiny::test::StringCollection string_collection(
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output(),
       '\n'
@@ -294,7 +295,7 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
   );
   command_line_test_runner.run_all_tests_main();
 
-  cppmu::StringCollection string_collection(
+  mu::tiny::test::StringCollection string_collection(
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output(),
       '\n'
@@ -357,11 +358,12 @@ TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
 TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 {
   // more than 1 item in test list ensures that shuffle algorithm calls rand_()
-  auto* another_test = new cppmu::TestShell("group", "test2", "file", 1);
+  auto* another_test =
+      new mu::tiny::test::TestShell("group", "test2", "file", 1);
   registry.add_test(another_test);
 
   const char* argv[] = { "tests.exe", "-s" };
-  cppmu::String text = run_and_get_output(2, argv);
+  mu::tiny::test::String text = run_and_get_output(2, argv);
   STRCMP_CONTAINS("shuffling enabled with seed:", text.c_str());
 
   delete another_test;
@@ -370,7 +372,7 @@ TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
 {
   const char* argv[] = { "tests.exe", "-s2", "-v" };
-  cppmu::String text = run_and_get_output(3, argv);
+  mu::tiny::test::String text = run_and_get_output(3, argv);
   STRCMP_CONTAINS("shuffling enabled with seed: 2", text.c_str());
 }
 
@@ -392,43 +394,49 @@ struct FakeOutput
 
   void install_fakes()
   {
-    cppmu::TestOutput::fopen_ = fopen_fake;
-    cppmu::TestOutput::fputs_ = fputs_fake;
-    cppmu::TestOutput::fclose_ = fclose_fake;
+    mu::tiny::test::TestOutput::fopen_ = fopen_fake;
+    mu::tiny::test::TestOutput::fputs_ = fputs_fake;
+    mu::tiny::test::TestOutput::fclose_ = fclose_fake;
   }
 
   void restore_originals()
   {
-    cppmu::TestOutput::fopen_ = save_f_open_;
-    cppmu::TestOutput::fputs_ = save_f_puts_;
-    cppmu::TestOutput::fclose_ = save_f_close_;
+    mu::tiny::test::TestOutput::fopen_ = save_f_open_;
+    mu::tiny::test::TestOutput::fputs_ = save_f_puts_;
+    mu::tiny::test::TestOutput::fclose_ = save_f_close_;
   }
 
-  static cppmu::TestOutput::File fopen_fake(const char*, const char*)
+  static mu::tiny::test::TestOutput::File fopen_fake(const char*, const char*)
   {
-    return static_cast<cppmu::TestOutput::File>(nullptr);
+    return static_cast<mu::tiny::test::TestOutput::File>(nullptr);
   }
 
-  static void fputs_fake(const char* str, cppmu::TestOutput::File f)
+  static void fputs_fake(const char* str, mu::tiny::test::TestOutput::File f)
   {
-    if (f == cppmu::TestOutput::stdout_) {
+    if (f == mu::tiny::test::TestOutput::stdout_) {
       current_fake_->console += str;
     } else {
       current_fake_->file += str;
     }
   }
 
-  static void fclose_fake(cppmu::TestOutput::File) {}
+  static void fclose_fake(mu::tiny::test::TestOutput::File) {}
 
-  cppmu::String file;
-  cppmu::String console;
+  mu::tiny::test::String file;
+  mu::tiny::test::String console;
 
   static FakeOutput* current_fake_;
 
 private:
-  cppmu::TestOutput::FOpenFunc save_f_open_{ cppmu::TestOutput::fopen_ };
-  cppmu::TestOutput::FPutsFunc save_f_puts_{ cppmu::TestOutput::fputs_ };
-  cppmu::TestOutput::FCloseFunc save_f_close_{ cppmu::TestOutput::fclose_ };
+  mu::tiny::test::TestOutput::FOpenFunc save_f_open_{
+    mu::tiny::test::TestOutput::fopen_
+  };
+  mu::tiny::test::TestOutput::FPutsFunc save_f_puts_{
+    mu::tiny::test::TestOutput::fputs_
+  };
+  mu::tiny::test::TestOutput::FCloseFunc save_f_close_{
+    mu::tiny::test::TestOutput::fclose_
+  };
 };
 
 FakeOutput* FakeOutput::current_fake_ = nullptr;
@@ -442,9 +450,11 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
     "-v",
   };
 
-  FakeOutput fake_output; /* CPPMU_PTR_SET() is not reentrant */
+  FakeOutput fake_output; /* MUTINY_PTR_SET() is not reentrant */
 
-  cppmu::CommandLineTestRunner command_line_test_runner(3, argv, &registry);
+  mu::tiny::test::CommandLineTestRunner command_line_test_runner(
+      3, argv, &registry
+  );
   command_line_test_runner.run_all_tests_main();
 
   fake_output.restore_originals();
@@ -457,7 +467,7 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 
 TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
 {
-  cppmu::TestRegistry ignored_registry;
+  mu::tiny::test::TestRegistry ignored_registry;
   RunIgnoredShell run_ignored_test("group", "test", "file", 1);
   ignored_registry.add_test(&run_ignored_test);
   DummyPluginWhichCountsThePlugins ignored_plugin(
@@ -485,7 +495,7 @@ TEST(CommandLineTestRunner, listOrderedTestLocations)
 
 TEST(CommandLineTestRunner, IgnoreTestWillGetRunIfOptionSpecified)
 {
-  cppmu::TestRegistry ignored_registry;
+  mu::tiny::test::TestRegistry ignored_registry;
   RunIgnoredShell run_ignored_test("group", "test", "file", 1);
   ignored_registry.add_test(&run_ignored_test);
   DummyPluginWhichCountsThePlugins ignored_plugin(

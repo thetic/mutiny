@@ -1,10 +1,12 @@
-#include "CppMu/Test.hpp"
+#include "mutiny/test/Test.hpp"
 
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestShell.hpp"
-#include "CppMu/jump_buffer.h"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Shell.hpp"
+#include "mutiny/test/jump_buffer.h"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 namespace {
 void helper_do_test_setup(void* data)
@@ -23,7 +25,7 @@ void helper_do_test_teardown(void* data)
 }
 } // namespace
 
-#if CPPMU_HAVE_EXCEPTIONS
+#if MUTINY_HAVE_EXCEPTIONS
 
 void Test::run()
 {
@@ -31,21 +33,21 @@ void Test::run()
   int jump_result = 0;
   try {
     current->print_very_verbose("\n-------- before setup: ");
-    jump_result = cppmu_set_jmp(helper_do_test_setup, this);
+    jump_result = mutiny_set_jmp(helper_do_test_setup, this);
     current->print_very_verbose("\n-------- after  setup: ");
 
     if (jump_result) {
       current->print_very_verbose("\n----------  before body: ");
-      cppmu_set_jmp(helper_do_test_body, this);
+      mutiny_set_jmp(helper_do_test_body, this);
       current->print_very_verbose("\n----------  after body: ");
     }
   } catch (FailedException&) {
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
   }
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -53,7 +55,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -61,15 +63,15 @@ void Test::run()
 
   try {
     current->print_very_verbose("\n--------  before teardown: ");
-    cppmu_set_jmp(helper_do_test_teardown, this);
+    mutiny_set_jmp(helper_do_test_teardown, this);
     current->print_very_verbose("\n--------  after teardown: ");
   } catch (FailedException&) {
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
   }
-#if CPPMU_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -77,7 +79,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    cppmu_restore_jump_buffer();
+    mutiny_restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -87,10 +89,10 @@ void Test::run()
 
 void Test::run()
 {
-  if (cppmu_set_jmp(helper_do_test_setup, this)) {
-    cppmu_set_jmp(helper_do_test_body, this);
+  if (mutiny_set_jmp(helper_do_test_setup, this)) {
+    mutiny_set_jmp(helper_do_test_body, this);
   }
-  cppmu_set_jmp(helper_do_test_teardown, this);
+  mutiny_set_jmp(helper_do_test_teardown, this);
 }
 
 #endif
@@ -101,4 +103,6 @@ void Test::test_body() {}
 
 void Test::teardown() {}
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

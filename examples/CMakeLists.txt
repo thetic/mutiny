@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.29)
 
-project(CppMuExample)
+project(mutinyExample)
 
 if(PROJECT_IS_TOP_LEVEL)
-  find_package(CppMu 0.1 REQUIRED)
+  find_package(mutiny 0.1 REQUIRED)
 endif()
 
 include(CTest)
 
-if(NOT DEFINED CPPMU_USE_STD_CPP_LIB)
-    set(CPPMU_USE_STD_CPP_LIB ON)
+if(NOT DEFINED MUTINY_USE_STD_CPP_LIB)
+    set(MUTINY_USE_STD_CPP_LIB ON)
 endif()
 
 add_library(ExampleLib)
@@ -27,7 +27,7 @@ target_sources(ExampleLib
             include/hello.h
 )
 
-if(CPPMU_USE_STD_CPP_LIB)
+if(MUTINY_USE_STD_CPP_LIB)
     target_sources(ExampleLib
         PRIVATE src/EventDispatcher.cpp
         PUBLIC FILE_SET HEADERS BASE_DIRS include

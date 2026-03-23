@@ -1,11 +1,12 @@
-#include "CppMu/ExpectFailTestShell.hpp"
+#include "mutiny/test/ExpectFailShell.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/Plugin.hpp"
+#include "mutiny/test/Result.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
 
-#include "CppMu/StringBufferTestOutput.hpp"
-#include "CppMu/TestFailure.hpp"
-#include "CppMu/TestPlugin.hpp"
-#include "CppMu/TestResult.hpp"
-
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 ExpectFailTestShell::ExpectFailTestShell(
     const char* group_name,
@@ -39,4 +40,6 @@ void ExpectFailTestShell::run_one_test(TestPlugin* plugin, TestResult& result)
   }
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test

@@ -1,16 +1,16 @@
 # Ordered Tests
 
-Normally CppMu runs tests in an unspecified order (registration order, possibly shuffled with `-s`). `OrderedTest` lets you assign a numeric level to selected tests so they run in level order, independent of the registration order of all other tests.
+Normally mutiny runs tests in an unspecified order (registration order, possibly shuffled with `-s`). `OrderedTest` lets you assign a numeric level to selected tests so they run in level order, independent of the registration order of all other tests.
 
-Include `"CppMu/OrderedTest.hpp"`.
+Include `"mutiny/test/Ordered.hpp"`.
 
 ## `TEST_ORDERED(group, name, level)`
 
 Declares a test that runs at the given level. Lower levels run first. Tests at the same level run in registration order relative to each other.
 
 ```cpp
-#include "CppMu/CppMu.hpp"
-#include "CppMu/OrderedTest.hpp"
+#include "mutiny/test.hpp"
+#include "mutiny/test/Ordered.hpp"
 
 TEST_GROUP(Database) {};
 

@@ -1,16 +1,16 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "CppMu/CppMu.hpp"
+#include "mutiny/test.hpp"
 
-using cppmu::mock;
+using mu::tiny::mock::mock;
 
-void MockFailureReporterForTest::fail_test(cppmu::MockFailure failure)
+void MockFailureReporterForTest::fail_test(mu::tiny::mock::MockFailure failure)
 {
   mock_failure_string = failure.get_message();
 }
 
 void MockFailureReporterForTest::report_failure(
-    const cppmu::MockFailure& failure
+    const mu::tiny::mock::MockFailure& failure
 )
 {
   mock_failure_string = failure.get_message();
@@ -50,12 +50,12 @@ MockFailureReporterInstaller::~MockFailureReporterInstaller()
   MockFailureReporterForTest::clear_reporter();
 }
 
-cppmu::TestShell* mock_failure_test()
+mu::tiny::test::TestShell* mock_failure_test()
 {
   return MockFailureReporterForTest::get_reporter()->get_test_to_fail();
 }
 
-cppmu::String mock_failure_string()
+mu::tiny::test::String mock_failure_string()
 {
   return MockFailureReporterForTest::get_reporter()->mock_failure_string;
 }
@@ -66,16 +66,17 @@ void clear_mock_failure()
 }
 
 void check_expected_mock_failure_location(
-    const cppmu::MockFailure& expected_failure,
+    const mu::tiny::mock::MockFailure& expected_failure,
     const char* file,
     size_t line
 )
 {
-  cppmu::String expected_failure_string = expected_failure.get_message();
-  cppmu::String actual_failure_string = mock_failure_string();
+  mu::tiny::test::String expected_failure_string =
+      expected_failure.get_message();
+  mu::tiny::test::String actual_failure_string = mock_failure_string();
   clear_mock_failure();
   if (expected_failure_string != actual_failure_string) {
-    cppmu::String error = "MockFailures are different.\n";
+    mu::tiny::test::String error = "MockFailures are different.\n";
     error += "Expected MockFailure:\n\t";
     error += expected_failure_string;
     error += "\nActual MockFailure:\n\t";
@@ -87,7 +88,7 @@ void check_expected_mock_failure_location(
 void check_no_mock_failure_location(const char* file, size_t line)
 {
   if (mock_failure_string() != "") {
-    cppmu::String error = "Unexpected mock failure:\n";
+    mu::tiny::test::String error = "Unexpected mock failure:\n";
     error += mock_failure_string();
     clear_mock_failure();
     FAIL_LOCATION(error.c_str(), file, line);
@@ -100,29 +101,26 @@ MockExpectedCallsListForTest::~MockExpectedCallsListForTest()
   delete_all_expectations_and_clear_list();
 }
 
-cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::add_function(
-    const cppmu::String& name
-)
+mu::tiny::mock::MockCheckedExpectedCall* MockExpectedCallsListForTest::
+    add_function(const mu::tiny::test::String& name)
 {
-  auto* new_call = new cppmu::MockCheckedExpectedCall;
+  auto* new_call = new mu::tiny::mock::MockCheckedExpectedCall;
   new_call->with_name(name);
   add_expected_call(new_call);
   return new_call;
 }
 
-cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::add_function(
-    unsigned int num_calls,
-    const cppmu::String& name
-)
+mu::tiny::mock::MockCheckedExpectedCall* MockExpectedCallsListForTest::
+    add_function(unsigned int num_calls, const mu::tiny::test::String& name)
 {
-  auto* new_call = new cppmu::MockCheckedExpectedCall(num_calls);
+  auto* new_call = new mu::tiny::mock::MockCheckedExpectedCall(num_calls);
   new_call->with_name(name);
   add_expected_call(new_call);
   return new_call;
 }
 
-cppmu::MockCheckedExpectedCall* MockExpectedCallsListForTest::
-    add_function_ordered(const cppmu::String& name, unsigned int order)
+mu::tiny::mock::MockCheckedExpectedCall* MockExpectedCallsListForTest::
+    add_function_ordered(const mu::tiny::test::String& name, unsigned int order)
 {
   auto* new_call = add_function(name);
   new_call->with_call_order(order);

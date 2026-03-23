@@ -1,6 +1,8 @@
-#include "CppMu/ExecFunctionTestShell.hpp"
+#include "mutiny/test/ExecFunctionShell.hpp"
 
-namespace cppmu {
+namespace mu {
+namespace tiny {
+namespace test {
 
 //////////////////// ExecFunction
 
@@ -40,4 +42,6 @@ void ExecFunctionTest::teardown()
     shell_->teardown();
 }
 
-} // namespace cppmu
+}
+}
+} // namespace mu::tiny::test
