@@ -145,8 +145,9 @@ if(MUTINY_C_HAS_FUNWIND_TABLES)
 endif()
 
 target_compile_features(mutiny
-    INTERFACE c_std_11
-    PUBLIC cxx_std_11
+    PUBLIC
+        cxx_std_11
+        c_std_99
 )
 
 target_compile_definitions(mutiny

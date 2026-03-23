@@ -35,6 +35,8 @@ if(MUTINY_USE_STD_CPP_LIB)
     )
 endif()
 
+target_compile_features(ExampleLib PUBLIC cxx_std_11)
+
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
