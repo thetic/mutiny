@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
 
 /**
- * @file NamedValue.hpp
+ * @file
  * @brief Generic named-value container used to store mock parameters and data.
  *
  * NamedValue ties together a name, a type tag, a value (from a union of
@@ -34,6 +34,8 @@ class NamedValueComparatorsAndCopiersRepository;
 class NamedValue
 {
 public:
+  /** @brief Type alias for a pointer to a function with signature `void()`. */
+  using FunctionPointerValue = void (*)();
   /**
    * @brief Construct a named value with no data set.
    *
@@ -74,7 +76,7 @@ public:
   /** @brief Store a const void*. @param value Value to store. */
   virtual void set_value(const void* value);
   /** @brief Store a function pointer. @param value Value to store. */
-  virtual void set_value(void (*value)());
+  virtual void set_value(FunctionPointerValue value);
   /** @brief Store a C string (not copied). @param value Value to store. */
   virtual void set_value(const char* value);
   /**
@@ -179,7 +181,7 @@ public:
   /** @return The stored const void* pointer. */
   virtual const void* get_const_pointer_value() const;
   /** @return The stored function pointer. */
-  virtual void (*get_function_pointer_value() const)();
+  virtual FunctionPointerValue get_function_pointer_value() const;
   /** @return The stored memory buffer pointer. */
   virtual const unsigned char* get_memory_buffer() const;
   /** @return The stored const object pointer. */
@@ -243,7 +245,7 @@ private:
     const char* string_value;
     void* pointer_value;
     const void* const_pointer_value;
-    void (*function_pointer_value)();
+    FunctionPointerValue function_pointer_value;
     const unsigned char* memory_buffer_value;
     const void* const_object_pointer_value;
     void* object_pointer_value;

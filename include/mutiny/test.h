@@ -1,5 +1,5 @@
 /**
- * @file mutiny/test.h
+ * @file
  * @brief C interface for writing mutiny tests in pure C.
  *
  * Include this header in .c test files. Test definitions use the same macro

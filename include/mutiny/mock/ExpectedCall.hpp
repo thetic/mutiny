@@ -2,20 +2,13 @@
 #define INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
 
 /**
- * @file ExpectedCall.hpp
+ * @file
  * @brief Fluent interface returned by Support::expect_one_call() and
  * friends.
  *
  * Use the fluent methods to constrain which parameter values and call order the
  * actual call must match, and to configure the return value the mock will
  * produce.
- *
- * @code{.cpp}
- * mock().expect_one_call("open")
- *       .with_parameter("path", "/dev/null")
- *       .with_parameter("flags", O_RDONLY)
- *       .and_return_value(3);
- * @endcode
  *
  * @see Support::expect_one_call(), ActualCall
  */

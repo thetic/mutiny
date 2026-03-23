@@ -2,22 +2,13 @@
 #define INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
 
 /**
- * @file ActualCall.hpp
+ * @file
  * @brief Fluent interface returned by Support::actual_call().
  *
  * Inside a mock function implementation, call Support::actual_call() and
  * then chain with_parameter() for each argument before querying the return
  * value. The framework matches the actual call against the registered
  * expectations and fails the test if a mismatch is found.
- *
- * @code{.cpp}
- * int MyClass::compute(int x, const char* label) {
- *   return mock().actual_call("compute")
- *                .with_parameter("x", x)
- *                .with_parameter("label", label)
- *                .return_int_value();
- * }
- * @endcode
  *
  * @see Support::actual_call(), ExpectedCall
  */

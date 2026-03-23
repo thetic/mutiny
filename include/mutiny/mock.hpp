@@ -2,33 +2,12 @@
 #define INCLUDED_MUTINY_MOCK_HPP
 
 /**
- * @file Support.hpp
+ * @file
  * @brief Core mock support: expectation recording, call verification, and data
  * sharing.
  *
  * The canonical entry point is the free function mock(), which returns a
- * reference to the global (or a named scope) Support. Typical usage:
- *
- * @code{.cpp}
- * // In production code (the mock implementation):
- * int Database::query(const char* sql) {
- *   return mock().actual_call("query")
- *                .with_parameter("sql", sql)
- *                .return_int_value();
- * }
- *
- * // In the test:
- * TEST(DbTest, returns_row_count)
- * {
- *   mock().expect_one_call("query")
- *         .with_parameter("sql", "SELECT 1")
- *         .and_return_value(42);
- *
- *   CHECK_EQUAL(42, db.query("SELECT 1"));
- *   mock().check_expectations();
- *   mock().clear();
- * }
- * @endcode
+ * reference to the global (or a named scope) Support.
  *
  * @see mock() for the free function entry point
  * @see SupportPlugin for automatic check/clear in teardown
@@ -66,6 +45,9 @@ class NamedValueListNode;
 class Support
 {
 public:
+  /** @brief Type alias for a pointer to a function with signature `void()`. */
+  using FunctionPointerValue = void (*)();
+
   /**
    * @brief Construct a Support with an optional scope name.
    *
@@ -248,10 +230,12 @@ public:
    * default_value.
    * @param default_value  Fallback when no return value was set.
    */
-  virtual void (*return_function_pointer_value_or_default(void (*default_value)()))();
+  virtual FunctionPointerValue return_function_pointer_value_or_default(
+      FunctionPointerValue default_value
+  );
   /** @return The function-pointer return value configured for the current call.
    */
-  virtual void (*function_pointer_return_value())();
+  virtual FunctionPointerValue function_pointer_return_value();
 
   /**
    * @brief Check whether named data exists in this scope.
@@ -284,7 +268,7 @@ public:
   void set_data(const mu::tiny::test::String& name, const void* value);
   /** @brief Store a function pointer value. @param name Key. @param value
    * Value. */
-  void set_data(const mu::tiny::test::String& name, void (*value)());
+  void set_data(const mu::tiny::test::String& name, FunctionPointerValue value);
 
   /**
    * @brief Store a mutable object pointer with a type name.

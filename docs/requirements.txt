@@ -1,0 +1,5 @@
+sphinx>=7.0,<9
+breathe>=4.35
+exhale>=0.3.7
+sphinxcontrib-moderncmakedomain>=3.0
+furo

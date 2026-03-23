@@ -2,28 +2,13 @@
 #define INCLUDED_MUTINY_TEST_PLUGIN_HPP
 
 /**
- * @file Plugin.hpp
+ * @file
  * @brief Extension point for running code before/after every test.
  *
  * Subclass Plugin to intercept the test lifecycle, contribute a custom
  * Output, or handle extra command-line arguments. Plugins form a
  * singly-linked list; install them with CommandLineRunner before calling
  * run_all_tests_main().
- *
- * @code{.cpp}
- * class TimingPlugin : public mu::tiny::test::Plugin {
- * public:
- *   TimingPlugin() : Plugin("TimingPlugin") {}
- *   void pre_test_action(mu::tiny::test::Shell&,
- * mu::tiny::test::Result&) override { start_ = clock();
- *   }
- *   void post_test_action(mu::tiny::test::Shell&,
- * mu::tiny::test::Result&) override { record(clock() - start_);
- *   }
- * private:
- *   clock_t start_;
- * };
- * @endcode
  *
  * @see SupportPlugin, SetPointerPlugin
  */

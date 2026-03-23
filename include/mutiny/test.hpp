@@ -2,29 +2,13 @@
 #define INCLUDED_MUTINY_TEST_HPP
 
 /**
- * @file mutiny/test.hpp
+ * @file
  * @brief Primary test-definition header for mutiny.
  *
  * Include this header in every C++ test file. It provides the macros needed
  * to declare test groups and individual tests: TEST_GROUP, TEST, IGNORE_TEST,
  * EXPECT_FAIL_TEST, and the C-interop wrappers. Assertion macros are provided
  * by Shell.hpp, which this header includes transitively.
- *
- * Typical usage:
- * @code{.cpp}
- * #include "mutiny/test.hpp"
- *
- * TEST_GROUP(MyGroup)
- * {
- *   void setup() override { ... }
- *   void teardown() override { ... }
- * };
- *
- * TEST(MyGroup, does_something)
- * {
- *   CHECK_EQUAL(42, compute());
- * }
- * @endcode
  *
  * @see Shell.hpp for assertion macros
  * @see OrderedTest.hpp for tests with a defined execution order

@@ -111,7 +111,7 @@ void NamedValue::set_value(const void* value)
   value_.const_pointer_value = value;
 }
 
-void NamedValue::set_value(void (*value)())
+void NamedValue::set_value(NamedValue::FunctionPointerValue value)
 {
   type_ = "void (*)()";
   value_.function_pointer_value = value;
@@ -287,7 +287,7 @@ const void* NamedValue::get_const_pointer_value() const
   return value_.pointer_value;
 }
 
-void (*NamedValue::get_function_pointer_value() const)()
+NamedValue::FunctionPointerValue NamedValue::get_function_pointer_value() const
 {
   STRCMP_EQUAL("void (*)()", type_.c_str());
   return value_.function_pointer_value;

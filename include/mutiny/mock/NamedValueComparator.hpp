@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
 
 /**
- * @file NamedValueComparator.hpp
+ * @file
  * @brief Interface and helpers for comparing mock parameters of custom types.
  *
  * When a mock expectation is set with with_parameter_of_type(), the framework
@@ -11,22 +11,8 @@
  * Support::install_comparator().
  *
  * Three concrete implementations are provided:
- * - FunctionComparator — wraps plain function pointers
- * - TypedMockComparator<T> — uses T::operator== and string_from()
- *
- * @code{.cpp}
- * struct PointComparator : mu::tiny::mock::NamedValueComparator {
- *   bool is_equal(const void* a, const void* b) override {
- *     return *static_cast<const Point*>(a) == *static_cast<const Point*>(b);
- *   }
- *   mu::tiny::test::String value_to_string(const void* obj) override {
- *     return string_from(*static_cast<const Point*>(obj));
- *   }
- * };
- *
- * PointComparator comparator;
- * mock().install_comparator("Point", comparator);
- * @endcode
+ * - FunctionComparator wraps plain function pointers
+ * - TypedMockComparator<T> uses T::operator== and string_from()
  *
  * @see Support::install_comparator(), NamedValueCopier
  */

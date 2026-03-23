@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_TEST_SHELL_HPP
 
 /**
- * @file Shell.hpp
+ * @file
  * @brief Assertion macros and the Shell base class.
  *
  * This header is the primary source of assertion macros (CHECK, CHECK_EQUAL,

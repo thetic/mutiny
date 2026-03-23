@@ -2,18 +2,8 @@
 #define INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
 
 /**
- * @file CommandLineRunner.hpp
+ * @file
  * @brief Entry point for running all registered tests from a main() function.
- *
- * The simplest usage is a one-liner main():
- * @code{.cpp}
- * #include "mutiny/test/CommandLineRunner.hpp"
- *
- * int main(int argc, char** argv)
- * {
- *     return CommandLineRunner::run_all_tests(argc, argv);
- * }
- * @endcode
  *
  * Supported command-line flags:
  * - @c -v          verbose output

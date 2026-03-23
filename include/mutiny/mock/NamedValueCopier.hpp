@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_MOCK_NAMEDVALUECOPIER_HPP
 
 /**
- * @file NamedValueCopier.hpp
+ * @file
  * @brief Interface and helpers for copying mock output parameters of custom
  * types.
  *
@@ -13,19 +13,8 @@
  * Support::install_copier().
  *
  * Two concrete implementations are provided:
- * - FunctionCopier — wraps a plain function pointer
- * - TypedMockCopier<T> — uses T::operator=
- *
- * @code{.cpp}
- * struct PointCopier : mu::tiny::mock::NamedValueCopier {
- *   void copy(void* dst, const void* src) override {
- *     *static_cast<Point*>(dst) = *static_cast<const Point*>(src);
- *   }
- * };
- *
- * PointCopier copier;
- * mock().install_copier("Point", copier);
- * @endcode
+ * - FunctionCopier wraps a plain function pointer
+ * - TypedMockCopier<T> uses T::operator=
  *
  * @see Support::install_copier(), NamedValueComparator
  */

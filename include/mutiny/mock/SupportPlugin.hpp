@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
 
 /**
- * @file SupportPlugin.hpp
+ * @file
  * @brief Plugin that automates mock check/clear and comparator lifetime.
  *
  * Install SupportPlugin once in your test runner (or in the test group) to
@@ -13,14 +13,6 @@
  * It also provides install_comparator() and install_copier() methods whose
  * lifetime is tied to the plugin scope, ensuring comparators and copiers are
  * removed after each test run.
- *
- * @code{.cpp}
- * int main(int argc, char** argv)
- * {
- *   mu::tiny::mock::SupportPlugin mock_plugin;
- *   return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
- * }
- * @endcode
  *
  * @see Support, Plugin
  */

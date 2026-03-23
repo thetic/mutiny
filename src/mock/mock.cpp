@@ -471,7 +471,7 @@ void Support::set_data(const test::String& name, const void* value)
   new_data->set_value(value);
 }
 
-void Support::set_data(const test::String& name, void (*value)())
+void Support::set_data(const test::String& name, FunctionPointerValue value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
@@ -701,8 +701,9 @@ const void* Support::return_const_pointer_value_or_default(
   return default_value;
 }
 
-void (*Support::
-          return_function_pointer_value_or_default(void (*default_value)()))()
+Support::FunctionPointerValue Support::return_function_pointer_value_or_default(
+    FunctionPointerValue default_value
+)
 {
   if (has_return_value()) {
     return function_pointer_return_value();
@@ -720,7 +721,7 @@ const void* Support::const_pointer_return_value()
   return return_value().get_const_pointer_value();
 }
 
-void (*Support::function_pointer_return_value())()
+Support::FunctionPointerValue Support::function_pointer_return_value()
 {
   return return_value().get_function_pointer_value();
 }

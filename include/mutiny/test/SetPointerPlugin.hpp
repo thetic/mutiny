@@ -2,7 +2,7 @@
 #define INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
 
 /**
- * @file SetPointerPlugin.hpp
+ * @file
  * @brief Automatic pointer restoration after each test.
  *
  * SetPointerPlugin records the original address stored in a pointer variable
@@ -11,18 +11,6 @@
  *
  * Use the MUTINY_PTR_SET macro (the preferred interface) or call
  * SetPointerPlugin::set_pointer() directly.
- *
- * @code{.cpp}
- * // In your test group, install the plugin once:
- * SetPointerPlugin setPlugin;
- * // (Alternatively, register it with CommandLineRunner.)
- *
- * TEST(Foo, uses_global)
- * {
- *   MUTINY_PTR_SET(g_driver, &stub_driver);
- *   // g_driver is automatically restored to its original value after the test.
- * }
- * @endcode
  *
  * @see MUTINY_PTR_SET
  */

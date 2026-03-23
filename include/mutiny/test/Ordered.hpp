@@ -2,22 +2,12 @@
 #define INCLUDED_MUTINY_TEST_ORDERED_HPP
 
 /**
- * @file OrderedTest.hpp
+ * @file
  * @brief Tests with a deterministic execution order based on a numeric level.
  *
  * By default mutiny runs tests in an unspecified order. Ordered tests run in
  * ascending level order relative to each other, and all run after the
  * unordered tests in the registry.
- *
- * @code{.cpp}
- * TEST_GROUP(Setup)
- * {
- * };
- *
- * TEST_ORDERED(Setup, first,  10) { ... }
- * TEST_ORDERED(Setup, second, 20) { ... }
- * TEST_ORDERED(Setup, third,  30) { ... }
- * @endcode
  *
  * @see TEST_ORDERED
  */

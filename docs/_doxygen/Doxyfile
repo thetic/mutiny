@@ -1,0 +1,26 @@
+# Doxyfile for mutiny — XML output only, consumed by Exhale/Breathe
+
+PROJECT_NAME           = mutiny
+PROJECT_BRIEF          = "C/C++ unit testing and mocking framework"
+
+INPUT                  = ../../include/mutiny
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.h
+
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+SKIP_FUNCTION_MACROS   = NO
+
+WARN_IF_UNDOCUMENTED   = NO
+QUIET                  = YES
