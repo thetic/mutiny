@@ -1,4 +1,6 @@
-# mutiny
+<img src="docs/_static/logo.png" alt="mutiny" width="300">
+
+---
 
 mutiny is a C/C++ unit testing and mocking framework suited for embedded and
 low-resource targets.

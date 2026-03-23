@@ -64,3 +64,4 @@ exhale_args = {
 html_theme = "furo"
 html_static_path = ["_static"]
 html_title = "mutiny"
+html_logo = "_static/logo.png"
