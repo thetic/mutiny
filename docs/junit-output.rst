@@ -1,7 +1,7 @@
 JUnit XML Output
 ================
 
-mutiny can emit JUnit-compatible XML files via ``JUnitOutputPlugin``. CI
+mutiny can emit JUnit-compatible XML files via :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`. CI
 systems such as Jenkins, GitHub Actions, and GitLab CI can parse this
 format to display test results in their dashboards.
 
@@ -61,7 +61,7 @@ XML Format
      </testcase>
    </testsuite>
 
-``TEST_PROPERTY`` annotations appear as ``<property>`` elements inside
+:c:macro:`TEST_PROPERTY` annotations appear as ``<property>`` elements inside
 ``<testcase>``.
 
 CI Integration

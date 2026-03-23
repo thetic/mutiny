@@ -99,11 +99,11 @@ C Test Definition Macros
      - Defines the setup function for group
    * - ``TEST_GROUP_TEARDOWN(group)``
      - Defines the teardown function for group
-   * - ``TEST(group, name)``
+   * - :c:macro:`TEST(group, name) <TEST>`
      - Defines a test function body
-   * - ``IGNORE_TEST(group, name)``
+   * - :c:macro:`IGNORE_TEST(group, name) <IGNORE_TEST>`
      - Defines an ignored test body
-   * - ``EXPECT_FAIL_TEST(group, name)``
+   * - :c:macro:`EXPECT_FAIL_TEST(group, name) <EXPECT_FAIL_TEST>`
      - Defines an expected-failure test body
 
 C++ Wrapper Macros
@@ -116,24 +116,37 @@ Each C macro that defines a test body has a matching C++ wrapper:
 
    * - C++ wrapper
      - What it creates
-   * - ``TEST_GROUP_C_WRAPPER(group)``
-     - A ``TEST_GROUP`` with optional setup/teardown wiring
-   * - ``TEST_GROUP_C_SETUP_WRAPPER(group)``
+   * - :c:macro:`TEST_GROUP_C_WRAPPER(group) <TEST_GROUP_C_WRAPPER>`
+     - A :c:macro:`TEST_GROUP` with optional setup/teardown wiring
+   * - :c:macro:`TEST_GROUP_C_SETUP_WRAPPER(group) <TEST_GROUP_C_SETUP_WRAPPER>`
      - Calls the C setup function from C++ ``setup()``
-   * - ``TEST_GROUP_C_TEARDOWN_WRAPPER(group)``
+   * - :c:macro:`TEST_GROUP_C_TEARDOWN_WRAPPER(group) <TEST_GROUP_C_TEARDOWN_WRAPPER>`
      - Calls the C teardown function from C++ ``teardown()``
-   * - ``TEST_C_WRAPPER(group, name)``
-     - A ``TEST`` that calls the C test function
-   * - ``IGNORE_TEST_C_WRAPPER(group, name)``
-     - An ``IGNORE_TEST`` that calls the C ignored function
-   * - ``EXPECT_FAIL_TEST_C_WRAPPER(group, name)``
-     - An ``EXPECT_FAIL_TEST`` that calls the C expected-fail function
+   * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
+     - A :c:macro:`TEST` that calls the C test function
+   * - :c:macro:`IGNORE_TEST_C_WRAPPER(group, name) <IGNORE_TEST_C_WRAPPER>`
+     - An :c:macro:`IGNORE_TEST` that calls the C ignored function
+   * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
+     - An :c:macro:`EXPECT_FAIL_TEST` that calls the C expected-fail function
 
 C Mock Interface (``mutiny/mock.h``)
 -------------------------------------
 
-The C mock API exposes ``struct MutinyMockSupport`` through a
-``mutiny_mock()`` function that returns a pointer to a struct of function
+.. c:struct:: MutinyMockSupport
+
+   Vtable of function pointers that form the C mock API.  Obtain a
+   pointer via :c:func:`mutiny_mock` or :c:func:`mutiny_mock_scope`.
+
+.. c:function:: MutinyMockSupport* mutiny_mock(void)
+
+   Returns the global :c:struct:`MutinyMockSupport` instance.
+
+.. c:function:: MutinyMockSupport* mutiny_mock_scope(const char* name)
+
+   Returns the named :c:struct:`MutinyMockSupport` scope.
+
+The C mock API exposes :c:struct:`MutinyMockSupport` through
+:c:func:`mutiny_mock`, which returns a pointer to a struct of function
 pointers. This allows chaining calls in C99:
 
 .. code-block:: c
@@ -151,8 +164,8 @@ pointers. This allows chaining calls in C99:
        ->with_int_parameters("fd", fd)
        ->int_return_value();
 
-For named scopes: ``mutiny_mock_scope("name")`` returns a pointer to the
-named ``MutinyMockSupport``.
+For named scopes: :c:func:`mutiny_mock_scope("name") <mutiny_mock_scope>` returns a pointer to
+the named :c:struct:`MutinyMockSupport`.
 
 Data store in C
 ~~~~~~~~~~~~~~~
@@ -191,5 +204,5 @@ Examples
        checks output with ``CHECK_EQUAL_STRING``
    * - `MockDocumentation.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.c>`__ +
        `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
-     - C mock interface: ``mutiny_mock()``, typed parameters, custom
+     - C mock interface: :c:func:`mutiny_mock`, typed parameters, custom
        comparator, data store

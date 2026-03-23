@@ -15,7 +15,7 @@ mutiny uses CMake. Clone the repository and configure:
 Adding mutiny to Your Project
 -----------------------------
 
-The recommended approach is CMake ``FetchContent``:
+The recommended approach is CMake :cmake:module:`FetchContent <cmake:module:FetchContent>`:
 
 .. code-block:: cmake
 
@@ -38,7 +38,8 @@ The recommended approach is CMake ``FetchContent``:
    mutiny_discover_tests(my_tests)
 
 If mutiny is already installed system-wide, use
-``find_package(mutiny REQUIRED)`` instead of ``FetchContent``.
+:cmake:command:`find_package(mutiny REQUIRED) <cmake:command:find_package>` instead of
+:cmake:module:`FetchContent <cmake:module:FetchContent>`.
 
 Headers
 ~~~~~~~
@@ -51,17 +52,15 @@ All public headers live under ``include/mutiny/``. The main headers you'll use:
    * - Header
      - Purpose
    * - ``mutiny/test.hpp``
-     - Test definition macros (``TEST_GROUP``, ``TEST``, etc.)
-   * - ``mutiny/test/Shell.hpp``
-     - Assertion macros (``CHECK``, ``CHECK_EQUAL``, etc.)
+     - Test and assertion macros (:c:macro:`TEST_GROUP`, :c:macro:`TEST`, :c:macro:`CHECK`, etc.)
    * - ``mutiny/mock.hpp``
-     - Mock framework (``mock()``, :cpp:class:`Support <mu::tiny::mock::Support>`)
+     - Mock framework (:cpp:func:`mock <mu::tiny::mock::mock>`, :cpp:class:`Support <mu::tiny::mock::Support>`)
    * - ``mutiny/test.h``
      - C interface (include in ``.test.c`` files)
    * - ``mutiny/test/CommandLineRunner.hpp``
-     - ``main()`` runner
+     - :cpp:class:`CommandLineRunner <mu::tiny::test::CommandLineRunner>` (``main()`` runner)
    * - ``mutiny/test/Ordered.hpp``
-     - ``TEST_ORDERED`` macro
+     - :c:macro:`TEST_ORDERED` macro
 
 Writing ``main()``
 ------------------
@@ -78,7 +77,9 @@ Every test executable needs a ``main()``. The simplest form uses
        return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
-To add plugins (e.g. JUnit output, SetPointer,
+To add plugins (e.g.
+:cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`,
+:cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`,
 :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), install them via
 :cpp:class:`Registry <mu::tiny::test::Registry>`:
 
@@ -125,7 +126,7 @@ Run the binary directly:
    ./build/GNU/tests/my_tests -g CheatSheet    # only group "CheatSheet"
    ./build/GNU/tests/my_tests -n TestName      # only tests whose name contains this
 
-Via CTest (after ``mutiny_discover_tests`` in CMakeLists):
+Via CTest (after :cmake:command:`mutiny_discover_tests` in CMakeLists):
 
 .. code-block:: bash
 
