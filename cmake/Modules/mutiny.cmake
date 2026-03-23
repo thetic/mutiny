@@ -29,14 +29,14 @@ be overridden per target through the matching keyword argument of
 
 .. variable:: MUTINY_JUNIT_REPORT
 
-  Boolean option.  When ``ON``, :option:`my_tests -pjunit` is appended to
+  Boolean option.  When ``ON``, :option:`-pjunit` is appended to
   every discovered test invocation so the executable emits a JUnit-format XML
   report.  Default: ``OFF``.
 
 .. variable:: MUTINY_EXTRA_ARGS
 
   Semicolon-separated list of extra command-line arguments forwarded to each
-  discovered test invocation.  Default: :option:`my_tests -v`.
+  discovered test invocation.  Default: :option:`-v`.
 
 Commands
 ^^^^^^^^

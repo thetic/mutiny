@@ -1,8 +1,6 @@
 Command-Line Reference
 ======================
 
-.. program:: my_tests
-
 All flags are passed directly to the test executable:
 
 .. code-block:: bash
@@ -55,6 +53,12 @@ Plugin Flags
 
 Plugin flags begin with ``-p``. The plugin must be installed in
 ``main()`` to parse them.
+
+.. option:: -p<plugin>
+
+   Invoke the named plugin flag.  Each plugin registered in ``main()``
+   receives every ``-p``-prefixed argument and may act on flags it
+   recognises.
 
 .. option:: -pjunit
 
