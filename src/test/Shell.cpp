@@ -455,9 +455,7 @@ void Shell::assert_cstr_contains(
         text ? text : ""
     ));
     exit_test(get_current_test_terminator());
-    return;
-  }
-  if (!string_contains(actual, expected)) {
+  } else if (!string_contains(actual, expected)) {
     add_failure(ContainsFailure(
         this, file_name, line_number, expected, actual, text ? text : ""
     ));
@@ -716,17 +714,6 @@ void Shell::assert_compare(
     ));
     test_terminator.exit_current_test();
   }
-}
-
-void Shell::print(const char* text, const char* file_name, size_t line_number)
-{
-  String string_to_print = "\n";
-  string_to_print += file_name;
-  string_to_print += ":";
-  string_to_print += string_from(line_number);
-  string_to_print += " ";
-  string_to_print += text;
-  get_test_result()->print(string_to_print.c_str());
 }
 
 void Shell::print_very_verbose(const char* text)

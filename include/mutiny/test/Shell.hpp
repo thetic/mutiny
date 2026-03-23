@@ -330,12 +330,6 @@ public:
       const Terminator& test_terminator = get_current_test_terminator()
   );
 
-  /** @brief Print a message to test output at the current source location. */
-  virtual void print(
-      const char* text,
-      const char* file_name,
-      size_t line_number
-  );
   /** @brief Print a message only when verbose output is active. */
   virtual void print_very_verbose(const char* text);
 

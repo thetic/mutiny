@@ -14,7 +14,7 @@ namespace tiny {
 namespace test {
 
 namespace {
-#if !MUTINY_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_STRING
 char* str_n_cpy(char* s1, const char* s2, size_t n)
 {
   char* result = s1;
@@ -55,7 +55,7 @@ bool is_upper(char ch)
 }
 } // namespace
 
-#if !MUTINY_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_STRING
 char* String::get_empty_string() const
 {
   char* buf = new char[1];
@@ -111,15 +111,6 @@ void String::reserve(size_t new_capacity)
 void String::clear()
 {
   set_internal_buffer_as_empty_string();
-}
-
-void String::set_internal_buffer_to(char* buffer, size_t buffer_size)
-{
-  deallocate_internal_buffer();
-
-  buffer_size_ = buffer_size;
-  size_ = buffer_size_ - 1;
-  buffer_ = buffer;
 }
 
 void String::copy_buffer_to_new_internal_buffer(const String& other_buffer)
@@ -611,6 +602,13 @@ String string_from(const std::nullptr_t value)
   (void)value;
   return "(null)";
 }
+
+#if !MUTINY_USE_STD_STRING
+String string_from(std::string const& str)
+{
+  return String(str.c_str());
+}
+#endif
 #endif
 
 String string_from(long long value)
@@ -708,7 +706,7 @@ String v_string_from_format(const char* format, va_list args)
   if (size < size_ofdefault_buffer) {
     result_string = String(default_buffer);
   } else {
-#if !MUTINY_USE_STD_CPP_LIB
+#if !MUTINY_USE_STD_STRING
     result_string.resize(size);
     vsnprintf(result_string.data(), size + 1, format, args_copy);
 #else

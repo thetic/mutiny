@@ -34,7 +34,10 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-#if MUTINY_USE_STD_CPP_LIB
+#if MUTINY_USE_STD_STRING
+#if !MUTINY_USE_STD_CPP_LIB
+#error MUTINY_USE_STD_STRING requires MUTINY_USE_STD_CPP_LIB
+#endif
 using String = std::string;
 #else
 class String
@@ -83,7 +86,6 @@ public:
 private:
   void deallocate_internal_buffer();
   void set_internal_buffer_as_empty_string();
-  void set_internal_buffer_to(char* buffer, size_t buffer_size);
   void copy_buffer_to_new_internal_buffer(const char* other_buffer);
   void copy_buffer_to_new_internal_buffer(
       const char* other_buffer,
@@ -177,6 +179,10 @@ String string_from(const String& other);
 
 #if MUTINY_USE_STD_CPP_LIB
 String string_from(const std::nullptr_t value);
+
+#if !MUTINY_USE_STD_STRING
+String string_from(std::string const& str);
+#endif
 #endif
 
 inline String string_from(void* value)
@@ -259,7 +265,6 @@ String brackets_formatted_hex_string_from(unsigned long long value);
 String brackets_formatted_hex_string_from(signed char value);
 
 String brackets_formatted_hex_string(const String& hex_string);
-
 }
 }
 } // namespace mu::tiny::test
