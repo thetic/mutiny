@@ -37,7 +37,7 @@ public:
     return new SetDoublePointerGroup();
   }
 };
-}
+} // namespace
 
 TEST_GROUP(SetPointerPlugin)
 {

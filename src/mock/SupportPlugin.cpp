@@ -28,7 +28,7 @@ public:
 
   mu::tiny::test::Shell* get_test_to_fail() override { return &test_; }
 };
-}
+} // namespace
 
 SupportPlugin::SupportPlugin(const test::String& name)
   : Plugin(name)
@@ -79,4 +79,4 @@ void SupportPlugin::install_copier(
 
 } // namespace mock
 } // namespace tiny
-} // namespace mu:
+} // namespace mu

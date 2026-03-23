@@ -13,7 +13,7 @@ int get_one()
 {
   return 1;
 }
-}
+} // namespace
 
 TEST_GROUP(ShellPointerArray)
 {

@@ -25,7 +25,7 @@ private:
 
 int OrderedTestTestingFixture::run_ = 0;
 int OrderedTestTestingFixture::count_ = 0;
-}
+} // namespace
 
 int mutiny_ordered_test_fixture_c_wrapper(void)
 {

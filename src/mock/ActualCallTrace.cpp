@@ -378,6 +378,6 @@ void ActualCallTrace::clear_instance()
   instance_ = nullptr;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

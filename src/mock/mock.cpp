@@ -732,6 +732,6 @@ bool Support::has_return_value()
   return false;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

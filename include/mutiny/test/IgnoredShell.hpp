@@ -31,8 +31,8 @@ private:
   bool run_ignored_;
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

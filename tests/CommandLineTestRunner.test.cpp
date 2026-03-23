@@ -440,7 +440,7 @@ private:
 };
 
 FakeOutput* FakeOutput::current_fake_ = nullptr;
-}
+} // namespace
 
 TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 {

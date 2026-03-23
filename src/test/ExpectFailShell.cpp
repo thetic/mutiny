@@ -41,6 +41,6 @@ void ExpectFailShell::run_one_test(Plugin* plugin, Result& result)
   }
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

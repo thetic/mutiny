@@ -539,6 +539,6 @@ String NamedValue::to_string() const
   );
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

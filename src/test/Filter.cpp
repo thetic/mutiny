@@ -92,6 +92,6 @@ String string_from(const Filter& filter)
   return filter.as_string();
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

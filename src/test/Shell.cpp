@@ -782,6 +782,6 @@ bool Shell::is_rethrowing_exceptions()
   return rethrow_exceptions_;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

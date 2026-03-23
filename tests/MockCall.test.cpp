@@ -524,7 +524,7 @@ void mocks_are_counted_as_checks_test_function()
   mock().expect_no_call("lazy");
   mock().clear();
 }
-}
+} // namespace
 
 TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
 {

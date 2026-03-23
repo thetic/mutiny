@@ -122,6 +122,6 @@ size_t Result::get_current_group_total_execution_time() const
   return current_group_total_execution_time_;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

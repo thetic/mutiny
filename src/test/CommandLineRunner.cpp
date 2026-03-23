@@ -174,6 +174,6 @@ bool CommandLineRunner::parse_arguments(Plugin* plugin)
   return true;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

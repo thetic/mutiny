@@ -113,6 +113,6 @@ void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(
   current->add_ordered_test(test);
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

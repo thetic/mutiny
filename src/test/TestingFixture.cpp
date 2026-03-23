@@ -190,6 +190,6 @@ void TestingFixture::check_test_fails_with_proper_test_location(
     );
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

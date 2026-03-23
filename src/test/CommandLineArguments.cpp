@@ -489,6 +489,6 @@ void CommandLineArguments::add_test_to_run_based_on_verbose_output(
   name_filters_ = namefilter->add(name_filters_);
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

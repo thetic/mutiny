@@ -59,6 +59,6 @@ namespace test {
 unsigned long (*get_time_in_millis)() = get_time_in_millis_impl;
 const char* (*get_time_string)() = get_time_string_impl;
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

@@ -87,6 +87,6 @@ Shell* ShellPointerArray::get(size_t index) const
   return array_of_tests_[index];
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

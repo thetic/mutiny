@@ -36,7 +36,7 @@ void check_no_mock_failure_location_failed_test_method()
   check_no_mock_failure_location("file", 1);
 }
 
-}
+} // namespace
 
 TEST_GROUP(MockSupportWithFixture)
 {

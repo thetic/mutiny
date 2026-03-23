@@ -19,6 +19,6 @@ void NullPlugin::run_all_pre_test_action(Shell&, Result&) {}
 
 void NullPlugin::run_all_post_test_action(Shell&, Result&) {}
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

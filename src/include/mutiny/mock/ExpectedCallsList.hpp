@@ -109,8 +109,8 @@ private:
   MockExpectedCallsListNode* head_{ nullptr };
 };
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

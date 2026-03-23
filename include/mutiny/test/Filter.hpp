@@ -36,8 +36,8 @@ private:
 
 String string_from(const Filter& filter);
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

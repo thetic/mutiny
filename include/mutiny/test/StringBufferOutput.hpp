@@ -33,8 +33,8 @@ protected:
   String output_;
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

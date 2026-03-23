@@ -40,8 +40,8 @@ public:
   ~CrashingTerminatorWithoutExceptions() override = default;
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

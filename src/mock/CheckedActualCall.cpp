@@ -730,6 +730,6 @@ void CheckedActualCall::clean_up_output_parameter_list()
   }
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

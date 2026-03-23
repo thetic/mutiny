@@ -17,8 +17,8 @@ public:
   virtual void test_body();
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

@@ -76,8 +76,8 @@ private:
   size_t current_group_total_execution_time_{ 0 };
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

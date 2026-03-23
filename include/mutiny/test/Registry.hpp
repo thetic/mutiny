@@ -69,8 +69,8 @@ private:
   bool run_ignored_{ false };
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

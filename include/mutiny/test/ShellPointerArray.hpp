@@ -30,8 +30,8 @@ private:
   size_t count_{ 0 };
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

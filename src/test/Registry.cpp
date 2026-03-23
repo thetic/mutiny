@@ -292,6 +292,6 @@ Shell* Registry::find_test_with_group(const String& group)
   return nullptr;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

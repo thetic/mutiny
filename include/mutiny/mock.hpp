@@ -507,8 +507,8 @@ Support& mock(
     FailureReporter* failure_reporter_for_this_call = nullptr
 );
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

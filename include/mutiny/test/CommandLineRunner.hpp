@@ -123,8 +123,8 @@ private:
   void initialize_test_run();
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

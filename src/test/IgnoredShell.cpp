@@ -54,6 +54,6 @@ void IgnoredShell::set_run_ignored()
   run_ignored_ = true;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

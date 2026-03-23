@@ -9,7 +9,7 @@
 namespace {
 const int fail_line_number = 2;
 const char* fail_file_name = "fail.cpp";
-}
+} // namespace
 
 TEST_GROUP(TestFailureNaN)
 {

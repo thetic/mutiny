@@ -82,9 +82,9 @@ private:
   static void store(void** location);
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 /**
  * @brief Save the original value of pointer @p a, then set @p a = @p b.

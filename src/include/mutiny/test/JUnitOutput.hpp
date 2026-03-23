@@ -56,8 +56,8 @@ protected:
   virtual void write_file_ending();
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif

@@ -10,6 +10,6 @@ ExpectedCall& IgnoredExpectedCall::instance()
   return call;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

@@ -52,7 +52,7 @@ public:
     *(typed_dst->value) = *(typed_src->value);
   }
 };
-}
+} // namespace
 
 TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingAComparisonRepository)
 {
@@ -125,7 +125,7 @@ mu::tiny::test::String my_type_value_to_string(const void* object)
       static_cast<const MyTypeForTesting*>(object)->value
   );
 }
-}
+} // namespace
 
 TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 {
@@ -607,7 +607,7 @@ void my_type_copy(void* dst, const void* src)
   auto* typed_src = static_cast<const MyTypeForTesting*>(src);
   *(typed_dst->value) = *(typed_src->value);
 }
-}
+} // namespace
 
 TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 {
@@ -763,7 +763,7 @@ void function_with_const_param(const SomeClass param)
       .actual_call("functionWithConstParam")
       .with_parameter_of_type("SomeClass", "param", &param);
 }
-}
+} // namespace
 
 TEST(MockComparatorCopier, shouldSupportConstParameters)
 {

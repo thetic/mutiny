@@ -382,6 +382,6 @@ bool ExpectedCallsList::
   return false;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

@@ -265,9 +265,9 @@ String brackets_formatted_hex_string_from(unsigned long long value);
 String brackets_formatted_hex_string_from(signed char value);
 
 String brackets_formatted_hex_string(const String& hex_string);
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #undef MUTINY_HAS_ATTRIBUTE
 #undef MUTINY_CHECK_FORMAT_TYPE

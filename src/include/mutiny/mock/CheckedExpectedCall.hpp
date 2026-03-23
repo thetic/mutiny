@@ -197,8 +197,8 @@ private:
   unsigned int expected_calls_;
 };
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

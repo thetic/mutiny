@@ -3,7 +3,7 @@
 namespace {
 void (*real_one)();
 void stub() {}
-}
+} // namespace
 
 /* Declare TestGroup with name CheatSheet */
 TEST_GROUP(CheatSheet)

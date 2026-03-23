@@ -653,6 +653,6 @@ unsigned int CheckedExpectedCall::get_actual_calls_fulfilled() const
   return actual_calls_;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

@@ -62,7 +62,7 @@ String printable_string_from_or_null(const char* expected)
 {
   return (expected) ? printable(string_from(expected)) : string_from("(null)");
 }
-}
+} // namespace
 
 Failure::Failure(
     Shell* test,
@@ -650,6 +650,6 @@ UnexpectedExceptionFailure::UnexpectedExceptionFailure(
 #endif // MUTINY_USE_STD_CPP_LIB
 #endif // MUTINY_HAVE_EXCEPTIONS
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

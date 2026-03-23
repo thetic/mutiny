@@ -128,9 +128,9 @@ private:
   void add_ordered_test_in_order_not_at_head_position(OrderedShell* test);
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 /**
  * @brief Define a test that runs at a specific position relative to other

@@ -38,6 +38,6 @@ Output* JUnitOutputPlugin::create_output()
   return nullptr;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

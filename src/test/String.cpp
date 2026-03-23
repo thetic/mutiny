@@ -782,6 +782,6 @@ String string_from_ordinal_number(unsigned int number)
   return string_from_format("%u%s", number, suffix);
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

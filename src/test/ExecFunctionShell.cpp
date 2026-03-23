@@ -42,6 +42,6 @@ void ExecFunctionTest::teardown()
     shell_->teardown();
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

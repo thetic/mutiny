@@ -449,8 +449,8 @@ public:
   virtual ActualCall& on_object(const void* object_ptr) = 0;
 };
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

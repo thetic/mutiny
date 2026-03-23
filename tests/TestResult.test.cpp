@@ -10,7 +10,7 @@ unsigned long mock_get_time_in_millis()
 {
   return 10;
 }
-}
+} // namespace
 
 TEST_GROUP(Result)
 {

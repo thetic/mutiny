@@ -125,6 +125,6 @@ bool Plugin::is_enabled()
   return enabled_;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

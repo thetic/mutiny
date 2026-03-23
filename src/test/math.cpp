@@ -35,6 +35,6 @@ namespace test {
 int (*is_nan)(double) = is_nan_impl;
 int (*is_inf)(double) = is_inf_impl;
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

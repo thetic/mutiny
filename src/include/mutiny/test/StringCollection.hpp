@@ -28,8 +28,8 @@ private:
   size_t size_{ 0 };
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif // INCLUDED_MUTINY_TEST_STRINGCOLLECTION_HPP

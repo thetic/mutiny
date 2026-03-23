@@ -40,6 +40,6 @@ void SetPointerPlugin::post_test_action(Shell& /*test*/, Result& /*result*/)
   pointer_table_index = 0;
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

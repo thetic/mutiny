@@ -164,6 +164,6 @@ void CompositeOutput::flush()
     output_two_->flush();
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

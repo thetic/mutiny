@@ -29,7 +29,7 @@ public:
     return "  -phelp             - help text\n";
   }
 };
-}
+} // namespace
 
 TEST_GROUP(CommandLineArguments)
 {

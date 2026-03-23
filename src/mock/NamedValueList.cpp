@@ -77,6 +77,6 @@ NamedValueListNode* NamedValueList::begin()
   return head_;
 }
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu

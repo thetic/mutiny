@@ -21,7 +21,7 @@ size_t count_substr(const String& string, const String& substr)
   return num;
 }
 
-}
+} // namespace
 
 StringCollection::StringCollection(String const& str, char delimiter)
 {
@@ -76,6 +76,6 @@ String& StringCollection::operator[](size_t index)
   return collection_[index];
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

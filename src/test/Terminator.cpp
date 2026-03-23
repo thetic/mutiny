@@ -33,6 +33,6 @@ void CrashingTerminatorWithoutExceptions::exit_current_test() const
   TerminatorWithoutExceptions::exit_current_test();
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

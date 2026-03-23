@@ -103,6 +103,6 @@ void Test::test_body() {}
 
 void Test::teardown() {}
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

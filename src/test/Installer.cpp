@@ -27,6 +27,6 @@ void Installer::un_do()
   Registry::get_current_registry()->un_do_last_add_test();
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

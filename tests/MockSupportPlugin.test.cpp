@@ -177,7 +177,7 @@ void fail_twice_function()
   mock().expect_one_call("foobar");
   FAIL("This failed");
 }
-}
+} // namespace
 
 TEST(SupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {

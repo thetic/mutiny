@@ -149,8 +149,8 @@ public:
   }
 };
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

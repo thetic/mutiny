@@ -495,7 +495,7 @@ void destructor_called_for_local_objects()
   destructor_was_called_on_failed_test = false;
   FAIL("fail");
 }
-}
+} // namespace
 
 TEST(Shell, DestructorIsCalledForLocalObjectsWhenTheTestFails)
 {

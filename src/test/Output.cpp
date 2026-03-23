@@ -249,6 +249,6 @@ void Output::print_very_verbose(const char* str)
     print_buffer(str);
 }
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu

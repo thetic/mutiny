@@ -161,8 +161,8 @@ private:
   void add_parameter_name(const mu::tiny::test::String& name);
 };
 
-}
-}
-} // namespace mu::tiny::mock
+} // namespace mock
+} // namespace tiny
+} // namespace mu
 
 #endif

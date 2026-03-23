@@ -18,8 +18,8 @@ public:
   static NullPlugin* instance();
 };
 
-}
-}
-} // namespace mu::tiny::test
+} // namespace test
+} // namespace tiny
+} // namespace mu
 
 #endif // INCLUDED_MUTINY_TEST_NULLPLUGIN_HPP
