@@ -1,3 +1,85 @@
+#[=======================================================================[.rst:
+mutiny
+------
+
+Provides CTest integration for the mutiny unit-testing framework.
+
+.. code-block:: cmake
+
+   include(mutiny)
+
+After including this module the :command:`mutiny_discover_tests` command is
+available.  It attaches a post-build step to a test executable that enumerates
+its tests and registers each one as an individual CTest test, giving
+fine-grained pass/fail reporting without requiring a CMake re-run when tests
+are added or removed.
+
+Cache Variables
+^^^^^^^^^^^^^^^
+
+The following cache variables control default behaviour globally.  Each may
+be overridden per target through the matching keyword argument of
+:command:`mutiny_discover_tests`.
+
+.. variable:: MUTINY_TESTS_DETAILED
+
+  Boolean option.  When ``ON``, each discovered test case is run as its own
+  CTest invocation instead of sharing a single test-executable run.
+  Default: ``OFF``.
+
+.. variable:: MUTINY_JUNIT_REPORT
+
+  Boolean option.  When ``ON``, ``-pjunit`` is appended to every discovered
+  test invocation so the executable emits a JUnit-format XML report.
+  Default: ``OFF``.
+
+.. variable:: MUTINY_EXTRA_ARGS
+
+  Semicolon-separated list of extra command-line arguments forwarded to each
+  discovered test invocation.  Default: ``-v``.
+
+Commands
+^^^^^^^^
+
+.. command:: mutiny_discover_tests
+
+  Automatically register CTest tests by querying the compiled test executable:
+
+  .. code-block:: cmake
+
+     mutiny_discover_tests(target
+                           [DETAILED <bool>]
+                           [EXTRA_ARGS <arg>...])
+
+  ``mutiny_discover_tests()`` adds a post-build command on *target* that runs
+  the executable to list its test groups and names, then writes a generated
+  ``.cmake`` file.  CTest includes that file at test time to register each
+  case individually.  The function is a no-op when ``BUILD_TESTING`` is
+  ``OFF``.
+
+  ``target``
+    Name of an executable target built by the current project.  A
+    ``FATAL_ERROR`` is raised if the target does not exist or is not an
+    executable.
+
+  ``DETAILED <bool>``
+    Override :variable:`MUTINY_TESTS_DETAILED` for this target.
+
+  ``EXTRA_ARGS <arg>...``
+    Override :variable:`MUTINY_EXTRA_ARGS` for this target.
+
+  **Cross-compilation:** when :variable:`CMAKE_CROSSCOMPILING` is set, the
+  target must have a :prop_tgt:`CROSSCOMPILING_EMULATOR` defined; if absent,
+  discovery is skipped with a warning.
+
+  **CMake version compatibility:** CMake older than 3.10 supports only one
+  ``mutiny_discover_tests()`` call per directory because
+  :prop_dir:`TEST_INCLUDE_FILE` accepts a single value.  CMake 3.10 and later
+  use the list-capable :prop_dir:`TEST_INCLUDE_FILES` property and support
+  multiple calls per directory.
+
+#]=======================================================================]
+
 set(_MUTINY_DISCOVERY_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/_mutiny_discovery.cmake
     CACHE INTERNAL "mutiny discovery scripts"
 )
