@@ -11,29 +11,21 @@ Include ``"mutiny/test/Ordered.hpp"``.
 ``TEST_ORDERED(group, name, level)``
 -------------------------------------
 
-Declares a test that runs at the given level. Lower levels run first.
+:c:macro:`TEST_ORDERED` declares a test that runs at the given level. Lower levels run first.
 Tests at the same level run in registration order relative to each
-other.
+other (``FirstEvent`` and ``SecondEvent`` both run at level 20 below).
 
-.. code-block:: cpp
+.. literalinclude:: ../examples/tests/OrderedTest.test.cpp
+   :language: cpp
 
-   #include "mutiny/test.hpp"
-   #include "mutiny/test/Ordered.hpp"
-
-   TEST_GROUP(Database) {};
-
-   TEST_ORDERED(Database, CreateSchema,  10) { db_create_schema(); }
-   TEST_ORDERED(Database, SeedData,      20) { db_seed(); }
-   TEST_ORDERED(Database, RunQueries,    30) { run_queries(); }
-   TEST_ORDERED(Database, CleanUp,       40) { db_drop_schema(); }
-
-Ordered tests run as a block, separated from regular ``TEST`` tests. The
-block of ordered tests runs after all unordered tests by default.
+The leading ``TEST(OrderedDemo, StartsUninitialized)`` is a regular test:
+it runs before the ordered block. Ordered tests run as a block after all
+unordered tests by default.
 
 C Wrapper
 ---------
 
-``TEST_ORDERED_C_WRAPPER(group, name, level)`` wires a C test function
+:c:macro:`TEST_ORDERED_C_WRAPPER(group, name, level) <TEST_ORDERED_C_WRAPPER>` wires a C test function
 into an ordered test. Use it in the ``.test.cpp`` companion file
 alongside ``TEST_C_WRAPPER``:
 
@@ -66,15 +58,3 @@ Avoid them when:
 - You want the ``-s`` (shuffle) flag to help detect ordering
   dependencies — ordered tests are excluded from the shuffle.
 
-Examples
---------
-
-.. list-table::
-   :header-rows: 1
-
-   * - File
-     - Demonstrates
-   * - `OrderedTest.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/OrderedTest.test.cpp>`__
-     - Four-phase lifecycle (init → events → verify → shutdown) with two
-       tests sharing level 20, plus a regular ``TEST`` that runs before
-       the ordered block

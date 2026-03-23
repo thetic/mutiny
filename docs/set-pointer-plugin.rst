@@ -1,12 +1,12 @@
 SetPointerPlugin
 ================
 
-``SetPointerPlugin`` solves a common embedded-testing problem: swapping
-out a function pointer (or any global pointer) for a test stub, then
-automatically restoring it after the test.
+:cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` solves a common
+embedded-testing problem: swapping out a function pointer (or any global pointer)
+for a test stub, then automatically restoring it after the test.
 
 Include ``"mutiny/test.hpp"`` — ``SetPointerPlugin`` is included
-transitively, and the ``MUTINY_PTR_SET`` macro is available without any
+transitively, and the :c:macro:`MUTINY_PTR_SET` macro is available without any
 additional install step.
 
 The Macro
@@ -89,7 +89,8 @@ If you need more than 32, consider restructuring your test.
 How It Works
 ------------
 
-``SetPointerPlugin`` is a ``TestPlugin`` with a ``post_test_action``
+:cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is a
+:cpp:class:`Plugin <mu::tiny::test::Plugin>` with a ``post_test_action``
 that iterates the saved location/value pairs and writes each original
 value back. The static storage array means no heap allocation is needed,
 which is safe even in environments without ``malloc``.
@@ -103,7 +104,7 @@ Examples
    * - File
      - Demonstrates
    * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
-     - ``MUTINY_PTR_SET`` swapping a function pointer in ``setup()``
+     - :c:macro:`MUTINY_PTR_SET` swapping a function pointer in ``setup()``
    * - `hello.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.c>`__ +
        `hello.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.cpp>`__
      - Function pointer stub pattern in C (manual save/restore instead of

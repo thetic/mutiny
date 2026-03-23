@@ -14,32 +14,8 @@ The Two-File Pattern
 
 Include ``"mutiny/test.h"`` and use the C macros:
 
-.. code-block:: c
-
-   /* widget.test.c */
-   #include "widget.h"
-   #include "mutiny/test.h"
-
-   TEST_GROUP_SETUP(Widget)
-   {
-       widget_init();
-   }
-
-   TEST_GROUP_TEARDOWN(Widget)
-   {
-       widget_reset();
-   }
-
-   TEST(Widget, ReturnsInitialValue)
-   {
-       CHECK_EQUAL_INT(0, widget_get_value());
-   }
-
-   TEST(Widget, CanBeSet)
-   {
-       widget_set_value(42);
-       CHECK_EQUAL_INT(42, widget_get_value());
-   }
+.. literalinclude:: ../examples/tests/hello.test.c
+   :language: c
 
 ``TEST_GROUP_SETUP`` and ``TEST_GROUP_TEARDOWN`` in C define wrapper
 functions that the ``.test.cpp`` file calls. ``TEST`` in C defines a
@@ -48,25 +24,14 @@ wrapper function body.
 ``.test.cpp`` — the C++ registration wrapper
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. code-block:: cpp
-
-   /* widget.test.cpp */
-   #include "mutiny/test.hpp"
-
-   TEST_GROUP_C_WRAPPER(Widget)
-   {
-       TEST_GROUP_C_SETUP_WRAPPER(Widget)
-       TEST_GROUP_C_TEARDOWN_WRAPPER(Widget)
-   };
-
-   TEST_C_WRAPPER(Widget, ReturnsInitialValue)
-   TEST_C_WRAPPER(Widget, CanBeSet)
+.. literalinclude:: ../examples/tests/hello.test.cpp
+   :language: cpp
 
 Both files must be compiled together into the same test executable:
 
 .. code-block:: cmake
 
-   add_executable(my_tests main.cpp widget.test.c widget.test.cpp)
+   add_executable(my_tests main.cpp hello.test.c hello.test.cpp)
    target_link_libraries(my_tests PRIVATE mutiny::mutiny)
 
 C Assertion Macros (``mutiny/test.h``)
@@ -207,9 +172,10 @@ Custom comparators in C
 
    mutiny_mock()->install_comparator("MyType", my_equal, my_to_string);
 
-See
-`MockDocumentation.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.c>`__
-for a complete C mock example.
+Complete C mock example:
+
+.. literalinclude:: ../examples/tests/MockDocumentation.test.c
+   :language: c
 
 Examples
 --------

@@ -156,7 +156,7 @@ Execution Flags
      - Repeat the full test suite ``#`` times. If ``#`` is omitted, repeats
        twice. Useful for detecting order-dependent failures
    * - ``-ri``
-     - Run ignored tests (``IGNORE_TEST``) as if they were normal tests
+     - Run ignored tests (:c:macro:`IGNORE_TEST`) as if they were normal tests
    * - ``-f``
      - Crash on first failure instead of continuing (useful with a debugger)
    * - ``-e``

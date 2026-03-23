@@ -20,7 +20,8 @@ Pass ``-pjunit`` when running your test executable:
 Via plugin in ``main()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Install the plugin before calling ``run_all_tests``:
+Install the plugin via :cpp:class:`Registry <mu::tiny::test::Registry>` before calling
+:cpp:func:`run_all_tests <mu::tiny::test::CommandLineRunner::run_all_tests>`:
 
 .. code-block:: cpp
 
@@ -31,8 +32,8 @@ Install the plugin before calling ``run_all_tests``:
    int main(int argc, char** argv)
    {
        mu::tiny::test::JUnitOutputPlugin junit;
-       mu::tiny::test::TestRegistry::get_current_registry()->install_plugin(&junit);
-       return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
+       mu::tiny::test::Registry::get_current_registry()->install_plugin(&junit);
+       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
 With the plugin installed, ``-pjunit`` on the command line enables the

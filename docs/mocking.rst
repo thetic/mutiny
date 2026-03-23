@@ -6,6 +6,9 @@ Include ``"mutiny/mock.hpp"`` for the C++ mock API.
 Accessing the Mock Object
 --------------------------
 
+The central class is :cpp:class:`mu::tiny::mock::Support`, accessed via the
+:cpp:func:`mu::tiny::mock::mock` free function:
+
 .. code-block:: cpp
 
    mu::tiny::mock::mock()           // global mock scope
@@ -38,8 +41,8 @@ Every test that uses mocks should follow this pattern:
    }
 
 ``check_expectations()`` + ``clear()`` in teardown is cleaner than
-per-test calls. The ``MockSupportPlugin`` does this automatically — see
-:doc:`plugins`.
+per-test calls. :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>` does this
+automatically — see :doc:`plugins`.
 
 Expecting Calls
 ---------------
@@ -135,7 +138,7 @@ Set the return value on the expected call with
 ``void*``, ``const void*``, and ``void(*)()``.
 
 Retrieve the return value in your mock stub with the typed accessors on
-``MockActualCall`` or ``MockSupport``:
+:cpp:class:`ActualCall <mu::tiny::mock::ActualCall>` or :cpp:class:`Support <mu::tiny::mock::Support>`:
 
 .. code-block:: cpp
 
@@ -222,11 +225,14 @@ and stub code without extra globals:
 Custom Comparators
 ------------------
 
-Install a comparator to make ``with_parameter_of_type`` work for your
-type:
+Install a :cpp:class:`NamedValueComparator <mu::tiny::mock::NamedValueComparator>` to make
+``with_parameter_of_type`` work for your type:
 
 Template comparator (simplest)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:cpp:class:`TypedMockComparator\<T\> <mu::tiny::mock::TypedMockComparator>` requires
+``operator==`` and :cpp:func:`string_from() <mu::tiny::test::string_from>`:
 
 .. code-block:: cpp
 
@@ -238,9 +244,12 @@ Template comparator (simplest)
 Function-based comparator
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
+:cpp:class:`FunctionComparator <mu::tiny::mock::FunctionComparator>` wraps plain function
+pointers instead of a subclass:
+
 .. code-block:: cpp
 
-   MockFunctionComparator packet_cmp(
+   FunctionComparator packet_cmp(
        [](const void* a, const void* b) {
            return *static_cast<const Packet*>(a) == *static_cast<const Packet*>(b);
        },
@@ -253,9 +262,12 @@ Function-based comparator
 Subclass comparator
 ~~~~~~~~~~~~~~~~~~~
 
+Subclass :cpp:class:`NamedValueComparator <mu::tiny::mock::NamedValueComparator>` directly
+for full control:
+
 .. code-block:: cpp
 
-   class PacketComparator : public mu::tiny::mock::MockNamedValueComparator
+   class PacketComparator : public mu::tiny::mock::NamedValueComparator
    {
    public:
        bool is_equal(const void* a, const void* b) override {
@@ -272,7 +284,10 @@ Remove all installed comparators and copiers with
 Custom Copiers
 --------------
 
-Copiers are needed when using output parameters of custom types:
+A :cpp:class:`NamedValueCopier <mu::tiny::mock::NamedValueCopier>` is needed when using
+output parameters of custom types:
+
+:cpp:class:`TypedMockCopier\<T\> <mu::tiny::mock::TypedMockCopier>` uses ``operator=``:
 
 .. code-block:: cpp
 
@@ -280,25 +295,26 @@ Copiers are needed when using output parameters of custom types:
    mock().install_copier("Packet", packet_copier);
    // Requires: Packet::operator=
 
-Or function-based:
+:cpp:class:`FunctionCopier <mu::tiny::mock::FunctionCopier>` wraps a plain copy function:
 
 .. code-block:: cpp
 
-   MockFunctionCopier packet_copier([](void* dst, const void* src) {
+   FunctionCopier packet_copier([](void* dst, const void* src) {
        *static_cast<Packet*>(dst) = *static_cast<const Packet*>(src);
    });
    mock().install_copier("Packet", packet_copier);
 
-MockSupportPlugin
------------------
+SupportPlugin
+-------------
 
-``MockSupportPlugin`` automatically calls ``check_expectations()`` and
-``clear()`` after every test, and manages comparator/copier lifetime:
+:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>` automatically calls
+``check_expectations()`` and ``clear()`` after every test, and manages
+comparator/copier lifetime:
 
 .. code-block:: cpp
 
    // main.cpp
-   mu::tiny::mock::MockSupportPlugin mock_plugin;
+   mu::tiny::mock::SupportPlugin mock_plugin;
    mock_plugin.install_comparator("Packet", packet_cmp);
    reg->install_plugin(&mock_plugin);
 
@@ -308,21 +324,18 @@ With the plugin installed, tests no longer need explicit
 Examples
 --------
 
-.. list-table::
-   :header-rows: 1
+Core mock workflow — ``expect_one_call``, ``expect_n_calls``,
+``with_parameter``, ``and_return_value``, ``ignore_other_parameters``,
+``check_expectations``, ``clear``:
 
-   * - File
-     - Demonstrates
-   * - `MockCheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockCheatSheet.test.cpp>`__
-     - ``expect_one_call``, ``expect_n_calls``, ``with_parameter``,
-       ``and_return_value``, ``ignore_other_parameters``,
-       ``check_expectations``, ``clear``
-   * - `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
-     - ``on_object``, ``set_data``, custom comparator, scoped mock,
-       ``crash_on_failure``, ``disable``/``enable``, ``ignore_other_calls``
-   * - `EventDispatcher.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/EventDispatcher.test.cpp>`__
-     - Real-world example: virtual mock class, custom comparator installed
-       in ``setup()``, ``with_parameter_of_type``
-   * - `main.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/main.cpp>`__
-     - Installing ``MockSupportPlugin`` with a custom comparator alongside
-       other plugins
+.. literalinclude:: ../examples/tests/MockCheatSheet.test.cpp
+   :language: cpp
+
+Further examples:
+
+- `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
+  — ``on_object``, ``set_data``, custom comparator, scoped mock,
+  ``crash_on_failure``, ``disable``/``enable``, ``ignore_other_calls``
+- `EventDispatcher.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/EventDispatcher.test.cpp>`__
+  — real-world example: virtual mock class, custom comparator in ``setup()``,
+  ``with_parameter_of_type``

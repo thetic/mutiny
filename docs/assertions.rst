@@ -25,11 +25,11 @@ Boolean
 
    * - Macro
      - Passes when
-   * - ``CHECK(condition)``
+   * - :c:macro:`CHECK(condition) <CHECK>`
      - ``condition`` is truthy
-   * - ``CHECK_TRUE(condition)``
+   * - :c:macro:`CHECK_TRUE(condition) <CHECK_TRUE>`
      - same as ``CHECK``
-   * - ``CHECK_FALSE(condition)``
+   * - :c:macro:`CHECK_FALSE(condition) <CHECK_FALSE>`
      - ``condition`` is falsy
 
 .. code-block:: cpp
@@ -44,7 +44,7 @@ Equality (generic)
 ``CHECK_EQUAL(expected, actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Uses ``operator==`` and implicit arithmetic promotion to compare
+:c:macro:`CHECK_EQUAL` uses ``operator==`` and implicit arithmetic promotion to compare
 ``expected`` and ``actual``. Works with any type that supports
 ``operator==``. On failure, calls ``string_from(value)`` to format the
 message.
@@ -54,10 +54,10 @@ message.
    CHECK_EQUAL(42, compute_answer());
    CHECK_EQUAL(Status::OK, get_status());
 
-To make ``CHECK_EQUAL`` work with your own types, provide:
+To make :c:macro:`CHECK_EQUAL` work with your own types, provide:
 
 1. ``operator==(const YourType&, const YourType&)``
-2. ``mu::tiny::test::String string_from(const YourType&)`` — used in the
+2. :cpp:class:`mu::tiny::test::String` ``string_from(const YourType&)`` — used in the
    failure message
 
 .. code-block:: cpp
@@ -69,7 +69,7 @@ To make ``CHECK_EQUAL`` work with your own types, provide:
 ``CHECK_EQUAL_ZERO(actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Shorthand for ``CHECK_EQUAL(0, actual)``.
+:c:macro:`CHECK_EQUAL_ZERO` is shorthand for ``CHECK_EQUAL(0, actual)``.
 
 Relational
 ----------
@@ -77,8 +77,8 @@ Relational
 ``CHECK_COMPARE(first, relop, second)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Checks that ``first relop second`` is true. ``relop`` is a literal
-operator like ``<``, ``>=``, ``!=``.
+:c:macro:`CHECK_COMPARE` checks that ``first relop second`` is true. ``relop`` is a
+literal operator like ``<``, ``>=``, ``!=``.
 
 .. code-block:: cpp
 
@@ -96,19 +96,19 @@ sign-compare warnings and makes failure messages type-accurate.
 
    * - Macro
      - Type
-   * - ``LONGS_EQUAL(expected, actual)``
+   * - :c:macro:`LONGS_EQUAL(expected, actual) <LONGS_EQUAL>`
      - ``long``
-   * - ``UNSIGNED_LONGS_EQUAL(expected, actual)``
+   * - :c:macro:`UNSIGNED_LONGS_EQUAL(expected, actual) <UNSIGNED_LONGS_EQUAL>`
      - ``unsigned long``
-   * - ``LONGLONGS_EQUAL(expected, actual)``
+   * - :c:macro:`LONGLONGS_EQUAL(expected, actual) <LONGLONGS_EQUAL>`
      - ``long long``
-   * - ``UNSIGNED_LONGLONGS_EQUAL(expected, actual)``
+   * - :c:macro:`UNSIGNED_LONGLONGS_EQUAL(expected, actual) <UNSIGNED_LONGLONGS_EQUAL>`
      - ``unsigned long long``
-   * - ``BYTES_EQUAL(expected, actual)``
+   * - :c:macro:`BYTES_EQUAL(expected, actual) <BYTES_EQUAL>`
      - low 8 bits as ``long``
-   * - ``SIGNED_BYTES_EQUAL(expected, actual)``
+   * - :c:macro:`SIGNED_BYTES_EQUAL(expected, actual) <SIGNED_BYTES_EQUAL>`
      - ``signed char``
-   * - ``DOUBLES_EQUAL(expected, actual, threshold)``
+   * - :c:macro:`DOUBLES_EQUAL(expected, actual, threshold) <DOUBLES_EQUAL>`
      - ``double`` within ±threshold
 
 .. code-block:: cpp
@@ -123,15 +123,16 @@ Pointer
 ``POINTERS_EQUAL(expected, actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Compares two pointers as ``const void*``. Accepts object pointers and
-``nullptr``. For raw integer values cast to pointer, you must use
-``reinterpret_cast<void*>`` explicitly before passing.
+:c:macro:`POINTERS_EQUAL` compares two pointers as ``const void*``. Accepts object
+pointers and ``nullptr``. For raw integer values cast to pointer, you
+must use ``reinterpret_cast<void*>`` explicitly before passing.
 
 ``FUNCTIONPOINTERS_EQUAL(expected, actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Compares two function pointers via ``reinterpret_cast<void(*)()>``. For
-a null function pointer use ``static_cast<void(*)()>(nullptr)``.
+:c:macro:`FUNCTIONPOINTERS_EQUAL` compares two function pointers via
+``reinterpret_cast<void(*)()>``. For a null function pointer use
+``static_cast<void(*)()>(nullptr)``.
 
 String
 ------
@@ -141,11 +142,11 @@ String
 
    * - Macro
      - Description
-   * - ``STRCMP_EQUAL(expected, actual)``
+   * - :c:macro:`STRCMP_EQUAL(expected, actual) <STRCMP_EQUAL>`
      - ``strcmp`` equality for ``const char*``
-   * - ``STRNCMP_EQUAL(expected, actual, length)``
+   * - :c:macro:`STRNCMP_EQUAL(expected, actual, length) <STRNCMP_EQUAL>`
      - ``strncmp`` for first ``length`` chars
-   * - ``STRCMP_CONTAINS(expected, actual)``
+   * - :c:macro:`STRCMP_CONTAINS(expected, actual) <STRCMP_CONTAINS>`
      - checks that ``actual`` contains ``expected`` as a substring
 
 .. code-block:: cpp
@@ -159,8 +160,8 @@ Memory
 ``MEMCMP_EQUAL(expected, actual, size)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Compares ``size`` bytes starting at ``expected`` and ``actual`` using
-``memcmp``. On failure, a hex dump is printed.
+:c:macro:`MEMCMP_EQUAL` compares ``size`` bytes starting at ``expected`` and
+``actual`` using ``memcmp``. On failure, a hex dump is printed.
 
 Enum
 ----
@@ -170,9 +171,9 @@ Enum
 
    * - Macro
      - Description
-   * - ``ENUMS_EQUAL_INT(expected, actual)``
+   * - :c:macro:`ENUMS_EQUAL_INT(expected, actual) <ENUMS_EQUAL_INT>`
      - Compares two enum values as ``int``
-   * - ``ENUMS_EQUAL_TYPE(underlying_type, expected, actual)``
+   * - :c:macro:`ENUMS_EQUAL_TYPE(underlying_type, expected, actual) <ENUMS_EQUAL_TYPE>`
      - Compares with the specified underlying type
 
 .. code-block:: cpp
@@ -188,12 +189,12 @@ Failure and Exit
 
    * - Macro
      - Description
-   * - ``FAIL(text)``
+   * - :c:macro:`FAIL(text) <FAIL>`
      - Unconditional failure with message. May be shadowed by platform
-       macros — use ``FAIL_TEST`` if needed.
-   * - ``FAIL_TEST(text)``
-     - Same as ``FAIL`` but always available
-   * - ``TEST_EXIT``
+       macros — use :c:macro:`FAIL_TEST` if needed.
+   * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
+     - Same as :c:macro:`FAIL` but always available
+   * - :c:macro:`TEST_EXIT`
      - Exits the test immediately *without* marking it as failed — useful
        in assertion-faking helpers
 
@@ -208,8 +209,9 @@ Exception
 ``CHECK_THROWS(ExceptionType, expression)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Only available when exceptions are enabled (``MUTINY_HAVE_EXCEPTIONS``).
-Fails if ``expression`` does not throw ``ExceptionType``.
+:c:macro:`CHECK_THROWS` is only available when exceptions are enabled
+(``MUTINY_HAVE_EXCEPTIONS``). Fails if ``expression`` does not throw
+``ExceptionType``.
 
 .. code-block:: cpp
 

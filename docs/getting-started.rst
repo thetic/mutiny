@@ -55,7 +55,7 @@ All public headers live under ``include/mutiny/``. The main headers you'll use:
    * - ``mutiny/test/Shell.hpp``
      - Assertion macros (``CHECK``, ``CHECK_EQUAL``, etc.)
    * - ``mutiny/mock.hpp``
-     - Mock framework (``mock()``, ``MockSupport``)
+     - Mock framework (``mock()``, :cpp:class:`Support <mu::tiny::mock::Support>`)
    * - ``mutiny/test.h``
      - C interface (include in ``.test.c`` files)
    * - ``mutiny/test/CommandLineRunner.hpp``
@@ -66,7 +66,8 @@ All public headers live under ``include/mutiny/``. The main headers you'll use:
 Writing ``main()``
 ------------------
 
-Every test executable needs a ``main()``. The simplest form:
+Every test executable needs a ``main()``. The simplest form uses
+:cpp:class:`CommandLineRunner <mu::tiny::test::CommandLineRunner>`:
 
 .. code-block:: cpp
 
@@ -74,10 +75,12 @@ Every test executable needs a ``main()``. The simplest form:
 
    int main(int argc, char** argv)
    {
-       return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
+       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
-To add plugins (e.g. JUnit output, SetPointer, MockSupportPlugin):
+To add plugins (e.g. JUnit output, SetPointer,
+:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), install them via
+:cpp:class:`Registry <mu::tiny::test::Registry>`:
 
 .. code-block:: cpp
 
@@ -89,50 +92,22 @@ To add plugins (e.g. JUnit output, SetPointer, MockSupportPlugin):
    int main(int argc, char** argv)
    {
        mu::tiny::test::JUnitOutputPlugin junit;
-       mu::tiny::mock::MockSupportPlugin mock_plugin;
-       auto* reg = mu::tiny::test::TestRegistry::get_current_registry();
+       mu::tiny::mock::SupportPlugin mock_plugin;
+       auto* reg = mu::tiny::test::Registry::get_current_registry();
        reg->install_plugin(&junit);
        reg->install_plugin(&mock_plugin);
-       return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
+       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
 Your First Test
 ---------------
 
-.. code-block:: cpp
+.. literalinclude:: ../examples/tests/CheatSheet.test.cpp
+   :language: cpp
 
-   // widget.test.cpp
-   #include "mutiny/test.hpp"
-   #include "widget.h"
-
-   TEST_GROUP(Widget)
-   {
-       Widget* w;
-
-       void setup() override
-       {
-           w = new Widget(42);
-       }
-
-       void teardown() override
-       {
-           delete w;
-       }
-   };
-
-   TEST(Widget, ReturnsInitialValue)
-   {
-       CHECK_EQUAL(42, w->value());
-   }
-
-   TEST(Widget, CanBeReset)
-   {
-       w->reset();
-       CHECK_EQUAL(0, w->value());
-   }
-
-- ``TEST_GROUP`` declares a group and its shared state. ``setup()`` runs
-  before each test body; ``teardown()`` runs after.
+- ``TEST_GROUP`` declares a group; the struct implicitly inherits from
+  :cpp:class:`mu::tiny::test::Test`. ``setup()`` runs before each test body;
+  ``teardown()`` runs after.
 - ``TEST(group, name)`` defines a single test. The body is the
   ``{ ... }`` block that follows.
 - A failing assertion immediately exits the test body (via ``longjmp``
@@ -145,17 +120,17 @@ Run the binary directly:
 
 .. code-block:: bash
 
-   ./build/GNU/tests/my_tests              # run all
-   ./build/GNU/tests/my_tests -v           # verbose: print each test name
-   ./build/GNU/tests/my_tests -g Widget    # only group "Widget"
-   ./build/GNU/tests/my_tests -n Returns   # only tests whose name contains this
+   ./build/GNU/tests/my_tests                  # run all
+   ./build/GNU/tests/my_tests -v               # verbose: print each test name
+   ./build/GNU/tests/my_tests -g CheatSheet    # only group "CheatSheet"
+   ./build/GNU/tests/my_tests -n TestName      # only tests whose name contains this
 
 Via CTest (after ``mutiny_discover_tests`` in CMakeLists):
 
 .. code-block:: bash
 
    ctest --preset GNU
-   ctest --preset GNU -R Widget
+   ctest --preset GNU -R CheatSheet
 
 See :doc:`command-line-reference` for all flags.
 

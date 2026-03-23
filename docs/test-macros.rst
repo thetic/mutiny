@@ -9,8 +9,8 @@ Test Group and Lifecycle
 ``TEST_GROUP(group)``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Declares a test group. Expands to a struct definition; add ``setup()``
-and ``teardown()`` inside it.
+:c:macro:`TEST_GROUP` declares a test group. Expands to a struct definition; add
+``setup()`` and ``teardown()`` inside it.
 
 .. code-block:: cpp
 
@@ -28,9 +28,9 @@ before ``setup()``, destroyed after ``teardown()``).
 ``TEST_SETUP()`` / ``TEST_TEARDOWN()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Convenience aliases for declaring ``setup()`` and ``teardown()`` inside
-a ``TEST_GROUP`` body. Equivalent to writing
-``virtual void setup() override``.
+:c:macro:`TEST_SETUP` and :c:macro:`TEST_TEARDOWN` are convenience aliases for declaring
+``setup()`` and ``teardown()`` inside a ``TEST_GROUP`` body. Equivalent
+to writing ``virtual void setup() override``.
 
 .. code-block:: cpp
 
@@ -44,7 +44,7 @@ a ``TEST_GROUP`` body. Equivalent to writing
 ``TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~
 
-Defines a test belonging to ``group``. The ``{ ... }`` block that
+:c:macro:`TEST` defines a test belonging to ``group``. The ``{ ... }`` block that
 follows is the test body.
 
 .. code-block:: cpp
@@ -60,8 +60,8 @@ Custom Base Classes
 ``TEST_BASE(ClassName)``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Defines a custom base class struct that inherits from
-``mu::tiny::test::Test``. Use when you want a reusable base that
+:c:macro:`TEST_BASE` defines a custom base class struct that inherits from
+:cpp:class:`mu::tiny::test::Test`. Use when you want a reusable base that
 multiple groups can share.
 
 .. code-block:: cpp
@@ -75,8 +75,8 @@ multiple groups can share.
 ``TEST_GROUP_BASE(group, baseclass)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Like ``TEST_GROUP``, but inherits from ``baseclass`` instead of
-``mu::tiny::test::Test``.
+:c:macro:`TEST_GROUP_BASE` is like ``TEST_GROUP``, but inherits from ``baseclass``
+instead of :cpp:class:`mu::tiny::test::Test`.
 
 .. code-block:: cpp
 
@@ -91,8 +91,8 @@ Skipping and Expected Failures
 ``IGNORE_TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Marks a test as ignored. It is registered but skipped during normal
-runs. Use ``-ri`` on the command line to run ignored tests anyway.
+:c:macro:`IGNORE_TEST` marks a test as ignored. It is registered but skipped during
+normal runs. Use ``-ri`` on the command line to run ignored tests anyway.
 
 .. code-block:: cpp
 
@@ -107,9 +107,9 @@ Ignored tests appear in the summary count as "ignored".
 ``EXPECT_FAIL_TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Declares a test that is expected to fail. The test runner treats a
-failure as a pass and a pass as a failure. Useful for documenting known
-bugs that cannot yet be fixed.
+:c:macro:`EXPECT_FAIL_TEST` declares a test that is expected to fail. The test runner
+treats a failure as a pass and a pass as a failure. Useful for
+documenting known bugs that cannot yet be fixed.
 
 .. code-block:: cpp
 
@@ -124,9 +124,9 @@ Metadata
 ``TEST_PROPERTY(name, value)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Attaches a key/value metadata pair to the currently running test.
-Emitted in JUnit XML output as ``<property>`` elements. Useful for CI
-tagging (e.g. requirement IDs).
+:c:macro:`TEST_PROPERTY` attaches a key/value metadata pair to the currently running
+test. Emitted in JUnit XML output as ``<property>`` elements. Useful for
+CI tagging (e.g. requirement IDs).
 
 .. code-block:: cpp
 
@@ -147,17 +147,17 @@ These bridge C test files into the C++ test runner. See
 
    * - Macro
      - Purpose
-   * - ``TEST_GROUP_C_WRAPPER(group)``
+   * - :c:macro:`TEST_GROUP_C_WRAPPER(group) <TEST_GROUP_C_WRAPPER>`
      - Declares a C++ ``TEST_GROUP`` that calls C setup/teardown
-   * - ``TEST_GROUP_C_SETUP_WRAPPER(group)``
+   * - :c:macro:`TEST_GROUP_C_SETUP_WRAPPER(group) <TEST_GROUP_C_SETUP_WRAPPER>`
      - Wires C setup into the C++ group's ``setup()``
-   * - ``TEST_GROUP_C_TEARDOWN_WRAPPER(group)``
+   * - :c:macro:`TEST_GROUP_C_TEARDOWN_WRAPPER(group) <TEST_GROUP_C_TEARDOWN_WRAPPER>`
      - Wires C teardown into the C++ group's ``teardown()``
-   * - ``TEST_C_WRAPPER(group, name)``
+   * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - Wires a C test function into a C++ ``TEST``
-   * - ``IGNORE_TEST_C_WRAPPER(group, name)``
+   * - :c:macro:`IGNORE_TEST_C_WRAPPER(group, name) <IGNORE_TEST_C_WRAPPER>`
      - Same as above but ignored
-   * - ``EXPECT_FAIL_TEST_C_WRAPPER(group, name)``
+   * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
      - Same as above but expected to fail
 
 Examples

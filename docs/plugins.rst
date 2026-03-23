@@ -5,25 +5,27 @@ Plugins let you run code before and after every test, parse custom
 command-line flags, and create additional output formatters. mutiny
 ships several built-in plugins; you can also write your own.
 
-``TestPlugin`` Base Class
---------------------------
+:cpp:class:`Plugin <mu::tiny::test::Plugin>` Base Class
+---------------------------------------------------------
+
+Subclass :cpp:class:`mu::tiny::test::Plugin` to intercept the test lifecycle.
 
 .. code-block:: cpp
 
    // include/mutiny/test/Plugin.hpp
-   class TestPlugin
+   class Plugin
    {
    public:
-       TestPlugin(const String& name);
+       Plugin(const String& name);
 
-       virtual void pre_test_action(TestShell&, TestResult&)  {}
-       virtual void post_test_action(TestShell&, TestResult&) {}
+       virtual void pre_test_action(Shell&, Result&)  {}
+       virtual void post_test_action(Shell&, Result&) {}
 
        virtual bool parse_arguments(int argc, const char* const* argv, int index)
        { return false; }
 
        virtual String get_help() const { return ""; }
-       virtual TestOutput* create_output() { return nullptr; }
+       virtual Output* create_output() { return nullptr; }
    };
 
 Override the methods you need:
@@ -48,12 +50,13 @@ Override the methods you need:
      - Show plugin's flag description
    * - ``create_output``
      - At startup
-     - Return a ``TestOutput*`` for additional output format
+     - Return an :cpp:class:`Output <mu::tiny::test::Output>` for an additional output format
 
 Installing Plugins
 ------------------
 
-Install plugins in ``main()`` before calling ``run_all_tests``:
+Install plugins via :cpp:class:`Registry <mu::tiny::test::Registry>` in ``main()``
+before calling :cpp:func:`run_all_tests <mu::tiny::test::CommandLineRunner::run_all_tests>`:
 
 .. code-block:: cpp
 
@@ -64,8 +67,8 @@ Install plugins in ``main()`` before calling ``run_all_tests``:
    int main(int argc, char** argv)
    {
        MyPlugin my_plugin;
-       mu::tiny::test::TestRegistry::get_current_registry()->install_plugin(&my_plugin);
-       return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
+       mu::tiny::test::Registry::get_current_registry()->install_plugin(&my_plugin);
+       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
 Plugins form a linked list; they run in installation order.
@@ -82,12 +85,12 @@ Example: a plugin that logs the name of every test that runs.
    #include "mutiny/test/Shell.hpp"
    #include <cstdio>
 
-   class LogPlugin : public mu::tiny::test::TestPlugin
+   class LogPlugin : public mu::tiny::test::Plugin
    {
    public:
-       LogPlugin() : mu::tiny::test::TestPlugin("LogPlugin") {}
+       LogPlugin() : mu::tiny::test::Plugin("LogPlugin") {}
 
-       void pre_test_action(mu::tiny::test::TestShell& test, mu::tiny::test::TestResult&) override
+       void pre_test_action(mu::tiny::test::Shell& test, mu::tiny::test::Result&) override
        {
            std::printf("[LOG] running %s::%s\n",
                        test.get_group(), test.get_name());
@@ -99,7 +102,7 @@ Use it in ``main()``:
 .. code-block:: cpp
 
    LogPlugin log;
-   mu::tiny::test::TestRegistry::get_current_registry()->install_plugin(&log);
+   mu::tiny::test::Registry::get_current_registry()->install_plugin(&log);
 
 Built-in Plugins
 ----------------
@@ -111,11 +114,11 @@ Built-in Plugins
      - Header
      - Purpose
      - Docs
-   * - ``SetPointerPlugin``
+   * - :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`
      - ``mutiny/test/SetPointerPlugin.hpp``
      - Restore overwritten pointers after each test
      - :doc:`set-pointer-plugin`
-   * - ``MockSupportPlugin``
+   * - :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`
      - ``mutiny/mock/SupportPlugin.hpp``
      - Auto-verify and clear mock expectations
      - :doc:`mocking`
@@ -124,18 +127,15 @@ Built-in Plugins
      - Write JUnit XML output via ``-pjunit``
      - :doc:`junit-output`
 
-``SetPointerPlugin`` is automatically created and available through the
-``MUTINY_PTR_SET`` macro — you do not need to install it manually if you
-only use the macro.
+:cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is automatically
+created and available through the ``MUTINY_PTR_SET`` macro — you do not need to
+install it manually if you only use the macro.
 
 Examples
 --------
 
-.. list-table::
-   :header-rows: 1
+Installing :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>` with a custom
+comparator alongside other plugins:
 
-   * - File
-     - Demonstrates
-   * - `main.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/main.cpp>`__
-     - Installing ``MockSupportPlugin`` with a custom comparator, plus
-       additional plugins, before calling ``run_all_tests``
+.. literalinclude:: ../examples/tests/main.cpp
+   :language: cpp
