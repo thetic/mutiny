@@ -29,14 +29,14 @@ be overridden per target through the matching keyword argument of
 
 .. variable:: MUTINY_JUNIT_REPORT
 
-  Boolean option.  When ``ON``, ``-pjunit`` is appended to every discovered
-  test invocation so the executable emits a JUnit-format XML report.
-  Default: ``OFF``.
+  Boolean option.  When ``ON``, :option:`my_tests -pjunit` is appended to
+  every discovered test invocation so the executable emits a JUnit-format XML
+  report.  Default: ``OFF``.
 
 .. variable:: MUTINY_EXTRA_ARGS
 
   Semicolon-separated list of extra command-line arguments forwarded to each
-  discovered test invocation.  Default: ``-v``.
+  discovered test invocation.  Default: :option:`my_tests -v`.
 
 Commands
 ^^^^^^^^
@@ -68,15 +68,18 @@ Commands
   ``EXTRA_ARGS <arg>...``
     Override :variable:`MUTINY_EXTRA_ARGS` for this target.
 
-  **Cross-compilation:** when :variable:`CMAKE_CROSSCOMPILING` is set, the
-  target must have a :prop_tgt:`CROSSCOMPILING_EMULATOR` defined; if absent,
-  discovery is skipped with a warning.
+  **Cross-compilation:** when
+  :variable:`CMAKE_CROSSCOMPILING <cmake:variable:CMAKE_CROSSCOMPILING>` is
+  set, the target must have a
+  :prop_tgt:`CROSSCOMPILING_EMULATOR <cmake:prop_tgt:CROSSCOMPILING_EMULATOR>`
+  defined; if absent, discovery is skipped with a warning.
 
   **CMake version compatibility:** CMake older than 3.10 supports only one
   ``mutiny_discover_tests()`` call per directory because
-  :prop_dir:`TEST_INCLUDE_FILE` accepts a single value.  CMake 3.10 and later
-  use the list-capable :prop_dir:`TEST_INCLUDE_FILES` property and support
-  multiple calls per directory.
+  :prop_dir:`TEST_INCLUDE_FILE <cmake:prop_dir:TEST_INCLUDE_FILE>` accepts a
+  single value.  CMake 3.10 and later use the list-capable
+  :prop_dir:`TEST_INCLUDE_FILES <cmake:prop_dir:TEST_INCLUDE_FILES>` property
+  and support multiple calls per directory.
 
 #]=======================================================================]
 

@@ -11,8 +11,13 @@ author = "mutiny contributors"
 extensions = [
     "breathe",
     "exhale",
+    "sphinx.ext.intersphinx",
     "sphinxcontrib.moderncmakedomain",
 ]
+
+intersphinx_mapping = {
+    "cmake": ("https://cmake.org/cmake/help/latest/", None),
+}
 
 # -- Breathe -------------------------------------------------------------------
 
@@ -33,8 +38,7 @@ exhale_args = {
     "exhaleExecutesDoxygen": True,
     # Only specify INPUT and extraction settings — Exhale manages all output
     # settings (GENERATE_XML, XML_OUTPUT, GENERATE_HTML, etc.) itself.
-    "exhaleDoxygenStdin": textwrap.dedent(
-        """\
+    "exhaleDoxygenStdin": textwrap.dedent("""\
         INPUT                = ../include/mutiny
         RECURSIVE            = YES
         # Only C++ headers — the C interface (test.h, mock.h) is documented in
@@ -49,14 +53,13 @@ exhale_args = {
         # Explicitly define capability macros so Doxygen processes the full
         # API surface without relying on compiler-detection macros
         # (e.g. __EXCEPTIONS, __GXX_RTTI) that it doesn't have.
-        PREDEFINED           = MUTINY_HAVE_EXCEPTIONS=1 \\
-                               MUTINY_HAVE_RTTI=1 \\
-                               MUTINY_USE_STD_CPP_LIB=1 \\
-                               MUTINY_USE_STD_STRING=0
+        PREDEFINED           += MUTINY_HAVE_EXCEPTIONS=1 \\
+                                MUTINY_HAVE_RTTI=1 \\
+                                MUTINY_USE_STD_CPP_LIB=1 \\
+                                MUTINY_USE_STD_STRING=0
         WARN_IF_UNDOCUMENTED = NO
         QUIET                = YES
-        """
-    ),
+        """),
 }
 
 # -- Options for HTML output ---------------------------------------------------
