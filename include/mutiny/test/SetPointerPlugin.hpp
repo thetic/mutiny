@@ -12,7 +12,7 @@
  * Use the MUTINY_PTR_SET macro (the preferred interface) or call
  * SetPointerPlugin::set_pointer() directly.
  *
- * @code
+ * @code{.cpp}
  * // In your test group, install the plugin once:
  * SetPointerPlugin setPlugin;
  * // (Alternatively, register it with CommandLineRunner.)

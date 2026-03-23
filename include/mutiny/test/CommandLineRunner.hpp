@@ -6,7 +6,7 @@
  * @brief Entry point for running all registered tests from a main() function.
  *
  * The simplest usage is a one-liner main():
- * @code
+ * @code{.cpp}
  * #include "mutiny/test/CommandLineRunner.hpp"
  *
  * int main(int argc, char** argv)

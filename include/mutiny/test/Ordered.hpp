@@ -9,7 +9,7 @@
  * ascending level order relative to each other, and all run after the
  * unordered tests in the registry.
  *
- * @code
+ * @code{.cpp}
  * TEST_GROUP(Setup)
  * {
  * };
@@ -140,7 +140,7 @@ private:
  * Among ordered tests, those with a lower @p testLevel run first. Tests with
  * equal levels run in an unspecified order relative to each other.
  *
- * @code
+ * @code{.cpp}
  * TEST_ORDERED(Lifecycle, init,    10) { system_init(); }
  * TEST_ORDERED(Lifecycle, run,     20) { system_run(); }
  * TEST_ORDERED(Lifecycle, cleanup, 30) { system_cleanup(); }

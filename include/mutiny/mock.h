@@ -10,7 +10,7 @@
  * named scope; then use the function pointers on the returned struct to set up
  * expectations and report actual calls.
  *
- * @code
+ * @code{.c}
  * // In a C test file:
  * #include "mutiny/mock.h"
  *

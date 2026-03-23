@@ -14,7 +14,7 @@
  * lifetime is tied to the plugin scope, ensuring comparators and copiers are
  * removed after each test run.
  *
- * @code
+ * @code{.cpp}
  * int main(int argc, char** argv)
  * {
  *   mu::tiny::mock::SupportPlugin mock_plugin;

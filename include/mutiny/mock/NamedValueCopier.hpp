@@ -16,7 +16,7 @@
  * - FunctionCopier — wraps a plain function pointer
  * - TypedMockCopier<T> — uses T::operator=
  *
- * @code
+ * @code{.cpp}
  * struct PointCopier : mu::tiny::mock::NamedValueCopier {
  *   void copy(void* dst, const void* src) override {
  *     *static_cast<Point*>(dst) = *static_cast<const Point*>(src);
@@ -64,7 +64,7 @@ public:
  *
  * Convenient when you want to keep copy logic in a standalone function.
  *
- * @code
+ * @code{.cpp}
  * void copy_point(void* dst, const void* src) {
  *   *static_cast<Point*>(dst) = *static_cast<const Point*>(src);
  * }
@@ -102,7 +102,7 @@ private:
  *
  * @tparam T  Type to copy; must be copy-assignable.
  *
- * @code
+ * @code{.cpp}
  * mu::tiny::test::TypedMockCopier<Point> copier;
  * mock().install_copier("Point", copier);
  * @endcode

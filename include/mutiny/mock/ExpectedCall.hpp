@@ -10,7 +10,7 @@
  * actual call must match, and to configure the return value the mock will
  * produce.
  *
- * @code
+ * @code{.cpp}
  * mock().expect_one_call("open")
  *       .with_parameter("path", "/dev/null")
  *       .with_parameter("flags", O_RDONLY)

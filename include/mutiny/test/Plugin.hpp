@@ -10,7 +10,7 @@
  * singly-linked list; install them with CommandLineRunner before calling
  * run_all_tests_main().
  *
- * @code
+ * @code{.cpp}
  * class TimingPlugin : public mu::tiny::test::Plugin {
  * public:
  *   TimingPlugin() : Plugin("TimingPlugin") {}

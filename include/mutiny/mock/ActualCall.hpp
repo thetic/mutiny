@@ -10,7 +10,7 @@
  * value. The framework matches the actual call against the registered
  * expectations and fails the test if a mismatch is found.
  *
- * @code
+ * @code{.cpp}
  * int MyClass::compute(int x, const char* label) {
  *   return mock().actual_call("compute")
  *                .with_parameter("x", x)

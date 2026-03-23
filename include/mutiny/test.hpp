@@ -11,7 +11,7 @@
  * by Shell.hpp, which this header includes transitively.
  *
  * Typical usage:
- * @code
+ * @code{.cpp}
  * #include "mutiny/test.hpp"
  *
  * TEST_GROUP(MyGroup)
@@ -83,7 +83,7 @@
  * test fails. A group body may also declare helper member variables and
  * methods accessible to all tests in the group.
  *
- * @code
+ * @code{.cpp}
  * TEST_GROUP(Calculator)
  * {
  *   Calculator* calc;
@@ -128,7 +128,7 @@
  * then the body, then teardown(). A test failure aborts the body but still
  * calls teardown().
  *
- * @code
+ * @code{.cpp}
  * TEST(Calculator, add_two_numbers)
  * {
  *   CHECK_EQUAL(5, calc->add(2, 3));

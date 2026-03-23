@@ -666,7 +666,7 @@ void check_enum_equal(
  * @p relop must be a relational operator token: @c <, @c <=, @c >, @c >=,
  * @c ==, or @c !=.
  *
- * @code
+ * @code{.cpp}
  * CHECK_COMPARE(a, <, b);   // fails if a >= b
  * @endcode
  *

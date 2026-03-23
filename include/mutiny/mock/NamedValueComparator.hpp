@@ -14,7 +14,7 @@
  * - FunctionComparator — wraps plain function pointers
  * - TypedMockComparator<T> — uses T::operator== and string_from()
  *
- * @code
+ * @code{.cpp}
  * struct PointComparator : mu::tiny::mock::NamedValueComparator {
  *   bool is_equal(const void* a, const void* b) override {
  *     return *static_cast<const Point*>(a) == *static_cast<const Point*>(b);
@@ -79,7 +79,7 @@ public:
  * Convenient alternative to subclassing when you want to keep comparator
  * logic in standalone functions.
  *
- * @code
+ * @code{.cpp}
  * bool points_equal(const void* a, const void* b) { ... }
  * mu::tiny::test::String point_to_string(const void* p) { ... }
  *
@@ -129,7 +129,7 @@ private:
  *
  * @tparam T  Type to compare; must support operator== and string_from().
  *
- * @code
+ * @code{.cpp}
  * mu::tiny::test::TypedMockComparator<Point> cmp;
  * mock().install_comparator("Point", cmp);
  * @endcode

@@ -10,7 +10,7 @@
  * Assertion macros use type-specific names (CHECK_EQUAL_INT, CHECK_EQUAL_LONG,
  * etc.) because C has no function overloading.
  *
- * @code
+ * @code{.c}
  * // my_tests.c
  * #include "mutiny/test.h"
  *

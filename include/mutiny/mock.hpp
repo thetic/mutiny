@@ -9,7 +9,7 @@
  * The canonical entry point is the free function mock(), which returns a
  * reference to the global (or a named scope) Support. Typical usage:
  *
- * @code
+ * @code{.cpp}
  * // In production code (the mock implementation):
  * int Database::query(const char* sql) {
  *   return mock().actual_call("query")
@@ -488,7 +488,7 @@ private:
  *
  * This is the primary entry point for all mock interaction in test code.
  *
- * @code
+ * @code{.cpp}
  * // Global scope:
  * mock().expect_one_call("connect");
  *
