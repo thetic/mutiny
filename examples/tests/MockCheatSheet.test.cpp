@@ -46,7 +46,7 @@ TEST_GROUP(MockCheatSheet)
 {
   void teardown() override
   {
-    /* Check expectations. Alternatively use MockSupportPlugin */
+    /* Check expectations. Alternatively use SupportPlugin */
     mock().check_expectations();
 
     mock().clear();

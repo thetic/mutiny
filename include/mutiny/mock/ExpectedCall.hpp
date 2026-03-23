@@ -1,9 +1,9 @@
-#ifndef INCLUDED_MUTINY_MOCKEXPECTEDCALL_HPP
-#define INCLUDED_MUTINY_MOCKEXPECTEDCALL_HPP
+#ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
+#define INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
 
 /**
- * @file MockExpectedCall.hpp
- * @brief Fluent interface returned by MockSupport::expect_one_call() and
+ * @file ExpectedCall.hpp
+ * @brief Fluent interface returned by Support::expect_one_call() and
  * friends.
  *
  * Use the fluent methods to constrain which parameter values and call order the
@@ -17,7 +17,7 @@
  *       .and_return_value(3);
  * @endcode
  *
- * @see MockSupport::expect_one_call(), MockActualCall
+ * @see Support::expect_one_call(), ActualCall
  */
 
 #include "mutiny/test/String.hpp"
@@ -26,35 +26,35 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockNamedValue;
+class NamedValue;
 
 /**
- * @brief Produce a display string for a MockNamedValue.
+ * @brief Produce a display string for a NamedValue.
  *
  * Used internally by the failure reporter to format expected vs actual output.
  *
  * @param parameter  Value to convert.
  * @return Human-readable string representation.
  */
-mu::tiny::test::String string_from(const MockNamedValue& parameter);
+mu::tiny::test::String string_from(const NamedValue& parameter);
 
 /**
  * @brief Abstract fluent interface for configuring a single call expectation.
  *
  * Each method returns @c *this for chaining. Concrete implementations are
- * created internally by MockSupport.
+ * created internally by Support.
  *
- * @see MockSupport::expect_one_call(), MockActualCall
+ * @see Support::expect_one_call(), ActualCall
  */
-class MockExpectedCall
+class ExpectedCall
 {
 public:
-  MockExpectedCall() = default;
-  virtual ~MockExpectedCall() = default;
+  ExpectedCall() = default;
+  virtual ~ExpectedCall() = default;
 
   /** @brief Set the expected function name. @param name Function name. @return
    * *this. */
-  virtual MockExpectedCall& with_name(const mu::tiny::test::String& name) = 0;
+  virtual ExpectedCall& with_name(const mu::tiny::test::String& name) = 0;
 
   /**
    * @brief Require this call to happen at a specific position in call order.
@@ -62,7 +62,7 @@ public:
    * @param order  Expected call order index.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_call_order(unsigned int order) = 0;
+  virtual ExpectedCall& with_call_order(unsigned int order) = 0;
 
   /**
    * @brief Require this call to happen within a range of call order positions.
@@ -71,7 +71,7 @@ public:
    * @param max_order  Latest acceptable order index.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_call_order(
+  virtual ExpectedCall& with_call_order(
       unsigned int min_order,
       unsigned int max_order
   ) = 0;
@@ -90,23 +90,17 @@ public:
    * @param value  Expected parameter value.
    * @return *this for chaining.
    */
-  MockExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      bool value
-  )
+  ExpectedCall& with_parameter(const mu::tiny::test::String& name, bool value)
   {
     return with_bool_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      int value
-  )
+  ExpectedCall& with_parameter(const mu::tiny::test::String& name, int value)
   {
     return with_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   )
@@ -114,7 +108,7 @@ public:
     return with_unsigned_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       long int value
   )
@@ -122,7 +116,7 @@ public:
     return with_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   )
@@ -130,7 +124,7 @@ public:
     return with_unsigned_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       long long value
   )
@@ -138,7 +132,7 @@ public:
     return with_long_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   )
@@ -146,10 +140,7 @@ public:
     return with_unsigned_long_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      double value
-  )
+  ExpectedCall& with_parameter(const mu::tiny::test::String& name, double value)
   {
     return with_double_parameter(name, value);
   }
@@ -161,7 +152,7 @@ public:
    * @param tolerance  Maximum allowed absolute difference from @p value.
    * @return *this for chaining.
    */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       double value,
       double tolerance
@@ -170,7 +161,7 @@ public:
     return with_double_parameter(name, value, tolerance);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       const char* value
   )
@@ -178,15 +169,12 @@ public:
     return with_string_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      void* value
-  )
+  ExpectedCall& with_parameter(const mu::tiny::test::String& name, void* value)
   {
     return with_pointer_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       const void* value
   )
@@ -194,7 +182,7 @@ public:
     return with_const_pointer_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   )
@@ -209,7 +197,7 @@ public:
    * @param size   Number of bytes to compare.
    * @return *this for chaining.
    */
-  MockExpectedCall& with_parameter(
+  ExpectedCall& with_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
@@ -221,7 +209,7 @@ public:
   /**
    * @brief Constrain an object parameter identified by a type name string.
    *
-   * Uses the MockNamedValueComparator installed for @p type_name to compare
+   * Uses the NamedValueComparator installed for @p type_name to compare
    * the expected value against the actual call's parameter.
    *
    * @param type_name  Type name; must match the comparator key and the actual
@@ -230,7 +218,7 @@ public:
    * @param value      Const pointer to the expected object.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_parameter_of_type(
+  virtual ExpectedCall& with_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
@@ -245,7 +233,7 @@ public:
    * @param size   Number of bytes to copy.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_output_parameter_returning(
+  virtual ExpectedCall& with_output_parameter_returning(
       const mu::tiny::test::String& name,
       const void* value,
       size_t size
@@ -254,7 +242,7 @@ public:
   /**
    * @brief Configure an output parameter for a custom object type.
    *
-   * Uses the MockNamedValueCopier installed for @p type_name to copy the
+   * Uses the NamedValueCopier installed for @p type_name to copy the
    * object into the caller's buffer.
    *
    * @param type_name  Type name; must match the copier key.
@@ -262,7 +250,7 @@ public:
    * @param value      Pointer to the expected object to copy out.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_output_parameter_of_type_returning(
+  virtual ExpectedCall& with_output_parameter_of_type_returning(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
@@ -275,7 +263,7 @@ public:
    * @param name  Parameter name.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& with_unmodified_output_parameter(
+  virtual ExpectedCall& with_unmodified_output_parameter(
       const mu::tiny::test::String& name
   ) = 0;
 
@@ -287,47 +275,47 @@ public:
    *
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& ignore_other_parameters() = 0;
+  virtual ExpectedCall& ignore_other_parameters() = 0;
 
   /** @brief Expect a bool parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockExpectedCall& with_bool_parameter(
+  virtual ExpectedCall& with_bool_parameter(
       const mu::tiny::test::String& name,
       bool value
   ) = 0;
   /** @brief Expect an int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockExpectedCall& with_int_parameter(
+  virtual ExpectedCall& with_int_parameter(
       const mu::tiny::test::String& name,
       int value
   ) = 0;
   /** @brief Expect an unsigned int parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockExpectedCall& with_unsigned_int_parameter(
+  virtual ExpectedCall& with_unsigned_int_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   ) = 0;
   /** @brief Expect a long int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockExpectedCall& with_long_int_parameter(
+  virtual ExpectedCall& with_long_int_parameter(
       const mu::tiny::test::String& name,
       long int value
   ) = 0;
   /** @brief Expect an unsigned long int parameter. @param name Name. @param
    * value Value. @return *this. */
-  virtual MockExpectedCall& with_unsigned_long_int_parameter(
+  virtual ExpectedCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   ) = 0;
   /** @brief Expect a long long int parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockExpectedCall& with_long_long_int_parameter(
+  virtual ExpectedCall& with_long_long_int_parameter(
       const mu::tiny::test::String& name,
       long long value
   ) = 0;
   /** @brief Expect an unsigned long long int parameter. @param name Name.
    * @param value Value. @return *this. */
-  virtual MockExpectedCall& with_unsigned_long_long_int_parameter(
+  virtual ExpectedCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   ) = 0;
@@ -335,7 +323,7 @@ public:
    * @brief Expect a double parameter (exact comparison).
    * @param name Name. @param value Expected value. @return *this.
    */
-  virtual MockExpectedCall& with_double_parameter(
+  virtual ExpectedCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value
   ) = 0;
@@ -344,38 +332,38 @@ public:
    * @param name Name. @param value Expected value. @param tolerance Max
    * difference. @return *this.
    */
-  virtual MockExpectedCall& with_double_parameter(
+  virtual ExpectedCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value,
       double tolerance
   ) = 0;
   /** @brief Expect a C string parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockExpectedCall& with_string_parameter(
+  virtual ExpectedCall& with_string_parameter(
       const mu::tiny::test::String& name,
       const char* value
   ) = 0;
   /** @brief Expect a void* parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockExpectedCall& with_pointer_parameter(
+  virtual ExpectedCall& with_pointer_parameter(
       const mu::tiny::test::String& name,
       void* value
   ) = 0;
   /** @brief Expect a function pointer parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockExpectedCall& with_function_pointer_parameter(
+  virtual ExpectedCall& with_function_pointer_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   ) = 0;
   /** @brief Expect a const void* parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockExpectedCall& with_const_pointer_parameter(
+  virtual ExpectedCall& with_const_pointer_parameter(
       const mu::tiny::test::String& name,
       const void* value
   ) = 0;
   /** @brief Expect a memory buffer parameter. @param name Name. @param value
    * Buffer. @param size Size in bytes. @return *this. */
-  virtual MockExpectedCall& with_memory_buffer_parameter(
+  virtual ExpectedCall& with_memory_buffer_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
@@ -391,40 +379,40 @@ public:
    * @param value  Value to return when this expectation is matched.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& and_return_value(bool value) = 0;
+  virtual ExpectedCall& and_return_value(bool value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(int value) = 0;
+  virtual ExpectedCall& and_return_value(int value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(unsigned int value) = 0;
+  virtual ExpectedCall& and_return_value(unsigned int value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(long int value) = 0;
+  virtual ExpectedCall& and_return_value(long int value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(unsigned long int value) = 0;
+  virtual ExpectedCall& and_return_value(unsigned long int value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(long long value) = 0;
+  virtual ExpectedCall& and_return_value(long long value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(unsigned long long value) = 0;
+  virtual ExpectedCall& and_return_value(unsigned long long value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(double value) = 0;
+  virtual ExpectedCall& and_return_value(double value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(const char* value) = 0;
+  virtual ExpectedCall& and_return_value(const char* value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(void* value) = 0;
+  virtual ExpectedCall& and_return_value(void* value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(const void* value) = 0;
+  virtual ExpectedCall& and_return_value(const void* value) = 0;
   /** @copydoc and_return_value(bool) */
-  virtual MockExpectedCall& and_return_value(void (*value)()) = 0;
+  virtual ExpectedCall& and_return_value(void (*value)()) = 0;
 
   /**
    * @brief Restrict this expectation to calls made on a specific object.
    *
    * Only an actual call that reports the same @p object_ptr via
-   * MockActualCall::on_object() will match this expectation.
+   * ActualCall::on_object() will match this expectation.
    *
    * @param object_ptr  Pointer to the expected object instance.
    * @return *this for chaining.
    */
-  virtual MockExpectedCall& on_object(void* object_ptr) = 0;
+  virtual ExpectedCall& on_object(void* object_ptr) = 0;
 };
 
 }

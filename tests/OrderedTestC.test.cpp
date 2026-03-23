@@ -1,8 +1,9 @@
 #include "OrderedTest.h"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/Ordered.hpp"
 #include "mutiny/test/Registry.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
 class OrderedTestTestingFixture
@@ -36,7 +37,7 @@ TEST_GROUP(OrderedTestC)
   void setup() override
   {
     OrderedTestTestingFixture::check_run(
-        mu::tiny::test::TestRegistry::get_current_registry()
+        mu::tiny::test::Registry::get_current_registry()
             ->get_current_repetition()
     );
   }

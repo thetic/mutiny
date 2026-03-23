@@ -1,5 +1,6 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Output.hpp"
+
+#include "mutiny/test.hpp"
 
 #include <limits.h>
 
@@ -8,13 +9,13 @@ const int fail_line_number = 2;
 const char* fail_file_name = "fail.cpp";
 }
 
-TEST_GROUP(TestFailure)
+TEST_GROUP(Failure)
 {
-  mu::tiny::test::TestShell* test;
+  mu::tiny::test::Shell* test;
 
   void setup() override
   {
-    test = new mu::tiny::test::TestShell(
+    test = new mu::tiny::test::Shell(
         "groupname", "testname", fail_file_name, fail_line_number - 1
     );
   }
@@ -23,25 +24,25 @@ TEST_GROUP(TestFailure)
 #define FAILURE_EQUAL(a, b)                                                    \
   STRCMP_EQUAL_LOCATION(a, (b).get_message().c_str(), "", __FILE__, __LINE__)
 
-TEST(TestFailure, CreateFailure)
+TEST(Failure, CreateFailure)
 {
-  mu::tiny::test::TestFailure f1(
+  mu::tiny::test::Failure f1(
       test, fail_file_name, fail_line_number, "the failure message"
   );
-  mu::tiny::test::TestFailure f2(test, "the failure message");
-  mu::tiny::test::TestFailure f3(test, fail_file_name, fail_line_number);
+  mu::tiny::test::Failure f2(test, "the failure message");
+  mu::tiny::test::Failure f3(test, fail_file_name, fail_line_number);
 }
 
-TEST(TestFailure, GetTestFileAndLineFromFailure)
+TEST(Failure, GetTestFileAndLineFromFailure)
 {
-  mu::tiny::test::TestFailure f1(
+  mu::tiny::test::Failure f1(
       test, fail_file_name, fail_line_number, "the failure message"
   );
   STRCMP_EQUAL(fail_file_name, f1.get_test_file_name().c_str());
   LONGS_EQUAL(1, f1.get_test_line_number());
 }
 
-TEST(TestFailure, EqualsFailureWithText)
+TEST(Failure, EqualsFailureWithText)
 {
   mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text"
@@ -53,7 +54,7 @@ TEST(TestFailure, EqualsFailureWithText)
   );
 }
 
-TEST(TestFailure, EqualsFailure)
+TEST(Failure, EqualsFailure)
 {
   mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", ""
@@ -61,7 +62,7 @@ TEST(TestFailure, EqualsFailure)
   FAILURE_EQUAL("expected <expected>\n\tbut was  <actual>", f);
 }
 
-TEST(TestFailure, EqualsFailureWithNullAsActual)
+TEST(Failure, EqualsFailureWithNullAsActual)
 {
   mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, "expected", nullptr, ""
@@ -69,7 +70,7 @@ TEST(TestFailure, EqualsFailureWithNullAsActual)
   FAILURE_EQUAL("expected <expected>\n\tbut was  <(null)>", f);
 }
 
-TEST(TestFailure, EqualsFailureWithNullAsExpected)
+TEST(Failure, EqualsFailureWithNullAsExpected)
 {
   mu::tiny::test::EqualsFailure f(
       test, fail_file_name, fail_line_number, nullptr, "actual", ""
@@ -77,7 +78,7 @@ TEST(TestFailure, EqualsFailureWithNullAsExpected)
   FAILURE_EQUAL("expected <(null)>\n\tbut was  <actual>", f);
 }
 
-TEST(TestFailure, CheckEqualFailureWithText)
+TEST(Failure, CheckEqualFailureWithText)
 {
   mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", "text"
@@ -92,7 +93,7 @@ TEST(TestFailure, CheckEqualFailureWithText)
   );
 }
 
-TEST(TestFailure, CheckEqualFailure)
+TEST(Failure, CheckEqualFailure)
 {
   mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "expected", "actual", ""
@@ -106,7 +107,7 @@ TEST(TestFailure, CheckEqualFailure)
   );
 }
 
-TEST(TestFailure, CheckFailure)
+TEST(Failure, CheckFailure)
 {
   mu::tiny::test::CheckFailure f(
       test, fail_file_name, fail_line_number, "CHECK", "chk"
@@ -114,7 +115,7 @@ TEST(TestFailure, CheckFailure)
   FAILURE_EQUAL("CHECK(chk) failed", f);
 }
 
-TEST(TestFailure, CheckFailureWithText)
+TEST(Failure, CheckFailureWithText)
 {
   mu::tiny::test::CheckFailure f(
       test, fail_file_name, fail_line_number, "CHECK", "chk", "text"
@@ -126,13 +127,13 @@ TEST(TestFailure, CheckFailureWithText)
   );
 }
 
-TEST(TestFailure, FailFailure)
+TEST(Failure, FailFailure)
 {
   mu::tiny::test::FailFailure f(test, fail_file_name, fail_line_number, "chk");
   FAILURE_EQUAL("chk", f);
 }
 
-TEST(TestFailure, LongsEqualFailureWithText)
+TEST(Failure, LongsEqualFailureWithText)
 {
   mu::tiny::test::LongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "text"
@@ -144,7 +145,7 @@ TEST(TestFailure, LongsEqualFailureWithText)
   );
 }
 
-TEST(TestFailure, LongsEqualFailure)
+TEST(Failure, LongsEqualFailure)
 {
   mu::tiny::test::LongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
@@ -152,7 +153,7 @@ TEST(TestFailure, LongsEqualFailure)
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
-TEST(TestFailure, LongLongsEqualFailure)
+TEST(Failure, LongLongsEqualFailure)
 {
   mu::tiny::test::LongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
@@ -160,7 +161,7 @@ TEST(TestFailure, LongLongsEqualFailure)
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
-TEST(TestFailure, UnsignedLongLongsEqualFailure)
+TEST(Failure, UnsignedLongLongsEqualFailure)
 {
   mu::tiny::test::UnsignedLongLongsEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
@@ -168,7 +169,7 @@ TEST(TestFailure, UnsignedLongLongsEqualFailure)
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
-TEST(TestFailure, SignedBytesEqualFailure)
+TEST(Failure, SignedBytesEqualFailure)
 {
   mu::tiny::test::SignedBytesEqualFailure f(
       test,
@@ -181,7 +182,7 @@ TEST(TestFailure, SignedBytesEqualFailure)
   FAILURE_EQUAL("expected <-1 (0xff)>\n\tbut was  < 2 (0x2)>", f);
 }
 
-TEST(TestFailure, StringsEqualFailureWithText)
+TEST(Failure, StringsEqualFailureWithText)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", "text"
@@ -196,7 +197,7 @@ TEST(TestFailure, StringsEqualFailureWithText)
   );
 }
 
-TEST(TestFailure, StringsEqualFailure)
+TEST(Failure, StringsEqualFailure)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "abd", ""
@@ -210,7 +211,7 @@ TEST(TestFailure, StringsEqualFailure)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureAtTheEnd)
+TEST(Failure, StringsEqualFailureAtTheEnd)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", "ab", ""
@@ -224,7 +225,7 @@ TEST(TestFailure, StringsEqualFailureAtTheEnd)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
+TEST(Failure, StringsEqualFailureNewVariantAtTheEnd)
 {
   mu::tiny::test::StringEqualFailure f(
       test,
@@ -243,7 +244,7 @@ TEST(TestFailure, StringsEqualFailureNewVariantAtTheEnd)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
+TEST(Failure, StringsEqualFailureWithNewLinesAndTabs)
 {
   mu::tiny::test::StringEqualFailure f(
       test,
@@ -263,7 +264,7 @@ TEST(TestFailure, StringsEqualFailureWithNewLinesAndTabs)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureInTheMiddle)
+TEST(Failure, StringsEqualFailureInTheMiddle)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aa", "ab", ""
@@ -277,7 +278,7 @@ TEST(TestFailure, StringsEqualFailureInTheMiddle)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureAtTheBeginning)
+TEST(Failure, StringsEqualFailureAtTheBeginning)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "aaa", "bbb", ""
@@ -291,7 +292,7 @@ TEST(TestFailure, StringsEqualFailureAtTheBeginning)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureWithNullAsActual)
+TEST(Failure, StringsEqualFailureWithNullAsActual)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, "abc", nullptr, ""
@@ -303,7 +304,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsActual)
   );
 }
 
-TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
+TEST(Failure, StringsEqualFailureWithNullAsExpected)
 {
   mu::tiny::test::StringEqualFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", ""
@@ -315,7 +316,7 @@ TEST(TestFailure, StringsEqualFailureWithNullAsExpected)
   );
 }
 
-TEST(TestFailure, StringsEqualNoCaseFailureWithText)
+TEST(Failure, StringsEqualNoCaseFailureWithText)
 {
   mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", "text"
@@ -330,7 +331,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithText)
   );
 }
 
-TEST(TestFailure, StringsEqualNoCaseFailure)
+TEST(Failure, StringsEqualNoCaseFailure)
 {
   mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", "abd", ""
@@ -344,7 +345,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure)
   );
 }
 
-TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
+TEST(Failure, StringsEqualNoCaseFailureWithActualAsNull)
 {
   mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ABC", nullptr, ""
@@ -356,7 +357,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithActualAsNull)
   );
 }
 
-TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
+TEST(Failure, StringsEqualNoCaseFailureWithExpectedAsNull)
 {
   mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, nullptr, "abd", ""
@@ -368,7 +369,7 @@ TEST(TestFailure, StringsEqualNoCaseFailureWithExpectedAsNull)
   );
 }
 
-TEST(TestFailure, StringsEqualNoCaseFailure2)
+TEST(Failure, StringsEqualNoCaseFailure2)
 {
   mu::tiny::test::StringEqualNoCaseFailure f(
       test, fail_file_name, fail_line_number, "ac", "AB", ""
@@ -382,7 +383,7 @@ TEST(TestFailure, StringsEqualNoCaseFailure2)
   );
 }
 
-TEST(TestFailure, DoublesEqualNormalWithText)
+TEST(Failure, DoublesEqualNormalWithText)
 {
   mu::tiny::test::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, "text"
@@ -395,7 +396,7 @@ TEST(TestFailure, DoublesEqualNormalWithText)
   );
 }
 
-TEST(TestFailure, DoublesEqualNormal)
+TEST(Failure, DoublesEqualNormal)
 {
   mu::tiny::test::DoublesEqualFailure f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, ""
@@ -407,7 +408,7 @@ TEST(TestFailure, DoublesEqualNormal)
   );
 }
 
-TEST(TestFailure, BinaryEqualWithText)
+TEST(Failure, BinaryEqualWithText)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
@@ -430,7 +431,7 @@ TEST(TestFailure, BinaryEqualWithText)
   );
 }
 
-TEST(TestFailure, BinaryEqualOneByte)
+TEST(Failure, BinaryEqualOneByte)
 {
   const unsigned char expected_data[] = { 0x00 };
   const unsigned char actual_data[] = { 0x01 };
@@ -452,7 +453,7 @@ TEST(TestFailure, BinaryEqualOneByte)
   );
 }
 
-TEST(TestFailure, BinaryEqualTwoBytes)
+TEST(Failure, BinaryEqualTwoBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01 };
   const unsigned char actual_data[] = { 0x00, 0x02 };
@@ -474,7 +475,7 @@ TEST(TestFailure, BinaryEqualTwoBytes)
   );
 }
 
-TEST(TestFailure, BinaryEqualThreeBytes)
+TEST(Failure, BinaryEqualThreeBytes)
 {
   const unsigned char expected_data[] = { 0x00, 0x01, 0x00 };
   const unsigned char actual_data[] = { 0x00, 0x02, 0x00 };
@@ -496,7 +497,7 @@ TEST(TestFailure, BinaryEqualThreeBytes)
   );
 }
 
-TEST(TestFailure, BinaryEqualFullWidth)
+TEST(Failure, BinaryEqualFullWidth)
 {
   const unsigned char expected_data[] = { 0x00, 0x00, 0x00, 0x01,
                                           0x00, 0x00, 0x00 };
@@ -521,7 +522,7 @@ TEST(TestFailure, BinaryEqualFullWidth)
   );
 }
 
-TEST(TestFailure, BinaryEqualLast)
+TEST(Failure, BinaryEqualLast)
 {
   const unsigned char expected_data[] = { 0x00, 0x00, 0x00, 0x00,
                                           0x00, 0x00, 0x00 };
@@ -546,7 +547,7 @@ TEST(TestFailure, BinaryEqualLast)
   );
 }
 
-TEST(TestFailure, BinaryEqualActualNull)
+TEST(Failure, BinaryEqualActualNull)
 {
   const unsigned char expected_data[] = { 0x00, 0x00, 0x00, 0x00,
                                           0x00, 0x00, 0x00 };
@@ -562,7 +563,7 @@ TEST(TestFailure, BinaryEqualActualNull)
   FAILURE_EQUAL("expected <00 00 00 00 00 00 00>\n\tbut was  <(null)>", f);
 }
 
-TEST(TestFailure, BinaryEqualExpectedNull)
+TEST(Failure, BinaryEqualExpectedNull)
 {
   const unsigned char actual_data[] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
@@ -579,7 +580,7 @@ TEST(TestFailure, BinaryEqualExpectedNull)
   FAILURE_EQUAL("expected <(null)>\n\tbut was  <00 00 00 00 00 00 01>", f);
 }
 
-TEST(TestFailure, FeatureUnsupported)
+TEST(Failure, FeatureUnsupported)
 {
   mu::tiny::test::FeatureUnsupportedFailure f(
       test, fail_file_name, fail_line_number, "SOME_FEATURE", ""
@@ -592,7 +593,7 @@ TEST(TestFailure, FeatureUnsupported)
   );
 }
 
-TEST(TestFailure, EqualsFailureWithShortEscapeControlChar)
+TEST(Failure, EqualsFailureWithShortEscapeControlChar)
 {
   mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "a\tb", "a\nb", ""
@@ -601,7 +602,7 @@ TEST(TestFailure, EqualsFailureWithShortEscapeControlChar)
   STRCMP_CONTAINS("\\n", f.get_message().c_str());
 }
 
-TEST(TestFailure, EqualsFailureWithHexEscapeControlChar)
+TEST(Failure, EqualsFailureWithHexEscapeControlChar)
 {
   mu::tiny::test::CheckEqualFailure f(
       test, fail_file_name, fail_line_number, "a\x01z", "b\x01z", ""
@@ -610,7 +611,7 @@ TEST(TestFailure, EqualsFailureWithHexEscapeControlChar)
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
-TEST(TestFailure, UnexpectedExceptionFailure_UnknownException)
+TEST(Failure, UnexpectedExceptionFailure_UnknownException)
 {
   mu::tiny::test::UnexpectedExceptionFailure f(test);
   FAILURE_EQUAL("Unexpected exception of unknown type was thrown.", f);
@@ -618,7 +619,7 @@ TEST(TestFailure, UnexpectedExceptionFailure_UnknownException)
 #endif
 
 #if MUTINY_HAVE_EXCEPTIONS && MUTINY_USE_STD_CPP_LIB
-TEST(TestFailure, UnexpectedExceptionFailure_StandardException)
+TEST(Failure, UnexpectedExceptionFailure_StandardException)
 {
   std::runtime_error e("Some error");
   mu::tiny::test::UnexpectedExceptionFailure f(test, e);

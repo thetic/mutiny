@@ -324,15 +324,15 @@ TEST(MockParameter, mismatchedIntegerTypesLongLongAndUnsignedLongLongAreAllowed)
 
 TEST(MockParameter, longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreatedAsEqual)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", static_cast<long>(-1)
   );
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value(static_cast<unsigned long>(-1));
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -348,15 +348,15 @@ TEST(MockParameter, longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreat
 
 TEST(MockParameter, unsignedLongAndLongWithSameBitRepresentationShouldnotBeTreatedAsEqual)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", static_cast<unsigned long>(-1)
   );
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value(static_cast<long>(-1));
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -386,13 +386,13 @@ TEST(MockParameter, expectOneDoubleParameterAndValueAndTolerance)
 
 TEST(MockParameter, doubleParameterNotEqualIfOutsideTolerance)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 100.0);
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value(106.0);
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -462,17 +462,17 @@ TEST(MockParameter, expectOneMemBufferParameterAndValue)
 
 TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToContents)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   unsigned char mem_buffer1[] = { 0x12, 0x15, 0xFF };
   unsigned char mem_buffer2[] = { 0x12, 0x05, 0xFF };
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", mem_buffer1, sizeof(mem_buffer1)
   );
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -488,18 +488,18 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToContents)
 
 TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToSize)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   unsigned char mem_buffer1[] = { 0x12, 0x15, 0xFF };
   unsigned char mem_buffer2[] = { 0x12, 0x15, 0xFF, 0x90 };
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter(
       "parameter", mem_buffer1, sizeof(mem_buffer1)
   );
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_memory_buffer(mem_buffer2, sizeof(mem_buffer2));
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -515,13 +515,13 @@ TEST(MockParameter, expectOneMemBufferParameterAndValueFailsDueToSize)
 
 TEST(MockParameter, expectOneStringParameterAndValueFails)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", "string");
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value("different");
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -533,14 +533,14 @@ TEST(MockParameter, expectOneStringParameterAndValueFails)
 
 TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToParameterName)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   unsigned int value = 7;
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", value);
-  mu::tiny::mock::MockNamedValue parameter("different");
+  mu::tiny::mock::NamedValue parameter("different");
   parameter.set_value(value);
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -552,13 +552,13 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToParameterName)
 
 TEST(MockParameter, expectOneIntegerParameterAndFailsDueToParameterName)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  mu::tiny::mock::MockNamedValue parameter("different");
+  mu::tiny::mock::NamedValue parameter("different");
   parameter.set_value(10);
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -570,15 +570,15 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToParameterName)
 
 TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToValue)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   unsigned int actual_value = 8;
   unsigned int expected_value = actual_value + 1;
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", expected_value);
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value(actual_value);
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -590,13 +590,13 @@ TEST(MockParameter, expectOneUnsignedIntegerParameterAndFailsDueToValue)
 
 TEST(MockParameter, expectOneIntegerParameterAndFailsDueToValue)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value(8);
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -608,13 +608,13 @@ TEST(MockParameter, expectOneIntegerParameterAndFailsDueToValue)
 
 TEST(MockParameter, expectOneIntegerParameterAndFailsDueToTypes)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("parameter", 10);
-  mu::tiny::mock::MockNamedValue parameter("parameter");
+  mu::tiny::mock::NamedValue parameter("parameter");
   parameter.set_value("heh");
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -659,11 +659,11 @@ TEST(MockParameter, twiceCalledWithSameParameters)
 
 TEST(MockParameter, calledWithoutParameters)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 
@@ -698,13 +698,13 @@ TEST(MockParameter, ignoreOtherParametersButStillPassAll)
 
 TEST(MockParameter, ignoreOtherParametersButExpectedParameterDidntHappen)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")
       ->with_parameter("p1", 1)
       .ignore_other_parameters();
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 
@@ -743,17 +743,16 @@ TEST(MockParameter, ignoreOtherParametersMultipleCalls)
 
 TEST(MockParameter, ignoreOtherParametersMultipleCallsButOneDidntHappen)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
-  mu::tiny::mock::MockCheckedExpectedCall* call =
-      expectations.add_function("boo");
+  ExpectedCallsListForTest expectations;
+  mu::tiny::mock::CheckedExpectedCall* call = expectations.add_function("boo");
   call->ignore_other_parameters();
   call->call_was_made(1);
   call->finalize_actual_call_match();
   call->ignore_other_parameters();
   expectations.add_function("boo")->ignore_other_parameters();
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -767,11 +766,11 @@ TEST(MockParameter, ignoreOtherParametersMultipleCallsButOneDidntHappen)
 
 TEST(MockParameter, newCallStartsWhileNotAllParametersWerePassed)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_parameter("p1", 1);
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 
@@ -814,10 +813,10 @@ TEST(MockParameter, unmodifiedOutputParameterSucceeds)
 
 TEST(MockParameter, noActualCallForOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   int output = 0;
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   mock().expect_one_call("foo").with_output_parameter_returning(
       "output", &output, sizeof(output)
   );
@@ -825,7 +824,7 @@ TEST(MockParameter, noActualCallForOutputParameter)
   expectations.add_function("foo")->with_output_parameter_returning(
       "output", &output, sizeof(output)
   );
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -835,13 +834,13 @@ TEST(MockParameter, noActualCallForOutputParameter)
 
 TEST(MockParameter, noActualCallForUnmodifiedOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   mock().expect_one_call("foo").with_unmodified_output_parameter("output");
 
   expectations.add_function("foo")->with_unmodified_output_parameter("output");
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -851,17 +850,17 @@ TEST(MockParameter, noActualCallForUnmodifiedOutputParameter)
 
 TEST(MockParameter, unexpectedOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   int param;
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   mock().expect_one_call("foo");
   mock().actual_call("foo").with_output_parameter("parameterName", &param);
 
   expectations.add_function("foo");
-  mu::tiny::mock::MockNamedValue parameter("parameterName");
+  mu::tiny::mock::NamedValue parameter("parameterName");
   parameter.set_value(&param);
-  mu::tiny::mock::MockUnexpectedOutputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -871,10 +870,10 @@ TEST(MockParameter, unexpectedOutputParameter)
 
 TEST(MockParameter, outputParameterMissing)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   int output = 0;
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   mock().expect_one_call("foo").with_output_parameter_returning(
       "output", &output, sizeof(output)
   );
@@ -883,7 +882,7 @@ TEST(MockParameter, outputParameterMissing)
   expectations.add_function("foo")->with_output_parameter_returning(
       "output", &output, sizeof(output)
   );
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 

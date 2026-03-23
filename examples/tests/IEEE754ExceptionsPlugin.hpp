@@ -7,7 +7,7 @@
 
 #include "mutiny/test/Plugin.hpp"
 
-class IEEE754ExceptionsPlugin : public mu::tiny::test::TestPlugin
+class IEEE754ExceptionsPlugin : public mu::tiny::test::Plugin
 {
 public:
   IEEE754ExceptionsPlugin(
@@ -15,12 +15,12 @@ public:
   );
 
   void pre_test_action(
-      mu::tiny::test::TestShell& test,
-      mu::tiny::test::TestResult& result
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
   ) override;
   void post_test_action(
-      mu::tiny::test::TestShell& test,
-      mu::tiny::test::TestResult& result
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
   ) override;
 
   static void disable_inexact(void);
@@ -32,8 +32,8 @@ public:
 
 private:
   void ieee754_check(
-      mu::tiny::test::TestShell& test,
-      mu::tiny::test::TestResult& result,
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result,
       int flag,
       const char* text
   );

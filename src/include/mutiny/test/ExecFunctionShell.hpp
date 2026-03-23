@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_EXECFUNCTIONTESTSHELL_HPP
-#define INCLUDED_MUTINY_EXECFUNCTIONTESTSHELL_HPP
+#ifndef INCLUDED_MUTINY_TEST_EXECFUNCTIONSHELL_HPP
+#define INCLUDED_MUTINY_TEST_EXECFUNCTIONSHELL_HPP
 
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/Test.hpp"
@@ -8,18 +8,18 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class ExecFunctionTestShell;
+class ExecFunctionShell;
 
 class ExecFunctionTest : public Test
 {
 public:
-  ExecFunctionTest(ExecFunctionTestShell* shell);
+  ExecFunctionTest(ExecFunctionShell* shell);
   void test_body() override;
   void setup() override;
   void teardown() override;
 
 private:
-  ExecFunctionTestShell* shell_;
+  ExecFunctionShell* shell_;
 };
 
 //////////////////// ExecFunction
@@ -44,17 +44,17 @@ public:
   void exec() override;
 };
 
-//////////////////// ExecFunctionTestShell
+//////////////////// ExecFunctionShell
 
-class ExecFunctionTestShell : public TestShell
+class ExecFunctionShell : public Shell
 {
 public:
   void (*setup)();
   void (*teardown)();
   ExecFunction* test_function{ nullptr };
 
-  ExecFunctionTestShell(void (*set)() = nullptr, void (*tear)() = nullptr)
-    : TestShell("ExecFunction", "ExecFunction", "ExecFunction", 1)
+  ExecFunctionShell(void (*set)() = nullptr, void (*tear)() = nullptr)
+    : Shell("ExecFunction", "ExecFunction", "ExecFunction", 1)
     , setup(set)
     , teardown(tear)
 
@@ -62,7 +62,7 @@ public:
   }
 
   Test* create_test() override { return new ExecFunctionTest(this); }
-  ~ExecFunctionTestShell() override = default;
+  ~ExecFunctionShell() override = default;
 };
 
 }

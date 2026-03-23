@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MUTINY_HPP
-#define INCLUDED_MUTINY_MUTINY_HPP
+#ifndef INCLUDED_MUTINY_TEST_HPP
+#define INCLUDED_MUTINY_TEST_HPP
 
 /**
  * @file mutiny/test.hpp
@@ -8,7 +8,7 @@
  * Include this header in every C++ test file. It provides the macros needed
  * to declare test groups and individual tests: TEST_GROUP, TEST, IGNORE_TEST,
  * EXPECT_FAIL_TEST, and the C-interop wrappers. Assertion macros are provided
- * by TestShell.hpp, which this header includes transitively.
+ * by Shell.hpp, which this header includes transitively.
  *
  * Typical usage:
  * @code
@@ -26,7 +26,7 @@
  * }
  * @endcode
  *
- * @see TestShell.hpp for assertion macros
+ * @see Shell.hpp for assertion macros
  * @see OrderedTest.hpp for tests with a defined execution order
  */
 
@@ -39,7 +39,6 @@
 #include "mutiny/test/SetPointerPlugin.hpp"
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/ShellPointerArray.hpp"
-#include "mutiny/test/String.hpp"
 #include "mutiny/test/Test.hpp"
 
 /**
@@ -158,7 +157,7 @@
     void test_body() override;                                                 \
   };                                                                           \
   class TEST_##testGroup##_##testName##_TestShell                              \
-    : public mu::tiny::test::TestShell                                         \
+    : public mu::tiny::test::Shell                                             \
   {                                                                            \
     virtual mu::tiny::test::Test* create_test() override                       \
     {                                                                          \
@@ -166,7 +165,7 @@
     }                                                                          \
   } TEST_##testGroup##_##testName##_TestShell_instance;                        \
   namespace {                                                                  \
-  mu::tiny::test::TestInstaller TEST_##testGroup##_##testName##_Installer(     \
+  mu::tiny::test::Installer TEST_##testGroup##_##testName##_Installer(         \
       TEST_##testGroup##_##testName##_TestShell_instance,                      \
       #testGroup,                                                              \
       #testName,                                                               \
@@ -206,7 +205,7 @@
     void test_body() override;                                                 \
   };                                                                           \
   class IGNORE##testGroup##_##testName##_TestShell                             \
-    : public mu::tiny::test::IgnoredTestShell                                  \
+    : public mu::tiny::test::IgnoredShell                                      \
   {                                                                            \
     virtual mu::tiny::test::Test* create_test() override                       \
     {                                                                          \
@@ -214,7 +213,7 @@
     }                                                                          \
   } IGNORE##testGroup##_##testName##_TestShell_instance;                       \
   namespace {                                                                  \
-  mu::tiny::test::TestInstaller TEST_##testGroup##testName##_Installer(        \
+  mu::tiny::test::Installer TEST_##testGroup##testName##_Installer(            \
       IGNORE##testGroup##_##testName##_TestShell_instance,                     \
       #testGroup,                                                              \
       #testName,                                                               \
@@ -254,7 +253,7 @@
     void test_body() override;                                                 \
   };                                                                           \
   class EXPECT_FAIL##testGroup##_##testName##_TestShell                        \
-    : public mu::tiny::test::ExpectFailTestShell                               \
+    : public mu::tiny::test::ExpectFailShell                                   \
   {                                                                            \
     virtual mu::tiny::test::Test* create_test() override                       \
     {                                                                          \
@@ -262,14 +261,13 @@
     }                                                                          \
   } EXPECT_FAIL##testGroup##_##testName##_TestShell_instance;                  \
   namespace {                                                                  \
-  mu::tiny::test::                                                             \
-      TestInstaller EXPECT_FAIL##testGroup##_##testName##_Installer(           \
-          EXPECT_FAIL##testGroup##_##testName##_TestShell_instance,            \
-          #testGroup,                                                          \
-          #testName,                                                           \
-          __FILE__,                                                            \
-          __LINE__                                                             \
-      );                                                                       \
+  mu::tiny::test::Installer EXPECT_FAIL##testGroup##_##testName##_Installer(   \
+      EXPECT_FAIL##testGroup##_##testName##_TestShell_instance,                \
+      #testGroup,                                                              \
+      #testName,                                                               \
+      __FILE__,                                                                \
+      __LINE__                                                                 \
+  );                                                                           \
   } /* namespace */                                                            \
   void EXPECT_FAIL##testGroup##_##testName##_Test::test_body()
 
@@ -283,7 +281,7 @@
  * @param value  Property value string literal or const char*.
  */
 #define TEST_PROPERTY(name, value)                                             \
-  mu::tiny::test::TestShell::get_current()->add_test_property((name), (value))
+  mu::tiny::test::Shell::get_current()->add_test_property((name), (value))
 
 /**
  * @brief Declare a test group that bridges C setup/teardown functions.

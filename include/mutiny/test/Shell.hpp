@@ -1,12 +1,12 @@
-#ifndef INCLUDED_MUTINY_TESTSHELL_HPP
-#define INCLUDED_MUTINY_TESTSHELL_HPP
+#ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
+#define INCLUDED_MUTINY_TEST_SHELL_HPP
 
 /**
- * @file TestShell.hpp
- * @brief Assertion macros and the TestShell base class.
+ * @file Shell.hpp
+ * @brief Assertion macros and the Shell base class.
  *
  * This header is the primary source of assertion macros (CHECK, CHECK_EQUAL,
- * STRCMP_EQUAL, LONGS_EQUAL, DOUBLES_EQUAL, etc.) and the TestShell class
+ * STRCMP_EQUAL, LONGS_EQUAL, DOUBLES_EQUAL, etc.) and the Shell class
  * that backs them. It is included transitively by mutiny/test.hpp; you rarely
  * need to include it directly.
  *
@@ -21,10 +21,10 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestResult;
-class TestPlugin;
-class TestFailure;
-class TestFilter;
+class Result;
+class Plugin;
+class Failure;
+class Filter;
 
 /**
  * @brief Returns true if @p d1 and @p d2 differ by at most @p threshold.
@@ -44,32 +44,32 @@ bool doubles_equal(double d1, double d2, double threshold);
 /**
  * @brief Shell for a single test — tracks metadata and drives execution.
  *
- * Each TEST macro instantiates a TestShell subclass and registers it with
- * the TestRegistry at static initialisation time. The test runner then calls
+ * Each TEST macro instantiates a Shell subclass and registers it with
+ * the Registry at static initialisation time. The test runner then calls
  * run_one_test() for each registered shell.
  *
- * Users interact with TestShell primarily through the assertion macros
+ * Users interact with Shell primarily through the assertion macros
  * (CHECK, CHECK_EQUAL, FAIL, etc.), which forward to the assert_* virtual
  * methods. This design allows the testing framework's own tests to substitute
  * a mock shell and verify assertion behaviour.
  *
  * The static methods control global runner state: the currently running test,
- * the active TestTerminator, and crash-on-failure mode.
+ * the active Terminator, and crash-on-failure mode.
  */
-class TestShell
+class Shell
 {
 public:
-  /** @return The TestShell currently executing, or nullptr between tests. */
-  static TestShell* get_current();
+  /** @return The Shell currently executing, or nullptr between tests. */
+  static Shell* get_current();
 
   /** @return The active test terminator (throws FailedException by default). */
-  static const TestTerminator& get_current_test_terminator();
+  static const Terminator& get_current_test_terminator();
 
   /**
    * @return The active test terminator that never throws (used internally
    *         when exception support is disabled or inside CHECK_THROWS).
    */
-  static const TestTerminator& get_current_test_terminator_without_exceptions();
+  static const Terminator& get_current_test_terminator_without_exceptions();
 
   /**
    * @brief Make the process crash (SIGABRT) instead of throwing on failure.
@@ -79,7 +79,7 @@ public:
    */
   static void set_crash_on_fail();
 
-  /** @brief Restore the default (exception-based) TestTerminator. */
+  /** @brief Restore the default (exception-based) Terminator. */
   static void restore_default_test_terminator();
 
   /**
@@ -98,7 +98,7 @@ public:
 
 public:
   /**
-   * @brief Construct a TestShell with source-location metadata.
+   * @brief Construct a Shell with source-location metadata.
    *
    * Called by the TEST macro; users do not construct TestShells directly.
    *
@@ -107,18 +107,18 @@ public:
    * @param file_name    Source file path (__FILE__).
    * @param line_number  Source line number (__LINE__).
    */
-  TestShell(
+  Shell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   );
-  virtual ~TestShell() = default;
+  virtual ~Shell() = default;
 
   /** @brief Append @p test to this shell's linked list. @return @p test. */
-  virtual TestShell* add_test(TestShell* test);
-  /** @return The next TestShell in the registered list, or nullptr. */
-  virtual TestShell* get_next() const;
+  virtual Shell* add_test(Shell* test);
+  /** @return The next Shell in the registered list, or nullptr. */
+  virtual Shell* get_next() const;
   /** @return Total number of test shells reachable from this node. */
   virtual size_t count_tests();
 
@@ -130,8 +130,8 @@ public:
    * @return true if the test should be executed.
    */
   bool should_run(
-      const TestFilter* group_filters,
-      const TestFilter* name_filters
+      const Filter* group_filters,
+      const Filter* name_filters
   ) const;
   /** @return The test name string. */
   const char* get_name() const;
@@ -149,7 +149,7 @@ public:
   virtual bool has_failed() const;
   /** @return true if this is an ordered test. */
   virtual bool is_ordered() const;
-  /** @brief Increment the assertion-check count in the active TestResult. */
+  /** @brief Increment the assertion-check count in the active Result. */
   void count_check();
 
   /** @brief Macro backend: assert @p condition is true. */
@@ -160,7 +160,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two C strings are equal (strcmp). */
   virtual void assert_cstr_equal(
@@ -169,7 +169,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert first @p length bytes of two C strings match.
    */
@@ -180,7 +180,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert @p actual contains the substring @p expected.
    */
@@ -198,7 +198,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two @c unsigned long values are equal. */
   virtual void assert_unsigned_longs_equal(
@@ -207,7 +207,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two @c long long values are equal. */
   virtual void assert_long_longs_equal(
@@ -216,7 +216,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two @c unsigned long long values are equal.
    */
@@ -226,7 +226,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two @c signed char values are equal. */
   virtual void assert_signed_bytes_equal(
@@ -235,7 +235,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two pointers are equal. */
   virtual void assert_pointers_equal(
@@ -244,7 +244,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two function pointers are equal. */
   virtual void assert_function_pointers_equal(
@@ -253,7 +253,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two doubles are equal within @p threshold. */
   virtual void assert_doubles_equal(
@@ -263,7 +263,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: generic equality failure with pre-formatted strings.
    */
@@ -274,7 +274,7 @@ public:
       const char* text,
       const char* file,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: generic equality failure with String arguments. */
   virtual void assert_equals(
@@ -284,7 +284,7 @@ public:
       const char* text,
       const char* file,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert @p length bytes of two memory regions match.
    */
@@ -295,7 +295,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert a relational comparison holds. */
   virtual void assert_compare(
@@ -305,7 +305,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
    * @brief Unconditionally fail the test with a message.
@@ -319,7 +319,7 @@ public:
       const char* text,
       const char* file_name,
       size_t line_number,
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
    * @brief Exit the test body immediately without marking it as failed.
@@ -327,7 +327,7 @@ public:
    * @param test_terminator  Controls how control leaves the test body.
    */
   virtual void exit_test(
-      const TestTerminator& test_terminator = get_current_test_terminator()
+      const Terminator& test_terminator = get_current_test_terminator()
   );
 
   /** @brief Print a message to test output at the current source location. */
@@ -370,15 +370,12 @@ public:
   virtual void destroy_test(class Test* test);
 
   /** @brief Run this test (create → setup → body → teardown → destroy). */
-  virtual void run_one_test(TestPlugin* plugin, TestResult& result);
+  virtual void run_one_test(Plugin* plugin, Result& result);
   /** @brief Run this test in the current process (no forking). */
-  virtual void run_one_test_in_current_process(
-      TestPlugin* plugin,
-      TestResult& result
-  );
+  virtual void run_one_test_in_current_process(Plugin* plugin, Result& result);
 
-  /** @brief Record a test failure into the active TestResult. */
-  virtual void add_failure(const TestFailure& failure);
+  /** @brief Record a test failure into the active Result. */
+  virtual void add_failure(const Failure& failure);
   /**
    * @brief Attach a key/value property to this test.
    *
@@ -390,32 +387,32 @@ public:
   virtual void add_test_property(const char* name, const char* value);
 
 protected:
-  /** @brief Default constructor for use by subclasses (e.g. IgnoredTestShell).
+  /** @brief Default constructor for use by subclasses (e.g. IgnoredShell).
    */
-  TestShell();
+  Shell();
 
   /** @return The macro keyword used in formatted output (e.g. "TEST"). */
   virtual String get_macro_name() const;
-  /** @return The TestResult for the current run. */
-  TestResult* get_test_result();
+  /** @return The Result for the current run. */
+  Result* get_test_result();
 
 private:
   const char* group_;
   const char* name_;
   const char* file_;
   size_t line_number_;
-  TestShell* next_;
+  Shell* next_;
   bool has_failed_;
 
-  void set_test_result(TestResult* result);
-  void set_current_test(TestShell* test);
-  bool match(const char* target, const TestFilter* filters) const;
+  void set_test_result(Result* result);
+  void set_current_test(Shell* test);
+  bool match(const char* target, const Filter* filters) const;
 
-  static TestShell* current_test_;
-  static TestResult* test_result_;
+  static Shell* current_test_;
+  static Result* test_result_;
 
-  static const TestTerminator* current_test_terminator_;
-  static const TestTerminator* current_test_terminator_without_exceptions_;
+  static const Terminator* current_test_terminator_;
+  static const Terminator* current_test_terminator_without_exceptions_;
   static bool rethrow_exceptions_;
 };
 
@@ -424,7 +421,7 @@ private:
  *
  * The test runner catches this to terminate the current test body while still
  * allowing teardown() to run. Users rarely interact with this class directly;
- * it is part of the TestTerminator mechanism.
+ * it is part of the Terminator mechanism.
  */
 class FailedException
 {
@@ -460,7 +457,7 @@ void check_equal(
   // no -Wsign-compare/-Wsign-conversion warning fires.
   using Common = decltype(true ? expected : actual);
   if (static_cast<Common>(expected) != static_cast<Common>(actual)) {
-    TestShell::get_current()->assert_equals(
+    Shell::get_current()->assert_equals(
         true,
         string_from(expected).c_str(),
         string_from(actual).c_str(),
@@ -469,7 +466,7 @@ void check_equal(
         line
     );
   } else {
-    TestShell::get_current()->count_check();
+    Shell::get_current()->count_check();
   }
 }
 
@@ -509,11 +506,11 @@ void check_compare(
     condition += relop_str;
     condition += " ";
     condition += string_from(second);
-    TestShell::get_current()->assert_compare(
+    Shell::get_current()->assert_compare(
         false, "CHECK_COMPARE", condition.c_str(), text, file, line
     );
   } else {
-    TestShell::get_current()->count_check();
+    Shell::get_current()->count_check();
   }
 }
 
@@ -543,11 +540,11 @@ void check_enum_equal(
   auto e = static_cast<UNDERLYING_TYPE>(expected);
   auto a = static_cast<UNDERLYING_TYPE>(actual);
   if (e != a) {
-    TestShell::get_current()->assert_equals(
+    Shell::get_current()->assert_equals(
         true, string_from(e).c_str(), string_from(a).c_str(), text, file, line
     );
   } else {
-    TestShell::get_current()->count_check();
+    Shell::get_current()->count_check();
   }
 }
 
@@ -615,7 +612,7 @@ void check_enum_equal(
     condition, checkString, conditionString, text, file, line                  \
 )                                                                              \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_true(                     \
+    mu::tiny::test::Shell::get_current()->assert_true(                         \
         (condition), checkString, conditionString, text, file, line            \
     );                                                                         \
   } while (0)
@@ -626,7 +623,7 @@ void check_enum_equal(
     condition, checkString, conditionString, text, file, line                  \
 )                                                                              \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_true(                     \
+    mu::tiny::test::Shell::get_current()->assert_true(                         \
         !(condition), checkString, conditionString, text, file, line           \
     );                                                                         \
   } while (0)
@@ -715,7 +712,7 @@ void check_enum_equal(
  * test code. */
 #define STRCMP_EQUAL_LOCATION(expected, actual, text, file, line)              \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_cstr_equal(               \
+    mu::tiny::test::Shell::get_current()->assert_cstr_equal(                   \
         expected, actual, text, file, line                                     \
     );                                                                         \
   } while (0)
@@ -740,7 +737,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of STRNCMP_EQUAL. */
 #define STRNCMP_EQUAL_LOCATION(expected, actual, length, text, file, line)     \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_cstr_n_equal(             \
+    mu::tiny::test::Shell::get_current()->assert_cstr_n_equal(                 \
         expected, actual, length, text, file, line                             \
     );                                                                         \
   } while (0)
@@ -764,7 +761,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of STRCMP_CONTAINS. */
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_cstr_contains(            \
+    mu::tiny::test::Shell::get_current()->assert_cstr_contains(                \
         expected, actual, text, file, line                                     \
     );                                                                         \
   } while (0)
@@ -812,7 +809,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of LONGS_EQUAL. */
 #define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)               \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_longs_equal(              \
+    mu::tiny::test::Shell::get_current()->assert_longs_equal(                  \
         static_cast<long>(expected),                                           \
         static_cast<long>(actual),                                             \
         text,                                                                  \
@@ -824,7 +821,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of UNSIGNED_LONGS_EQUAL. */
 #define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)      \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_unsigned_longs_equal(     \
+    mu::tiny::test::Shell::get_current()->assert_unsigned_longs_equal(         \
         static_cast<unsigned long>(expected),                                  \
         static_cast<unsigned long>(actual),                                    \
         text,                                                                  \
@@ -863,7 +860,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of LONGLONGS_EQUAL. */
 #define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_long_longs_equal(         \
+    mu::tiny::test::Shell::get_current()->assert_long_longs_equal(             \
         static_cast<long long>(expected),                                      \
         static_cast<long long>(actual),                                        \
         text,                                                                  \
@@ -875,14 +872,13 @@ void check_enum_equal(
 /** @brief Location-explicit variant of UNSIGNED_LONGLONGS_EQUAL. */
 #define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)  \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()                                   \
-        ->assert_unsigned_long_longs_equal(                                    \
-            static_cast<unsigned long long>(expected),                         \
-            static_cast<unsigned long long>(actual),                           \
-            text,                                                              \
-            file,                                                              \
-            line                                                               \
-        );                                                                     \
+    mu::tiny::test::Shell::get_current()->assert_unsigned_long_longs_equal(    \
+        static_cast<unsigned long long>(expected),                             \
+        static_cast<unsigned long long>(actual),                               \
+        text,                                                                  \
+        file,                                                                  \
+        line                                                                   \
+    );                                                                         \
   } while (0)
 
 /**
@@ -914,7 +910,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of SIGNED_BYTES_EQUAL. */
 #define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_signed_bytes_equal(       \
+    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
         expected, actual, "", file, line                                       \
     );                                                                         \
   } while (0)
@@ -927,7 +923,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of SIGNED_BYTES_EQUAL_TEXT. */
 #define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line)   \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_signed_bytes_equal(       \
+    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
         expected, actual, text, file, line                                     \
     );                                                                         \
   } while (0)
@@ -954,7 +950,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of POINTERS_EQUAL. */
 #define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)            \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_pointers_equal(           \
+    mu::tiny::test::Shell::get_current()->assert_pointers_equal(               \
         static_cast<const void*>(expected),                                    \
         static_cast<const void*>(actual),                                      \
         text,                                                                  \
@@ -988,7 +984,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of FUNCTIONPOINTERS_EQUAL. */
 #define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)    \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_function_pointers_equal(  \
+    mu::tiny::test::Shell::get_current()->assert_function_pointers_equal(      \
         reinterpret_cast<void (*)()>(expected),                                \
         reinterpret_cast<void (*)()>(actual),                                  \
         text,                                                                  \
@@ -1018,7 +1014,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of DOUBLES_EQUAL. */
 #define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)  \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_doubles_equal(            \
+    mu::tiny::test::Shell::get_current()->assert_doubles_equal(                \
         expected, actual, threshold, text, file, line                          \
     );                                                                         \
   } while (0)
@@ -1042,7 +1038,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of MEMCMP_EQUAL. */
 #define MEMCMP_EQUAL_LOCATION(expected, actual, size, text, file, line)        \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->assert_binary_equal(             \
+    mu::tiny::test::Shell::get_current()->assert_binary_equal(                 \
         expected, actual, size, text, file, line                               \
     );                                                                         \
   } while (0)
@@ -1112,7 +1108,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of FAIL. */
 #define FAIL_LOCATION(text, file, line)                                        \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->fail(text, file, line);          \
+    mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
   } while (0)
 #endif
 
@@ -1123,7 +1119,7 @@ void check_enum_equal(
 /** @brief Location-explicit variant of FAIL_TEST. */
 #define FAIL_TEST_LOCATION(text, file, line)                                   \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->fail(text, file, line);          \
+    mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
   } while (0)
 
 /**
@@ -1134,7 +1130,7 @@ void check_enum_equal(
  */
 #define TEST_EXIT                                                              \
   do {                                                                         \
-    mu::tiny::test::TestShell::get_current()->exit_test();                     \
+    mu::tiny::test::Shell::get_current()->exit_test();                         \
   } while (0)
 
 #if MUTINY_HAVE_EXCEPTIONS
@@ -1163,11 +1159,11 @@ void check_enum_equal(
           "expected to throw " #expected "\nbut threw a different type";       \
     }                                                                          \
     if (!caught_expected) {                                                    \
-      mu::tiny::test::TestShell::get_current()->fail(                          \
+      mu::tiny::test::Shell::get_current()->fail(                              \
           failure_msg.c_str(), __FILE__, __LINE__                              \
       );                                                                       \
     } else {                                                                   \
-      mu::tiny::test::TestShell::get_current()->count_check();                 \
+      mu::tiny::test::Shell::get_current()->count_check();                     \
     }                                                                          \
   } while (0)
 #endif /* MUTINY_HAVE_EXCEPTIONS */

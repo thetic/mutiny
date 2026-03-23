@@ -1,27 +1,29 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "mutiny/mock.hpp"
 #include "mutiny/mock/SupportPlugin.hpp"
-#include "mutiny/test.hpp"
+
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
+#include "mutiny/mock.hpp"
+#include "mutiny/test.hpp"
+
 using mu::tiny::mock::mock;
 
-TEST_GROUP(MockSupportPlugin)
+TEST_GROUP(SupportPlugin)
 {
-  mu::tiny::test::StringBufferTestOutput output;
+  mu::tiny::test::StringBufferOutput output;
 
-  mu::tiny::test::TestShell* test;
-  mu::tiny::test::TestResult* result;
+  mu::tiny::test::Shell* test;
+  mu::tiny::test::Result* result;
 
-  mu::tiny::mock::MockSupportPlugin plugin;
+  mu::tiny::mock::SupportPlugin plugin;
 
   void setup() override
   {
-    test = new mu::tiny::test::TestShell("group", "name", "file", 1);
-    result = new mu::tiny::test::TestResult(output);
+    test = new mu::tiny::test::Shell("group", "name", "file", 1);
+    result = new mu::tiny::test::Result(output);
   }
 
   void teardown() override
@@ -33,19 +35,19 @@ TEST_GROUP(MockSupportPlugin)
   }
 };
 
-TEST(MockSupportPlugin, canBeDeletedThroughBasePointer)
+TEST(SupportPlugin, canBeDeletedThroughBasePointer)
 {
-  mu::tiny::test::TestPlugin* p = new mu::tiny::mock::MockSupportPlugin;
+  mu::tiny::test::Plugin* p = new mu::tiny::mock::SupportPlugin;
   delete p;
 }
 
-TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
+TEST(SupportPlugin, checkExpectationsAndClearAtEnd)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foobar");
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       test, expectations
   );
 
@@ -60,14 +62,14 @@ TEST(MockSupportPlugin, checkExpectationsAndClearAtEnd)
   CHECK_NO_MOCK_FAILURE();
 }
 
-TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
+TEST(SupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("differentScope::foobar")
       ->on_object(reinterpret_cast<void*>(1));
-  mu::tiny::mock::MockExpectedObjectDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedObjectDidntHappenFailure expected_failure(
       test, "differentScope::foobar", expectations
   );
 
@@ -84,7 +86,7 @@ TEST(MockSupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
   CHECK_NO_MOCK_FAILURE();
 }
 
-class DummyComparator : public mu::tiny::mock::MockNamedValueComparator
+class DummyComparator : public mu::tiny::mock::NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -97,9 +99,9 @@ public:
   }
 };
 
-TEST(MockSupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
+TEST(SupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   DummyComparator comparator;
   plugin.install_comparator("myType", comparator);
@@ -108,13 +110,13 @@ TEST(MockSupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet
   );
   mock().actual_call("foo").with_parameter_of_type("myType", "name", nullptr);
 
-  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure failure(test, "myType");
+  mu::tiny::mock::NoWayToCompareCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
 }
 
-class DummyCopier : public mu::tiny::mock::MockNamedValueCopier
+class DummyCopier : public mu::tiny::mock::NamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -123,9 +125,9 @@ public:
   }
 };
 
-TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
+TEST(SupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   DummyCopier copier;
   plugin.install_copier("myType", copier);
@@ -136,13 +138,13 @@ TEST(MockSupportPlugin, installCopierRecordsTheCopierButNotInstallsItYet)
       "myType", "name", nullptr
   );
 
-  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure failure(test, "myType");
+  mu::tiny::mock::NoWayToCopyCustomTypeFailure failure(test, "myType");
   CHECK_EXPECTED_MOCK_FAILURE(failure);
 
   plugin.clear();
 }
 
-TEST(MockSupportPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
+TEST(SupportPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSupportSpace)
 {
   DummyComparator comparator;
   DummyComparator comparator2;
@@ -177,9 +179,9 @@ void fail_twice_function()
 }
 }
 
-TEST(MockSupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
+TEST(SupportPlugin, shouldNotFailAgainWhenTestAlreadyFailed)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
   fixture.install_plugin(&plugin);
   fixture.set_test_function(fail_twice_function);
   fixture.run_all_tests();

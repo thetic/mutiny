@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKIGNOREDACTUALCALL_HPP
-#define INCLUDED_MUTINY_MOCKIGNOREDACTUALCALL_HPP
+#ifndef INCLUDED_MUTINY_MOCK_IGNOREDACTUALCALL_HPP
+#define INCLUDED_MUTINY_MOCK_IGNOREDACTUALCALL_HPP
 
 #include "mutiny/mock/ActualCall.hpp"
 
@@ -7,99 +7,93 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockIgnoredActualCall : public MockActualCall
+class IgnoredActualCall : public ActualCall
 {
 public:
-  MockActualCall& with_name(const mu::tiny::test::String&) override
+  ActualCall& with_name(const mu::tiny::test::String&) override
   {
     return *this;
   }
-  MockActualCall& with_call_order(unsigned int) override { return *this; }
-  MockActualCall& with_bool_parameter(
-      const mu::tiny::test::String&,
-      bool
-  ) override
+  ActualCall& with_call_order(unsigned int) override { return *this; }
+  ActualCall& with_bool_parameter(const mu::tiny::test::String&, bool) override
   {
     return *this;
   }
-  MockActualCall& with_int_parameter(
-      const mu::tiny::test::String&,
-      int
-  ) override
+  ActualCall& with_int_parameter(const mu::tiny::test::String&, int) override
   {
     return *this;
   }
-  MockActualCall& with_unsigned_int_parameter(
+  ActualCall& with_unsigned_int_parameter(
       const mu::tiny::test::String&,
       unsigned int
   ) override
   {
     return *this;
   }
-  MockActualCall& with_long_int_parameter(
+  ActualCall& with_long_int_parameter(
       const mu::tiny::test::String&,
       long int
   ) override
   {
     return *this;
   }
-  MockActualCall& with_unsigned_long_int_parameter(
+  ActualCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String&,
       unsigned long int
   ) override
   {
     return *this;
   }
-  MockActualCall& with_long_long_int_parameter(
+  ActualCall& with_long_long_int_parameter(
       const mu::tiny::test::String&,
       long long
   ) override
   {
     return *this;
   }
-  MockActualCall& with_unsigned_long_long_int_parameter(
+  ActualCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String&,
       unsigned long long
   ) override
   {
     return *this;
   }
-  MockActualCall& with_double_parameter(
+  ActualCall& with_double_parameter(
       const mu::tiny::test::String&,
       double
   ) override
   {
     return *this;
   }
-  MockActualCall& with_string_parameter(
+  ActualCall& with_string_parameter(
       const mu::tiny::test::String&,
       const char*
   ) override
   {
     return *this;
   }
-  MockActualCall& with_pointer_parameter(
+  ActualCall& with_pointer_parameter(
       const mu::tiny::test::String&,
       void*
   ) override
   {
     return *this;
   }
-  MockActualCall& with_const_pointer_parameter(
+  ActualCall& with_const_pointer_parameter(
       const mu::tiny::test::String&,
       const void*
   ) override
   {
     return *this;
   }
-  MockActualCall& with_function_pointer_parameter(
+  ActualCall& with_function_pointer_parameter(
       const mu::tiny::test::String&,
       void (*)()
   ) override
   {
     return *this;
   }
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const mu::tiny::test::String&,
       const unsigned char*,
       size_t
@@ -107,7 +101,7 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const char*,
       const unsigned char*,
       size_t
@@ -115,7 +109,7 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const mu::tiny::test::String&,
       const mu::tiny::test::String&,
       const void*
@@ -123,7 +117,7 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const char*,
       const char*,
       const void*
@@ -131,14 +125,14 @@ public:
   {
     return *this;
   }
-  MockActualCall& with_output_parameter(
+  ActualCall& with_output_parameter(
       const mu::tiny::test::String&,
       void*
   ) override
   {
     return *this;
   }
-  MockActualCall& with_output_parameter_of_type(
+  ActualCall& with_output_parameter_of_type(
       const mu::tiny::test::String&,
       const mu::tiny::test::String&,
       void*
@@ -148,7 +142,7 @@ public:
   }
 
   bool has_return_value() override { return false; }
-  MockNamedValue return_value() override { return MockNamedValue(""); }
+  NamedValue return_value() override { return NamedValue(""); }
 
   bool return_bool_value_or_default(bool value) override { return value; }
   bool return_bool_value() override { return false; }
@@ -224,11 +218,11 @@ public:
     return value;
   }
 
-  MockActualCall& on_object(const void*) override { return *this; }
+  ActualCall& on_object(const void*) override { return *this; }
 
-  static MockIgnoredActualCall& instance()
+  static IgnoredActualCall& instance()
   {
-    static MockIgnoredActualCall call;
+    static IgnoredActualCall call;
     return call;
   }
 };

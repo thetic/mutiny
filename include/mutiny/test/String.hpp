@@ -8,8 +8,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef INCLUDED_MUTINY_STRING_HPP
-#define INCLUDED_MUTINY_STRING_HPP
+#ifndef INCLUDED_MUTINY_TEST_STRING_HPP
+#define INCLUDED_MUTINY_TEST_STRING_HPP
 
 #include <stdarg.h>
 #include <stddef.h>

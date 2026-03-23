@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKNAMEDVALUELIST_HPP
-#define INCLUDED_MUTINY_MOCKNAMEDVALUELIST_HPP
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUELIST_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUELIST_HPP
 
 #include "mutiny/mock/NamedValue.hpp"
 
@@ -7,39 +7,39 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockNamedValueListNode
+class NamedValueListNode
 {
 public:
-  MockNamedValueListNode(MockNamedValue* new_value);
+  NamedValueListNode(NamedValue* new_value);
 
   mu::tiny::test::String get_name() const;
   mu::tiny::test::String get_type() const;
 
-  MockNamedValueListNode* next();
-  MockNamedValue* item();
+  NamedValueListNode* next();
+  NamedValue* item();
 
   void destroy();
-  void set_next(MockNamedValueListNode* node);
+  void set_next(NamedValueListNode* node);
 
 private:
-  MockNamedValue* data_;
-  MockNamedValueListNode* next_{ nullptr };
+  NamedValue* data_;
+  NamedValueListNode* next_{ nullptr };
 };
 
-class MockNamedValueList
+class NamedValueList
 {
 public:
-  MockNamedValueList() = default;
+  NamedValueList() = default;
 
-  MockNamedValueListNode* begin();
+  NamedValueListNode* begin();
 
-  void add(MockNamedValue* new_value);
+  void add(NamedValue* new_value);
   void clear();
 
-  MockNamedValue* get_value_by_name(const mu::tiny::test::String& name);
+  NamedValue* get_value_by_name(const mu::tiny::test::String& name);
 
 private:
-  MockNamedValueListNode* head_{ nullptr };
+  NamedValueListNode* head_{ nullptr };
 };
 
 }

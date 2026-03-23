@@ -1,13 +1,14 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/ExecFunctionShell.hpp"
 #include "mutiny/test/IgnoredShell.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
-TEST_GROUP(IgnoredTestShell)
+#include "mutiny/test.hpp"
+
+TEST_GROUP(IgnoredShell)
 {
-  mu::tiny::test::TestTestingFixture fixture;
-  mu::tiny::test::IgnoredTestShell ignored_test;
-  mu::tiny::test::ExecFunctionTestShell normal_utest_shell;
+  mu::tiny::test::TestingFixture fixture;
+  mu::tiny::test::IgnoredShell ignored_test;
+  mu::tiny::test::ExecFunctionShell normal_utest_shell;
 
   void setup() override
   {
@@ -16,20 +17,20 @@ TEST_GROUP(IgnoredTestShell)
   }
 };
 
-TEST(IgnoredTestShell, doesIgnoreCount)
+TEST(IgnoredShell, doesIgnoreCount)
 {
   fixture.run_all_tests();
   LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
-TEST(IgnoredTestShell, printsIGNORE_TESTwhenVerbose)
+TEST(IgnoredShell, printsIGNORE_TESTwhenVerbose)
 {
   fixture.set_output_verbose();
   fixture.run_all_tests();
   fixture.assert_print_contains("IGNORE_TEST");
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
+TEST(IgnoredShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
 {
   ignored_test.set_run_ignored();
   fixture.run_all_tests();
@@ -37,14 +38,14 @@ TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
   LONGS_EQUAL(0, fixture.get_ignore_count());
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
+TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
 {
   fixture.run_all_tests();
   LONGS_EQUAL(2, fixture.get_run_count());
   LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
+TEST(IgnoredShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
 {
   normal_utest_shell.set_run_ignored();
   fixture.run_all_tests();
@@ -52,7 +53,7 @@ TEST(IgnoredTestShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
   LONGS_EQUAL(1, fixture.get_ignore_count());
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
+TEST(IgnoredShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
 {
   ignored_test.set_group_name("TestGroup");
   ignored_test.set_test_name("TestName");
@@ -63,7 +64,7 @@ TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
   );
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
+TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedName)
 {
   ignored_test.set_group_name("TestGroup");
   ignored_test.set_test_name("TestName");
@@ -74,12 +75,12 @@ TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormatt
   );
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
+TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
 {
   CHECK_FALSE(ignored_test.will_run());
 }
 
-TEST(IgnoredTestShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
+TEST(IgnoredShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
 {
   ignored_test.set_run_ignored();
   CHECK_TRUE(ignored_test.will_run());

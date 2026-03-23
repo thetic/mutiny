@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKFAILURE_HPP
-#define INCLUDED_MUTINY_MOCKFAILURE_HPP
+#ifndef INCLUDED_MUTINY_MOCK_FAILURE_HPP
+#define INCLUDED_MUTINY_MOCK_FAILURE_HPP
 
 #include "mutiny/test/Failure.hpp"
 
@@ -7,24 +7,24 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockExpectedCallsList;
-class MockCheckedActualCall;
-class MockNamedValue;
-class MockFailure;
+class ExpectedCallsList;
+class CheckedActualCall;
+class NamedValue;
+class Failure;
 
-class MockFailureReporter
+class FailureReporter
 {
 protected:
   bool crash_on_failure_{ false };
 
 public:
-  MockFailureReporter() = default;
-  virtual ~MockFailureReporter() = default;
+  FailureReporter() = default;
+  virtual ~FailureReporter() = default;
 
-  virtual void fail_test(MockFailure failure);
-  virtual void report_failure(const MockFailure& failure);
+  virtual void fail_test(Failure failure);
+  virtual void report_failure(const Failure& failure);
   virtual void exit_test();
-  virtual mu::tiny::test::TestShell* get_test_to_fail();
+  virtual mu::tiny::test::Shell* get_test_to_fail();
 
   virtual void crash_on_failure(bool should_crash)
   {
@@ -32,120 +32,118 @@ public:
   }
 };
 
-class MockFailure : public mu::tiny::test::TestFailure
+class Failure : public mu::tiny::test::Failure
 {
 public:
-  MockFailure(mu::tiny::test::TestShell* test);
-  MockFailure(MockFailure&&) noexcept = default;
-  ~MockFailure() override = default;
+  Failure(mu::tiny::test::Shell* test);
+  Failure(Failure&&) noexcept = default;
+  ~Failure() override = default;
 
 protected:
-  void add_expectations_and_call_history(
-      const MockExpectedCallsList& expectations
-  );
+  void add_expectations_and_call_history(const ExpectedCallsList& expectations);
   void add_expectations_and_call_history_related_to(
       const mu::tiny::test::String& function,
-      const MockExpectedCallsList& expectations
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockExpectedCallsDidntHappenFailure : public MockFailure
+class ExpectedCallsDidntHappenFailure : public Failure
 {
 public:
-  MockExpectedCallsDidntHappenFailure(
-      mu::tiny::test::TestShell* test,
-      const MockExpectedCallsList& expectations
+  ExpectedCallsDidntHappenFailure(
+      mu::tiny::test::Shell* test,
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockUnexpectedCallHappenedFailure : public MockFailure
+class UnexpectedCallHappenedFailure : public Failure
 {
 public:
-  MockUnexpectedCallHappenedFailure(
-      mu::tiny::test::TestShell* test,
+  UnexpectedCallHappenedFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& name,
-      const MockExpectedCallsList& expectations
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockCallOrderFailure : public MockFailure
+class CallOrderFailure : public Failure
 {
 public:
-  MockCallOrderFailure(
-      mu::tiny::test::TestShell* test,
-      const MockExpectedCallsList& expectations
+  CallOrderFailure(
+      mu::tiny::test::Shell* test,
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockUnexpectedInputParameterFailure : public MockFailure
+class UnexpectedInputParameterFailure : public Failure
 {
 public:
-  MockUnexpectedInputParameterFailure(
-      mu::tiny::test::TestShell* test,
+  UnexpectedInputParameterFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& function_name,
-      MockNamedValue parameter,
-      const MockExpectedCallsList& expectations
+      NamedValue parameter,
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockUnexpectedOutputParameterFailure : public MockFailure
+class UnexpectedOutputParameterFailure : public Failure
 {
 public:
-  MockUnexpectedOutputParameterFailure(
-      mu::tiny::test::TestShell* test,
+  UnexpectedOutputParameterFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& function_name,
-      MockNamedValue parameter,
-      const MockExpectedCallsList& expectations
+      NamedValue parameter,
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockExpectedParameterDidntHappenFailure : public MockFailure
+class ExpectedParameterDidntHappenFailure : public Failure
 {
 public:
-  MockExpectedParameterDidntHappenFailure(
-      mu::tiny::test::TestShell* test,
+  ExpectedParameterDidntHappenFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& function_name,
-      const MockExpectedCallsList& all_expectations,
-      const MockExpectedCallsList& matching_expectations
+      const ExpectedCallsList& all_expectations,
+      const ExpectedCallsList& matching_expectations
   );
 };
 
-class MockNoWayToCompareCustomTypeFailure : public MockFailure
+class NoWayToCompareCustomTypeFailure : public Failure
 {
 public:
-  MockNoWayToCompareCustomTypeFailure(
-      mu::tiny::test::TestShell* test,
+  NoWayToCompareCustomTypeFailure(
+      mu::tiny::test::Shell* test,
       mu::tiny::test::String type_name
   );
 };
 
-class MockNoWayToCopyCustomTypeFailure : public MockFailure
+class NoWayToCopyCustomTypeFailure : public Failure
 {
 public:
-  MockNoWayToCopyCustomTypeFailure(
-      mu::tiny::test::TestShell* test,
+  NoWayToCopyCustomTypeFailure(
+      mu::tiny::test::Shell* test,
       mu::tiny::test::String type_name
   );
 };
 
-class MockUnexpectedObjectFailure : public MockFailure
+class UnexpectedObjectFailure : public Failure
 {
 public:
-  MockUnexpectedObjectFailure(
-      mu::tiny::test::TestShell* test,
+  UnexpectedObjectFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& function_name,
       const void* expected,
-      const MockExpectedCallsList& expectations
+      const ExpectedCallsList& expectations
   );
 };
 
-class MockExpectedObjectDidntHappenFailure : public MockFailure
+class ExpectedObjectDidntHappenFailure : public Failure
 {
 public:
-  MockExpectedObjectDidntHappenFailure(
-      mu::tiny::test::TestShell* test,
+  ExpectedObjectDidntHappenFailure(
+      mu::tiny::test::Shell* test,
       const mu::tiny::test::String& function_name,
-      const MockExpectedCallsList& expectations
+      const ExpectedCallsList& expectations
   );
 };
 

@@ -35,14 +35,14 @@ TEST(MockStrictOrder, someOrderObserved)
 
 TEST(MockStrictOrder, orderViolated)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function_ordered("foo1", 1)->call_was_made(1);
   expectations.add_function_ordered("foo1", 2)->call_was_made(3);
   expectations.add_function_ordered("foo2", 3)->call_was_made(2);
-  mu::tiny::mock::MockCallOrderFailure expected_failure(
+  mu::tiny::mock::CallOrderFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -59,14 +59,14 @@ TEST(MockStrictOrder, orderViolated)
 
 TEST(MockStrictOrder, orderViolatedWorksHierarchically)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
   mock("bla").strict_order();
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::MockCallOrderFailure expected_failure(
+  mu::tiny::mock::CallOrderFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -84,15 +84,15 @@ TEST(MockStrictOrder, orderViolatedWorksHierarchically)
 
 TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
   mock("bla").strict_order();
   mock().ignore_other_calls();
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::MockCallOrderFailure expected_failure(
+  mu::tiny::mock::CallOrderFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -112,13 +112,13 @@ TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
 
 TEST(MockStrictOrder, orderViolatedWithinAScope)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function_ordered("scope::foo1", 1)->call_was_made(2);
   expectations.add_function_ordered("scope::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::MockCallOrderFailure expected_failure(
+  mu::tiny::mock::CallOrderFailure expected_failure(
       mock_failure_test(), expectations
   );
 

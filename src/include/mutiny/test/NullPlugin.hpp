@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_NULLTESTPLUGIN_HPP
-#define INCLUDED_MUTINY_NULLTESTPLUGIN_HPP
+#ifndef INCLUDED_MUTINY_TEST_NULLPLUGIN_HPP
+#define INCLUDED_MUTINY_TEST_NULLPLUGIN_HPP
 
 #include "mutiny/test/Plugin.hpp"
 
@@ -7,19 +7,19 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class NullTestPlugin : public TestPlugin
+class NullPlugin : public Plugin
 {
 public:
-  NullTestPlugin();
+  NullPlugin();
 
-  void run_all_pre_test_action(TestShell& test, TestResult& result) override;
-  void run_all_post_test_action(TestShell& test, TestResult& result) override;
+  void run_all_pre_test_action(Shell& test, Result& result) override;
+  void run_all_post_test_action(Shell& test, Result& result) override;
 
-  static NullTestPlugin* instance();
+  static NullPlugin* instance();
 };
 
 }
 }
 } // namespace mu::tiny::test
 
-#endif // INCLUDED_MUTINY_NULLTESTPLUGIN_HPP
+#endif // INCLUDED_MUTINY_TEST_NULLPLUGIN_HPP

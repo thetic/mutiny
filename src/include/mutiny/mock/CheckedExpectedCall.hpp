@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKCHECKEDEXPECTEDCALL_HPP
-#define INCLUDED_MUTINY_MOCKCHECKEDEXPECTEDCALL_HPP
+#ifndef INCLUDED_MUTINY_MOCK_CHECKEDEXPECTEDCALL_HPP
+#define INCLUDED_MUTINY_MOCK_CHECKEDEXPECTEDCALL_HPP
 
 #include "mutiny/mock/ExpectedCall.hpp"
 #include "mutiny/mock/NamedValue.hpp"
@@ -9,124 +9,120 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockCheckedExpectedCall : public MockExpectedCall
+class CheckedExpectedCall : public ExpectedCall
 {
 
 public:
-  MockCheckedExpectedCall();
-  MockCheckedExpectedCall(unsigned int num_calls);
-  ~MockCheckedExpectedCall() override;
+  CheckedExpectedCall();
+  CheckedExpectedCall(unsigned int num_calls);
+  ~CheckedExpectedCall() override;
 
-  MockExpectedCall& with_name(const mu::tiny::test::String& name) override;
-  MockExpectedCall& with_call_order(unsigned int call_order) override
+  ExpectedCall& with_name(const mu::tiny::test::String& name) override;
+  ExpectedCall& with_call_order(unsigned int call_order) override
   {
     return with_call_order(call_order, call_order);
   }
-  MockExpectedCall& with_call_order(
+  ExpectedCall& with_call_order(
       unsigned int initial_call_order,
       unsigned int final_call_order
   ) override;
-  MockExpectedCall& with_bool_parameter(
+  ExpectedCall& with_bool_parameter(
       const mu::tiny::test::String& name,
       bool value
   ) override;
-  MockExpectedCall& with_int_parameter(
+  ExpectedCall& with_int_parameter(
       const mu::tiny::test::String& name,
       int value
   ) override;
-  MockExpectedCall& with_unsigned_int_parameter(
+  ExpectedCall& with_unsigned_int_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   ) override;
-  MockExpectedCall& with_long_int_parameter(
+  ExpectedCall& with_long_int_parameter(
       const mu::tiny::test::String& name,
       long int value
   ) override;
-  MockExpectedCall& with_unsigned_long_int_parameter(
+  ExpectedCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   ) override;
-  MockExpectedCall& with_long_long_int_parameter(
+  ExpectedCall& with_long_long_int_parameter(
       const mu::tiny::test::String& name,
       long long value
   ) override;
-  MockExpectedCall& with_unsigned_long_long_int_parameter(
+  ExpectedCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   ) override;
-  MockExpectedCall& with_double_parameter(
+  ExpectedCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value
   ) override;
-  MockExpectedCall& with_double_parameter(
+  ExpectedCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value,
       double tolerance
   ) override;
-  MockExpectedCall& with_string_parameter(
+  ExpectedCall& with_string_parameter(
       const mu::tiny::test::String& name,
       const char* value
   ) override;
-  MockExpectedCall& with_pointer_parameter(
+  ExpectedCall& with_pointer_parameter(
       const mu::tiny::test::String& name,
       void* value
   ) override;
-  MockExpectedCall& with_const_pointer_parameter(
+  ExpectedCall& with_const_pointer_parameter(
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockExpectedCall& with_function_pointer_parameter(
+  ExpectedCall& with_function_pointer_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   ) override;
-  MockExpectedCall& with_memory_buffer_parameter(
+  ExpectedCall& with_memory_buffer_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
   ) override;
-  MockExpectedCall& with_parameter_of_type(
+  ExpectedCall& with_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockExpectedCall& with_output_parameter_returning(
+  ExpectedCall& with_output_parameter_returning(
       const mu::tiny::test::String& name,
       const void* value,
       size_t size
   ) override;
-  MockExpectedCall& with_output_parameter_of_type_returning(
+  ExpectedCall& with_output_parameter_of_type_returning(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockExpectedCall& with_unmodified_output_parameter(
+  ExpectedCall& with_unmodified_output_parameter(
       const mu::tiny::test::String& name
   ) override;
-  MockExpectedCall& ignore_other_parameters() override;
+  ExpectedCall& ignore_other_parameters() override;
 
-  MockExpectedCall& and_return_value(bool value) override;
-  MockExpectedCall& and_return_value(int value) override;
-  MockExpectedCall& and_return_value(unsigned int value) override;
-  MockExpectedCall& and_return_value(long int value) override;
-  MockExpectedCall& and_return_value(unsigned long int value) override;
-  MockExpectedCall& and_return_value(long long value) override;
-  MockExpectedCall& and_return_value(unsigned long long value) override;
-  MockExpectedCall& and_return_value(double value) override;
-  MockExpectedCall& and_return_value(const char* value) override;
-  MockExpectedCall& and_return_value(void* value) override;
-  MockExpectedCall& and_return_value(const void* value) override;
-  MockExpectedCall& and_return_value(void (*value)()) override;
+  ExpectedCall& and_return_value(bool value) override;
+  ExpectedCall& and_return_value(int value) override;
+  ExpectedCall& and_return_value(unsigned int value) override;
+  ExpectedCall& and_return_value(long int value) override;
+  ExpectedCall& and_return_value(unsigned long int value) override;
+  ExpectedCall& and_return_value(long long value) override;
+  ExpectedCall& and_return_value(unsigned long long value) override;
+  ExpectedCall& and_return_value(double value) override;
+  ExpectedCall& and_return_value(const char* value) override;
+  ExpectedCall& and_return_value(void* value) override;
+  ExpectedCall& and_return_value(const void* value) override;
+  ExpectedCall& and_return_value(void (*value)()) override;
 
-  virtual MockNamedValue return_value();
+  virtual NamedValue return_value();
 
-  MockExpectedCall& on_object(void* object_ptr) override;
+  ExpectedCall& on_object(void* object_ptr) override;
 
-  virtual MockNamedValue get_input_parameter(
-      const mu::tiny::test::String& name
-  );
-  virtual MockNamedValue get_output_parameter(
-      const mu::tiny::test::String& name
-  );
+  virtual NamedValue get_input_parameter(const mu::tiny::test::String& name);
+  virtual NamedValue get_output_parameter(const mu::tiny::test::String& name);
   virtual mu::tiny::test::String get_input_parameter_type(
       const mu::tiny::test::String& name
   );
@@ -137,11 +133,11 @@ public:
   virtual bool has_input_parameter_with_name(
       const mu::tiny::test::String& name
   );
-  virtual bool has_input_parameter(const MockNamedValue& parameter);
+  virtual bool has_input_parameter(const NamedValue& parameter);
   virtual bool has_output_parameter_with_name(
       const mu::tiny::test::String& name
   );
-  virtual bool has_output_parameter(const MockNamedValue& parameter);
+  virtual bool has_output_parameter(const NamedValue& parameter);
   virtual bool relates_to(const mu::tiny::test::String& function_name);
   virtual bool relates_to_object(const void* object_ptr) const;
 
@@ -173,7 +169,7 @@ protected:
 private:
   mu::tiny::test::String function_name_;
 
-  class MockExpectedFunctionParameter : public MockNamedValue
+  class MockExpectedFunctionParameter : public NamedValue
   {
   public:
     MockExpectedFunctionParameter(const mu::tiny::test::String& name);
@@ -184,16 +180,16 @@ private:
     bool matches_actual_call_{ false };
   };
 
-  MockExpectedFunctionParameter* item(MockNamedValueListNode* node);
+  MockExpectedFunctionParameter* item(NamedValueListNode* node);
 
   bool ignore_other_parameters_;
   bool is_actual_call_match_finalized_;
   unsigned int initial_expected_call_order_;
   unsigned int final_expected_call_order_;
   bool out_of_order_;
-  MockNamedValueList* input_parameters_;
-  MockNamedValueList* output_parameters_;
-  MockNamedValue return_value_;
+  NamedValueList* input_parameters_;
+  NamedValueList* output_parameters_;
+  NamedValue return_value_;
   void* object_ptr_;
   bool is_specific_object_expected_;
   bool was_passed_to_object_;

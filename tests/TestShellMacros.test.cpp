@@ -1,6 +1,7 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/TestingFixture.hpp"
+
+#include "mutiny/test.hpp"
 
 #include <limits.h>
 #include <math.h>
@@ -13,7 +14,7 @@
 
 TEST_GROUP(TestShellMacros)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
 };
 
 namespace {
@@ -21,7 +22,7 @@ namespace {
 void failing_test_method_with_fail()
 {
   FAIL("This test fails");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void unsigned_longs_equal_test_method()
@@ -60,57 +61,57 @@ void unsigned_longlongs_equal_text_test_method()
 void failing_test_method_with_check()
 {
   CHECK(false);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_text()
 {
   CHECK_TEXT(false, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_true()
 {
   CHECK_TRUE(false);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_true_text()
 {
   CHECK_TRUE_TEXT(false, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_false()
 {
   CHECK_FALSE(true);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_false_text()
 {
   CHECK_FALSE_TEXT(true, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_equal()
 {
   CHECK_EQUAL(1, 2);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_compare()
 {
   double small = 0.5, big = 0.8;
   CHECK_COMPARE(small, >=, big);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_compare_text()
 {
   double small = 0.5, big = 0.8;
   CHECK_COMPARE_TEXT(small, >=, big, "small bigger than big");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 int count_in_counting_method;
@@ -122,25 +123,25 @@ int counting_method()
 void failing_test_method_with_check_equal_text()
 {
   CHECK_EQUAL_TEXT(1, 2, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_equal_zero()
 {
   CHECK_EQUAL_ZERO(1);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_equal_zero_text()
 {
   CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_longs_equal()
 {
   LONGS_EQUAL(1, 0xff);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_longs_equal_with_symbolic_parameters()
@@ -148,37 +149,37 @@ void failing_test_method_with_longs_equal_with_symbolic_parameters()
 #define MONDAY 1
   int day_of_the_week = MONDAY + 1;
   LONGS_EQUAL(MONDAY, day_of_the_week);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_longs_equal_text()
 {
   LONGS_EQUAL_TEXT(1, 0xff, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_bytes_equal()
 {
   BYTES_EQUAL('a', 'b');
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_bytes_equal_text()
 {
   BYTES_EQUAL_TEXT('a', 'b', "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_signed_bytes_equal()
 {
   SIGNED_BYTES_EQUAL(-1, -2);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_signed_bytes_equal_text()
 {
   SIGNED_BYTES_EQUAL_TEXT(-127, -126, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_pointers_equal()
@@ -186,7 +187,7 @@ void failing_test_method_with_pointers_equal()
   POINTERS_EQUAL(
       reinterpret_cast<void*>(0xa5a5), reinterpret_cast<void*>(0xf0f0)
   );
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_pointers_equal_text()
@@ -196,7 +197,7 @@ void failing_test_method_with_pointers_equal_text()
       reinterpret_cast<void*>(0xf0f0),
       "Failed because it failed"
   );
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_functionpointers_equal()
@@ -204,7 +205,7 @@ void failing_test_method_with_functionpointers_equal()
   FUNCTIONPOINTERS_EQUAL(
       reinterpret_cast<void (*)()>(0xa5a5), reinterpret_cast<void (*)()>(0xf0f0)
   );
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_functionpointers_equal_text()
@@ -214,19 +215,19 @@ void failing_test_method_with_functionpointers_equal_text()
       reinterpret_cast<void (*)()>(0xf0f0),
       "Failed because it failed"
   );
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_doubles_equal()
 {
   DOUBLES_EQUAL(0.12, 44.1, 0.3);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_doubles_equal_text()
 {
   DOUBLES_EQUAL_TEXT(0.12, 44.1, 0.3, "Failed because it failed");
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 bool line_of_code_executed_after_check = false;
@@ -270,7 +271,7 @@ void memcmp_equal_failing_test_method_with_unequal_input()
   unsigned char actual_data[] = { 0x00, 0x01, 0x03, 0x03 };
 
   MEMCMP_EQUAL(expected_data, actual_data, sizeof(expected_data));
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void memcmp_equal_failing_test_method_with_null_expected()
@@ -278,7 +279,7 @@ void memcmp_equal_failing_test_method_with_null_expected()
   unsigned char actual_data[] = { 0x00, 0x01, 0x02, 0x03 };
 
   MEMCMP_EQUAL(nullptr, actual_data, sizeof(actual_data));
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void memcmp_equal_failing_test_method_with_null_actual()
@@ -286,7 +287,7 @@ void memcmp_equal_failing_test_method_with_null_actual()
   unsigned char expected_data[] = { 0x00, 0x01, 0x02, 0x03 };
 
   MEMCMP_EQUAL(expected_data, nullptr, sizeof(expected_data));
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_memcmp_equal_text()
@@ -300,7 +301,7 @@ void failing_test_method_with_memcmp_equal_text()
       sizeof(expected_data),
       "Failed because it failed"
   );
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 enum class ScopedIntEnum
@@ -364,19 +365,19 @@ void enums_equal_int_text_with_unscoped_enum_test_method()
 void failing_test_method_no_throw_with_check_throws()
 {
   CHECK_THROWS(int, (void)(1 + 2));
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void succeeding_test_method_correct_throw_with_check_throws()
 {
   CHECK_THROWS(int, throw 4);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_wrong_throw_with_check_throws()
 {
   CHECK_THROWS(int, throw 4.3);
-  mu::tiny::test::TestTestingFixture::line_executed_after_check();
+  mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 #endif

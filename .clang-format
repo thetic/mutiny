@@ -13,10 +13,18 @@ IncludeCategories:
   - Regex:           '^"[^/"]*"$'
     Priority:        1
     SortPriority:    1
-  # 2. mutiny core includes
-  - Regex:           '^"mutiny/'
+  # 2. mutiny mock includes
+  - Regex:           '^"mutiny/mock/'
     Priority:        2
     SortPriority:    2
+  # 2. mutiny test includes
+  - Regex:           '^"mutiny/test/'
+    Priority:        3
+    SortPriority:    3
+  # 4. mutiny core includes
+  - Regex:           '^"mutiny/'
+    Priority:        4
+    SortPriority:    4
   # 5. System/POSIX headers (angle-bracket with subdirectory path)
   - Regex:           '^<[^>]*/[^>]*>'
     Priority:        5

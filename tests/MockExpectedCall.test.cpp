@@ -4,6 +4,7 @@
 #include "mutiny/mock/Failure.hpp"
 #include "mutiny/mock/IgnoredExpectedCall.hpp"
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+
 #include "mutiny/test.hpp"
 
 class TypeForTestingExpectedFunctionCall
@@ -15,7 +16,7 @@ public:
 };
 
 class TypeForTestingExpectedFunctionCallComparator
-  : public mu::tiny::mock::MockNamedValueComparator
+  : public mu::tiny::mock::NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -34,7 +35,7 @@ public:
 };
 
 class TypeForTestingExpectedFunctionCallCopier
-  : public mu::tiny::mock::MockNamedValueCopier
+  : public mu::tiny::mock::NamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -46,38 +47,37 @@ public:
   }
 };
 
-TEST_GROUP(MockExpectedCall)
+TEST_GROUP(ExpectedCall)
 {
-  mu::tiny::mock::MockCheckedExpectedCall* call;
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository*
+  mu::tiny::mock::CheckedExpectedCall* call;
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository*
       original_comparator_repository;
   void setup() override
   {
-    original_comparator_repository = mu::tiny::mock::MockNamedValue::
+    original_comparator_repository = mu::tiny::mock::NamedValue::
         get_default_comparators_and_copiers_repository();
-    call = new mu::tiny::mock::MockCheckedExpectedCall(1);
+    call = new mu::tiny::mock::CheckedExpectedCall(1);
     call->with_name("funcName");
   }
   void teardown() override
   {
-    mu::tiny::mock::MockNamedValue::
-        set_default_comparators_and_copiers_repository(
-            original_comparator_repository
-        );
+    mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository(
+        original_comparator_repository
+    );
     delete call;
     CHECK_NO_MOCK_FAILURE();
-    MockFailureReporterForTest::clear_reporter();
+    FailureReporterForTest::clear_reporter();
   }
 };
 
-TEST(MockExpectedCall, callWithoutParameterSetOrNotFound)
+TEST(ExpectedCall, callWithoutParameterSetOrNotFound)
 {
   STRCMP_EQUAL("", call->get_input_parameter_type("nonexisting").c_str());
   LONGS_EQUAL(0, call->get_input_parameter("nonexisting").get_int_value());
   CHECK(!call->has_input_parameter_with_name("nonexisting"));
 }
 
-TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
+TEST(ExpectedCall, callWithUnsignedIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   unsigned int value = 356;
@@ -95,7 +95,7 @@ TEST(MockExpectedCall, callWithUnsignedIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithIntegerParameter)
+TEST(ExpectedCall, callWithIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   int value = 2;
@@ -108,7 +108,7 @@ TEST(MockExpectedCall, callWithIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithBooleanParameter)
+TEST(ExpectedCall, callWithBooleanParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   bool value = true;
@@ -121,7 +121,7 @@ TEST(MockExpectedCall, callWithBooleanParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
+TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   unsigned long value = 888;
@@ -139,7 +139,7 @@ TEST(MockExpectedCall, callWithUnsignedLongIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithLongIntegerParameter)
+TEST(ExpectedCall, callWithLongIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   long value = 777;
@@ -155,7 +155,7 @@ TEST(MockExpectedCall, callWithLongIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
+TEST(ExpectedCall, callWithUnsignedLongLongIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   unsigned long long value = 888;
@@ -175,7 +175,7 @@ TEST(MockExpectedCall, callWithUnsignedLongLongIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithLongLongIntegerParameter)
+TEST(ExpectedCall, callWithLongLongIntegerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   long long value = 777;
@@ -193,7 +193,7 @@ TEST(MockExpectedCall, callWithLongLongIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithDoubleParameter)
+TEST(ExpectedCall, callWithDoubleParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   double value = 1.2;
@@ -207,7 +207,7 @@ TEST(MockExpectedCall, callWithDoubleParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
+TEST(ExpectedCall, callWithDoubleParameterAndTolerance)
 {
   const mu::tiny::test::String param_name = "paramName";
   double value = 1.2;
@@ -227,7 +227,7 @@ TEST(MockExpectedCall, callWithDoubleParameterAndTolerance)
   );
 }
 
-TEST(MockExpectedCall, callWithStringParameter)
+TEST(ExpectedCall, callWithStringParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   const char* value = "hello world";
@@ -242,7 +242,7 @@ TEST(MockExpectedCall, callWithStringParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithPointerParameter)
+TEST(ExpectedCall, callWithPointerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
@@ -256,7 +256,7 @@ TEST(MockExpectedCall, callWithPointerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithConstPointerParameter)
+TEST(ExpectedCall, callWithConstPointerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   const void* value = reinterpret_cast<const void*>(0x345);
@@ -273,7 +273,7 @@ TEST(MockExpectedCall, callWithConstPointerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithFunctionPointerParameter)
+TEST(ExpectedCall, callWithFunctionPointerParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   auto value = reinterpret_cast<void (*)()>(0xdead);
@@ -290,7 +290,7 @@ TEST(MockExpectedCall, callWithFunctionPointerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithMemoryBuffer)
+TEST(ExpectedCall, callWithMemoryBuffer)
 {
   const mu::tiny::test::String param_name = "paramName";
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
@@ -309,7 +309,7 @@ TEST(MockExpectedCall, callWithMemoryBuffer)
   );
 }
 
-TEST(MockExpectedCall, callWithObjectParameter)
+TEST(ExpectedCall, callWithObjectParameter)
 {
   const mu::tiny::test::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
@@ -325,59 +325,62 @@ TEST(MockExpectedCall, callWithObjectParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithObjectParameterUnequalComparison)
+TEST(ExpectedCall, callWithObjectParameterUnequalComparison)
 {
   TypeForTestingExpectedFunctionCall type(1), unequal_type(2);
-  mu::tiny::mock::MockNamedValue parameter("name");
+  mu::tiny::mock::NamedValue parameter("name");
   parameter.set_const_object_pointer("type", &unequal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
 }
 
-TEST(MockExpectedCall, callWithObjectParameterEqualComparisonButFailsWithoutRepository)
+TEST(ExpectedCall, callWithObjectParameterEqualComparisonButFailsWithoutRepository)
 {
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  mu::tiny::mock::MockNamedValue parameter("name");
+  mu::tiny::mock::NamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
 }
 
-TEST(MockExpectedCall, callWithObjectParameterEqualComparisonButFailsWithoutComparator)
+TEST(ExpectedCall, callWithObjectParameterEqualComparisonButFailsWithoutComparator)
 {
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
-  mu::tiny::mock::MockNamedValue::
-      set_default_comparators_and_copiers_repository(&repository);
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository(
+      &repository
+  );
 
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  mu::tiny::mock::MockNamedValue parameter("name");
+  mu::tiny::mock::NamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
   call->with_parameter_of_type("type", "name", &type);
   CHECK(!call->has_input_parameter(parameter));
 }
 
-TEST(MockExpectedCall, callWithObjectParameterEqualComparison)
+TEST(ExpectedCall, callWithObjectParameterEqualComparison)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
-  mu::tiny::mock::MockNamedValue::
-      set_default_comparators_and_copiers_repository(&repository);
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository(
+      &repository
+  );
   repository.install_comparator("type", comparator);
 
   TypeForTestingExpectedFunctionCall type(1), equal_type(1);
-  mu::tiny::mock::MockNamedValue parameter("name");
+  mu::tiny::mock::NamedValue parameter("name");
   parameter.set_const_object_pointer("type", &equal_type);
 
   call->with_parameter_of_type("type", "name", &type);
   CHECK(call->has_input_parameter(parameter));
 }
 
-TEST(MockExpectedCall, getParameterValueOfObjectType)
+TEST(ExpectedCall, getParameterValueOfObjectType)
 {
   TypeForTestingExpectedFunctionCallComparator comparator;
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
-  mu::tiny::mock::MockNamedValue::
-      set_default_comparators_and_copiers_repository(&repository);
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository(
+      &repository
+  );
   repository.install_comparator("type", comparator);
 
   TypeForTestingExpectedFunctionCall type(1);
@@ -388,7 +391,7 @@ TEST(MockExpectedCall, getParameterValueOfObjectType)
   STRCMP_EQUAL("1", call->get_input_parameter_value_string("name").c_str());
 }
 
-TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
+TEST(ExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
 {
   TypeForTestingExpectedFunctionCall type(1);
   call->with_parameter_of_type("type", "name", &type);
@@ -398,12 +401,13 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutRepository)
   );
 }
 
-TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
+TEST(ExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
 {
   TypeForTestingExpectedFunctionCall type(1);
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repository;
-  mu::tiny::mock::MockNamedValue::
-      set_default_comparators_and_copiers_repository(&repository);
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+  mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository(
+      &repository
+  );
   call->with_parameter_of_type("type", "name", &type);
   STRCMP_EQUAL(
       "No comparator found for type: \"type\"",
@@ -411,7 +415,7 @@ TEST(MockExpectedCall, getParameterValueOfObjectTypeWithoutComparator)
   );
 }
 
-TEST(MockExpectedCall, callWithTwoUnsignedIntegerParameter)
+TEST(ExpectedCall, callWithTwoUnsignedIntegerParameter)
 {
   unsigned int expected_value = 1;
   unsigned int another_expected_value = 2;
@@ -436,7 +440,7 @@ TEST(MockExpectedCall, callWithTwoUnsignedIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithTwoIntegerParameter)
+TEST(ExpectedCall, callWithTwoIntegerParameter)
 {
   int expected_value = 1;
   int another_expected_value = -1;
@@ -454,7 +458,7 @@ TEST(MockExpectedCall, callWithTwoIntegerParameter)
   );
 }
 
-TEST(MockExpectedCall, callWithThreeDifferentParameter)
+TEST(ExpectedCall, callWithThreeDifferentParameter)
 {
   call->with_parameter("integer", 1);
   call->with_parameter("string", "hello world");
@@ -471,42 +475,42 @@ TEST(MockExpectedCall, callWithThreeDifferentParameter)
   );
 }
 
-TEST(MockExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
+TEST(ExpectedCall, singleCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   CHECK(!expected_call.is_fulfilled());
   CHECK(expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
+TEST(ExpectedCall, singleCallMadeIsFulFilledAndCannotMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.call_was_made(1);
   CHECK(expected_call.is_fulfilled());
   CHECK(!expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
+TEST(ExpectedCall, multiCallNotMadeIsNotFulfilledButCanMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(2);
+  mu::tiny::mock::CheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   CHECK(!expected_call.is_fulfilled());
   CHECK(expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
+TEST(ExpectedCall, multiCallNotMadeExpectedTimesIsNotFulfilledButCanMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(2);
+  mu::tiny::mock::CheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   CHECK(!expected_call.is_fulfilled());
   CHECK(expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
+TEST(ExpectedCall, multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(3);
+  mu::tiny::mock::CheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -515,9 +519,9 @@ TEST(MockExpectedCall, multiCallsMadeExpectedTimesIsFulfilledAndCannotMatchActua
   CHECK(!expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
+TEST(ExpectedCall, multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCannotMatchActualCalls)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(3);
+  mu::tiny::mock::CheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -527,38 +531,38 @@ TEST(MockExpectedCall, multiCallsMadeMoreThanExpectedTimesIsNotFulfilledAndCanno
   CHECK(!expected_call.can_match_actual_calls());
 }
 
-TEST(MockExpectedCall, callsWithoutParameterAlwaysMatch)
+TEST(ExpectedCall, callsWithoutParameterAlwaysMatch)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   CHECK(expected_call.is_matching_actual_call());
 }
 
-TEST(MockExpectedCall, callsWithParameterNotFulfilledDontMatch)
+TEST(ExpectedCall, callsWithParameterNotFulfilledDontMatch)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1);
   CHECK(!expected_call.is_matching_actual_call());
 }
 
-TEST(MockExpectedCall, callsWithParameterFulfilledDoMatch)
+TEST(ExpectedCall, callsWithParameterFulfilledDoMatch)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1);
   expected_call.input_parameter_was_passed("para");
   CHECK(expected_call.is_matching_actual_call());
 }
 
-TEST(MockExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
+TEST(ExpectedCall, callsWithSomeParametersNotFulfilledDontMatch)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_parameter("para", 1).with_parameter("two", 2);
   expected_call.input_parameter_was_passed("para");
   CHECK(!expected_call.is_matching_actual_call());
 }
 
-TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
+TEST(ExpectedCall, toStringForNoParametersSingleCallNotCalled)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   STRCMP_EQUAL(
       "name -> no parameters (expected 1 call, called 0 times)",
@@ -566,9 +570,9 @@ TEST(MockExpectedCall, toStringForNoParametersSingleCallNotCalled)
   );
 }
 
-TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
+TEST(ExpectedCall, toStringForNoParametersMultiCallCalledLessThanExpectedTimes)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(2);
+  mu::tiny::mock::CheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   STRCMP_EQUAL(
@@ -577,9 +581,9 @@ TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledLessThanExpectedTim
   );
 }
 
-TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
+TEST(ExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(2);
+  mu::tiny::mock::CheckedExpectedCall expected_call(2);
   expected_call.with_name("name");
   expected_call.call_was_made(1);
   expected_call.call_was_made(2);
@@ -589,9 +593,9 @@ TEST(MockExpectedCall, toStringForNoParametersMultiCallCalledExpectedTimes)
   );
 }
 
-TEST(MockExpectedCall, toStringForIgnoredParameters)
+TEST(ExpectedCall, toStringForIgnoredParameters)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.ignore_other_parameters();
   STRCMP_EQUAL(
@@ -600,12 +604,12 @@ TEST(MockExpectedCall, toStringForIgnoredParameters)
   );
 }
 
-TEST(MockExpectedCall, toStringForMultipleInputParameters)
+TEST(ExpectedCall, toStringForMultipleInputParameters)
 {
   int int_value = 10;
   unsigned int uint_value = 7;
 
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.with_parameter("integer", int_value);
@@ -619,13 +623,13 @@ TEST(MockExpectedCall, toStringForMultipleInputParameters)
   );
 }
 
-TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
+TEST(ExpectedCall, toStringForMultipleInputAndOutputParameters)
 {
   int int_value = 10;
   unsigned int uint_value = 7;
   unsigned char buffer_value[3];
 
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.with_parameter("integer", int_value);
@@ -642,11 +646,11 @@ TEST(MockExpectedCall, toStringForMultipleInputAndOutputParameters)
   );
 }
 
-TEST(MockExpectedCall, toStringForMultipleOutputParameters)
+TEST(ExpectedCall, toStringForMultipleOutputParameters)
 {
   unsigned char buffer_value[3];
 
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_output_parameter_returning(
       "buffer1", buffer_value, sizeof(buffer_value)
@@ -662,9 +666,9 @@ TEST(MockExpectedCall, toStringForMultipleOutputParameters)
   );
 }
 
-TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
+TEST(ExpectedCall, toStringForUnmodifiedOutputParameter)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_unmodified_output_parameter("buffer1");
   expected_call.call_was_made(1);
@@ -674,9 +678,9 @@ TEST(MockExpectedCall, toStringForUnmodifiedOutputParameter)
   );
 }
 
-TEST(MockExpectedCall, toStringForParameterAndIgnored)
+TEST(ExpectedCall, toStringForParameterAndIgnored)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_parameter("string", "value");
   expected_call.ignore_other_parameters();
@@ -688,9 +692,9 @@ TEST(MockExpectedCall, toStringForParameterAndIgnored)
   );
 }
 
-TEST(MockExpectedCall, toStringForCallOrderSingle)
+TEST(ExpectedCall, toStringForCallOrderSingle)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(1);
+  mu::tiny::mock::CheckedExpectedCall expected_call(1);
   expected_call.with_name("name");
   expected_call.with_call_order(2);
   expected_call.call_was_made(1);
@@ -701,9 +705,9 @@ TEST(MockExpectedCall, toStringForCallOrderSingle)
   );
 }
 
-TEST(MockExpectedCall, toStringForCallOrderMultiple)
+TEST(ExpectedCall, toStringForCallOrderMultiple)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(5);
+  mu::tiny::mock::CheckedExpectedCall expected_call(5);
   expected_call.with_name("name");
   expected_call.with_call_order(5, 9);
   expected_call.call_was_made(5);
@@ -718,7 +722,7 @@ TEST(MockExpectedCall, toStringForCallOrderMultiple)
   );
 }
 
-TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
+TEST(ExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
 {
   call->with_name("name");
   call->with_call_order(2);
@@ -727,9 +731,9 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderSingle)
   CHECK(call->is_out_of_order());
 }
 
-TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
+TEST(ExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(3);
+  mu::tiny::mock::CheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.with_call_order(10, 12);
   expected_call.call_was_made(9);
@@ -739,9 +743,9 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooEarly)
   CHECK(expected_call.is_out_of_order());
 }
 
-TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooLate)
+TEST(ExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooLate)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(3);
+  mu::tiny::mock::CheckedExpectedCall expected_call(3);
   expected_call.with_name("name");
   expected_call.with_call_order(10, 12);
   expected_call.call_was_made(11);
@@ -751,7 +755,7 @@ TEST(MockExpectedCall, callOrderIsFulfilledButWithWrongOrderMultipleTooLate)
   CHECK(expected_call.is_out_of_order());
 }
 
-TEST(MockExpectedCall, callOrderIsFulfilledSingle)
+TEST(ExpectedCall, callOrderIsFulfilledSingle)
 {
   call->with_name("name");
   call->with_call_order(1);
@@ -760,9 +764,9 @@ TEST(MockExpectedCall, callOrderIsFulfilledSingle)
   CHECK_FALSE(call->is_out_of_order());
 }
 
-TEST(MockExpectedCall, callOrderIsFulfilledMultiple)
+TEST(ExpectedCall, callOrderIsFulfilledMultiple)
 {
-  mu::tiny::mock::MockCheckedExpectedCall expected_call(4);
+  mu::tiny::mock::CheckedExpectedCall expected_call(4);
   expected_call.with_name("name");
   expected_call.with_call_order(150, 153);
   expected_call.call_was_made(150);
@@ -773,61 +777,61 @@ TEST(MockExpectedCall, callOrderIsFulfilledMultiple)
   CHECK_FALSE(expected_call.is_out_of_order());
 }
 
-TEST(MockExpectedCall, hasOutputParameter)
+TEST(ExpectedCall, hasOutputParameter)
 {
   const int value = 1;
   call->with_output_parameter_returning("foo", &value, sizeof(value));
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_value(&value);
   CHECK(call->has_output_parameter(foo));
 }
 
-TEST(MockExpectedCall, hasUnmodifiedOutputParameter)
+TEST(ExpectedCall, hasUnmodifiedOutputParameter)
 {
   call->with_unmodified_output_parameter("foo");
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_value(static_cast<const void*>(nullptr));
   foo.set_size(0);
   CHECK(call->has_output_parameter(foo));
 }
 
-TEST(MockExpectedCall, hasNoOutputParameter)
+TEST(ExpectedCall, hasNoOutputParameter)
 {
   call->with_int_parameter("foo", static_cast<int>(1));
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_value(static_cast<int>(1));
   CHECK_FALSE(call->has_output_parameter(foo));
 }
 
-TEST(MockExpectedCall, hasOutputParameterOfType)
+TEST(ExpectedCall, hasOutputParameterOfType)
 {
   TypeForTestingExpectedFunctionCall object(6789);
   call->with_output_parameter_of_type_returning(
       "TypeForTestingExpectedFunctionCall", "foo", &object
   );
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_const_object_pointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK(call->has_output_parameter(foo));
 }
 
-TEST(MockExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
+TEST(ExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
 {
   TypeForTestingExpectedFunctionCall object(543);
   call->with_parameter_of_type(
       "TypeForTestingExpectedFunctionCall", "foo", &object
   );
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_const_object_pointer("TypeForTestingExpectedFunctionCall", &object);
   CHECK_FALSE(call->has_output_parameter(foo));
 }
 
-TEST(MockExpectedCall, hasNoOutputParameterOfTypeDifferentType)
+TEST(ExpectedCall, hasNoOutputParameterOfTypeDifferentType)
 {
   TypeForTestingExpectedFunctionCall object(543);
   call->with_output_parameter_of_type_returning(
       "TypeForTestingExpectedFunctionCall", "foo", &object
   );
-  mu::tiny::mock::MockNamedValue foo("foo");
+  mu::tiny::mock::NamedValue foo("foo");
   foo.set_const_object_pointer(
       "OtherTypeForTestingExpectedFunctionCall", &object
   );

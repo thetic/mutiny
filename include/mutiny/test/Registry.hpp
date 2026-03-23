@@ -1,10 +1,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// TestRegistry is a collection of tests that can be run
+// Registry is a collection of tests that can be run
 //
 
-#ifndef INCLUDED_MUTINY_TESTREGISTRY_HPP
-#define INCLUDED_MUTINY_TESTREGISTRY_HPP
+#ifndef INCLUDED_MUTINY_TEST_REGISTRY_HPP
+#define INCLUDED_MUTINY_TEST_REGISTRY_HPP
 
 #include "mutiny/test/Filter.hpp"
 #include "mutiny/test/String.hpp"
@@ -15,56 +15,56 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestShell;
-class TestResult;
-class TestPlugin;
+class Shell;
+class Result;
+class Plugin;
 
-class TestRegistry
+class Registry
 {
 public:
-  TestRegistry();
-  virtual ~TestRegistry() = default;
+  Registry();
+  virtual ~Registry() = default;
 
-  virtual void add_test(TestShell* test);
+  virtual void add_test(Shell* test);
   virtual void un_do_last_add_test();
   virtual size_t count_tests();
-  virtual void run_all_tests(TestResult& result);
+  virtual void run_all_tests(Result& result);
   virtual void shuffle_tests(size_t seed);
   virtual void reverse_tests();
-  virtual void list_test_group_names(TestResult& result);
-  virtual void list_test_group_and_case_names(TestResult& result);
-  virtual void list_test_locations(TestResult& result);
-  virtual void list_ordered_test_locations(TestResult& result);
-  virtual void set_name_filters(const TestFilter* filters);
-  virtual void set_group_filters(const TestFilter* filters);
-  virtual void install_plugin(TestPlugin* plugin);
+  virtual void list_test_group_names(Result& result);
+  virtual void list_test_group_and_case_names(Result& result);
+  virtual void list_test_locations(Result& result);
+  virtual void list_ordered_test_locations(Result& result);
+  virtual void set_name_filters(const Filter* filters);
+  virtual void set_group_filters(const Filter* filters);
+  virtual void install_plugin(Plugin* plugin);
   virtual void reset_plugins();
-  virtual TestPlugin* get_first_plugin();
-  virtual TestPlugin* get_plugin_by_name(const String& name);
+  virtual Plugin* get_first_plugin();
+  virtual Plugin* get_plugin_by_name(const String& name);
   virtual void remove_plugin_by_name(const String& name);
   virtual int count_plugins();
 
-  virtual TestShell* get_first_test();
-  virtual TestShell* get_test_with_next(TestShell* test);
+  virtual Shell* get_first_test();
+  virtual Shell* get_test_with_next(Shell* test);
 
-  virtual TestShell* find_test_with_name(const String& name);
-  virtual TestShell* find_test_with_group(const String& name);
+  virtual Shell* find_test_with_name(const String& name);
+  virtual Shell* find_test_with_group(const String& name);
 
-  static TestRegistry* get_current_registry();
-  virtual void set_current_registry(TestRegistry* registry);
+  static Registry* get_current_registry();
+  virtual void set_current_registry(Registry* registry);
 
   int get_current_repetition();
   void set_run_ignored();
 
 private:
-  bool test_should_run(TestShell* test, TestResult& result);
-  bool end_of_group(TestShell* test);
+  bool test_should_run(Shell* test, Result& result);
+  bool end_of_group(Shell* test);
 
-  TestShell* tests_{ nullptr };
-  const TestFilter* name_filters_{ nullptr };
-  const TestFilter* group_filters_{ nullptr };
-  TestPlugin* first_plugin_;
-  static TestRegistry* current_registry_;
+  Shell* tests_{ nullptr };
+  const Filter* name_filters_{ nullptr };
+  const Filter* group_filters_{ nullptr };
+  Plugin* first_plugin_;
+  static Registry* current_registry_;
   int current_repetition_{ 0 };
   bool run_ignored_{ false };
 };

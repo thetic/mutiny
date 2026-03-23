@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_SETPOINTERPLUGIN_HPP
-#define INCLUDED_MUTINY_SETPOINTERPLUGIN_HPP
+#ifndef INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
+#define INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
 
 /**
  * @file SetPointerPlugin.hpp
@@ -15,7 +15,7 @@
  * @code
  * // In your test group, install the plugin once:
  * SetPointerPlugin setPlugin;
- * // (Alternatively, register it with CommandLineTestRunner.)
+ * // (Alternatively, register it with CommandLineRunner.)
  *
  * TEST(Foo, uses_global)
  * {
@@ -34,13 +34,13 @@ namespace tiny {
 namespace test {
 
 /**
- * @brief TestPlugin that restores pointer variables to their original values.
+ * @brief Plugin that restores pointer variables to their original values.
  *
  * Up to @ref max_set pointers may be registered per test. The plugin records
  * the address of each pointer variable before it is overwritten; on
  * post_test_action() it writes the saved address back.
  */
-class SetPointerPlugin : public TestPlugin
+class SetPointerPlugin : public Plugin
 {
 public:
   /** @brief Construct the plugin and prepare the storage array. */
@@ -54,7 +54,7 @@ public:
    * @param test    The test shell that just ran.
    * @param result  The active test result accumulator.
    */
-  void post_test_action(TestShell& test, TestResult& result) override;
+  void post_test_action(Shell& test, Result& result) override;
 
   /** @brief Maximum number of pointers that can be registered per test. */
   static constexpr int max_set = 32;

@@ -5,39 +5,38 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef INCLUDED_MUTINY_TESTFAILURE_HPP
-#define INCLUDED_MUTINY_TESTFAILURE_HPP
+#ifndef INCLUDED_MUTINY_TEST_FAILURE_HPP
+#define INCLUDED_MUTINY_TEST_FAILURE_HPP
 
 #include "mutiny/test/String.hpp"
+#include "mutiny/test/features.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <stdexcept>
 #endif
 
-#include "mutiny/test/features.hpp"
-
 namespace mu {
 namespace tiny {
 namespace test {
 
-class TestShell;
-class TestOutput;
+class Shell;
+class Output;
 
-class TestFailure
+class Failure
 {
 
 public:
-  TestFailure(
-      TestShell*,
+  Failure(
+      Shell*,
       const char* file_name,
       size_t line_number,
       const String& the_message
   );
-  TestFailure(TestShell*, const String& the_message);
-  TestFailure(TestShell*, const char* file_name, size_t line_number);
-  TestFailure(const TestFailure&) = default;
-  TestFailure(TestFailure&&) noexcept;
-  virtual ~TestFailure() = default;
+  Failure(Shell*, const String& the_message);
+  Failure(Shell*, const char* file_name, size_t line_number);
+  Failure(const Failure&) = default;
+  Failure(Failure&&) noexcept;
+  virtual ~Failure() = default;
 
   virtual const String& get_file_name() const;
   virtual const String& get_test_name() const;
@@ -67,14 +66,14 @@ protected:
   size_t test_line_number_;
   String message_;
 
-  TestFailure& operator=(const TestFailure&);
+  Failure& operator=(const Failure&);
 };
 
-class EqualsFailure : public TestFailure
+class EqualsFailure : public Failure
 {
 public:
   EqualsFailure(
-      TestShell*,
+      Shell*,
       const char* file_name,
       size_t line_number,
       const char* expected,
@@ -82,7 +81,7 @@ public:
       const String& text
   );
   EqualsFailure(
-      TestShell*,
+      Shell*,
       const char* file_name,
       size_t line_number,
       const String& expected,
@@ -91,11 +90,11 @@ public:
   );
 };
 
-class DoublesEqualFailure : public TestFailure
+class DoublesEqualFailure : public Failure
 {
 public:
   DoublesEqualFailure(
-      TestShell*,
+      Shell*,
       const char* file_name,
       size_t line_number,
       double expected,
@@ -105,11 +104,11 @@ public:
   );
 };
 
-class CheckEqualFailure : public TestFailure
+class CheckEqualFailure : public Failure
 {
 public:
   CheckEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const String& expected,
@@ -118,11 +117,11 @@ public:
   );
 };
 
-class ComparisonFailure : public TestFailure
+class ComparisonFailure : public Failure
 {
 public:
   ComparisonFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const String& check_string,
@@ -131,11 +130,11 @@ public:
   );
 };
 
-class ContainsFailure : public TestFailure
+class ContainsFailure : public Failure
 {
 public:
   ContainsFailure(
-      TestShell*,
+      Shell*,
       const char* file_name,
       size_t line_number,
       const String& expected,
@@ -144,11 +143,11 @@ public:
   );
 };
 
-class CheckFailure : public TestFailure
+class CheckFailure : public Failure
 {
 public:
   CheckFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const String& check_string,
@@ -157,22 +156,22 @@ public:
   );
 };
 
-class FailFailure : public TestFailure
+class FailFailure : public Failure
 {
 public:
   FailFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const String& message
   );
 };
 
-class LongsEqualFailure : public TestFailure
+class LongsEqualFailure : public Failure
 {
 public:
   LongsEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       long expected,
@@ -181,11 +180,11 @@ public:
   );
 };
 
-class UnsignedLongsEqualFailure : public TestFailure
+class UnsignedLongsEqualFailure : public Failure
 {
 public:
   UnsignedLongsEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       unsigned long expected,
@@ -194,11 +193,11 @@ public:
   );
 };
 
-class LongLongsEqualFailure : public TestFailure
+class LongLongsEqualFailure : public Failure
 {
 public:
   LongLongsEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       long long expected,
@@ -207,11 +206,11 @@ public:
   );
 };
 
-class UnsignedLongLongsEqualFailure : public TestFailure
+class UnsignedLongLongsEqualFailure : public Failure
 {
 public:
   UnsignedLongLongsEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       unsigned long long expected,
@@ -220,11 +219,11 @@ public:
   );
 };
 
-class SignedBytesEqualFailure : public TestFailure
+class SignedBytesEqualFailure : public Failure
 {
 public:
   SignedBytesEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       signed char expected,
@@ -233,11 +232,11 @@ public:
   );
 };
 
-class StringEqualFailure : public TestFailure
+class StringEqualFailure : public Failure
 {
 public:
   StringEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const char* expected,
@@ -246,11 +245,11 @@ public:
   );
 };
 
-class StringEqualNoCaseFailure : public TestFailure
+class StringEqualNoCaseFailure : public Failure
 {
 public:
   StringEqualNoCaseFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const char* expected,
@@ -259,11 +258,11 @@ public:
   );
 };
 
-class BinaryEqualFailure : public TestFailure
+class BinaryEqualFailure : public Failure
 {
 public:
   BinaryEqualFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const unsigned char* expected,
@@ -273,11 +272,11 @@ public:
   );
 };
 
-class FeatureUnsupportedFailure : public TestFailure
+class FeatureUnsupportedFailure : public Failure
 {
 public:
   FeatureUnsupportedFailure(
-      TestShell* test,
+      Shell* test,
       const char* file_name,
       size_t line_number,
       const String& feature_name,
@@ -286,13 +285,13 @@ public:
 };
 
 #if MUTINY_HAVE_EXCEPTIONS
-class UnexpectedExceptionFailure : public TestFailure
+class UnexpectedExceptionFailure : public Failure
 {
 public:
   bool is_error() const override { return true; }
-  UnexpectedExceptionFailure(TestShell* test);
+  UnexpectedExceptionFailure(Shell* test);
 #if MUTINY_USE_STD_CPP_LIB
-  UnexpectedExceptionFailure(TestShell* test, const std::exception& e);
+  UnexpectedExceptionFailure(Shell* test, const std::exception& e);
 #endif
 };
 #endif

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKEXPECTEDCALLSLIST_HPP
-#define INCLUDED_MUTINY_MOCKEXPECTEDCALLSLIST_HPP
+#ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALLSLIST_HPP
+#define INCLUDED_MUTINY_MOCK_EXPECTEDCALLSLIST_HPP
 
 #include "mutiny/test/String.hpp"
 
@@ -7,16 +7,16 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockCheckedExpectedCall;
-class MockNamedValue;
+class CheckedExpectedCall;
+class NamedValue;
 
-class MockExpectedCallsList
+class ExpectedCallsList
 {
 
 public:
-  MockExpectedCallsList() = default;
-  virtual ~MockExpectedCallsList();
-  MockExpectedCallsList(const MockExpectedCallsList&) = delete;
+  ExpectedCallsList() = default;
+  virtual ~ExpectedCallsList();
+  ExpectedCallsList(const ExpectedCallsList&) = delete;
 
   virtual void delete_all_expectations_and_clear_list();
 
@@ -35,29 +35,29 @@ public:
   virtual bool has_calls_out_of_order() const;
   virtual bool empty() const;
 
-  virtual void add_expected_call(MockCheckedExpectedCall* call);
-  virtual void add_expectations(const MockExpectedCallsList& list);
+  virtual void add_expected_call(CheckedExpectedCall* call);
+  virtual void add_expectations(const ExpectedCallsList& list);
   virtual void add_expectations_related_to(
       const mu::tiny::test::String& name,
-      const MockExpectedCallsList& list
+      const ExpectedCallsList& list
   );
 
   virtual void only_keep_out_of_order_expectations();
   virtual void add_potentially_matching_expectations(
-      const MockExpectedCallsList& list
+      const ExpectedCallsList& list
   );
 
   virtual void only_keep_expectations_related_to(
       const mu::tiny::test::String& name
   );
   virtual void only_keep_expectations_with_input_parameter(
-      const MockNamedValue& parameter
+      const NamedValue& parameter
   );
   virtual void only_keep_expectations_with_input_parameter_name(
       const mu::tiny::test::String& name
   );
   virtual void only_keep_expectations_with_output_parameter(
-      const MockNamedValue& parameter
+      const NamedValue& parameter
   );
   virtual void only_keep_expectations_with_output_parameter_name(
       const mu::tiny::test::String& name
@@ -65,10 +65,9 @@ public:
   virtual void only_keep_expectations_on_object(const void* object_ptr);
   virtual void only_keep_unmatching_expectations();
 
-  virtual MockCheckedExpectedCall*
-  remove_first_finalized_matching_expectation();
-  virtual MockCheckedExpectedCall* remove_first_matching_expectation();
-  virtual MockCheckedExpectedCall* get_first_matching_expectation();
+  virtual CheckedExpectedCall* remove_first_finalized_matching_expectation();
+  virtual CheckedExpectedCall* remove_first_matching_expectation();
+  virtual CheckedExpectedCall* get_first_matching_expectation();
 
   virtual void reset_actual_call_matching_state();
   virtual void was_passed_to_object();
@@ -96,10 +95,10 @@ protected:
   class MockExpectedCallsListNode
   {
   public:
-    MockCheckedExpectedCall* expected_call;
+    CheckedExpectedCall* expected_call;
 
     MockExpectedCallsListNode* next{ nullptr };
-    MockExpectedCallsListNode(MockCheckedExpectedCall* ec)
+    MockExpectedCallsListNode(CheckedExpectedCall* ec)
       : expected_call(ec)
 
     {

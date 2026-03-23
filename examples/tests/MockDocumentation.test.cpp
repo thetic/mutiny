@@ -76,7 +76,7 @@ TEST(MockDocumentation, parameters)
   parameters_function(2, "hah");
 }
 
-class MyTypeComparator : public mu::tiny::mock::MockNamedValueComparator
+class MyTypeComparator : public mu::tiny::mock::NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override

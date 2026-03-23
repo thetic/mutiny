@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_COMMANDLINEARGUMENTS_HPP
-#define INCLUDED_MUTINY_COMMANDLINEARGUMENTS_HPP
+#ifndef INCLUDED_MUTINY_TEST_COMMANDLINEARGUMENTS_HPP
+#define INCLUDED_MUTINY_TEST_COMMANDLINEARGUMENTS_HPP
 
 #include "mutiny/test/Filter.hpp"
 #include "mutiny/test/Output.hpp"
@@ -9,7 +9,7 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestPlugin;
+class Plugin;
 
 class CommandLineArguments
 {
@@ -19,7 +19,7 @@ public:
   CommandLineArguments(const CommandLineArguments&) = delete;
   CommandLineArguments& operator=(const CommandLineArguments&) = delete;
 
-  bool parse(TestPlugin* plugin);
+  bool parse(Plugin* plugin);
   bool need_help() const;
   bool is_verbose() const;
   bool is_very_verbose() const;
@@ -35,8 +35,8 @@ public:
   bool is_crashing_on_fail() const;
   bool is_rethrowing_exceptions() const;
   size_t get_shuffle_seed() const;
-  const TestFilter* get_group_filters() const;
-  const TestFilter* get_name_filters() const;
+  const Filter* get_group_filters() const;
+  const Filter* get_name_filters() const;
   String help() const;
 
 private:
@@ -59,8 +59,8 @@ private:
   bool shuffling_pre_seeded_{ false };
   size_t repeat_{ 1 };
   size_t shuffle_seed_{ 0 };
-  TestFilter* group_filters_{ nullptr };
-  TestFilter* name_filters_{ nullptr };
+  Filter* group_filters_{ nullptr };
+  Filter* name_filters_{ nullptr };
   String get_parameter_field(
       int argc,
       const char* const* argv,

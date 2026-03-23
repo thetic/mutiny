@@ -1,12 +1,13 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/CommandLineRunner.hpp"
 #include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Registry.hpp"
+#include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/StringCollection.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
-class DummyPluginWhichCountsThePlugins : public mu::tiny::test::TestPlugin
+class DummyPluginWhichCountsThePlugins : public mu::tiny::test::Plugin
 {
 public:
   bool return_value{ true };
@@ -14,9 +15,9 @@ public:
 
   DummyPluginWhichCountsThePlugins(
       const mu::tiny::test::String& name,
-      mu::tiny::test::TestRegistry* registry
+      mu::tiny::test::Registry* registry
   )
-    : TestPlugin(name)
+    : Plugin(name)
     , registry_(registry)
   {
   }
@@ -29,30 +30,30 @@ public:
   }
 
 private:
-  mu::tiny::test::TestRegistry* registry_;
+  mu::tiny::test::Registry* registry_;
 };
 
 class CommandLineTestRunnerWithStringBufferOutput
-  : public mu::tiny::test::CommandLineTestRunner
+  : public mu::tiny::test::CommandLineRunner
 {
 public:
-  mu::tiny::test::StringBufferTestOutput*
+  mu::tiny::test::StringBufferOutput*
       fake_console_output_which_is_really_a_buffer{ nullptr };
 
   CommandLineTestRunnerWithStringBufferOutput(
       int argc,
       const char* const* argv,
-      mu::tiny::test::TestRegistry* registry
+      mu::tiny::test::Registry* registry
   )
-    : CommandLineTestRunner(argc, argv, registry)
+    : CommandLineRunner(argc, argv, registry)
 
   {
   }
 
-  mu::tiny::test::TestOutput* create_console_output() override
+  mu::tiny::test::Output* create_console_output() override
   {
     fake_console_output_which_is_really_a_buffer =
-        new mu::tiny::test::StringBufferTestOutput;
+        new mu::tiny::test::StringBufferOutput;
     return fake_console_output_which_is_really_a_buffer;
   }
 };
@@ -66,7 +67,7 @@ public:
 
 bool RunIgnoredTest::checker_ = false;
 
-class RunIgnoredShell : public mu::tiny::test::IgnoredTestShell
+class RunIgnoredShell : public mu::tiny::test::IgnoredShell
 {
 public:
   RunIgnoredShell(
@@ -75,7 +76,7 @@ public:
       const char* file_name,
       size_t line_number
   )
-    : IgnoredTestShell(group_name, test_name, file_name, line_number)
+    : IgnoredShell(group_name, test_name, file_name, line_number)
   {
   }
   mu::tiny::test::Test* create_test() override { return new RunIgnoredTest; }
@@ -89,11 +90,11 @@ public:
 };
 bool TestExecutionVerifier::was_run_ = false;
 
-class TestExecutionVerifierShell : public mu::tiny::test::TestShell
+class TestExecutionVerifierShell : public mu::tiny::test::Shell
 {
 public:
   TestExecutionVerifierShell()
-    : TestShell("VerifierGroup", "VerifierTest", "file", 1)
+    : Shell("VerifierGroup", "VerifierTest", "file", 1)
   {
   }
   mu::tiny::test::Test* create_test() override
@@ -103,17 +104,17 @@ public:
 };
 } // namespace
 
-TEST_GROUP(CommandLineTestRunner)
+TEST_GROUP(CommandLineRunner)
 {
-  mu::tiny::test::TestRegistry registry;
-  mu::tiny::test::TestShell* test1;
-  mu::tiny::test::TestShell* test2;
+  mu::tiny::test::Registry registry;
+  mu::tiny::test::Shell* test1;
+  mu::tiny::test::Shell* test2;
   DummyPluginWhichCountsThePlugins* plugin_counting_plugin;
 
   void setup() override
   {
-    test1 = new mu::tiny::test::TestShell("group1", "test1", "file1", 1);
-    test2 = new mu::tiny::test::TestShell("group2", "test2", "file2", 2);
+    test1 = new mu::tiny::test::Shell("group1", "test1", "file1", 1);
+    test2 = new mu::tiny::test::Shell("group2", "test2", "file2", 2);
     registry.add_test(test1);
     plugin_counting_plugin =
         new DummyPluginWhichCountsThePlugins("PluginCountingPlugin", &registry);
@@ -136,7 +137,7 @@ TEST_GROUP(CommandLineTestRunner)
   }
 };
 
-TEST(CommandLineTestRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
+TEST(CommandLineRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
 {
   const char* argv[] = { "tests.exe", "-psomething" };
 
@@ -152,7 +153,7 @@ TEST(CommandLineTestRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTest
   LONGS_EQUAL(2, plugin_counting_plugin->amount_of_plugins);
 }
 
-TEST(CommandLineTestRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
+TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
 {
   const char* argv[] = { "tests.exe", "-fdskjnfkds" };
 
@@ -164,7 +165,7 @@ TEST(CommandLineTestRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsA
   LONGS_EQUAL(0, registry.count_plugins());
 }
 
-TEST(CommandLineTestRunner, ReturnsOneWhenTheArgumentsAreInvalid)
+TEST(CommandLineRunner, ReturnsOneWhenTheArgumentsAreInvalid)
 {
   const char* argv[] = { "tests.exe", "-some-invalid=parameter" };
 
@@ -176,7 +177,7 @@ TEST(CommandLineTestRunner, ReturnsOneWhenTheArgumentsAreInvalid)
   LONGS_EQUAL(1, returned);
 }
 
-TEST(CommandLineTestRunner, ReturnsZeroPrintsHelpOnHelp)
+TEST(CommandLineRunner, ReturnsZeroPrintsHelpOnHelp)
 {
   const char* argv[] = { "tests.exe", "-h" };
   TestExecutionVerifierShell verifier_test;
@@ -198,7 +199,7 @@ TEST(CommandLineTestRunner, ReturnsZeroPrintsHelpOnHelp)
   CHECK_FALSE(TestExecutionVerifier::was_run_);
 }
 
-TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
+TEST(CommandLineRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
 {
   const char* argv[] = { "tests.exe", "-h", "-invalid" };
   TestExecutionVerifierShell verifier_test;
@@ -220,7 +221,7 @@ TEST(CommandLineTestRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
   CHECK_FALSE(TestExecutionVerifier::was_run_);
 }
 
-TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)
+TEST(CommandLineRunner, ReturnsZeroWhenNoErrors)
 {
   const char* argv[] = { "tests.exe" };
 
@@ -232,7 +233,7 @@ TEST(CommandLineTestRunner, ReturnsZeroWhenNoErrors)
   LONGS_EQUAL(0, returned);
 }
 
-TEST(CommandLineTestRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
+TEST(CommandLineRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
 {
   const char* argv[] = { "tests.exe", "-g", "NoSuchGroup" };
 
@@ -244,7 +245,7 @@ TEST(CommandLineTestRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
   LONGS_EQUAL(1, returned);
 }
 
-TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
+TEST(CommandLineRunner, veryVerboseSetOnOutput)
 {
   const char* argv[] = { "tests.exe", "-vv" };
 
@@ -266,7 +267,7 @@ TEST(CommandLineTestRunner, veryVerboseSetOnOutput)
   );
 }
 
-TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
+TEST(CommandLineRunner, defaultTestsAreRunInOrderTheyAreInRepository)
 {
   const char* argv[] = { "tests.exe", "-v" };
 
@@ -285,7 +286,7 @@ TEST(CommandLineTestRunner, defaultTestsAreRunInOrderTheyAreInRepository)
   STRCMP_CONTAINS("test1", string_collection[1].c_str());
 }
 
-TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
+TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
 {
   const char* argv[] = { "tests.exe", "-v", "-b" };
 
@@ -304,7 +305,7 @@ TEST(CommandLineTestRunner, testsCanBeRunInReverseOrder)
   STRCMP_CONTAINS("test2", string_collection[1].c_str());
 }
 
-TEST(CommandLineTestRunner, listTestGroupNamesShouldWorkProperly)
+TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)
 {
   const char* argv[] = { "tests.exe", "-lg" };
 
@@ -321,7 +322,7 @@ TEST(CommandLineTestRunner, listTestGroupNamesShouldWorkProperly)
   );
 }
 
-TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
+TEST(CommandLineRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 {
   const char* argv[] = { "tests.exe", "-ln" };
 
@@ -338,7 +339,7 @@ TEST(CommandLineTestRunner, listTestGroupAndCaseNamesShouldWorkProperly)
   );
 }
 
-TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
+TEST(CommandLineRunner, listTestLocationsShouldWorkProperly)
 {
   const char* argv[] = { "tests.exe", "-ll" };
 
@@ -355,11 +356,10 @@ TEST(CommandLineTestRunner, listTestLocationsShouldWorkProperly)
   );
 }
 
-TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
+TEST(CommandLineRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 {
   // more than 1 item in test list ensures that shuffle algorithm calls rand_()
-  auto* another_test =
-      new mu::tiny::test::TestShell("group", "test2", "file", 1);
+  auto* another_test = new mu::tiny::test::Shell("group", "test2", "file", 1);
   registry.add_test(another_test);
 
   const char* argv[] = { "tests.exe", "-s" };
@@ -369,7 +369,7 @@ TEST(CommandLineTestRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
   delete another_test;
 }
 
-TEST(CommandLineTestRunner, specificShuffleSeedIsPrintedVerbose)
+TEST(CommandLineRunner, specificShuffleSeedIsPrintedVerbose)
 {
   const char* argv[] = { "tests.exe", "-s2", "-v" };
   mu::tiny::test::String text = run_and_get_output(3, argv);
@@ -394,33 +394,33 @@ struct FakeOutput
 
   void install_fakes()
   {
-    mu::tiny::test::TestOutput::fopen_ = fopen_fake;
-    mu::tiny::test::TestOutput::fputs_ = fputs_fake;
-    mu::tiny::test::TestOutput::fclose_ = fclose_fake;
+    mu::tiny::test::Output::fopen_ = fopen_fake;
+    mu::tiny::test::Output::fputs_ = fputs_fake;
+    mu::tiny::test::Output::fclose_ = fclose_fake;
   }
 
   void restore_originals()
   {
-    mu::tiny::test::TestOutput::fopen_ = save_f_open_;
-    mu::tiny::test::TestOutput::fputs_ = save_f_puts_;
-    mu::tiny::test::TestOutput::fclose_ = save_f_close_;
+    mu::tiny::test::Output::fopen_ = save_f_open_;
+    mu::tiny::test::Output::fputs_ = save_f_puts_;
+    mu::tiny::test::Output::fclose_ = save_f_close_;
   }
 
-  static mu::tiny::test::TestOutput::File fopen_fake(const char*, const char*)
+  static mu::tiny::test::Output::File fopen_fake(const char*, const char*)
   {
-    return static_cast<mu::tiny::test::TestOutput::File>(nullptr);
+    return static_cast<mu::tiny::test::Output::File>(nullptr);
   }
 
-  static void fputs_fake(const char* str, mu::tiny::test::TestOutput::File f)
+  static void fputs_fake(const char* str, mu::tiny::test::Output::File f)
   {
-    if (f == mu::tiny::test::TestOutput::stdout_) {
+    if (f == mu::tiny::test::Output::stdout_) {
       current_fake_->console += str;
     } else {
       current_fake_->file += str;
     }
   }
 
-  static void fclose_fake(mu::tiny::test::TestOutput::File) {}
+  static void fclose_fake(mu::tiny::test::Output::File) {}
 
   mu::tiny::test::String file;
   mu::tiny::test::String console;
@@ -428,21 +428,21 @@ struct FakeOutput
   static FakeOutput* current_fake_;
 
 private:
-  mu::tiny::test::TestOutput::FOpenFunc save_f_open_{
-    mu::tiny::test::TestOutput::fopen_
+  mu::tiny::test::Output::FOpenFunc save_f_open_{
+    mu::tiny::test::Output::fopen_
   };
-  mu::tiny::test::TestOutput::FPutsFunc save_f_puts_{
-    mu::tiny::test::TestOutput::fputs_
+  mu::tiny::test::Output::FPutsFunc save_f_puts_{
+    mu::tiny::test::Output::fputs_
   };
-  mu::tiny::test::TestOutput::FCloseFunc save_f_close_{
-    mu::tiny::test::TestOutput::fclose_
+  mu::tiny::test::Output::FCloseFunc save_f_close_{
+    mu::tiny::test::Output::fclose_
   };
 };
 
 FakeOutput* FakeOutput::current_fake_ = nullptr;
 }
 
-TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
+TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 {
   const char* argv[] = {
     "tests.exe",
@@ -452,7 +452,7 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
 
   FakeOutput fake_output; /* MUTINY_PTR_SET() is not reentrant */
 
-  mu::tiny::test::CommandLineTestRunner command_line_test_runner(
+  mu::tiny::test::CommandLineRunner command_line_test_runner(
       3, argv, &registry
   );
   command_line_test_runner.run_all_tests_main();
@@ -465,9 +465,9 @@ TEST(CommandLineTestRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());
 }
 
-TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
+TEST(CommandLineRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
 {
-  mu::tiny::test::TestRegistry ignored_registry;
+  mu::tiny::test::Registry ignored_registry;
   RunIgnoredShell run_ignored_test("group", "test", "file", 1);
   ignored_registry.add_test(&run_ignored_test);
   DummyPluginWhichCountsThePlugins ignored_plugin(
@@ -484,7 +484,7 @@ TEST(CommandLineTestRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
   RunIgnoredTest::checker_ = false;
 }
 
-TEST(CommandLineTestRunner, listOrderedTestLocations)
+TEST(CommandLineRunner, listOrderedTestLocations)
 {
   const char* argv[] = { "tests.exe", "-llo" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
@@ -493,9 +493,9 @@ TEST(CommandLineTestRunner, listOrderedTestLocations)
   LONGS_EQUAL(0, command_line_test_runner.run_all_tests_main());
 }
 
-TEST(CommandLineTestRunner, IgnoreTestWillGetRunIfOptionSpecified)
+TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
 {
-  mu::tiny::test::TestRegistry ignored_registry;
+  mu::tiny::test::Registry ignored_registry;
   RunIgnoredShell run_ignored_test("group", "test", "file", 1);
   ignored_registry.add_test(&run_ignored_test);
   DummyPluginWhichCountsThePlugins ignored_plugin(

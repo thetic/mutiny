@@ -1,15 +1,15 @@
-#ifndef INCLUDED_MUTINY_MOCKNAMEDVALUE_HPP
-#define INCLUDED_MUTINY_MOCKNAMEDVALUE_HPP
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
 
 /**
- * @file MockNamedValue.hpp
+ * @file NamedValue.hpp
  * @brief Generic named-value container used to store mock parameters and data.
  *
- * MockNamedValue ties together a name, a type tag, a value (from a union of
+ * NamedValue ties together a name, a type tag, a value (from a union of
  * all supported native types plus opaque object pointers), and optional
- * MockNamedValueComparator / MockNamedValueCopier instances for non-native
- * types. Users encounter MockNamedValue primarily via MockSupport::get_data()
- * and the return_value() methods on MockActualCall.
+ * NamedValueComparator / NamedValueCopier instances for non-native
+ * types. Users encounter NamedValue primarily via Support::get_data()
+ * and the return_value() methods on ActualCall.
  */
 
 #include "mutiny/mock/NamedValueComparator.hpp"
@@ -19,19 +19,19 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockNamedValueComparatorsAndCopiersRepository;
+class NamedValueComparatorsAndCopiersRepository;
 
 /**
  * @brief A named, typed value used throughout the mock framework.
  *
  * Encapsulates all primitive types and opaque object pointers in a single
  * union so that a heterogeneous collection of parameters can be stored and
- * compared uniformly. Custom types register a MockNamedValueComparator (for
- * comparison) and a MockNamedValueCopier (for output parameters).
+ * compared uniformly. Custom types register a NamedValueComparator (for
+ * comparison) and a NamedValueCopier (for output parameters).
  *
- * @see MockSupport::install_comparator(), MockSupport::install_copier()
+ * @see Support::install_comparator(), Support::install_copier()
  */
-class MockNamedValue
+class NamedValue
 {
 public:
   /**
@@ -39,10 +39,10 @@ public:
    *
    * @param name  The parameter or data key.
    */
-  MockNamedValue(const mu::tiny::test::String& name);
-  MockNamedValue(const MockNamedValue&) = default;
-  MockNamedValue(MockNamedValue&&) noexcept;
-  virtual ~MockNamedValue() = default;
+  NamedValue(const mu::tiny::test::String& name);
+  NamedValue(const NamedValue&) = default;
+  NamedValue(NamedValue&&) noexcept;
+  virtual ~NamedValue() = default;
 
   /** @brief Store a bool. @param value Value to store. */
   virtual void set_value(bool value);
@@ -122,12 +122,12 @@ public:
    * @brief Compare this value against @p p using the appropriate strategy.
    *
    * Native types are compared by value; object types use the installed
-   * MockNamedValueComparator. Memory buffers are compared byte-by-byte.
+   * NamedValueComparator. Memory buffers are compared byte-by-byte.
    *
    * @param p  Value to compare against.
    * @return true if the values are considered equal.
    */
-  virtual bool equals(const MockNamedValue& p) const;
+  virtual bool equals(const NamedValue& p) const;
 
   /**
    * @brief Check whether @p p can be copied into this value.
@@ -138,7 +138,7 @@ public:
    * @param p  Candidate source value.
    * @return true if the types are compatible for copying.
    */
-  virtual bool compatible_for_copying(const MockNamedValue& p) const;
+  virtual bool compatible_for_copying(const NamedValue& p) const;
 
   /**
    * @brief Return a human-readable representation of this value.
@@ -195,13 +195,13 @@ public:
    * @return The comparator installed for this value's type, or nullptr if
    *         none was installed (native types do not need one).
    */
-  virtual MockNamedValueComparator* get_comparator() const;
+  virtual NamedValueComparator* get_comparator() const;
 
   /**
    * @return The copier installed for this value's type, or nullptr if
    *         none was installed.
    */
-  virtual MockNamedValueCopier* get_copier() const;
+  virtual NamedValueCopier* get_copier() const;
 
   /**
    * @brief Replace the global repository of comparators and copiers.
@@ -209,11 +209,11 @@ public:
    * @param repository  New repository; pass nullptr to clear.
    */
   static void set_default_comparators_and_copiers_repository(
-      MockNamedValueComparatorsAndCopiersRepository* repository
+      NamedValueComparatorsAndCopiersRepository* repository
   );
 
   /** @return The current global comparators-and-copiers repository. */
-  static MockNamedValueComparatorsAndCopiersRepository*
+  static NamedValueComparatorsAndCopiersRepository*
   get_default_comparators_and_copiers_repository();
 
   /**
@@ -250,9 +250,9 @@ private:
     const void* output_pointer_value;
   } value_;
   size_t size_{ 0 };
-  MockNamedValueComparator* comparator_{ nullptr };
-  MockNamedValueCopier* copier_{ nullptr };
-  static MockNamedValueComparatorsAndCopiersRepository* default_repository_;
+  NamedValueComparator* comparator_{ nullptr };
+  NamedValueCopier* copier_{ nullptr };
+  static NamedValueComparatorsAndCopiersRepository* default_repository_;
 };
 
 }

@@ -1,8 +1,9 @@
 #include "MockFailureReporterForTest.hpp"
 
+#include "mutiny/test/TestingFixture.hpp"
+
 #include "mutiny/mock.hpp"
 #include "mutiny/test.hpp"
-#include "mutiny/test/TestingFixture.hpp"
 
 using mu::tiny::mock::mock;
 
@@ -21,9 +22,9 @@ void unexpected_call_test_function(void)
 
 void check_expected_mock_failure_location_failed_test_method()
 {
-  MockExpectedCallsListForTest::MockExpectedCallsList list;
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
-      mu::tiny::test::TestShell::get_current(), "unexpected", list
+  ExpectedCallsListForTest::ExpectedCallsList list;
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
+      mu::tiny::test::Shell::get_current(), "unexpected", list
   );
   mock().actual_call("boo");
   check_expected_mock_failure_location(expected_failure, "file", 1);
@@ -39,30 +40,30 @@ void check_no_mock_failure_location_failed_test_method()
 
 TEST_GROUP(MockSupportWithFixture)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
 
   void teardown() override
   {
     mock().clear();
-    MockFailureReporterForTest::clear_reporter();
+    FailureReporterForTest::clear_reporter();
   }
 };
 
 TEST(MockSupportWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 {
   mock().set_mock_failure_standard_reporter(
-      MockFailureReporterForTest::get_reporter()
+      FailureReporterForTest::get_reporter()
   );
   fixture.set_test_function(
       check_expected_mock_failure_location_failed_test_method
   );
   fixture.run_all_tests();
   fixture.assert_print_contains("MockFailures are different.");
-  fixture.assert_print_contains("Expected MockFailure:");
+  fixture.assert_print_contains("Expected Failure:");
   fixture.assert_print_contains(
       "Mock Failure: Unexpected call to function: unexpected"
   );
-  fixture.assert_print_contains("Actual MockFailure:");
+  fixture.assert_print_contains("Actual Failure:");
   fixture.assert_print_contains(
       "Mock Failure: Unexpected call to function: boo"
   );
@@ -71,7 +72,7 @@ TEST(MockSupportWithFixture, CHECK_EXPECTED_MOCK_FAILURE_LOCATION_failed)
 TEST(MockSupportWithFixture, CHECK_NO_MOCK_FAILURE_LOCATION_failed)
 {
   mock().set_mock_failure_standard_reporter(
-      MockFailureReporterForTest::get_reporter()
+      FailureReporterForTest::get_reporter()
   );
   fixture.set_test_function(check_no_mock_failure_location_failed_test_method);
   fixture.run_all_tests();
@@ -85,7 +86,7 @@ TEST(MockSupportWithFixture, shouldCrashOnFailure)
 {
   mutiny_has_crashed = false;
   mock().crash_on_failure(true);
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
 
   fixture.run_all_tests();
@@ -93,15 +94,15 @@ TEST(MockSupportWithFixture, shouldCrashOnFailure)
   CHECK(mutiny_has_crashed);
 
   mock().crash_on_failure(false);
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
 
   fixture.run_all_tests();
 
@@ -112,16 +113,16 @@ TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
 TEST(MockSupportWithFixture, shouldCrashOnFailureWithMutinySetting)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestShell::set_crash_on_fail();
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::Shell::set_crash_on_fail();
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture.set_test_function(unexpected_call_test_function);
 
   fixture.run_all_tests();
 
   CHECK(mutiny_has_crashed);
 
-  mu::tiny::test::TestShell::restore_default_test_terminator();
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::restore_default_test_terminator();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)

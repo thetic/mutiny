@@ -10,7 +10,7 @@ TeamCityTestOutput::TeamCityTestOutput()
 }
 
 void TeamCityTestOutput::print_current_test_started(
-    const mu::tiny::test::TestShell& test
+    const mu::tiny::test::Shell& test
 )
 {
   print("##teamcity[testStarted name='");
@@ -25,7 +25,7 @@ void TeamCityTestOutput::print_current_test_started(
 }
 
 void TeamCityTestOutput::print_current_test_ended(
-    const mu::tiny::test::TestResult& res
+    const mu::tiny::test::Result& res
 )
 {
   if (!currtest_)
@@ -39,7 +39,7 @@ void TeamCityTestOutput::print_current_test_ended(
 }
 
 void TeamCityTestOutput::print_current_group_started(
-    const mu::tiny::test::TestShell& test
+    const mu::tiny::test::Shell& test
 )
 {
   curr_group_ = test.get_group();
@@ -49,7 +49,7 @@ void TeamCityTestOutput::print_current_group_started(
 }
 
 void TeamCityTestOutput::
-    print_current_group_ended(const mu::tiny::test::TestResult& /*res*/)
+    print_current_group_ended(const mu::tiny::test::Result& /*res*/)
 {
   if (curr_group_ == "")
     return;
@@ -84,9 +84,7 @@ void TeamCityTestOutput::print_escaped(const char* s)
   }
 }
 
-void TeamCityTestOutput::print_failure(
-    const mu::tiny::test::TestFailure& failure
-)
+void TeamCityTestOutput::print_failure(const mu::tiny::test::Failure& failure)
 {
   print("##teamcity[testFailed name='");
   print_escaped(failure.get_test_name_only().c_str());
@@ -109,7 +107,7 @@ void TeamCityTestOutput::print_failure(
 }
 
 TeamCityOutputPlugin::TeamCityOutputPlugin()
-  : mu::tiny::test::TestPlugin("TeamCityOutputPlugin")
+  : mu::tiny::test::Plugin("TeamCityOutputPlugin")
 {
 }
 
@@ -132,7 +130,7 @@ mu::tiny::test::String TeamCityOutputPlugin::get_help() const
   return "  -pteamcity        - output TeamCity output\n";
 }
 
-mu::tiny::test::TestOutput* TeamCityOutputPlugin::create_output()
+mu::tiny::test::Output* TeamCityOutputPlugin::create_output()
 {
   if (active_)
     return new TeamCityTestOutput;

@@ -1,69 +1,71 @@
 #include "MockFailureReporterForTest.hpp"
 
-#include "mutiny/mock.hpp"
 #include "mutiny/mock/ExpectedCall.hpp"
 #include "mutiny/mock/Failure.hpp"
-#include "mutiny/test.hpp"
+
 #include "mutiny/test/TestingFixture.hpp"
+
+#include "mutiny/mock.hpp"
+#include "mutiny/test.hpp"
 
 using mu::tiny::mock::mock;
 
-TEST_GROUP(MockSupport)
+TEST_GROUP(Support)
 {
-  MockExpectedCallsListForTest expectations;
-  MockFailureReporterInstaller failure_reporter_installer;
+  ExpectedCallsListForTest expectations;
+  FailureReporterInstaller failure_reporter_installer;
 
   void teardown() override
   {
     mock().check_expectations();
     CHECK_NO_MOCK_FAILURE();
-    MockFailureReporterForTest::clear_reporter();
+    FailureReporterForTest::clear_reporter();
     mock().clear();
   }
 };
 
-TEST(MockSupport, setDataForUnsignedIntegerValues)
+TEST(Support, setDataForUnsignedIntegerValues)
 {
   unsigned int expected_data = 7;
   mock().set_data("data", expected_data);
   LONGS_EQUAL(expected_data, mock().get_data("data").get_unsigned_int_value());
 }
 
-TEST(MockSupport, setDataForIntegerValues)
+TEST(Support, setDataForIntegerValues)
 {
   int expected_data = 10;
   mock().set_data("data", expected_data);
   LONGS_EQUAL(expected_data, mock().get_data("data").get_int_value());
 }
 
-TEST(MockSupport, setDataForBooleanValues)
+TEST(Support, setDataForBooleanValues)
 {
   bool expected_data = true;
   mock().set_data("data", expected_data);
   CHECK_EQUAL(expected_data, mock().get_data("data").get_bool_value());
 }
 
-TEST(MockSupport, hasDataBeenSet)
+TEST(Support, hasDataBeenSet)
 {
   CHECK(!mock().has_data("data"));
   mock().set_data("data", 10);
   CHECK(mock().has_data("data"));
 }
 
-TEST(MockSupport, dataCanBeChanged)
+TEST(Support, dataCanBeChanged)
 {
   mock().set_data("data", 10);
   mock().set_data("data", 15);
   LONGS_EQUAL(15, mock().get_data("data").get_int_value());
 }
 
-TEST(MockSupport, uninitializedData)
+TEST(Support, uninitializedData)
 {
   LONGS_EQUAL(0, mock().get_data("nonexisting").get_int_value());
   STRCMP_EQUAL("int", mock().get_data("nonexisting").get_type().c_str());
 }
 
-TEST(MockSupport, setMultipleData)
+TEST(Support, setMultipleData)
 {
   mock().set_data("data", 1);
   mock().set_data("data2", 10);
@@ -71,26 +73,26 @@ TEST(MockSupport, setMultipleData)
   LONGS_EQUAL(10, mock().get_data("data2").get_int_value());
 }
 
-TEST(MockSupport, setDataString)
+TEST(Support, setDataString)
 {
   mock().set_data("data", "string");
   STRCMP_EQUAL("string", mock().get_data("data").get_string_value());
 }
 
-TEST(MockSupport, setDataDouble)
+TEST(Support, setDataDouble)
 {
   mock().set_data("data", 1.0);
   DOUBLES_EQUAL(1.0, mock().get_data("data").get_double_value(), 0.05);
 }
 
-TEST(MockSupport, setDataLongInt)
+TEST(Support, setDataLongInt)
 {
   long int i = 100;
   mock().set_data("data", i);
   LONGS_EQUAL(i, mock().get_data("data").get_long_int_value());
 }
 
-TEST(MockSupport, setDataUnsignedLongInt)
+TEST(Support, setDataUnsignedLongInt)
 {
   unsigned long int i = 100;
   mock().set_data("data", i);
@@ -99,21 +101,21 @@ TEST(MockSupport, setDataUnsignedLongInt)
   );
 }
 
-TEST(MockSupport, setDataPointer)
+TEST(Support, setDataPointer)
 {
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().set_data("data", ptr);
   POINTERS_EQUAL(ptr, mock().get_data("data").get_pointer_value());
 }
 
-TEST(MockSupport, setConstDataPointer)
+TEST(Support, setConstDataPointer)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001);
   mock().set_data("data", ptr);
   POINTERS_EQUAL(ptr, mock().get_data("data").get_const_pointer_value());
 }
 
-TEST(MockSupport, setDataFunctionPointer)
+TEST(Support, setDataFunctionPointer)
 {
   auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().set_data("data", ptr);
@@ -122,7 +124,7 @@ TEST(MockSupport, setDataFunctionPointer)
   );
 }
 
-TEST(MockSupport, setDataObject)
+TEST(Support, setDataObject)
 {
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().set_data_object("data", "type", ptr);
@@ -130,7 +132,7 @@ TEST(MockSupport, setDataObject)
   STRCMP_EQUAL("type", mock().get_data("data").get_type().c_str());
 }
 
-TEST(MockSupport, setDataConstObject)
+TEST(Support, setDataConstObject)
 {
   void* ptr = reinterpret_cast<void*>(0x011);
   mock().set_data_const_object("data", "type", ptr);
@@ -138,7 +140,7 @@ TEST(MockSupport, setDataConstObject)
   STRCMP_EQUAL("type", mock().get_data("data").get_type().c_str());
 }
 
-TEST(MockSupport, tracing)
+TEST(Support, tracing)
 {
   mock().tracing(true);
 
@@ -158,7 +160,7 @@ TEST(MockSupport, tracing)
   STRCMP_CONTAINS("foo", mock().get_trace_output());
 }
 
-TEST(MockSupport, tracingWorksHierarchically)
+TEST(Support, tracingWorksHierarchically)
 {
   mock("scope").tracing(true);
   mock().tracing(true);
@@ -171,7 +173,7 @@ TEST(MockSupport, tracingWorksHierarchically)
   STRCMP_CONTAINS("foo", mock().get_trace_output());
 }
 
-TEST(MockSupport, ignoredCallAcceptsAllParameterTypes)
+TEST(Support, ignoredCallAcceptsAllParameterTypes)
 {
   int obj = 0;
   unsigned char buf[] = { 0x01, 0x02 };

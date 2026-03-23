@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_TESTINSTALLER_HPP
-#define INCLUDED_MUTINY_TESTINSTALLER_HPP
+#ifndef INCLUDED_MUTINY_TEST_INSTALLER_HPP
+#define INCLUDED_MUTINY_TEST_INSTALLER_HPP
 
 #include <stddef.h>
 
@@ -7,21 +7,21 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestShell;
+class Shell;
 
-class TestInstaller
+class Installer
 {
 public:
-  explicit TestInstaller(
-      TestShell& shell,
+  explicit Installer(
+      Shell& shell,
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   );
-  virtual ~TestInstaller() = default;
-  TestInstaller(const TestInstaller&) = delete;
-  TestInstaller& operator=(const TestInstaller&) = delete;
+  virtual ~Installer() = default;
+  Installer(const Installer&) = delete;
+  Installer& operator=(const Installer&) = delete;
 
   void un_do();
 };

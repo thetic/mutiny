@@ -1,5 +1,6 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Output.hpp"
+
+#include "mutiny/test.hpp"
 
 #include <math.h>
 
@@ -12,11 +13,11 @@ const char* fail_file_name = "fail.cpp";
 
 TEST_GROUP(TestFailureNaN)
 {
-  mu::tiny::test::TestShell* test;
+  mu::tiny::test::Shell* test;
 
   void setup() override
   {
-    test = new mu::tiny::test::TestShell(
+    test = new mu::tiny::test::Shell(
         "groupname", "testname", fail_file_name, fail_line_number - 1
     );
   }

@@ -1,7 +1,8 @@
 #include "fail_method_c_body.h"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/TestingFixture.hpp"
+
+#include "mutiny/test.hpp"
 
 /*
  * These tests verify that the C failure path (longjmp-based) does not trigger
@@ -40,11 +41,11 @@ void crash_method()
 
 TEST_GROUP(MutinyCFixture)
 {
-  mu::tiny::test::TestTestingFixture* fixture;
+  mu::tiny::test::TestingFixture* fixture;
   TEST_SETUP()
   {
     has_destructor_of_the_destructor_checked_been_called = false;
-    fixture = new mu::tiny::test::TestTestingFixture();
+    fixture = new mu::tiny::test::TestingFixture();
   }
   TEST_TEARDOWN() { delete fixture; }
 };
@@ -62,7 +63,7 @@ TEST(MutinyCFixture, checkFail)
 TEST(MutinyCFixture, doesNotCrashIfNotSetToCrash)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture->set_test_function(fail_method);
 
   fixture->run_all_tests();
@@ -71,14 +72,14 @@ TEST(MutinyCFixture, doesNotCrashIfNotSetToCrash)
   LONGS_EQUAL(1, fixture->get_failure_count());
   CHECK(!has_destructor_of_the_destructor_checked_been_called);
 
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MutinyCFixture, doesCrashIfSetToCrash)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestShell::set_crash_on_fail();
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::Shell::set_crash_on_fail();
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture->set_test_function(fail_method);
 
   fixture->run_all_tests();
@@ -86,6 +87,6 @@ TEST(MutinyCFixture, doesCrashIfSetToCrash)
   CHECK(mutiny_has_crashed);
   CHECK(!has_destructor_of_the_destructor_checked_been_called);
 
-  mu::tiny::test::TestShell::restore_default_test_terminator();
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::restore_default_test_terminator();
+  mu::tiny::test::Shell::reset_crash_method();
 }

@@ -1,12 +1,13 @@
 #include "mutiny/mock/IgnoredExpectedCall.hpp"
+
 #include "mutiny/test.hpp"
 
-TEST_GROUP(MockIgnoredExpectedCall)
+TEST_GROUP(IgnoredExpectedCall)
 {
-  mu::tiny::mock::MockIgnoredExpectedCall ignored;
+  mu::tiny::mock::IgnoredExpectedCall ignored;
 };
 
-TEST(MockIgnoredExpectedCall, worksAsItShould)
+TEST(IgnoredExpectedCall, worksAsItShould)
 {
   ignored.with_name("func");
   ignored.with_call_order(1);

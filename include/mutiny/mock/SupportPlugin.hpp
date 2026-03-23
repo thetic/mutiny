@@ -1,11 +1,11 @@
-#ifndef INCLUDED_MUTINY_MOCKSUPPORTPLUGIN_HPP
-#define INCLUDED_MUTINY_MOCKSUPPORTPLUGIN_HPP
+#ifndef INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
+#define INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
 
 /**
- * @file MockSupportPlugin.hpp
- * @brief TestPlugin that automates mock check/clear and comparator lifetime.
+ * @file SupportPlugin.hpp
+ * @brief Plugin that automates mock check/clear and comparator lifetime.
  *
- * Install MockSupportPlugin once in your test runner (or in the test group) to
+ * Install SupportPlugin once in your test runner (or in the test group) to
  * have the framework automatically call mock().check_expectations() and
  * mock().clear() after each test, eliminating the need to write teardown code
  * for every test group.
@@ -17,17 +17,18 @@
  * @code
  * int main(int argc, char** argv)
  * {
- *   mu::tiny::mock::MockSupportPlugin mock_plugin;
- *   return mu::tiny::test::CommandLineTestRunner::run_all_tests(argc, argv);
+ *   mu::tiny::mock::SupportPlugin mock_plugin;
+ *   return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
  * }
  * @endcode
  *
- * @see MockSupport, TestPlugin
+ * @see Support, Plugin
  */
 
 #include "mutiny/mock/NamedValueComparator.hpp"
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 #include "mutiny/mock/NamedValueCopier.hpp"
+
 #include "mutiny/test/Plugin.hpp"
 
 namespace mu {
@@ -35,23 +36,23 @@ namespace tiny {
 namespace mock {
 
 /**
- * @brief TestPlugin that manages mock lifecycle and comparator/copier
+ * @brief Plugin that manages mock lifecycle and comparator/copier
  * registration.
  *
  * pre_test_action() installs the plugin's comparator/copier repository into the
  * global mock scope. post_test_action() calls check_expectations() and clear()
  * on the global mock, then removes the repository.
  */
-class MockSupportPlugin : public mu::tiny::test::TestPlugin
+class SupportPlugin : public mu::tiny::test::Plugin
 {
 public:
   /**
    * @brief Construct the plugin with an optional name.
    *
-   * @param name  Plugin identifier; defaults to "MockSupportPLugin".
+   * @param name  Plugin identifier; defaults to "SupportPlugin".
    */
-  MockSupportPlugin(const mu::tiny::test::String& name = "MockSupportPLugin");
-  ~MockSupportPlugin() override;
+  SupportPlugin(const mu::tiny::test::String& name = "SupportPlugin");
+  ~SupportPlugin() override;
 
   /**
    * @brief Install the comparator/copier repository before the test runs.
@@ -60,8 +61,8 @@ public:
    * @param result  The active test result accumulator.
    */
   void pre_test_action(
-      mu::tiny::test::TestShell& test,
-      mu::tiny::test::TestResult& result
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
   ) override;
 
   /**
@@ -71,8 +72,8 @@ public:
    * @param result  The active test result accumulator.
    */
   void post_test_action(
-      mu::tiny::test::TestShell& test,
-      mu::tiny::test::TestResult& result
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
   ) override;
 
   /**
@@ -86,7 +87,7 @@ public:
    */
   virtual void install_comparator(
       const mu::tiny::test::String& name,
-      MockNamedValueComparator& comparator
+      NamedValueComparator& comparator
   );
 
   /**
@@ -97,14 +98,14 @@ public:
    */
   virtual void install_copier(
       const mu::tiny::test::String& name,
-      MockNamedValueCopier& copier
+      NamedValueCopier& copier
   );
 
   /** @brief Remove all registered comparators and copiers from this plugin. */
   void clear();
 
 private:
-  MockNamedValueComparatorsAndCopiersRepository repository_;
+  NamedValueComparatorsAndCopiersRepository repository_;
 };
 
 }

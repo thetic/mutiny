@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_TIME_HPP
-#define INCLUDED_MUTINY_TIME_HPP
+#ifndef INCLUDED_MUTINY_TEST_TIME_HPP
+#define INCLUDED_MUTINY_TEST_TIME_HPP
 
 namespace mu {
 namespace tiny {
@@ -12,4 +12,4 @@ extern const char* (*get_time_string)();
 }
 } // namespace mu::tiny::test
 
-#endif /* INCLUDED_MUTINY_TIME_HPP */
+#endif /* INCLUDED_MUTINY_TEST_TIME_HPP */

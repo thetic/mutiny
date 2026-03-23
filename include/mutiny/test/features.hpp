@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_FEATURES_HPP
-#define INCLUDED_MUTINY_FEATURES_HPP
+#ifndef INCLUDED_MUTINY_TEST_FEATURES_HPP
+#define INCLUDED_MUTINY_TEST_FEATURES_HPP
 
 #ifndef MUTINY_HAVE_EXCEPTIONS
 #if ((__cplusplus >= 202002L) && !__cpp_exceptions) ||                         \
@@ -23,4 +23,4 @@
 #endif
 #endif
 
-#endif /* INCLUDED_MUTINY_FEATURES_HPP */
+#endif /* INCLUDED_MUTINY_TEST_FEATURES_HPP */

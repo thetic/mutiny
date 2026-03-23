@@ -1,9 +1,10 @@
 #include "mutiny/test/SetPointerPlugin.hpp"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
 void orig_func1() {}
@@ -28,7 +29,7 @@ public:
   void test_body() override { CHECK(orig_double_ptr == &stub_double); }
 };
 
-class SetDoublePointerShell : public mu::tiny::test::TestShell
+class SetDoublePointerShell : public mu::tiny::test::Shell
 {
 public:
   mu::tiny::test::Test* create_test() override
@@ -41,18 +42,18 @@ public:
 TEST_GROUP(SetPointerPlugin)
 {
   mu::tiny::test::SetPointerPlugin* plugin;
-  mu::tiny::test::TestRegistry* my_registry;
-  mu::tiny::test::StringBufferTestOutput* output;
-  mu::tiny::test::TestResult* result;
+  mu::tiny::test::Registry* my_registry;
+  mu::tiny::test::StringBufferOutput* output;
+  mu::tiny::test::Result* result;
 
   void setup() override
   {
-    my_registry = new mu::tiny::test::TestRegistry();
+    my_registry = new mu::tiny::test::Registry();
     plugin = new mu::tiny::test::SetPointerPlugin;
     my_registry->set_current_registry(my_registry);
     my_registry->install_plugin(plugin);
-    output = new mu::tiny::test::StringBufferTestOutput();
-    result = new mu::tiny::test::TestResult(*output);
+    output = new mu::tiny::test::StringBufferOutput();
+    result = new mu::tiny::test::Result(*output);
   }
 
   void teardown() override
@@ -81,7 +82,7 @@ public:
   }
 };
 
-class FunctionPointerShell : public mu::tiny::test::TestShell
+class FunctionPointerShell : public mu::tiny::test::Shell
 {
 public:
   mu::tiny::test::Test* create_test() override
@@ -122,7 +123,7 @@ public:
   }
 };
 
-class MaxFunctionPointerShell : public mu::tiny::test::TestShell
+class MaxFunctionPointerShell : public mu::tiny::test::Shell
 {
 public:
   int num_of_fp_sets;

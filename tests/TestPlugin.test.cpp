@@ -1,8 +1,9 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/TestingFixture.hpp"
+
+#include "mutiny/test.hpp"
 
 #define GENERIC_PLUGIN "GenericPlugin"
 #define GENERIC_PLUGIN2 "GenericPlugin2"
@@ -11,27 +12,24 @@
 namespace {
 int sequence_number;
 
-class DummyPlugin : public mu::tiny::test::TestPlugin
+class DummyPlugin : public mu::tiny::test::Plugin
 {
 public:
   DummyPlugin(const mu::tiny::test::String& name)
-    : TestPlugin(name)
+    : Plugin(name)
 
   {
   }
 
-  void pre_test_action(
-      mu::tiny::test::TestShell&,
-      mu::tiny::test::TestResult&
-  ) override
+  void pre_test_action(mu::tiny::test::Shell&, mu::tiny::test::Result&) override
   {
     pre_action++;
     pre_action_sequence = sequence_number++;
   }
 
   void post_test_action(
-      mu::tiny::test::TestShell&,
-      mu::tiny::test::TestResult&
+      mu::tiny::test::Shell&,
+      mu::tiny::test::Result&
   ) override
   {
     post_action++;
@@ -57,26 +55,26 @@ public:
     mu::tiny::test::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
-    return TestPlugin::parse_arguments(argc, argv, index);
+    return Plugin::parse_arguments(argc, argv, index);
   }
 };
 
 } // namespace
 
-TEST_GROUP(TestPlugin)
+TEST_GROUP(Plugin)
 {
   DummyPlugin* first_plugin;
   DummyPluginWhichAcceptsParameters* second_plugin;
   DummyPlugin* third_plugin;
-  mu::tiny::test::TestTestingFixture* gen_fixture;
-  mu::tiny::test::TestRegistry* registry;
+  mu::tiny::test::TestingFixture* gen_fixture;
+  mu::tiny::test::Registry* registry;
 
   void setup() override
   {
     first_plugin = new DummyPlugin(GENERIC_PLUGIN);
     second_plugin = new DummyPluginWhichAcceptsParameters(GENERIC_PLUGIN2);
     third_plugin = new DummyPlugin(GENERIC_PLUGIN3);
-    gen_fixture = new mu::tiny::test::TestTestingFixture;
+    gen_fixture = new mu::tiny::test::TestingFixture;
     registry = gen_fixture->get_registry();
     registry->install_plugin(first_plugin);
     sequence_number = 1;
@@ -93,19 +91,19 @@ TEST_GROUP(TestPlugin)
 
 #define GENERIC_PLUGIN "GenericPlugin"
 
-TEST(TestPlugin, PluginHasName)
+TEST(Plugin, PluginHasName)
 {
   STRCMP_EQUAL(GENERIC_PLUGIN, first_plugin->get_name().c_str());
 }
 
-TEST(TestPlugin, InstallPlugin)
+TEST(Plugin, InstallPlugin)
 {
   CHECK_EQUAL(first_plugin, registry->get_first_plugin());
   CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
   LONGS_EQUAL(1, registry->count_plugins());
 }
 
-TEST(TestPlugin, InstallMultiplePlugins)
+TEST(Plugin, InstallMultiplePlugins)
 {
   registry->install_plugin(third_plugin);
   CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
@@ -113,7 +111,7 @@ TEST(TestPlugin, InstallMultiplePlugins)
   POINTERS_EQUAL(nullptr, registry->get_plugin_by_name("I do not exist"));
 }
 
-TEST(TestPlugin, ActionsAllRun)
+TEST(Plugin, ActionsAllRun)
 {
   gen_fixture->run_all_tests();
   gen_fixture->run_all_tests();
@@ -121,7 +119,7 @@ TEST(TestPlugin, ActionsAllRun)
   CHECK_EQUAL(2, first_plugin->post_action);
 }
 
-TEST(TestPlugin, Sequence)
+TEST(Plugin, Sequence)
 {
   registry->install_plugin(third_plugin);
   gen_fixture->run_all_tests();
@@ -132,7 +130,7 @@ TEST(TestPlugin, Sequence)
   LONGS_EQUAL(2, registry->count_plugins());
 }
 
-TEST(TestPlugin, RemovePluginByName)
+TEST(Plugin, RemovePluginByName)
 {
   registry->install_plugin(second_plugin);
   registry->install_plugin(third_plugin);
@@ -141,22 +139,22 @@ TEST(TestPlugin, RemovePluginByName)
   LONGS_EQUAL(2, registry->count_plugins());
 }
 
-struct DefaultPlugin : public mu::tiny::test::TestPlugin
+struct DefaultPlugin : public mu::tiny::test::Plugin
 {
   DefaultPlugin()
-    : TestPlugin("default")
+    : Plugin("default")
   {
   }
 };
 
-TEST(TestPlugin, DefaultPostTestActionDoesntDoAnything)
+TEST(Plugin, DefaultPostTestActionDoesntDoAnything)
 {
   DefaultPlugin default_plugin;
   registry->install_plugin(&default_plugin);
   gen_fixture->run_all_tests();
 }
 
-TEST(TestPlugin, DisablesPluginsDontRun)
+TEST(Plugin, DisablesPluginsDontRun)
 {
   registry->install_plugin(third_plugin);
   third_plugin->disable();
@@ -169,7 +167,7 @@ TEST(TestPlugin, DisablesPluginsDontRun)
   CHECK(third_plugin->is_enabled());
 }
 
-TEST(TestPlugin, ParseArgumentsForUnknownArgumentsFails)
+TEST(Plugin, ParseArgumentsForUnknownArgumentsFails)
 {
   registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
@@ -180,7 +178,7 @@ TEST(TestPlugin, ParseArgumentsForUnknownArgumentsFails)
   ); /* cover non-const wrapper, too */
 }
 
-TEST(TestPlugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
+TEST(Plugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
 {
   registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };

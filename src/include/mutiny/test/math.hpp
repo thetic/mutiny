@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MATH_HPP
-#define INCLUDED_MUTINY_MATH_HPP
+#ifndef INCLUDED_MUTINY_TEST_MATH_HPP
+#define INCLUDED_MUTINY_TEST_MATH_HPP
 
 namespace mu {
 namespace tiny {
@@ -12,4 +12,4 @@ extern int (*is_inf)(double d);
 }
 } // namespace mu::tiny::test
 
-#endif /* INCLUDED_MUTINY_MATH_HPP */
+#endif /* INCLUDED_MUTINY_TEST_MATH_HPP */

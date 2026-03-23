@@ -1,8 +1,9 @@
 #include "MockSupport.h"
 
+#include "mutiny/test/TestingFixture.hpp"
+
 #include "mutiny/mock.h"
 #include "mutiny/test.hpp"
-#include "mutiny/test/TestingFixture.hpp"
 
 namespace {
 void dummy_function_for_mock_c_test() {}
@@ -1024,7 +1025,7 @@ TEST(MockSupport_c, WorksInCFile)
 
 MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
 
   fixture.set_test_function(failed_call_to_mock_c);
   fixture.run_all_tests();
@@ -1037,8 +1038,8 @@ MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
 TEST(MockSupport_c, shouldCrashOnFailure)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestTestingFixture fixture;
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::TestingFixture fixture;
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   mutiny_mock()->crash_on_failure(true);
   fixture.set_test_function(failed_call_to_mock_c);
 
@@ -1046,7 +1047,7 @@ TEST(MockSupport_c, shouldCrashOnFailure)
 
   CHECK(mutiny_has_crashed);
 
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
   mutiny_mock()->crash_on_failure(false);
 }
 
@@ -1054,22 +1055,22 @@ TEST(MockSupport_c, nextTestShouldNotCrashOnFailure)
 {
   mutiny_mock()->crash_on_failure(false);
   mutiny_has_crashed = false;
-  mu::tiny::test::TestTestingFixture fixture;
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::TestingFixture fixture;
+  mu::tiny::test::Shell::set_crash_method(crash_method);
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
 
   CHECK_FALSE(mutiny_has_crashed);
 
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestTestingFixture fixture;
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::TestingFixture fixture;
+  mu::tiny::test::Shell::set_crash_method(crash_method);
 
   fixture.set_test_function(failed_call_to_mock_c);
 
@@ -1078,15 +1079,15 @@ TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
   CHECK_FALSE(mutiny_has_crashed);
   LONGS_EQUAL(1, fixture.get_failure_count());
 
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MockSupport_c, FailWillCrashIfEnabled)
 {
   mutiny_has_crashed = false;
-  mu::tiny::test::TestTestingFixture fixture;
-  mu::tiny::test::TestShell::set_crash_on_fail();
-  mu::tiny::test::TestShell::set_crash_method(crash_method);
+  mu::tiny::test::TestingFixture fixture;
+  mu::tiny::test::Shell::set_crash_on_fail();
+  mu::tiny::test::Shell::set_crash_method(crash_method);
 
   fixture.set_test_function(failed_call_to_mock_c);
 
@@ -1095,13 +1096,13 @@ TEST(MockSupport_c, FailWillCrashIfEnabled)
   CHECK(mutiny_has_crashed);
   LONGS_EQUAL(1, fixture.get_failure_count());
 
-  mu::tiny::test::TestShell::restore_default_test_terminator();
-  mu::tiny::test::TestShell::reset_crash_method();
+  mu::tiny::test::Shell::restore_default_test_terminator();
+  mu::tiny::test::Shell::reset_crash_method();
 }
 
 TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
   mutiny_mock()->install_comparator(
       "typeName", type_name_is_equal, type_name_value_to_string
   );
@@ -1113,7 +1114,7 @@ TEST(MockSupport_c, failureWithParameterOfTypeCoversValueToString)
 
 TEST(MockSupport_c, successWithOutputParameterOfType)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
   mutiny_mock()->install_copier("intType", type_copy);
   fixture.set_test_function(call_to_mock_c_with_output_parameter_of_type);
   fixture.run_all_tests();
@@ -1124,7 +1125,7 @@ TEST(MockSupport_c, successWithOutputParameterOfType)
 
 TEST(MockSupport_c, expectOneMemBufferParameterAndValueFailsDueToContents)
 {
-  mu::tiny::test::TestTestingFixture fixture;
+  mu::tiny::test::TestingFixture fixture;
   fixture.set_test_function(failing_call_to_mock_c_with_memory_buffer);
   fixture.run_all_tests();
   fixture.assert_print_contains(

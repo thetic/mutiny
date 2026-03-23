@@ -1,8 +1,8 @@
-#ifndef INCLUDED_MUTINY_COMMANDLINETESTRUNNER_HPP
-#define INCLUDED_MUTINY_COMMANDLINETESTRUNNER_HPP
+#ifndef INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
+#define INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
 
 /**
- * @file CommandLineTestRunner.hpp
+ * @file CommandLineRunner.hpp
  * @brief Entry point for running all registered tests from a main() function.
  *
  * The simplest usage is a one-liner main():
@@ -11,7 +11,7 @@
  *
  * int main(int argc, char** argv)
  * {
- *     return CommandLineTestRunner::run_all_tests(argc, argv);
+ *     return CommandLineRunner::run_all_tests(argc, argv);
  * }
  * @endcode
  *
@@ -23,16 +23,17 @@
  * - @c -s          run each test in a separate subprocess (crash isolation)
  */
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/CommandLineArguments.hpp"
 #include "mutiny/test/Filter.hpp"
 #include "mutiny/test/Output.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace mu {
 namespace tiny {
 namespace test {
 
-class TestRegistry;
+class Registry;
 
 /**
  * @brief Parses command-line arguments and drives the test run.
@@ -42,7 +43,7 @@ class TestRegistry;
  * create_console_output() or create_composite_output() to supply a custom
  * output formatter.
  */
-class CommandLineTestRunner
+class CommandLineRunner
 {
 public:
   /**
@@ -74,18 +75,14 @@ public:
    * @brief Construct a runner bound to a specific registry.
    *
    * Prefer the static run_all_tests() helpers unless you need to supply a
-   * custom TestRegistry (e.g. in framework self-tests).
+   * custom Registry (e.g. in framework self-tests).
    *
    * @param argc      Argument count.
    * @param argv      Argument vector.
    * @param registry  Registry of tests to run; must outlive this object.
    */
-  CommandLineTestRunner(
-      int argc,
-      const char* const* argv,
-      TestRegistry* registry
-  );
-  virtual ~CommandLineTestRunner();
+  CommandLineRunner(int argc, const char* const* argv, Registry* registry);
+  virtual ~CommandLineRunner();
 
   /**
    * @brief Parse arguments and run the tests registered in this runner's
@@ -98,7 +95,7 @@ public:
 protected:
   /** @brief Factory: create the console output object. Override to replace it.
    */
-  virtual TestOutput* create_console_output();
+  virtual Output* create_console_output();
 
   /**
    * @brief Factory: combine two outputs into a composite output.
@@ -107,21 +104,21 @@ protected:
    *
    * @param output_one  First output sink.
    * @param output_two  Second output sink.
-   * @return A composite TestOutput that writes to both.
+   * @return A composite Output that writes to both.
    */
-  virtual TestOutput* create_composite_output(
-      TestOutput* output_one,
-      TestOutput* output_two
+  virtual Output* create_composite_output(
+      Output* output_one,
+      Output* output_two
   );
 
   /** @brief The active output object (owned by this runner). */
-  TestOutput* output_{ nullptr };
+  Output* output_{ nullptr };
 
 private:
   CommandLineArguments* arguments_{ nullptr };
-  TestRegistry* registry_;
+  Registry* registry_;
 
-  bool parse_arguments(TestPlugin*);
+  bool parse_arguments(Plugin*);
   int run_all_tests();
   void initialize_test_run();
 };

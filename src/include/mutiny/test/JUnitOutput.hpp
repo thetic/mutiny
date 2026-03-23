@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_JUNITTESTOUTPUT_HPP
-#define INCLUDED_MUTINY_JUNITTESTOUTPUT_HPP
+#ifndef INCLUDED_MUTINY_TEST_JUNITOUTPUT_HPP
+#define INCLUDED_MUTINY_TEST_JUNITOUTPUT_HPP
 
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/String.hpp"
@@ -11,24 +11,24 @@ namespace test {
 struct JUnitTestOutputImpl;
 struct JUnitTestCaseResultNode;
 
-class JUnitTestOutput : public TestOutput
+class JUnitOutput : public Output
 {
 public:
-  JUnitTestOutput();
-  ~JUnitTestOutput() override;
+  JUnitOutput();
+  ~JUnitOutput() override;
 
   void print_tests_started() override;
-  void print_tests_ended(const TestResult& result) override;
-  void print_current_test_started(const TestShell& test) override;
-  void print_current_test_ended(const TestResult& res) override;
-  void print_current_group_started(const TestShell& test) override;
-  void print_current_group_ended(const TestResult& res) override;
+  void print_tests_ended(const Result& result) override;
+  void print_current_test_started(const Shell& test) override;
+  void print_current_test_ended(const Result& res) override;
+  void print_current_group_started(const Shell& test) override;
+  void print_current_group_ended(const Result& res) override;
 
   void print_buffer(const char*) override;
   void print(const char*) override;
   void print(long) override;
   void print(size_t) override;
-  void print_failure(const TestFailure& failure) override;
+  void print_failure(const Failure& failure) override;
   void print_test_property(const char* name, const char* value) override;
 
   bool needs_console_companion() const override { return true; }

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_TESTSHELLPOINTERARRAY_HPP
-#define INCLUDED_MUTINY_TESTSHELLPOINTERARRAY_HPP
+#ifndef INCLUDED_MUTINY_TEST_SHELLPOINTERARRAY_HPP
+#define INCLUDED_MUTINY_TEST_SHELLPOINTERARRAY_HPP
 
 #include <stddef.h>
 
@@ -9,24 +9,24 @@ namespace test {
 
 extern int (*rand)();
 
-class TestShell;
+class Shell;
 
-class TestShellPointerArray
+class ShellPointerArray
 {
 public:
-  TestShellPointerArray(TestShell* first_test);
-  ~TestShellPointerArray();
+  ShellPointerArray(Shell* first_test);
+  ~ShellPointerArray();
 
   void shuffle(size_t seed);
   void reverse();
   void relink_tests_in_order();
-  TestShell* get_first_test() const;
-  TestShell* get(size_t index) const;
+  Shell* get_first_test() const;
+  Shell* get(size_t index) const;
 
 private:
   void swap(size_t index1, size_t index2);
 
-  TestShell** array_of_tests_{ nullptr };
+  Shell** array_of_tests_{ nullptr };
   size_t count_{ 0 };
 };
 

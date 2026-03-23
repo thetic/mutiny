@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKACTUALCALLTRACE_HPP
-#define INCLUDED_MUTINY_MOCKACTUALCALLTRACE_HPP
+#ifndef INCLUDED_MUTINY_MOCK_ACTUALCALLTRACE_HPP
+#define INCLUDED_MUTINY_MOCK_ACTUALCALLTRACE_HPP
 
 #include "mutiny/mock/ActualCall.hpp"
 
@@ -7,94 +7,94 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockActualCallTrace : public MockActualCall
+class ActualCallTrace : public ActualCall
 {
 public:
-  MockActualCallTrace() = default;
-  ~MockActualCallTrace() override = default;
+  ActualCallTrace() = default;
+  ~ActualCallTrace() override = default;
 
-  MockActualCall& with_name(const mu::tiny::test::String& name) override;
-  MockActualCall& with_call_order(unsigned int) override;
-  MockActualCall& with_bool_parameter(
+  ActualCall& with_name(const mu::tiny::test::String& name) override;
+  ActualCall& with_call_order(unsigned int) override;
+  ActualCall& with_bool_parameter(
       const mu::tiny::test::String& name,
       bool value
   ) override;
-  MockActualCall& with_int_parameter(
+  ActualCall& with_int_parameter(
       const mu::tiny::test::String& name,
       int value
   ) override;
-  MockActualCall& with_unsigned_int_parameter(
+  ActualCall& with_unsigned_int_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   ) override;
-  MockActualCall& with_long_int_parameter(
+  ActualCall& with_long_int_parameter(
       const mu::tiny::test::String& name,
       long int value
   ) override;
-  MockActualCall& with_unsigned_long_int_parameter(
+  ActualCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   ) override;
-  MockActualCall& with_long_long_int_parameter(
+  ActualCall& with_long_long_int_parameter(
       const mu::tiny::test::String& name,
       long long value
   ) override;
-  MockActualCall& with_unsigned_long_long_int_parameter(
+  ActualCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   ) override;
-  MockActualCall& with_double_parameter(
+  ActualCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value
   ) override;
-  MockActualCall& with_string_parameter(
+  ActualCall& with_string_parameter(
       const mu::tiny::test::String& name,
       const char* value
   ) override;
-  MockActualCall& with_pointer_parameter(
+  ActualCall& with_pointer_parameter(
       const mu::tiny::test::String& name,
       void* value
   ) override;
-  MockActualCall& with_const_pointer_parameter(
+  ActualCall& with_const_pointer_parameter(
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockActualCall& with_function_pointer_parameter(
+  ActualCall& with_function_pointer_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   ) override;
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
   ) override;
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const char* name,
       const unsigned char* value,
       size_t size
   ) override;
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const char* type_name,
       const char* name,
       const void* value
   ) override;
-  MockActualCall& with_output_parameter(
+  ActualCall& with_output_parameter(
       const mu::tiny::test::String& name,
       void* output
   ) override;
-  MockActualCall& with_output_parameter_of_type(
+  ActualCall& with_output_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       void* output
   ) override;
 
   bool has_return_value() override;
-  MockNamedValue return_value() override;
+  NamedValue return_value() override;
 
   bool return_bool_value_or_default(bool default_value) override;
   bool return_bool_value() override;
@@ -146,17 +146,17 @@ public:
       void (*)()
   ) override;
 
-  MockActualCall& on_object(const void* object_ptr) override;
+  ActualCall& on_object(const void* object_ptr) override;
 
   const char* get_trace_output();
   void clear();
-  static MockActualCallTrace& instance();
+  static ActualCallTrace& instance();
   static void clear_instance();
 
 private:
   mu::tiny::test::String trace_buffer_;
 
-  static MockActualCallTrace* instance_;
+  static ActualCallTrace* instance_;
 
   void add_parameter_name(const mu::tiny::test::String& name);
 };

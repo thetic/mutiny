@@ -1,8 +1,9 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/time.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
 unsigned long millis_time;
@@ -14,25 +15,25 @@ unsigned long mock_get_time_in_millis()
 
 } // namespace
 
-TEST_GROUP(TestOutput)
+TEST_GROUP(Output)
 {
-  mu::tiny::test::TestOutput* printer;
-  mu::tiny::test::StringBufferTestOutput* mock;
-  mu::tiny::test::TestShell* tst;
-  mu::tiny::test::TestFailure* f;
-  mu::tiny::test::TestFailure* f2;
-  mu::tiny::test::TestFailure* f3;
-  mu::tiny::test::TestResult* result;
+  mu::tiny::test::Output* printer;
+  mu::tiny::test::StringBufferOutput* mock;
+  mu::tiny::test::Shell* tst;
+  mu::tiny::test::Failure* f;
+  mu::tiny::test::Failure* f2;
+  mu::tiny::test::Failure* f3;
+  mu::tiny::test::Result* result;
 
   void setup() override
   {
-    mock = new mu::tiny::test::StringBufferTestOutput();
+    mock = new mu::tiny::test::StringBufferOutput();
     printer = mock;
-    tst = new mu::tiny::test::TestShell("group", "test", "file", 10);
-    f = new mu::tiny::test::TestFailure(tst, "failfile", 20, "message");
-    f2 = new mu::tiny::test::TestFailure(tst, "file", 20, "message");
-    f3 = new mu::tiny::test::TestFailure(tst, "file", 2, "message");
-    result = new mu::tiny::test::TestResult(*mock);
+    tst = new mu::tiny::test::Shell("group", "test", "file", 10);
+    f = new mu::tiny::test::Failure(tst, "failfile", 20, "message");
+    f2 = new mu::tiny::test::Failure(tst, "file", 20, "message");
+    f3 = new mu::tiny::test::Failure(tst, "file", 2, "message");
+    result = new mu::tiny::test::Result(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
     MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
@@ -54,46 +55,46 @@ TEST_GROUP(TestOutput)
   }
 };
 
-TEST(TestOutput, PrintConstCharStar)
+TEST(Output, PrintConstCharStar)
 {
   printer->print("hello");
   printer->print("hello\n");
   STRCMP_EQUAL("hellohello\n", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintLong)
+TEST(Output, PrintLong)
 {
   long number = 1234;
   printer->print(number);
   STRCMP_EQUAL("1234", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintSize)
+TEST(Output, PrintSize)
 {
   size_t ten = 10;
   printer->print(ten);
   STRCMP_EQUAL("10", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintDouble)
+TEST(Output, PrintDouble)
 {
   printer->print_double(12.34);
   STRCMP_EQUAL("12.34", mock->get_output().c_str());
 }
 
-TEST(TestOutput, StreamOperators)
+TEST(Output, StreamOperators)
 {
   *printer << "n=" << 1234;
   STRCMP_EQUAL("n=1234", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestEnded)
+TEST(Output, PrintTestEnded)
 {
   printer->print_current_test_ended(*result);
   STRCMP_EQUAL(".", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestALot)
+TEST(Output, PrintTestALot)
 {
   for (int i = 0; i < 60; ++i) {
     printer->print_current_test_ended(*result);
@@ -104,7 +105,7 @@ TEST(TestOutput, PrintTestALot)
   );
 }
 
-TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
+TEST(Output, PrintTestALotAndSimulateRepeatRun)
 {
   for (int i = 0; i < 60; ++i) {
     run_one_test();
@@ -125,7 +126,7 @@ TEST(TestOutput, PrintTestALotAndSimulateRepeatRun)
   );
 }
 
-TEST(TestOutput, SetProgressIndicator)
+TEST(Output, SetProgressIndicator)
 {
   printer->set_progress_indicator(".");
   printer->print_current_test_ended(*result);
@@ -137,23 +138,23 @@ TEST(TestOutput, SetProgressIndicator)
   STRCMP_EQUAL(".!.", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestVerboseStarted)
+TEST(Output, PrintTestVerboseStarted)
 {
-  mock->verbose(mu::tiny::test::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::Output::VerbosityLevel::verbose);
   printer->print_current_test_started(*tst);
   STRCMP_EQUAL("TEST(group, test)", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestVerboseEnded)
+TEST(Output, PrintTestVerboseEnded)
 {
-  mock->verbose(mu::tiny::test::TestOutput::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::Output::VerbosityLevel::verbose);
   result->current_test_started(tst);
   millis_time = 5;
   result->current_test_ended(tst);
   STRCMP_EQUAL("TEST(group, test) - 5 ms\n", mock->get_output().c_str());
 }
 
-TEST(TestOutput, printColorWithSuccess)
+TEST(Output, printColorWithSuccess)
 {
   mock->color();
   run_one_test();
@@ -165,7 +166,7 @@ TEST(TestOutput, printColorWithSuccess)
   );
 }
 
-TEST(TestOutput, printColorWithFailures)
+TEST(Output, printColorWithFailures)
 {
   mock->color();
   run_one_test();
@@ -180,19 +181,19 @@ TEST(TestOutput, printColorWithFailures)
   );
 }
 
-TEST(TestOutput, PrintTestRun)
+TEST(Output, PrintTestRun)
 {
   printer->print_test_run(2, 3);
   STRCMP_EQUAL("Test run 2 of 3\n", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestRunOnlyOne)
+TEST(Output, PrintTestRunOnlyOne)
 {
   printer->print_test_run(1, 1);
   STRCMP_EQUAL("", mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintWithFailureInSameFile)
+TEST(Output, PrintWithFailureInSameFile)
 {
   printer->print_failure(*f2);
   STRCMP_EQUAL(
@@ -201,7 +202,7 @@ TEST(TestOutput, PrintWithFailureInSameFile)
   );
 }
 
-TEST(TestOutput, PrintFailureWithFailInDifferentFile)
+TEST(Output, PrintFailureWithFailInDifferentFile)
 {
   printer->print_failure(*f);
   const char* expected = "\nfile:10: error: Failure in TEST(group, test)"
@@ -209,7 +210,7 @@ TEST(TestOutput, PrintFailureWithFailInDifferentFile)
   STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintFailureWithFailInHelper)
+TEST(Output, PrintFailureWithFailInHelper)
 {
   printer->print_failure(*f3);
   const char* expected = "\nfile:10: error: Failure in TEST(group, test)"
@@ -217,13 +218,13 @@ TEST(TestOutput, PrintFailureWithFailInHelper)
   STRCMP_EQUAL(expected, mock->get_output().c_str());
 }
 
-TEST(TestOutput, PrintTestStarts)
+TEST(Output, PrintTestStarts)
 {
   printer->print_tests_started();
   STRCMP_EQUAL("", mock->get_output().c_str());
 }
 
-TEST(TestOutput, printTestsEnded)
+TEST(Output, printTestsEnded)
 {
   result->count_test();
   result->count_check();
@@ -239,7 +240,7 @@ TEST(TestOutput, printTestsEnded)
   );
 }
 
-TEST(TestOutput, printTestsEndedWithFailures)
+TEST(Output, printTestsEndedWithFailures)
 {
   result->add_failure(*f);
   printer->flush();
@@ -251,7 +252,7 @@ TEST(TestOutput, printTestsEndedWithFailures)
   );
 }
 
-TEST(TestOutput, printTestsEndedWithNoTestsRunOrIgnored)
+TEST(Output, printTestsEndedWithNoTestsRunOrIgnored)
 {
   result->count_test();
   printer->flush();

@@ -1,44 +1,43 @@
-#ifndef INCLUDED_MUTINY_TESTTERMINATOR_HPP
-#define INCLUDED_MUTINY_TESTTERMINATOR_HPP
+#ifndef INCLUDED_MUTINY_TEST_TERMINATOR_HPP
+#define INCLUDED_MUTINY_TEST_TERMINATOR_HPP
 
 namespace mu {
 namespace tiny {
 namespace test {
 
-class TestTerminator
+class Terminator
 {
 public:
   [[noreturn]] virtual void exit_current_test() const = 0;
-  virtual ~TestTerminator() = default;
+  virtual ~Terminator() = default;
 };
 
-class NormalTestTerminator : public TestTerminator
+class NormalTerminator : public Terminator
 {
 public:
   [[noreturn]] void exit_current_test() const override;
-  ~NormalTestTerminator() override = default;
+  ~NormalTerminator() override = default;
 };
 
-class TestTerminatorWithoutExceptions : public TestTerminator
+class TerminatorWithoutExceptions : public Terminator
 {
 public:
   [[noreturn]] void exit_current_test() const override;
-  ~TestTerminatorWithoutExceptions() override = default;
+  ~TerminatorWithoutExceptions() override = default;
 };
 
-class CrashingTestTerminator : public NormalTestTerminator
+class CrashingTerminator : public NormalTerminator
 {
 public:
   [[noreturn]] void exit_current_test() const override;
-  ~CrashingTestTerminator() override = default;
+  ~CrashingTerminator() override = default;
 };
 
-class CrashingTestTerminatorWithoutExceptions
-  : public TestTerminatorWithoutExceptions
+class CrashingTerminatorWithoutExceptions : public TerminatorWithoutExceptions
 {
 public:
   [[noreturn]] void exit_current_test() const override;
-  ~CrashingTestTerminatorWithoutExceptions() override = default;
+  ~CrashingTerminatorWithoutExceptions() override = default;
 };
 
 }

@@ -1,24 +1,25 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Registry.hpp"
 
-class TestInstallerTestShell : public mu::tiny::test::TestShell
+#include "mutiny/test.hpp"
+
+class TestInstallerTestShell : public mu::tiny::test::Shell
 {};
 
 // this is file scope because the test is installed
 // with all other tests, which also happen to be
 // created as static instances at file scope
 
-TEST_GROUP(TestInstaller)
+TEST_GROUP(Installer)
 {
-  mu::tiny::test::TestInstaller* test_installer;
-  mu::tiny::test::TestRegistry* my_registry;
+  mu::tiny::test::Installer* test_installer;
+  mu::tiny::test::Registry* my_registry;
   TestInstallerTestShell shell;
   void setup() override
   {
-    my_registry = new mu::tiny::test::TestRegistry();
+    my_registry = new mu::tiny::test::Registry();
     my_registry->set_current_registry(my_registry);
-    test_installer = new mu::tiny::test::TestInstaller(
-        shell, "TestInstaller", "test", __FILE__, __LINE__
+    test_installer = new mu::tiny::test::Installer(
+        shell, "Installer", "test", __FILE__, __LINE__
     );
   }
   void teardown() override
@@ -30,4 +31,4 @@ TEST_GROUP(TestInstaller)
   }
 };
 
-TEST(TestInstaller, Create) {}
+TEST(Installer, Create) {}

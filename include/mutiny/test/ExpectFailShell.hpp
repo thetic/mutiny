@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_EXPECTFAILTESTSHELL_HPP
-#define INCLUDED_MUTINY_EXPECTFAILTESTSHELL_HPP
+#ifndef INCLUDED_MUTINY_TEST_EXPECTFAILSHELL_HPP
+#define INCLUDED_MUTINY_TEST_EXPECTFAILSHELL_HPP
 
 #include "mutiny/test/Shell.hpp"
 
@@ -7,23 +7,23 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class ExpectFailTestShell : public TestShell
+class ExpectFailShell : public Shell
 {
 public:
-  ExpectFailTestShell() = default;
-  explicit ExpectFailTestShell(
+  ExpectFailShell() = default;
+  explicit ExpectFailShell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   );
-  ~ExpectFailTestShell() override = default;
-  ExpectFailTestShell(const ExpectFailTestShell&) = delete;
-  ExpectFailTestShell& operator=(const ExpectFailTestShell&) = delete;
+  ~ExpectFailShell() override = default;
+  ExpectFailShell(const ExpectFailShell&) = delete;
+  ExpectFailShell& operator=(const ExpectFailShell&) = delete;
 
 protected:
   String get_macro_name() const override;
-  void run_one_test(TestPlugin* plugin, TestResult& result) override;
+  void run_one_test(Plugin* plugin, Result& result) override;
 };
 
 }

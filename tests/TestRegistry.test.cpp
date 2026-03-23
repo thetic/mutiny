@@ -1,9 +1,9 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Ordered.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/time.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
 const int test_line_number = 1;
@@ -13,18 +13,15 @@ int get_zero()
   return 0;
 }
 
-class MockTest : public mu::tiny::test::TestShell
+class MockTest : public mu::tiny::test::Shell
 {
 public:
   MockTest(const char* group = "Group")
-    : TestShell(group, "Name", "File", test_line_number)
+    : Shell(group, "Name", "File", test_line_number)
 
   {
   }
-  void run_one_test(
-      mu::tiny::test::TestPlugin*,
-      mu::tiny::test::TestResult&
-  ) override
+  void run_one_test(mu::tiny::test::Plugin*, mu::tiny::test::Result&) override
   {
     has_run = true;
   }
@@ -32,18 +29,15 @@ public:
   bool has_run{ false };
 };
 
-class MockOrderedTest : public mu::tiny::test::OrderedTestShell
+class MockOrderedTest : public mu::tiny::test::OrderedShell
 {
 public:
-  void run_one_test(
-      mu::tiny::test::TestPlugin*,
-      mu::tiny::test::TestResult&
-  ) override
+  void run_one_test(mu::tiny::test::Plugin*, mu::tiny::test::Result&) override
   {
   }
 };
 
-class MockTestResult : public mu::tiny::test::TestResult
+class MockTestResult : public mu::tiny::test::Result
 {
 public:
   int count_tests_started;
@@ -53,8 +47,8 @@ public:
   int count_current_group_started;
   int count_current_group_ended;
 
-  MockTestResult(mu::tiny::test::TestOutput& p)
-    : TestResult(p)
+  MockTestResult(mu::tiny::test::Output& p)
+    : Result(p)
   {
     reset_count();
   }
@@ -73,41 +67,41 @@ public:
 
   void tests_started() override { count_tests_started++; }
   void tests_ended() override { count_tests_ended++; }
-  void current_test_started(mu::tiny::test::TestShell* /*test*/) override
+  void current_test_started(mu::tiny::test::Shell* /*test*/) override
   {
     count_current_test_started++;
   }
-  void current_test_ended(mu::tiny::test::TestShell* /*test*/) override
+  void current_test_ended(mu::tiny::test::Shell* /*test*/) override
   {
     count_current_test_ended++;
   }
-  void current_group_started(mu::tiny::test::TestShell* /*test*/) override
+  void current_group_started(mu::tiny::test::Shell* /*test*/) override
   {
     count_current_group_started++;
   }
-  void current_group_ended(mu::tiny::test::TestShell* /*test*/) override
+  void current_group_ended(mu::tiny::test::Shell* /*test*/) override
   {
     count_current_group_ended++;
   }
 };
 
-class MyTestPluginDummy : public mu::tiny::test::TestPlugin
+class MyTestPluginDummy : public mu::tiny::test::Plugin
 {
 public:
   MyTestPluginDummy(const mu::tiny::test::String& name)
-    : TestPlugin(name)
+    : Plugin(name)
   {
   }
   ~MyTestPluginDummy() override = default;
   void run_all_pre_test_action(
-      mu::tiny::test::TestShell&,
-      mu::tiny::test::TestResult&
+      mu::tiny::test::Shell&,
+      mu::tiny::test::Result&
   ) override
   {
   }
   void run_all_post_test_action(
-      mu::tiny::test::TestShell&,
-      mu::tiny::test::TestResult&
+      mu::tiny::test::Shell&,
+      mu::tiny::test::Result&
   ) override
   {
   }
@@ -115,20 +109,20 @@ public:
 
 } // namespace
 
-TEST_GROUP(TestRegistry)
+TEST_GROUP(Registry)
 {
-  mu::tiny::test::TestRegistry* my_registry;
-  mu::tiny::test::StringBufferTestOutput* output;
+  mu::tiny::test::Registry* my_registry;
+  mu::tiny::test::StringBufferOutput* output;
   MockTest* test1;
   MockTest* test2;
   MockTest* test3;
   MockTest* test4;
   MockOrderedTest* ordered_test;
-  mu::tiny::test::TestResult* result;
+  mu::tiny::test::Result* result;
   MockTestResult* mock_result;
   void setup() override
   {
-    output = new mu::tiny::test::StringBufferTestOutput();
+    output = new mu::tiny::test::StringBufferOutput();
     mock_result = new MockTestResult(*output);
     result = mock_result;
     test1 = new MockTest();
@@ -136,7 +130,7 @@ TEST_GROUP(TestRegistry)
     test3 = new MockTest("group2");
     test4 = new MockTest();
     ordered_test = new MockOrderedTest();
-    my_registry = new mu::tiny::test::TestRegistry();
+    my_registry = new mu::tiny::test::Registry();
     my_registry->set_current_registry(my_registry);
   }
 
@@ -162,30 +156,30 @@ TEST_GROUP(TestRegistry)
   }
 };
 
-TEST(TestRegistry, registryMyRegistryAndReset)
+TEST(Registry, registryMyRegistryAndReset)
 {
   CHECK(my_registry->get_current_registry() == my_registry);
 }
 
-TEST(TestRegistry, emptyRegistryIsEmpty)
+TEST(Registry, emptyRegistryIsEmpty)
 {
   CHECK(my_registry->count_tests() == 0);
 }
 
-TEST(TestRegistry, addOneTestIsNotEmpty)
+TEST(Registry, addOneTestIsNotEmpty)
 {
   my_registry->add_test(test1);
   CHECK(my_registry->count_tests() == 1);
 }
 
-TEST(TestRegistry, addOneTwoTests)
+TEST(Registry, addOneTwoTests)
 {
   my_registry->add_test(test1);
   my_registry->add_test(test2);
   CHECK(my_registry->count_tests() == 2);
 }
 
-TEST(TestRegistry, runTwoTests)
+TEST(Registry, runTwoTests)
 {
   my_registry->add_test(test1);
   my_registry->add_test(test2);
@@ -196,7 +190,7 @@ TEST(TestRegistry, runTwoTests)
   CHECK(test2->has_run);
 }
 
-TEST(TestRegistry, runTwoTestsCheckResultFunctionsCalled)
+TEST(Registry, runTwoTestsCheckResultFunctionsCalled)
 {
   my_registry->add_test(test1);
   my_registry->add_test(test2);
@@ -209,7 +203,7 @@ TEST(TestRegistry, runTwoTestsCheckResultFunctionsCalled)
   LONGS_EQUAL(2, mock_result->count_current_test_ended);
 }
 
-TEST(TestRegistry, runThreeTestsandTwoGroupsCheckResultFunctionsCalled)
+TEST(Registry, runThreeTestsandTwoGroupsCheckResultFunctionsCalled)
 {
   add_and_run_all_tests();
   LONGS_EQUAL(2, mock_result->count_current_group_started);
@@ -218,7 +212,7 @@ TEST(TestRegistry, runThreeTestsandTwoGroupsCheckResultFunctionsCalled)
   LONGS_EQUAL(3, mock_result->count_current_test_ended);
 }
 
-TEST(TestRegistry, unDoTest)
+TEST(Registry, unDoTest)
 {
   my_registry->add_test(test1);
   CHECK(my_registry->count_tests() == 1);
@@ -226,14 +220,14 @@ TEST(TestRegistry, unDoTest)
   CHECK(my_registry->count_tests() == 0);
 }
 
-TEST(TestRegistry, unDoButNoTest)
+TEST(Registry, unDoButNoTest)
 {
   CHECK(my_registry->count_tests() == 0);
   my_registry->un_do_last_add_test();
   CHECK(my_registry->count_tests() == 0);
 }
 
-TEST(TestRegistry, reallyUndoLastTest)
+TEST(Registry, reallyUndoLastTest)
 {
   my_registry->add_test(test1);
   my_registry->add_test(test2);
@@ -245,12 +239,12 @@ TEST(TestRegistry, reallyUndoLastTest)
   CHECK(!test2->has_run);
 }
 
-TEST(TestRegistry, findTestWithNameDoesntExist)
+TEST(Registry, findTestWithNameDoesntExist)
 {
   CHECK(my_registry->find_test_with_name("ThisTestDoesntExists") == nullptr);
 }
 
-TEST(TestRegistry, findTestWithName)
+TEST(Registry, findTestWithName)
 {
   test1->set_test_name("NameOfATestThatDoesExist");
   test2->set_test_name("SomeOtherTest");
@@ -261,14 +255,14 @@ TEST(TestRegistry, findTestWithName)
   );
 }
 
-TEST(TestRegistry, findTestWithGroupDoesntExist)
+TEST(Registry, findTestWithGroupDoesntExist)
 {
   CHECK(
       my_registry->find_test_with_group("ThisTestGroupDoesntExists") == nullptr
   );
 }
 
-TEST(TestRegistry, findTestWithGroup)
+TEST(Registry, findTestWithGroup)
 {
   test1->set_group_name("GroupOfATestThatDoesExist");
   test2->set_group_name("SomeOtherGroup");
@@ -279,36 +273,36 @@ TEST(TestRegistry, findTestWithGroup)
   );
 }
 
-TEST(TestRegistry, nameFilterWorks)
+TEST(Registry, nameFilterWorks)
 {
   test1->set_test_name("testname");
   test2->set_test_name("noname");
-  mu::tiny::test::TestFilter name_filter("testname");
+  mu::tiny::test::Filter name_filter("testname");
   my_registry->set_name_filters(&name_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
   CHECK(!test2->has_run);
 }
 
-TEST(TestRegistry, groupFilterWorks)
+TEST(Registry, groupFilterWorks)
 {
   test1->set_group_name("groupname");
   test2->set_group_name("noname");
-  mu::tiny::test::TestFilter group_filter("groupname");
+  mu::tiny::test::Filter group_filter("groupname");
   my_registry->set_group_filters(&group_filter);
   add_and_run_all_tests();
   CHECK(test1->has_run);
   CHECK(!test2->has_run);
 }
 
-TEST(TestRegistry, CurrentRepetitionIsCorrectNone)
+TEST(Registry, CurrentRepetitionIsCorrectNone)
 {
   CHECK(0 == my_registry->get_current_repetition());
   my_registry->run_all_tests(*result);
   LONGS_EQUAL(1, my_registry->get_current_repetition());
 }
 
-TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
+TEST(Registry, CurrentRepetitionIsCorrectTwo)
 {
   CHECK(0 == my_registry->get_current_repetition());
   my_registry->run_all_tests(*result);
@@ -316,7 +310,7 @@ TEST(TestRegistry, CurrentRepetitionIsCorrectTwo)
   LONGS_EQUAL(2, my_registry->get_current_repetition());
 }
 
-TEST(TestRegistry, ResetPluginsWorks)
+TEST(Registry, ResetPluginsWorks)
 {
   MyTestPluginDummy plugin1("Plugin-1");
   MyTestPluginDummy plugin2("Plugin-2");
@@ -327,7 +321,7 @@ TEST(TestRegistry, ResetPluginsWorks)
   LONGS_EQUAL(0, my_registry->count_plugins());
 }
 
-TEST(TestRegistry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
+TEST(Registry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)
 {
   test1->set_group_name("GROUP_1");
   my_registry->add_test(test1);
@@ -343,7 +337,7 @@ TEST(TestRegistry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGr
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
-TEST(TestRegistry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+TEST(Registry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->set_group_name("GROUP_A");
   test1->set_test_name("test_a");
@@ -360,7 +354,7 @@ TEST(TestRegistry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfter
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
-TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
+TEST(Registry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa)
 {
   test1->set_group_name("GROUP_A");
   test1->set_test_name("test_a");
@@ -389,7 +383,7 @@ TEST(TestRegistry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAte
   );
 }
 
-TEST(TestRegistry, listOrderedTestLocations_onlyIncludesOrderedTests)
+TEST(Registry, listOrderedTestLocations_onlyIncludesOrderedTests)
 {
   ordered_test->set_group_name("GROUP_A");
   ordered_test->set_test_name("test_a");
@@ -407,30 +401,30 @@ TEST(TestRegistry, listOrderedTestLocations_onlyIncludesOrderedTests)
   );
 }
 
-TEST(TestRegistry, shuffleEmptyListIsNoOp)
+TEST(Registry, shuffleEmptyListIsNoOp)
 {
   CHECK_TRUE(my_registry->get_first_test() == nullptr);
   my_registry->shuffle_tests(0);
   CHECK_TRUE(my_registry->get_first_test() == nullptr);
 }
 
-TEST(TestRegistry, shuffleSingleTestIsNoOp)
+TEST(Registry, shuffleSingleTestIsNoOp)
 {
   my_registry->add_test(test1);
   my_registry->shuffle_tests(0);
   CHECK_TRUE(my_registry->get_first_test() == test1);
 }
 
-IGNORE_TEST(TestRegistry, shuffleTestList)
+IGNORE_TEST(Registry, shuffleTestList)
 {
   MUTINY_PTR_SET(mu::tiny::test::rand, get_zero);
   my_registry->add_test(test3);
   my_registry->add_test(test2);
   my_registry->add_test(test1);
 
-  mu::tiny::test::TestShell* first_before = my_registry->get_first_test();
-  mu::tiny::test::TestShell* second_before = first_before->get_next();
-  mu::tiny::test::TestShell* third_before = second_before->get_next();
+  mu::tiny::test::Shell* first_before = my_registry->get_first_test();
+  mu::tiny::test::Shell* second_before = first_before->get_next();
+  mu::tiny::test::Shell* third_before = second_before->get_next();
 
   CHECK_TRUE(first_before == test1);
   CHECK_TRUE(second_before == test2);
@@ -440,9 +434,9 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
   // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
   my_registry->shuffle_tests(0);
 
-  mu::tiny::test::TestShell* first_after = my_registry->get_first_test();
-  mu::tiny::test::TestShell* second_after = first_after->get_next();
-  mu::tiny::test::TestShell* third_after = second_after->get_next();
+  mu::tiny::test::Shell* first_after = my_registry->get_first_test();
+  mu::tiny::test::Shell* second_after = first_after->get_next();
+  mu::tiny::test::Shell* third_after = second_after->get_next();
 
   CHECK_TRUE(first_after == test2);
   CHECK_TRUE(second_after == test3);
@@ -450,7 +444,7 @@ IGNORE_TEST(TestRegistry, shuffleTestList)
   CHECK_TRUE(third_after->get_next() == nullptr);
 }
 
-TEST(TestRegistry, reverseTests)
+TEST(Registry, reverseTests)
 {
   my_registry->add_test(test1);
   my_registry->add_test(test2);
@@ -460,7 +454,7 @@ TEST(TestRegistry, reverseTests)
   CHECK(test1 == my_registry->get_first_test());
 }
 
-TEST(TestRegistry, reverseZeroTests)
+TEST(Registry, reverseZeroTests)
 {
   my_registry->reverse_tests();
 

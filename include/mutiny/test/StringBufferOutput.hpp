@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_STRINGBUFFERTESTOUTPUT_HPP
-#define INCLUDED_MUTINY_STRINGBUFFERTESTOUTPUT_HPP
+#ifndef INCLUDED_MUTINY_TEST_STRINGBUFFEROUTPUT_HPP
+#define INCLUDED_MUTINY_TEST_STRINGBUFFEROUTPUT_HPP
 
 #include "mutiny/test/Output.hpp"
 
@@ -9,19 +9,19 @@ namespace test {
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-//  TestOutput for test purposes
+//  Output for test purposes
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-class StringBufferTestOutput : public TestOutput
+class StringBufferOutput : public Output
 {
 public:
-  explicit StringBufferTestOutput() = default;
+  explicit StringBufferOutput() = default;
 
-  ~StringBufferTestOutput() override = default;
+  ~StringBufferOutput() override = default;
 
-  StringBufferTestOutput(const StringBufferTestOutput&) = delete;
-  StringBufferTestOutput& operator=(const StringBufferTestOutput&) = delete;
+  StringBufferOutput(const StringBufferOutput&) = delete;
+  StringBufferOutput& operator=(const StringBufferOutput&) = delete;
 
   void print_buffer(const char* s) override { output_ += s; }
 

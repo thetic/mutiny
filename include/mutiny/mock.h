@@ -1,8 +1,8 @@
-#ifndef INCLUDED_MUTINY_MOCKSUPPORT_H
-#define INCLUDED_MUTINY_MOCKSUPPORT_H
+#ifndef INCLUDED_MUTINY_MOCK_H
+#define INCLUDED_MUTINY_MOCK_H
 
 /**
- * @file MockSupport.h
+ * @file Support.h
  * @brief C interface to the mutiny mock framework.
  *
  * Provides a vtable-style C API for mock interaction from pure C test code.

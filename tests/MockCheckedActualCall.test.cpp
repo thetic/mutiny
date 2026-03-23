@@ -6,73 +6,74 @@
 #include "mutiny/mock/ExpectedCallsList.hpp"
 #include "mutiny/mock/Failure.hpp"
 #include "mutiny/mock/IgnoredActualCall.hpp"
+
 #include "mutiny/test.hpp"
 
-TEST_GROUP(MockCheckedActualCall)
+TEST_GROUP(CheckedActualCall)
 {
-  MockExpectedCallsListForTest::MockExpectedCallsList* empty_list;
-  MockExpectedCallsListForTest::MockExpectedCallsList* list;
-  mu::tiny::mock::MockFailureReporter* reporter;
+  ExpectedCallsListForTest::ExpectedCallsList* empty_list;
+  ExpectedCallsListForTest::ExpectedCallsList* list;
+  mu::tiny::mock::FailureReporter* reporter;
 
   void setup() override
   {
-    empty_list = new MockExpectedCallsListForTest::MockExpectedCallsList;
-    list = new MockExpectedCallsListForTest::MockExpectedCallsList;
-    reporter = MockFailureReporterForTest::get_reporter();
+    empty_list = new ExpectedCallsListForTest::ExpectedCallsList;
+    list = new ExpectedCallsListForTest::ExpectedCallsList;
+    reporter = FailureReporterForTest::get_reporter();
   }
 
   void teardown() override
   {
     CHECK_NO_MOCK_FAILURE();
 
-    MockFailureReporterForTest::clear_reporter();
+    FailureReporterForTest::clear_reporter();
 
     delete empty_list;
     delete list;
   }
 };
 
-TEST(MockCheckedActualCall, unExpectedCall)
+TEST(CheckedActualCall, unExpectedCall)
 {
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected");
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, unExpectedCallWithAParameter)
+TEST(CheckedActualCall, unExpectedCallWithAParameter)
 {
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").with_parameter("bar", 0);
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, unExpectedCallWithAnOutputParameter)
+TEST(CheckedActualCall, unExpectedCallWithAnOutputParameter)
 {
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").with_output_parameter("bar", nullptr);
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, unExpectedCallOnObject)
+TEST(CheckedActualCall, unExpectedCallOnObject)
 {
   int object = 0;
 
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("unexpected").on_object(&object);
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "unexpected", *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -82,39 +83,39 @@ TEST(MockCheckedActualCall, unExpectedCallOnObject)
   ); // Checks that onObject() doesn't "reset" call state
 }
 
-TEST(MockCheckedActualCall, actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
+TEST(CheckedActualCall, actualCallWithNoReturnValueAndMeaninglessCallOrderForCoverage)
 {
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *empty_list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *empty_list);
   actual_call.with_name("noreturn").with_call_order(0).return_value();
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "noreturn", *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, unExpectedParameterName)
+TEST(CheckedActualCall, unExpectedParameterName)
 {
-  mu::tiny::mock::MockCheckedExpectedCall call1;
+  mu::tiny::mock::CheckedExpectedCall call1;
   call1.with_name("func");
   list->add_expected_call(&call1);
 
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_parameter("integer", 1);
 
-  mu::tiny::mock::MockNamedValue parameter("integer");
+  mu::tiny::mock::NamedValue parameter("integer");
   parameter.set_value(1);
 
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "func", parameter, *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
+TEST(CheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 {
-  auto* call1 = new mu::tiny::mock::MockCheckedExpectedCall();
-  auto* call2 = new mu::tiny::mock::MockCheckedExpectedCall();
+  auto* call1 = new mu::tiny::mock::CheckedExpectedCall();
+  auto* call2 = new mu::tiny::mock::CheckedExpectedCall();
   call1->with_name("func");
   call2->with_name("func");
   list->add_expected_call(call1);
@@ -122,13 +123,13 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
 
   LONGS_EQUAL(2, list->amount_of_unfulfilled_expectations());
 
-  mu::tiny::mock::MockCheckedActualCall actual_call1(1, reporter, *list);
+  mu::tiny::mock::CheckedActualCall actual_call1(1, reporter, *list);
   actual_call1.with_name("func");
   actual_call1.check_expectations();
 
   LONGS_EQUAL(1, list->amount_of_unfulfilled_expectations());
 
-  mu::tiny::mock::MockCheckedActualCall actual_call2(2, reporter, *list);
+  mu::tiny::mock::CheckedActualCall actual_call2(2, reporter, *list);
   actual_call2.with_name("func");
   actual_call2.check_expectations();
 
@@ -137,9 +138,9 @@ TEST(MockCheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
   list->delete_all_expectations_and_clear_list();
 }
 
-TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
+TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
 {
-  mu::tiny::mock::MockIgnoredActualCall actual;
+  mu::tiny::mock::IgnoredActualCall actual;
   actual.with_name("func");
   actual.with_call_order(1);
 
@@ -182,16 +183,16 @@ TEST(MockCheckedActualCall, MockIgnoredActualCallWorksAsItShould)
       )
   );
   CHECK_FALSE(actual.has_return_value());
-  CHECK(actual.return_value().equals(mu::tiny::mock::MockNamedValue("")));
+  CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
 }
 
-TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
+TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 {
   int value = 0;
   const int const_value = 1;
   const unsigned char mem_buffer[] = { 0xFE, 0x15 };
   auto function_value = reinterpret_cast<void (*)()>(0xDEAD);
-  mu::tiny::mock::MockActualCallTrace actual;
+  mu::tiny::mock::ActualCallTrace actual;
   actual.with_name("func");
   actual.with_call_order(1);
   actual.on_object(&value);
@@ -240,7 +241,7 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
   CHECK_FALSE(actual.has_return_value());
-  CHECK(actual.return_value().equals(mu::tiny::mock::MockNamedValue("")));
+  CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
   CHECK(false == actual.return_bool_value());
   CHECK(false == actual.return_bool_value_or_default(true));
   CHECK(0 == actual.return_long_int_value());
@@ -279,50 +280,50 @@ TEST(MockCheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   );
 }
 
-TEST(MockCheckedActualCall, MockActualCallTraceClear)
+TEST(CheckedActualCall, MockActualCallTraceClear)
 {
-  mu::tiny::mock::MockActualCallTrace actual;
+  mu::tiny::mock::ActualCallTrace actual;
   actual.with_name("func");
   actual.clear();
   STRCMP_EQUAL("", actual.get_trace_output());
 }
 
-TEST(MockCheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
+TEST(CheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
 {
-  mu::tiny::mock::MockCheckedExpectedCall call1;
+  mu::tiny::mock::CheckedExpectedCall call1;
   call1.with_name("func");
   list->add_expected_call(&call1);
 
   const unsigned char buf[] = { 0x01, 0x02 };
   mu::tiny::test::String name("mem");
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_memory_buffer_parameter(
       name, buf, sizeof(buf)
   );
 
-  mu::tiny::mock::MockNamedValue parameter(name);
+  mu::tiny::mock::NamedValue parameter(name);
   parameter.set_memory_buffer(buf, sizeof(buf));
-  mu::tiny::mock::MockUnexpectedInputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedInputParameterFailure expected_failure(
       mock_failure_test(), "func", parameter, *list
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
 }
 
-TEST(MockCheckedActualCall, noComparatorForParameterOfTypeStringOverload)
+TEST(CheckedActualCall, noComparatorForParameterOfTypeStringOverload)
 {
-  mu::tiny::mock::MockCheckedExpectedCall call1;
+  mu::tiny::mock::CheckedExpectedCall call1;
   call1.with_name("func");
   list->add_expected_call(&call1);
 
   int value = 0;
   mu::tiny::test::String type_name("MyCustomType");
   mu::tiny::test::String param_name("param");
-  mu::tiny::mock::MockCheckedActualCall actual_call(1, reporter, *list);
+  mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_parameter_of_type(
       type_name, param_name, &value
   );
 
-  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), type_name
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);

@@ -1,11 +1,11 @@
-#ifndef INCLUDED_MUTINY_MOCKACTUALCALL_HPP
-#define INCLUDED_MUTINY_MOCKACTUALCALL_HPP
+#ifndef INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
+#define INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
 
 /**
- * @file MockActualCall.hpp
- * @brief Fluent interface returned by MockSupport::actual_call().
+ * @file ActualCall.hpp
+ * @brief Fluent interface returned by Support::actual_call().
  *
- * Inside a mock function implementation, call MockSupport::actual_call() and
+ * Inside a mock function implementation, call Support::actual_call() and
  * then chain with_parameter() for each argument before querying the return
  * value. The framework matches the actual call against the registered
  * expectations and fails the test if a mismatch is found.
@@ -19,7 +19,7 @@
  * }
  * @endcode
  *
- * @see MockSupport::actual_call(), MockExpectedCall
+ * @see Support::actual_call(), ExpectedCall
  */
 
 #include "mutiny/mock/NamedValue.hpp"
@@ -28,27 +28,27 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockFailureReporter;
-class MockFailure;
+class FailureReporter;
+class Failure;
 
 /**
  * @brief Abstract interface for reporting an actual call and its parameters.
  *
  * Each method returns @c *this so that parameter reporting can be chained.
- * Concrete implementations are created internally by MockSupport.
+ * Concrete implementations are created internally by Support.
  */
-class MockActualCall
+class ActualCall
 {
 public:
-  MockActualCall() = default;
-  virtual ~MockActualCall() = default;
+  ActualCall() = default;
+  virtual ~ActualCall() = default;
 
   /** @brief Report the function name for this call (used internally). @param
    * name Function name. @return *this. */
-  virtual MockActualCall& with_name(const mu::tiny::test::String& name) = 0;
+  virtual ActualCall& with_name(const mu::tiny::test::String& name) = 0;
   /** @brief Set the call order index for strict-ordering checks. @param
    * call_order Order index. @return *this. */
-  virtual MockActualCall& with_call_order(unsigned int call_order) = 0;
+  virtual ActualCall& with_call_order(unsigned int call_order) = 0;
 
   /**
    * @brief Report a parameter of any supported type.
@@ -63,17 +63,17 @@ public:
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  MockActualCall& with_parameter(const mu::tiny::test::String& name, bool value)
+  ActualCall& with_parameter(const mu::tiny::test::String& name, bool value)
   {
     return with_bool_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(const mu::tiny::test::String& name, int value)
+  ActualCall& with_parameter(const mu::tiny::test::String& name, int value)
   {
     return with_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   )
@@ -81,15 +81,12 @@ public:
     return with_unsigned_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      long int value
-  )
+  ActualCall& with_parameter(const mu::tiny::test::String& name, long int value)
   {
     return with_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   )
@@ -97,7 +94,7 @@ public:
     return with_unsigned_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       long long value
   )
@@ -105,7 +102,7 @@ public:
     return with_long_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   )
@@ -113,15 +110,12 @@ public:
     return with_unsigned_long_long_int_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      double value
-  )
+  ActualCall& with_parameter(const mu::tiny::test::String& name, double value)
   {
     return with_double_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       const char* value
   )
@@ -129,15 +123,12 @@ public:
     return with_string_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      void* value
-  )
+  ActualCall& with_parameter(const mu::tiny::test::String& name, void* value)
   {
     return with_pointer_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   )
@@ -145,7 +136,7 @@ public:
     return with_function_pointer_parameter(name, value);
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       const void* value
   )
@@ -160,7 +151,7 @@ public:
    * @param size   Buffer size in bytes.
    * @return *this for chaining.
    */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
@@ -170,7 +161,7 @@ public:
   }
   /** @copydoc with_parameter(const mu::tiny::test::String&, const unsigned
    * char*, size_t) */
-  MockActualCall& with_parameter(
+  ActualCall& with_parameter(
       const char* name,
       const unsigned char* value,
       size_t size
@@ -182,7 +173,7 @@ public:
   /**
    * @brief Report an object parameter identified by a type name string.
    *
-   * The mock framework uses the installed MockNamedValueComparator for
+   * The mock framework uses the installed NamedValueComparator for
    * @p type_name to compare against the expectation.
    *
    * @param type_name  Type name, must match the one used in the expectation.
@@ -190,14 +181,14 @@ public:
    * @param value      Const pointer to the object.
    * @return *this for chaining.
    */
-  virtual MockActualCall& with_parameter_of_type(
+  virtual ActualCall& with_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       const void* value
   ) = 0;
   /** @copydoc with_parameter_of_type(const mu::tiny::test::String&, const
    * mu::tiny::test::String&, const void*) */
-  virtual MockActualCall& with_parameter_of_type(
+  virtual ActualCall& with_parameter_of_type(
       const char* type_name,
       const char* name,
       const void* value
@@ -213,7 +204,7 @@ public:
    * @param output  Pointer to the caller's output buffer.
    * @return *this for chaining.
    */
-  virtual MockActualCall& with_output_parameter(
+  virtual ActualCall& with_output_parameter(
       const mu::tiny::test::String& name,
       void* output
   ) = 0;
@@ -227,7 +218,7 @@ public:
    * @param output     Pointer to the caller's output buffer.
    * @return *this for chaining.
    */
-  virtual MockActualCall& with_output_parameter_of_type(
+  virtual ActualCall& with_output_parameter_of_type(
       const mu::tiny::test::String& type_name,
       const mu::tiny::test::String& name,
       void* output
@@ -235,86 +226,86 @@ public:
 
   /** @brief Report a bool parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_bool_parameter(
+  virtual ActualCall& with_bool_parameter(
       const mu::tiny::test::String& name,
       bool value
   ) = 0;
   /** @brief Report an int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_int_parameter(
+  virtual ActualCall& with_int_parameter(
       const mu::tiny::test::String& name,
       int value
   ) = 0;
   /** @brief Report an unsigned int parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockActualCall& with_unsigned_int_parameter(
+  virtual ActualCall& with_unsigned_int_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   ) = 0;
   /** @brief Report a long int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_long_int_parameter(
+  virtual ActualCall& with_long_int_parameter(
       const mu::tiny::test::String& name,
       long int value
   ) = 0;
   /** @brief Report an unsigned long int parameter. @param name Name. @param
    * value Value. @return *this. */
-  virtual MockActualCall& with_unsigned_long_int_parameter(
+  virtual ActualCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   ) = 0;
   /** @brief Report a long long int parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockActualCall& with_long_long_int_parameter(
+  virtual ActualCall& with_long_long_int_parameter(
       const mu::tiny::test::String& name,
       long long value
   ) = 0;
   /** @brief Report an unsigned long long int parameter. @param name Name.
    * @param value Value. @return *this. */
-  virtual MockActualCall& with_unsigned_long_long_int_parameter(
+  virtual ActualCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   ) = 0;
   /** @brief Report a double parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_double_parameter(
+  virtual ActualCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value
   ) = 0;
   /** @brief Report a C string parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_string_parameter(
+  virtual ActualCall& with_string_parameter(
       const mu::tiny::test::String& name,
       const char* value
   ) = 0;
   /** @brief Report a void* parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual MockActualCall& with_pointer_parameter(
+  virtual ActualCall& with_pointer_parameter(
       const mu::tiny::test::String& name,
       void* value
   ) = 0;
   /** @brief Report a function pointer parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockActualCall& with_function_pointer_parameter(
+  virtual ActualCall& with_function_pointer_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   ) = 0;
   /** @brief Report a const void* parameter. @param name Name. @param value
    * Value. @return *this. */
-  virtual MockActualCall& with_const_pointer_parameter(
+  virtual ActualCall& with_const_pointer_parameter(
       const mu::tiny::test::String& name,
       const void* value
   ) = 0;
   /** @brief Report a memory buffer parameter (String name). @param name Name.
    * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual MockActualCall& with_memory_buffer_parameter(
+  virtual ActualCall& with_memory_buffer_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
   ) = 0;
   /** @brief Report a memory buffer parameter (C string name). @param name Name.
    * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual MockActualCall& with_memory_buffer_parameter(
+  virtual ActualCall& with_memory_buffer_parameter(
       const char* name,
       const unsigned char* value,
       size_t size
@@ -322,8 +313,8 @@ public:
 
   /** @return true if the matching expectation set a return value. */
   virtual bool has_return_value() = 0;
-  /** @return The configured return value as a generic MockNamedValue. */
-  virtual MockNamedValue return_value() = 0;
+  /** @return The configured return value as a generic NamedValue. */
+  virtual NamedValue return_value() = 0;
 
   /**
    * @return The configured return value if set, otherwise @p default_value.
@@ -450,12 +441,12 @@ public:
    * @brief Restrict this actual call to a specific object instance.
    *
    * Matches only the expectation set with the same @p object_ptr via
-   * MockExpectedCall::on_object().
+   * ExpectedCall::on_object().
    *
    * @param object_ptr  Pointer to the object on which the method was called.
    * @return *this for chaining.
    */
-  virtual MockActualCall& on_object(const void* object_ptr) = 0;
+  virtual ActualCall& on_object(const void* object_ptr) = 0;
 };
 
 }

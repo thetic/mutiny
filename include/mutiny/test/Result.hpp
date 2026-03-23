@@ -1,11 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// A TestResult is a collection of the history of some test runs.  Right now
+// A Result is a collection of the history of some test runs.  Right now
 // it just collects failures.  Really it just prints the failures.
 //
 
-#ifndef INCLUDED_MUTINY_TESTRESULT_HPP
-#define INCLUDED_MUTINY_TESTRESULT_HPP
+#ifndef INCLUDED_MUTINY_TEST_RESULT_HPP
+#define INCLUDED_MUTINY_TEST_RESULT_HPP
 
 #include <stddef.h>
 
@@ -13,30 +13,30 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestFailure;
-class TestOutput;
-class TestShell;
+class Failure;
+class Output;
+class Shell;
 
-class TestResult
+class Result
 {
 public:
-  TestResult(TestOutput&);
-  TestResult(const TestResult&) = default;
-  virtual ~TestResult() = default;
+  Result(Output&);
+  Result(const Result&) = default;
+  virtual ~Result() = default;
 
   virtual void tests_started();
   virtual void tests_ended();
-  virtual void current_group_started(TestShell* test);
-  virtual void current_group_ended(TestShell* test);
-  virtual void current_test_started(TestShell* test);
-  virtual void current_test_ended(TestShell* test);
+  virtual void current_group_started(Shell* test);
+  virtual void current_group_ended(Shell* test);
+  virtual void current_test_started(Shell* test);
+  virtual void current_test_ended(Shell* test);
 
   virtual void count_test();
   virtual void count_run();
   virtual void count_check();
   virtual void count_filtered_out();
   virtual void count_ignored();
-  virtual void add_failure(const TestFailure& failure);
+  virtual void add_failure(const Failure& failure);
   virtual void add_test_property(const char* name, const char* value);
   virtual void print(const char* text);
   virtual void print_very_verbose(const char* text);
@@ -61,7 +61,7 @@ public:
   size_t get_current_group_total_execution_time() const;
 
 private:
-  TestOutput& output_;
+  Output& output_;
   size_t test_count_{ 0 };
   size_t run_count_{ 0 };
   size_t check_count_{ 0 };

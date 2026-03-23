@@ -14,13 +14,13 @@ bool IEEE754ExceptionsPlugin::inexact_disabled_ = true;
 IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(
     const mu::tiny::test::String& name
 )
-  : TestPlugin(name)
+  : Plugin(name)
 {
 }
 
 void IEEE754ExceptionsPlugin::pre_test_action(
-    mu::tiny::test::TestShell&,
-    mu::tiny::test::TestResult&
+    mu::tiny::test::Shell&,
+    mu::tiny::test::Result&
 )
 {
 #if MUTINY_HAVE_FENV
@@ -29,8 +29,8 @@ void IEEE754ExceptionsPlugin::pre_test_action(
 }
 
 void IEEE754ExceptionsPlugin::post_test_action(
-    mu::tiny::test::TestShell& test,
-    mu::tiny::test::TestResult& result
+    mu::tiny::test::Shell& test,
+    mu::tiny::test::Result& result
 )
 {
 #if MUTINY_HAVE_FENV
@@ -94,8 +94,8 @@ bool IEEE754ExceptionsPlugin::check_ieee754_div_by_zero_exception_flag()
 }
 
 void IEEE754ExceptionsPlugin::ieee754_check(
-    mu::tiny::test::TestShell& test,
-    mu::tiny::test::TestResult& result,
+    mu::tiny::test::Shell& test,
+    mu::tiny::test::Result& result,
     int flag,
     const char* text
 )

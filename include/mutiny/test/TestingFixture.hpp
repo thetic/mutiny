@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_TESTTESTINGFIXTURE_HPP
-#define INCLUDED_MUTINY_TESTTESTINGFIXTURE_HPP
+#ifndef INCLUDED_MUTINY_TEST_TESTINGFIXTURE_HPP
+#define INCLUDED_MUTINY_TEST_TESTINGFIXTURE_HPP
 
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/Shell.hpp"
@@ -10,17 +10,17 @@ namespace tiny {
 namespace test {
 
 class ExecFunction;
-class ExecFunctionTestShell;
+class ExecFunctionShell;
 
-class TestTestingFixture
+class TestingFixture
 {
 public:
-  TestTestingFixture();
-  virtual ~TestTestingFixture();
+  TestingFixture();
+  virtual ~TestingFixture();
   void flush_output_and_reset_result();
 
-  void add_test(TestShell* test);
-  void install_plugin(TestPlugin* plugin);
+  void add_test(Shell* test);
+  void install_plugin(Plugin* plugin);
 
   void set_test_function(void (*test_function)());
   void set_test_function(ExecFunction* test_function);
@@ -38,7 +38,7 @@ public:
   size_t get_run_count();
   size_t get_test_count();
   const String& get_output();
-  TestRegistry* get_registry();
+  Registry* get_registry();
 
   bool has_test_failed();
   void assert_print_contains(const String& contains);
@@ -52,18 +52,18 @@ public:
   static void line_executed_after_check();
 
 protected:
-  void replace_output(StringBufferTestOutput* new_output);
+  void replace_output(StringBufferOutput* new_output);
 
 private:
   void clear_exec_function();
 
   static bool line_of_code_executed_after_check_;
 
-  TestRegistry* registry_;
-  ExecFunctionTestShell* gen_test_;
+  Registry* registry_;
+  ExecFunctionShell* gen_test_;
   bool owns_exec_function_;
-  StringBufferTestOutput* output_;
-  TestResult* result_;
+  StringBufferOutput* output_;
+  Result* result_;
 };
 
 }

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKNAMEDVALUECOMPARATORSANDCOPIERSREPOSITORY_HPP
-#define INCLUDED_MUTINY_MOCKNAMEDVALUECOMPARATORSANDCOPIERSREPOSITORY_HPP
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATORSANDCOPIERSREPOSITORY_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATORSANDCOPIERSREPOSITORY_HPP
 
 #include "mutiny/mock/NamedValueComparator.hpp"
 #include "mutiny/mock/NamedValueCopier.hpp"
@@ -14,30 +14,30 @@ namespace mock {
  *
  */
 
-struct MockNamedValueComparatorsAndCopiersRepositoryNode;
-class MockNamedValueComparatorsAndCopiersRepository
+struct NamedValueComparatorsAndCopiersRepositoryNode;
+class NamedValueComparatorsAndCopiersRepository
 {
-  MockNamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };
+  NamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };
 
 public:
-  MockNamedValueComparatorsAndCopiersRepository() = default;
-  virtual ~MockNamedValueComparatorsAndCopiersRepository();
+  NamedValueComparatorsAndCopiersRepository() = default;
+  virtual ~NamedValueComparatorsAndCopiersRepository();
 
   virtual void install_comparator(
       const mu::tiny::test::String& name,
-      MockNamedValueComparator& comparator
+      NamedValueComparator& comparator
   );
   virtual void install_copier(
       const mu::tiny::test::String& name,
-      MockNamedValueCopier& copier
+      NamedValueCopier& copier
   );
   virtual void install_comparators_and_copiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository
+      const NamedValueComparatorsAndCopiersRepository& repository
   );
-  virtual MockNamedValueComparator* get_comparator_for_type(
+  virtual NamedValueComparator* get_comparator_for_type(
       const mu::tiny::test::String& name
   );
-  virtual MockNamedValueCopier* get_copier_for_type(
+  virtual NamedValueCopier* get_copier_for_type(
       const mu::tiny::test::String& name
   );
 

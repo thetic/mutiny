@@ -1,7 +1,8 @@
 #include "mutiny/test/String.hpp"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/math.hpp"
+
+#include "mutiny/test.hpp"
 
 #include <limits.h>
 #include <stdio.h>

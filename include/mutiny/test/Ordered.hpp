@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_ORDEREDTEST_HPP
-#define INCLUDED_MUTINY_ORDEREDTEST_HPP
+#ifndef INCLUDED_MUTINY_TEST_ORDERED_HPP
+#define INCLUDED_MUTINY_TEST_ORDERED_HPP
 
 /**
  * @file OrderedTest.hpp
@@ -29,17 +29,17 @@ namespace tiny {
 namespace test {
 
 /**
- * @brief TestShell subclass that participates in ordered test execution.
+ * @brief Shell subclass that participates in ordered test execution.
  *
  * Maintains a separate singly-linked list of ordered tests sorted by level.
  * The test runner walks this list after processing all unordered tests.
  * Users interact with this class only through the TEST_ORDERED macro.
  */
-class OrderedTestShell : public mu::tiny::test::TestShell
+class OrderedShell : public mu::tiny::test::Shell
 {
 public:
-  OrderedTestShell() = default;
-  ~OrderedTestShell() override = default;
+  OrderedShell() = default;
+  ~OrderedShell() override = default;
 
   /**
    * @brief Insert @p test into this shell's ordered-test list.
@@ -47,10 +47,10 @@ public:
    * @param test  Shell to append.
    * @return @p test.
    */
-  virtual OrderedTestShell* add_ordered_test(OrderedTestShell* test);
+  virtual OrderedShell* add_ordered_test(OrderedShell* test);
 
   /** @return The next shell in the ordered list, or nullptr at the end. */
-  virtual OrderedTestShell* get_next_ordered_test();
+  virtual OrderedShell* get_next_ordered_test();
 
   /** @return true — ordered tests report themselves as ordered. */
   bool is_ordered() const override;
@@ -68,14 +68,14 @@ public:
   /**
    * @brief Prepend @p test to the global ordered-test list.
    *
-   * Called by OrderedTestInstaller during static initialisation.
+   * Called by OrderedInstaller during static initialisation.
    *
    * @param test  Shell to add.
    */
-  static void add_ordered_test_to_head(OrderedTestShell* test);
+  static void add_ordered_test_to_head(OrderedShell* test);
 
   /** @return The head of the global ordered-test linked list. */
-  static OrderedTestShell* get_ordered_test_head();
+  static OrderedShell* get_ordered_test_head();
 
   /** @return true if no ordered tests have been registered yet. */
   static bool first_ordered_test();
@@ -85,22 +85,22 @@ public:
    *
    * @param test  New head (may be nullptr to clear the list).
    */
-  static void set_ordered_test_head(OrderedTestShell* test);
+  static void set_ordered_test_head(OrderedShell* test);
 
 private:
-  static OrderedTestShell* ordered_tests_head_;
-  OrderedTestShell* next_ordered_test_{ nullptr };
+  static OrderedShell* ordered_tests_head_;
+  OrderedShell* next_ordered_test_{ nullptr };
 
   int level_{ 0 };
 };
 
 /**
- * @brief Registers an OrderedTestShell into the sorted ordered-test list.
+ * @brief Registers an OrderedShell into the sorted ordered-test list.
  *
  * Instantiated once per TEST_ORDERED declaration as a namespace-scope static.
  * Users do not interact with this class directly.
  */
-class OrderedTestInstaller
+class OrderedInstaller
 {
 public:
   /**
@@ -113,19 +113,19 @@ public:
    * @param line_number  Source line number.
    * @param level        Execution level; lower values run first.
    */
-  explicit OrderedTestInstaller(
-      OrderedTestShell& test,
+  explicit OrderedInstaller(
+      OrderedShell& test,
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number,
       int level
   );
-  virtual ~OrderedTestInstaller() = default;
+  virtual ~OrderedInstaller() = default;
 
 private:
-  void add_ordered_test_in_order(OrderedTestShell* test);
-  void add_ordered_test_in_order_not_at_head_position(OrderedTestShell* test);
+  void add_ordered_test_in_order(OrderedShell* test);
+  void add_ordered_test_in_order_not_at_head_position(OrderedShell* test);
 };
 
 }
@@ -168,7 +168,7 @@ private:
     void test_body() override;                                                 \
   };                                                                           \
   class TEST_##testGroup##_##testName##_TestShell                              \
-    : public mu::tiny::test::OrderedTestShell                                  \
+    : public mu::tiny::test::OrderedShell                                      \
   {                                                                            \
     virtual mu::tiny::test::Test* create_test() override                       \
     {                                                                          \
@@ -176,15 +176,14 @@ private:
     }                                                                          \
   } TEST_##testGroup##_##testName##_Instance;                                  \
   namespace {                                                                  \
-  mu::tiny::test::                                                             \
-      OrderedTestInstaller TEST_##testGroup##_##testName##_Installer(          \
-          TEST_##testGroup##_##testName##_Instance,                            \
-          #testGroup,                                                          \
-          #testName,                                                           \
-          __FILE__,                                                            \
-          __LINE__,                                                            \
-          testLevel                                                            \
-      );                                                                       \
+  mu::tiny::test::OrderedInstaller TEST_##testGroup##_##testName##_Installer(  \
+      TEST_##testGroup##_##testName##_Instance,                                \
+      #testGroup,                                                              \
+      #testName,                                                               \
+      __FILE__,                                                                \
+      __LINE__,                                                                \
+      testLevel                                                                \
+  );                                                                           \
   } /* namespace */                                                            \
   void TEST_##testGroup##_##testName##_Test::test_body()
 

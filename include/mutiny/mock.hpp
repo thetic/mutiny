@@ -1,13 +1,13 @@
-#ifndef INCLUDED_MUTINY_MOCKSUPPORT_HPP
-#define INCLUDED_MUTINY_MOCKSUPPORT_HPP
+#ifndef INCLUDED_MUTINY_MOCK_HPP
+#define INCLUDED_MUTINY_MOCK_HPP
 
 /**
- * @file MockSupport.hpp
+ * @file Support.hpp
  * @brief Core mock support: expectation recording, call verification, and data
  * sharing.
  *
  * The canonical entry point is the free function mock(), which returns a
- * reference to the global (or a named scope) MockSupport. Typical usage:
+ * reference to the global (or a named scope) Support. Typical usage:
  *
  * @code
  * // In production code (the mock implementation):
@@ -31,7 +31,7 @@
  * @endcode
  *
  * @see mock() for the free function entry point
- * @see MockSupportPlugin for automatic check/clear in teardown
+ * @see SupportPlugin for automatic check/clear in teardown
  */
 
 #include "mutiny/mock/ActualCall.hpp"
@@ -41,17 +41,17 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockCheckedActualCall;
-class MockFailure;
-class MockFailureReporter;
-class MockNamedValueComparatorsAndCopiersRepository;
-class MockNamedValueListNode;
+class CheckedActualCall;
+class Failure;
+class FailureReporter;
+class NamedValueComparatorsAndCopiersRepository;
+class NamedValueListNode;
 
 /**
  * @brief Central mock-support object for expectation recording and
  * verification.
  *
- * One MockSupport instance represents one named scope (or the global scope when
+ * One Support instance represents one named scope (or the global scope when
  * the name is empty). Nested scopes are created transparently by mock("scope").
  *
  * @par Lifecycle within a test
@@ -61,20 +61,20 @@ class MockNamedValueListNode;
  * 3. Production code calls actual_call() when the mocked function executes.
  * 4. In teardown: call check_expectations() then clear().
  *
- * @see mock(), MockSupportPlugin
+ * @see mock(), SupportPlugin
  */
-class MockSupport
+class Support
 {
 public:
   /**
-   * @brief Construct a MockSupport with an optional scope name.
+   * @brief Construct a Support with an optional scope name.
    *
    * Prefer the free function mock() over constructing directly.
    *
    * @param mock_name  Scope name; empty string means the global scope.
    */
-  MockSupport(const mu::tiny::test::String& mock_name = "");
-  virtual ~MockSupport();
+  Support(const mu::tiny::test::String& mock_name = "");
+  virtual ~Support();
 
   /**
    * @brief Require actual calls to arrive in the same order expectations were
@@ -89,10 +89,10 @@ public:
    * @brief Expect exactly one call to @p function_name.
    *
    * @param function_name  Name of the function that should be called once.
-   * @return A fluent MockExpectedCall for chaining .with_parameter() and
+   * @return A fluent ExpectedCall for chaining .with_parameter() and
    *         .and_return_value() constraints.
    */
-  virtual MockExpectedCall& expect_one_call(
+  virtual ExpectedCall& expect_one_call(
       const mu::tiny::test::String& function_name
   );
 
@@ -110,10 +110,10 @@ public:
    *
    * @param amount         Number of times the function should be called.
    * @param function_name  Name of the function.
-   * @return A fluent MockExpectedCall for chaining parameter/return
+   * @return A fluent ExpectedCall for chaining parameter/return
    * constraints.
    */
-  virtual MockExpectedCall& expect_n_calls(
+  virtual ExpectedCall& expect_n_calls(
       unsigned int amount,
       const mu::tiny::test::String& function_name
   );
@@ -126,15 +126,15 @@ public:
    * with the appropriate return_*_value() method at the end.
    *
    * @param function_name  Name of the function being called.
-   * @return A fluent MockActualCall for supplying parameters and reading the
+   * @return A fluent ActualCall for supplying parameters and reading the
    *         return value.
    */
-  virtual MockActualCall& actual_call(const char* function_name);
+  virtual ActualCall& actual_call(const char* function_name);
 
   /** @return true if the last actual_call() has an associated return value. */
   virtual bool has_return_value();
-  /** @return The return value of the last actual_call() as a MockNamedValue. */
-  virtual MockNamedValue return_value();
+  /** @return The return value of the last actual_call() as a NamedValue. */
+  virtual NamedValue return_value();
 
   /** @return The bool return value configured for the current call. */
   virtual bool bool_return_value();
@@ -316,21 +316,21 @@ public:
    * @brief Retrieve a previously stored data value by name.
    *
    * @param name  Data key.
-   * @return The stored MockNamedValue; type is undefined if @p name was not
+   * @return The stored NamedValue; type is undefined if @p name was not
    * set.
    */
-  MockNamedValue get_data(const mu::tiny::test::String& name);
+  NamedValue get_data(const mu::tiny::test::String& name);
 
   /**
    * @brief Get (or create) a named child scope.
    *
-   * Equivalent to calling mock("scope") but from an existing MockSupport
+   * Equivalent to calling mock("scope") but from an existing Support
    * reference. Useful when you already hold a reference to the global scope.
    *
    * @param name  Scope name.
-   * @return Pointer to the child MockSupport scope.
+   * @return Pointer to the child Support scope.
    */
-  MockSupport* get_mock_support_scope(const mu::tiny::test::String& name);
+  Support* get_mock_support_scope(const mu::tiny::test::String& name);
 
   /**
    * @return A C string containing all traced call output, or empty string if
@@ -392,16 +392,14 @@ public:
    * @param reporter  New standard reporter; pass nullptr to restore the
    * default.
    */
-  virtual void set_mock_failure_standard_reporter(
-      MockFailureReporter* reporter
-  );
+  virtual void set_mock_failure_standard_reporter(FailureReporter* reporter);
 
   /**
    * @brief Set the active failure reporter for the current call chain.
    *
    * @param active_reporter  Reporter to use; may differ from the standard one.
    */
-  virtual void set_active_reporter(MockFailureReporter* active_reporter);
+  virtual void set_active_reporter(FailureReporter* active_reporter);
 
   /** @brief Restore the default comparators-and-copiers repository. */
   virtual void set_default_comparators_and_copiers_repository();
@@ -417,7 +415,7 @@ public:
    */
   virtual void install_comparator(
       const mu::tiny::test::String& type_name,
-      MockNamedValueComparator& comparator
+      NamedValueComparator& comparator
   );
 
   /**
@@ -430,7 +428,7 @@ public:
    */
   virtual void install_copier(
       const mu::tiny::test::String& type_name,
-      MockNamedValueCopier& copier
+      NamedValueCopier& copier
   );
 
   /**
@@ -440,20 +438,20 @@ public:
    * install.
    */
   virtual void install_comparators_and_copiers(
-      const MockNamedValueComparatorsAndCopiersRepository& repository
+      const NamedValueComparatorsAndCopiersRepository& repository
   );
 
   /** @brief Remove all installed comparators and copiers from this scope. */
   virtual void remove_all_comparators_and_copiers();
 
 protected:
-  /** @brief Create a child MockSupport scope with the given name. */
-  MockSupport* clone(const mu::tiny::test::String& mock_name);
+  /** @brief Create a child Support scope with the given name. */
+  Support* clone(const mu::tiny::test::String& mock_name);
   /** @brief Factory method for the actual-call object (override in tests). */
-  virtual MockCheckedActualCall* create_actual_call();
+  virtual CheckedActualCall* create_actual_call();
   /** @brief Record a mock failure via the active failure reporter. */
-  virtual void fail_test(MockFailure& failure);
-  /** @brief Increment the assertion-check count in the active TestResult. */
+  virtual void fail_test(Failure& failure);
+  /** @brief Increment the assertion-check count in the active Result. */
   void count_check();
 
 private:
@@ -473,9 +471,9 @@ private:
   void fail_test_with_expected_calls_not_fulfilled();
   void fail_test_with_out_of_order_calls();
 
-  MockNamedValue* retrieve_data_from_store(const mu::tiny::test::String& name);
+  NamedValue* retrieve_data_from_store(const mu::tiny::test::String& name);
 
-  MockSupport* get_mock_support(MockNamedValueListNode* node);
+  Support* get_mock_support(NamedValueListNode* node);
 
   bool call_is_ignored(const mu::tiny::test::String& function_name);
   bool has_calls_out_of_order();
@@ -502,11 +500,11 @@ private:
  * scope.
  * @param failure_reporter_for_this_call  Optional reporter override for this
  * call chain.
- * @return Reference to the MockSupport for the requested scope.
+ * @return Reference to the Support for the requested scope.
  */
-MockSupport& mock(
+Support& mock(
     const mu::tiny::test::String& mock_name = "",
-    MockFailureReporter* failure_reporter_for_this_call = nullptr
+    FailureReporter* failure_reporter_for_this_call = nullptr
 );
 
 }

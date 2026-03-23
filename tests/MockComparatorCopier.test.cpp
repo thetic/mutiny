@@ -1,6 +1,7 @@
 #include "MockFailureReporterForTest.hpp"
 
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+
 #include "mutiny/test.hpp"
 
 using mu::tiny::mock::mock;
@@ -24,8 +25,7 @@ public:
   long* value;
 };
 
-class MyTypeForTestingComparator
-  : public mu::tiny::mock::MockNamedValueComparator
+class MyTypeForTestingComparator : public mu::tiny::mock::NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override
@@ -42,7 +42,7 @@ public:
   }
 };
 
-class MyTypeForTestingCopier : public mu::tiny::mock::MockNamedValueCopier
+class MyTypeForTestingCopier : public mu::tiny::mock::NamedValueCopier
 {
 public:
   void copy(void* dst, const void* src) override
@@ -56,7 +56,7 @@ public:
 
 TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingAComparisonRepository)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(1);
   mock()
@@ -66,7 +66,7 @@ TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingAComparisonRep
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -74,7 +74,7 @@ TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingAComparisonRep
 
 TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingACopierRepository)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(1);
   mock()
@@ -88,7 +88,7 @@ TEST(MockComparatorCopier, customObjectParameterFailsWhenNotHavingACopierReposit
           "MyTypeForTesting", "parameterName", &object
       );
 
-  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -130,7 +130,7 @@ mu::tiny::test::String my_type_value_to_string(const void* object)
 TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 {
   MyTypeForTesting object(1);
-  mu::tiny::mock::MockFunctionComparator comparator(
+  mu::tiny::mock::FunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string
   );
   mock().install_comparator("MyTypeForTesting", comparator);
@@ -149,19 +149,19 @@ TEST(MockComparatorCopier, customObjectWithFunctionComparator)
 
 TEST(MockComparatorCopier, customObjectWithFunctionComparatorThatFailsCoversValueToString)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(5);
-  mu::tiny::mock::MockFunctionComparator comparator(
+  mu::tiny::mock::FunctionComparator comparator(
       my_type_is_equal, my_type_value_to_string
   );
   mock().install_comparator("MyTypeForTesting", comparator);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("function")
       ->with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure failure(
-      mu::tiny::test::TestShell::get_current(), expectations
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure failure(
+      mu::tiny::test::Shell::get_current(), expectations
   );
 
   mock()
@@ -199,17 +199,17 @@ TEST(MockComparatorCopier, customTypeOutputParameterSucceeds)
 
 TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting expected_object(1);
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -225,17 +225,17 @@ TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
 
 TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting actual_object(8834);
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo");
-  mu::tiny::mock::MockNamedValue parameter("parameterName");
+  mu::tiny::mock::NamedValue parameter("parameterName");
   parameter.set_const_object_pointer("MyTypeForTesting", &actual_object);
-  mu::tiny::mock::MockUnexpectedOutputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -252,17 +252,17 @@ TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
 
 TEST(MockComparatorCopier, customTypeOutputParameterMissing)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting expected_object(123464);
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "foo", expectations, expectations
   );
 
@@ -279,20 +279,20 @@ TEST(MockComparatorCopier, customTypeOutputParameterMissing)
 
 TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting expected_object(123464);
   MyTypeForTesting actual_object(75646);
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  mu::tiny::mock::MockNamedValue parameter("output");
+  mu::tiny::mock::NamedValue parameter("output");
   parameter.set_const_object_pointer("OtherTypeForTesting", &actual_object);
-  mu::tiny::mock::MockUnexpectedOutputParameterFailure expected_failure(
+  mu::tiny::mock::UnexpectedOutputParameterFailure expected_failure(
       mock_failure_test(), "foo", parameter, expectations
   );
 
@@ -311,16 +311,16 @@ TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
 
 TEST(MockComparatorCopier, noCopierForCustomTypeOutputParameter)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting expected_object(123464);
   MyTypeForTesting actual_object(8834);
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("foo")->with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
-  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
 
@@ -613,7 +613,7 @@ TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 {
   MyTypeForTesting expected_object(9874452);
   MyTypeForTesting actual_object(2034);
-  mu::tiny::mock::MockFunctionCopier copier(my_type_copy);
+  mu::tiny::mock::FunctionCopier copier(my_type_copy);
   mock().install_copier("MyTypeForTesting", copier);
 
   mock()
@@ -636,7 +636,7 @@ TEST(MockComparatorCopier, customObjectWithFunctionCopier)
 
 TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
@@ -650,7 +650,7 @@ TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
       .actual_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
 
-  mu::tiny::mock::MockNoWayToCompareCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCompareCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -658,7 +658,7 @@ TEST(MockComparatorCopier, removingComparatorsWorksHierachically)
 
 TEST(MockComparatorCopier, removingCopiersWorksHierachically)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
   MyTypeForTesting object(1);
 
   MyTypeForTestingCopier copier;
@@ -672,7 +672,7 @@ TEST(MockComparatorCopier, removingCopiersWorksHierachically)
       "MyTypeForTesting", "bar", &object
   );
 
-  mu::tiny::mock::MockNoWayToCopyCustomTypeFailure expected_failure(
+  mu::tiny::mock::NoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
@@ -706,7 +706,7 @@ TEST(MockComparatorCopier, installComparatorsWorksHierarchical)
 {
   MyTypeForTesting object(1);
   MyTypeForTestingComparator comparator;
-  mu::tiny::mock::MockNamedValueComparatorsAndCopiersRepository repos;
+  mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repos;
   repos.install_comparator("MyTypeForTesting", comparator);
 
   mock("existing");
@@ -745,8 +745,7 @@ TEST(MockComparatorCopier, installCopiersWorksHierarchically)
 }
 
 namespace {
-class StubComparator
-  : public MyTypeForTestingComparator::MockNamedValueComparator
+class StubComparator : public MyTypeForTestingComparator::NamedValueComparator
 {
 public:
   bool is_equal(const void*, const void*) override { return true; }

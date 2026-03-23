@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_TEST_HPP
-#define INCLUDED_MUTINY_TEST_HPP
+#ifndef INCLUDED_MUTINY_TEST_TEST_HPP
+#define INCLUDED_MUTINY_TEST_TEST_HPP
 
 namespace mu {
 namespace tiny {

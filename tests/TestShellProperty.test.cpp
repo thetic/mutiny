@@ -1,13 +1,14 @@
-#include "mutiny/test.h"
-#include "mutiny/test.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
+#include "mutiny/test.h"
+#include "mutiny/test.hpp"
+
 namespace {
 
-class PropertyRecordingOutput : public mu::tiny::test::StringBufferTestOutput
+class PropertyRecordingOutput : public mu::tiny::test::StringBufferOutput
 {
 public:
   const char* recorded_name{ nullptr };
@@ -22,7 +23,7 @@ public:
   }
 };
 
-class PropertyCapturingFixture : public mu::tiny::test::TestTestingFixture
+class PropertyCapturingFixture : public mu::tiny::test::TestingFixture
 {
 public:
   PropertyRecordingOutput* capture;
@@ -42,7 +43,7 @@ TEST_GROUP(TestShellProperty)
 TEST(TestShellProperty, addTestPropertyRoutesToTestOutputPrintTestProperty)
 {
   PropertyRecordingOutput output;
-  mu::tiny::test::TestResult result(output);
+  mu::tiny::test::Result result(output);
   result.add_test_property("ticket_id", "12345");
 
   LONGS_EQUAL(1, output.call_count);
@@ -53,15 +54,15 @@ TEST(TestShellProperty, addTestPropertyRoutesToTestOutputPrintTestProperty)
 TEST(TestShellProperty, addTestPropertyOnShellRoutesToResult)
 {
   PropertyRecordingOutput output;
-  mu::tiny::test::TestResult result(output);
-  mu::tiny::test::TestShell shell("Group", "Test", "file", 1);
+  mu::tiny::test::Result result(output);
+  mu::tiny::test::Shell shell("Group", "Test", "file", 1);
 
   // Simulate the test context setup done by run_one_test_in_current_process
-  mu::tiny::test::TestShell::set_crash_on_fail(); // harmless; just ensuring
-                                                  // static init
-  mu::tiny::test::TestShell::restore_default_test_terminator();
+  mu::tiny::test::Shell::set_crash_on_fail(); // harmless; just ensuring
+                                              // static init
+  mu::tiny::test::Shell::restore_default_test_terminator();
 
-  // Directly test TestResult delegation (TestShell routes through TestResult)
+  // Directly test Result delegation (Shell routes through Result)
   result.add_test_property("suite", "smoke");
 
   LONGS_EQUAL(1, output.call_count);

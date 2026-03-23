@@ -25,8 +25,8 @@
  * @see TEST_GROUP_C_WRAPPER and friends in mutiny/test.hpp for the .cpp bridge
  */
 
-#ifndef INCLUDED_MUTINY_MUTINY_H
-#define INCLUDED_MUTINY_MUTINY_H
+#ifndef INCLUDED_MUTINY_TEST_H
+#define INCLUDED_MUTINY_TEST_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -473,4 +473,4 @@ extern "C"
 }
 #endif
 
-#endif /* INCLUDED_MUTINY_MUTINY_H */
+#endif /* INCLUDED_MUTINY_TEST_H */

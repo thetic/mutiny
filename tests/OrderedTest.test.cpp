@@ -2,65 +2,65 @@
 
 #include "OrderedTest.h"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/ExecFunctionShell.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
+#include "mutiny/test.hpp"
+
 TEST_GROUP(OrderedTest)
 {
-  mu::tiny::test::TestTestingFixture* fixture;
+  mu::tiny::test::TestingFixture* fixture;
 
-  mu::tiny::test::OrderedTestShell ordered_test;
-  mu::tiny::test::OrderedTestShell ordered_test2;
-  mu::tiny::test::OrderedTestShell ordered_test3;
-  mu::tiny::test::ExecFunctionTestShell normal_test;
-  mu::tiny::test::ExecFunctionTestShell normal_test2;
-  mu::tiny::test::ExecFunctionTestShell normal_test3;
+  mu::tiny::test::OrderedShell ordered_test;
+  mu::tiny::test::OrderedShell ordered_test2;
+  mu::tiny::test::OrderedShell ordered_test3;
+  mu::tiny::test::ExecFunctionShell normal_test;
+  mu::tiny::test::ExecFunctionShell normal_test2;
+  mu::tiny::test::ExecFunctionShell normal_test3;
 
-  mu::tiny::test::OrderedTestShell* ordered_test_cache;
+  mu::tiny::test::OrderedShell* ordered_test_cache;
   void setup() override
   {
-    ordered_test_cache =
-        mu::tiny::test::OrderedTestShell::get_ordered_test_head();
-    mu::tiny::test::OrderedTestShell::set_ordered_test_head(nullptr);
+    ordered_test_cache = mu::tiny::test::OrderedShell::get_ordered_test_head();
+    mu::tiny::test::OrderedShell::set_ordered_test_head(nullptr);
 
-    fixture = new mu::tiny::test::TestTestingFixture();
+    fixture = new mu::tiny::test::TestingFixture();
     fixture->get_registry()->un_do_last_add_test();
   }
 
   void teardown() override
   {
     delete fixture;
-    mu::tiny::test::OrderedTestShell::set_ordered_test_head(ordered_test_cache);
+    mu::tiny::test::OrderedShell::set_ordered_test_head(ordered_test_cache);
   }
 
-  void install_ordered_test(mu::tiny::test::OrderedTestShell& test, int level)
+  void install_ordered_test(mu::tiny::test::OrderedShell& test, int level)
   {
-    mu::tiny::test::OrderedTestInstaller(
+    mu::tiny::test::OrderedInstaller(
         test, "testgroup", "testname", __FILE__, __LINE__, level
     );
   }
 
-  void install_normal_test(mu::tiny::test::TestShell& test)
+  void install_normal_test(mu::tiny::test::Shell& test)
   {
-    mu::tiny::test::TestInstaller(
+    mu::tiny::test::Installer(
         test, "testgroup", "testname", __FILE__, __LINE__
     );
   }
 
-  mu::tiny::test::TestShell* first_test()
+  mu::tiny::test::Shell* first_test()
   {
     return fixture->get_registry()->get_first_test();
   }
 
-  mu::tiny::test::TestShell* second_test() { return first_test()->get_next(); }
+  mu::tiny::test::Shell* second_test() { return first_test()->get_next(); }
 };
 
 TEST(OrderedTest, TestInstallerSetsFields)
 {
-  mu::tiny::test::OrderedTestInstaller installer(
+  mu::tiny::test::OrderedInstaller installer(
       ordered_test, "testgroup", "testname", "this.cpp", 10, 5
   );
   STRCMP_EQUAL("testgroup", ordered_test.get_group());
@@ -109,7 +109,7 @@ TEST(OrderedTest, MultipleOrderedTests)
   install_normal_test(normal_test3);
   install_ordered_test(ordered_test3, 7);
 
-  mu::tiny::test::TestShell* first_ordered_test =
+  mu::tiny::test::Shell* first_ordered_test =
       first_test()->get_next()->get_next()->get_next();
   CHECK(first_ordered_test == &ordered_test2);
   CHECK(first_ordered_test->get_next() == &ordered_test);

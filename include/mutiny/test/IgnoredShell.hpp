@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_IGNOREDTESTSHELL_HPP
-#define INCLUDED_MUTINY_IGNOREDTESTSHELL_HPP
+#ifndef INCLUDED_MUTINY_TEST_IGNOREDSHELL_HPP
+#define INCLUDED_MUTINY_TEST_IGNOREDSHELL_HPP
 
 #include "mutiny/test/Shell.hpp"
 
@@ -7,25 +7,25 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class IgnoredTestShell : public TestShell
+class IgnoredShell : public Shell
 {
 public:
-  IgnoredTestShell();
-  ~IgnoredTestShell() override = default;
-  explicit IgnoredTestShell(
+  IgnoredShell();
+  ~IgnoredShell() override = default;
+  explicit IgnoredShell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   );
-  IgnoredTestShell(const IgnoredTestShell&) = delete;
-  IgnoredTestShell& operator=(const IgnoredTestShell&) = delete;
+  IgnoredShell(const IgnoredShell&) = delete;
+  IgnoredShell& operator=(const IgnoredShell&) = delete;
   bool will_run() const override;
   void set_run_ignored() override;
 
 protected:
   String get_macro_name() const override;
-  void run_one_test(TestPlugin* plugin, TestResult& result) override;
+  void run_one_test(Plugin* plugin, Result& result) override;
 
 private:
   bool run_ignored_;

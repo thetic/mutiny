@@ -1,31 +1,31 @@
-#ifndef INCLUDED_MUTINY_TESTPLUGIN_HPP
-#define INCLUDED_MUTINY_TESTPLUGIN_HPP
+#ifndef INCLUDED_MUTINY_TEST_PLUGIN_HPP
+#define INCLUDED_MUTINY_TEST_PLUGIN_HPP
 
 /**
- * @file TestPlugin.hpp
+ * @file Plugin.hpp
  * @brief Extension point for running code before/after every test.
  *
- * Subclass TestPlugin to intercept the test lifecycle, contribute a custom
- * TestOutput, or handle extra command-line arguments. Plugins form a
- * singly-linked list; install them with CommandLineTestRunner before calling
+ * Subclass Plugin to intercept the test lifecycle, contribute a custom
+ * Output, or handle extra command-line arguments. Plugins form a
+ * singly-linked list; install them with CommandLineRunner before calling
  * run_all_tests_main().
  *
  * @code
- * class TimingPlugin : public mu::tiny::test::TestPlugin {
+ * class TimingPlugin : public mu::tiny::test::Plugin {
  * public:
- *   TimingPlugin() : TestPlugin("TimingPlugin") {}
- *   void pre_test_action(mu::tiny::test::TestShell&,
- * mu::tiny::test::TestResult&) override { start_ = clock();
+ *   TimingPlugin() : Plugin("TimingPlugin") {}
+ *   void pre_test_action(mu::tiny::test::Shell&,
+ * mu::tiny::test::Result&) override { start_ = clock();
  *   }
- *   void post_test_action(mu::tiny::test::TestShell&,
- * mu::tiny::test::TestResult&) override { record(clock() - start_);
+ *   void post_test_action(mu::tiny::test::Shell&,
+ * mu::tiny::test::Result&) override { record(clock() - start_);
  *   }
  * private:
  *   clock_t start_;
  * };
  * @endcode
  *
- * @see MockSupportPlugin, SetPointerPlugin
+ * @see SupportPlugin, SetPointerPlugin
  */
 
 #include "mutiny/test/String.hpp"
@@ -34,9 +34,9 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class TestOutput;
-class TestShell;
-class TestResult;
+class Output;
+class Shell;
+class Result;
 
 /**
  * @brief Base class for test lifecycle extensions.
@@ -45,7 +45,7 @@ class TestResult;
  * post_test_action(), and parse_arguments() calls propagate through the
  * entire chain automatically via the run_all_*() and parse_all_*() helpers.
  */
-class TestPlugin
+class Plugin
 {
 public:
   /**
@@ -53,8 +53,8 @@ public:
    *
    * @param name  Identifier used for logging and retrieval by name.
    */
-  TestPlugin(const String& name);
-  virtual ~TestPlugin() = default;
+  Plugin(const String& name);
+  virtual ~Plugin() = default;
 
   /**
    * @brief Called once before each test body executes.
@@ -64,7 +64,7 @@ public:
    * @param test    The test shell about to run.
    * @param result  The active test result accumulator.
    */
-  virtual void pre_test_action(TestShell& test, TestResult& result);
+  virtual void pre_test_action(Shell& test, Result& result);
 
   /**
    * @brief Called once after each test body completes (pass or fail).
@@ -75,7 +75,7 @@ public:
    * @param test    The test shell that just ran.
    * @param result  The active test result accumulator.
    */
-  virtual void post_test_action(TestShell& test, TestResult& result);
+  virtual void post_test_action(Shell& test, Result& result);
 
   /**
    * @brief Handle a custom command-line argument.
@@ -98,11 +98,11 @@ public:
   virtual String get_help() const { return ""; }
 
   /**
-   * @brief Create a TestOutput for this plugin, if any.
+   * @brief Create a Output for this plugin, if any.
    *
-   * @return A new TestOutput, or nullptr if this plugin produces no output.
+   * @return A new Output, or nullptr if this plugin produces no output.
    */
-  virtual TestOutput* create_output() { return nullptr; }
+  virtual Output* create_output() { return nullptr; }
 
   /**
    * @brief Collect all outputs from the plugin chain.
@@ -110,16 +110,16 @@ public:
    * Calls create_output() on each enabled plugin in the chain and wires them
    * together as a composite output.
    *
-   * @return Combined TestOutput for the entire plugin chain.
+   * @return Combined Output for the entire plugin chain.
    */
-  virtual TestOutput* create_all_outputs();
+  virtual Output* create_all_outputs();
 
   /** @brief Invoke pre_test_action() on this plugin and all following plugins.
    */
-  virtual void run_all_pre_test_action(TestShell& test, TestResult& result);
+  virtual void run_all_pre_test_action(Shell& test, Result& result);
   /** @brief Invoke post_test_action() on this plugin and all following plugins.
    */
-  virtual void run_all_post_test_action(TestShell& test, TestResult& result);
+  virtual void run_all_post_test_action(Shell& test, Result& result);
 
   /**
    * @brief Invoke parse_arguments() on each plugin in the chain.
@@ -151,7 +151,7 @@ public:
    * @param plugin  Plugin to add; must not already be in a chain.
    * @return @p plugin.
    */
-  virtual TestPlugin* add_plugin(TestPlugin* plugin);
+  virtual Plugin* add_plugin(Plugin* plugin);
 
   /**
    * @brief Remove the first plugin with the given @p name from the chain.
@@ -159,10 +159,10 @@ public:
    * @param name  Name to search for.
    * @return The removed plugin, or nullptr if not found.
    */
-  virtual TestPlugin* remove_plugin_by_name(const String& name);
+  virtual Plugin* remove_plugin_by_name(const String& name);
 
   /** @return The next plugin in the chain, or nullptr. */
-  virtual TestPlugin* get_next();
+  virtual Plugin* get_next();
 
   /** @brief Disable this plugin (pre_test_action/post_test_action become
    * no-ops). */
@@ -181,7 +181,7 @@ public:
    * @param name  Name to search for.
    * @return Pointer to the matching plugin, or nullptr.
    */
-  TestPlugin* get_plugin_by_name(const String& name);
+  Plugin* get_plugin_by_name(const String& name);
 
 protected:
   /**
@@ -190,10 +190,10 @@ protected:
    *
    * @param next  Pointer to the next plugin in the list.
    */
-  TestPlugin(TestPlugin* next);
+  Plugin(Plugin* next);
 
 private:
-  TestPlugin* next_;
+  Plugin* next_;
   String name_;
   bool enabled_;
 };

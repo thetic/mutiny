@@ -1,9 +1,10 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/JUnitOutput.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/String.hpp"
 #include "mutiny/test/StringCollection.hpp"
 #include "mutiny/test/time.hpp"
+
+#include "mutiny/test.hpp"
 
 namespace {
 
@@ -124,18 +125,18 @@ struct PendingProperty
 
 class JUnitTestOutputTestRunner
 {
-  mu::tiny::test::TestResult result_;
+  mu::tiny::test::Result result_;
 
   const char* current_group_name_{ nullptr };
-  mu::tiny::test::TestShell* current_test_{ nullptr };
+  mu::tiny::test::Shell* current_test_{ nullptr };
   bool first_test_in_group_{ true };
   unsigned int time_the_test_takes_{ 0 };
   unsigned int number_of_checks_in_test_{ 0 };
-  mu::tiny::test::TestFailure* test_failure_{ nullptr };
+  mu::tiny::test::Failure* test_failure_{ nullptr };
   PendingProperty* pending_properties_{ nullptr };
 
 public:
-  explicit JUnitTestOutputTestRunner(const mu::tiny::test::TestResult& result)
+  explicit JUnitTestOutputTestRunner(const mu::tiny::test::Result& result)
     : result_(result)
 
   {
@@ -192,9 +193,8 @@ public:
     run_previous_test();
     delete current_test_;
 
-    current_test_ = new mu::tiny::test::TestShell(
-        current_group_name_, test_name, "file", 1
-    );
+    current_test_ =
+        new mu::tiny::test::Shell(current_group_name_, test_name, "file", 1);
     return *this;
   }
 
@@ -203,7 +203,7 @@ public:
     run_previous_test();
     delete current_test_;
 
-    current_test_ = new mu::tiny::test::IgnoredTestShell(
+    current_test_ = new mu::tiny::test::IgnoredShell(
         current_group_name_, test_name, "file", 1
     );
     return *this;
@@ -281,15 +281,15 @@ public:
   )
   {
     test_failure_ =
-        new mu::tiny::test::TestFailure(current_test_, file, line, message);
+        new mu::tiny::test::Failure(current_test_, file, line, message);
     return *this;
   }
 
 #if MUTINY_HAVE_EXCEPTIONS
   JUnitTestOutputTestRunner& that_errors()
   {
-    // NOLINTNEXTLINE(bugprone-throw-keyword-missing)
     test_failure_ =
+        // NOLINTNEXTLINE(bugprone-throw-keyword-missing)
         new mu::tiny::test::UnexpectedExceptionFailure(current_test_);
     return *this;
   }
@@ -325,10 +325,7 @@ public:
 FileSystemForJUnitTestOutputTests file_system;
 FileForJUnitTestOutputs* current_file = nullptr;
 
-mu::tiny::test::JUnitTestOutput::File mock_f_open(
-    const char* filename,
-    const char*
-)
+mu::tiny::test::JUnitOutput::File mock_f_open(const char* filename, const char*)
 {
   current_file = file_system.open_file(filename);
   return current_file;
@@ -336,9 +333,9 @@ mu::tiny::test::JUnitTestOutput::File mock_f_open(
 
 void (*original_f_puts)(
     const char* str,
-    mu::tiny::test::JUnitTestOutput::File file
+    mu::tiny::test::JUnitOutput::File file
 );
-void mock_f_puts(const char* str, mu::tiny::test::JUnitTestOutput::File file)
+void mock_f_puts(const char* str, mu::tiny::test::JUnitOutput::File file)
 {
   if (file == current_file) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
@@ -347,7 +344,7 @@ void mock_f_puts(const char* str, mu::tiny::test::JUnitTestOutput::File file)
   }
 }
 
-void mock_f_close(mu::tiny::test::JUnitTestOutput::File file)
+void mock_f_close(mu::tiny::test::JUnitOutput::File file)
 {
   current_file = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
@@ -355,21 +352,21 @@ void mock_f_close(mu::tiny::test::JUnitTestOutput::File file)
 
 } // namespace
 
-TEST_GROUP(JUnitTestOutput)
+TEST_GROUP(JUnitOutput)
 {
-  mu::tiny::test::JUnitTestOutput* junit_output;
-  mu::tiny::test::TestResult* result;
+  mu::tiny::test::JUnitOutput* junit_output;
+  mu::tiny::test::Result* result;
   JUnitTestOutputTestRunner* test_case_runner;
   FileForJUnitTestOutputs* output_file;
 
   void setup() override
   {
-    MUTINY_PTR_SET(mu::tiny::test::JUnitTestOutput::fopen_, mock_f_open);
-    original_f_puts = mu::tiny::test::JUnitTestOutput::fputs_;
-    MUTINY_PTR_SET(mu::tiny::test::JUnitTestOutput::fputs_, mock_f_puts);
-    MUTINY_PTR_SET(mu::tiny::test::JUnitTestOutput::fclose_, mock_f_close);
-    junit_output = new mu::tiny::test::JUnitTestOutput();
-    result = new mu::tiny::test::TestResult(*junit_output);
+    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fopen_, mock_f_open);
+    original_f_puts = mu::tiny::test::JUnitOutput::fputs_;
+    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fputs_, mock_f_puts);
+    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fclose_, mock_f_close);
+    junit_output = new mu::tiny::test::JUnitOutput();
+    result = new mu::tiny::test::Result(*junit_output);
     test_case_runner = new JUnitTestOutputTestRunner(*result);
   }
 
@@ -382,7 +379,7 @@ TEST_GROUP(JUnitTestOutput)
   }
 };
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
+TEST(JUnitOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -390,7 +387,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
   CHECK(file_system.file_exists("mutiny_groupname.xml"));
 }
 
-TEST(JUnitTestOutput, withReservedCharactersInPackageOrTestGroupUsesUnderscoresForFileName)
+TEST(JUnitOutput, withReservedCharactersInPackageOrTestGroupUsesUnderscoresForFileName)
 {
   junit_output->set_package_name("p/a\\c?k%a*g:e|n\"a<m>e.");
   test_case_runner->start()
@@ -403,7 +400,7 @@ TEST(JUnitTestOutput, withReservedCharactersInPackageOrTestGroupUsesUnderscoresF
   ));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
+TEST(JUnitOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -413,7 +410,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
   );
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlocks)
+TEST(JUnitOutput, withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlocks)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -427,7 +424,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlock
   STRCMP_EQUAL("</testsuite>\n", output_file->line_from_the_back(1));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyPropertiesBlock)
+TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyPropertiesBlock)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -436,7 +433,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyProperti
   STRCMP_EQUAL("</properties>\n", output_file->line(4));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBlock)
+TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBlock)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -446,7 +443,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBl
   );
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStderrBlock)
+TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStderrBlock)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -456,7 +453,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStderrBl
   );
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock)
+TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
@@ -470,7 +467,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock
   STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndCorrectTestCaseBlock)
+TEST(JUnitOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndCorrectTestCaseBlock)
 {
   test_case_runner->start()
       .with_group("twoTestsGroup")
@@ -500,7 +497,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlock
   STRCMP_EQUAL("</testcase>\n", output_file->line(8));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
+TEST(JUnitOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
 {
   test_case_runner->start()
       .at_time("2013-07-04T22:28:00")
@@ -520,7 +517,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
   );
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
+TEST(JUnitOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
 {
   test_case_runner->start()
       .with_group("twoTestsGroup")
@@ -553,7 +550,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
   STRCMP_EQUAL("</testcase>\n", output_file->line(8));
 }
 
-TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
+TEST(JUnitOutput, withOneTestGroupAndOneFailingTest)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -584,7 +581,7 @@ TEST(JUnitTestOutput, withOneTestGroupAndOneFailingTest)
   STRCMP_EQUAL("</testcase>\n", output_file->line(9));
 }
 
-TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
+TEST(JUnitOutput, withTwoTestGroupAndOneFailingTest)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -614,7 +611,7 @@ TEST(JUnitTestOutput, withTwoTestGroupAndOneFailingTest)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithLessThanAndGreaterThanInsideIt)
+TEST(JUnitOutput, testFailureWithLessThanAndGreaterThanInsideIt)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -631,7 +628,7 @@ TEST(JUnitTestOutput, testFailureWithLessThanAndGreaterThanInsideIt)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithQuotesInIt)
+TEST(JUnitOutput, testFailureWithQuotesInIt)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -648,7 +645,7 @@ TEST(JUnitTestOutput, testFailureWithQuotesInIt)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithNewlineInIt)
+TEST(JUnitOutput, testFailureWithNewlineInIt)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -665,7 +662,7 @@ TEST(JUnitTestOutput, testFailureWithNewlineInIt)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithDifferentFileAndLine)
+TEST(JUnitOutput, testFailureWithDifferentFileAndLine)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -682,7 +679,7 @@ TEST(JUnitTestOutput, testFailureWithDifferentFileAndLine)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithAmpersandsAndLessThan)
+TEST(JUnitOutput, testFailureWithAmpersandsAndLessThan)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -699,7 +696,7 @@ TEST(JUnitTestOutput, testFailureWithAmpersandsAndLessThan)
   );
 }
 
-TEST(JUnitTestOutput, testFailureWithAmpersands)
+TEST(JUnitOutput, testFailureWithAmpersands)
 {
   test_case_runner->start()
       .with_group("testGroupWithFailingTest")
@@ -716,7 +713,7 @@ TEST(JUnitTestOutput, testFailureWithAmpersands)
   );
 }
 
-TEST(JUnitTestOutput, aCoupleOfTestFailures)
+TEST(JUnitOutput, aCoupleOfTestFailures)
 {
   test_case_runner->start()
       .with_group("testGroup")
@@ -742,7 +739,7 @@ TEST(JUnitTestOutput, aCoupleOfTestFailures)
   );
 }
 
-TEST(JUnitTestOutput, testFailuresInSeparateGroups)
+TEST(JUnitOutput, testFailuresInSeparateGroups)
 {
   test_case_runner->start()
       .with_group("testGroup")
@@ -769,7 +766,7 @@ TEST(JUnitTestOutput, testFailuresInSeparateGroups)
   );
 }
 
-TEST(JUnitTestOutput, twoTestGroupsWriteToTwoDifferentFiles)
+TEST(JUnitOutput, twoTestGroupsWriteToTwoDifferentFiles)
 {
   test_case_runner->start()
       .with_group("firstTestGroup")
@@ -782,7 +779,7 @@ TEST(JUnitTestOutput, twoTestGroupsWriteToTwoDifferentFiles)
   CHECK(file_system.file("mutiny_secondTestGroup.xml") != nullptr);
 }
 
-TEST(JUnitTestOutput, testGroupWithWeirdName)
+TEST(JUnitOutput, testGroupWithWeirdName)
 {
   STRCMP_EQUAL(
       "mutiny_group_weird_name.xml",
@@ -790,7 +787,7 @@ TEST(JUnitTestOutput, testGroupWithWeirdName)
   );
 }
 
-TEST(JUnitTestOutput, TestCaseBlockWithAPackageName)
+TEST(JUnitOutput, TestCaseBlockWithAPackageName)
 {
   junit_output->set_package_name("packagename");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
@@ -805,7 +802,7 @@ TEST(JUnitTestOutput, TestCaseBlockWithAPackageName)
   STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 
-TEST(JUnitTestOutput, TestCaseBlockForIgnoredTest)
+TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
 {
   junit_output->set_package_name("packagename");
   test_case_runner->start()
@@ -824,7 +821,7 @@ TEST(JUnitTestOutput, TestCaseBlockForIgnoredTest)
   STRCMP_EQUAL("</testcase>\n", output_file->line(7));
 }
 
-TEST(JUnitTestOutput, TestCaseWithTestLocation)
+TEST(JUnitOutput, TestCaseWithTestLocation)
 {
   junit_output->set_package_name("packagename");
   test_case_runner->start()
@@ -843,7 +840,7 @@ TEST(JUnitTestOutput, TestCaseWithTestLocation)
   );
 }
 
-TEST(JUnitTestOutput, MultipleTestCaseWithTestLocations)
+TEST(JUnitOutput, MultipleTestCaseWithTestLocations)
 {
   test_case_runner->start()
       .with_group("twoTestsGroup")
@@ -871,7 +868,7 @@ TEST(JUnitTestOutput, MultipleTestCaseWithTestLocations)
   );
 }
 
-TEST(JUnitTestOutput, TestCaseBlockWithAssertions)
+TEST(JUnitOutput, TestCaseBlockWithAssertions)
 {
   junit_output->set_package_name("packagename");
   test_case_runner->start()
@@ -889,7 +886,7 @@ TEST(JUnitTestOutput, TestCaseBlockWithAssertions)
   );
 }
 
-TEST(JUnitTestOutput, MultipleTestCaseBlocksWithAssertions)
+TEST(JUnitOutput, MultipleTestCaseBlocksWithAssertions)
 {
   test_case_runner->start()
       .with_group("twoTestsGroup")
@@ -913,7 +910,7 @@ TEST(JUnitTestOutput, MultipleTestCaseBlocksWithAssertions)
   );
 }
 
-TEST(JUnitTestOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
+TEST(JUnitOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
 {
   test_case_runner->start()
       .with_group("groupOne")
@@ -940,7 +937,7 @@ TEST(JUnitTestOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
   );
 }
 
-TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutput)
+TEST(JUnitOutput, UTPRINTOutputInJUnitOutput)
 {
   test_case_runner->start()
       .with_group("groupname")
@@ -955,7 +952,7 @@ TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutput)
   );
 }
 
-TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutputWithSpecials)
+TEST(JUnitOutput, UTPRINTOutputInJUnitOutputWithSpecials)
 {
   test_case_runner->start()
       .with_group("groupname")
@@ -974,7 +971,7 @@ TEST(JUnitTestOutput, UTPRINTOutputInJUnitOutputWithSpecials)
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
-TEST(JUnitTestOutput, unexpectedExceptionCountsAsErrorNotFailure)
+TEST(JUnitOutput, unexpectedExceptionCountsAsErrorNotFailure)
 {
   test_case_runner->start()
       .with_group("errorGroup")
@@ -991,7 +988,7 @@ TEST(JUnitTestOutput, unexpectedExceptionCountsAsErrorNotFailure)
   );
 }
 
-TEST(JUnitTestOutput, unexpectedExceptionEmitsErrorElement)
+TEST(JUnitOutput, unexpectedExceptionEmitsErrorElement)
 {
   test_case_runner->start()
       .with_group("errorGroup")
@@ -1011,7 +1008,7 @@ TEST(JUnitTestOutput, unexpectedExceptionEmitsErrorElement)
   STRCMP_EQUAL("</error>\n", output_file->line(8));
 }
 
-TEST(JUnitTestOutput, errorCountResetBetweenGroups)
+TEST(JUnitOutput, errorCountResetBetweenGroups)
 {
   test_case_runner->start()
       .with_group("errorGroup")
@@ -1030,7 +1027,7 @@ TEST(JUnitTestOutput, errorCountResetBetweenGroups)
   );
 }
 
-TEST(JUnitTestOutput, mixedErrorAndFailureCountedSeparately)
+TEST(JUnitOutput, mixedErrorAndFailureCountedSeparately)
 {
   test_case_runner->start()
       .with_group("mixedGroup")
@@ -1050,7 +1047,7 @@ TEST(JUnitTestOutput, mixedErrorAndFailureCountedSeparately)
 }
 #endif
 
-TEST(JUnitTestOutput, testWithOnePropertyEmitsPropertiesBlock)
+TEST(JUnitOutput, testWithOnePropertyEmitsPropertiesBlock)
 {
   test_case_runner->start()
       .with_group("propGroup")
@@ -1072,7 +1069,7 @@ TEST(JUnitTestOutput, testWithOnePropertyEmitsPropertiesBlock)
   STRCMP_EQUAL("</testcase>\n", output_file->line(9));
 }
 
-TEST(JUnitTestOutput, testWithMultiplePropertiesEmitsAllInOrder)
+TEST(JUnitOutput, testWithMultiplePropertiesEmitsAllInOrder)
 {
   test_case_runner->start()
       .with_group("propGroup")
@@ -1092,7 +1089,7 @@ TEST(JUnitTestOutput, testWithMultiplePropertiesEmitsAllInOrder)
   STRCMP_EQUAL("</properties>\n", output_file->line(9));
 }
 
-TEST(JUnitTestOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
+TEST(JUnitOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
 {
   test_case_runner->start()
       .with_group("noPropGroup")
@@ -1108,7 +1105,7 @@ TEST(JUnitTestOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
   STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 
-TEST(JUnitTestOutput, testPropertyNameAndValueAreXmlEncoded)
+TEST(JUnitOutput, testPropertyNameAndValueAreXmlEncoded)
 {
   test_case_runner->start()
       .with_group("encodeGroup")
@@ -1123,7 +1120,7 @@ TEST(JUnitTestOutput, testPropertyNameAndValueAreXmlEncoded)
   );
 }
 
-TEST(JUnitTestOutput, propertiesAccumulateCorrectlyAcrossGroups)
+TEST(JUnitOutput, propertiesAccumulateCorrectlyAcrossGroups)
 {
   test_case_runner->start()
       .with_group("groupA")

@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_CONSOLETESTOUTPUT_HPP
-#define INCLUDED_MUTINY_CONSOLETESTOUTPUT_HPP
+#ifndef INCLUDED_MUTINY_TEST_CONSOLEOUTPUT_HPP
+#define INCLUDED_MUTINY_TEST_CONSOLEOUTPUT_HPP
 
 #include "mutiny/test/Output.hpp"
 
@@ -13,17 +13,17 @@ namespace test {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-class ConsoleTestOutput : public TestOutput
+class ConsoleOutput : public Output
 {
 public:
-  explicit ConsoleTestOutput() = default;
-  ~ConsoleTestOutput() override = default;
+  explicit ConsoleOutput() = default;
+  ~ConsoleOutput() override = default;
 
   void print_buffer(const char* s) override;
   void flush() override;
 
-  ConsoleTestOutput(const ConsoleTestOutput&) = delete;
-  ConsoleTestOutput& operator=(const ConsoleTestOutput&) = delete;
+  ConsoleOutput(const ConsoleOutput&) = delete;
+  ConsoleOutput& operator=(const ConsoleOutput&) = delete;
 };
 
 }

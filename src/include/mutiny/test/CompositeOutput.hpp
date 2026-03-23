@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_COMPOSITETESTOUTPUT_HPP
-#define INCLUDED_MUTINY_COMPOSITETESTOUTPUT_HPP
+#ifndef INCLUDED_MUTINY_TEST_COMPOSITEOUTPUT_HPP
+#define INCLUDED_MUTINY_TEST_COMPOSITEOUTPUT_HPP
 
 #include "mutiny/test/Output.hpp"
 
@@ -7,22 +7,22 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-class CompositeTestOutput : public TestOutput
+class CompositeOutput : public Output
 {
 public:
-  virtual void set_output_one(TestOutput* output);
-  virtual void set_output_two(TestOutput* output);
+  virtual void set_output_one(Output* output);
+  virtual void set_output_two(Output* output);
 
-  CompositeTestOutput();
-  ~CompositeTestOutput() override;
+  CompositeOutput();
+  ~CompositeOutput() override;
 
   void print_tests_started() override;
-  void print_tests_ended(const TestResult& result) override;
+  void print_tests_ended(const Result& result) override;
 
-  void print_current_test_started(const TestShell& test) override;
-  void print_current_test_ended(const TestResult& res) override;
-  void print_current_group_started(const TestShell& test) override;
-  void print_current_group_ended(const TestResult& res) override;
+  void print_current_test_started(const Shell& test) override;
+  void print_current_test_ended(const Result& res) override;
+  void print_current_group_started(const Shell& test) override;
+  void print_current_group_ended(const Result& res) override;
 
   void verbose(VerbosityLevel level) override;
   void color() override;
@@ -31,7 +31,7 @@ public:
   void print(long) override;
   void print(size_t) override;
   void print_double(double) override;
-  void print_failure(const TestFailure& failure) override;
+  void print_failure(const Failure& failure) override;
   void set_progress_indicator(const char*) override;
 
   void print_very_verbose(const char*) override;
@@ -39,12 +39,12 @@ public:
   void flush() override;
 
 protected:
-  CompositeTestOutput(const TestOutput&);
-  CompositeTestOutput& operator=(const TestOutput&);
+  CompositeOutput(const Output&);
+  CompositeOutput& operator=(const Output&);
 
 private:
-  TestOutput* output_one_;
-  TestOutput* output_two_;
+  Output* output_one_;
+  Output* output_two_;
 };
 
 }

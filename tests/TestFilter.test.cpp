@@ -1,37 +1,38 @@
-#include "mutiny/test.hpp"
 #include "mutiny/test/Filter.hpp"
 
-TEST_GROUP(TestFilter)
+#include "mutiny/test.hpp"
+
+TEST_GROUP(Filter)
 {};
 
-TEST(TestFilter, emptyFilterMatchesEverything)
+TEST(Filter, emptyFilterMatchesEverything)
 {
-  mu::tiny::test::TestFilter filter;
+  mu::tiny::test::Filter filter;
   CHECK(filter.match("random_name"));
   CHECK(filter.match(""));
   CHECK(filter.match("*&%#^&%$(*&^@#(&*@#^(&*$^@#"));
 }
 
-TEST(TestFilter, defaultAbsoluteMismatches)
+TEST(Filter, defaultAbsoluteMismatches)
 {
-  mu::tiny::test::TestFilter filter("filtername");
+  mu::tiny::test::Filter filter("filtername");
   CHECK(!filter.match("notevenclose"));
   CHECK(!filter.match("filterrname"));
   CHECK(!filter.match(""));
 }
 
-TEST(TestFilter, strictMatching)
+TEST(Filter, strictMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.strict_matching();
   CHECK(filter.match("filter"));
   CHECK(!filter.match("filterr"));
   CHECK(!filter.match(" filter"));
 }
 
-TEST(TestFilter, invertMatching)
+TEST(Filter, invertMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.invert_matching();
   CHECK(!filter.match("filter"));
   CHECK(!filter.match("filterr"));
@@ -39,9 +40,9 @@ TEST(TestFilter, invertMatching)
   CHECK(filter.match(""));
 }
 
-TEST(TestFilter, invertStrictMatching)
+TEST(Filter, invertStrictMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.invert_matching();
   filter.strict_matching();
   CHECK(!filter.match("filter"));
@@ -49,102 +50,102 @@ TEST(TestFilter, invertStrictMatching)
   CHECK(filter.match(" filter"));
 }
 
-TEST(TestFilter, equality)
+TEST(Filter, equality)
 {
-  mu::tiny::test::TestFilter filter1("filter");
-  mu::tiny::test::TestFilter filter2("filter");
-  mu::tiny::test::TestFilter filter3("filter3");
+  mu::tiny::test::Filter filter1("filter");
+  mu::tiny::test::Filter filter2("filter");
+  mu::tiny::test::Filter filter3("filter3");
   CHECK(filter1 == filter2);
   CHECK(!(filter1 == filter3));
 }
 
-TEST(TestFilter, equalityWithStrictness)
+TEST(Filter, equalityWithStrictness)
 {
-  mu::tiny::test::TestFilter filter1("filter");
-  mu::tiny::test::TestFilter filter2("filter");
+  mu::tiny::test::Filter filter1("filter");
+  mu::tiny::test::Filter filter2("filter");
   filter2.strict_matching();
   CHECK(!(filter1 == filter2));
 }
 
-TEST(TestFilter, equalityWithInvertion)
+TEST(Filter, equalityWithInvertion)
 {
-  mu::tiny::test::TestFilter filter1("filter");
-  mu::tiny::test::TestFilter filter2("filter");
+  mu::tiny::test::Filter filter1("filter");
+  mu::tiny::test::Filter filter2("filter");
   filter2.invert_matching();
   CHECK(!(filter1 == filter2));
 }
 
-TEST(TestFilter, notEqual)
+TEST(Filter, notEqual)
 {
-  mu::tiny::test::TestFilter filter1("filter");
-  mu::tiny::test::TestFilter filter2("filter");
-  mu::tiny::test::TestFilter filter3("filter3");
+  mu::tiny::test::Filter filter1("filter");
+  mu::tiny::test::Filter filter2("filter");
+  mu::tiny::test::Filter filter3("filter3");
   CHECK(filter1 != filter3);
   CHECK(!(filter1 != filter2));
 }
 
-TEST(TestFilter, stringFrom)
+TEST(Filter, stringFrom)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   STRCMP_EQUAL(
-      "TestFilter: \"filter\"", mu::tiny::test::string_from(filter).c_str()
+      "Filter: \"filter\"", mu::tiny::test::string_from(filter).c_str()
   );
 }
 
-TEST(TestFilter, stringFromWithStrictMatching)
+TEST(Filter, stringFromWithStrictMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.strict_matching();
   STRCMP_EQUAL(
-      "TestFilter: \"filter\" with strict matching",
+      "Filter: \"filter\" with strict matching",
       mu::tiny::test::string_from(filter).c_str()
   );
 }
 
-TEST(TestFilter, stringFromWithInvertMatching)
+TEST(Filter, stringFromWithInvertMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.invert_matching();
   STRCMP_EQUAL(
-      "TestFilter: \"filter\" with invert matching",
+      "Filter: \"filter\" with invert matching",
       mu::tiny::test::string_from(filter).c_str()
   );
 }
 
-TEST(TestFilter, stringFromWithStrictInvertMatching)
+TEST(Filter, stringFromWithStrictInvertMatching)
 {
-  mu::tiny::test::TestFilter filter("filter");
+  mu::tiny::test::Filter filter("filter");
   filter.strict_matching();
   filter.invert_matching();
   STRCMP_EQUAL(
-      "TestFilter: \"filter\" with strict, invert matching",
+      "Filter: \"filter\" with strict, invert matching",
       mu::tiny::test::string_from(filter).c_str()
   );
 }
 
-TEST(TestFilter, listOfFilters)
+TEST(Filter, listOfFilters)
 {
-  mu::tiny::test::TestFilter* list_of_filters = nullptr;
-  mu::tiny::test::TestFilter first("foo");
-  mu::tiny::test::TestFilter secnd("bar");
+  mu::tiny::test::Filter* list_of_filters = nullptr;
+  mu::tiny::test::Filter first("foo");
+  mu::tiny::test::Filter secnd("bar");
   list_of_filters = first.add(list_of_filters);
   list_of_filters = secnd.add(list_of_filters);
-  mu::tiny::test::TestFilter* current = list_of_filters;
+  mu::tiny::test::Filter* current = list_of_filters;
   STRCMP_EQUAL(
-      "TestFilter: \"bar\"", mu::tiny::test::string_from(*current).c_str()
+      "Filter: \"bar\"", mu::tiny::test::string_from(*current).c_str()
   );
   current = current->get_next();
   STRCMP_EQUAL(
-      "TestFilter: \"foo\"", mu::tiny::test::string_from(*current).c_str()
+      "Filter: \"foo\"", mu::tiny::test::string_from(*current).c_str()
   );
   POINTERS_EQUAL(nullptr, current->get_next());
 }
 
-TEST(TestFilter, constructors)
+TEST(Filter, constructors)
 {
-  mu::tiny::test::TestFilter filter1;
-  mu::tiny::test::TestFilter filter2(mu::tiny::test::String("a"));
-  mu::tiny::test::TestFilter filter3("a");
+  mu::tiny::test::Filter filter1;
+  mu::tiny::test::Filter filter2(mu::tiny::test::String("a"));
+  mu::tiny::test::Filter filter3("a");
   CHECK(filter1.get_next() == nullptr);
   CHECK(filter2.get_next() == nullptr);
   CHECK(filter3.get_next() == nullptr);

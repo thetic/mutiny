@@ -68,12 +68,12 @@ TEST(MockHierarchy, ExpectedCallsLeftWorksHierarchically)
 
 TEST(MockHierarchy, checkExpectationsWorksHierarchically)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("first::foobar");
   expectations.add_function("second::helloworld");
-  mu::tiny::mock::MockExpectedCallsDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
       mock_failure_test(), expectations
   );
 
@@ -103,11 +103,11 @@ TEST(MockHierarchy, ignoreOtherCallsWorksHierarchicallyWhenDynamicallyCreated)
 
 TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
+  FailureReporterInstaller failure_reporter_installer;
 
-  MockExpectedCallsListForTest expectations;
+  ExpectedCallsListForTest expectations;
   expectations.add_function("first::foobar")->with_parameter("boo", 1);
-  mu::tiny::mock::MockExpectedParameterDidntHappenFailure expected_failure(
+  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
       mock_failure_test(), "first::foobar", expectations, expectations
   );
 
@@ -120,12 +120,12 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 
 TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 {
-  MockFailureReporterInstaller failure_reporter_installer;
-  MockExpectedCallsListForTest expectations;
+  FailureReporterInstaller failure_reporter_installer;
+  ExpectedCallsListForTest expectations;
 
   mock("differentScope").actual_call("foobar");
 
-  mu::tiny::mock::MockUnexpectedCallHappenedFailure expected_failure(
+  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
       mock_failure_test(), "differentScope::foobar", expectations
   );
   CHECK_EXPECTED_MOCK_FAILURE(expected_failure);

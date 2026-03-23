@@ -1,8 +1,9 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 
-#include "mutiny/test.hpp"
 #include "mutiny/test/CommandLineRunner.hpp"
 #include "mutiny/test/Registry.hpp"
+
+#include "mutiny/test.hpp"
 
 #if MUTINY_HAVE_FENV
 

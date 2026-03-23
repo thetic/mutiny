@@ -27,7 +27,7 @@ public:
   }
 };
 
-class EventComparator : public mu::tiny::mock::MockNamedValueComparator
+class EventComparator : public mu::tiny::mock::NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override

@@ -1,21 +1,21 @@
-#ifndef INCLUDED_MUTINY_MOCKNAMEDVALUECOMPARATOR_HPP
-#define INCLUDED_MUTINY_MOCKNAMEDVALUECOMPARATOR_HPP
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
 
 /**
- * @file MockNamedValueComparator.hpp
+ * @file NamedValueComparator.hpp
  * @brief Interface and helpers for comparing mock parameters of custom types.
  *
  * When a mock expectation is set with with_parameter_of_type(), the framework
  * needs to know how to compare the expected value against the actual value.
- * Implement MockNamedValueComparator for your type and register it with
- * MockSupport::install_comparator().
+ * Implement NamedValueComparator for your type and register it with
+ * Support::install_comparator().
  *
  * Three concrete implementations are provided:
- * - MockFunctionComparator — wraps plain function pointers
+ * - FunctionComparator — wraps plain function pointers
  * - TypedMockComparator<T> — uses T::operator== and string_from()
  *
  * @code
- * struct PointComparator : mu::tiny::mock::MockNamedValueComparator {
+ * struct PointComparator : mu::tiny::mock::NamedValueComparator {
  *   bool is_equal(const void* a, const void* b) override {
  *     return *static_cast<const Point*>(a) == *static_cast<const Point*>(b);
  *   }
@@ -28,7 +28,7 @@
  * mock().install_comparator("Point", comparator);
  * @endcode
  *
- * @see MockSupport::install_comparator(), MockNamedValueCopier
+ * @see Support::install_comparator(), NamedValueCopier
  */
 
 #include "mutiny/test/String.hpp"
@@ -42,14 +42,14 @@ namespace mock {
  * type.
  *
  * Implement both pure virtual methods and pass an instance to
- * MockSupport::install_comparator(). The comparator's lifetime must extend
- * at least as long as the test (or MockSupportPlugin scope).
+ * Support::install_comparator(). The comparator's lifetime must extend
+ * at least as long as the test (or SupportPlugin scope).
  */
-class MockNamedValueComparator
+class NamedValueComparator
 {
 public:
-  MockNamedValueComparator() = default;
-  virtual ~MockNamedValueComparator() = default;
+  NamedValueComparator() = default;
+  virtual ~NamedValueComparator() = default;
 
   /**
    * @brief Return true if @p object1 and @p object2 are equal.
@@ -74,7 +74,7 @@ public:
 };
 
 /**
- * @brief MockNamedValueComparator backed by plain function pointers.
+ * @brief NamedValueComparator backed by plain function pointers.
  *
  * Convenient alternative to subclassing when you want to keep comparator
  * logic in standalone functions.
@@ -83,11 +83,11 @@ public:
  * bool points_equal(const void* a, const void* b) { ... }
  * mu::tiny::test::String point_to_string(const void* p) { ... }
  *
- * MockFunctionComparator cmp(points_equal, point_to_string);
+ * FunctionComparator cmp(points_equal, point_to_string);
  * mock().install_comparator("Point", cmp);
  * @endcode
  */
-class MockFunctionComparator : public MockNamedValueComparator
+class FunctionComparator : public NamedValueComparator
 {
 public:
   /** Function type for the equality predicate. */
@@ -101,10 +101,7 @@ public:
    * @param equal          Equality predicate.
    * @param val_to_string  String-conversion function.
    */
-  MockFunctionComparator(
-      IsEqualFunction equal,
-      ValueToStringFunction val_to_string
-  )
+  FunctionComparator(IsEqualFunction equal, ValueToStringFunction val_to_string)
     : equal_(equal)
     , value_to_string_(val_to_string)
   {
@@ -125,7 +122,7 @@ private:
 };
 
 /**
- * @brief MockNamedValueComparator that uses T::operator== and string_from(T).
+ * @brief NamedValueComparator that uses T::operator== and string_from(T).
  *
  * Zero-overhead wrapper for types that already have the right operators.
  * Requires that a string_from() overload exists for @p T.
@@ -138,7 +135,7 @@ private:
  * @endcode
  */
 template<typename T>
-class TypedMockComparator : public MockNamedValueComparator
+class TypedMockComparator : public NamedValueComparator
 {
 public:
   bool is_equal(const void* object1, const void* object2) override

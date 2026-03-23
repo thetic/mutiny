@@ -1,0 +1,82 @@
+#include "mutiny/mock/NamedValueList.hpp"
+
+namespace mu {
+namespace tiny {
+namespace mock {
+using namespace mu::tiny::test;
+
+void NamedValueListNode::set_next(NamedValueListNode* node)
+{
+  next_ = node;
+}
+
+NamedValueListNode* NamedValueListNode::next()
+{
+  return next_;
+}
+
+NamedValue* NamedValueListNode::item()
+{
+  return data_;
+}
+
+void NamedValueListNode::destroy()
+{
+  delete data_;
+}
+
+NamedValueListNode::NamedValueListNode(NamedValue* new_value)
+  : data_(new_value)
+
+{
+}
+
+String NamedValueListNode::get_name() const
+{
+  return data_->get_name();
+}
+
+String NamedValueListNode::get_type() const
+{
+  return data_->get_type();
+}
+
+void NamedValueList::clear()
+{
+  while (head_) {
+    NamedValueListNode* n = head_->next();
+    head_->destroy();
+    delete head_;
+    head_ = n;
+  }
+}
+
+void NamedValueList::add(NamedValue* new_value)
+{
+  auto* new_node = new NamedValueListNode(new_value);
+  if (head_ == nullptr)
+    head_ = new_node;
+  else {
+    NamedValueListNode* last_node = head_;
+    while (last_node->next())
+      last_node = last_node->next();
+    last_node->set_next(new_node);
+  }
+}
+
+NamedValue* NamedValueList::get_value_by_name(const String& name)
+{
+  for (NamedValueListNode* p = head_; p; p = p->next())
+    if (p->get_name() == name)
+      return p->item();
+  return nullptr;
+}
+
+NamedValueListNode* NamedValueList::begin()
+{
+  return head_;
+}
+
+}
+}
+} // namespace mu::tiny::mock

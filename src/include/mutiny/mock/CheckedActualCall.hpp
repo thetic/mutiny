@@ -1,5 +1,5 @@
-#ifndef INCLUDED_MUTINY_MOCKCHECKEDACTUALCALL_HPP
-#define INCLUDED_MUTINY_MOCKCHECKEDACTUALCALL_HPP
+#ifndef INCLUDED_MUTINY_MOCK_CHECKEDACTUALCALL_HPP
+#define INCLUDED_MUTINY_MOCK_CHECKEDACTUALCALL_HPP
 
 #include "mutiny/mock/ActualCall.hpp"
 #include "mutiny/mock/ExpectedCallsList.hpp"
@@ -9,98 +9,98 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-class MockCheckedActualCall : public MockActualCall
+class CheckedActualCall : public ActualCall
 {
 public:
-  MockCheckedActualCall(
+  CheckedActualCall(
       unsigned int call_order,
-      MockFailureReporter* reporter,
-      const MockExpectedCallsList& expectations
+      FailureReporter* reporter,
+      const ExpectedCallsList& expectations
   );
-  ~MockCheckedActualCall() override;
+  ~CheckedActualCall() override;
 
-  MockActualCall& with_name(const mu::tiny::test::String& name) override;
-  MockActualCall& with_call_order(unsigned int) override;
-  MockActualCall& with_bool_parameter(
+  ActualCall& with_name(const mu::tiny::test::String& name) override;
+  ActualCall& with_call_order(unsigned int) override;
+  ActualCall& with_bool_parameter(
       const mu::tiny::test::String& name,
       bool value
   ) override;
-  MockActualCall& with_int_parameter(
+  ActualCall& with_int_parameter(
       const mu::tiny::test::String& name,
       int value
   ) override;
-  MockActualCall& with_unsigned_int_parameter(
+  ActualCall& with_unsigned_int_parameter(
       const mu::tiny::test::String& name,
       unsigned int value
   ) override;
-  MockActualCall& with_long_int_parameter(
+  ActualCall& with_long_int_parameter(
       const mu::tiny::test::String& name,
       long int value
   ) override;
-  MockActualCall& with_unsigned_long_int_parameter(
+  ActualCall& with_unsigned_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long int value
   ) override;
-  MockActualCall& with_long_long_int_parameter(
+  ActualCall& with_long_long_int_parameter(
       const mu::tiny::test::String& name,
       long long value
   ) override;
-  MockActualCall& with_unsigned_long_long_int_parameter(
+  ActualCall& with_unsigned_long_long_int_parameter(
       const mu::tiny::test::String& name,
       unsigned long long value
   ) override;
-  MockActualCall& with_double_parameter(
+  ActualCall& with_double_parameter(
       const mu::tiny::test::String& name,
       double value
   ) override;
-  MockActualCall& with_string_parameter(
+  ActualCall& with_string_parameter(
       const mu::tiny::test::String& name,
       const char* value
   ) override;
-  MockActualCall& with_pointer_parameter(
+  ActualCall& with_pointer_parameter(
       const mu::tiny::test::String& name,
       void* value
   ) override;
-  MockActualCall& with_const_pointer_parameter(
+  ActualCall& with_const_pointer_parameter(
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockActualCall& with_function_pointer_parameter(
+  ActualCall& with_function_pointer_parameter(
       const mu::tiny::test::String& name,
       void (*value)()
   ) override;
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const mu::tiny::test::String& name,
       const unsigned char* value,
       size_t size
   ) override;
-  MockActualCall& with_memory_buffer_parameter(
+  ActualCall& with_memory_buffer_parameter(
       const char* name,
       const unsigned char* value,
       size_t size
   ) override;
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const mu::tiny::test::String& type,
       const mu::tiny::test::String& name,
       const void* value
   ) override;
-  MockActualCall& with_parameter_of_type(
+  ActualCall& with_parameter_of_type(
       const char* type_name,
       const char* name,
       const void* value
   ) override;
-  MockActualCall& with_output_parameter(
+  ActualCall& with_output_parameter(
       const mu::tiny::test::String& name,
       void* output
   ) override;
-  MockActualCall& with_output_parameter_of_type(
+  ActualCall& with_output_parameter_of_type(
       const mu::tiny::test::String& type,
       const mu::tiny::test::String& name,
       void* output
   ) override;
 
   bool has_return_value() override;
-  MockNamedValue return_value() override;
+  NamedValue return_value() override;
 
   bool return_bool_value_or_default(bool default_value) override;
   bool return_bool_value() override;
@@ -152,25 +152,25 @@ public:
       void (*)()
   ) override;
 
-  MockActualCall& on_object(const void* object_ptr) override;
+  ActualCall& on_object(const void* object_ptr) override;
 
   virtual bool is_fulfilled() const;
   virtual bool has_failed() const;
 
   virtual void check_expectations();
 
-  virtual void set_mock_failure_reporter(MockFailureReporter* reporter);
+  virtual void set_mock_failure_reporter(FailureReporter* reporter);
   void set_name_and_check(mu::tiny::test::String name);
 
 protected:
   const mu::tiny::test::String& get_name() const;
-  virtual mu::tiny::test::TestShell* get_test() const;
+  virtual mu::tiny::test::Shell* get_test() const;
   virtual void call_has_succeeded();
-  virtual void copy_output_parameters(MockCheckedExpectedCall* call);
+  virtual void copy_output_parameters(CheckedExpectedCall* call);
   virtual void complete_call_when_match_is_found();
-  void fail_with(MockFailure failure);
-  virtual void check_input_parameter(MockNamedValue actual_parameter);
-  virtual void check_output_parameter(MockNamedValue output_parameter);
+  void fail_with(Failure failure);
+  virtual void check_input_parameter(NamedValue actual_parameter);
+  virtual void check_output_parameter(NamedValue output_parameter);
   virtual void discard_currently_matching_expectations();
 
   enum class ActualCallState
@@ -184,14 +184,14 @@ protected:
 private:
   mu::tiny::test::String function_name_;
   unsigned int call_order_;
-  MockFailureReporter* reporter_;
+  FailureReporter* reporter_;
 
   ActualCallState state_{ ActualCallState::success };
   bool expectations_checked_{ false };
-  MockCheckedExpectedCall* matching_expectation_{ nullptr };
+  CheckedExpectedCall* matching_expectation_{ nullptr };
 
-  MockExpectedCallsList potentially_matching_expectations_;
-  const MockExpectedCallsList& all_expectations_;
+  ExpectedCallsList potentially_matching_expectations_;
+  const ExpectedCallsList& all_expectations_;
 
   class MockOutputParametersListNode
   {
