@@ -11,6 +11,7 @@ author = "mutiny contributors"
 extensions = [
     "breathe",
     "exhale",
+    "myst_parser",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.moderncmakedomain",
 ]

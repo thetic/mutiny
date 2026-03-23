@@ -39,9 +39,9 @@ The style is `BasedOnStyle: Mozilla` with include-regroup and a few overrides �
 
 These are enforced by CI via `clang-tidy` and code review:
 
-- **Anonymous namespaces** instead of file-scope `static` in `.cpp` files (SF.22).
-- **`using`** instead of `typedef` (T.43). Function pointer form: `using F = void (*)()`.
-- **`auto`** to avoid repeating the type when the LHS type equals the RHS constructed type (ES.11). Use `auto*` for pointer types; bare `auto` for function pointer casts. Skip the polymorphic base-pointer pattern (`Base* p = new Derived(...)`) — that is intentional.
+- **Anonymous namespaces** instead of file-scope `static` in `.cpp` files ([SF.22](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rs-unnamed2)).
+- **`using`** instead of `typedef` ([T.43](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rt-using)). Function pointer form: `using F = void (*)()`.
+- **`auto`** to avoid repeating the type when the LHS type equals the RHS constructed type ([ES.11](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#res-auto)). Use `auto*` for pointer types; bare `auto` for function pointer casts. Skip the polymorphic base-pointer pattern (`Base* p = new Derived(...)`) — that is intentional.
 - **Include guards**: `INCLUDED_MUTINY_<NAME>_HPP` / `INCLUDED_MUTINY_<NAME>_H`.
 
 ## C++ Standard
@@ -62,7 +62,7 @@ New warning flags are checked for compiler support before being applied.
 
 ## Adding Tests
 
-Tests live in `tests/`. Each test file maps 1-to-1 with the header it tests (`foo.test.cpp` tests `foo.hpp`). One `TEST_GROUP` per file, named after the file's basename.
+All new code must have test coverage. Tests live in `tests/`. Each test file maps 1-to-1 with the header it tests (`foo.test.cpp` tests `foo.hpp`). One `TEST_GROUP` per file, named after the file's basename.
 
 When testing framework internals (behaviors that are supposed to fail), use `TestTestingFixture` to run a nested test scenario rather than making your outer test fail.
 
@@ -73,10 +73,15 @@ When testing framework internals (behaviors that are supposed to fail), use `Tes
 - One class per header unless the class is very small
 - A single `.cpp` may implement both the C++ and C headers for the same module
 
+## Documentation
+
+User-facing features must be documented in `docs/`. The docs are written in reStructuredText (`.rst`) and built with Sphinx. Run `pip install -r docs/requirements.txt` then `sphinx-build docs docs/_build` to preview locally.
+
 ## Submitting Changes
 
 1. Make sure all existing builds pass.
 2. Make sure new code is covered by tests.
-3. Format all changed files with `clang-format` (see above).
-4. Keep commits focused — one logical change per commit.
-5. Commit messages should describe _why_, not just _what_.
+3. Document any user-facing changes in `docs/`.
+4. Format all changed files with `clang-format` (see above).
+5. Keep commits focused — one logical change per commit.
+6. Commit messages should describe _why_, not just _what_.

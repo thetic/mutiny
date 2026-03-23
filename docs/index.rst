@@ -29,3 +29,9 @@ mutiny is a C/C++ unit testing and mocking framework.
    :caption: API Reference
 
    api/library_root
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contributing
+
+   contributing
