@@ -16,6 +16,7 @@ add_executable(mutiny_tests
     MockComparatorCopier.test.cpp
     MockExpectedCall.test.cpp
     MockExpectedCallsList.test.cpp
+    MockIgnoredActualCall.test.cpp
     MockIgnoredExpectedCall.test.cpp
     MockNamedValueComparatorsAndCopiersRepository.test.cpp
     MockFailure.test.cpp
