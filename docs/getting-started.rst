@@ -31,7 +31,7 @@ The recommended approach is CMake :cmake:module:`FetchContent <cmake:module:Fetc
    FetchContent_MakeAvailable(mutiny)
 
    add_executable(my_tests main.cpp widget.test.cpp)
-   target_link_libraries(my_tests PRIVATE mutiny::mutiny)
+   target_link_libraries(my_tests PRIVATE mu::tiny)
 
    include(CTest)
    include(mutiny)

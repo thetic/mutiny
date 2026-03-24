@@ -46,7 +46,7 @@ target_compile_definitions(ExampleTests
 target_link_libraries(ExampleTests
     PRIVATE
         ExampleLib
-        mutiny::mutiny
+        mu::tiny
 )
 
 include(mutiny)

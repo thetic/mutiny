@@ -161,7 +161,8 @@ target_compile_definitions(mutiny
         $<$<BOOL:${MUTINY_HAVE_GETTIMEOFDAY}>:MUTINY_HAVE_GETTIMEOFDAY>
 )
 
-add_library(mutiny::mutiny ALIAS mutiny)
+set_target_properties(mutiny PROPERTIES EXPORT_NAME tiny)
+add_library(mu::tiny ALIAS mutiny)
 
 # Apply C-specific naming rules (mutiny_ prefix) only to the library target.
 # Tests and examples are not subject to this convention.
@@ -215,7 +216,7 @@ if(PROJECT_IS_TOP_LEVEL)
     )
     install(
         EXPORT mutinyTargets
-        NAMESPACE mutiny::
+        NAMESPACE mu::
         DESTINATION "${MUTINY_CONFIG_DEST}"
     )
     install(

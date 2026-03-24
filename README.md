@@ -20,7 +20,7 @@ Add to your project with FetchContent:
 include(FetchContent)
 FetchContent_Declare(mutiny GIT_REPOSITORY https://github.com/thetic/mutiny.git GIT_TAG main)
 FetchContent_MakeAvailable(mutiny)
-target_link_libraries(my_tests PRIVATE mutiny::mutiny)
+target_link_libraries(my_tests PRIVATE mu::tiny)
 ```
 
 Write a test:

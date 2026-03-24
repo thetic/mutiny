@@ -32,7 +32,7 @@ Both files must be compiled together into the same test executable:
 .. code-block:: cmake
 
    add_executable(my_tests main.cpp hello.test.c hello.test.cpp)
-   target_link_libraries(my_tests PRIVATE mutiny::mutiny)
+   target_link_libraries(my_tests PRIVATE mu::tiny)
 
 C Assertion Macros (``mutiny/test.h``)
 --------------------------------------

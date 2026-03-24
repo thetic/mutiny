@@ -7,6 +7,6 @@ if(NOT TARGET mutiny)
   include("${CMAKE_CURRENT_LIST_DIR}/mutinyTargets.cmake")
 endif()
 
-set(mutiny_LIBRARIES mutiny::mutiny)
+set(mutiny_LIBRARIES mu::tiny)
 
 check_required_components(mutiny)
