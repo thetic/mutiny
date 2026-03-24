@@ -13,6 +13,9 @@
         "CMAKE_OPTIMIZE_DEPENDENCIES": true,
         "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
         "CMAKE_VERIFY_INTERFACE_HEADER_SETS": true
+      },
+      "errors": {
+        "dev": true
       }
     },
     {
