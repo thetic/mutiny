@@ -1,7 +1,4 @@
 #[=======================================================================[.rst:
-mutiny
-------
-
 Provides CTest integration for the mutiny unit-testing framework.
 
 .. code-block:: cmake

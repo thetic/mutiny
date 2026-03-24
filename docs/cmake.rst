@@ -49,6 +49,7 @@ and are available to consuming projects immediately after that call.
    <cmake:variable:CMAKE_MODULE_PATH>` so that ``include(mutiny)`` works
    without any extra setup.
 
-.. include:: ../cmake/Modules/mutiny.cmake
-   :start-after: #[=======================================================================[.rst:
-   :end-before: #]=======================================================================]
+CTest Integration Module
+------------------------
+
+.. cmake-module:: ../cmake/Modules/mutiny.cmake
