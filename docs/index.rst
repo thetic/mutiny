@@ -13,6 +13,7 @@ mutiny is a C/C++ unit testing and mocking framework.
    mocking
    testing-in-c
    command-line-reference
+   ordered-tests
    plugins
 
 .. toctree::

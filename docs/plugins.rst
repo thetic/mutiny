@@ -145,4 +145,3 @@ comparator alongside other plugins:
 
    set-pointer-plugin
    junit-output
-   ordered-tests
