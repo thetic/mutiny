@@ -486,7 +486,7 @@ TEST(CommandLineRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
 
 TEST(CommandLineRunner, listOrderedTestLocations)
 {
-  const char* argv[] = { "tests.exe", "-llo" };
+  const char* argv[] = { "tests.exe", "-lo" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
   );

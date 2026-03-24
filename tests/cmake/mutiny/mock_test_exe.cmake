@@ -4,15 +4,15 @@
 # location lines to stdout in the format expected by _mutiny_discovery.cmake:
 #   GROUP.NAME.FILE.LINE
 #
-# When invoked with -llo it prints only the ordered-test group line.
+# When invoked with -lo it prints only the ordered-test group line.
 
 set(mode "")
 math(EXPR last "${CMAKE_ARGC} - 1")
 foreach(i RANGE 0 "${last}")
     if("${CMAKE_ARGV${i}}" STREQUAL "-ll")
         set(mode ll)
-    elseif("${CMAKE_ARGV${i}}" STREQUAL "-llo")
-        set(mode llo)
+    elseif("${CMAKE_ARGV${i}}" STREQUAL "-lo")
+        set(mode lo)
     endif()
 endforeach()
 
@@ -21,8 +21,8 @@ if(mode STREQUAL "ll")
     execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "Group1.Test2.file1.cpp.20")
     execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "Group2.Test3.file2.cpp.30")
     execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "OrderedGroup.Test4.file3.cpp.40")
-elseif(mode STREQUAL "llo")
+elseif(mode STREQUAL "lo")
     execute_process(COMMAND "${CMAKE_COMMAND}" -E echo "OrderedGroup.Test4.file3.cpp.40")
 else()
-    message(FATAL_ERROR "Expected -ll or -llo flag")
+    message(FATAL_ERROR "Expected -ll or -lo flag")
 endif()

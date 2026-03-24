@@ -29,7 +29,7 @@ Query Flags (do not run tests)
 
    Print test locations as ``group.name.file.line``.
 
-.. option:: -llo
+.. option:: -lo
 
    Print ordered test locations as ``group.name.file.line``.
 

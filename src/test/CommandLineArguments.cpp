@@ -69,7 +69,7 @@ bool CommandLineArguments::parse(Plugin* plugin)
       list_test_group_names_ = true;
     else if (argument == "-ln")
       list_test_group_and_case_names_ = true;
-    else if (argument == "-llo")
+    else if (argument == "-lo")
       list_ordered_test_locations_ = true;
     else if (argument == "-ll")
       list_test_locations_ = true;
@@ -138,7 +138,7 @@ String CommandLineArguments::help() const
       "group.name, separated by spaces\n"
       "  -ll               - print a list of test names in the form of "
       "group.name.test_file_path.line\n"
-      "  -llo              - print a list of ordered test names in the form "
+      "  -lo               - print a list of ordered test names in the form "
       "of group.name.test_file_path.line\n"
       "\n"
       "Options that change the output format:\n"

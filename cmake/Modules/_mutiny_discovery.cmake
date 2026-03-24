@@ -72,16 +72,16 @@ string(CONCAT LL_LINE_REGEX
 string(REGEX MATCHALL "[^\n]+\n" discovered_test_lines "${discovered_tests}")
 if(TESTS_DETAILED)
     # Identify groups containing ordered tests.
-    # -llo is supported since mutiny gained TEST_ORDERED awareness in discovery;
+    # -lo is supported since mutiny gained TEST_ORDERED awareness in discovery;
     # old binaries exit non-zero and we fall back to treating all tests as individual.
     execute_process(
-        COMMAND ${EMULATOR} "${EXECUTABLE}" -llo
+        COMMAND ${EMULATOR} "${EXECUTABLE}" -lo
         OUTPUT_VARIABLE ordered_locations_output
-        RESULT_VARIABLE llo_result
-        ERROR_VARIABLE _llo_error
+        RESULT_VARIABLE lo_result
+        ERROR_VARIABLE _lo_error
     )
     set(ordered_groups)
-    if(llo_result EQUAL 0)
+    if(lo_result EQUAL 0)
         string(REGEX MATCHALL "[^\n]+\n" ordered_lines "${ordered_locations_output}")
         foreach(line IN LISTS ordered_lines)
             string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")

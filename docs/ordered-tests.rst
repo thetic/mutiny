@@ -39,7 +39,7 @@ Listing Ordered Tests
 
 .. code-block:: bash
 
-   ./my_tests -llo   # print ordered test locations: group.name.file.line
+   ./my_tests -lo   # print ordered test locations: group.name.file.line
 
 When to Use Ordered Tests
 --------------------------

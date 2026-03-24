@@ -60,7 +60,7 @@ list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0")
 # ── _mutiny_discovery.cmake script tests ───────────────────────────────────────
 #
 # The "executable" is a cmake -P script (mock_test_exe.cmake) whose stdout
-# output matches the -ll / -llo format consumed by the discovery script.
+# output matches the -ll / -lo format consumed by the discovery script.
 # EMULATOR_COMMAND + EMULATOR_ARG are reassembled into a list inside the
 # wrapper scripts to avoid semicolon-in-D-value quoting issues.
 
