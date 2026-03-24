@@ -10,7 +10,8 @@ Test Group and Lifecycle
 ~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`TEST_GROUP` declares a test group. Expands to a struct definition; add
-``setup()`` and ``teardown()`` inside it.
+:cpp:func:`setup() <mu::tiny::test::Test::setup>` and
+:cpp:func:`teardown() <mu::tiny::test::Test::teardown>` inside it.
 
 .. code-block:: cpp
 
@@ -23,14 +24,16 @@ Test Group and Lifecycle
    };
 
 All tests in the group share a fresh instance of the struct (constructed
-before ``setup()``, destroyed after ``teardown()``).
+before :cpp:func:`setup() <mu::tiny::test::Test::setup>`, destroyed after
+:cpp:func:`teardown() <mu::tiny::test::Test::teardown>`).
 
 ``TEST_SETUP()`` / ``TEST_TEARDOWN()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`TEST_SETUP` and :c:macro:`TEST_TEARDOWN` are convenience aliases for declaring
-``setup()`` and ``teardown()`` inside a ``TEST_GROUP`` body. Equivalent
-to writing ``virtual void setup() override``.
+:cpp:func:`setup() <mu::tiny::test::Test::setup>` and
+:cpp:func:`teardown() <mu::tiny::test::Test::teardown>` inside a :c:macro:`TEST_GROUP`
+body. Equivalent to writing ``virtual void setup() override``.
 
 .. code-block:: cpp
 
@@ -75,7 +78,7 @@ multiple groups can share.
 ``TEST_GROUP_BASE(group, baseclass)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`TEST_GROUP_BASE` is like ``TEST_GROUP``, but inherits from ``baseclass``
+:c:macro:`TEST_GROUP_BASE` is like :c:macro:`TEST_GROUP`, but inherits from ``baseclass``
 instead of :cpp:class:`mu::tiny::test::Test`.
 
 .. code-block:: cpp
@@ -92,7 +95,7 @@ Skipping and Expected Failures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`IGNORE_TEST` marks a test as ignored. It is registered but skipped during
-normal runs. Use ``-ri`` on the command line to run ignored tests anyway.
+normal runs. Use :option:`-ri` to run ignored tests anyway.
 
 .. code-block:: cpp
 
@@ -125,7 +128,7 @@ Metadata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`TEST_PROPERTY` attaches a key/value metadata pair to the currently running
-test. Emitted in JUnit XML output as ``<property>`` elements. Useful for
+test. Emitted in :doc:`JUnit XML output <junit-output>` as ``<property>`` elements. Useful for
 CI tagging (e.g. requirement IDs).
 
 .. code-block:: cpp
@@ -148,13 +151,13 @@ These bridge C test files into the C++ test runner. See
    * - Macro
      - Purpose
    * - :c:macro:`TEST_GROUP_C_WRAPPER(group) <TEST_GROUP_C_WRAPPER>`
-     - Declares a C++ ``TEST_GROUP`` that calls C setup/teardown
+     - Declares a C++ :c:macro:`TEST_GROUP` that calls C setup/teardown
    * - :c:macro:`TEST_GROUP_C_SETUP_WRAPPER(group) <TEST_GROUP_C_SETUP_WRAPPER>`
-     - Wires C setup into the C++ group's ``setup()``
+     - Wires C setup into the C++ group's :cpp:func:`setup() <mu::tiny::test::Test::setup>`
    * - :c:macro:`TEST_GROUP_C_TEARDOWN_WRAPPER(group) <TEST_GROUP_C_TEARDOWN_WRAPPER>`
-     - Wires C teardown into the C++ group's ``teardown()``
+     - Wires C teardown into the C++ group's :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
-     - Wires a C test function into a C++ ``TEST``
+     - Wires a C test function into a C++ :c:macro:`TEST`
    * - :c:macro:`IGNORE_TEST_C_WRAPPER(group, name) <IGNORE_TEST_C_WRAPPER>`
      - Same as above but ignored
    * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
@@ -169,7 +172,7 @@ Examples
    * - File
      - Demonstrates
    * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
-     - ``TEST_GROUP``, ``TEST``, ``setup()``, ``teardown()``, and ``MUTINY_PTR_SET``
+     - :c:macro:`TEST_GROUP`, :c:macro:`TEST`, :cpp:func:`setup() <mu::tiny::test::Test::setup>`, :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`, and :c:macro:`MUTINY_PTR_SET`
    * - `hello.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.c>`__ +
        `hello.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.cpp>`__
-     - C-wrapper two-file pattern with ``TEST_GROUP_SETUP``, ``TEST``, and ``TEST_C_WRAPPER``
+     - C-wrapper two-file pattern with :c:macro:`TEST_GROUP_SETUP`, :c:macro:`TEST`, and :c:macro:`TEST_C_WRAPPER`

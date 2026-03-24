@@ -36,21 +36,21 @@ Override the methods you need:
    * - Method
      - When called
      - Typical use
-   * - ``pre_test_action``
+   * - :cpp:func:`pre_test_action() <mu::tiny::test::Plugin::pre_test_action>`
      - Before each test body
      - Reset global state, start timers
-   * - ``post_test_action``
+   * - :cpp:func:`post_test_action() <mu::tiny::test::Plugin::post_test_action>`
      - After each test body
      - Restore pointers, verify mock expectations
-   * - ``parse_arguments``
+   * - :cpp:func:`parse_arguments() <mu::tiny::test::Plugin::parse_arguments>`
      - During argument parsing
-     - Activate plugin via a ``-p<flag>`` argument
-   * - ``get_help``
-     - When ``-h`` is printed
+     - Activate plugin via a :option:`-p\<plugin\>` argument
+   * - :cpp:func:`get_help() <mu::tiny::test::Plugin::get_help>`
+     - When :option:`-h` is printed
      - Show plugin's flag description
-   * - ``create_output``
+   * - :cpp:func:`create_output() <mu::tiny::test::Plugin::create_output>`
      - At startup
-     - Return an :cpp:class:`Output <mu::tiny::test::Output>` for an additional output format
+     - Return a :cpp:class:`Output <mu::tiny::test::Output>` for an additional output format
 
 Installing Plugins
 ------------------
@@ -128,7 +128,7 @@ Built-in Plugins
      - :doc:`junit-output`
 
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is automatically
-created and available through the ``MUTINY_PTR_SET`` macro — you do not need to
+created and available through the :c:macro:`MUTINY_PTR_SET` macro — you do not need to
 install it manually if you only use the macro.
 
 Examples

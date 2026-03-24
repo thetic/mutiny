@@ -54,8 +54,8 @@ Commands
   ``mutiny_discover_tests()`` adds a post-build command on *target* that runs
   the executable to list its test groups and names, then writes a generated
   ``.cmake`` file.  CTest includes that file at test time to register each
-  case individually.  The function is a no-op when ``BUILD_TESTING`` is
-  ``OFF``.
+  case individually.  The function is a no-op when
+  :variable:`BUILD_TESTING <cmake:variable:BUILD_TESTING>` is ``OFF``.
 
   ``target``
     Name of an executable target built by the current project.  A

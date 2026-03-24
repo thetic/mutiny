@@ -10,26 +10,8 @@
  * named scope; then use the function pointers on the returned struct to set up
  * expectations and report actual calls.
  *
- * @code{.c}
- * // In a C test file:
- * #include "mutiny/mock.h"
- *
- * // Mock implementation (called by production C code):
- * int open_port(int port) {
- *   return mutiny_mock()->actual_call("open_port")
- *              ->with_int_parameters("port", port)
- *              ->int_return_value(NULL);  // actually: ->int_return_value()
- * }
- *
- * TEST(Net, connects_to_port)
- * {
- *   mutiny_mock()->expect_one_call("open_port")->with_int_parameters("port",
- * 80); connect_to_server(); mutiny_mock()->check_expectations();
- *   mutiny_mock()->clear();
- * }
- * @endcode
- *
- * @see mutiny_mock(), mutiny_mock_scope()
+ * @see mutiny_mock()
+ * @see mutiny_mock_scope()
  */
 
 #include <stddef.h>

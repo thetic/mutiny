@@ -10,17 +10,6 @@
  * Assertion macros use type-specific names (CHECK_EQUAL_INT, CHECK_EQUAL_LONG,
  * etc.) because C has no function overloading.
  *
- * @code{.c}
- * // my_tests.c
- * #include "mutiny/test.h"
- *
- * TEST(MyGroup, something_works)
- * {
- *   int result = compute();
- *   CHECK_EQUAL_INT(42, result);
- * }
- * @endcode
- *
  * @see mutiny/test.hpp for the C++ interface
  * @see TEST_GROUP_C_WRAPPER and friends in mutiny/test.hpp for the .cpp bridge
  */

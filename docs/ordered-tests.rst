@@ -2,7 +2,7 @@ Ordered Tests
 =============
 
 Normally mutiny runs tests in an unspecified order (registration order,
-possibly shuffled with ``-s``). ``OrderedTest`` lets you assign a
+possibly shuffled with :option:`-s [seed]`). ``OrderedTest`` lets you assign a
 numeric level to selected tests so they run in level order, independent
 of the registration order of all other tests.
 
@@ -53,8 +53,9 @@ Ordered tests are appropriate when:
 
 Avoid them when:
 
-- Tests can be made independent through ``setup()``/``teardown()`` —
+- Tests can be made independent through
+  :cpp:func:`setup() <mu::tiny::test::Test::setup>`/:cpp:func:`teardown() <mu::tiny::test::Test::teardown>` —
   independent tests are more robust and can be run in isolation.
-- You want the ``-s`` (shuffle) flag to help detect ordering
+- You want the :option:`-s [seed]` (shuffle) flag to help detect ordering
   dependencies — ordered tests are excluded from the shuffle.
 

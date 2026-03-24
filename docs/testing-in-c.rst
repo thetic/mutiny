@@ -45,44 +45,44 @@ functions:
 
    * - Macro
      - Type checked
-   * - ``CHECK(condition)``
+   * - :c:macro:`CHECK(condition) <CHECK>`
      - any non-zero value
-   * - ``CHECK_TEXT(condition, text)``
+   * - :c:macro:`CHECK_TEXT(condition, text) <CHECK_TEXT>`
      - same with message
-   * - ``CHECK_EQUAL_BOOL(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_BOOL(expected, actual) <CHECK_EQUAL_BOOL>`
      - ``bool``
-   * - ``CHECK_EQUAL_INT(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_INT(expected, actual) <CHECK_EQUAL_INT>`
      - ``int``
-   * - ``CHECK_EQUAL_UINT(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_UINT(expected, actual) <CHECK_EQUAL_UINT>`
      - ``unsigned int``
-   * - ``CHECK_EQUAL_LONG(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_LONG(expected, actual) <CHECK_EQUAL_LONG>`
      - ``long``
-   * - ``CHECK_EQUAL_ULONG(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_ULONG(expected, actual) <CHECK_EQUAL_ULONG>`
      - ``unsigned long``
-   * - ``CHECK_EQUAL_LONGLONG(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_LONGLONG(expected, actual) <CHECK_EQUAL_LONGLONG>`
      - ``long long``
-   * - ``CHECK_EQUAL_ULONGLONG(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_ULONGLONG(expected, actual) <CHECK_EQUAL_ULONGLONG>`
      - ``unsigned long long``
-   * - ``CHECK_EQUAL_DOUBLE(expected, actual, threshold)``
+   * - :c:macro:`CHECK_EQUAL_DOUBLE(expected, actual, threshold) <CHECK_EQUAL_DOUBLE>`
      - ``double`` within ±threshold
-   * - ``CHECK_EQUAL_CHAR(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_CHAR(expected, actual) <CHECK_EQUAL_CHAR>`
      - ``char``
-   * - ``CHECK_EQUAL_UBYTE(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_UBYTE(expected, actual) <CHECK_EQUAL_UBYTE>`
      - ``unsigned char``
-   * - ``CHECK_EQUAL_SBYTE(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_SBYTE(expected, actual) <CHECK_EQUAL_SBYTE>`
      - ``signed char``
-   * - ``CHECK_EQUAL_STRING(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_STRING(expected, actual) <CHECK_EQUAL_STRING>`
      - ``const char*`` via ``strcmp``
-   * - ``CHECK_EQUAL_POINTER(expected, actual)``
+   * - :c:macro:`CHECK_EQUAL_POINTER(expected, actual) <CHECK_EQUAL_POINTER>`
      - ``const void*``
-   * - ``CHECK_EQUAL_MEMCMP(expected, actual, size)``
+   * - :c:macro:`CHECK_EQUAL_MEMCMP(expected, actual, size) <CHECK_EQUAL_MEMCMP>`
      - raw memory via ``memcmp``
-   * - ``FAIL()``
+   * - :c:macro:`FAIL() <FAIL>`
      - unconditional failure (no message)
-   * - ``FAIL_TEXT(text)``
+   * - :c:macro:`FAIL_TEXT(text) <FAIL_TEXT>`
      - unconditional failure with message
-   * - ``TEST_PROPERTY(name, value)``
-     - attaches metadata to JUnit output
+   * - :c:macro:`TEST_PROPERTY(name, value) <TEST_PROPERTY>`
+     - attaches metadata to :doc:`JUnit output <junit-output>`
 
 Each macro also has a ``_TEXT`` variant that accepts an extra message
 string.
@@ -95,9 +95,9 @@ C Test Definition Macros
 
    * - Macro
      - Purpose
-   * - ``TEST_GROUP_SETUP(group)``
+   * - :c:macro:`TEST_GROUP_SETUP(group) <TEST_GROUP_SETUP>`
      - Defines the setup function for group
-   * - ``TEST_GROUP_TEARDOWN(group)``
+   * - :c:macro:`TEST_GROUP_TEARDOWN(group) <TEST_GROUP_TEARDOWN>`
      - Defines the teardown function for group
    * - :c:macro:`TEST(group, name) <TEST>`
      - Defines a test function body

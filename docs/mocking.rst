@@ -40,7 +40,8 @@ Every test that uses mocks should follow this pattern:
        mock().clear();              // reset for next test
    }
 
-``check_expectations()`` + ``clear()`` in teardown is cleaner than
+:cpp:func:`check_expectations() <mu::tiny::mock::Support::check_expectations>` +
+:cpp:func:`clear() <mu::tiny::mock::Support::clear>` in teardown is cleaner than
 per-test calls. :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>` does this
 automatically — see :doc:`plugins`.
 
@@ -62,8 +63,9 @@ Expecting Calls
 Parameter Matching
 ------------------
 
-Chain ``.with_parameter(name, value)`` on an expected call to constrain
-parameter values. The overloaded ``with_parameter`` accepts: ``bool``,
+Chain :cpp:func:`.with_parameter(name, value) <mu::tiny::mock::ExpectedCall::with_parameter>` on an expected call to constrain
+parameter values; use :cpp:func:`.with_parameter() <mu::tiny::mock::ActualCall::with_parameter>` on the
+actual call side with the same overloads. Both accept: ``bool``,
 ``int``, ``unsigned int``, ``long``, ``unsigned long``, ``long long``,
 ``unsigned long long``, ``double``, ``const char*``, ``void*``,
 ``const void*``, ``void(*)()``, and memory buffers
@@ -86,8 +88,9 @@ For ``double`` with a tolerance:
 Custom Types
 ~~~~~~~~~~~~
 
-Use ``with_parameter_of_type(type_name, param_name, ptr)`` for
-non-native types. A comparator must be installed first — see
+Use :cpp:func:`with_parameter_of_type() <mu::tiny::mock::ExpectedCall::with_parameter_of_type>` on the
+expected call and :cpp:func:`with_parameter_of_type() <mu::tiny::mock::ActualCall::with_parameter_of_type>`
+on the actual call side for non-native types. A comparator must be installed first — see
 `Custom Comparators`_ below.
 
 .. code-block:: cpp
@@ -98,10 +101,10 @@ non-native types. A comparator must be installed first — see
 Relaxing Parameter Checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``.ignore_other_parameters()`` on an expected call: any extra parameters
+:cpp:func:`.ignore_other_parameters() <mu::tiny::mock::ExpectedCall::ignore_other_parameters>` on an expected call: any extra parameters
 the actual call provides beyond the matched set are ignored.
 
-``mock().ignore_other_calls()`` on the mock support: silently accept any
+:cpp:func:`mock().ignore_other_calls() <mu::tiny::mock::Support::ignore_other_calls>` on the mock support: silently accept any
 call that has no matching expectation.
 
 Output Parameters
@@ -127,14 +130,16 @@ On the actual call side (in your mock implementation):
 The framework copies ``source_data`` into ``output_buffer`` when the
 call is matched.
 
-For custom types use ``with_output_parameter_of_type_returning`` +
-``with_output_parameter_of_type`` with a registered copier.
+For custom types use
+:cpp:func:`with_output_parameter_of_type_returning() <mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning>` +
+:cpp:func:`with_output_parameter_of_type() <mu::tiny::mock::ActualCall::with_output_parameter_of_type>`
+with a registered copier.
 
 Return Values
 -------------
 
 Set the return value on the expected call with
-``and_return_value(value)``. The overload accepts all basic types plus
+:cpp:func:`and_return_value() <mu::tiny::mock::ExpectedCall::and_return_value>`. The overload accepts all basic types plus
 ``void*``, ``const void*``, and ``void(*)()``.
 
 Retrieve the return value in your mock stub with the typed accessors on
@@ -152,18 +157,25 @@ Retrieve the return value in your mock stub with the typed accessors on
                 .with_parameter("x", x)
                 .return_int_value_or_default(0);
 
-Available typed getters: ``return_bool_value``, ``return_int_value``,
-``return_unsigned_int_value``, ``return_long_int_value``,
-``return_unsigned_long_int_value``, ``return_long_long_int_value``,
-``return_unsigned_long_long_int_value``, ``return_double_value``,
-``return_string_value``, ``return_pointer_value``,
-``return_const_pointer_value``, ``return_function_pointer_value``. All
-have ``_or_default`` variants.
+Available typed getters on :cpp:class:`ActualCall <mu::tiny::mock::ActualCall>`:
+:cpp:func:`return_bool_value() <mu::tiny::mock::ActualCall::return_bool_value>`,
+:cpp:func:`return_int_value() <mu::tiny::mock::ActualCall::return_int_value>`,
+:cpp:func:`return_unsigned_int_value() <mu::tiny::mock::ActualCall::return_unsigned_int_value>`,
+:cpp:func:`return_long_int_value() <mu::tiny::mock::ActualCall::return_long_int_value>`,
+:cpp:func:`return_unsigned_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_int_value>`,
+:cpp:func:`return_long_long_int_value() <mu::tiny::mock::ActualCall::return_long_long_int_value>`,
+:cpp:func:`return_unsigned_long_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_long_int_value>`,
+:cpp:func:`return_double_value() <mu::tiny::mock::ActualCall::return_double_value>`,
+:cpp:func:`return_string_value() <mu::tiny::mock::ActualCall::return_string_value>`,
+:cpp:func:`return_pointer_value() <mu::tiny::mock::ActualCall::return_pointer_value>`,
+:cpp:func:`return_const_pointer_value() <mu::tiny::mock::ActualCall::return_const_pointer_value>`,
+:cpp:func:`return_function_pointer_value() <mu::tiny::mock::ActualCall::return_function_pointer_value>`.
+All have ``_or_default`` variants.
 
 Object Binding
 --------------
 
-Use ``.on_object(ptr)`` to scope an expectation to a specific object
+Use :cpp:func:`.on_object() <mu::tiny::mock::ExpectedCall::on_object>` to scope an expectation to a specific object
 instance. Useful when multiple objects of the same type are in play.
 
 .. code-block:: cpp
@@ -190,7 +202,7 @@ By default calls can occur in any order. To enforce order:
    mock().expect_one_call("second").with_call_order(2);
    mock().expect_one_call("third") .with_call_order(3);
 
-For a range of acceptable positions: ``.with_call_order(low, high)``.
+For a range of acceptable positions: :cpp:func:`.with_call_order() <mu::tiny::mock::ExpectedCall::with_call_order>`.
 
 Enable / Disable / Tracing
 --------------------------
@@ -217,16 +229,17 @@ and stub code without extra globals:
    // In mock stub:
    int timeout = mock().get_data("timeout_ms").get_int_value();
 
-``set_data`` is overloaded for: ``bool``, ``int``, ``unsigned int``,
+:cpp:func:`set_data() <mu::tiny::mock::Support::set_data>` is overloaded for: ``bool``, ``int``, ``unsigned int``,
 ``long``, ``unsigned long``, ``const char*``, ``double``, ``void*``,
 ``const void*``, ``void(*)()``. For object types:
-``set_data_object`` / ``set_data_const_object``.
+:cpp:func:`set_data_object() <mu::tiny::mock::Support::set_data_object>` /
+:cpp:func:`set_data_const_object() <mu::tiny::mock::Support::set_data_const_object>`.
 
 Custom Comparators
 ------------------
 
 Install a :cpp:class:`NamedValueComparator <mu::tiny::mock::NamedValueComparator>` to make
-``with_parameter_of_type`` work for your type:
+:cpp:func:`with_parameter_of_type() <mu::tiny::mock::ExpectedCall::with_parameter_of_type>` work for your type:
 
 Template comparator (simplest)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -279,7 +292,7 @@ for full control:
    };
 
 Remove all installed comparators and copiers with
-``mock().remove_all_comparators_and_copiers()``.
+:cpp:func:`mock().remove_all_comparators_and_copiers() <mu::tiny::mock::Support::remove_all_comparators_and_copiers>`.
 
 Custom Copiers
 --------------
@@ -308,7 +321,8 @@ SupportPlugin
 -------------
 
 :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>` automatically calls
-``check_expectations()`` and ``clear()`` after every test, and manages
+:cpp:func:`check_expectations() <mu::tiny::mock::Support::check_expectations>` and
+:cpp:func:`clear() <mu::tiny::mock::Support::clear>` after every test, and manages
 comparator/copier lifetime:
 
 .. code-block:: cpp
@@ -319,14 +333,19 @@ comparator/copier lifetime:
    reg->install_plugin(&mock_plugin);
 
 With the plugin installed, tests no longer need explicit
-``check_expectations()``/``clear()`` calls. See :doc:`plugins`.
+:cpp:func:`check_expectations() <mu::tiny::mock::Support::check_expectations>`/:cpp:func:`clear() <mu::tiny::mock::Support::clear>` calls. See :doc:`plugins`.
 
 Examples
 --------
 
-Core mock workflow — ``expect_one_call``, ``expect_n_calls``,
-``with_parameter``, ``and_return_value``, ``ignore_other_parameters``,
-``check_expectations``, ``clear``:
+Core mock workflow —
+:cpp:func:`expect_one_call() <mu::tiny::mock::Support::expect_one_call>`,
+:cpp:func:`expect_n_calls() <mu::tiny::mock::Support::expect_n_calls>`,
+:cpp:func:`with_parameter() <mu::tiny::mock::ExpectedCall::with_parameter>`,
+:cpp:func:`and_return_value() <mu::tiny::mock::ExpectedCall::and_return_value>`,
+:cpp:func:`ignore_other_parameters() <mu::tiny::mock::ExpectedCall::ignore_other_parameters>`,
+:cpp:func:`check_expectations() <mu::tiny::mock::Support::check_expectations>`,
+:cpp:func:`clear() <mu::tiny::mock::Support::clear>`:
 
 .. literalinclude:: ../examples/tests/MockCheatSheet.test.cpp
    :language: cpp
@@ -334,8 +353,11 @@ Core mock workflow — ``expect_one_call``, ``expect_n_calls``,
 Further examples:
 
 - `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
-  — ``on_object``, ``set_data``, custom comparator, scoped mock,
-  ``crash_on_failure``, ``disable``/``enable``, ``ignore_other_calls``
+  — :cpp:func:`on_object() <mu::tiny::mock::ExpectedCall::on_object>`,
+  :cpp:func:`set_data() <mu::tiny::mock::Support::set_data>`, custom comparator, scoped mock,
+  :cpp:func:`crash_on_failure() <mu::tiny::mock::Support::crash_on_failure>`,
+  :cpp:func:`disable() <mu::tiny::mock::Support::disable>`/:cpp:func:`enable() <mu::tiny::mock::Support::enable>`,
+  :cpp:func:`ignore_other_calls() <mu::tiny::mock::Support::ignore_other_calls>`
 - `EventDispatcher.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/EventDispatcher.test.cpp>`__
-  — real-world example: virtual mock class, custom comparator in ``setup()``,
-  ``with_parameter_of_type``
+  — real-world example: virtual mock class, custom comparator in :cpp:func:`setup() <mu::tiny::test::Test::setup>`,
+  :cpp:func:`with_parameter_of_type() <mu::tiny::mock::ExpectedCall::with_parameter_of_type>`

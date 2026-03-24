@@ -42,10 +42,12 @@ exhale_args = {
     "exhaleDoxygenStdin": textwrap.dedent("""\
         INPUT                = ../include/mutiny
         RECURSIVE            = YES
-        # Only C++ headers — the C interface (test.h, mock.h) is documented in
-        # testing-in-c.rst.  Including them causes duplicate macro warnings
-        # because CHECK/FAIL are also defined in Shell.hpp.
-        FILE_PATTERNS        = *.hpp
+        # Include C headers so that C-only macros (TEST_GROUP_SETUP,
+        # TEST_GROUP_TEARDOWN, CHECK_EQUAL_INT, …) are available via Breathe.
+        # Macros shared with the C++ headers (CHECK, FAIL, TEST, …) produce
+        # Doxygen "multiple definitions" warnings; these are harmless — the C++
+        # versions in Shell.hpp / test.hpp take precedence in the rendered docs.
+        FILE_PATTERNS        = *.hpp *.h
         EXTRACT_ALL          = YES
         EXTRACT_PRIVATE      = NO
         EXTRACT_STATIC       = YES
