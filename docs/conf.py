@@ -5,6 +5,7 @@ import textwrap
 project = "mutiny"
 copyright = "2026, Chad Condon"
 author = "Chad Condon"
+language = "en"
 
 # -- General configuration -----------------------------------------------------
 
@@ -97,6 +98,9 @@ html_theme_options = {
         },
     ],
 }
+
+pygments_style = "a11y-high-contrast-light"
+pygments_dark_style = "a11y-high-contrast-dark"
 
 # Macros shared between test.h (C API) and test.hpp/Shell.hpp (C++ API) produce
 # duplicate c:macro declarations — Sphinx has no cpp:macro domain, so this is a
