@@ -122,7 +122,7 @@ Built-in Plugins
      - ``mutiny/mock/SupportPlugin.hpp``
      - Auto-verify and clear mock expectations
      - :doc:`mocking`
-   * - :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`
+   * - ``JUnitOutputPlugin``
      - ``mutiny/test/JUnitOutputPlugin.hpp``
      - Write JUnit XML output via ``-pjunit``
      - :doc:`junit-output`
@@ -139,3 +139,10 @@ comparator alongside other plugins:
 
 .. literalinclude:: ../examples/tests/main.cpp
    :language: cpp
+
+.. toctree::
+   :hidden:
+
+   set-pointer-plugin
+   junit-output
+   ordered-tests
