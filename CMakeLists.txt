@@ -16,7 +16,10 @@ cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
     ON "PROJECT_IS_TOP_LEVEL" OFF)
 
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+set(MUTINY_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
+    CACHE PATH "Path to the mutiny CMake modules directory" FORCE
+)
+list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
 if(NOT PROJECT_IS_TOP_LEVEL)
     set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
 endif()
