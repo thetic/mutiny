@@ -198,11 +198,11 @@ Examples
 
    * - Files
      - Demonstrates
-   * - `hello.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.c>`__ +
-       `hello.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.cpp>`__
+   * - :source:`hello.test.c <examples/tests/hello.test.c>` +
+       :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
      - Two-file pattern: stubs a function pointer with ``MUTINY_PTR_SET``,
        checks output with ``CHECK_EQUAL_STRING``
-   * - `MockDocumentation.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.c>`__ +
-       `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
+   * - :source:`MockDocumentation.test.c <examples/tests/MockDocumentation.test.c>` +
+       :source:`MockDocumentation.test.cpp <examples/tests/MockDocumentation.test.cpp>`
      - C mock interface: :c:func:`mutiny_mock`, typed parameters, custom
        comparator, data store

@@ -252,7 +252,7 @@ Examples
 
    * - File
      - Demonstrates
-   * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
+   * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
      - ``LONGS_EQUAL``, ``CHECK``, ``STRCMP_EQUAL`` in a minimal test
-   * - `CircularBuffer.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CircularBuffer.test.cpp>`__
+   * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
      - ``CHECK``, ``LONGS_EQUAL``, ``STRCMP_EQUAL`` across a variety of test scenarios

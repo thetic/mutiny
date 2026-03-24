@@ -103,9 +103,9 @@ Examples
 
    * - File
      - Demonstrates
-   * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
+   * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
      - :c:macro:`MUTINY_PTR_SET` swapping a function pointer in ``setup()``
-   * - `hello.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.c>`__ +
-       `hello.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.cpp>`__
+   * - :source:`hello.test.c <examples/tests/hello.test.c>` +
+       :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
      - Function pointer stub pattern in C (manual save/restore instead of
        the macro, showing the underlying technique)

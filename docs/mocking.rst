@@ -352,12 +352,12 @@ Core mock workflow —
 
 Further examples:
 
-- `MockDocumentation.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/MockDocumentation.test.cpp>`__
+- :source:`MockDocumentation.test.cpp <examples/tests/MockDocumentation.test.cpp>`
   — :cpp:func:`on_object() <mu::tiny::mock::ExpectedCall::on_object>`,
   :cpp:func:`set_data() <mu::tiny::mock::Support::set_data>`, custom comparator, scoped mock,
   :cpp:func:`crash_on_failure() <mu::tiny::mock::Support::crash_on_failure>`,
   :cpp:func:`disable() <mu::tiny::mock::Support::disable>`/:cpp:func:`enable() <mu::tiny::mock::Support::enable>`,
   :cpp:func:`ignore_other_calls() <mu::tiny::mock::Support::ignore_other_calls>`
-- `EventDispatcher.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/EventDispatcher.test.cpp>`__
+- :source:`EventDispatcher.test.cpp <examples/tests/EventDispatcher.test.cpp>`
   — real-world example: virtual mock class, custom comparator in :cpp:func:`setup() <mu::tiny::test::Test::setup>`,
   :cpp:func:`with_parameter_of_type() <mu::tiny::mock::ExpectedCall::with_parameter_of_type>`

@@ -171,8 +171,8 @@ Examples
 
    * - File
      - Demonstrates
-   * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
+   * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
      - :c:macro:`TEST_GROUP`, :c:macro:`TEST`, :cpp:func:`setup() <mu::tiny::test::Test::setup>`, :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`, and :c:macro:`MUTINY_PTR_SET`
-   * - `hello.test.c <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.c>`__ +
-       `hello.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/hello.test.cpp>`__
+   * - :source:`hello.test.c <examples/tests/hello.test.c>` +
+       :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
      - C-wrapper two-file pattern with :c:macro:`TEST_GROUP_SETUP`, :c:macro:`TEST`, and :c:macro:`TEST_C_WRAPPER`

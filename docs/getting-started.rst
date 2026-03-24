@@ -143,8 +143,8 @@ Examples
 
    * - File
      - Demonstrates
-   * - `CheatSheet.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CheatSheet.test.cpp>`__
+   * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
      - Minimal ``TEST_GROUP`` + ``TEST`` with ``setup()``, ``MUTINY_PTR_SET``,
        and a handful of assertion macros
-   * - `CircularBuffer.test.cpp <https://github.com/thetic/mutiny/tree/main/examples/tests/CircularBuffer.test.cpp>`__
+   * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
      - Full group with setup/teardown, helper methods, and multiple assertion styles

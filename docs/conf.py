@@ -12,6 +12,7 @@ extensions = [
     "breathe",
     "exhale",
     "myst_parser",
+    "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinxcontrib.moderncmakedomain",
 ]
@@ -65,6 +66,16 @@ exhale_args = {
         WARN_AS_ERROR        = YES
         QUIET                = YES
         """),
+}
+
+# -- GitHub source links -------------------------------------------------------
+
+_github_root = "https://github.com/thetic/mutiny"
+_github_branch = "main"
+
+# :source:`filename <path/to/file>` → link into the GitHub tree
+extlinks = {
+    "source": (f"{_github_root}/tree/{_github_branch}/%s", "%s"),
 }
 
 # -- Options for HTML output ---------------------------------------------------
