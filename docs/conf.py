@@ -25,6 +25,7 @@ intersphinx_mapping = {
 # Exhale writes XML here (relative to confdir); must match exhale_args below.
 breathe_projects = {"mutiny": "./doxyoutput/xml"}
 breathe_default_project = "mutiny"
+breathe_domain_by_extension = {"hpp": "cpp"}
 
 # -- Exhale --------------------------------------------------------------------
 
@@ -71,3 +72,8 @@ html_theme = "furo"
 html_static_path = ["_static"]
 html_title = "mutiny"
 html_logo = "_static/logo.png"
+
+# Macros shared between test.h (C API) and test.hpp/Shell.hpp (C++ API) produce
+# duplicate c:macro declarations — Sphinx has no cpp:macro domain, so this is a
+# known upstream limitation rather than a documentation error.
+suppress_warnings = ["duplicate_declaration.c"]
