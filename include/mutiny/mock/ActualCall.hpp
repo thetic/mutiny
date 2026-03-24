@@ -20,7 +20,6 @@ namespace tiny {
 namespace mock {
 
 class FailureReporter;
-class Failure;
 
 /**
  * @brief Abstract interface for reporting an actual call and its parameters.
