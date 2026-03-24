@@ -62,6 +62,7 @@ exhale_args = {
                                 MUTINY_USE_STD_CPP_LIB=1 \\
                                 MUTINY_USE_STD_STRING=0
         WARN_IF_UNDOCUMENTED = NO
+        WARN_AS_ERROR        = YES
         QUIET                = YES
         """),
 }

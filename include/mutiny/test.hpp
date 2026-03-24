@@ -289,7 +289,7 @@
  * TEST_GROUP_C_WRAPPER.
  *
  * The body you write delegates to the C function
- * @c group_##group_name##_setup_wrapper_c, which is defined in the .c file.
+ * @c group_\#\#group_name\#\#_setup_wrapper_c, which is defined in the .c file.
  *
  * @param group_name  Group name, must match the TEST_GROUP_C_WRAPPER
  * declaration.
@@ -321,8 +321,8 @@
  * @brief Bridge a C test function into a TEST.
  *
  * Creates a TEST whose body calls the C function
- * @c test_##group_name##_##test_name##_wrapper_c. The corresponding C-side
- * definition uses TEST() from mutiny/test.h in the .c file.
+ * @c test_\#\#group_name\#\#_\#\#test_name\#\#_wrapper_c. The corresponding
+ * C-side definition uses TEST() from mutiny/test.h in the .c file.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.

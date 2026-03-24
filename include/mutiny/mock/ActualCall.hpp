@@ -150,8 +150,7 @@ public:
   {
     return with_memory_buffer_parameter(name, value, size);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, const unsigned
-   * char*, size_t) */
+  /** @overload */
   ActualCall& with_parameter(
       const char* name,
       const unsigned char* value,
@@ -177,8 +176,7 @@ public:
       const mu::tiny::test::String& name,
       const void* value
   ) = 0;
-  /** @copydoc with_parameter_of_type(const mu::tiny::test::String&, const
-   * mu::tiny::test::String&, const void*) */
+  /** @overload */
   virtual ActualCall& with_parameter_of_type(
       const char* type_name,
       const char* name,
