@@ -19,7 +19,7 @@ line or configure them in a
 
 .. variable:: MUTINY_USE_STD_STRING
 
-   Boolean, default ``OFF``.  Use ``std::string`` internally instead of
+   Boolean, default ``ON``.  Use ``std::string`` internally instead of
    mutiny's own :cpp:class:`String <mu::tiny::test::String>` class.
    Requires :variable:`MUTINY_USE_STD_CPP_LIB`.
 

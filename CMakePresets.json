@@ -85,6 +85,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cmake/lcov.cmake",
+        "MUTINY_USE_STD_STRING": false,
         "MUTINY_EXAMPLES": false
       }
     },

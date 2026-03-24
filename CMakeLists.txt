@@ -9,7 +9,7 @@ include(CTest)
 include(CMakeDependentOption)
 option(MUTINY_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 cmake_dependent_option(MUTINY_USE_STD_STRING "Use std::string"
-    OFF "MUTINY_USE_STD_CPP_LIB" OFF)
+    ON "MUTINY_USE_STD_CPP_LIB" OFF)
 cmake_dependent_option(MUTINY_BUILD_TESTING "Compile and make tests for mutiny"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
 cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
