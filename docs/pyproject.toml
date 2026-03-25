@@ -1,0 +1,16 @@
+[project]
+name = "mutiny-docs"
+version = "0.1.0"
+description = "Documentation for the mutiny framework"
+requires-python = ">=3.14"
+dependencies = [
+    "sphinx>=7.0,<9",
+    "breathe>=4.35",
+    "exhale>=0.3.7",
+    "sphinxcontrib-moderncmakedomain>=3.0",
+    "myst-parser>=2.0",
+    "furo",
+]
+
+[tool.uv]
+managed = true
