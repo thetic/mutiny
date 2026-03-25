@@ -138,6 +138,9 @@ jobs:
             preset: GNU
     name: CMake ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
+    env:
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       ### SETUP
 
@@ -146,6 +149,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ${{ matrix.apt_packages }}
         if: ${{ matrix.apt_packages }}
+
+      - uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ matrix.name }}
+          variant: ccache
 
       - uses: carlosperate/arm-none-eabi-gcc-action@v1
         if: ${{ matrix.name == 'GCC ARM embedded' }}
@@ -188,8 +196,15 @@ jobs:
   test_report:
     name: JUnit Test Report
     runs-on: ubuntu-latest
+    env:
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          variant: ccache
       - run: cmake --preset=defaults -DCPPUTEST_JUNIT_REPORT=TRUE
       - run: cmake --build --preset defaults
       - run: ctest --preset defaults
@@ -217,6 +232,8 @@ jobs:
         shell: msys2 {0}
     env:
       LDFLAGS: -static
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -229,6 +246,11 @@ jobs:
             mingw-w64-x86_64-cc
             mingw-w64-x86_64-cmake
             mingw-w64-x86_64-make
+            mingw-w64-x86_64-ccache
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          variant: ccache
       - name: Configure
         run: cmake --preset=GNU
       - name: Build
@@ -258,6 +280,9 @@ jobs:
   cmake_cygwin:
     name: CMake Cygwin
     runs-on: windows-latest
+    env:
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Set line endings
         run: git config --global core.autocrlf input
@@ -271,6 +296,11 @@ jobs:
             gcc-core
             gcc-g++
             ninja
+            ccache
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          variant: ccache
       - name: Configure
         run: cmake --preset=GNU -G Ninja
       - name: Build
