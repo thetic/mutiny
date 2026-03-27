@@ -85,3 +85,22 @@ User-facing features must be documented in `docs/`. The docs are written in reSt
 4. Format all changed files with `clang-format` (see above).
 5. Keep commits focused — one logical change per commit.
 6. Commit messages should describe _why_, not just _what_.
+
+## Semantic Versioning
+
+This project follows [Semantic Versioning 2.0.0](https://semver.org/).
+The version is defined in the `VERSION` file in the root directory and is used to generate the version header `mutiny/test/version.hpp`.
+
+### Incrementing the Version
+
+- **MAJOR** version: Incompatible source API changes.
+  - Examples: Removing or renaming public headers/functions/classes, changing function signatures in `include/mutiny/`, dropping support for a C++ standard version (e.g., C++11 to C++14).
+- **MINOR** version: Backwards compatible functionality.
+  - Examples: Adding new classes/functions/macros to the public API.
+- **PATCH** version: Backwards compatible bug fixes.
+  - Examples: Internal logic fixes, performance improvements, documentation.
+
+### Enforcement
+
+Before submitting a pull request, please consider if your changes require a version bump.
+Reviewers will check for breaking changes to ensure the MAJOR version is incremented if necessary.

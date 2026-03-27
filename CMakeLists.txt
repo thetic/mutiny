@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.29)
 
+file(READ "VERSION" MUTINY_VERSION_RAW)
+string(STRIP "${MUTINY_VERSION_RAW}" MUTINY_VERSION)
+
 project(mutiny
-    VERSION 0.1
+    VERSION ${MUTINY_VERSION}
 )
 
 include(CTest)
@@ -25,6 +28,11 @@ if(NOT PROJECT_IS_TOP_LEVEL)
 endif()
 
 include(GNUInstallDirs)
+
+configure_file(
+    include/mutiny/version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
+)
 
 add_library(mutiny)
 
@@ -73,7 +81,9 @@ target_sources(mutiny
         src/test/test.c.cpp
         src/test/time.cpp
     PUBLIC FILE_SET HEADERS
-        BASE_DIRS include
+        BASE_DIRS
+            include
+            "${CMAKE_CURRENT_BINARY_DIR}/include"
         FILES
             include/mutiny/mock.h
             include/mutiny/mock.hpp
@@ -110,6 +120,7 @@ target_sources(mutiny
             include/mutiny/test/TestingFixture.hpp
             include/mutiny/test/features.hpp
             include/mutiny/test/time.hpp
+            ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS src/include
         FILES

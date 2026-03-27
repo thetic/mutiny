@@ -1,4 +1,5 @@
 import textwrap
+from pathlib import Path
 
 # -- Project information -------------------------------------------------------
 
@@ -6,6 +7,9 @@ project = "mutiny"
 copyright = "2026, Chad Condon"
 author = "Chad Condon"
 language = "en"
+
+version = Path("../VERSION").read_text().strip()
+release = version
 
 # -- General configuration -----------------------------------------------------
 

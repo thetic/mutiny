@@ -5,6 +5,8 @@
 #include "mutiny/test/StringCollection.hpp"
 #include "mutiny/test/time.hpp"
 
+#include "mutiny/version.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -130,6 +132,7 @@ bool CommandLineArguments::parse(Plugin* plugin)
 String CommandLineArguments::help() const
 {
   String help_str =
+      "mutiny v" MUTINY_VERSION_STRING "\n\n"
       "Options that do not run tests but query:\n"
       "  -h                - this wonderful help screen. Joy!\n"
       "  -lg               - print a list of group names, separated by "

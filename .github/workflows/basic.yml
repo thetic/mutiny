@@ -21,6 +21,51 @@ jobs:
           clang-format-version: '21'
           check-path: '.'
 
+  abi_check:
+    name: ABI Compatibility Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Install Libabigail
+        run: sudo apt-get update && sudo apt-get install -y libabigail-tools
+
+      - name: Checkout Base Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          path: baseline
+
+      - name: Configure Baseline Build
+        run: cmake --preset defaults baseline
+        working-directory: baseline
+
+      - name: Build Baseline Library
+        run: cmake --build --preset defaults --target mutiny
+        working-directory: baseline
+
+      - name: Checkout Current Branch
+        uses: actions/checkout@v4
+        with:
+          path: current
+
+      - name: Configure Current Build
+        run: cmake --preset defaults current
+        working-directory: current
+
+      - name: Build Current Library
+        run: cmake --build --preset defaults --target mutiny
+        working-directory: current
+
+      - name: Run abidiff
+        run: |
+          # abidiff returns non-zero if ABI changes are detected.
+          # The exit code is a bitmask: 0 = no change, 1 = compatible change, 2 = incompatible change, etc.
+          # We want to fail if there are any incompatible changes (bit 8 or higher, as per docs, or general non-zero for any change)
+          abidiff \
+            baseline/build/defaults/libmutiny.so \
+            current/build/defaults/libmutiny.so
+
+
   cmake:
     strategy:
       fail-fast: false
