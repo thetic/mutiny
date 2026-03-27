@@ -219,10 +219,10 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   );
   actual.with_parameter_of_type("int", "named_type", &const_value);
 
-  mu::tiny::test::String expected_string("\nFunction name:func");
+  mu::tiny::String expected_string("\nFunction name:func");
   expected_string += " withCallOrder:1";
   expected_string += " onObject:0x";
-  expected_string += mu::tiny::test::hex_string_from(&value);
+  expected_string += mu::tiny::hex_string_from(&value);
   expected_string += " bool:true";
   expected_string += " unsigned_int:1 (0x1)";
   expected_string += " unsigned_long:1 (0x1)";
@@ -230,14 +230,14 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expected_string += " long_long_int:1 (0x1)";
   expected_string += " unsigned_long_long_int:1 (0x1)";
   expected_string += " pointer:0x";
-  expected_string += mu::tiny::test::hex_string_from(&value);
+  expected_string += mu::tiny::hex_string_from(&value);
   expected_string += " const_pointer:0x";
-  expected_string += mu::tiny::test::hex_string_from(&const_value);
+  expected_string += mu::tiny::hex_string_from(&const_value);
   expected_string += " function_pointer:0x";
-  expected_string += mu::tiny::test::hex_string_from(function_value);
+  expected_string += mu::tiny::hex_string_from(function_value);
   expected_string += " mem_buffer:Size = 2 | HexContents = FE 15";
   expected_string += " int named_type:0x";
-  expected_string += mu::tiny::test::hex_string_from(&const_value);
+  expected_string += mu::tiny::hex_string_from(&const_value);
   STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
   CHECK_FALSE(actual.has_return_value());
@@ -295,7 +295,7 @@ TEST(CheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
   list->add_expected_call(&call1);
 
   const unsigned char buf[] = { 0x01, 0x02 };
-  mu::tiny::test::String name("mem");
+  mu::tiny::String name("mem");
   mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_memory_buffer_parameter(
       name, buf, sizeof(buf)
@@ -316,8 +316,8 @@ TEST(CheckedActualCall, noComparatorForParameterOfTypeStringOverload)
   list->add_expected_call(&call1);
 
   int value = 0;
-  mu::tiny::test::String type_name("MyCustomType");
-  mu::tiny::test::String param_name("param");
+  mu::tiny::String type_name("MyCustomType");
+  mu::tiny::String param_name("param");
   mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
   actual_call.with_name("func").with_parameter_of_type(
       type_name, param_name, &value

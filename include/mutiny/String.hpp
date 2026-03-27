@@ -3,7 +3,7 @@
  * @brief Lightweight string class and string-conversion utilities for the
  *        mutiny test framework.
  *
- * When `MUTINY_USE_STD_STRING` is defined, `mu::tiny::test::String` is an
+ * When `MUTINY_USE_STD_STRING` is defined, `mu::tiny::String` is an
  * alias for `std::string` and the custom class body is omitted entirely.
  * Otherwise a self-contained `String` class is provided that avoids any
  * dependency on the C++ standard library, allowing the framework to be used
@@ -39,7 +39,6 @@
 
 namespace mu {
 namespace tiny {
-namespace test {
 
 #if MUTINY_USE_STD_STRING
 #if !MUTINY_USE_STD_CPP_LIB
@@ -339,8 +338,8 @@ String string_from(const T&)
 {
   static_assert(
       sizeof(T) == 0,
-      "No mu::tiny::test::string_from() overload for this type. "
-      "Provide: mu::tiny::test::String mu::tiny::test::string_from(const "
+      "No mu::tiny::string_from() overload for this type. "
+      "Provide: mu::tiny::String mu::tiny::string_from(const "
       "YourType&);"
   );
   return String();
@@ -414,7 +413,6 @@ String brackets_formatted_hex_string_from(signed char value);
  *        (e.g. "(0x0000001f)").
  */
 String brackets_formatted_hex_string(const String& hex_string);
-} // namespace test
 } // namespace tiny
 } // namespace mu
 

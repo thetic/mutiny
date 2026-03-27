@@ -13,7 +13,7 @@
  * @see SupportPlugin, SetPointerPlugin
  */
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {

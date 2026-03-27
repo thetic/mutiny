@@ -24,10 +24,10 @@ public:
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
-    return mu::tiny::test::string_from(*(obj->value));
+    return mu::tiny::string_from(*(obj->value));
   }
 };
 
@@ -51,7 +51,7 @@ public:
   ~MyComparator() override = default;
 
   bool is_equal(const void*, const void*) override { return false; }
-  mu::tiny::test::String value_to_string(const void*) override { return ""; }
+  mu::tiny::String value_to_string(const void*) override { return ""; }
 };
 
 class MyCopier : public mu::tiny::mock::NamedValueCopier

@@ -35,10 +35,10 @@ public:
     return *(obj1->value) == *(obj2->value);
   }
 
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const MyTypeForTesting*>(object);
-    return mu::tiny::test::string_from(*(obj->value));
+    return mu::tiny::string_from(*(obj->value));
   }
 };
 
@@ -119,9 +119,9 @@ bool my_type_is_equal(const void* object1, const void* object2)
          static_cast<const MyTypeForTesting*>(object2)->value;
 }
 
-mu::tiny::test::String my_type_value_to_string(const void* object)
+mu::tiny::String my_type_value_to_string(const void* object)
 {
-  return mu::tiny::test::string_from(
+  return mu::tiny::string_from(
       static_cast<const MyTypeForTesting*>(object)->value
   );
 }
@@ -749,7 +749,7 @@ class StubComparator : public MyTypeForTestingComparator::NamedValueComparator
 {
 public:
   bool is_equal(const void*, const void*) override { return true; }
-  mu::tiny::test::String value_to_string(const void*) override { return ""; }
+  mu::tiny::String value_to_string(const void*) override { return ""; }
 };
 
 struct SomeClass
@@ -791,8 +791,8 @@ TEST(MockComparatorCopier, customObjectParameterWithStringTypeAndNameArgSucceeds
   mock()
       .actual_call("function")
       .with_parameter_of_type(
-          mu::tiny::test::String("MyTypeForTesting"),
-          mu::tiny::test::String("parameterName"),
+          mu::tiny::String("MyTypeForTesting"),
+          mu::tiny::String("parameterName"),
           &object
       );
 

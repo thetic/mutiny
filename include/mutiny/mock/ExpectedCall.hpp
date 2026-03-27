@@ -13,23 +13,13 @@
  * @see Support::expect_one_call(), ActualCall
  */
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {
 namespace mock {
 
 class NamedValue;
-
-/**
- * @brief Produce a display string for a NamedValue.
- *
- * Used internally by the failure reporter to format expected vs actual output.
- *
- * @param parameter  Value to convert.
- * @return Human-readable string representation.
- */
-mu::tiny::test::String string_from(const NamedValue& parameter);
 
 /**
  * @brief Abstract fluent interface for configuring a single call expectation.
@@ -47,7 +37,7 @@ public:
 
   /** @brief Set the expected function name. @param name Function name. @return
    * *this. */
-  virtual ExpectedCall& with_name(const mu::tiny::test::String& name) = 0;
+  virtual ExpectedCall& with_name(const String& name) = 0;
 
   /**
    * @brief Require this call to happen at a specific position in call order.
@@ -83,57 +73,42 @@ public:
    * @param value  Expected parameter value.
    * @return *this for chaining.
    */
-  ExpectedCall& with_parameter(const mu::tiny::test::String& name, bool value)
+  ExpectedCall& with_parameter(const String& name, bool value)
   {
     return with_bool_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(const mu::tiny::test::String& name, int value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, int value)
   {
     return with_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned int value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, unsigned int value)
   {
     return with_unsigned_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      long int value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, long int value)
   {
     return with_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned long int value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, unsigned long int value)
   {
     return with_unsigned_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      long long value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, long long value)
   {
     return with_long_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned long long value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, unsigned long long value)
   {
     return with_unsigned_long_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(const mu::tiny::test::String& name, double value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, double value)
   {
     return with_double_parameter(name, value);
   }
@@ -146,39 +121,30 @@ public:
    * @return *this for chaining.
    */
   ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       double value,
       double tolerance
   )
   {
     return with_double_parameter(name, value, tolerance);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      const char* value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, const char* value)
   {
     return with_string_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(const mu::tiny::test::String& name, void* value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, void* value)
   {
     return with_pointer_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      const void* value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, const void* value)
   {
     return with_const_pointer_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
-      void (*value)()
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ExpectedCall& with_parameter(const String& name, void (*value)())
   {
     return with_function_pointer_parameter(name, value);
   }
@@ -191,7 +157,7 @@ public:
    * @return *this for chaining.
    */
   ExpectedCall& with_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   )
@@ -212,8 +178,8 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_parameter_of_type(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       const void* value
   ) = 0;
 
@@ -227,7 +193,7 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_output_parameter_returning(
-      const mu::tiny::test::String& name,
+      const String& name,
       const void* value,
       size_t size
   ) = 0;
@@ -244,8 +210,8 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_output_parameter_of_type_returning(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       const void* value
   ) = 0;
 
@@ -257,7 +223,7 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_unmodified_output_parameter(
-      const mu::tiny::test::String& name
+      const String& name
   ) = 0;
 
   /**
@@ -272,44 +238,38 @@ public:
 
   /** @brief Expect a bool parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual ExpectedCall& with_bool_parameter(
-      const mu::tiny::test::String& name,
-      bool value
-  ) = 0;
+  virtual ExpectedCall& with_bool_parameter(const String& name, bool value) = 0;
   /** @brief Expect an int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual ExpectedCall& with_int_parameter(
-      const mu::tiny::test::String& name,
-      int value
-  ) = 0;
+  virtual ExpectedCall& with_int_parameter(const String& name, int value) = 0;
   /** @brief Expect an unsigned int parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ExpectedCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned int value
   ) = 0;
   /** @brief Expect a long int parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ExpectedCall& with_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long int value
   ) = 0;
   /** @brief Expect an unsigned long int parameter. @param name Name. @param
    * value Value. @return *this. */
   virtual ExpectedCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long int value
   ) = 0;
   /** @brief Expect a long long int parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ExpectedCall& with_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long long value
   ) = 0;
   /** @brief Expect an unsigned long long int parameter. @param name Name.
    * @param value Value. @return *this. */
   virtual ExpectedCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long long value
   ) = 0;
   /**
@@ -317,7 +277,7 @@ public:
    * @param name Name. @param value Expected value. @return *this.
    */
   virtual ExpectedCall& with_double_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       double value
   ) = 0;
   /**
@@ -326,38 +286,38 @@ public:
    * difference. @return *this.
    */
   virtual ExpectedCall& with_double_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       double value,
       double tolerance
   ) = 0;
   /** @brief Expect a C string parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ExpectedCall& with_string_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const char* value
   ) = 0;
   /** @brief Expect a void* parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ExpectedCall& with_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void* value
   ) = 0;
   /** @brief Expect a function pointer parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ExpectedCall& with_function_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void (*value)()
   ) = 0;
   /** @brief Expect a const void* parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ExpectedCall& with_const_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const void* value
   ) = 0;
   /** @brief Expect a memory buffer parameter. @param name Name. @param value
    * Buffer. @param size Size in bytes. @return *this. */
   virtual ExpectedCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   ) = 0;
@@ -409,6 +369,17 @@ public:
 };
 
 } // namespace mock
+
+/**
+ * @brief Produce a display string for a NamedValue.
+ *
+ * Used internally by the failure reporter to format expected vs actual output.
+ *
+ * @param parameter  Value to convert.
+ * @return Human-readable string representation.
+ */
+String string_from(const mock::NamedValue& parameter);
+
 } // namespace tiny
 } // namespace mu
 

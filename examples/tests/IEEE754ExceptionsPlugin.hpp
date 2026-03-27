@@ -11,7 +11,7 @@ class IEEE754ExceptionsPlugin : public mu::tiny::test::Plugin
 {
 public:
   IEEE754ExceptionsPlugin(
-      const mu::tiny::test::String& name = "IEEE754ExceptionsPlugin"
+      const mu::tiny::String& name = "IEEE754ExceptionsPlugin"
   );
 
   void pre_test_action(

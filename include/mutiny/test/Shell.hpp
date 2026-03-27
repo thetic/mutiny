@@ -13,9 +13,10 @@
  * @see mutiny/test.hpp for test-definition macros
  */
 
-#include "mutiny/test/String.hpp"
 #include "mutiny/test/Terminator.hpp"
-#include "mutiny/test/features.hpp"
+
+#include "mutiny/String.hpp"
+#include "mutiny/features.hpp"
 
 namespace mu {
 namespace tiny {
@@ -1140,7 +1141,7 @@ void check_enum_equal(
  */
 #define CHECK_THROWS(expected, expression)                                     \
   do {                                                                         \
-    mu::tiny::test::String failure_msg(                                        \
+    mu::tiny::String failure_msg(                                              \
         "expected to throw " #expected "\nbut threw nothing"                   \
     );                                                                         \
     bool caught_expected = false;                                              \

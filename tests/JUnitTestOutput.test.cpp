@@ -1,25 +1,25 @@
 #include "mutiny/test/JUnitOutput.hpp"
 #include "mutiny/test/Result.hpp"
-#include "mutiny/test/String.hpp"
-#include "mutiny/test/StringCollection.hpp"
-#include "mutiny/test/time.hpp"
 
+#include "mutiny/String.hpp"
+#include "mutiny/StringCollection.hpp"
 #include "mutiny/test.hpp"
+#include "mutiny/time.hpp"
 
 namespace {
 
 class FileForJUnitTestOutputs
 {
-  mu::tiny::test::String name_;
+  mu::tiny::String name_;
   bool is_open_{ true };
-  mu::tiny::test::String buffer_;
+  mu::tiny::String buffer_;
   FileForJUnitTestOutputs* next_;
 
-  mu::tiny::test::StringCollection lines_of_file_;
+  mu::tiny::StringCollection lines_of_file_;
 
 public:
   FileForJUnitTestOutputs(
-      const mu::tiny::test::String& filename,
+      const mu::tiny::String& filename,
       FileForJUnitTestOutputs* next
   )
     : name_(filename)
@@ -29,9 +29,9 @@ public:
 
   FileForJUnitTestOutputs* next_file() { return next_; }
 
-  mu::tiny::test::String name() { return name_; }
+  mu::tiny::String name() { return name_; }
 
-  void write(const mu::tiny::test::String& buffer) { buffer_ += buffer; }
+  void write(const mu::tiny::String& buffer) { buffer_ += buffer; }
 
   void close() { is_open_ = false; }
 
@@ -52,7 +52,7 @@ public:
     return lines_of_file_.size();
   }
 
-  mu::tiny::test::String content() { return buffer_; }
+  mu::tiny::String content() { return buffer_; }
 };
 
 class FileSystemForJUnitTestOutputTests
@@ -72,7 +72,7 @@ public:
     }
   }
 
-  FileForJUnitTestOutputs* open_file(const mu::tiny::test::String& filename)
+  FileForJUnitTestOutputs* open_file(const mu::tiny::String& filename)
   {
     first_file_ = new FileForJUnitTestOutputs(filename, first_file_);
     return first_file_;
@@ -143,8 +143,8 @@ public:
     millis_time = 0;
     the_time = "1978-10-03T00:00:00";
 
-    MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
-    MUTINY_PTR_SET(mu::tiny::test::get_time_string, mock_get_time_string);
+    MUTINY_PTR_SET(mu::tiny::get_time_in_millis, mock_get_time_in_millis);
+    MUTINY_PTR_SET(mu::tiny::get_time_string, mock_get_time_string);
   }
 
   JUnitTestOutputTestRunner& start()

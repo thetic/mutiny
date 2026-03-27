@@ -1,4 +1,4 @@
-#include "mutiny/test/StringCollection.hpp"
+#include "mutiny/StringCollection.hpp"
 
 #include "mutiny/test.hpp"
 
@@ -6,23 +6,23 @@ TEST_GROUP(StringCollection) {};
 
 TEST(StringCollection, CollectionReadOutOfBoundsReturnsEmptyString)
 {
-  mu::tiny::test::StringCollection col;
+  mu::tiny::StringCollection col;
   col.allocate(3);
   STRCMP_EQUAL("", col[3].c_str());
 }
 
 TEST(StringCollection, CollectionWritingToEmptyString)
 {
-  mu::tiny::test::StringCollection col;
+  mu::tiny::StringCollection col;
   col.allocate(3);
-  col[3] = mu::tiny::test::String("HAH");
+  col[3] = mu::tiny::String("HAH");
   STRCMP_EQUAL("", col[3].c_str());
 }
 TEST(StringCollection, split)
 {
-  mu::tiny::test::String hi("hello\nworld\nhow\ndo\nyou\ndo\n\n");
+  mu::tiny::String hi("hello\nworld\nhow\ndo\nyou\ndo\n\n");
 
-  mu::tiny::test::StringCollection collection(hi, '\n');
+  mu::tiny::StringCollection collection(hi, '\n');
 
   LONGS_EQUAL(7, collection.size());
   STRCMP_EQUAL("hello\n", collection[0].c_str());
@@ -36,8 +36,8 @@ TEST(StringCollection, split)
 
 TEST(StringCollection, splitNoTokenOnTheEnd)
 {
-  mu::tiny::test::String string("Bah Yah oops");
-  mu::tiny::test::StringCollection collection(string, ' ');
+  mu::tiny::String string("Bah Yah oops");
+  mu::tiny::StringCollection collection(string, ' ');
 
   LONGS_EQUAL(3, collection.size());
   STRCMP_EQUAL("Bah ", collection[0].c_str());

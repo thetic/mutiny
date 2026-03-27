@@ -5,7 +5,6 @@
 namespace mu {
 namespace tiny {
 namespace mock {
-using namespace mu::tiny::test;
 
 ExpectedCallsList::~ExpectedCallsList()
 {

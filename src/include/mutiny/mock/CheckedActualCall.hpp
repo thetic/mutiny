@@ -19,58 +19,46 @@ public:
   );
   ~CheckedActualCall() override;
 
-  ActualCall& with_name(const mu::tiny::test::String& name) override;
+  ActualCall& with_name(const String& name) override;
   ActualCall& with_call_order(unsigned int) override;
-  ActualCall& with_bool_parameter(
-      const mu::tiny::test::String& name,
-      bool value
-  ) override;
-  ActualCall& with_int_parameter(
-      const mu::tiny::test::String& name,
-      int value
-  ) override;
+  ActualCall& with_bool_parameter(const String& name, bool value) override;
+  ActualCall& with_int_parameter(const String& name, int value) override;
   ActualCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned int value
   ) override;
   ActualCall& with_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long int value
   ) override;
   ActualCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long int value
   ) override;
   ActualCall& with_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long long value
   ) override;
   ActualCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long long value
   ) override;
-  ActualCall& with_double_parameter(
-      const mu::tiny::test::String& name,
-      double value
-  ) override;
+  ActualCall& with_double_parameter(const String& name, double value) override;
   ActualCall& with_string_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const char* value
   ) override;
-  ActualCall& with_pointer_parameter(
-      const mu::tiny::test::String& name,
-      void* value
-  ) override;
+  ActualCall& with_pointer_parameter(const String& name, void* value) override;
   ActualCall& with_const_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const void* value
   ) override;
   ActualCall& with_function_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void (*value)()
   ) override;
   ActualCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   ) override;
@@ -80,8 +68,8 @@ public:
       size_t size
   ) override;
   ActualCall& with_parameter_of_type(
-      const mu::tiny::test::String& type,
-      const mu::tiny::test::String& name,
+      const String& type,
+      const String& name,
       const void* value
   ) override;
   ActualCall& with_parameter_of_type(
@@ -89,13 +77,10 @@ public:
       const char* name,
       const void* value
   ) override;
-  ActualCall& with_output_parameter(
-      const mu::tiny::test::String& name,
-      void* output
-  ) override;
+  ActualCall& with_output_parameter(const String& name, void* output) override;
   ActualCall& with_output_parameter_of_type(
-      const mu::tiny::test::String& type,
-      const mu::tiny::test::String& name,
+      const String& type,
+      const String& name,
       void* output
   ) override;
 
@@ -160,11 +145,11 @@ public:
   virtual void check_expectations();
 
   virtual void set_mock_failure_reporter(FailureReporter* reporter);
-  void set_name_and_check(mu::tiny::test::String name);
+  void set_name_and_check(String name);
 
 protected:
-  const mu::tiny::test::String& get_name() const;
-  virtual mu::tiny::test::Shell* get_test() const;
+  const String& get_name() const;
+  virtual test::Shell* get_test() const;
   virtual void call_has_succeeded();
   virtual void copy_output_parameters(CheckedExpectedCall* call);
   virtual void complete_call_when_match_is_found();
@@ -182,7 +167,7 @@ protected:
   virtual void set_state(ActualCallState state);
 
 private:
-  mu::tiny::test::String function_name_;
+  String function_name_;
   unsigned int call_order_;
   FailureReporter* reporter_;
 
@@ -196,16 +181,12 @@ private:
   class MockOutputParametersListNode
   {
   public:
-    mu::tiny::test::String name;
-    mu::tiny::test::String type;
+    String name;
+    String type;
     void* ptr;
 
     MockOutputParametersListNode* next{ nullptr };
-    MockOutputParametersListNode(
-        const mu::tiny::test::String& n,
-        const mu::tiny::test::String& t,
-        void* p
-    )
+    MockOutputParametersListNode(const String& n, const String& t, void* p)
       : name(n)
       , type(t)
       , ptr(p)
@@ -217,8 +198,8 @@ private:
   MockOutputParametersListNode* output_parameter_expectations_{ nullptr };
 
   virtual void add_output_parameter(
-      const mu::tiny::test::String& name,
-      const mu::tiny::test::String& type,
+      const String& name,
+      const String& type,
       void* ptr
   );
   void clean_up_output_parameter_list();

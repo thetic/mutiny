@@ -10,91 +10,64 @@ namespace mock {
 class IgnoredActualCall : public ActualCall
 {
 public:
-  ActualCall& with_name(const mu::tiny::test::String&) override
-  {
-    return *this;
-  }
+  ActualCall& with_name(const String&) override { return *this; }
   ActualCall& with_call_order(unsigned int) override { return *this; }
-  ActualCall& with_bool_parameter(const mu::tiny::test::String&, bool) override
+  ActualCall& with_bool_parameter(const String&, bool) override
   {
     return *this;
   }
-  ActualCall& with_int_parameter(const mu::tiny::test::String&, int) override
+  ActualCall& with_int_parameter(const String&, int) override { return *this; }
+  ActualCall& with_unsigned_int_parameter(const String&, unsigned int) override
   {
     return *this;
   }
-  ActualCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String&,
-      unsigned int
-  ) override
-  {
-    return *this;
-  }
-  ActualCall& with_long_int_parameter(
-      const mu::tiny::test::String&,
-      long int
-  ) override
+  ActualCall& with_long_int_parameter(const String&, long int) override
   {
     return *this;
   }
   ActualCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       unsigned long int
   ) override
   {
     return *this;
   }
-  ActualCall& with_long_long_int_parameter(
-      const mu::tiny::test::String&,
-      long long
-  ) override
+  ActualCall& with_long_long_int_parameter(const String&, long long) override
   {
     return *this;
   }
   ActualCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       unsigned long long
   ) override
   {
     return *this;
   }
-  ActualCall& with_double_parameter(
-      const mu::tiny::test::String&,
-      double
-  ) override
+  ActualCall& with_double_parameter(const String&, double) override
   {
     return *this;
   }
-  ActualCall& with_string_parameter(
-      const mu::tiny::test::String&,
-      const char*
-  ) override
+  ActualCall& with_string_parameter(const String&, const char*) override
   {
     return *this;
   }
-  ActualCall& with_pointer_parameter(
-      const mu::tiny::test::String&,
-      void*
-  ) override
+  ActualCall& with_pointer_parameter(const String&, void*) override
   {
     return *this;
   }
-  ActualCall& with_const_pointer_parameter(
-      const mu::tiny::test::String&,
-      const void*
-  ) override
+  ActualCall& with_const_pointer_parameter(const String&, const void*) override
   {
     return *this;
   }
   ActualCall& with_function_pointer_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       void (*)()
   ) override
   {
     return *this;
   }
   ActualCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       const unsigned char*,
       size_t
   ) override
@@ -110,8 +83,8 @@ public:
     return *this;
   }
   ActualCall& with_parameter_of_type(
-      const mu::tiny::test::String&,
-      const mu::tiny::test::String&,
+      const String&,
+      const String&,
       const void*
   ) override
   {
@@ -125,16 +98,13 @@ public:
   {
     return *this;
   }
-  ActualCall& with_output_parameter(
-      const mu::tiny::test::String&,
-      void*
-  ) override
+  ActualCall& with_output_parameter(const String&, void*) override
   {
     return *this;
   }
   ActualCall& with_output_parameter_of_type(
-      const mu::tiny::test::String&,
-      const mu::tiny::test::String&,
+      const String&,
+      const String&,
       void*
   ) override
   {

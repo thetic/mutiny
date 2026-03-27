@@ -1,4 +1,4 @@
-#include "mutiny/test/math.hpp"
+#include "mutiny/math.hpp"
 
 #include <math.h>
 
@@ -6,6 +6,8 @@
 #include <float.h>
 #endif
 
+namespace mu {
+namespace tiny {
 namespace {
 
 int is_nan_impl(double d)
@@ -28,13 +30,8 @@ int is_inf_impl(double d)
 
 } // namespace
 
-namespace mu {
-namespace tiny {
-namespace test {
-
 int (*is_nan)(double) = is_nan_impl;
 int (*is_inf)(double) = is_inf_impl;
 
-} // namespace test
 } // namespace tiny
 } // namespace mu

@@ -836,9 +836,7 @@ TEST(TestShellMacros, FailureWithLONGS_EQUALShowsSymbolicParameters)
   );
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2 (0x2)>");
-  CHECK_FALSE(
-      mu::tiny::test::string_contains(fixture.get_output(), "Message: ")
-  );
+  CHECK_FALSE(mu::tiny::string_contains(fixture.get_output(), "Message: "));
 }
 
 TEST(TestShellMacros, LONGS_EQUALBehavesAsProperMacro)

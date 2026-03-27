@@ -90,11 +90,6 @@ private:
  * Zero-overhead wrapper for types that are assignable.
  *
  * @tparam T  Type to copy; must be copy-assignable.
- *
- * @code{.cpp}
- * mu::tiny::test::TypedMockCopier<Point> copier;
- * mock().install_copier("Point", copier);
- * @endcode
  */
 template<typename T>
 class TypedMockCopier : public NamedValueCopier

@@ -3,7 +3,8 @@
 
 #include "mutiny/test/Filter.hpp"
 #include "mutiny/test/Output.hpp"
-#include "mutiny/test/String.hpp"
+
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {

@@ -17,8 +17,6 @@
 #include "mutiny/test/Filter.hpp"
 #include "mutiny/test/Output.hpp"
 
-#include "mutiny/test.hpp"
-
 namespace mu {
 namespace tiny {
 namespace test {

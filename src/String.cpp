@@ -1,6 +1,6 @@
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
-#include "mutiny/test/math.hpp"
+#include "mutiny/math.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <string>
@@ -17,7 +17,6 @@
 
 namespace mu {
 namespace tiny {
-namespace test {
 
 namespace {
 #if !MUTINY_USE_STD_STRING
@@ -685,9 +684,9 @@ String brackets_formatted_hex_string_from(unsigned long long value)
 
 String string_from(double value, int precision)
 {
-  if (mu::tiny::test::is_nan(value))
+  if (is_nan(value))
     return "Nan - Not a number";
-  else if (mu::tiny::test::is_inf(value))
+  else if (is_inf(value))
     return "Inf - Infinity";
   else
     return string_from_format("%.*g", precision, value);
@@ -814,6 +813,5 @@ String string_from_ordinal_number(unsigned int number)
   return string_from_format("%u%s", number, suffix);
 }
 
-} // namespace test
 } // namespace tiny
 } // namespace mu

@@ -35,9 +35,9 @@ public:
     return static_cast<const Event*>(object1)->type ==
            static_cast<const Event*>(object2)->type;
   }
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
-    return mu::tiny::test::string_from(static_cast<const Event*>(object)->type);
+    return mu::tiny::string_from(static_cast<const Event*>(object)->type);
   }
 };
 

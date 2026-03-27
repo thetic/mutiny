@@ -8,8 +8,8 @@
 #ifndef INCLUDED_MUTINY_TEST_FAILURE_HPP
 #define INCLUDED_MUTINY_TEST_FAILURE_HPP
 
-#include "mutiny/test/String.hpp"
-#include "mutiny/test/features.hpp"
+#include "mutiny/String.hpp"
+#include "mutiny/features.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <stdexcept>

@@ -87,11 +87,12 @@ String Filter::as_string() const
   return text_filter;
 }
 
-String string_from(const Filter& filter)
+} // namespace test
+
+String string_from(const test::Filter& filter)
 {
   return filter.as_string();
 }
 
-} // namespace test
 } // namespace tiny
 } // namespace mu

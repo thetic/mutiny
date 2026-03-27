@@ -492,11 +492,11 @@ TEST(MockCall, shouldntFailTwice)
   mock().actual_call("bar");
   mock().check_expectations();
 
-  CHECK(!mu::tiny::test::string_contains(
+  CHECK(!mu::tiny::string_contains(
       FailureReporterForTest::get_reporter()->mock_failure_string, "bar"
   ));
   CHECK(
-      mu::tiny::test::string_contains(
+      mu::tiny::string_contains(
           FailureReporterForTest::get_reporter()->mock_failure_string, "boo"
       )
   );

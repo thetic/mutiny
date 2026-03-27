@@ -1,4 +1,4 @@
-#include "mutiny/test/time.hpp"
+#include "mutiny/time.hpp"
 
 #include <time.h>
 
@@ -7,6 +7,9 @@
 #elif defined(MUTINY_HAVE_GETTIMEOFDAY)
 #include <sys/time.h>
 #endif
+
+namespace mu {
+namespace tiny {
 
 namespace {
 
@@ -52,13 +55,8 @@ const char* get_time_string_impl()
 
 } // namespace
 
-namespace mu {
-namespace tiny {
-namespace test {
-
 unsigned long (*get_time_in_millis)() = get_time_in_millis_impl;
 const char* (*get_time_string)() = get_time_string_impl;
 
-} // namespace test
 } // namespace tiny
 } // namespace mu

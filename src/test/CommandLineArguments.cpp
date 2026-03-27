@@ -2,9 +2,9 @@
 
 #include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Registry.hpp"
-#include "mutiny/test/StringCollection.hpp"
-#include "mutiny/test/time.hpp"
 
+#include "mutiny/StringCollection.hpp"
+#include "mutiny/time.hpp"
 #include "mutiny/version.h"
 
 namespace mu {
@@ -317,8 +317,7 @@ bool CommandLineArguments::set_shuffle(
 )
 {
   shuffling_ = true;
-  shuffle_seed_ =
-      static_cast<unsigned int>(mu::tiny::test::get_time_in_millis());
+  shuffle_seed_ = static_cast<unsigned int>(get_time_in_millis());
   if (shuffle_seed_ == 0)
     shuffle_seed_++;
 

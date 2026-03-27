@@ -5,7 +5,9 @@
 #include "mutiny/test/JUnitOutputPlugin.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
+#include "mutiny/test/Result.hpp"
 #include "mutiny/test/SetPointerPlugin.hpp"
+#include "mutiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

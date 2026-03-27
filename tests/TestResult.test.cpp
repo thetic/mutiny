@@ -1,9 +1,9 @@
 #include "mutiny/test/Failure.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/time.hpp"
 
 #include "mutiny/test.hpp"
+#include "mutiny/time.hpp"
 
 namespace {
 unsigned long mock_get_time_in_millis()
@@ -24,7 +24,7 @@ TEST_GROUP(Result)
     mock = new mu::tiny::test::StringBufferOutput();
     printer = mock;
     res = new mu::tiny::test::Result(*printer);
-    MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
+    MUTINY_PTR_SET(mu::tiny::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {
@@ -36,7 +36,7 @@ TEST_GROUP(Result)
 TEST(Result, TestEndedWillPrintResultsAndExecutionTime)
 {
   res->tests_ended();
-  CHECK(mu::tiny::test::string_contains(mock->get_output(), "10 ms"));
+  CHECK(mu::tiny::string_contains(mock->get_output(), "10 ms"));
 }
 
 TEST(Result, ResultIsOkIfTestIsRunWithNoFailures)
@@ -60,7 +60,7 @@ TEST(Result, ResultIsNotOkIfFailures)
   res->add_failure(
       mu::tiny::test::Failure(
           mu::tiny::test::Shell::get_current(),
-          mu::tiny::test::string_from("dummy message")
+          mu::tiny::string_from("dummy message")
       )
   );
   CHECK_TRUE(res->is_failure());

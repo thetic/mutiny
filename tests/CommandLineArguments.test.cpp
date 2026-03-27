@@ -1,15 +1,15 @@
 #include "mutiny/test/CommandLineArguments.hpp"
 
 #include "mutiny/test/Registry.hpp"
-#include "mutiny/test/String.hpp"
 
+#include "mutiny/String.hpp"
 #include "mutiny/test.hpp"
 
 namespace {
 class OptionsPlugin : public mu::tiny::test::Plugin
 {
 public:
-  OptionsPlugin(const mu::tiny::test::String& name)
+  OptionsPlugin(const mu::tiny::String& name)
     : Plugin(name)
   {
   }
@@ -24,7 +24,7 @@ public:
     : Plugin("help")
   {
   }
-  mu::tiny::test::String get_help() const override
+  mu::tiny::String get_help() const override
   {
     return "  -phelp             - help text\n";
   }
@@ -468,14 +468,13 @@ TEST(CommandLineArguments, pluginHelp)
   mu::tiny::test::Registry::get_current_registry()->install_plugin(
       &help_plugin
   );
-  mu::tiny::test::String help_str = args->help();
+  mu::tiny::String help_str = args->help();
   CHECK(
       help_str.find("Options that are provided by plugins:") !=
-      mu::tiny::test::String::npos
+      mu::tiny::String::npos
   );
   CHECK(
-      help_str.find("-phelp             - help text") !=
-      mu::tiny::test::String::npos
+      help_str.find("-phelp             - help text") != mu::tiny::String::npos
   );
   mu::tiny::test::Registry::get_current_registry()->remove_plugin_by_name(
       "help"

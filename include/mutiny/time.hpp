@@ -3,12 +3,10 @@
 
 namespace mu {
 namespace tiny {
-namespace test {
 
 extern unsigned long (*get_time_in_millis)();
 extern const char* (*get_time_string)();
 
-} // namespace test
 } // namespace tiny
 } // namespace mu
 

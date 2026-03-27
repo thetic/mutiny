@@ -15,7 +15,7 @@ int sequence_number;
 class DummyPlugin : public mu::tiny::test::Plugin
 {
 public:
-  DummyPlugin(const mu::tiny::test::String& name)
+  DummyPlugin(const mu::tiny::String& name)
     : Plugin(name)
 
   {
@@ -45,14 +45,14 @@ public:
 class DummyPluginWhichAcceptsParameters : public DummyPlugin
 {
 public:
-  DummyPluginWhichAcceptsParameters(const mu::tiny::test::String& name)
+  DummyPluginWhichAcceptsParameters(const mu::tiny::String& name)
     : DummyPlugin(name)
   {
   }
 
   bool parse_arguments(int argc, const char* const* argv, int index) override
   {
-    mu::tiny::test::String argument(argv[index]);
+    mu::tiny::String argument(argv[index]);
     if (argument == "-paccept")
       return true;
     return Plugin::parse_arguments(argc, argv, index);

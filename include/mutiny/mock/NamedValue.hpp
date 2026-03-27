@@ -41,7 +41,7 @@ public:
    *
    * @param name  The parameter or data key.
    */
-  NamedValue(const mu::tiny::test::String& name);
+  NamedValue(const String& name);
   NamedValue(const NamedValue&) = default;
   NamedValue(NamedValue&&) noexcept;
   virtual ~NamedValue() = default;
@@ -93,7 +93,7 @@ public:
    * @param object_ptr  Const pointer to the object.
    */
   virtual void set_const_object_pointer(
-      const mu::tiny::test::String& type,
+      const String& type,
       const void* object_ptr
   );
   /**
@@ -102,10 +102,7 @@ public:
    * @param type        Type name string.
    * @param object_ptr  Pointer to the object.
    */
-  virtual void set_object_pointer(
-      const mu::tiny::test::String& type,
-      void* object_ptr
-  );
+  virtual void set_object_pointer(const String& type, void* object_ptr);
   /**
    * @brief Set the size field (used for memory buffer parameters).
    *
@@ -149,12 +146,12 @@ public:
    *
    * @return Display string.
    */
-  virtual mu::tiny::test::String to_string() const;
+  virtual String to_string() const;
 
   /** @return The name of this value. */
-  virtual mu::tiny::test::String get_name() const;
+  virtual String get_name() const;
   /** @return The type tag string (e.g. "int", "MyClass", "const char*"). */
-  virtual mu::tiny::test::String get_type() const;
+  virtual String get_type() const;
 
   /** @return The stored bool. */
   virtual bool get_bool_value() const;
@@ -225,8 +222,8 @@ public:
   static const double default_double_tolerance;
 
 private:
-  mu::tiny::test::String name_;
-  mu::tiny::test::String type_;
+  String name_;
+  String type_;
   bool is_const_object_{ false };
   union
   {

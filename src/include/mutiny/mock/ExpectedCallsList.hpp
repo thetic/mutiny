@@ -1,7 +1,7 @@
 #ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALLSLIST_HPP
 #define INCLUDED_MUTINY_MOCK_EXPECTEDCALLSLIST_HPP
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {
@@ -22,23 +22,21 @@ public:
 
   virtual unsigned int size() const;
   virtual unsigned int amount_of_actual_calls_fulfilled_for(
-      const mu::tiny::test::String& name
+      const String& name
   ) const;
   virtual unsigned int amount_of_unfulfilled_expectations() const;
   virtual bool has_unfulfilled_expectations() const;
   virtual bool has_finalized_matching_expectations() const;
   virtual bool
   has_unmatching_expectations_because_of_missing_parameters() const;
-  virtual bool has_expectation_with_name(
-      const mu::tiny::test::String& name
-  ) const;
+  virtual bool has_expectation_with_name(const String& name) const;
   virtual bool has_calls_out_of_order() const;
   virtual bool empty() const;
 
   virtual void add_expected_call(CheckedExpectedCall* call);
   virtual void add_expectations(const ExpectedCallsList& list);
   virtual void add_expectations_related_to(
-      const mu::tiny::test::String& name,
+      const String& name,
       const ExpectedCallsList& list
   );
 
@@ -47,20 +45,18 @@ public:
       const ExpectedCallsList& list
   );
 
-  virtual void only_keep_expectations_related_to(
-      const mu::tiny::test::String& name
-  );
+  virtual void only_keep_expectations_related_to(const String& name);
   virtual void only_keep_expectations_with_input_parameter(
       const NamedValue& parameter
   );
   virtual void only_keep_expectations_with_input_parameter_name(
-      const mu::tiny::test::String& name
+      const String& name
   );
   virtual void only_keep_expectations_with_output_parameter(
       const NamedValue& parameter
   );
   virtual void only_keep_expectations_with_output_parameter_name(
-      const mu::tiny::test::String& name
+      const String& name
   );
   virtual void only_keep_expectations_on_object(const void* object_ptr);
   virtual void only_keep_unmatching_expectations();
@@ -71,22 +67,18 @@ public:
 
   virtual void reset_actual_call_matching_state();
   virtual void was_passed_to_object();
-  virtual void parameter_was_passed(
-      const mu::tiny::test::String& parameter_name
-  );
-  virtual void output_parameter_was_passed(
-      const mu::tiny::test::String& parameter_name
-  );
+  virtual void parameter_was_passed(const String& parameter_name);
+  virtual void output_parameter_was_passed(const String& parameter_name);
 
-  virtual mu::tiny::test::String unfulfilled_calls_to_string(
-      const mu::tiny::test::String& line_prefix = ""
+  virtual String unfulfilled_calls_to_string(
+      const String& line_prefix = ""
   ) const;
-  virtual mu::tiny::test::String fulfilled_calls_to_string(
-      const mu::tiny::test::String& line_prefix = ""
+  virtual String fulfilled_calls_to_string(
+      const String& line_prefix = ""
   ) const;
-  virtual mu::tiny::test::String calls_with_missing_parameters_to_string(
-      const mu::tiny::test::String& line_prefix,
-      const mu::tiny::test::String& missing_parameters_prefix
+  virtual String calls_with_missing_parameters_to_string(
+      const String& line_prefix,
+      const String& missing_parameters_prefix
   ) const;
 
 protected:

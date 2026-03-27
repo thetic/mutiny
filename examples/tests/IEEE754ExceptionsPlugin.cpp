@@ -11,9 +11,7 @@
 
 bool IEEE754ExceptionsPlugin::inexact_disabled_ = true;
 
-IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(
-    const mu::tiny::test::String& name
-)
+IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const mu::tiny::String& name)
   : Plugin(name)
 {
 }

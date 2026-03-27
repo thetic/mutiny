@@ -55,7 +55,7 @@ public:
    *
    * @param mock_name  Scope name; empty string means the global scope.
    */
-  Support(const mu::tiny::test::String& mock_name = "");
+  Support(const String& mock_name = "");
   virtual ~Support();
 
   /**
@@ -74,9 +74,7 @@ public:
    * @return A fluent ExpectedCall for chaining .with_parameter() and
    *         .and_return_value() constraints.
    */
-  virtual ExpectedCall& expect_one_call(
-      const mu::tiny::test::String& function_name
-  );
+  virtual ExpectedCall& expect_one_call(const String& function_name);
 
   /**
    * @brief Assert that @p function_name is never called.
@@ -85,7 +83,7 @@ public:
    *
    * @param function_name  Function that must not be called.
    */
-  virtual void expect_no_call(const mu::tiny::test::String& function_name);
+  virtual void expect_no_call(const String& function_name);
 
   /**
    * @brief Expect exactly @p amount calls to @p function_name.
@@ -97,7 +95,7 @@ public:
    */
   virtual ExpectedCall& expect_n_calls(
       unsigned int amount,
-      const mu::tiny::test::String& function_name
+      const String& function_name
   );
 
   /**
@@ -243,32 +241,32 @@ public:
    * @param name  Data key.
    * @return true if set_data() was previously called with @p name.
    */
-  bool has_data(const mu::tiny::test::String& name);
+  bool has_data(const String& name);
 
   /** @brief Store a bool value under @p name for retrieval across mock calls.
    * @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, bool value);
+  void set_data(const String& name, bool value);
   /** @brief Store an int value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, int value);
+  void set_data(const String& name, int value);
   /** @brief Store an unsigned int value. @param name Key. @param value Value.
    */
-  void set_data(const mu::tiny::test::String& name, unsigned int value);
+  void set_data(const String& name, unsigned int value);
   /** @brief Store a long int value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, long int value);
+  void set_data(const String& name, long int value);
   /** @brief Store an unsigned long int value. @param name Key. @param value
    * Value. */
-  void set_data(const mu::tiny::test::String& name, unsigned long int value);
+  void set_data(const String& name, unsigned long int value);
   /** @brief Store a string value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, const char* value);
+  void set_data(const String& name, const char* value);
   /** @brief Store a double value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, double value);
+  void set_data(const String& name, double value);
   /** @brief Store a void* value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, void* value);
+  void set_data(const String& name, void* value);
   /** @brief Store a const void* value. @param name Key. @param value Value. */
-  void set_data(const mu::tiny::test::String& name, const void* value);
+  void set_data(const String& name, const void* value);
   /** @brief Store a function pointer value. @param name Key. @param value
    * Value. */
-  void set_data(const mu::tiny::test::String& name, FunctionPointerValue value);
+  void set_data(const String& name, FunctionPointerValue value);
 
   /**
    * @brief Store a mutable object pointer with a type name.
@@ -277,11 +275,7 @@ public:
    * @param type   Type name string (used for display on failure).
    * @param value  Pointer to the object.
    */
-  void set_data_object(
-      const mu::tiny::test::String& name,
-      const mu::tiny::test::String& type,
-      void* value
-  );
+  void set_data_object(const String& name, const String& type, void* value);
 
   /**
    * @brief Store a const object pointer with a type name.
@@ -291,8 +285,8 @@ public:
    * @param value  Const pointer to the object.
    */
   void set_data_const_object(
-      const mu::tiny::test::String& name,
-      const mu::tiny::test::String& type,
+      const String& name,
+      const String& type,
       const void* value
   );
 
@@ -303,7 +297,7 @@ public:
    * @return The stored NamedValue; type is undefined if @p name was not
    * set.
    */
-  NamedValue get_data(const mu::tiny::test::String& name);
+  NamedValue get_data(const String& name);
 
   /**
    * @brief Get (or create) a named child scope.
@@ -314,7 +308,7 @@ public:
    * @param name  Scope name.
    * @return Pointer to the child Support scope.
    */
-  Support* get_mock_support_scope(const mu::tiny::test::String& name);
+  Support* get_mock_support_scope(const String& name);
 
   /**
    * @return A C string containing all traced call output, or empty string if
@@ -398,7 +392,7 @@ public:
    * @param comparator  Comparator whose lifetime must exceed the test.
    */
   virtual void install_comparator(
-      const mu::tiny::test::String& type_name,
+      const String& type_name,
       NamedValueComparator& comparator
   );
 
@@ -411,7 +405,7 @@ public:
    * @param copier     Copier whose lifetime must exceed the test.
    */
   virtual void install_copier(
-      const mu::tiny::test::String& type_name,
+      const String& type_name,
       NamedValueCopier& copier
   );
 
@@ -430,7 +424,7 @@ public:
 
 protected:
   /** @brief Create a child Support scope with the given name. */
-  Support* clone(const mu::tiny::test::String& mock_name);
+  Support* clone(const String& mock_name);
   /** @brief Factory method for the actual-call object (override in tests). */
   virtual CheckedActualCall* create_actual_call();
   /** @brief Record a mock failure via the active failure reporter. */
@@ -447,7 +441,7 @@ private:
   bool strict_ordering_{ false };
   bool ignore_other_calls_{ false };
   bool enabled_{ true };
-  const mu::tiny::test::String mock_name_;
+  const String mock_name_;
   bool tracing_{ false };
 
   void check_expectations_of_last_actual_call();
@@ -455,16 +449,14 @@ private:
   void fail_test_with_expected_calls_not_fulfilled();
   void fail_test_with_out_of_order_calls();
 
-  NamedValue* retrieve_data_from_store(const mu::tiny::test::String& name);
+  NamedValue* retrieve_data_from_store(const String& name);
 
   Support* get_mock_support(NamedValueListNode* node);
 
-  bool call_is_ignored(const mu::tiny::test::String& function_name);
+  bool call_is_ignored(const String& function_name);
   bool has_calls_out_of_order();
 
-  mu::tiny::test::String append_scope_to_name(
-      const mu::tiny::test::String& function_name
-  );
+  String append_scope_to_name(const String& function_name);
 };
 
 /**
@@ -487,7 +479,7 @@ private:
  * @return Reference to the Support for the requested scope.
  */
 Support& mock(
-    const mu::tiny::test::String& mock_name = "",
+    const String& mock_name = "",
     FailureReporter* failure_reporter_for_this_call = nullptr
 );
 

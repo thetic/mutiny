@@ -15,7 +15,7 @@
 class FailureReporterForTest : public mu::tiny::mock::FailureReporter
 {
 public:
-  mu::tiny::test::String mock_failure_string;
+  mu::tiny::String mock_failure_string;
 
   void fail_test(mu::tiny::mock::Failure failure) override;
   void report_failure(const mu::tiny::mock::Failure& failure) override;
@@ -35,7 +35,7 @@ public:
 };
 
 mu::tiny::test::Shell* mock_failure_test();
-mu::tiny::test::String mock_failure_string();
+mu::tiny::String mock_failure_string();
 void clear_mock_failure();
 void check_expected_mock_failure_location(
     const mu::tiny::mock::Failure& expected_failure,
@@ -49,14 +49,14 @@ class ExpectedCallsListForTest : public mu::tiny::mock::ExpectedCallsList
 public:
   ~ExpectedCallsListForTest() override;
   mu::tiny::mock::CheckedExpectedCall* add_function(
-      const mu::tiny::test::String& name
+      const mu::tiny::String& name
   );
   mu::tiny::mock::CheckedExpectedCall* add_function(
       unsigned int num_calls,
-      const mu::tiny::test::String& name
+      const mu::tiny::String& name
   );
   mu::tiny::mock::CheckedExpectedCall* add_function_ordered(
-      const mu::tiny::test::String& name,
+      const mu::tiny::String& name,
       unsigned int order
   );
 };

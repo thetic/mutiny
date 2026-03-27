@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.hpp"
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 #include <stdlib.h>
 
@@ -27,15 +27,15 @@ public:
 
   void print(long int value) override
   {
-    mu::tiny::test::String buffer;
-    buffer = mu::tiny::test::string_from_format("%ld", value);
+    mu::tiny::String buffer;
+    buffer = mu::tiny::string_from_format("%ld", value);
     saved_output_ += buffer.c_str();
   }
 
-  mu::tiny::test::String get_output() const { return saved_output_; }
+  mu::tiny::String get_output() const { return saved_output_; }
 
 private:
-  mu::tiny::test::String saved_output_;
+  mu::tiny::String saved_output_;
 };
 
 #endif // D_MockPrinter_H

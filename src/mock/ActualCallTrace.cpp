@@ -3,7 +3,6 @@
 namespace mu {
 namespace tiny {
 namespace mock {
-using namespace mu::tiny::test;
 
 ActualCallTrace* ActualCallTrace::instance_ = nullptr;
 
@@ -17,7 +16,7 @@ ActualCall& ActualCallTrace::with_name(const String& name)
 ActualCall& ActualCallTrace::with_call_order(unsigned int call_order)
 {
   trace_buffer_ += " withCallOrder:";
-  trace_buffer_ += mu::tiny::test::string_from(call_order);
+  trace_buffer_ += string_from(call_order);
   return *this;
 }
 
@@ -31,7 +30,7 @@ void ActualCallTrace::add_parameter_name(const String& name)
 ActualCall& ActualCallTrace::with_bool_parameter(const String& name, bool value)
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -41,16 +40,16 @@ ActualCall& ActualCallTrace::with_unsigned_int_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
 ActualCall& ActualCallTrace::with_int_parameter(const String& name, int value)
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
@@ -60,8 +59,8 @@ ActualCall& ActualCallTrace::with_unsigned_long_int_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
@@ -71,8 +70,8 @@ ActualCall& ActualCallTrace::with_long_int_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
@@ -82,8 +81,8 @@ ActualCall& ActualCallTrace::with_unsigned_long_long_int_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
@@ -93,8 +92,8 @@ ActualCall& ActualCallTrace::with_long_long_int_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value) + " " +
-                   brackets_formatted_hex_string_from(value);
+  trace_buffer_ +=
+      string_from(value) + " " + brackets_formatted_hex_string_from(value);
   return *this;
 }
 
@@ -104,7 +103,7 @@ ActualCall& ActualCallTrace::with_double_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -114,7 +113,7 @@ ActualCall& ActualCallTrace::with_string_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -124,7 +123,7 @@ ActualCall& ActualCallTrace::with_pointer_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -134,7 +133,7 @@ ActualCall& ActualCallTrace::with_const_pointer_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -144,7 +143,7 @@ ActualCall& ActualCallTrace::with_function_pointer_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -168,7 +167,7 @@ ActualCall& ActualCallTrace::with_parameter_of_type(
   trace_buffer_ += " ";
   trace_buffer_ += type_name;
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(value);
+  trace_buffer_ += string_from(value);
   return *this;
 }
 
@@ -196,7 +195,7 @@ ActualCall& ActualCallTrace::with_output_parameter(
 )
 {
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(output);
+  trace_buffer_ += string_from(output);
   return *this;
 }
 
@@ -209,7 +208,7 @@ ActualCall& ActualCallTrace::with_output_parameter_of_type(
   trace_buffer_ += " ";
   trace_buffer_ += type_name;
   add_parameter_name(name);
-  trace_buffer_ += mu::tiny::test::string_from(output);
+  trace_buffer_ += string_from(output);
   return *this;
 }
 
@@ -351,7 +350,7 @@ unsigned int ActualCallTrace::return_unsigned_int_value_or_default(unsigned int)
 ActualCall& ActualCallTrace::on_object(const void* object_ptr)
 {
   trace_buffer_ += " onObject:";
-  trace_buffer_ += mu::tiny::test::string_from(object_ptr);
+  trace_buffer_ += string_from(object_ptr);
   return *this;
 }
 

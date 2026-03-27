@@ -88,7 +88,7 @@ public:
 class MyTestPluginDummy : public mu::tiny::test::Plugin
 {
 public:
-  MyTestPluginDummy(const mu::tiny::test::String& name)
+  MyTestPluginDummy(const mu::tiny::String& name)
     : Plugin(name)
   {
   }
@@ -333,7 +333,7 @@ TEST(Registry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2
   my_registry->add_test(test4);
 
   my_registry->list_test_group_names(*result);
-  mu::tiny::test::String s = output->get_output();
+  mu::tiny::String s = output->get_output();
   STRCMP_EQUAL("GROUP_2 GROUP_11 GROUP_1", s.c_str());
 }
 
@@ -350,7 +350,7 @@ TEST(Registry, listTestGroupAndCaseNames_shouldListBackwardsGroupATestaAfterGrou
   my_registry->add_test(test3);
 
   my_registry->list_test_group_and_case_names(*result);
-  mu::tiny::test::String s = output->get_output();
+  mu::tiny::String s = output->get_output();
   STRCMP_EQUAL("GROUP_A.test_aa GROUP_B.test_b GROUP_A.test_a", s.c_str());
 }
 
@@ -373,7 +373,7 @@ TEST(Registry, listTestLocations_shouldListBackwardsGroupATestaAfterGroupAtestaa
   my_registry->add_test(test3);
 
   my_registry->list_test_locations(*result);
-  mu::tiny::test::String s = output->get_output();
+  mu::tiny::String s = output->get_output();
   STRCMP_EQUAL(
       "GROUP_A.test_aa.cpptest_simple/my_tests/"
       "testaa.cpp.300\nGROUP_B.test_b.cpptest_simple/my "

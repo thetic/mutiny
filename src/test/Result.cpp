@@ -2,7 +2,8 @@
 
 #include "mutiny/test/Failure.hpp"
 #include "mutiny/test/Output.hpp"
-#include "mutiny/test/time.hpp"
+
+#include "mutiny/time.hpp"
 
 namespace mu {
 namespace tiny {
@@ -16,23 +17,20 @@ Result::Result(Output& p)
 void Result::current_group_started(Shell* test)
 {
   output_.print_current_group_started(*test);
-  current_group_time_started_ =
-      static_cast<size_t>(mu::tiny::test::get_time_in_millis());
+  current_group_time_started_ = static_cast<size_t>(get_time_in_millis());
 }
 
 void Result::current_group_ended(Shell* /*test*/)
 {
   current_group_total_execution_time_ =
-      static_cast<size_t>(mu::tiny::test::get_time_in_millis()) -
-      current_group_time_started_;
+      static_cast<size_t>(get_time_in_millis()) - current_group_time_started_;
   output_.print_current_group_ended(*this);
 }
 
 void Result::current_test_started(Shell* test)
 {
   output_.print_current_test_started(*test);
-  current_test_time_started_ =
-      static_cast<size_t>(mu::tiny::test::get_time_in_millis());
+  current_test_time_started_ = static_cast<size_t>(get_time_in_millis());
 }
 
 void Result::print(const char* text)
@@ -48,8 +46,7 @@ void Result::print_very_verbose(const char* text)
 void Result::current_test_ended(Shell* /*test*/)
 {
   current_test_total_execution_time_ =
-      static_cast<size_t>(mu::tiny::test::get_time_in_millis()) -
-      current_test_time_started_;
+      static_cast<size_t>(get_time_in_millis()) - current_test_time_started_;
   output_.print_current_test_ended(*this);
 }
 
@@ -91,13 +88,13 @@ void Result::count_ignored()
 
 void Result::tests_started()
 {
-  time_started_ = static_cast<size_t>(mu::tiny::test::get_time_in_millis());
+  time_started_ = static_cast<size_t>(get_time_in_millis());
   output_.print_tests_started();
 }
 
 void Result::tests_ended()
 {
-  auto time_ended = static_cast<size_t>(mu::tiny::test::get_time_in_millis());
+  auto time_ended = static_cast<size_t>(get_time_in_millis());
   total_execution_time_ = time_ended - time_started_;
   output_.print_tests_ended(*this);
 }

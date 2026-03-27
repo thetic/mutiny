@@ -3,7 +3,6 @@
 namespace mu {
 namespace tiny {
 namespace mock {
-using namespace mu::tiny::test;
 
 void NamedValueListNode::set_next(NamedValueListNode* node)
 {

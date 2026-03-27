@@ -117,15 +117,15 @@ bool TeamCityOutputPlugin::parse_arguments(
     int index
 )
 {
-  mu::tiny::test::String arg = argv[index];
-  if (arg.size() > 2 && mu::tiny::test::String(arg.c_str() + 2) == "teamcity") {
+  mu::tiny::String arg = argv[index];
+  if (arg.size() > 2 && mu::tiny::String(arg.c_str() + 2) == "teamcity") {
     active_ = true;
     return true;
   }
   return false;
 }
 
-mu::tiny::test::String TeamCityOutputPlugin::get_help() const
+mu::tiny::String TeamCityOutputPlugin::get_help() const
 {
   return "  -pteamcity        - output TeamCity output\n";
 }

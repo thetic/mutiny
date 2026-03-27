@@ -4,7 +4,8 @@
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/Shell.hpp"
-#include "mutiny/test/time.hpp"
+
+#include "mutiny/time.hpp"
 
 namespace mu {
 namespace tiny {

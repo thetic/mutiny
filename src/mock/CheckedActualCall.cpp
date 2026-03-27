@@ -10,7 +10,6 @@
 namespace mu {
 namespace tiny {
 namespace mock {
-using namespace mu::tiny::test;
 
 const String& CheckedActualCall::get_name() const
 {
@@ -42,7 +41,7 @@ void CheckedActualCall::set_mock_failure_reporter(FailureReporter* reporter)
   reporter_ = reporter;
 }
 
-mu::tiny::test::Shell* CheckedActualCall::get_test() const
+test::Shell* CheckedActualCall::get_test() const
 {
   return reporter_->get_test_to_fail();
 }

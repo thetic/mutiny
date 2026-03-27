@@ -14,7 +14,7 @@ namespace mock {
 namespace {
 class MockSupportPluginReporter : public FailureReporter
 {
-  mu::tiny::test::Shell& test_;
+  test::Shell& test_;
   test::Result& result_;
 
 public:
@@ -26,11 +26,11 @@ public:
 
   void fail_test(Failure failure) override { result_.add_failure(failure); }
 
-  mu::tiny::test::Shell* get_test_to_fail() override { return &test_; }
+  test::Shell* get_test_to_fail() override { return &test_; }
 };
 } // namespace
 
-SupportPlugin::SupportPlugin(const test::String& name)
+SupportPlugin::SupportPlugin(const String& name)
   : Plugin(name)
 {
 }
@@ -62,17 +62,14 @@ void SupportPlugin::post_test_action(test::Shell& test, test::Result& result)
 }
 
 void SupportPlugin::install_comparator(
-    const test::String& name,
+    const String& name,
     NamedValueComparator& comparator
 )
 {
   repository_.install_comparator(name, comparator);
 }
 
-void SupportPlugin::install_copier(
-    const test::String& name,
-    NamedValueCopier& copier
-)
+void SupportPlugin::install_copier(const String& name, NamedValueCopier& copier)
 {
   repository_.install_copier(name, copier);
 }

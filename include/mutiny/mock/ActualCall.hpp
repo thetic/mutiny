@@ -35,7 +35,7 @@ public:
 
   /** @brief Report the function name for this call (used internally). @param
    * name Function name. @return *this. */
-  virtual ActualCall& with_name(const mu::tiny::test::String& name) = 0;
+  virtual ActualCall& with_name(const String& name) = 0;
   /** @brief Set the call order index for strict-ordering checks. @param
    * call_order Order index. @return *this. */
   virtual ActualCall& with_call_order(unsigned int call_order) = 0;
@@ -53,83 +53,62 @@ public:
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  ActualCall& with_parameter(const mu::tiny::test::String& name, bool value)
+  ActualCall& with_parameter(const String& name, bool value)
   {
     return with_bool_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(const mu::tiny::test::String& name, int value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, int value)
   {
     return with_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned int value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, unsigned int value)
   {
     return with_unsigned_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(const mu::tiny::test::String& name, long int value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, long int value)
   {
     return with_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned long int value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, unsigned long int value)
   {
     return with_unsigned_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      long long value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, long long value)
   {
     return with_long_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      unsigned long long value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, unsigned long long value)
   {
     return with_unsigned_long_long_int_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(const mu::tiny::test::String& name, double value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, double value)
   {
     return with_double_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      const char* value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, const char* value)
   {
     return with_string_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(const mu::tiny::test::String& name, void* value)
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, void* value)
   {
     return with_pointer_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      void (*value)()
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, void (*value)())
   {
     return with_function_pointer_parameter(name, value);
   }
-  /** @copydoc with_parameter(const mu::tiny::test::String&, bool) */
-  ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
-      const void* value
-  )
+  /** @copydoc with_parameter(const String&, bool) */
+  ActualCall& with_parameter(const String& name, const void* value)
   {
     return with_const_pointer_parameter(name, value);
   }
@@ -142,7 +121,7 @@ public:
    * @return *this for chaining.
    */
   ActualCall& with_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   )
@@ -171,8 +150,8 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& with_parameter_of_type(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       const void* value
   ) = 0;
   /** @overload */
@@ -193,7 +172,7 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& with_output_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void* output
   ) = 0;
 
@@ -207,87 +186,81 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& with_output_parameter_of_type(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       void* output
   ) = 0;
 
   /** @brief Report a bool parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual ActualCall& with_bool_parameter(
-      const mu::tiny::test::String& name,
-      bool value
-  ) = 0;
+  virtual ActualCall& with_bool_parameter(const String& name, bool value) = 0;
   /** @brief Report an int parameter. @param name Name. @param value Value.
    * @return *this. */
-  virtual ActualCall& with_int_parameter(
-      const mu::tiny::test::String& name,
-      int value
-  ) = 0;
+  virtual ActualCall& with_int_parameter(const String& name, int value) = 0;
   /** @brief Report an unsigned int parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ActualCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned int value
   ) = 0;
   /** @brief Report a long int parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ActualCall& with_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long int value
   ) = 0;
   /** @brief Report an unsigned long int parameter. @param name Name. @param
    * value Value. @return *this. */
   virtual ActualCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long int value
   ) = 0;
   /** @brief Report a long long int parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ActualCall& with_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long long value
   ) = 0;
   /** @brief Report an unsigned long long int parameter. @param name Name.
    * @param value Value. @return *this. */
   virtual ActualCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long long value
   ) = 0;
   /** @brief Report a double parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ActualCall& with_double_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       double value
   ) = 0;
   /** @brief Report a C string parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ActualCall& with_string_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const char* value
   ) = 0;
   /** @brief Report a void* parameter. @param name Name. @param value Value.
    * @return *this. */
   virtual ActualCall& with_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void* value
   ) = 0;
   /** @brief Report a function pointer parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ActualCall& with_function_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void (*value)()
   ) = 0;
   /** @brief Report a const void* parameter. @param name Name. @param value
    * Value. @return *this. */
   virtual ActualCall& with_const_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const void* value
   ) = 0;
   /** @brief Report a memory buffer parameter (String name). @param name Name.
    * @param value Buffer pointer. @param size Buffer size. @return *this. */
   virtual ActualCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   ) = 0;

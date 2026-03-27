@@ -1,9 +1,9 @@
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/time.hpp"
 
 #include "mutiny/test.hpp"
+#include "mutiny/time.hpp"
 
 namespace {
 unsigned long millis_time;
@@ -36,7 +36,7 @@ TEST_GROUP(Output)
     result = new mu::tiny::test::Result(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
-    MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
+    MUTINY_PTR_SET(mu::tiny::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {

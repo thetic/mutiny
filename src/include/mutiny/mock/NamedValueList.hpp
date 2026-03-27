@@ -12,8 +12,8 @@ class NamedValueListNode
 public:
   NamedValueListNode(NamedValue* new_value);
 
-  mu::tiny::test::String get_name() const;
-  mu::tiny::test::String get_type() const;
+  String get_name() const;
+  String get_type() const;
 
   NamedValueListNode* next();
   NamedValue* item();
@@ -36,7 +36,7 @@ public:
   void add(NamedValue* new_value);
   void clear();
 
-  NamedValue* get_value_by_name(const mu::tiny::test::String& name);
+  NamedValue* get_value_by_name(const String& name);
 
 private:
   NamedValueListNode* head_{ nullptr };

@@ -20,7 +20,7 @@ public:
 private:
   void print_escaped(const char* s);
   const mu::tiny::test::Shell* currtest_{ nullptr };
-  mu::tiny::test::String curr_group_;
+  mu::tiny::String curr_group_;
 };
 
 class TeamCityOutputPlugin : public mu::tiny::test::Plugin
@@ -29,7 +29,7 @@ public:
   TeamCityOutputPlugin();
 
   bool parse_arguments(int argc, const char* const* argv, int index) override;
-  mu::tiny::test::String get_help() const override;
+  mu::tiny::String get_help() const override;
   mu::tiny::test::Output* create_output() override;
 
 private:

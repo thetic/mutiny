@@ -1,8 +1,7 @@
 #include "TeamCityOutputPlugin.hpp"
 
-#include "mutiny/test/time.hpp"
-
 #include "mutiny/test.hpp"
+#include "mutiny/time.hpp"
 
 namespace {
 class TeamCityOutputToBuffer : public TeamCityTestOutput
@@ -16,10 +15,10 @@ public:
 
   void flush() override { output_ = ""; }
 
-  const mu::tiny::test::String& get_output() { return output_; }
+  const mu::tiny::String& get_output() { return output_; }
 
 private:
-  mu::tiny::test::String output_;
+  mu::tiny::String output_;
 };
 
 unsigned long millis_time;
@@ -52,7 +51,7 @@ TEST_GROUP(TeamCityTestOutput)
     result = new mu::tiny::test::Result(*mock);
     result->set_total_execution_time(10);
     millis_time = 0;
-    MUTINY_PTR_SET(mu::tiny::test::get_time_in_millis, mock_get_time_in_millis);
+    MUTINY_PTR_SET(mu::tiny::get_time_in_millis, mock_get_time_in_millis);
   }
   void teardown() override
   {

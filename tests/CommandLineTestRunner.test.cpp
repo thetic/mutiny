@@ -2,8 +2,8 @@
 #include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/StringCollection.hpp"
 
+#include "mutiny/StringCollection.hpp"
 #include "mutiny/test.hpp"
 
 namespace {
@@ -14,7 +14,7 @@ public:
   int amount_of_plugins{ 0 };
 
   DummyPluginWhichCountsThePlugins(
-      const mu::tiny::test::String& name,
+      const mu::tiny::String& name,
       mu::tiny::test::Registry* registry
   )
     : Plugin(name)
@@ -126,7 +126,7 @@ TEST_GROUP(CommandLineRunner)
     delete test1;
   }
 
-  mu::tiny::test::String run_and_get_output(const int argc, const char* argv[])
+  mu::tiny::String run_and_get_output(const int argc, const char* argv[])
   {
     CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
         argc, argv, &registry
@@ -277,7 +277,7 @@ TEST(CommandLineRunner, defaultTestsAreRunInOrderTheyAreInRepository)
   );
   command_line_test_runner.run_all_tests_main();
 
-  mu::tiny::test::StringCollection string_collection(
+  mu::tiny::StringCollection string_collection(
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output(),
       '\n'
@@ -296,7 +296,7 @@ TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
   );
   command_line_test_runner.run_all_tests_main();
 
-  mu::tiny::test::StringCollection string_collection(
+  mu::tiny::StringCollection string_collection(
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output(),
       '\n'
@@ -363,7 +363,7 @@ TEST(CommandLineRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
   registry.add_test(another_test);
 
   const char* argv[] = { "tests.exe", "-s" };
-  mu::tiny::test::String text = run_and_get_output(2, argv);
+  mu::tiny::String text = run_and_get_output(2, argv);
   STRCMP_CONTAINS("shuffling enabled with seed:", text.c_str());
 
   delete another_test;
@@ -372,7 +372,7 @@ TEST(CommandLineRunner, randomShuffleSeedIsPrintedAndRandFuncIsExercised)
 TEST(CommandLineRunner, specificShuffleSeedIsPrintedVerbose)
 {
   const char* argv[] = { "tests.exe", "-s2", "-v" };
-  mu::tiny::test::String text = run_and_get_output(3, argv);
+  mu::tiny::String text = run_and_get_output(3, argv);
   STRCMP_CONTAINS("shuffling enabled with seed: 2", text.c_str());
 }
 
@@ -422,8 +422,8 @@ struct FakeOutput
 
   static void fclose_fake(mu::tiny::test::Output::File) {}
 
-  mu::tiny::test::String file;
-  mu::tiny::test::String console;
+  mu::tiny::String file;
+  mu::tiny::String console;
 
   static FakeOutput* current_fake_;
 

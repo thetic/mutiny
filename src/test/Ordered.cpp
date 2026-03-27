@@ -40,7 +40,7 @@ bool OrderedShell::first_ordered_test()
 
 OrderedShell* OrderedShell::add_ordered_test(OrderedShell* test)
 {
-  mu::tiny::test::Shell::add_test(test);
+  Shell::add_test(test);
   next_ordered_test_ = test;
   return this;
 }
@@ -48,7 +48,7 @@ OrderedShell* OrderedShell::add_ordered_test(OrderedShell* test)
 void OrderedShell::add_ordered_test_to_head(OrderedShell* test)
 {
   Registry* reg = Registry::get_current_registry();
-  mu::tiny::test::Shell* head = get_ordered_test_head();
+  Shell* head = get_ordered_test_head();
 
   if (nullptr == reg->get_first_test() || head == reg->get_first_test()) {
     reg->add_test(test);

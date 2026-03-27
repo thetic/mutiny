@@ -87,9 +87,7 @@ TEST(Filter, notEqual)
 TEST(Filter, stringFrom)
 {
   mu::tiny::test::Filter filter("filter");
-  STRCMP_EQUAL(
-      "Filter: \"filter\"", mu::tiny::test::string_from(filter).c_str()
-  );
+  STRCMP_EQUAL("Filter: \"filter\"", mu::tiny::string_from(filter).c_str());
 }
 
 TEST(Filter, stringFromWithStrictMatching)
@@ -98,7 +96,7 @@ TEST(Filter, stringFromWithStrictMatching)
   filter.strict_matching();
   STRCMP_EQUAL(
       "Filter: \"filter\" with strict matching",
-      mu::tiny::test::string_from(filter).c_str()
+      mu::tiny::string_from(filter).c_str()
   );
 }
 
@@ -108,7 +106,7 @@ TEST(Filter, stringFromWithInvertMatching)
   filter.invert_matching();
   STRCMP_EQUAL(
       "Filter: \"filter\" with invert matching",
-      mu::tiny::test::string_from(filter).c_str()
+      mu::tiny::string_from(filter).c_str()
   );
 }
 
@@ -119,7 +117,7 @@ TEST(Filter, stringFromWithStrictInvertMatching)
   filter.invert_matching();
   STRCMP_EQUAL(
       "Filter: \"filter\" with strict, invert matching",
-      mu::tiny::test::string_from(filter).c_str()
+      mu::tiny::string_from(filter).c_str()
   );
 }
 
@@ -131,20 +129,16 @@ TEST(Filter, listOfFilters)
   list_of_filters = first.add(list_of_filters);
   list_of_filters = secnd.add(list_of_filters);
   mu::tiny::test::Filter* current = list_of_filters;
-  STRCMP_EQUAL(
-      "Filter: \"bar\"", mu::tiny::test::string_from(*current).c_str()
-  );
+  STRCMP_EQUAL("Filter: \"bar\"", mu::tiny::string_from(*current).c_str());
   current = current->get_next();
-  STRCMP_EQUAL(
-      "Filter: \"foo\"", mu::tiny::test::string_from(*current).c_str()
-  );
+  STRCMP_EQUAL("Filter: \"foo\"", mu::tiny::string_from(*current).c_str());
   POINTERS_EQUAL(nullptr, current->get_next());
 }
 
 TEST(Filter, constructors)
 {
   mu::tiny::test::Filter filter1;
-  mu::tiny::test::Filter filter2(mu::tiny::test::String("a"));
+  mu::tiny::test::Filter filter2(mu::tiny::String("a"));
   mu::tiny::test::Filter filter3("a");
   CHECK(filter1.get_next() == nullptr);
   CHECK(filter2.get_next() == nullptr);

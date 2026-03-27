@@ -1,7 +1,7 @@
 #ifndef INCLUDED_MUTINY_TEST_FILTER_HPP
 #define INCLUDED_MUTINY_TEST_FILTER_HPP
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {
@@ -34,9 +34,10 @@ private:
   Filter* next_;
 };
 
-String string_from(const Filter& filter);
-
 } // namespace test
+
+String string_from(const test::Filter& filter);
+
 } // namespace tiny
 } // namespace mu
 

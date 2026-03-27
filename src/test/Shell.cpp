@@ -7,7 +7,9 @@
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/Test.hpp"
 #include "mutiny/test/jump_buffer.h"
-#include "mutiny/test/math.hpp"
+
+#include "mutiny/String.hpp"
+#include "mutiny/math.hpp"
 
 #include <math.h>
 #include <stdlib.h>
@@ -34,8 +36,7 @@ private:
   OutsideTestRunnerUTest()
     : Shell(
           "\n\t NOTE: Assertion happened without being in a test run "
-          "(perhaps in "
-          "main?)",
+          "(perhaps in main?)",
           "\n\t       Something is very wrong. Check this assertion and fix",
           "unknown file",
           0
@@ -98,11 +99,10 @@ void (*please_crash_me_right_now)() = abort;
 
 bool doubles_equal(double d1, double d2, double threshold)
 {
-  if (mu::tiny::test::is_nan(d1) || mu::tiny::test::is_nan(d2) ||
-      mu::tiny::test::is_nan(threshold))
+  if (is_nan(d1) || is_nan(d2) || is_nan(threshold))
     return false;
 
-  if (mu::tiny::test::is_inf(d1) && mu::tiny::test::is_inf(d2)) {
+  if (is_inf(d1) && is_inf(d2)) {
     return true;
   }
 
@@ -114,8 +114,6 @@ const Terminator* Shell::current_test_terminator_without_exceptions_ =
     &normal_test_terminator_without_exceptions;
 
 bool Shell::rethrow_exceptions_ = false;
-
-/******************************** */
 
 Shell::Shell()
   : group_("UndefinedTestGroup")

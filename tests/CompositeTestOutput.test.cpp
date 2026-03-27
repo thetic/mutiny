@@ -15,21 +15,20 @@ public:
 
   void print_tests_ended(const mu::tiny::test::Result& result) override
   {
-    output_ += mu::tiny::test::string_from_format(
+    output_ += mu::tiny::string_from_format(
         "Test End %d\n", static_cast<int>(result.get_test_count())
     );
   }
 
   void print_current_group_started(const mu::tiny::test::Shell& test) override
   {
-    output_ += mu::tiny::test::string_from_format(
-        "Group %s Start\n", test.get_group()
-    );
+    output_ +=
+        mu::tiny::string_from_format("Group %s Start\n", test.get_group());
   }
 
   void print_current_group_ended(const mu::tiny::test::Result& res) override
   {
-    output_ += mu::tiny::test::string_from_format(
+    output_ += mu::tiny::string_from_format(
         "Group End %d\n", static_cast<int>(res.get_test_count())
     );
   }

@@ -7,7 +7,8 @@
 #define INCLUDED_MUTINY_TEST_REGISTRY_HPP
 
 #include "mutiny/test/Filter.hpp"
-#include "mutiny/test/String.hpp"
+
+#include "mutiny/String.hpp"
 
 #include <stddef.h>
 

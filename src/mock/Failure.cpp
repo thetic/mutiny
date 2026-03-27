@@ -79,7 +79,7 @@ void Failure::add_expectations_and_call_history(
 }
 
 void Failure::add_expectations_and_call_history_related_to(
-    const test::String& name,
+    const String& name,
     const ExpectedCallsList& expectations
 )
 {
@@ -111,7 +111,7 @@ ExpectedCallsDidntHappenFailure::ExpectedCallsDidntHappenFailure(
 
 UnexpectedCallHappenedFailure::UnexpectedCallHappenedFailure(
     test::Shell* test,
-    const test::String& name,
+    const String& name,
     const ExpectedCallsList& expectations
 )
   : Failure(test)
@@ -119,9 +119,9 @@ UnexpectedCallHappenedFailure::UnexpectedCallHappenedFailure(
   unsigned int amount_of_actual_calls =
       expectations.amount_of_actual_calls_fulfilled_for(name);
   if (amount_of_actual_calls > 0) {
-    test::String ordinal_number =
-        test::string_from_ordinal_number(amount_of_actual_calls + 1);
-    message_ = test::string_from_format(
+    String ordinal_number =
+        string_from_ordinal_number(amount_of_actual_calls + 1);
+    message_ = string_from_format(
         "Mock Failure: Unexpected additional (%s) call to function: ",
         ordinal_number.c_str()
     );
@@ -150,7 +150,7 @@ CallOrderFailure::CallOrderFailure(
 
 UnexpectedInputParameterFailure::UnexpectedInputParameterFailure(
     test::Shell* test,
-    const test::String& function_name,
+    const String& function_name,
     NamedValue parameter,
     const ExpectedCallsList& expectations
 )
@@ -196,7 +196,7 @@ UnexpectedInputParameterFailure::UnexpectedInputParameterFailure(
 
 UnexpectedOutputParameterFailure::UnexpectedOutputParameterFailure(
     test::Shell* test,
-    const test::String& function_name,
+    const String& function_name,
     NamedValue parameter,
     const ExpectedCallsList& expectations
 )
@@ -239,7 +239,7 @@ UnexpectedOutputParameterFailure::UnexpectedOutputParameterFailure(
 
 ExpectedParameterDidntHappenFailure::ExpectedParameterDidntHappenFailure(
     test::Shell* test,
-    const test::String& function_name,
+    const String& function_name,
     const ExpectedCallsList& all_expectations,
     const ExpectedCallsList& matching_expectations
 )
@@ -262,11 +262,11 @@ ExpectedParameterDidntHappenFailure::ExpectedParameterDidntHappenFailure(
 
 NoWayToCompareCustomTypeFailure::NoWayToCompareCustomTypeFailure(
     test::Shell* test,
-    test::String type_name
+    String type_name
 )
   : Failure(test)
 {
-  message_ = test::string_from_format(
+  message_ = string_from_format(
       "Failure: No way to compare type <%s>. "
       "Please install a NamedValueComparator.",
       type_name.c_str()
@@ -275,11 +275,11 @@ NoWayToCompareCustomTypeFailure::NoWayToCompareCustomTypeFailure(
 
 NoWayToCopyCustomTypeFailure::NoWayToCopyCustomTypeFailure(
     test::Shell* test,
-    test::String type_name
+    String type_name
 )
   : Failure(test)
 {
-  message_ = test::string_from_format(
+  message_ = string_from_format(
       "Failure: No way to copy type <%s>. Please "
       "install a NamedValueCopier.",
       type_name.c_str()
@@ -288,13 +288,13 @@ NoWayToCopyCustomTypeFailure::NoWayToCopyCustomTypeFailure(
 
 UnexpectedObjectFailure::UnexpectedObjectFailure(
     test::Shell* test,
-    const test::String& function_name,
+    const String& function_name,
     const void* actual,
     const ExpectedCallsList& expectations
 )
   : Failure(test)
 {
-  message_ = test::string_from_format(
+  message_ = string_from_format(
       "Failure: Function called on an unexpected object: %s\n"
       "\tActual object for call has address: <%p>\n",
       function_name.c_str(),
@@ -305,12 +305,12 @@ UnexpectedObjectFailure::UnexpectedObjectFailure(
 
 ExpectedObjectDidntHappenFailure::ExpectedObjectDidntHappenFailure(
     test::Shell* test,
-    const test::String& function_name,
+    const String& function_name,
     const ExpectedCallsList& expectations
 )
   : Failure(test)
 {
-  message_ = test::string_from_format(
+  message_ = string_from_format(
       "Mock Failure: Expected call on object for "
       "function \"%s\" but it did not happen.\n",
       function_name.c_str()

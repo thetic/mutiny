@@ -10,106 +10,81 @@ namespace mock {
 class IgnoredExpectedCall : public ExpectedCall
 {
 public:
-  ExpectedCall& with_name(const mu::tiny::test::String&) override
-  {
-    return *this;
-  }
+  ExpectedCall& with_name(const String&) override { return *this; }
   ExpectedCall& with_call_order(unsigned int) override { return *this; }
   ExpectedCall& with_call_order(unsigned int, unsigned int) override
   {
     return *this;
   }
-  ExpectedCall& with_bool_parameter(
-      const mu::tiny::test::String&,
-      bool
-  ) override
+  ExpectedCall& with_bool_parameter(const String&, bool) override
   {
     return *this;
   }
-  ExpectedCall& with_int_parameter(const mu::tiny::test::String&, int) override
+  ExpectedCall& with_int_parameter(const String&, int) override
   {
     return *this;
   }
   ExpectedCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       unsigned int
   ) override
   {
     return *this;
   }
-  ExpectedCall& with_long_int_parameter(
-      const mu::tiny::test::String&,
-      long int
-  ) override
+  ExpectedCall& with_long_int_parameter(const String&, long int) override
   {
     return *this;
   }
   ExpectedCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       unsigned long int
   ) override
   {
     return *this;
   }
-  ExpectedCall& with_long_long_int_parameter(
-      const mu::tiny::test::String&,
-      long long
-  ) override
+  ExpectedCall& with_long_long_int_parameter(const String&, long long) override
   {
     return *this;
   }
   ExpectedCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       unsigned long long
   ) override
   {
     return *this;
   }
-  ExpectedCall& with_double_parameter(
-      const mu::tiny::test::String&,
-      double
-  ) override
+  ExpectedCall& with_double_parameter(const String&, double) override
   {
     return *this;
   }
-  ExpectedCall& with_double_parameter(
-      const mu::tiny::test::String&,
-      double,
-      double
-  ) override
+  ExpectedCall& with_double_parameter(const String&, double, double) override
   {
     return *this;
   }
-  ExpectedCall& with_string_parameter(
-      const mu::tiny::test::String&,
-      const char*
-  ) override
+  ExpectedCall& with_string_parameter(const String&, const char*) override
   {
     return *this;
   }
-  ExpectedCall& with_pointer_parameter(
-      const mu::tiny::test::String&,
-      void*
-  ) override
+  ExpectedCall& with_pointer_parameter(const String&, void*) override
   {
     return *this;
   }
   ExpectedCall& with_const_pointer_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       const void*
   ) override
   {
     return *this;
   }
   ExpectedCall& with_function_pointer_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       void (*)()
   ) override
   {
     return *this;
   }
   ExpectedCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String&,
+      const String&,
       const unsigned char*,
       size_t
   ) override
@@ -117,15 +92,15 @@ public:
     return *this;
   }
   ExpectedCall& with_parameter_of_type(
-      const mu::tiny::test::String&,
-      const mu::tiny::test::String&,
+      const String&,
+      const String&,
       const void*
   ) override
   {
     return *this;
   }
   ExpectedCall& with_output_parameter_returning(
-      const mu::tiny::test::String&,
+      const String&,
       const void*,
       size_t
   ) override
@@ -133,16 +108,14 @@ public:
     return *this;
   }
   ExpectedCall& with_output_parameter_of_type_returning(
-      const mu::tiny::test::String&,
-      const mu::tiny::test::String&,
+      const String&,
+      const String&,
       const void*
   ) override
   {
     return *this;
   }
-  ExpectedCall& with_unmodified_output_parameter(
-      const mu::tiny::test::String&
-  ) override
+  ExpectedCall& with_unmodified_output_parameter(const String&) override
   {
     return *this;
   }

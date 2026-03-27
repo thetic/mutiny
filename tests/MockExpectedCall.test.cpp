@@ -27,10 +27,10 @@ public:
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
     auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
-    return mu::tiny::test::string_from(*(obj->value));
+    return mu::tiny::string_from(*(obj->value));
   }
 };
 
@@ -79,7 +79,7 @@ TEST(ExpectedCall, callWithoutParameterSetOrNotFound)
 
 TEST(ExpectedCall, callWithUnsignedIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   unsigned int value = 356;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -97,7 +97,7 @@ TEST(ExpectedCall, callWithUnsignedIntegerParameter)
 
 TEST(ExpectedCall, callWithIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   int value = 2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("int", call->get_input_parameter_type(param_name).c_str());
@@ -110,7 +110,7 @@ TEST(ExpectedCall, callWithIntegerParameter)
 
 TEST(ExpectedCall, callWithBooleanParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   bool value = true;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("bool", call->get_input_parameter_type(param_name).c_str());
@@ -123,7 +123,7 @@ TEST(ExpectedCall, callWithBooleanParameter)
 
 TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   unsigned long value = 888;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -141,7 +141,7 @@ TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
 
 TEST(ExpectedCall, callWithLongIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   long value = 777;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("long int", call->get_input_parameter_type(param_name).c_str());
@@ -157,7 +157,7 @@ TEST(ExpectedCall, callWithLongIntegerParameter)
 
 TEST(ExpectedCall, callWithUnsignedLongLongIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   unsigned long long value = 888;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -177,7 +177,7 @@ TEST(ExpectedCall, callWithUnsignedLongLongIntegerParameter)
 
 TEST(ExpectedCall, callWithLongLongIntegerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   long long value = 777;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -195,7 +195,7 @@ TEST(ExpectedCall, callWithLongLongIntegerParameter)
 
 TEST(ExpectedCall, callWithDoubleParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   double value = 1.2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
@@ -209,7 +209,7 @@ TEST(ExpectedCall, callWithDoubleParameter)
 
 TEST(ExpectedCall, callWithDoubleParameterAndTolerance)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   double value = 1.2;
   double tolerance = 0.2;
   call->with_parameter(param_name, value, tolerance);
@@ -229,7 +229,7 @@ TEST(ExpectedCall, callWithDoubleParameterAndTolerance)
 
 TEST(ExpectedCall, callWithStringParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   const char* value = "hello world";
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -244,7 +244,7 @@ TEST(ExpectedCall, callWithStringParameter)
 
 TEST(ExpectedCall, callWithPointerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("void*", call->get_input_parameter_type(param_name).c_str());
@@ -258,7 +258,7 @@ TEST(ExpectedCall, callWithPointerParameter)
 
 TEST(ExpectedCall, callWithConstPointerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   const void* value = reinterpret_cast<const void*>(0x345);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -275,7 +275,7 @@ TEST(ExpectedCall, callWithConstPointerParameter)
 
 TEST(ExpectedCall, callWithFunctionPointerParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   auto value = reinterpret_cast<void (*)()>(0xdead);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL(
@@ -292,7 +292,7 @@ TEST(ExpectedCall, callWithFunctionPointerParameter)
 
 TEST(ExpectedCall, callWithMemoryBuffer)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   const unsigned char value[] = { 0x12, 0xFE, 0xA1 };
   call->with_parameter(param_name, value, sizeof(value));
   STRCMP_EQUAL(
@@ -311,7 +311,7 @@ TEST(ExpectedCall, callWithMemoryBuffer)
 
 TEST(ExpectedCall, callWithObjectParameter)
 {
-  const mu::tiny::test::String param_name = "paramName";
+  const mu::tiny::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter_of_type("ClassName", param_name, value);
   POINTERS_EQUAL(

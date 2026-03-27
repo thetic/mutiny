@@ -66,9 +66,7 @@ TEST(IgnoredActualCall, allWithMethodsReturnSelf)
   POINTERS_EQUAL(&ignored, &r15);
 
   auto& r16 = ignored.with_memory_buffer_parameter(
-      mu::tiny::test::String("waa"),
-      static_cast<const unsigned char*>(nullptr),
-      0
+      mu::tiny::String("waa"), static_cast<const unsigned char*>(nullptr), 0
   );
   POINTERS_EQUAL(&ignored, &r16);
 
@@ -78,8 +76,8 @@ TEST(IgnoredActualCall, allWithMethodsReturnSelf)
   POINTERS_EQUAL(&ignored, &r17);
 
   auto& r18 = ignored.with_parameter_of_type(
-      mu::tiny::test::String("mytype"),
-      mu::tiny::test::String("top"),
+      mu::tiny::String("mytype"),
+      mu::tiny::String("top"),
       static_cast<const void*>(nullptr)
   );
   POINTERS_EQUAL(&ignored, &r18);
@@ -93,8 +91,8 @@ TEST(IgnoredActualCall, allWithMethodsReturnSelf)
   POINTERS_EQUAL(&ignored, &r20);
 
   auto& r21 = ignored.with_output_parameter_of_type(
-      mu::tiny::test::String("mytype"),
-      mu::tiny::test::String("bar"),
+      mu::tiny::String("mytype"),
+      mu::tiny::String("bar"),
       static_cast<void*>(nullptr)
   );
   POINTERS_EQUAL(&ignored, &r21);

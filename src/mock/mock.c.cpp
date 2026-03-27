@@ -76,9 +76,9 @@ public:
   {
     return equal(object1, object2) != 0;
   }
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
-    return mu::tiny::test::String(to_string(object));
+    return mu::tiny::String(to_string(object));
   }
 
   MockCFunctionComparatorNode* next;
@@ -700,7 +700,7 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
     const mu::tiny::mock::NamedValue& named_value
 )
 {
-  using mu::tiny::test::strcmp;
+  using mu::tiny::strcmp;
   struct MutinyMockValue return_value;
   if (strcmp(named_value.get_type().c_str(), "bool") == 0) {
     return_value.type = mutiny_type_bool;

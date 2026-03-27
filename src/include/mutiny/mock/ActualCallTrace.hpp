@@ -13,58 +13,46 @@ public:
   ActualCallTrace() = default;
   ~ActualCallTrace() override = default;
 
-  ActualCall& with_name(const mu::tiny::test::String& name) override;
+  ActualCall& with_name(const String& name) override;
   ActualCall& with_call_order(unsigned int) override;
-  ActualCall& with_bool_parameter(
-      const mu::tiny::test::String& name,
-      bool value
-  ) override;
-  ActualCall& with_int_parameter(
-      const mu::tiny::test::String& name,
-      int value
-  ) override;
+  ActualCall& with_bool_parameter(const String& name, bool value) override;
+  ActualCall& with_int_parameter(const String& name, int value) override;
   ActualCall& with_unsigned_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned int value
   ) override;
   ActualCall& with_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long int value
   ) override;
   ActualCall& with_unsigned_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long int value
   ) override;
   ActualCall& with_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       long long value
   ) override;
   ActualCall& with_unsigned_long_long_int_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       unsigned long long value
   ) override;
-  ActualCall& with_double_parameter(
-      const mu::tiny::test::String& name,
-      double value
-  ) override;
+  ActualCall& with_double_parameter(const String& name, double value) override;
   ActualCall& with_string_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const char* value
   ) override;
-  ActualCall& with_pointer_parameter(
-      const mu::tiny::test::String& name,
-      void* value
-  ) override;
+  ActualCall& with_pointer_parameter(const String& name, void* value) override;
   ActualCall& with_const_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const void* value
   ) override;
   ActualCall& with_function_pointer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       void (*value)()
   ) override;
   ActualCall& with_memory_buffer_parameter(
-      const mu::tiny::test::String& name,
+      const String& name,
       const unsigned char* value,
       size_t size
   ) override;
@@ -74,8 +62,8 @@ public:
       size_t size
   ) override;
   ActualCall& with_parameter_of_type(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       const void* value
   ) override;
   ActualCall& with_parameter_of_type(
@@ -83,13 +71,10 @@ public:
       const char* name,
       const void* value
   ) override;
-  ActualCall& with_output_parameter(
-      const mu::tiny::test::String& name,
-      void* output
-  ) override;
+  ActualCall& with_output_parameter(const String& name, void* output) override;
   ActualCall& with_output_parameter_of_type(
-      const mu::tiny::test::String& type_name,
-      const mu::tiny::test::String& name,
+      const String& type_name,
+      const String& name,
       void* output
   ) override;
 
@@ -154,11 +139,11 @@ public:
   static void clear_instance();
 
 private:
-  mu::tiny::test::String trace_buffer_;
+  String trace_buffer_;
 
   static ActualCallTrace* instance_;
 
-  void add_parameter_name(const mu::tiny::test::String& name);
+  void add_parameter_name(const String& name);
 };
 
 } // namespace mock

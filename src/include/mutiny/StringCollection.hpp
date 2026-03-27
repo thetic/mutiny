@@ -1,11 +1,10 @@
 #ifndef INCLUDED_MUTINY_TEST_STRINGCOLLECTION_HPP
 #define INCLUDED_MUTINY_TEST_STRINGCOLLECTION_HPP
 
-#include "mutiny/test/String.hpp"
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {
-namespace test {
 
 class StringCollection
 {
@@ -28,7 +27,6 @@ private:
   size_t size_{ 0 };
 };
 
-} // namespace test
 } // namespace tiny
 } // namespace mu
 

@@ -245,14 +245,14 @@ Template comparator (simplest)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :cpp:class:`TypedMockComparator\<T\> <mu::tiny::mock::TypedMockComparator>` requires
-``operator==`` and :cpp:func:`string_from() <mu::tiny::test::string_from>`:
+``operator==`` and :cpp:func:`string_from() <mu::tiny::string_from>`:
 
 .. code-block:: cpp
 
    TypedMockComparator<Packet> packet_cmp;
    mock().install_comparator("Packet", packet_cmp);
    // Requires: operator==(const Packet&, const Packet&)
-   // and: mu::tiny::test::String string_from(const Packet&)
+   // and: mu::tiny::String string_from(const Packet&)
 
 Function-based comparator
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -266,7 +266,7 @@ pointers instead of a subclass:
        [](const void* a, const void* b) {
            return *static_cast<const Packet*>(a) == *static_cast<const Packet*>(b);
        },
-       [](const void* a) -> mu::tiny::test::String {
+       [](const void* a) -> mu::tiny::String {
            return static_cast<const Packet*>(a)->to_string();
        }
    );
@@ -286,7 +286,7 @@ for full control:
        bool is_equal(const void* a, const void* b) override {
            return *static_cast<const Packet*>(a) == *static_cast<const Packet*>(b);
        }
-       mu::tiny::test::String value_to_string(const void* a) override {
+       mu::tiny::String value_to_string(const void* a) override {
            return static_cast<const Packet*>(a)->to_string();
        }
    };

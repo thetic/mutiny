@@ -93,10 +93,7 @@ public:
   {
     return object1 == object2;
   }
-  mu::tiny::test::String value_to_string(const void*) override
-  {
-    return "string";
-  }
+  mu::tiny::String value_to_string(const void*) override { return "string"; }
 };
 
 TEST(SupportPlugin, installComparatorRecordsTheComparatorButNotInstallsItYet)

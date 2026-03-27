@@ -1,14 +1,16 @@
 #include "mutiny/mock/CheckedExpectedCall.hpp"
 
+#include "mutiny/String.hpp"
+
 namespace mu {
 namespace tiny {
-namespace mock {
-using namespace mu::tiny::test;
 
-String string_from(const NamedValue& parameter)
+String string_from(const mock::NamedValue& parameter)
 {
   return parameter.to_string();
 }
+
+namespace mock {
 
 void CheckedExpectedCall::set_name(const String& name)
 {
@@ -271,7 +273,7 @@ ExpectedCall& CheckedExpectedCall::with_unmodified_output_parameter(
 String CheckedExpectedCall::get_input_parameter_type(const String& name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? p->get_type() : mu::tiny::test::string_from("");
+  return (p) ? p->get_type() : string_from("");
 }
 
 bool CheckedExpectedCall::has_input_parameter_with_name(const String& name)
@@ -392,7 +394,7 @@ void CheckedExpectedCall::output_parameter_was_passed(const String& name)
 String CheckedExpectedCall::get_input_parameter_value_string(const String& name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? string_from(*p) : mu::tiny::test::string_from("failed");
+  return (p) ? string_from(*p) : string_from("failed");
 }
 
 bool CheckedExpectedCall::has_input_parameter(const NamedValue& parameter)

@@ -24,22 +24,15 @@ public:
   virtual ~NamedValueComparatorsAndCopiersRepository();
 
   virtual void install_comparator(
-      const mu::tiny::test::String& name,
+      const String& name,
       NamedValueComparator& comparator
   );
-  virtual void install_copier(
-      const mu::tiny::test::String& name,
-      NamedValueCopier& copier
-  );
+  virtual void install_copier(const String& name, NamedValueCopier& copier);
   virtual void install_comparators_and_copiers(
       const NamedValueComparatorsAndCopiersRepository& repository
   );
-  virtual NamedValueComparator* get_comparator_for_type(
-      const mu::tiny::test::String& name
-  );
-  virtual NamedValueCopier* get_copier_for_type(
-      const mu::tiny::test::String& name
-  );
+  virtual NamedValueComparator* get_comparator_for_type(const String& name);
+  virtual NamedValueCopier* get_copier_for_type(const String& name);
 
   void clear();
 };

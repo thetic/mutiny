@@ -50,6 +50,7 @@ target_sources(mutiny
         src/mock/SupportPlugin.cpp
         src/mock/mock.c.cpp
         src/mock/mock.cpp
+        src/String.cpp
         src/test/CommandLineArguments.cpp
         src/test/CommandLineRunner.cpp
         src/test/CompositeOutput.cpp
@@ -71,15 +72,14 @@ target_sources(mutiny
         src/test/SetPointerPlugin.cpp
         src/test/Shell.cpp
         src/test/ShellPointerArray.cpp
-        src/test/String.cpp
-        src/test/StringCollection.cpp
+        src/StringCollection.cpp
         src/test/Terminator.cpp
         src/test/Test.cpp
         src/test/TestingFixture.cpp
         src/test/jump_buffer.c
-        src/test/math.cpp
+        src/math.cpp
         src/test/test.c.cpp
-        src/test/time.cpp
+        src/time.cpp
     PUBLIC FILE_SET HEADERS
         BASE_DIRS
             include
@@ -95,6 +95,7 @@ target_sources(mutiny
             include/mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp
             include/mutiny/mock/NamedValueCopier.hpp
             include/mutiny/mock/SupportPlugin.hpp
+            include/mutiny/String.hpp
             include/mutiny/test.h
             include/mutiny/test.hpp
             include/mutiny/test/CommandLineArguments.hpp
@@ -105,6 +106,7 @@ target_sources(mutiny
             include/mutiny/test/Filter.hpp
             include/mutiny/test/IgnoredShell.hpp
             include/mutiny/test/Installer.hpp
+            include/mutiny/test/JUnitOutputPlugin.hpp
             include/mutiny/test/Ordered.hpp
             include/mutiny/test/Output.hpp
             include/mutiny/test/Plugin.hpp
@@ -113,13 +115,12 @@ target_sources(mutiny
             include/mutiny/test/SetPointerPlugin.hpp
             include/mutiny/test/Shell.hpp
             include/mutiny/test/ShellPointerArray.hpp
-            include/mutiny/test/String.hpp
             include/mutiny/test/StringBufferOutput.hpp
             include/mutiny/test/Terminator.hpp
             include/mutiny/test/Test.hpp
             include/mutiny/test/TestingFixture.hpp
-            include/mutiny/test/features.hpp
-            include/mutiny/test/time.hpp
+            include/mutiny/features.hpp
+            include/mutiny/time.hpp
             ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS src/include
@@ -134,11 +135,10 @@ target_sources(mutiny
             src/include/mutiny/test/CompositeOutput.hpp
             src/include/mutiny/test/ExecFunctionShell.hpp
             src/include/mutiny/test/JUnitOutput.hpp
-            src/include/mutiny/test/JUnitOutputPlugin.hpp
             src/include/mutiny/test/NullPlugin.hpp
-            src/include/mutiny/test/StringCollection.hpp
+            src/include/mutiny/StringCollection.hpp
             src/include/mutiny/test/jump_buffer.h
-            src/include/mutiny/test/math.hpp
+            src/include/mutiny/math.hpp
 )
 
 include(CheckCXXSymbolExists)

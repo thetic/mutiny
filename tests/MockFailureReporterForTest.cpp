@@ -55,7 +55,7 @@ mu::tiny::test::Shell* mock_failure_test()
   return FailureReporterForTest::get_reporter()->get_test_to_fail();
 }
 
-mu::tiny::test::String mock_failure_string()
+mu::tiny::String mock_failure_string()
 {
   return FailureReporterForTest::get_reporter()->mock_failure_string;
 }
@@ -71,12 +71,11 @@ void check_expected_mock_failure_location(
     size_t line
 )
 {
-  mu::tiny::test::String expected_failure_string =
-      expected_failure.get_message();
-  mu::tiny::test::String actual_failure_string = mock_failure_string();
+  mu::tiny::String expected_failure_string = expected_failure.get_message();
+  mu::tiny::String actual_failure_string = mock_failure_string();
   clear_mock_failure();
   if (expected_failure_string != actual_failure_string) {
-    mu::tiny::test::String error = "MockFailures are different.\n";
+    mu::tiny::String error = "MockFailures are different.\n";
     error += "Expected Failure:\n\t";
     error += expected_failure_string;
     error += "\nActual Failure:\n\t";
@@ -88,7 +87,7 @@ void check_expected_mock_failure_location(
 void check_no_mock_failure_location(const char* file, size_t line)
 {
   if (mock_failure_string() != "") {
-    mu::tiny::test::String error = "Unexpected mock failure:\n";
+    mu::tiny::String error = "Unexpected mock failure:\n";
     error += mock_failure_string();
     clear_mock_failure();
     FAIL_LOCATION(error.c_str(), file, line);
@@ -102,7 +101,7 @@ ExpectedCallsListForTest::~ExpectedCallsListForTest()
 }
 
 mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
-    const mu::tiny::test::String& name
+    const mu::tiny::String& name
 )
 {
   auto* new_call = new mu::tiny::mock::CheckedExpectedCall;
@@ -113,7 +112,7 @@ mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
 
 mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
     unsigned int num_calls,
-    const mu::tiny::test::String& name
+    const mu::tiny::String& name
 )
 {
   auto* new_call = new mu::tiny::mock::CheckedExpectedCall(num_calls);
@@ -123,7 +122,7 @@ mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
 }
 
 mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::
-    add_function_ordered(const mu::tiny::test::String& name, unsigned int order)
+    add_function_ordered(const mu::tiny::String& name, unsigned int order)
 {
   auto* new_call = add_function(name);
   new_call->with_call_order(order);

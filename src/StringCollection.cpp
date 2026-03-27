@@ -1,8 +1,7 @@
-#include "mutiny/test/StringCollection.hpp"
+#include "mutiny/StringCollection.hpp"
 
 namespace mu {
 namespace tiny {
-namespace test {
 namespace {
 size_t count_substr(const String& string, const String& substr)
 {
@@ -76,6 +75,5 @@ String& StringCollection::operator[](size_t index)
   return collection_[index];
 }
 
-} // namespace test
 } // namespace tiny
 } // namespace mu

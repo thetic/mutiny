@@ -82,12 +82,11 @@ TEST_GROUP(MockFailure)
         mu::tiny::test::Shell::get_current(), "bar", call_list
     );
 
-    mu::tiny::test::String expected_message =
-        mu::tiny::test::string_from_format(
-            "Mock Failure: Unexpected additional (%s) call to "
-            "function: bar\n\tEXPECTED",
-            expected_ordinal
-        );
+    mu::tiny::String expected_message = mu::tiny::string_from_format(
+        "Mock Failure: Unexpected additional (%s) call to "
+        "function: bar\n\tEXPECTED",
+        expected_ordinal
+    );
     STRCMP_CONTAINS(expected_message.c_str(), failure.get_message().c_str());
   }
 };
@@ -373,7 +372,7 @@ TEST(MockFailure, UnexpectedObjectFailure)
       *list
   );
   STRCMP_EQUAL(
-      mu::tiny::test::string_from_format(
+      mu::tiny::string_from_format(
           "Failure: Function called on an unexpected object: foo\n"
           "\tActual object for call has address: <%p>\n"
           "\tEXPECTED calls that WERE NOT fulfilled related to function: foo\n"
@@ -406,7 +405,7 @@ TEST(MockFailure, ExpectedObjectDidntHappenFailure)
       mu::tiny::test::Shell::get_current(), "foo", *list
   );
   STRCMP_EQUAL(
-      mu::tiny::test::string_from_format(
+      mu::tiny::string_from_format(
           "Mock Failure: Expected call on object for function \"foo\" but it "
           "did "
           "not happen.\n"

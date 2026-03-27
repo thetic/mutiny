@@ -2,8 +2,9 @@
 
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Shell.hpp"
-#include "mutiny/test/String.hpp"
-#include "mutiny/test/math.hpp"
+
+#include "mutiny/String.hpp"
+#include "mutiny/math.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <typeinfo>
@@ -284,8 +285,7 @@ DoublesEqualFailure::DoublesEqualFailure(
   message_ += string_from(threshold, 7);
   message_ += ">";
 
-  if (mu::tiny::test::is_nan(expected) || mu::tiny::test::is_nan(actual) ||
-      mu::tiny::test::is_nan(threshold))
+  if (is_nan(expected) || is_nan(actual) || is_nan(threshold))
     message_ += "\n\tCannot make comparisons with Nan";
 }
 

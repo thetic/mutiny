@@ -83,9 +83,9 @@ public:
   {
     return object1 == object2;
   }
-  mu::tiny::test::String value_to_string(const void* object) override
+  mu::tiny::String value_to_string(const void* object) override
   {
-    return mu::tiny::test::string_from(object);
+    return mu::tiny::string_from(object);
   }
 };
 

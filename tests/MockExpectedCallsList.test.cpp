@@ -223,8 +223,7 @@ TEST(ExpectedCallsList, callToStringForUnfulfilledFunctions)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
 
-  mu::tiny::test::String expected_string;
-  expected_string = mu::tiny::test::string_from_format(
+  auto expected_string = mu::tiny::string_from_format(
       "%s\n%s", call1->call_to_string().c_str(), call2->call_to_string().c_str()
   );
   STRCMP_EQUAL(
@@ -243,8 +242,7 @@ TEST(ExpectedCallsList, callsWithMissingParametersToString)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  mu::tiny::test::String expected_string;
-  expected_string = mu::tiny::test::string_from_format(
+  auto expected_string = mu::tiny::string_from_format(
       "-%s\n-#%s\n-%s\n-#%s",
       call1->call_to_string().c_str(),
       call1->missing_parameters_to_string().c_str(),
@@ -268,8 +266,7 @@ TEST(ExpectedCallsList, callToStringForFulfilledFunctions)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  mu::tiny::test::String expected_string;
-  expected_string = mu::tiny::test::string_from_format(
+  auto expected_string = mu::tiny::string_from_format(
       "%s\n%s", call1->call_to_string().c_str(), call2->call_to_string().c_str()
   );
   STRCMP_EQUAL(

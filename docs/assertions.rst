@@ -57,14 +57,14 @@ message.
 To make :c:macro:`CHECK_EQUAL` work with your own types, provide:
 
 1. ``operator==(const YourType&, const YourType&)``
-2. :cpp:class:`mu::tiny::test::String` ``string_from(const YourType&)`` — used in the
+2. :cpp:class:`mu::tiny::String` ``string_from(const YourType&)`` — used in the
    failure message
 
 .. code-block:: cpp
 
-   namespace mu { namespace tiny { namespace test {
+   namespace mu { namespace tiny {
        String string_from(const Colour& c) { return c.name(); }
-   } } }
+   } }
 
 ``CHECK_EQUAL_ZERO(actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

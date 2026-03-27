@@ -2,7 +2,8 @@
 #define INCLUDED_MUTINY_TEST_JUNITOUTPUT_HPP
 
 #include "mutiny/test/Output.hpp"
-#include "mutiny/test/String.hpp"
+
+#include "mutiny/String.hpp"
 
 namespace mu {
 namespace tiny {
