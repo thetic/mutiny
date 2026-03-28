@@ -154,6 +154,10 @@ jobs:
           - name: Address Sanitizer
             os: ubuntu-latest
             preset: asan
+          - name: Linux Shared Library
+            os: ubuntu-latest
+            cmake_args: -DBUILD_SHARED_LIBS=ON
+            preset: GNU
           - name: GCC ARM embedded
             os: ubuntu-latest
             preset: arm-embedded
