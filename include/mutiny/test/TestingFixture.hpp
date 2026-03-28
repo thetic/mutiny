@@ -5,6 +5,8 @@
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -12,7 +14,7 @@ namespace test {
 class ExecFunction;
 class ExecFunctionShell;
 
-class TestingFixture
+class MUTINY_EXPORT TestingFixture
 {
 public:
   TestingFixture();

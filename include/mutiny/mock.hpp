@@ -16,6 +16,8 @@
 #include "mutiny/mock/ActualCall.hpp"
 #include "mutiny/mock/ExpectedCall.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -42,7 +44,7 @@ class NamedValueListNode;
  *
  * @see mock(), SupportPlugin
  */
-class Support
+class MUTINY_EXPORT Support
 {
 public:
   /** @brief Type alias for a pointer to a function with signature `void()`. */
@@ -478,7 +480,7 @@ private:
  * call chain.
  * @return Reference to the Support for the requested scope.
  */
-Support& mock(
+MUTINY_EXPORT Support& mock(
     const String& mock_name = "",
     FailureReporter* failure_reporter_for_this_call = nullptr
 );

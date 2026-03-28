@@ -1,6 +1,8 @@
 #include "mutiny/mock.h"
 
 #include "mutiny/mock/Failure.hpp"
+#include "mutiny/mock/NamedValueComparator.hpp"
+#include "mutiny/mock/NamedValueCopier.hpp"
 
 #include "mutiny/test/Shell.hpp"
 

@@ -23,6 +23,8 @@
 
 #include "mutiny/test/Plugin.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -35,7 +37,7 @@ namespace mock {
  * global mock scope. post_test_action() calls check_expectations() and clear()
  * on the global mock, then removes the repository.
  */
-class SupportPlugin : public test::Plugin
+class MUTINY_EXPORT SupportPlugin : public test::Plugin
 {
 public:
   /**

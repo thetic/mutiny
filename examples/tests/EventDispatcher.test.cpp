@@ -1,5 +1,7 @@
 #include "EventDispatcher.hpp"
 
+#include "mutiny/mock/NamedValueComparator.hpp"
+
 #include "mutiny/mock.hpp"
 #include "mutiny/test.hpp"
 

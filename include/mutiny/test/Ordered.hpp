@@ -14,6 +14,8 @@
 
 #include "mutiny/test/Shell.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -25,7 +27,7 @@ namespace test {
  * The test runner walks this list after processing all unordered tests.
  * Users interact with this class only through the TEST_ORDERED macro.
  */
-class OrderedShell : public mu::tiny::test::Shell
+class MUTINY_EXPORT OrderedShell : public mu::tiny::test::Shell
 {
 public:
   OrderedShell() = default;
@@ -90,7 +92,7 @@ private:
  * Instantiated once per TEST_ORDERED declaration as a namespace-scope static.
  * Users do not interact with this class directly.
  */
-class OrderedInstaller
+class MUTINY_EXPORT OrderedInstaller
 {
 public:
   /**

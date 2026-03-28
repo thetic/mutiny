@@ -13,8 +13,10 @@ include(CMakeDependentOption)
 option(MUTINY_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 cmake_dependent_option(MUTINY_USE_STD_STRING "Use std::string"
     ON "MUTINY_USE_STD_CPP_LIB" OFF)
-cmake_dependent_option(MUTINY_BUILD_TESTING "Compile and make tests for mutiny"
+cmake_dependent_option(MUTINY_BUILD_TESTING "Compile make tests for mutiny"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
+cmake_dependent_option(MUTINY_BUILD_UNIT_TESTING "Compile unit tests for mutiny"
+    ${PROJECT_IS_TOP_LEVEL} "MUTINY_BUILD_TESTING;NOT BUILD_SHARED_LIBS" OFF)
 cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
     ON "PROJECT_IS_TOP_LEVEL" OFF)
 
@@ -27,14 +29,18 @@ if(NOT PROJECT_IS_TOP_LEVEL)
     set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE)
 endif()
 
-include(GNUInstallDirs)
+add_library(mutiny)
 
 configure_file(
     include/mutiny/version.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
 )
 
-add_library(mutiny)
+include(GenerateExportHeader)
+generate_export_header(mutiny
+    EXPORT_FILE_NAME include/mutiny/export.h
+    INCLUDE_GUARD_NAME INCLUDED_MUTINY_EXPORT_H
+)
 
 target_sources(mutiny
     PRIVATE
@@ -122,23 +128,24 @@ target_sources(mutiny
             include/mutiny/features.hpp
             include/mutiny/time.hpp
             ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
+            ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/export.h
     PRIVATE FILE_SET private_headers TYPE HEADERS
-        BASE_DIRS src/include
+        BASE_DIRS src
         FILES
-            src/include/mutiny/mock/ActualCallTrace.hpp
-            src/include/mutiny/mock/CheckedActualCall.hpp
-            src/include/mutiny/mock/CheckedExpectedCall.hpp
-            src/include/mutiny/mock/ExpectedCallsList.hpp
-            src/include/mutiny/mock/IgnoredActualCall.hpp
-            src/include/mutiny/mock/IgnoredExpectedCall.hpp
-            src/include/mutiny/mock/NamedValueList.hpp
-            src/include/mutiny/test/CompositeOutput.hpp
-            src/include/mutiny/test/ExecFunctionShell.hpp
-            src/include/mutiny/test/JUnitOutput.hpp
-            src/include/mutiny/test/NullPlugin.hpp
-            src/include/mutiny/StringCollection.hpp
-            src/include/mutiny/test/jump_buffer.h
-            src/include/mutiny/math.hpp
+            src/mutiny/mock/ActualCallTrace.hpp
+            src/mutiny/mock/CheckedActualCall.hpp
+            src/mutiny/mock/CheckedExpectedCall.hpp
+            src/mutiny/mock/ExpectedCallsList.hpp
+            src/mutiny/mock/IgnoredActualCall.hpp
+            src/mutiny/mock/IgnoredExpectedCall.hpp
+            src/mutiny/mock/NamedValueList.hpp
+            src/mutiny/test/CompositeOutput.hpp
+            src/mutiny/test/ExecFunctionShell.hpp
+            src/mutiny/test/JUnitOutput.hpp
+            src/mutiny/test/NullPlugin.hpp
+            src/mutiny/StringCollection.hpp
+            src/mutiny/test/jump_buffer.h
+            src/mutiny/math.hpp
 )
 
 include(CheckCXXSymbolExists)
@@ -172,7 +179,13 @@ target_compile_definitions(mutiny
         $<$<BOOL:${MUTINY_HAVE_GETTIMEOFDAY}>:MUTINY_HAVE_GETTIMEOFDAY>
 )
 
-set_target_properties(mutiny PROPERTIES EXPORT_NAME tiny)
+set_target_properties(mutiny PROPERTIES
+    EXPORT_NAME tiny
+    CXX_VISIBILITY_PRESET hidden
+    C_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN ON
+)
+
 add_library(mu::tiny ALIAS mutiny)
 
 # Apply C-specific naming rules (mutiny_ prefix) only to the library target.
@@ -192,6 +205,8 @@ if (MUTINY_EXAMPLES)
 endif()
 
 if(PROJECT_IS_TOP_LEVEL)
+    include(GNUInstallDirs)
+
     install(
         TARGETS mutiny
         EXPORT mutinyTargets

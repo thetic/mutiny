@@ -19,6 +19,8 @@
  * @see Support::install_copier(), NamedValueComparator
  */
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -31,7 +33,7 @@ namespace mock {
  * The copier's lifetime must extend at least as long as the test (or
  * SupportPlugin scope).
  */
-class NamedValueCopier
+class MUTINY_EXPORT NamedValueCopier
 {
 public:
   NamedValueCopier() = default;
@@ -62,7 +64,7 @@ public:
  * mock().install_copier("Point", copier);
  * @endcode
  */
-class FunctionCopier : public NamedValueCopier
+class MUTINY_EXPORT FunctionCopier : public NamedValueCopier
 {
 public:
   /** Function type for the copy operation. */

@@ -16,6 +16,7 @@
 #include "mutiny/test/Terminator.hpp"
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 #include "mutiny/features.hpp"
 
 namespace mu {
@@ -57,7 +58,7 @@ bool doubles_equal(double d1, double d2, double threshold);
  * The static methods control global runner state: the currently running test,
  * the active Terminator, and crash-on-failure mode.
  */
-class Shell
+class MUTINY_EXPORT Shell
 {
 public:
   /** @return The Shell currently executing, or nullptr between tests. */

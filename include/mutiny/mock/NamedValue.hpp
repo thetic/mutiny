@@ -12,14 +12,16 @@
  * and the return_value() methods on ActualCall.
  */
 
-#include "mutiny/mock/NamedValueComparator.hpp"
-#include "mutiny/mock/NamedValueCopier.hpp"
+#include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
 namespace mock {
 
 class NamedValueComparatorsAndCopiersRepository;
+class NamedValueComparator;
+class NamedValueCopier;
 
 /**
  * @brief A named, typed value used throughout the mock framework.
@@ -31,7 +33,7 @@ class NamedValueComparatorsAndCopiersRepository;
  *
  * @see Support::install_comparator(), Support::install_copier()
  */
-class NamedValue
+class MUTINY_EXPORT NamedValue
 {
 public:
   /** @brief Type alias for a pointer to a function with signature `void()`. */

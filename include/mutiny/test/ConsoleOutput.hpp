@@ -3,6 +3,8 @@
 
 #include "mutiny/test/Output.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -13,7 +15,7 @@ namespace test {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-class ConsoleOutput : public Output
+class MUTINY_EXPORT ConsoleOutput : public Output
 {
 public:
   explicit ConsoleOutput() = default;

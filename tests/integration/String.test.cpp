@@ -1,17 +1,13 @@
 #include "mutiny/String.hpp"
 
-#include "mutiny/math.hpp"
 #include "mutiny/test.hpp"
+
+#include <cmath>
 
 #include <limits.h>
 #include <stdio.h>
 
 namespace {
-
-int always_true(double)
-{
-  return true;
-}
 
 int wrapped_up_vsn_printf(char* buf, size_t n, const char* format, ...)
 {
@@ -382,15 +378,13 @@ TEST(String, Doubles)
 
 TEST(String, NaN)
 {
-  MUTINY_PTR_SET(mu::tiny::is_nan, always_true);
-  mu::tiny::String s(mu::tiny::string_from(0.0));
+  mu::tiny::String s(mu::tiny::string_from(NAN));
   STRCMP_EQUAL("Nan - Not a number", s.c_str());
 }
 
 TEST(String, Inf)
 {
-  MUTINY_PTR_SET(mu::tiny::is_inf, always_true);
-  mu::tiny::String s(mu::tiny::string_from(0.0));
+  mu::tiny::String s(mu::tiny::string_from(INFINITY));
   STRCMP_EQUAL("Inf - Infinity", s.c_str());
 }
 

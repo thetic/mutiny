@@ -14,6 +14,7 @@
  */
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -29,7 +30,7 @@ class NamedValue;
  *
  * @see Support::expect_one_call(), ActualCall
  */
-class ExpectedCall
+class MUTINY_EXPORT ExpectedCall
 {
 public:
   ExpectedCall() = default;

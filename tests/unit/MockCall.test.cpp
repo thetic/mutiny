@@ -4,6 +4,7 @@
 
 #include "mutiny/test/TestingFixture.hpp"
 
+#include "mutiny/mock.hpp"
 #include "mutiny/test.hpp"
 
 using mu::tiny::mock::CheckedActualCall;

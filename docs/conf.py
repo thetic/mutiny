@@ -66,7 +66,8 @@ exhale_args = {
         PREDEFINED           += MUTINY_HAVE_EXCEPTIONS=1 \\
                                 MUTINY_HAVE_RTTI=1 \\
                                 MUTINY_USE_STD_CPP_LIB=1 \\
-                                MUTINY_USE_STD_STRING=0
+                                MUTINY_USE_STD_STRING=0 \\
+                                MUTINY_EXPORT=
         WARN_IF_UNDOCUMENTED = NO
         WARN_AS_ERROR        = YES
         QUIET                = YES

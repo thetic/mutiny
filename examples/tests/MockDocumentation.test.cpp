@@ -1,3 +1,5 @@
+#include "mutiny/mock/NamedValueComparator.hpp"
+
 #include "mutiny/mock.hpp"
 #include "mutiny/test.h"
 #include "mutiny/test.hpp"

@@ -15,6 +15,8 @@
 
 #include "mutiny/mock/NamedValue.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -27,7 +29,7 @@ class FailureReporter;
  * Each method returns @c *this so that parameter reporting can be chained.
  * Concrete implementations are created internally by Support.
  */
-class ActualCall
+class MUTINY_EXPORT ActualCall
 {
 public:
   ActualCall() = default;

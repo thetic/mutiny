@@ -5,6 +5,7 @@
 #include "mutiny/test/Output.hpp"
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -12,7 +13,7 @@ namespace test {
 
 class Plugin;
 
-class CommandLineArguments
+class MUTINY_EXPORT CommandLineArguments
 {
 public:
   explicit CommandLineArguments(int argc, const char* const* argv);

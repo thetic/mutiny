@@ -18,6 +18,7 @@
  */
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -31,7 +32,7 @@ namespace mock {
  * Support::install_comparator(). The comparator's lifetime must extend
  * at least as long as the test (or SupportPlugin scope).
  */
-class NamedValueComparator
+class MUTINY_EXPORT NamedValueComparator
 {
 public:
   NamedValueComparator() = default;
@@ -65,7 +66,7 @@ public:
  * Convenient alternative to subclassing when you want to keep comparator
  * logic in standalone functions.
  */
-class FunctionComparator : public NamedValueComparator
+class MUTINY_EXPORT FunctionComparator : public NamedValueComparator
 {
 public:
   /** Function type for the equality predicate. */

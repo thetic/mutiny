@@ -2,6 +2,7 @@
 
 #include "mutiny/mock/CheckedExpectedCall.hpp"
 #include "mutiny/mock/Failure.hpp"
+#include "mutiny/mock/NamedValueCopier.hpp"
 
 #include "mutiny/test/Shell.hpp"
 
