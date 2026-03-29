@@ -8,8 +8,17 @@ add_executable(mutiny_integration
     mutiny_c_fixture.test.cpp
     fail_method_c_body.c
     ExpectFailTestShell.test.cpp
+    MockComparatorCopier.test.cpp
+    MockHierarchy.test.cpp
     MockNamedValue.test.cpp
+    MockNamedValueComparatorsAndCopiersRepository.test.cpp
+    MockParameter.test.cpp
+    MockReturnValue.test.cpp
+    MockStrictOrder.test.cpp
+    MockSupport.test.cpp
     MockSupport.c
+    MockSupportPlugin.test.cpp
+    MockSupportWithFixture.test.cpp
     MockSupport_c.test.cpp
     OrderedTestC.test.c
     Ordered.test.cpp
@@ -34,7 +43,9 @@ add_executable(mutiny_integration
 )
 
 target_link_libraries(mutiny_integration
-    PRIVATE mutiny
+    PRIVATE
+        mu::tiny
+        mutiny_test_util
 )
 
 include(mutiny)

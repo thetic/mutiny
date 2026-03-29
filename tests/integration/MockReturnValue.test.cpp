@@ -1,5 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
-
+#include "mutiny/mock.hpp"
 #include "mutiny/test.hpp"
 
 using mu::tiny::mock::mock;

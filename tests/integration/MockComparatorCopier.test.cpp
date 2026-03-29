@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 
@@ -157,19 +157,12 @@ TEST(MockComparatorCopier, customObjectWithFunctionComparatorThatFailsCoversValu
   );
   mock().install_comparator("MyTypeForTesting", comparator);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("function")
-      ->with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
-  mu::tiny::mock::ExpectedCallsDidntHappenFailure failure(
-      mu::tiny::test::Shell::get_current(), expectations
-  );
-
   mock()
       .expect_one_call("function")
       .with_parameter_of_type("MyTypeForTesting", "parameterName", &object);
   mock().check_expectations();
 
-  check_expected_mock_failure_location(failure, __FILE__, __LINE__);
+  STRCMP_CONTAINS("function", mock_failure_string().c_str());
 }
 
 TEST(MockComparatorCopier, customTypeOutputParameterSucceeds)
@@ -205,20 +198,12 @@ TEST(MockComparatorCopier, noActualCallForCustomTypeOutputParameter)
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foo")->with_output_parameter_of_type_returning(
-      "MyTypeForTesting", "output", &expected_object
-  );
-  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations
-  );
-
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
   mock().check_expectations();
 
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 
   mock().remove_all_comparators_and_copiers();
 }
@@ -231,21 +216,13 @@ TEST(MockComparatorCopier, unexpectedCustomTypeOutputParameter)
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foo");
-  mu::tiny::mock::NamedValue parameter("parameterName");
-  parameter.set_const_object_pointer("MyTypeForTesting", &actual_object);
-  mu::tiny::mock::UnexpectedOutputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations
-  );
-
   mock().expect_one_call("foo");
   mock().actual_call("foo").with_output_parameter_of_type(
       "MyTypeForTesting", "parameterName", &actual_object
   );
   mock().check_expectations();
 
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 
   mock().remove_all_comparators_and_copiers();
 }
@@ -258,21 +235,13 @@ TEST(MockComparatorCopier, customTypeOutputParameterMissing)
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foo")->with_output_parameter_of_type_returning(
-      "MyTypeForTesting", "output", &expected_object
-  );
-  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "foo", expectations, expectations
-  );
-
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
   mock().actual_call("foo");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 
   mock().remove_all_comparators_and_copiers();
 }
@@ -286,16 +255,6 @@ TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
   MyTypeForTestingCopier copier;
   mock().install_copier("MyTypeForTesting", copier);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foo")->with_output_parameter_of_type_returning(
-      "MyTypeForTesting", "output", &expected_object
-  );
-  mu::tiny::mock::NamedValue parameter("output");
-  parameter.set_const_object_pointer("OtherTypeForTesting", &actual_object);
-  mu::tiny::mock::UnexpectedOutputParameterFailure expected_failure(
-      mock_failure_test(), "foo", parameter, expectations
-  );
-
   mock().expect_one_call("foo").with_output_parameter_of_type_returning(
       "MyTypeForTesting", "output", &expected_object
   );
@@ -304,7 +263,7 @@ TEST(MockComparatorCopier, customTypeOutputParameterOfWrongType)
   );
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 
   mock().remove_all_comparators_and_copiers();
 }
@@ -316,10 +275,6 @@ TEST(MockComparatorCopier, noCopierForCustomTypeOutputParameter)
   MyTypeForTesting expected_object(123464);
   MyTypeForTesting actual_object(8834);
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foo")->with_output_parameter_of_type_returning(
-      "MyTypeForTesting", "output", &expected_object
-  );
   mu::tiny::mock::NoWayToCopyCustomTypeFailure expected_failure(
       mock_failure_test(), "MyTypeForTesting"
   );

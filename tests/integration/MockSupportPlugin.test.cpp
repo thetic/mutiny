@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/mock/SupportPlugin.hpp"
 
@@ -45,19 +45,11 @@ TEST(SupportPlugin, checkExpectationsAndClearAtEnd)
 {
   FailureReporterInstaller failure_reporter_installer;
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("foobar");
-  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
-      test, expectations
-  );
-
   mock().expect_one_call("foobar");
 
   plugin.post_test_action(*test, *result);
 
-  STRCMP_CONTAINS(
-      expected_failure.get_message().c_str(), output.get_output().c_str()
-  );
+  STRCMP_CONTAINS("foobar", output.get_output().c_str());
   LONGS_EQUAL(0, mock().expected_calls_left());
   CHECK_NO_MOCK_FAILURE();
 }
@@ -66,13 +58,6 @@ TEST(SupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 {
   FailureReporterInstaller failure_reporter_installer;
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("differentScope::foobar")
-      ->on_object(reinterpret_cast<void*>(1));
-  mu::tiny::mock::ExpectedObjectDidntHappenFailure expected_failure(
-      test, "differentScope::foobar", expectations
-  );
-
   mock("differentScope")
       .expect_one_call("foobar")
       .on_object(reinterpret_cast<void*>(1));
@@ -80,9 +65,7 @@ TEST(SupportPlugin, checkExpectationsWorksAlsoWithHierachicalObjects)
 
   plugin.post_test_action(*test, *result);
 
-  STRCMP_CONTAINS(
-      expected_failure.get_message().c_str(), output.get_output().c_str()
-  );
+  STRCMP_CONTAINS("differentScope::foobar", output.get_output().c_str());
   CHECK_NO_MOCK_FAILURE();
 }
 

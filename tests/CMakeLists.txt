@@ -1,3 +1,5 @@
+add_subdirectory(util)
+
 if(MUTINY_BUILD_UNIT_TESTING)
     add_subdirectory(unit)
 endif()
