@@ -156,8 +156,8 @@ jobs:
             preset: asan
           - name: Linux Shared Library
             os: ubuntu-latest
-            cmake_args: -DBUILD_SHARED_LIBS=ON
-            preset: GNU
+            preset: shared
+            install: true
           - name: GCC ARM embedded
             os: ubuntu-latest
             preset: arm-embedded
