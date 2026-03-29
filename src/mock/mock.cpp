@@ -38,15 +38,12 @@ class Support::Impl
   }
 };
 
-namespace {
-Support global_mock; // NOLINT(bugprone-throwing-static-initialization)
-} // namespace
-
 Support& mock(
     const String& mock_name,
     FailureReporter* failure_reporter_for_this_call
 )
 {
+  static Support global_mock;
   Support& mock_support = (mock_name != "")
                               ? *global_mock.get_mock_support_scope(mock_name)
                               : global_mock;
@@ -58,7 +55,6 @@ Support& mock(
 Support::Support(const String& mock_name)
   : impl_(new Impl())
   , mock_name_(mock_name)
-
 {
 }
 
