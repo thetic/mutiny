@@ -213,12 +213,18 @@ jobs:
 
       ## BUILD AND TEST
 
+      - name: Workflow
+        run: cmake --workflow --preset ${{ matrix.preset }}
+        if: ${{ !matrix.cmake_args }}
       - name: Configure
         run: cmake --preset ${{ matrix.preset }} ${{ matrix.cmake_args }}
+        if: ${{ matrix.cmake_args }}
       - name: Build
         run: cmake --build --preset ${{ matrix.preset }}
+        if: ${{ matrix.cmake_args }}
       - name: Test
         run: ctest --preset ${{ matrix.preset }}
+        if: ${{ matrix.cmake_args }}
 
       # POST PROCESSING
 
@@ -290,12 +296,8 @@ jobs:
         uses: hendrikmuhs/ccache-action@v1.2.22
         with:
           variant: ccache
-      - name: Configure
-        run: cmake --preset=GNU
-      - name: Build
-        run: cmake --build --preset GNU
-      - name: Test
-        run: ctest --preset GNU
+      - name: Workflow
+        run: cmake --workflow --preset GNU
 
   docs:
     name: Documentation

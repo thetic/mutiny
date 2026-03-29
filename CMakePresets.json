@@ -221,6 +221,30 @@
   ],
   "workflowPresets": [
     {
+      "name": "defaults",
+      "steps": [
+        { "type": "configure", "name": "defaults" },
+        { "type": "build",     "name": "defaults" },
+        { "type": "test",      "name": "defaults" }
+      ]
+    },
+    {
+      "name": "MSVC",
+      "steps": [
+        { "type": "configure", "name": "MSVC" },
+        { "type": "build",     "name": "MSVC" },
+        { "type": "test",      "name": "MSVC" }
+      ]
+    },
+    {
+      "name": "ClangCL",
+      "steps": [
+        { "type": "configure", "name": "ClangCL" },
+        { "type": "build",     "name": "ClangCL" },
+        { "type": "test",      "name": "ClangCL" }
+      ]
+    },
+    {
       "name": "shared",
       "steps": [
         { "type": "configure", "name": "shared" },
