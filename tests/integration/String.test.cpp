@@ -2,9 +2,8 @@
 
 #include "mutiny/test.hpp"
 
-#include <cmath>
-
 #include <limits.h>
+#include <math.h>
 #include <stdio.h>
 
 namespace {

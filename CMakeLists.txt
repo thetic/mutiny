@@ -107,6 +107,7 @@ target_sources(mutiny
             include/mutiny/test/CommandLineArguments.hpp
             include/mutiny/test/CommandLineRunner.hpp
             include/mutiny/test/ConsoleOutput.hpp
+            include/mutiny/test/ExecFunction.hpp
             include/mutiny/test/ExpectFailShell.hpp
             include/mutiny/test/Failure.hpp
             include/mutiny/test/Filter.hpp
@@ -149,7 +150,7 @@ target_sources(mutiny
 )
 
 include(CheckCXXSymbolExists)
-set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS})
+set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS}) # Is this necessary?
 check_cxx_symbol_exists(gettimeofday "sys/time.h" MUTINY_HAVE_GETTIMEOFDAY)
 
 # jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
@@ -184,6 +185,8 @@ set_target_properties(mutiny PROPERTIES
     CXX_VISIBILITY_PRESET hidden
     C_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON
+    # SOVERSION ??
+    VERSION ${PROJECT_VERSION}
 )
 
 add_library(mu::tiny ALIAS mutiny)
@@ -210,9 +213,19 @@ if(PROJECT_IS_TOP_LEVEL)
     install(
         TARGETS mutiny
         EXPORT mutinyTargets
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        FILE_SET HEADERS DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        RUNTIME
+            DESTINATION ${CMAKE_INSTALL_BINDIR}
+            COMPONENT mutiny_Runtime
+        LIBRARY
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT mutiny_Runtime
+            NAMELINK_COMPONENT mutiny_Development
+        ARCHIVE
+            DESTINATION ${CMAKE_INSTALL_LIBDIR}
+            COMPONENT mutiny_Development
+        FILE_SET HEADERS
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+            COMPONENT mutiny_Development
     )
 
     include(CMakePackageConfigHelpers)

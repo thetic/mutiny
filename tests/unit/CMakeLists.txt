@@ -20,9 +20,7 @@ add_executable(mutiny_unit
     MockSupport.test.cpp
     MockSupportWithFixture.test.cpp
     MockSupportPlugin.test.cpp
-    OrderedTest.test.cpp
     StringCollection.test.cpp
-    TestShell.test.cpp
 )
 
 target_link_libraries(mutiny_unit

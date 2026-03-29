@@ -65,8 +65,9 @@ void CheckedActualCall::copy_output_parameters(
     NamedValueCopier* copier = output_parameter.get_copier();
     if (copier) {
       copier->copy(p->ptr, output_parameter.get_const_object_pointer());
-    } else if ((output_parameter.get_type() == "const void*") &&
-               (p->type == "void*")) {
+    } else if (
+        (output_parameter.get_type() == "const void*") && (p->type == "void*")
+    ) {
       const void* data = output_parameter.get_const_pointer_value();
       size_t size = output_parameter.get_size();
       memcpy(p->ptr, data, size);

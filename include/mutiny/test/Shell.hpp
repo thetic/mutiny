@@ -41,7 +41,7 @@ class Filter;
  *
  * @see DOUBLES_EQUAL
  */
-bool doubles_equal(double d1, double d2, double threshold);
+MUTINY_EXPORT bool doubles_equal(double d1, double d2, double threshold);
 
 /**
  * @brief Shell for a single test — tracks metadata and drives execution.

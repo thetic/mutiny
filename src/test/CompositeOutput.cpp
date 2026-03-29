@@ -4,12 +4,6 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-CompositeOutput::CompositeOutput()
-  : output_one_(nullptr)
-  , output_two_(nullptr)
-{
-}
-
 CompositeOutput::~CompositeOutput()
 {
   delete output_one_;

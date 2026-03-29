@@ -13,7 +13,7 @@ public:
   virtual void set_output_one(Output* output);
   virtual void set_output_two(Output* output);
 
-  CompositeOutput();
+  CompositeOutput() = default;
   ~CompositeOutput() override;
 
   void print_tests_started() override;
@@ -38,13 +38,12 @@ public:
 
   void flush() override;
 
-protected:
-  CompositeOutput(const Output&);
-  CompositeOutput& operator=(const Output&);
+  CompositeOutput(const CompositeOutput&) = delete;
+  CompositeOutput& operator=(const CompositeOutput&) = delete;
 
 private:
-  Output* output_one_;
-  Output* output_two_;
+  Output* output_one_{ nullptr };
+  Output* output_two_{ nullptr };
 };
 
 } // namespace test

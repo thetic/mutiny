@@ -1,7 +1,7 @@
-#include "mutiny/test/ExecFunctionShell.hpp"
-#include "mutiny/test/NullPlugin.hpp"
-#include "mutiny/test/Output.hpp"
 #include "mutiny/test/Shell.hpp"
+
+#include "mutiny/test/Output.hpp"
+#include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
@@ -9,6 +9,31 @@
 
 #include <limits.h>
 #include <math.h>
+
+namespace {
+class MockPlugin : public mu::tiny::test::Plugin
+{
+public:
+  MockPlugin()
+    : mu::tiny::test::Plugin("MockPlugin")
+  {
+  }
+  void run_all_pre_test_action(
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
+  ) override
+  {
+    pre_test_action(test, result);
+  }
+  void run_all_post_test_action(
+      mu::tiny::test::Shell& test,
+      mu::tiny::test::Result& result
+  ) override
+  {
+    post_test_action(test, result);
+  }
+};
+} // namespace
 
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \
   fixture.check_test_fails_with_proper_test_location(text, __FILE__, __LINE__)
@@ -460,7 +485,7 @@ TEST(Shell, veryVebose)
   mu::tiny::test::Shell shell("Group", "name", __FILE__, __LINE__);
   mu::tiny::test::StringBufferOutput normal_output;
   normal_output.verbose(mu::tiny::test::Output::VerbosityLevel::very_verbose);
-  mu::tiny::test::NullPlugin plugin;
+  MockPlugin plugin;
 
   mu::tiny::test::Result result(normal_output);
   shell.run_one_test_in_current_process(&plugin, result);

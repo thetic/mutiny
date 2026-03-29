@@ -32,7 +32,7 @@ add_executable(mutiny_integration
     MockSupport_c.test.cpp
     # MockSupportPlugin.test.cpp
     OrderedTestC.test.c
-    # OrderedTest.test.cpp
+    Ordered.test.cpp
     OrderedTestC.test.cpp
     Preprocessor.test.cpp
     SetPointerPlugin.test.cpp
@@ -45,6 +45,7 @@ add_executable(mutiny_integration
     TestPlugin.test.cpp
     TestRegistry.test.cpp
     TestResult.test.cpp
+    Shell.test.cpp
     TestShellCustomBase.test.cpp
     TestShellMacros.test.cpp
     TestShellPointerArray.test.cpp

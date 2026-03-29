@@ -39,7 +39,7 @@ class Support::Impl
 };
 
 namespace {
-Support global_mock;
+Support global_mock; // NOLINT(bugprone-throwing-static-initialization)
 } // namespace
 
 Support& mock(
