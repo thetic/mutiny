@@ -484,7 +484,7 @@ TEST(Shell, veryVebose)
 {
   mu::tiny::test::Shell shell("Group", "name", __FILE__, __LINE__);
   mu::tiny::test::StringBufferOutput normal_output;
-  normal_output.verbose(mu::tiny::test::Output::VerbosityLevel::very_verbose);
+  normal_output.verbose(mu::tiny::test::Output::MutinyVerbosityLevel::very_verbose);
   MockPlugin plugin;
 
   mu::tiny::test::Result result(normal_output);

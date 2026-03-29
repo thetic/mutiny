@@ -24,7 +24,7 @@ class Result;
 class MUTINY_EXPORT Output
 {
 public:
-  enum class VerbosityLevel
+  enum class MutinyVerbosityLevel
   {
     quiet,
     verbose,
@@ -41,7 +41,7 @@ public:
   virtual void print_current_group_started(const Shell& test);
   virtual void print_current_group_ended(const Result& res);
 
-  virtual void verbose(VerbosityLevel level);
+  virtual void verbose(MutinyVerbosityLevel level);
   virtual void color();
   virtual void print_buffer(const char*) = 0;
   virtual void print(const char*);
@@ -86,7 +86,7 @@ protected:
   Output& operator=(const Output&);
 
   int dot_count_{ 0 };
-  VerbosityLevel verbose_{ VerbosityLevel::quiet };
+  MutinyVerbosityLevel verbose_{ MutinyVerbosityLevel::quiet };
   bool color_{ false };
   const char* progress_indication_{ "." };
 };

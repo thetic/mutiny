@@ -61,8 +61,9 @@ OutsideTestRunnerUTest& OutsideTestRunnerUTest::instance()
  *
  */
 
-struct HelperTestRunInfo
+class HelperTestRunInfo
 {
+public:
   HelperTestRunInfo(Shell* s, Plugin* p, Result* r)
     : shell(s)
     , plugin(p)

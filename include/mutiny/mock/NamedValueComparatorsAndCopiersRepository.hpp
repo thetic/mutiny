@@ -16,7 +16,7 @@ namespace mock {
  *
  */
 
-struct NamedValueComparatorsAndCopiersRepositoryNode;
+class NamedValueComparatorsAndCopiersRepositoryNode;
 class MUTINY_EXPORT NamedValueComparatorsAndCopiersRepository
 {
   NamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };

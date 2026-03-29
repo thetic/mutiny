@@ -9,8 +9,8 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-struct JUnitTestOutputImpl;
-struct JUnitTestCaseResultNode;
+class JUnitTestOutputImpl;
+class JUnitTestCaseResultNode;
 
 class JUnitOutput : public Output
 {

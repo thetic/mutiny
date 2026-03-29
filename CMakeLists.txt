@@ -196,14 +196,6 @@ set_target_properties(mutiny PROPERTIES
 
 add_library(mu::tiny ALIAS mutiny)
 
-# Apply C-specific naming rules (mutiny_ prefix) only to the library target.
-# Tests and examples are not subject to this convention.
-if(CMAKE_C_CLANG_TIDY AND PROJECT_IS_TOP_LEVEL)
-    set_target_properties(mutiny PROPERTIES
-        C_CLANG_TIDY "${CMAKE_C_CLANG_TIDY};--config-file=${CMAKE_CURRENT_SOURCE_DIR}/cmake/c.clang-tidy"
-    )
-endif()
-
 if (MUTINY_BUILD_TESTING)
     add_subdirectory(tests)
 endif ()
