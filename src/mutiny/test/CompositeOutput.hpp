@@ -24,7 +24,7 @@ public:
   void print_current_group_started(const Shell& test) override;
   void print_current_group_ended(const Result& res) override;
 
-  void verbose(VerbosityLevel level) override;
+  void verbose(MutinyVerbosityLevel level) override;
   void color() override;
   void print_buffer(const char*) override;
   void print(const char*) override;

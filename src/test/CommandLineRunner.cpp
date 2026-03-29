@@ -69,9 +69,9 @@ void CommandLineRunner::initialize_test_run()
   registry_->set_name_filters(arguments_->get_name_filters());
 
   if (arguments_->is_verbose())
-    output_->verbose(Output::VerbosityLevel::verbose);
+    output_->verbose(Output::MutinyVerbosityLevel::verbose);
   if (arguments_->is_very_verbose())
-    output_->verbose(Output::VerbosityLevel::very_verbose);
+    output_->verbose(Output::MutinyVerbosityLevel::very_verbose);
   if (arguments_->is_color())
     output_->color();
   if (arguments_->is_run_ignored())

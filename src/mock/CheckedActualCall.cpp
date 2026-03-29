@@ -50,7 +50,7 @@ test::Shell* CheckedActualCall::get_test() const
 void CheckedActualCall::fail_with(Failure failure)
 {
   if (!has_failed()) {
-    set_state(ActualCallState::failed);
+    set_state(MutinyActualCallState::failed);
     reporter_->fail_test(static_cast<Failure&&>(failure));
   }
 }
@@ -100,7 +100,7 @@ void CheckedActualCall::complete_call_when_match_is_found()
 
 void CheckedActualCall::call_has_succeeded()
 {
-  set_state(ActualCallState::success);
+  set_state(MutinyActualCallState::success);
 }
 
 void CheckedActualCall::discard_currently_matching_expectations()
@@ -115,7 +115,7 @@ void CheckedActualCall::discard_currently_matching_expectations()
 void CheckedActualCall::set_name_and_check(String name)
 {
   function_name_ = static_cast<String&&>(name);
-  set_state(ActualCallState::in_progress);
+  set_state(MutinyActualCallState::in_progress);
 
   potentially_matching_expectations_.only_keep_expectations_related_to(
       function_name_
@@ -147,7 +147,7 @@ void CheckedActualCall::check_input_parameter(NamedValue actual_parameter)
     return;
   }
 
-  set_state(ActualCallState::in_progress);
+  set_state(MutinyActualCallState::in_progress);
   discard_currently_matching_expectations();
 
   potentially_matching_expectations_
@@ -176,7 +176,7 @@ void CheckedActualCall::check_output_parameter(NamedValue output_parameter)
     return;
   }
 
-  set_state(ActualCallState::in_progress);
+  set_state(MutinyActualCallState::in_progress);
   discard_currently_matching_expectations();
 
   potentially_matching_expectations_
@@ -426,12 +426,12 @@ ActualCall& CheckedActualCall::with_parameter_of_type(
 
 bool CheckedActualCall::is_fulfilled() const
 {
-  return state_ == ActualCallState::success;
+  return state_ == MutinyActualCallState::success;
 }
 
 bool CheckedActualCall::has_failed() const
 {
-  return state_ == ActualCallState::failed;
+  return state_ == MutinyActualCallState::failed;
 }
 
 void CheckedActualCall::check_expectations()
@@ -442,8 +442,8 @@ void CheckedActualCall::check_expectations()
 
   expectations_checked_ = true;
 
-  if (state_ != ActualCallState::in_progress) {
-    if (state_ == ActualCallState::success) {
+  if (state_ != MutinyActualCallState::in_progress) {
+    if (state_ == MutinyActualCallState::success) {
       matching_expectation_->call_was_made(call_order_);
     }
     potentially_matching_expectations_.reset_actual_call_matching_state();
@@ -481,7 +481,7 @@ void CheckedActualCall::check_expectations()
   }
 }
 
-void CheckedActualCall::set_state(ActualCallState state)
+void CheckedActualCall::set_state(MutinyActualCallState state)
 {
   state_ = state;
 }

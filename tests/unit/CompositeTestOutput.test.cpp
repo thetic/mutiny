@@ -42,8 +42,8 @@ public:
 
   virtual bool is_verbose()
   {
-    return verbose_ == VerbosityLevel::verbose ||
-           verbose_ == VerbosityLevel::very_verbose;
+    return verbose_ == MutinyVerbosityLevel::verbose ||
+           verbose_ == MutinyVerbosityLevel::very_verbose;
   }
 
   virtual bool is_color() { return color_; }
@@ -145,7 +145,7 @@ TEST(CompositeOutput, printDouble)
 
 TEST(CompositeOutput, verbose)
 {
-  composite_output.verbose(mu::tiny::test::Output::VerbosityLevel::verbose);
+  composite_output.verbose(mu::tiny::test::Output::MutinyVerbosityLevel::verbose);
   CHECK(output1->is_verbose());
   CHECK(output2->is_verbose());
 }
@@ -195,7 +195,7 @@ TEST(CompositeOutput, flush)
 TEST(CompositeOutput, printVeryVerbose)
 {
   composite_output.verbose(
-      mu::tiny::test::Output::VerbosityLevel::very_verbose
+      mu::tiny::test::Output::MutinyVerbosityLevel::very_verbose
   );
   composite_output.print_very_verbose("very-verbose");
   STRCMP_EQUAL("very-verbose", output1->get_output().c_str());

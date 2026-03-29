@@ -140,14 +140,14 @@ TEST(Output, SetProgressIndicator)
 
 TEST(Output, PrintTestVerboseStarted)
 {
-  mock->verbose(mu::tiny::test::Output::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::Output::MutinyVerbosityLevel::verbose);
   printer->print_current_test_started(*tst);
   STRCMP_EQUAL("TEST(group, test)", mock->get_output().c_str());
 }
 
 TEST(Output, PrintTestVerboseEnded)
 {
-  mock->verbose(mu::tiny::test::Output::VerbosityLevel::verbose);
+  mock->verbose(mu::tiny::test::Output::MutinyVerbosityLevel::verbose);
   result->current_test_started(tst);
   millis_time = 5;
   result->current_test_ended(tst);

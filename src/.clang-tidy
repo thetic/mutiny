@@ -1,0 +1,25 @@
+---
+# Naming-convention rules for the mutiny library's C API tag types.
+# Discovered automatically (no --config-file needed) for all files under src/.
+# Tests and examples are in separate directory trees and find only the
+# project-root .clang-tidy, so these extra checks do not affect them.
+#
+# StructPrefix / EnumPrefix / UnionPrefix are safe here because:
+#   - All C++ implementation types in this tree use 'class', not 'struct'.
+#   - All C++ enums carry the Mutiny prefix (VerbosityLevel → MutinyVerbosityLevel
+#     etc.) for API consistency with the rest of the public surface.
+#
+# GlobalFunctionPrefix / GlobalVariablePrefix are intentionally omitted:
+# clang-tidy applies GlobalVariable/GlobalFunction to anonymous-namespace
+# symbols too, which would flag internal C++ implementation names.
+#
+# InheritParentConfig: true merges with the project-root .clang-tidy.
+InheritParentConfig: true
+CheckOptions:
+  # Type tag names (struct/enum/union tags used across TUs) must carry Mutiny.
+  - key: readability-identifier-naming.EnumPrefix
+    value: 'Mutiny'
+  - key: readability-identifier-naming.StructPrefix
+    value: 'Mutiny'
+  - key: readability-identifier-naming.UnionPrefix
+    value: 'Mutiny'

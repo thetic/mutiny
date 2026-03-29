@@ -158,20 +158,20 @@ protected:
   virtual void check_output_parameter(NamedValue output_parameter);
   virtual void discard_currently_matching_expectations();
 
-  enum class ActualCallState
+  enum class MutinyActualCallState
   {
     in_progress,
     failed,
     success
   };
-  virtual void set_state(ActualCallState state);
+  virtual void set_state(MutinyActualCallState state);
 
 private:
   String function_name_;
   unsigned int call_order_;
   FailureReporter* reporter_;
 
-  ActualCallState state_{ ActualCallState::success };
+  MutinyActualCallState state_{ MutinyActualCallState::success };
   bool expectations_checked_{ false };
   CheckedExpectedCall* matching_expectation_{ nullptr };
 

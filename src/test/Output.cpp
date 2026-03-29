@@ -40,7 +40,7 @@ Output::FOpenFunc Output::fopen_ = fopen_impl;
 Output::FPutsFunc Output::fputs_ = fputs_impl;
 Output::FCloseFunc Output::fclose_ = fclose_impl;
 
-void Output::verbose(VerbosityLevel level)
+void Output::verbose(MutinyVerbosityLevel level)
 {
   verbose_ = level;
 }
@@ -84,7 +84,7 @@ Output& operator<<(Output& p, long int i)
 
 void Output::print_current_test_started(const Shell& test)
 {
-  if (verbose_ > VerbosityLevel::quiet)
+  if (verbose_ > MutinyVerbosityLevel::quiet)
     print(test.get_formatted_name().c_str());
 
   if (test.will_run()) {
@@ -96,7 +96,7 @@ void Output::print_current_test_started(const Shell& test)
 
 void Output::print_current_test_ended(const Result& res)
 {
-  if (verbose_ > VerbosityLevel::quiet) {
+  if (verbose_ > MutinyVerbosityLevel::quiet) {
     print(" - ");
     print(res.get_current_test_total_execution_time());
     print(" ms\n");
@@ -245,7 +245,7 @@ void Output::print_error_in_file_on_line_formatted_for_working_environment(
 
 void Output::print_very_verbose(const char* str)
 {
-  if (verbose_ == VerbosityLevel::very_verbose)
+  if (verbose_ == MutinyVerbosityLevel::very_verbose)
     print_buffer(str);
 }
 

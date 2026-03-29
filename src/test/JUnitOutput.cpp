@@ -13,8 +13,9 @@ namespace test {
 
 namespace {
 
-struct TestProperty
+class TestProperty
 {
+public:
   String name;
   String value;
   TestProperty* next{ nullptr };
@@ -22,8 +23,9 @@ struct TestProperty
 
 } // namespace
 
-struct JUnitTestCaseResultNode
+class JUnitTestCaseResultNode
 {
+public:
   JUnitTestCaseResultNode() = default;
 
   String name;
@@ -39,8 +41,9 @@ struct JUnitTestCaseResultNode
   JUnitTestCaseResultNode* next{ nullptr };
 };
 
-struct JUnitTestGroupResult
+class JUnitTestGroupResult
 {
+public:
   JUnitTestGroupResult() = default;
 
   size_t test_count{ 0 };
@@ -54,8 +57,9 @@ struct JUnitTestGroupResult
   JUnitTestCaseResultNode* tail{ nullptr };
 };
 
-struct JUnitTestOutputImpl
+class JUnitTestOutputImpl
 {
+public:
   JUnitTestGroupResult results;
   Output::File file;
   String package;

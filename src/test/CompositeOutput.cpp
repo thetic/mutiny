@@ -70,7 +70,7 @@ void CompositeOutput::print_current_group_ended(const Result& res)
     output_two_->print_current_group_ended(res);
 }
 
-void CompositeOutput::verbose(VerbosityLevel level)
+void CompositeOutput::verbose(MutinyVerbosityLevel level)
 {
   if (output_one_)
     output_one_->verbose(level);

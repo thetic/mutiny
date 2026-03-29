@@ -93,7 +93,7 @@ void TestingFixture::install_plugin(Plugin* plugin)
 
 void TestingFixture::set_output_verbose()
 {
-  output_->verbose(Output::VerbosityLevel::verbose);
+  output_->verbose(Output::MutinyVerbosityLevel::verbose);
 }
 
 void TestingFixture::run_test_with_method(void (*method)())

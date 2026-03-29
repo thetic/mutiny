@@ -4,8 +4,9 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-struct NamedValueComparatorsAndCopiersRepositoryNode
+class NamedValueComparatorsAndCopiersRepositoryNode
 {
+public:
   NamedValueComparatorsAndCopiersRepositoryNode(
       const String& n,
       NamedValueComparator* cmp,
