@@ -2,7 +2,7 @@
 
 #include "mutiny/test/Failure.hpp"
 #include "mutiny/test/Shell.hpp"
-#include "mutiny/test/jump_buffer.h"
+#include "mutiny/test/jump_buffer.hpp"
 
 namespace mu {
 namespace tiny {
@@ -33,21 +33,21 @@ void Test::run()
   int jump_result = 0;
   try {
     current->print_very_verbose("\n-------- before setup: ");
-    jump_result = mutiny_set_jmp(helper_do_test_setup, this);
+    jump_result = set_jump(helper_do_test_setup, this);
     current->print_very_verbose("\n-------- after  setup: ");
 
     if (jump_result) {
       current->print_very_verbose("\n----------  before body: ");
-      mutiny_set_jmp(helper_do_test_body, this);
+      set_jump(helper_do_test_body, this);
       current->print_very_verbose("\n----------  after body: ");
     }
   } catch (FailedException&) {
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
   }
 #if MUTINY_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -55,7 +55,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -63,15 +63,15 @@ void Test::run()
 
   try {
     current->print_very_verbose("\n--------  before teardown: ");
-    mutiny_set_jmp(helper_do_test_teardown, this);
+    set_jump(helper_do_test_teardown, this);
     current->print_very_verbose("\n--------  after teardown: ");
   } catch (FailedException&) {
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
   }
 #if MUTINY_USE_STD_CPP_LIB
   catch (const std::exception& e) {
     current->add_failure(UnexpectedExceptionFailure(current, e));
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }
@@ -79,7 +79,7 @@ void Test::run()
 #endif
   catch (...) {
     current->add_failure(UnexpectedExceptionFailure(current));
-    mutiny_restore_jump_buffer();
+    restore_jump_buffer();
     if (current->is_rethrowing_exceptions()) {
       throw;
     }

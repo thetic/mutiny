@@ -5,6 +5,7 @@ string(STRIP "${MUTINY_VERSION_RAW}" MUTINY_VERSION)
 
 project(mutiny
     VERSION ${MUTINY_VERSION}
+    LANGUAGES CXX
 )
 
 include(CTest)
@@ -88,7 +89,7 @@ target_sources(mutiny
         src/test/Terminator.cpp
         src/test/Test.cpp
         src/test/TestingFixture.cpp
-        src/test/jump_buffer.c
+        src/test/jump_buffer.cpp
         src/math.cpp
         src/test/test.c.cpp
         src/time.cpp
@@ -151,30 +152,15 @@ target_sources(mutiny
             src/mutiny/test/JUnitOutput.hpp
             src/mutiny/test/NullPlugin.hpp
             src/mutiny/StringCollection.hpp
-            src/mutiny/test/jump_buffer.h
+            src/mutiny/test/jump_buffer.hpp
             src/mutiny/math.hpp
 )
 
 include(CheckCXXSymbolExists)
 check_cxx_symbol_exists(gettimeofday "sys/time.h" MUTINY_HAVE_GETTIMEOFDAY)
 
-# jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
-# must be able to propagate through mutiny_set_jmp() at runtime.  On ARM EHABI
-# the unwinder requires every function in the unwind chain to have an
-# .ARM.exidx entry; C files get none unless -funwind-tables is passed.
-include(CheckCCompilerFlag)
-check_c_compiler_flag(-funwind-tables MUTINY_C_HAS_FUNWIND_TABLES)
-if(MUTINY_C_HAS_FUNWIND_TABLES)
-    set_source_files_properties(
-        src/test/jump_buffer.c
-        PROPERTIES COMPILE_OPTIONS "-funwind-tables"
-    )
-endif()
-
 target_compile_features(mutiny
-    PUBLIC
-        cxx_std_11
-        c_std_99
+    PUBLIC cxx_std_11
 )
 
 target_compile_definitions(mutiny

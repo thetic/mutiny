@@ -1,7 +1,7 @@
 #include "mutiny/test/Terminator.hpp"
 
 #include "mutiny/test/Shell.hpp"
-#include "mutiny/test/jump_buffer.h"
+#include "mutiny/test/jump_buffer.hpp"
 
 namespace mu {
 namespace tiny {
@@ -18,7 +18,7 @@ void NormalTerminator::exit_current_test() const
 
 void TerminatorWithoutExceptions::exit_current_test() const
 {
-  mutiny_long_jmp();
+  long_jump();
 }
 
 void CrashingTerminator::exit_current_test() const
