@@ -214,6 +214,14 @@
     { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
     { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
+  "packagePresets": [
+    {
+      "name": "source",
+      "configurePreset": "GNU",
+      "generators": ["TGZ", "ZIP"],
+      "configFile": "${sourceDir}/build/GNU/CPackSourceConfig.cmake"
+    }
+  ],
   "workflowPresets": [
     {
       "name": "shared",
@@ -323,6 +331,13 @@
       "steps": [
         { "type": "configure", "name": "GNU" },
         { "type": "build", "name": "verify-headers" }
+      ]
+    },
+    {
+      "name": "source-archive",
+      "steps": [
+        { "type": "configure", "name": "GNU" },
+        { "type": "package", "name": "source" }
       ]
     }
   ]

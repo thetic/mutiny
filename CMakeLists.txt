@@ -14,11 +14,17 @@ option(MUTINY_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 cmake_dependent_option(MUTINY_USE_STD_STRING "Use std::string"
     ON "MUTINY_USE_STD_CPP_LIB" OFF)
 cmake_dependent_option(MUTINY_BUILD_TESTING "Build tests for mutiny"
-    ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
+    ${PROJECT_IS_TOP_LEVEL}
+    "BUILD_TESTING;EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tests"
+    OFF)
 cmake_dependent_option(MUTINY_BUILD_UNIT_TESTING "Build unit tests for mutiny"
-    ${PROJECT_IS_TOP_LEVEL} "MUTINY_BUILD_TESTING;NOT BUILD_SHARED_LIBS" OFF)
+    ${PROJECT_IS_TOP_LEVEL}
+    "MUTINY_BUILD_TESTING;NOT BUILD_SHARED_LIBS"
+    OFF)
 cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
-    ON "PROJECT_IS_TOP_LEVEL" OFF)
+    ON
+    "PROJECT_IS_TOP_LEVEL;EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/examples"
+    OFF)
 
 
 set(MUTINY_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
@@ -274,4 +280,31 @@ if(PROJECT_IS_TOP_LEVEL)
         ${PROJECT_BINARY_DIR}/mutiny-configVersion.cmake
         COMPATIBILITY SameMajorVersion
     )
+
+    set(CPACK_VERBATIM_VARIABLES YES)
+    set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
+    set(CPACK_SOURCE_IGNORE_FILES
+        "/\\.git/"
+        "/\\.github/"
+        "/\\.cache/"
+        "/\\.claude/"
+        "/\\.direnv/"
+        "/build/"
+        "/docs/"
+        "/examples/"
+        "/tests/"
+        "/cmake/c\\.clang-tidy$"
+        "/cmake/CTestCustom\\.cmake\\.in$"
+        "/cmake/lcov\\.cmake$"
+        "/cmake/warnings\\.cmake$"
+        "/\\.clang-format$"
+        "/\\.clang-tidy$"
+        "/CMakePresets\\.json$"
+        "/CONTRIBUTING\\.md$"
+        "/compile_commands\\.json$"
+        "/\\.envrc$"
+        "/\\.gitignore$"
+        "/\\.git-blame-ignore-revs$"
+    )
+    include(CPack)
 endif()

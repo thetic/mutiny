@@ -106,3 +106,11 @@ The version is defined in the `VERSION` file in the root directory and is used t
 
 Before submitting a pull request, please consider if your changes require a version bump.
 Reviewers will check for breaking changes to ensure the MAJOR version is incremented if necessary.
+
+## Creating a Release
+
+1. Update the `VERSION` file with the new version number.
+2. Merge to `main`.
+3. Create a GitHub release tagged `v<version>` (e.g. `v1.2.3`).
+
+CI will automatically generate a source archive and attach it to the release.
