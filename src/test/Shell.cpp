@@ -6,7 +6,7 @@
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/Test.hpp"
-#include "mutiny/test/jump_buffer.h"
+#include "mutiny/test/jump_buffer.hpp"
 
 #include "mutiny/String.hpp"
 #include "mutiny/math.hpp"
@@ -161,7 +161,7 @@ void Shell::run_one_test(Plugin* plugin, Result& result)
   has_failed_ = false;
   result.count_run();
   HelperTestRunInfo run_info(this, plugin, &result);
-  mutiny_set_jmp(helper_do_run_one_test_in_current_process, &run_info);
+  set_jump(helper_do_run_one_test_in_current_process, &run_info);
 }
 
 Test* Shell::create_test()

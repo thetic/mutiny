@@ -1,0 +1,41 @@
+#include "mutiny/test/jump_buffer.hpp"
+
+#include <setjmp.h>
+
+namespace mu {
+namespace tiny {
+namespace test {
+
+namespace {
+jmp_buf mutiny_jmp_buf[10];
+int mutiny_jmp_buf_depth = 0;
+} // namespace
+
+bool set_jump(void (*volatile function)(void*), void* volatile data)
+{
+#ifdef _MSC_VER
+#pragma warning(disable : 4611)
+#endif
+  if (0 == setjmp(mutiny_jmp_buf[mutiny_jmp_buf_depth])) {
+    mutiny_jmp_buf_depth++;
+    function(data);
+    mutiny_jmp_buf_depth--;
+    return true;
+  }
+  return false;
+}
+
+void long_jump(void)
+{
+  mutiny_jmp_buf_depth--;
+  longjmp(mutiny_jmp_buf[mutiny_jmp_buf_depth], 1);
+}
+
+void restore_jump_buffer(void)
+{
+  mutiny_jmp_buf_depth--;
+}
+
+} // namespace test
+} // namespace tiny
+} // namespace mu

@@ -1,3 +1,5 @@
+enable_language(C)
+
 add_executable(mutiny_integration
     main.cpp
     CommandLineArguments.test.cpp
