@@ -205,7 +205,7 @@ MUTINY_EXPORT bool iscntrl(char ch);
 /** @brief Return the length of the NUL-terminated string @p str. */
 MUTINY_EXPORT size_t strlen(const char* str);
 /** @brief Return a pointer to the first @p s2 in @p s1, or null. */
-const char* strstr(const char* s1, const char* s2);
+MUTINY_EXPORT const char* strstr(const char* s1, const char* s2);
 
 /** @brief Parse @p str as a signed long integer. */
 MUTINY_EXPORT long strtol(const char* str);

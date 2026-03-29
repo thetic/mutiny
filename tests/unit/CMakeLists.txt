@@ -26,9 +26,9 @@ add_executable(mutiny_unit
 target_link_libraries(mutiny_unit
     PRIVATE mutiny
 )
- target_include_directories(mutiny_unit
+target_include_directories(mutiny_unit
     PRIVATE $<TARGET_PROPERTY:mutiny,INCLUDE_DIRECTORIES>
- )
+)
 
 include(mutiny)
 mutiny_discover_tests(mutiny_unit)

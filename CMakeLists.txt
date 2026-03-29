@@ -13,9 +13,9 @@ include(CMakeDependentOption)
 option(MUTINY_USE_STD_CPP_LIB "Use the standard C++ library" ON)
 cmake_dependent_option(MUTINY_USE_STD_STRING "Use std::string"
     ON "MUTINY_USE_STD_CPP_LIB" OFF)
-cmake_dependent_option(MUTINY_BUILD_TESTING "Compile make tests for mutiny"
+cmake_dependent_option(MUTINY_BUILD_TESTING "Build tests for mutiny"
     ${PROJECT_IS_TOP_LEVEL} "BUILD_TESTING" OFF)
-cmake_dependent_option(MUTINY_BUILD_UNIT_TESTING "Compile unit tests for mutiny"
+cmake_dependent_option(MUTINY_BUILD_UNIT_TESTING "Build unit tests for mutiny"
     ${PROJECT_IS_TOP_LEVEL} "MUTINY_BUILD_TESTING;NOT BUILD_SHARED_LIBS" OFF)
 cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
     ON "PROJECT_IS_TOP_LEVEL" OFF)
@@ -150,7 +150,6 @@ target_sources(mutiny
 )
 
 include(CheckCXXSymbolExists)
-set(CMAKE_REQUIRED_FLAGS ${CMAKE_CXX_FLAGS}) # Is this necessary?
 check_cxx_symbol_exists(gettimeofday "sys/time.h" MUTINY_HAVE_GETTIMEOFDAY)
 
 # jump_buffer.c is compiled as C (to avoid MSVC C4611) but C++ exceptions
