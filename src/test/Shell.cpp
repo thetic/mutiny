@@ -116,7 +116,7 @@ const Terminator* Shell::current_test_terminator_without_exceptions_ =
 
 bool Shell::rethrow_exceptions_ = false;
 
-Shell::Shell()
+Shell::Shell() noexcept
   : group_("UndefinedTestGroup")
   , name_("UndefinedTest")
   , file_("UndefinedFile")
@@ -131,7 +131,7 @@ Shell::Shell(
     const char* test_name,
     const char* file_name,
     size_t line_number
-)
+) noexcept
   : group_(group_name)
   , name_(test_name)
   , file_(file_name)

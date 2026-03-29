@@ -7,7 +7,7 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-IgnoredShell::IgnoredShell()
+IgnoredShell::IgnoredShell() noexcept
   : run_ignored_(false)
 {
 }
@@ -17,7 +17,7 @@ IgnoredShell::IgnoredShell(
     const char* test_name,
     const char* file_name,
     size_t line_number
-)
+) noexcept
   : Shell(group_name, test_name, file_name, line_number)
   , run_ignored_(false)
 {

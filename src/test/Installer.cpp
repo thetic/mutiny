@@ -13,7 +13,7 @@ Installer::Installer(
     const char* test_name,
     const char* file_name,
     size_t line_number
-)
+) noexcept
 {
   shell.set_group_name(group_name);
   shell.set_test_name(test_name);

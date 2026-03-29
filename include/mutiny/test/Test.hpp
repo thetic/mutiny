@@ -10,7 +10,7 @@ namespace test {
 class MUTINY_EXPORT Test
 {
 public:
-  Test() = default;
+  Test() noexcept = default;
   virtual ~Test() = default;
   virtual void run();
 

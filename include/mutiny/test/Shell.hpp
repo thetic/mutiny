@@ -114,7 +114,7 @@ public:
       const char* test_name,
       const char* file_name,
       size_t line_number
-  );
+  ) noexcept;
   virtual ~Shell() = default;
 
   /** @brief Append @p test to this shell's linked list. @return @p test. */
@@ -385,7 +385,7 @@ public:
 protected:
   /** @brief Default constructor for use by subclasses (e.g. IgnoredShell).
    */
-  Shell();
+  Shell() noexcept;
 
   /** @return The macro keyword used in formatted output (e.g. "TEST"). */
   virtual String get_macro_name() const;
