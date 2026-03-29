@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Documentation for the mutiny framework"
 requires-python = ">=3.14"
 dependencies = [
-    "sphinx>=7.0,<9",
+    "sphinx>=7.0,<10",
     "breathe>=4.35",
     "exhale>=0.3.7",
     "sphinxcontrib-moderncmakedomain>=3.0",
