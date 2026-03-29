@@ -13,6 +13,8 @@ release = version
 
 # -- General configuration -----------------------------------------------------
 
+exclude_patterns = [".venv"]
+
 extensions = [
     "breathe",
     "exhale",
