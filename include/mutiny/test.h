@@ -17,6 +17,8 @@
 #ifndef INCLUDED_MUTINY_TEST_H
 #define INCLUDED_MUTINY_TEST_H
 
+#include "mutiny/export.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -302,77 +304,84 @@ extern "C"
   /** @brief C implementation of CHECK_EQUAL_BOOL. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_bool(
+  MUTINY_EXPORT void mutiny_check_equal_bool(
       bool expected,
       bool actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_INT. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_int(
+  MUTINY_EXPORT void mutiny_check_equal_int(
       int expected,
       int actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_UINT. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_uint(
+  MUTINY_EXPORT void mutiny_check_equal_uint(
       unsigned int expected,
       unsigned int actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_LONG. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_long(
+  MUTINY_EXPORT void mutiny_check_equal_long(
       long expected,
       long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_ULONG. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_ulong(
+  MUTINY_EXPORT void mutiny_check_equal_ulong(
       unsigned long expected,
       unsigned long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_LONGLONG. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_longlong(
+  MUTINY_EXPORT void mutiny_check_equal_longlong(
       long long expected,
       long long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_ULONGLONG. @param expected
    * Expected. @param actual Actual. @param text Message. @param file_name File.
    * @param line_number Line. */
-  void mutiny_check_equal_ulonglong(
+  MUTINY_EXPORT void mutiny_check_equal_ulonglong(
       unsigned long long expected,
       unsigned long long actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_DOUBLE. @param expected Expected.
    * @param actual Actual. @param threshold Threshold. @param text Message.
    * @param file_name File. @param line_number Line. */
-  void mutiny_check_equal_double(
+  MUTINY_EXPORT void mutiny_check_equal_double(
       double expected,
       double actual,
       double threshold,
@@ -380,60 +389,66 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_CHAR. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_char(
+  MUTINY_EXPORT void mutiny_check_equal_char(
       char expected,
       char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_UBYTE. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_ubyte(
+  MUTINY_EXPORT void mutiny_check_equal_ubyte(
       unsigned char expected,
       unsigned char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_SBYTE. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_sbyte(
+  MUTINY_EXPORT void mutiny_check_equal_sbyte(
       signed char expected,
       signed char actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_STRING. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_string(
+  MUTINY_EXPORT void mutiny_check_equal_string(
       const char* expected,
       const char* actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_POINTER. @param expected Expected.
    * @param actual Actual. @param text Message. @param file_name File. @param
    * line_number Line. */
-  void mutiny_check_equal_pointer(
+  MUTINY_EXPORT void mutiny_check_equal_pointer(
       const void* expected,
       const void* actual,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of CHECK_EQUAL_MEMCMP. @param expected Expected
    * buffer. @param actual Actual buffer. @param size Bytes to compare. @param
    * text Message. @param file_name File. @param line_number Line. */
-  void mutiny_check_equal_memcmp(
+  MUTINY_EXPORT void mutiny_check_equal_memcmp(
       const void* expected,
       const void* actual,
       size_t size,
@@ -441,22 +456,32 @@ extern "C"
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation of FAIL/FAIL_TEXT. @param text Message. @param
    * file_name File. @param line_number Line. */
-  void mutiny_fail(const char* text, const char* file_name, size_t line_number);
+  MUTINY_EXPORT void mutiny_fail(
+      const char* text,
+      const char* file_name,
+      size_t line_number
+  );
+
   /** @brief C implementation of CHECK/CHECK_TEXT. @param condition Condition
    * (non-zero = true). @param condition_string Stringified condition. @param
    * text Message. @param file_name File. @param line_number Line. */
-  void mutiny_check(
+  MUTINY_EXPORT void mutiny_check(
       int condition,
       const char* condition_string,
       const char* text,
       const char* file_name,
       size_t line_number
   );
+
   /** @brief C implementation backing TEST_PROPERTY in C files. @param name
    * Property name. @param value Property value. */
-  void mutiny_add_test_property(const char* name, const char* value);
+  MUTINY_EXPORT void mutiny_add_test_property(
+      const char* name,
+      const char* value
+  );
 
 #ifdef __cplusplus
 }

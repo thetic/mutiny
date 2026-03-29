@@ -9,6 +9,7 @@
 #define INCLUDED_MUTINY_TEST_FAILURE_HPP
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 #include "mutiny/features.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
@@ -22,7 +23,7 @@ namespace test {
 class Shell;
 class Output;
 
-class Failure
+class MUTINY_EXPORT Failure
 {
 
 public:
@@ -69,7 +70,7 @@ protected:
   Failure& operator=(const Failure&);
 };
 
-class EqualsFailure : public Failure
+class MUTINY_EXPORT EqualsFailure : public Failure
 {
 public:
   EqualsFailure(
@@ -90,7 +91,7 @@ public:
   );
 };
 
-class DoublesEqualFailure : public Failure
+class MUTINY_EXPORT DoublesEqualFailure : public Failure
 {
 public:
   DoublesEqualFailure(
@@ -104,7 +105,7 @@ public:
   );
 };
 
-class CheckEqualFailure : public Failure
+class MUTINY_EXPORT CheckEqualFailure : public Failure
 {
 public:
   CheckEqualFailure(
@@ -117,7 +118,7 @@ public:
   );
 };
 
-class ComparisonFailure : public Failure
+class MUTINY_EXPORT ComparisonFailure : public Failure
 {
 public:
   ComparisonFailure(
@@ -130,7 +131,7 @@ public:
   );
 };
 
-class ContainsFailure : public Failure
+class MUTINY_EXPORT ContainsFailure : public Failure
 {
 public:
   ContainsFailure(
@@ -143,7 +144,7 @@ public:
   );
 };
 
-class CheckFailure : public Failure
+class MUTINY_EXPORT CheckFailure : public Failure
 {
 public:
   CheckFailure(
@@ -156,7 +157,7 @@ public:
   );
 };
 
-class FailFailure : public Failure
+class MUTINY_EXPORT FailFailure : public Failure
 {
 public:
   FailFailure(
@@ -167,7 +168,7 @@ public:
   );
 };
 
-class LongsEqualFailure : public Failure
+class MUTINY_EXPORT LongsEqualFailure : public Failure
 {
 public:
   LongsEqualFailure(
@@ -180,7 +181,7 @@ public:
   );
 };
 
-class UnsignedLongsEqualFailure : public Failure
+class MUTINY_EXPORT UnsignedLongsEqualFailure : public Failure
 {
 public:
   UnsignedLongsEqualFailure(
@@ -193,7 +194,7 @@ public:
   );
 };
 
-class LongLongsEqualFailure : public Failure
+class MUTINY_EXPORT LongLongsEqualFailure : public Failure
 {
 public:
   LongLongsEqualFailure(
@@ -206,7 +207,7 @@ public:
   );
 };
 
-class UnsignedLongLongsEqualFailure : public Failure
+class MUTINY_EXPORT UnsignedLongLongsEqualFailure : public Failure
 {
 public:
   UnsignedLongLongsEqualFailure(
@@ -219,7 +220,7 @@ public:
   );
 };
 
-class SignedBytesEqualFailure : public Failure
+class MUTINY_EXPORT SignedBytesEqualFailure : public Failure
 {
 public:
   SignedBytesEqualFailure(
@@ -232,7 +233,7 @@ public:
   );
 };
 
-class StringEqualFailure : public Failure
+class MUTINY_EXPORT StringEqualFailure : public Failure
 {
 public:
   StringEqualFailure(
@@ -245,7 +246,7 @@ public:
   );
 };
 
-class StringEqualNoCaseFailure : public Failure
+class MUTINY_EXPORT StringEqualNoCaseFailure : public Failure
 {
 public:
   StringEqualNoCaseFailure(
@@ -258,7 +259,7 @@ public:
   );
 };
 
-class BinaryEqualFailure : public Failure
+class MUTINY_EXPORT BinaryEqualFailure : public Failure
 {
 public:
   BinaryEqualFailure(
@@ -272,7 +273,7 @@ public:
   );
 };
 
-class FeatureUnsupportedFailure : public Failure
+class MUTINY_EXPORT FeatureUnsupportedFailure : public Failure
 {
 public:
   FeatureUnsupportedFailure(
@@ -285,7 +286,7 @@ public:
 };
 
 #if MUTINY_HAVE_EXCEPTIONS
-class UnexpectedExceptionFailure : public Failure
+class MUTINY_EXPORT UnexpectedExceptionFailure : public Failure
 {
 public:
   bool is_error() const override { return true; }

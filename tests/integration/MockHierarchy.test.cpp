@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/test.hpp"
 
@@ -70,18 +70,11 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchically)
 {
   FailureReporterInstaller failure_reporter_installer;
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("first::foobar");
-  expectations.add_function("second::helloworld");
-  mu::tiny::mock::ExpectedCallsDidntHappenFailure expected_failure(
-      mock_failure_test(), expectations
-  );
-
   mock("first").expect_one_call("foobar");
   mock("second").expect_one_call("helloworld");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("first::foobar", mock_failure_string().c_str());
 }
 
 TEST(MockHierarchy, ignoreOtherCallsWorksHierarchically)
@@ -105,28 +98,18 @@ TEST(MockHierarchy, checkExpectationsWorksHierarchicallyForLastCallNotFinished)
 {
   FailureReporterInstaller failure_reporter_installer;
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function("first::foobar")->with_parameter("boo", 1);
-  mu::tiny::mock::ExpectedParameterDidntHappenFailure expected_failure(
-      mock_failure_test(), "first::foobar", expectations, expectations
-  );
-
   mock("first").expect_one_call("foobar").with_parameter("boo", 1);
   mock("first").actual_call("foobar");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("first::foobar", mock_failure_string().c_str());
 }
 
 TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 {
   FailureReporterInstaller failure_reporter_installer;
-  ExpectedCallsListForTest expectations;
 
   mock("differentScope").actual_call("foobar");
 
-  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
-      mock_failure_test(), "differentScope::foobar", expectations
-  );
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("differentScope::foobar", mock_failure_string().c_str());
 }

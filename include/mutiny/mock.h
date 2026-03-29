@@ -14,6 +14,8 @@
  * @see mutiny_mock_scope()
  */
 
+#include "mutiny/export.h"
+
 #include <stddef.h>
 
 #ifdef __cplusplus
@@ -664,7 +666,7 @@ extern "C"
    *
    * @see mutiny_mock_scope()
    */
-  struct MutinyMockSupport* mutiny_mock(void);
+  MUTINY_EXPORT struct MutinyMockSupport* mutiny_mock(void);
 
   /**
    * @brief Access a named mock support scope.
@@ -674,7 +676,7 @@ extern "C"
    *
    * @see mutiny_mock()
    */
-  struct MutinyMockSupport* mutiny_mock_scope(const char* scope);
+  MUTINY_EXPORT struct MutinyMockSupport* mutiny_mock_scope(const char* scope);
 
 #ifdef __cplusplus
 }

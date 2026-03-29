@@ -1,6 +1,8 @@
 #ifndef INCLUDED_MUTINY_TEST_INSTALLER_HPP
 #define INCLUDED_MUTINY_TEST_INSTALLER_HPP
 
+#include "mutiny/export.h"
+
 #include <stddef.h>
 
 namespace mu {
@@ -9,7 +11,7 @@ namespace test {
 
 class Shell;
 
-class Installer
+class MUTINY_EXPORT Installer
 {
 public:
   explicit Installer(

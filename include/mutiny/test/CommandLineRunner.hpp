@@ -14,8 +14,9 @@
  */
 
 #include "mutiny/test/CommandLineArguments.hpp"
-#include "mutiny/test/Filter.hpp"
 #include "mutiny/test/Output.hpp"
+
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -31,7 +32,7 @@ class Registry;
  * create_console_output() or create_composite_output() to supply a custom
  * output formatter.
  */
-class CommandLineRunner
+class MUTINY_EXPORT CommandLineRunner
 {
 public:
   /**

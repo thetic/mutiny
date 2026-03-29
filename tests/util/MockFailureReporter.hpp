@@ -1,14 +1,16 @@
-#ifndef INCLUDED_MUTINY_MOCKFAILUREREPORTERFORTEST_HPP
-#define INCLUDED_MUTINY_MOCKFAILUREREPORTERFORTEST_HPP
+#ifndef INCLUDED_MUTINY_MOCKFAILUREREPORTER_HPP
+#define INCLUDED_MUTINY_MOCKFAILUREREPORTER_HPP
 
-#include "mutiny/mock/CheckedExpectedCall.hpp"
-#include "mutiny/mock/ExpectedCallsList.hpp"
 #include "mutiny/mock/Failure.hpp"
 
 #include "mutiny/mock.hpp"
 
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure)                           \
   check_expected_mock_failure_location(expectedFailure, __FILE__, __LINE__)
+#define CHECK_EXPECTED_MOCK_FAILURE_STRING(expectedString)                     \
+  check_expected_mock_failure_string_location(                                 \
+      expectedString, __FILE__, __LINE__                                       \
+  )
 #define CHECK_NO_MOCK_FAILURE()                                                \
   check_no_mock_failure_location(__FILE__, __LINE__)
 
@@ -37,28 +39,16 @@ public:
 mu::tiny::test::Shell* mock_failure_test();
 mu::tiny::String mock_failure_string();
 void clear_mock_failure();
+void check_expected_mock_failure_string_location(
+    const mu::tiny::String& expected_string,
+    const char* file,
+    size_t line
+);
 void check_expected_mock_failure_location(
     const mu::tiny::mock::Failure& expected_failure,
     const char* file,
     size_t line
 );
 void check_no_mock_failure_location(const char* file, size_t line);
-
-class ExpectedCallsListForTest : public mu::tiny::mock::ExpectedCallsList
-{
-public:
-  ~ExpectedCallsListForTest() override;
-  mu::tiny::mock::CheckedExpectedCall* add_function(
-      const mu::tiny::String& name
-  );
-  mu::tiny::mock::CheckedExpectedCall* add_function(
-      unsigned int num_calls,
-      const mu::tiny::String& name
-  );
-  mu::tiny::mock::CheckedExpectedCall* add_function_ordered(
-      const mu::tiny::String& name,
-      unsigned int order
-  );
-};
 
 #endif

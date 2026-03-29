@@ -422,12 +422,14 @@ bool NamedValue::equals(const NamedValue& p) const
     return (value_.long_int_value >= 0) &&
            (static_cast<unsigned long long>(value_.long_int_value) ==
             p.value_.unsigned_long_long_int_value);
-  else if ((type_ == "unsigned long long int") &&
-           (p.type_ == "unsigned long int"))
+  else if (
+      (type_ == "unsigned long long int") && (p.type_ == "unsigned long int")
+  )
     return value_.unsigned_long_long_int_value ==
            p.value_.unsigned_long_int_value;
-  else if ((type_ == "unsigned long int") &&
-           (p.type_ == "unsigned long long int"))
+  else if (
+      (type_ == "unsigned long int") && (p.type_ == "unsigned long long int")
+  )
     return value_.unsigned_long_int_value ==
            p.value_.unsigned_long_long_int_value;
 

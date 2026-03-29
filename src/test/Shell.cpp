@@ -29,7 +29,7 @@ class OutsideTestRunnerUTest : public Shell
 {
 public:
   static OutsideTestRunnerUTest& instance();
-  virtual Result& get_test_result() { return default_test_result_; }
+  Result& get_result() { return default_test_result_; }
   ~OutsideTestRunnerUTest() override = default;
 
 private:
@@ -735,7 +735,7 @@ void Shell::set_current_test(Shell* test)
 Result* Shell::get_test_result()
 {
   if (test_result_ == nullptr)
-    return &OutsideTestRunnerUTest::instance().get_test_result();
+    return &OutsideTestRunnerUTest::instance().get_result();
   return test_result_;
 }
 

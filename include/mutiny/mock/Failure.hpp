@@ -3,6 +3,8 @@
 
 #include "mutiny/test/Failure.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -12,7 +14,7 @@ class CheckedActualCall;
 class NamedValue;
 class Failure;
 
-class FailureReporter
+class MUTINY_EXPORT FailureReporter
 {
 protected:
   bool crash_on_failure_{ false };
@@ -32,7 +34,7 @@ public:
   }
 };
 
-class Failure : public test::Failure
+class MUTINY_EXPORT Failure : public test::Failure
 {
 public:
   Failure(test::Shell* test);
@@ -47,7 +49,7 @@ protected:
   );
 };
 
-class ExpectedCallsDidntHappenFailure : public Failure
+class MUTINY_EXPORT ExpectedCallsDidntHappenFailure : public Failure
 {
 public:
   ExpectedCallsDidntHappenFailure(
@@ -56,7 +58,7 @@ public:
   );
 };
 
-class UnexpectedCallHappenedFailure : public Failure
+class MUTINY_EXPORT UnexpectedCallHappenedFailure : public Failure
 {
 public:
   UnexpectedCallHappenedFailure(
@@ -66,13 +68,13 @@ public:
   );
 };
 
-class CallOrderFailure : public Failure
+class MUTINY_EXPORT CallOrderFailure : public Failure
 {
 public:
   CallOrderFailure(test::Shell* test, const ExpectedCallsList& expectations);
 };
 
-class UnexpectedInputParameterFailure : public Failure
+class MUTINY_EXPORT UnexpectedInputParameterFailure : public Failure
 {
 public:
   UnexpectedInputParameterFailure(
@@ -83,7 +85,7 @@ public:
   );
 };
 
-class UnexpectedOutputParameterFailure : public Failure
+class MUTINY_EXPORT UnexpectedOutputParameterFailure : public Failure
 {
 public:
   UnexpectedOutputParameterFailure(
@@ -94,7 +96,7 @@ public:
   );
 };
 
-class ExpectedParameterDidntHappenFailure : public Failure
+class MUTINY_EXPORT ExpectedParameterDidntHappenFailure : public Failure
 {
 public:
   ExpectedParameterDidntHappenFailure(
@@ -105,19 +107,19 @@ public:
   );
 };
 
-class NoWayToCompareCustomTypeFailure : public Failure
+class MUTINY_EXPORT NoWayToCompareCustomTypeFailure : public Failure
 {
 public:
   NoWayToCompareCustomTypeFailure(test::Shell* test, String type_name);
 };
 
-class NoWayToCopyCustomTypeFailure : public Failure
+class MUTINY_EXPORT NoWayToCopyCustomTypeFailure : public Failure
 {
 public:
   NoWayToCopyCustomTypeFailure(test::Shell* test, String type_name);
 };
 
-class UnexpectedObjectFailure : public Failure
+class MUTINY_EXPORT UnexpectedObjectFailure : public Failure
 {
 public:
   UnexpectedObjectFailure(
@@ -128,7 +130,7 @@ public:
   );
 };
 
-class ExpectedObjectDidntHappenFailure : public Failure
+class MUTINY_EXPORT ExpectedObjectDidntHappenFailure : public Failure
 {
 public:
   ExpectedObjectDidntHappenFailure(

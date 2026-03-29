@@ -1,18 +1,20 @@
 #ifndef INCLUDED_MUTINY_TEST_TESTINGFIXTURE_HPP
 #define INCLUDED_MUTINY_TEST_TESTINGFIXTURE_HPP
 
+#include "mutiny/test/ExecFunction.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
+
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
 namespace test {
 
-class ExecFunction;
 class ExecFunctionShell;
 
-class TestingFixture
+class MUTINY_EXPORT TestingFixture
 {
 public:
   TestingFixture();

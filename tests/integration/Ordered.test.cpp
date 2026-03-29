@@ -1,24 +1,32 @@
 #include "mutiny/test/Ordered.hpp"
 
-#include "OrderedTest.h"
-
-#include "mutiny/test/ExecFunctionShell.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
 #include "mutiny/test.hpp"
 
-TEST_GROUP(OrderedTest)
+namespace {
+class MockShell : public mu::tiny::test::Shell
+{
+public:
+  MockShell()
+    : mu::tiny::test::Shell("group", "name", "file", 1)
+  {
+  }
+};
+} // namespace
+
+TEST_GROUP(Ordered)
 {
   mu::tiny::test::TestingFixture* fixture;
 
   mu::tiny::test::OrderedShell ordered_test;
   mu::tiny::test::OrderedShell ordered_test2;
   mu::tiny::test::OrderedShell ordered_test3;
-  mu::tiny::test::ExecFunctionShell normal_test;
-  mu::tiny::test::ExecFunctionShell normal_test2;
-  mu::tiny::test::ExecFunctionShell normal_test3;
+  MockShell normal_test;
+  MockShell normal_test2;
+  MockShell normal_test3;
 
   mu::tiny::test::OrderedShell* ordered_test_cache;
   void setup() override
@@ -58,7 +66,7 @@ TEST_GROUP(OrderedTest)
   mu::tiny::test::Shell* second_test() { return first_test()->get_next(); }
 };
 
-TEST(OrderedTest, TestInstallerSetsFields)
+TEST(Ordered, TestInstallerSetsFields)
 {
   mu::tiny::test::OrderedInstaller installer(
       ordered_test, "testgroup", "testname", "this.cpp", 10, 5
@@ -70,13 +78,13 @@ TEST(OrderedTest, TestInstallerSetsFields)
   LONGS_EQUAL(5, ordered_test.get_level());
 }
 
-TEST(OrderedTest, InstallOneText)
+TEST(Ordered, InstallOneText)
 {
   install_ordered_test(ordered_test, 5);
   CHECK(first_test() == &ordered_test);
 }
 
-TEST(OrderedTest, OrderedTestsAreLast)
+TEST(Ordered, OrderedTestsAreLast)
 {
   install_normal_test(normal_test);
   install_ordered_test(ordered_test, 5);
@@ -84,7 +92,7 @@ TEST(OrderedTest, OrderedTestsAreLast)
   CHECK(second_test() == &ordered_test);
 }
 
-TEST(OrderedTest, TwoTestsAddedInReverseOrder)
+TEST(Ordered, TwoTestsAddedInReverseOrder)
 {
   install_ordered_test(ordered_test, 5);
   install_ordered_test(ordered_test2, 3);
@@ -92,7 +100,7 @@ TEST(OrderedTest, TwoTestsAddedInReverseOrder)
   CHECK(second_test() == &ordered_test);
 }
 
-TEST(OrderedTest, TwoTestsAddedInOrder)
+TEST(Ordered, TwoTestsAddedInOrder)
 {
   install_ordered_test(ordered_test2, 3);
   install_ordered_test(ordered_test, 5);
@@ -100,7 +108,7 @@ TEST(OrderedTest, TwoTestsAddedInOrder)
   CHECK(second_test() == &ordered_test);
 }
 
-TEST(OrderedTest, MultipleOrderedTests)
+TEST(Ordered, MultipleOrderedTests)
 {
   install_normal_test(normal_test);
   install_ordered_test(ordered_test2, 3);
@@ -116,7 +124,7 @@ TEST(OrderedTest, MultipleOrderedTests)
   CHECK(first_ordered_test->get_next()->get_next() == &ordered_test3);
 }
 
-TEST(OrderedTest, MultipleOrderedTests2)
+TEST(Ordered, MultipleOrderedTests2)
 {
   install_ordered_test(ordered_test, 3);
   install_ordered_test(ordered_test2, 1);

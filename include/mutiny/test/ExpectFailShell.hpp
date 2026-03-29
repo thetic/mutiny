@@ -3,11 +3,13 @@
 
 #include "mutiny/test/Shell.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
 
-class ExpectFailShell : public Shell
+class MUTINY_EXPORT ExpectFailShell : public Shell
 {
 public:
   ExpectFailShell() = default;

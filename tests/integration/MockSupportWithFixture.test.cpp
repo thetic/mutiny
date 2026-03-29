@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/test/TestingFixture.hpp"
 
@@ -22,12 +22,12 @@ void unexpected_call_test_function(void)
 
 void check_expected_mock_failure_location_failed_test_method()
 {
-  ExpectedCallsListForTest::ExpectedCallsList list;
-  mu::tiny::mock::UnexpectedCallHappenedFailure expected_failure(
-      mu::tiny::test::Shell::get_current(), "unexpected", list
-  );
+  FailureReporterInstaller reporter;
+  mock().actual_call("unexpected");
+  mu::tiny::String expected = mock_failure_string();
+  clear_mock_failure();
   mock().actual_call("boo");
-  check_expected_mock_failure_location(expected_failure, "file", 1);
+  check_expected_mock_failure_string_location(expected, "file", 1);
 }
 
 void check_no_mock_failure_location_failed_test_method()

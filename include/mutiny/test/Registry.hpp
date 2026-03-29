@@ -9,6 +9,7 @@
 #include "mutiny/test/Filter.hpp"
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 #include <stddef.h>
 
@@ -20,7 +21,7 @@ class Shell;
 class Result;
 class Plugin;
 
-class Registry
+class MUTINY_EXPORT Registry
 {
 public:
   Registry();

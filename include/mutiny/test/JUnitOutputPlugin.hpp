@@ -3,13 +3,15 @@
 
 #include "mutiny/test/Plugin.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
 
 class Output;
 
-class JUnitOutputPlugin : public Plugin
+class MUTINY_EXPORT JUnitOutputPlugin : public Plugin
 {
 public:
   JUnitOutputPlugin();

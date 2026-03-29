@@ -54,7 +54,7 @@ XML Format
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8" ?>
-   <testsuite errors="0" failures="1" hostname="localhost" name="Widget" tests="3" time="0.001">
+   <testsuite errors="0" failures="1" name="Widget" tests="3" time="0.001">
      <testcase classname="Widget" name="ReturnsInitialValue" time="0.000" />
      <testcase classname="Widget" name="CanBeSet" time="0.000">
        <failure message="widget.test.cpp:25: expected &lt;42&gt; but was &lt;0&gt;" type="AssertionError" />

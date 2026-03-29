@@ -3,7 +3,6 @@
 #include "mutiny/test/Registry.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 
-#include "mutiny/StringCollection.hpp"
 #include "mutiny/test.hpp"
 
 namespace {
@@ -277,13 +276,10 @@ TEST(CommandLineRunner, defaultTestsAreRunInOrderTheyAreInRepository)
   );
   command_line_test_runner.run_all_tests_main();
 
-  mu::tiny::StringCollection string_collection(
-      command_line_test_runner.fake_console_output_which_is_really_a_buffer
-          ->get_output(),
-      '\n'
-  );
-  STRCMP_CONTAINS("test2", string_collection[0].c_str());
-  STRCMP_CONTAINS("test1", string_collection[1].c_str());
+  auto output = command_line_test_runner
+                    .fake_console_output_which_is_really_a_buffer->get_output();
+  STRCMP_CONTAINS("test2", output.c_str());
+  STRCMP_CONTAINS("test1", output.c_str());
 }
 
 TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
@@ -296,13 +292,10 @@ TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
   );
   command_line_test_runner.run_all_tests_main();
 
-  mu::tiny::StringCollection string_collection(
-      command_line_test_runner.fake_console_output_which_is_really_a_buffer
-          ->get_output(),
-      '\n'
-  );
-  STRCMP_CONTAINS("test1", string_collection[0].c_str());
-  STRCMP_CONTAINS("test2", string_collection[1].c_str());
+  auto output = command_line_test_runner
+                    .fake_console_output_which_is_really_a_buffer->get_output();
+  STRCMP_CONTAINS("test1", output.c_str());
+  STRCMP_CONTAINS("test2", output.c_str());
 }
 
 TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)

@@ -4,6 +4,8 @@
 #include "mutiny/mock/NamedValueComparator.hpp"
 #include "mutiny/mock/NamedValueCopier.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -15,7 +17,7 @@ namespace mock {
  */
 
 struct NamedValueComparatorsAndCopiersRepositoryNode;
-class NamedValueComparatorsAndCopiersRepository
+class MUTINY_EXPORT NamedValueComparatorsAndCopiersRepository
 {
   NamedValueComparatorsAndCopiersRepositoryNode* head_{ nullptr };
 

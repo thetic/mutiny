@@ -7,6 +7,8 @@
 #ifndef INCLUDED_MUTINY_TEST_RESULT_HPP
 #define INCLUDED_MUTINY_TEST_RESULT_HPP
 
+#include "mutiny/export.h"
+
 #include <stddef.h>
 
 namespace mu {
@@ -17,7 +19,7 @@ class Failure;
 class Output;
 class Shell;
 
-class Result
+class MUTINY_EXPORT Result
 {
 public:
   Result(Output&);

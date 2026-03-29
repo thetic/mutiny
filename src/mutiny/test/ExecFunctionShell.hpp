@@ -1,6 +1,7 @@
 #ifndef INCLUDED_MUTINY_TEST_EXECFUNCTIONSHELL_HPP
 #define INCLUDED_MUTINY_TEST_EXECFUNCTIONSHELL_HPP
 
+#include "mutiny/test/ExecFunction.hpp"
 #include "mutiny/test/Shell.hpp"
 #include "mutiny/test/Test.hpp"
 
@@ -20,17 +21,6 @@ public:
 
 private:
   ExecFunctionShell* shell_;
-};
-
-//////////////////// ExecFunction
-
-class ExecFunction
-{
-public:
-  ExecFunction() = default;
-  virtual ~ExecFunction() = default;
-
-  virtual void exec() = 0;
 };
 
 class ExecFunctionWithoutParameters : public ExecFunction

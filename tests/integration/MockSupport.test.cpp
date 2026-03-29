@@ -1,7 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
-
-#include "mutiny/mock/ExpectedCall.hpp"
-#include "mutiny/mock/Failure.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/test/TestingFixture.hpp"
 
@@ -12,7 +9,6 @@ using mu::tiny::mock::mock;
 
 TEST_GROUP(Support)
 {
-  ExpectedCallsListForTest expectations;
   FailureReporterInstaller failure_reporter_installer;
 
   void teardown() override

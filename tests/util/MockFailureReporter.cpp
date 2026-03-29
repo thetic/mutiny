@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/test.hpp"
 
@@ -65,23 +65,33 @@ void clear_mock_failure()
   FailureReporterForTest::get_reporter()->mock_failure_string = "";
 }
 
+void check_expected_mock_failure_string_location(
+    const mu::tiny::String& expected_string,
+    const char* file,
+    size_t line
+)
+{
+  mu::tiny::String actual_failure_string = mock_failure_string();
+  clear_mock_failure();
+  if (expected_string != actual_failure_string) {
+    mu::tiny::String error = "MockFailures are different.\n";
+    error += "Expected Failure:\n\t";
+    error += expected_string;
+    error += "\nActual Failure:\n\t";
+    error += actual_failure_string;
+    FAIL_LOCATION(error.c_str(), file, line);
+  }
+}
+
 void check_expected_mock_failure_location(
     const mu::tiny::mock::Failure& expected_failure,
     const char* file,
     size_t line
 )
 {
-  mu::tiny::String expected_failure_string = expected_failure.get_message();
-  mu::tiny::String actual_failure_string = mock_failure_string();
-  clear_mock_failure();
-  if (expected_failure_string != actual_failure_string) {
-    mu::tiny::String error = "MockFailures are different.\n";
-    error += "Expected Failure:\n\t";
-    error += expected_failure_string;
-    error += "\nActual Failure:\n\t";
-    error += actual_failure_string;
-    FAIL_LOCATION(error.c_str(), file, line);
-  }
+  check_expected_mock_failure_string_location(
+      expected_failure.get_message(), file, line
+  );
 }
 
 void check_no_mock_failure_location(const char* file, size_t line)
@@ -93,38 +103,4 @@ void check_no_mock_failure_location(const char* file, size_t line)
     FAIL_LOCATION(error.c_str(), file, line);
   }
   clear_mock_failure();
-}
-
-ExpectedCallsListForTest::~ExpectedCallsListForTest()
-{
-  delete_all_expectations_and_clear_list();
-}
-
-mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
-    const mu::tiny::String& name
-)
-{
-  auto* new_call = new mu::tiny::mock::CheckedExpectedCall;
-  new_call->with_name(name);
-  add_expected_call(new_call);
-  return new_call;
-}
-
-mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::add_function(
-    unsigned int num_calls,
-    const mu::tiny::String& name
-)
-{
-  auto* new_call = new mu::tiny::mock::CheckedExpectedCall(num_calls);
-  new_call->with_name(name);
-  add_expected_call(new_call);
-  return new_call;
-}
-
-mu::tiny::mock::CheckedExpectedCall* ExpectedCallsListForTest::
-    add_function_ordered(const mu::tiny::String& name, unsigned int order)
-{
-  auto* new_call = add_function(name);
-  new_call->with_call_order(order);
-  return new_call;
 }

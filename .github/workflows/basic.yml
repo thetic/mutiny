@@ -36,11 +36,11 @@ jobs:
           path: baseline
 
       - name: Configure Baseline Build
-        run: cmake --preset defaults baseline
+        run: cmake --preset shared baseline
         working-directory: baseline
 
       - name: Build Baseline Library
-        run: cmake --build --preset defaults --target mutiny
+        run: cmake --build --preset shared --target mutiny
         working-directory: baseline
 
       - name: Checkout Current Branch
@@ -49,11 +49,11 @@ jobs:
           path: current
 
       - name: Configure Current Build
-        run: cmake --preset defaults current
+        run: cmake --preset shared current
         working-directory: current
 
       - name: Build Current Library
-        run: cmake --build --preset defaults --target mutiny
+        run: cmake --build --preset shared --target mutiny
         working-directory: current
 
       - name: Run abidiff
@@ -62,8 +62,8 @@ jobs:
           # The exit code is a bitmask: 0 = no change, 1 = compatible change, 2 = incompatible change, etc.
           # We want to fail if there are any incompatible changes (bit 8 or higher, as per docs, or general non-zero for any change)
           abidiff \
-            baseline/build/defaults/libmutiny.so \
-            current/build/defaults/libmutiny.so
+            baseline/build/shared/libmutiny.so \
+            current/build/shared/libmutiny.so
 
 
   cmake:
@@ -154,6 +154,10 @@ jobs:
           - name: Address Sanitizer
             os: ubuntu-latest
             preset: asan
+          - name: Linux Shared Library
+            os: ubuntu-latest
+            preset: shared
+            install: true
           - name: GCC ARM embedded
             os: ubuntu-latest
             preset: arm-embedded

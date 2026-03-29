@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 

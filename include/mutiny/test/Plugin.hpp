@@ -14,6 +14,7 @@
  */
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -30,7 +31,7 @@ class Result;
  * post_test_action(), and parse_arguments() calls propagate through the
  * entire chain automatically via the run_all_*() and parse_all_*() helpers.
  */
-class Plugin
+class MUTINY_EXPORT Plugin
 {
 public:
   /**

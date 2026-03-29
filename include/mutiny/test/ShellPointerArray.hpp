@@ -1,17 +1,19 @@
 #ifndef INCLUDED_MUTINY_TEST_SHELLPOINTERARRAY_HPP
 #define INCLUDED_MUTINY_TEST_SHELLPOINTERARRAY_HPP
 
+#include "mutiny/export.h"
+
 #include <stddef.h>
 
 namespace mu {
 namespace tiny {
 namespace test {
 
-extern int (*rand)();
+MUTINY_EXPORT extern int (*rand)();
 
 class Shell;
 
-class ShellPointerArray
+class MUTINY_EXPORT ShellPointerArray
 {
 public:
   ShellPointerArray(Shell* first_test);

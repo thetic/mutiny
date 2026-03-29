@@ -17,6 +17,8 @@
 
 #include "mutiny/test/Plugin.hpp"
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -28,7 +30,7 @@ namespace test {
  * the address of each pointer variable before it is overwritten; on
  * post_test_action() it writes the saved address back.
  */
-class SetPointerPlugin : public Plugin
+class MUTINY_EXPORT SetPointerPlugin : public Plugin
 {
 public:
   /** @brief Construct the plugin and prepare the storage array. */

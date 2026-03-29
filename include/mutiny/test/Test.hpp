@@ -1,11 +1,13 @@
 #ifndef INCLUDED_MUTINY_TEST_TEST_HPP
 #define INCLUDED_MUTINY_TEST_TEST_HPP
 
+#include "mutiny/export.h"
+
 namespace mu {
 namespace tiny {
 namespace test {
 
-class Test
+class MUTINY_EXPORT Test
 {
 public:
   Test() = default;

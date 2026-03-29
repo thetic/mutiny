@@ -2,12 +2,13 @@
 #define INCLUDED_MUTINY_TEST_FILTER_HPP
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
 namespace test {
 
-class Filter
+class MUTINY_EXPORT Filter
 {
 public:
   Filter();
@@ -36,7 +37,7 @@ private:
 
 } // namespace test
 
-String string_from(const test::Filter& filter);
+MUTINY_EXPORT String string_from(const test::Filter& filter);
 
 } // namespace tiny
 } // namespace mu

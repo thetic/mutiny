@@ -1,6 +1,8 @@
 #include "mutiny/mock.h"
 
 #include "mutiny/mock/Failure.hpp"
+#include "mutiny/mock/NamedValueComparator.hpp"
+#include "mutiny/mock/NamedValueCopier.hpp"
 
 #include "mutiny/test/Shell.hpp"
 
@@ -723,8 +725,9 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
     return_value.type = mutiny_type_long_long_integer;
     return_value.value.long_long_int_value =
         named_value.get_long_long_int_value();
-  } else if (strcmp(named_value.get_type().c_str(), "unsigned long long int") ==
-             0) {
+  } else if (
+      strcmp(named_value.get_type().c_str(), "unsigned long long int") == 0
+  ) {
     return_value.type = mutiny_type_unsigned_long_long_integer;
     return_value.value.unsigned_long_long_int_value =
         named_value.get_unsigned_long_long_int_value();
@@ -745,8 +748,9 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
     return_value.type = mutiny_type_functionpointer;
     return_value.value.function_pointer_value =
         named_value.get_function_pointer_value();
-  } else if (strcmp(named_value.get_type().c_str(), "const unsigned char*") ==
-             0) {
+  } else if (
+      strcmp(named_value.get_type().c_str(), "const unsigned char*") == 0
+  ) {
     return_value.type = mutiny_type_memorybuffer;
     return_value.value.memory_buffer_value = named_value.get_memory_buffer();
   } else if (named_value.is_const_object()) {

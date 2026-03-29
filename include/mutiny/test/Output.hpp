@@ -11,6 +11,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "mutiny/String.hpp"
+#include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
@@ -20,7 +21,7 @@ class Shell;
 class Failure;
 class Result;
 
-class Output
+class MUTINY_EXPORT Output
 {
 public:
   enum class VerbosityLevel
@@ -90,8 +91,8 @@ protected:
   const char* progress_indication_{ "." };
 };
 
-Output& operator<<(Output&, const char*);
-Output& operator<<(Output&, long);
+MUTINY_EXPORT Output& operator<<(Output&, const char*);
+MUTINY_EXPORT Output& operator<<(Output&, long);
 
 } // namespace test
 } // namespace tiny

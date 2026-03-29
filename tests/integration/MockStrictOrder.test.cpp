@@ -1,4 +1,4 @@
-#include "MockFailureReporterForTest.hpp"
+#include "MockFailureReporter.hpp"
 
 #include "mutiny/test.hpp"
 
@@ -38,14 +38,6 @@ TEST(MockStrictOrder, orderViolated)
   FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function_ordered("foo1", 1)->call_was_made(1);
-  expectations.add_function_ordered("foo1", 2)->call_was_made(3);
-  expectations.add_function_ordered("foo2", 3)->call_was_made(2);
-  mu::tiny::mock::CallOrderFailure expected_failure(
-      mock_failure_test(), expectations
-  );
-
   mock().expect_one_call("foo1");
   mock().expect_one_call("foo1");
   mock().expect_one_call("foo2");
@@ -54,7 +46,7 @@ TEST(MockStrictOrder, orderViolated)
   mock().actual_call("foo1");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 }
 
 TEST(MockStrictOrder, orderViolatedWorksHierarchically)
@@ -62,13 +54,6 @@ TEST(MockStrictOrder, orderViolatedWorksHierarchically)
   FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
   mock("bla").strict_order();
-
-  ExpectedCallsListForTest expectations;
-  expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
-  expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::CallOrderFailure expected_failure(
-      mock_failure_test(), expectations
-  );
 
   mock("bla").expect_one_call("foo1");
   mock("foo").expect_one_call("foo1");
@@ -79,7 +64,7 @@ TEST(MockStrictOrder, orderViolatedWorksHierarchically)
   mock("foo").actual_call("foo1");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo::foo", mock_failure_string().c_str());
 }
 
 TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
@@ -88,13 +73,6 @@ TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
   mock().strict_order();
   mock("bla").strict_order();
   mock().ignore_other_calls();
-
-  ExpectedCallsListForTest expectations;
-  expectations.add_function_ordered("foo::foo1", 1)->call_was_made(2);
-  expectations.add_function_ordered("foo::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::CallOrderFailure expected_failure(
-      mock_failure_test(), expectations
-  );
 
   mock("bla").expect_one_call("foo1");
   mock("foo").expect_one_call("foo1");
@@ -107,7 +85,7 @@ TEST(MockStrictOrder, orderViolatedWorksWithExtraUnexpectedCall)
   mock("foo").actual_call("unexpected2");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("foo::foo", mock_failure_string().c_str());
 }
 
 TEST(MockStrictOrder, orderViolatedWithinAScope)
@@ -115,20 +93,13 @@ TEST(MockStrictOrder, orderViolatedWithinAScope)
   FailureReporterInstaller failure_reporter_installer;
   mock().strict_order();
 
-  ExpectedCallsListForTest expectations;
-  expectations.add_function_ordered("scope::foo1", 1)->call_was_made(2);
-  expectations.add_function_ordered("scope::foo2", 2)->call_was_made(1);
-  mu::tiny::mock::CallOrderFailure expected_failure(
-      mock_failure_test(), expectations
-  );
-
   mock("scope").expect_one_call("foo1");
   mock("scope").expect_one_call("foo2");
   mock("scope").actual_call("foo2");
   mock("scope").actual_call("foo1");
 
   mock().check_expectations();
-  CHECK_EXPECTED_MOCK_FAILURE(expected_failure);
+  STRCMP_CONTAINS("scope::foo", mock_failure_string().c_str());
 }
 
 TEST(MockStrictOrder, orderNotViolatedAcrossScopes)

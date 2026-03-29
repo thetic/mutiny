@@ -19,6 +19,13 @@
       }
     },
     {
+      "name": "shared",
+      "inherits": ["defaults"],
+      "cacheVariables": {
+        "BUILD_SHARED_LIBS": true
+      }
+    },
+    {
       "name": "GNU",
       "inherits": ["defaults"],
       "cacheVariables": {
@@ -157,6 +164,7 @@
       "jobs": 0
     },
     { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
+    { "name": "shared",        "inherits": "base", "configurePreset": "shared" },
     { "name": "GNU",           "inherits": "base", "configurePreset": "GNU" },
     { "name": "Clang",         "inherits": "base", "configurePreset": "Clang" },
     { "name": "clang-tidy",    "inherits": "base", "configurePreset": "clang-tidy" },
@@ -190,6 +198,7 @@
       }
     },
     { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
+    { "name": "shared",        "inherits": "base", "configurePreset": "shared" },
     { "name": "GNU",           "inherits": "base", "configurePreset": "GNU" },
     { "name": "Clang",         "inherits": "base", "configurePreset": "Clang" },
     { "name": "clang-tidy",    "inherits": "base", "configurePreset": "clang-tidy" },
@@ -206,6 +215,14 @@
     { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
   "workflowPresets": [
+    {
+      "name": "shared",
+      "steps": [
+        { "type": "configure", "name": "shared" },
+        { "type": "build",     "name": "shared" },
+        { "type": "test",      "name": "shared" }
+      ]
+    },
     {
       "name": "GNU",
       "steps": [
@@ -299,6 +316,13 @@
         { "type": "configure", "name": "detailed" },
         { "type": "build",     "name": "detailed" },
         { "type": "test",      "name": "detailed" }
+      ]
+    },
+    {
+      "name": "verify-headers",
+      "steps": [
+        { "type": "configure", "name": "GNU" },
+        { "type": "build", "name": "verify-headers" }
       ]
     }
   ]
