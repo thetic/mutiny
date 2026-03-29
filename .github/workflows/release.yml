@@ -1,0 +1,29 @@
+---
+name: Release
+
+"on":
+  release:
+    types: [created]
+
+jobs:
+  source-archive:
+    name: Source Archive
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset GNU
+
+      - name: Package
+        run: cpack --preset source
+
+      - name: Upload
+        run: >
+          gh release upload ${{ github.event.release.tag_name }}
+          build/GNU/mutiny-*-Source.tar.gz
+          build/GNU/mutiny-*-Source.zip
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
