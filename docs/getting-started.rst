@@ -144,7 +144,7 @@ Examples
    * - File
      - Demonstrates
    * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
-     - Minimal ``TEST_GROUP`` + ``TEST`` with ``setup()``, ``MUTINY_PTR_SET``,
+     - Minimal :c:macro:`TEST_GROUP` + :c:macro:`TEST` with :cpp:func:`setup() <mu::tiny::test::Test::setup>`, :c:macro:`MUTINY_PTR_SET`,
        and a handful of assertion macros
    * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
      - Full group with setup/teardown, helper methods, and multiple assertion styles

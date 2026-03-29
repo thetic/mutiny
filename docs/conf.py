@@ -1,3 +1,4 @@
+import re
 import textwrap
 from pathlib import Path
 
@@ -73,6 +74,9 @@ exhale_args = {
         WARN_IF_UNDOCUMENTED = NO
         WARN_AS_ERROR        = YES
         QUIET                = YES
+        # Omit <programlisting> from XML so Exhale skips generating
+        # program_listing_*.rst files; GitHub source links replace them.
+        XML_PROGRAMLISTING   = NO
         """),
 }
 
@@ -113,3 +117,27 @@ pygments_dark_style = "a11y-high-contrast-dark"
 # duplicate c:macro declarations — Sphinx has no cpp:macro domain, so this is a
 # known upstream limitation rather than a documentation error.
 suppress_warnings = ["duplicate_declaration.c"]
+
+# -- GitHub source links for generated file pages -----------------------------
+
+# Inject a "View source on GitHub" link into each Exhale-generated file page.
+# These pages previously linked to program_listing_*.rst (local code dumps);
+# XML_PROGRAMLISTING = NO in exhaleDoxygenStdin suppresses those, and this
+# handler replaces them with direct links into the GitHub source tree.
+def _add_github_source_links(app, docname, source):
+    if not docname.startswith("api/file_"):
+        return
+    m = re.search(r"Definition \(``(.+?)``\)", source[0])
+    if not m:
+        return
+    path = m.group(1)
+    link = f"\n:source:`View source on GitHub <{path}>`\n"
+    source[0] = re.sub(
+        r"(Definition \(``[^`]+``\)\n-+\n)",
+        r"\1" + link,
+        source[0],
+    )
+
+
+def setup(app):
+    app.connect("source-read", _add_github_source_links)

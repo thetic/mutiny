@@ -122,7 +122,7 @@ Built-in Plugins
      - ``mutiny/mock/SupportPlugin.hpp``
      - Auto-verify and clear mock expectations
      - :doc:`mocking`
-   * - ``JUnitOutputPlugin``
+   * - :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`
      - ``mutiny/test/JUnitOutputPlugin.hpp``
      - Write JUnit XML output via ``-pjunit``
      - :doc:`junit-output`

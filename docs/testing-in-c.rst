@@ -17,8 +17,8 @@ Include ``"mutiny/test.h"`` and use the C macros:
 .. literalinclude:: ../examples/tests/hello.test.c
    :language: c
 
-``TEST_GROUP_SETUP`` and ``TEST_GROUP_TEARDOWN`` in C define wrapper
-functions that the ``.cpp`` file calls. ``TEST`` in C defines a
+:c:macro:`TEST_GROUP_SETUP` and :c:macro:`TEST_GROUP_TEARDOWN` in C define wrapper
+functions that the ``.cpp`` file calls. :c:macro:`TEST` in C defines a
 wrapper function body.
 
 The C++ registration wrapper
@@ -200,8 +200,8 @@ Examples
      - Demonstrates
    * - :source:`hello.test.c <examples/tests/hello.test.c>` +
        :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
-     - Two-file pattern: stubs a function pointer with ``MUTINY_PTR_SET``,
-       checks output with ``CHECK_EQUAL_STRING``
+     - Two-file pattern: stubs a function pointer with :c:macro:`MUTINY_PTR_SET`,
+       checks output with :c:macro:`CHECK_EQUAL_STRING`
    * - :source:`MockDocumentation.test.c <examples/tests/MockDocumentation.test.c>` +
        :source:`MockDocumentation.test.cpp <examples/tests/MockDocumentation.test.cpp>`
      - C mock interface: :c:func:`mutiny_mock`, typed parameters, custom

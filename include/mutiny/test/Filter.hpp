@@ -1,3 +1,11 @@
+/**
+ * @file
+ * @brief Test name/group filter used by the command-line runner.
+ *
+ * @see CommandLineArguments, Registry::set_name_filters(),
+ *      Registry::set_group_filters()
+ */
+
 #ifndef INCLUDED_MUTINY_TEST_FILTER_HPP
 #define INCLUDED_MUTINY_TEST_FILTER_HPP
 
@@ -8,24 +16,61 @@ namespace mu {
 namespace tiny {
 namespace test {
 
+/**
+ * @brief A singly-linked list node representing one test name or group filter.
+ *
+ * Filters are built from the `-g` / `-n` command-line flags and applied by
+ * Registry before running each test. By default matching is case-insensitive
+ * substring; use strict_matching() for exact equality or invert_matching()
+ * to exclude matching tests.
+ *
+ * @see CommandLineArguments, Registry::set_name_filters(),
+ *      Registry::set_group_filters()
+ */
 class MUTINY_EXPORT Filter
 {
 public:
+  /** @brief Construct an empty (match-all) filter. */
   Filter();
+  /**
+   * @brief Construct a filter from a C string pattern.
+   * @param filter  Pattern to match against test names or group names.
+   */
   Filter(const char* filter);
+  /**
+   * @brief Construct a filter from a String pattern.
+   * @param filter  Pattern to match against test names or group names.
+   */
   Filter(const String& filter);
 
+  /**
+   * @brief Append @p filter to the end of this filter chain.
+   * @param filter  Filter to add.
+   * @return @p filter.
+   */
   Filter* add(Filter* filter);
+
+  /** @return The next filter in the chain, or nullptr. */
   Filter* get_next() const;
 
+  /**
+   * @brief Test whether @p name satisfies this filter.
+   * @param name  Test or group name to test.
+   * @return true if the name matches (or the filter is empty).
+   */
   bool match(const String& name) const;
 
+  /** @brief Enable strict (exact) matching for this filter. */
   void strict_matching();
+  /** @brief Invert this filter so matching names are excluded. */
   void invert_matching();
 
+  /** @return true if both filters have the same pattern and mode. */
   bool operator==(const Filter& filter) const;
+  /** @return true if the filters differ. */
   bool operator!=(const Filter& filter) const;
 
+  /** @return The filter pattern as a String. */
   String as_string() const;
 
 private:
@@ -37,6 +82,11 @@ private:
 
 } // namespace test
 
+/**
+ * @brief Convert a Filter to its string representation.
+ * @param filter  Filter to convert.
+ * @return The filter pattern string.
+ */
 MUTINY_EXPORT String string_from(const test::Filter& filter);
 
 } // namespace tiny

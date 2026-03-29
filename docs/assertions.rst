@@ -210,7 +210,7 @@ Exception
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`CHECK_THROWS` is only available when exceptions are enabled
-(``MUTINY_HAVE_EXCEPTIONS``). Fails if ``expression`` does not throw
+(:c:macro:`MUTINY_HAVE_EXCEPTIONS`). Fails if ``expression`` does not throw
 ``ExceptionType``.
 
 .. code-block:: cpp
@@ -253,6 +253,6 @@ Examples
    * - File
      - Demonstrates
    * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
-     - ``LONGS_EQUAL``, ``CHECK``, ``STRCMP_EQUAL`` in a minimal test
+     - :c:macro:`LONGS_EQUAL`, :c:macro:`CHECK`, :c:macro:`STRCMP_EQUAL` in a minimal test
    * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
-     - ``CHECK``, ``LONGS_EQUAL``, ``STRCMP_EQUAL`` across a variety of test scenarios
+     - :c:macro:`CHECK`, :c:macro:`LONGS_EQUAL`, :c:macro:`STRCMP_EQUAL` across a variety of test scenarios

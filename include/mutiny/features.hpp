@@ -1,3 +1,17 @@
+/**
+ * @file
+ * @brief Compiler feature-detection macros.
+ *
+ * Defines two capability macros by inspecting compiler-specific flags.
+ * Both can be overridden before including this header to force a specific
+ * value regardless of the detected compiler state.
+ *
+ * - **MUTINY_HAVE_EXCEPTIONS** — 1 if C++ exception support is enabled
+ *   (`__EXCEPTIONS`, `_CPPUNWIND`, etc.), 0 otherwise.
+ * - **MUTINY_HAVE_RTTI** — 1 if C++ RTTI support is enabled
+ *   (`__GXX_RTTI`, `_CPPRTTI`, etc.), 0 otherwise.
+ */
+
 #ifndef INCLUDED_MUTINY_TEST_FEATURES_HPP
 #define INCLUDED_MUTINY_TEST_FEATURES_HPP
 
