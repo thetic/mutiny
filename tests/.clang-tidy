@@ -1,8 +1,0 @@
----
-InheritParentConfig: true
-Checks:
-  # TEST() macros use static initialization for test registration — unavoidable by design.
-  # Remove this exception once thetic/mutiny#14 is resolved and Support's constructor is
-  # noexcept (at that point the TEST() macro registrations will be the only remaining
-  # instances and can be addressed separately).
-  - -bugprone-throwing-static-initialization
