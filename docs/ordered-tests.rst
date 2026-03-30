@@ -6,7 +6,7 @@ possibly shuffled with :option:`-s [seed]`). :cpp:class:`OrderedTest <mu::tiny::
 numeric level to selected tests so they run in level order, independent
 of the registration order of all other tests.
 
-Include ``"mutiny/test/Ordered.hpp"``.
+Include :ref:`"mutiny/test/Ordered.hpp" <file_include_mutiny_test_Ordered.hpp>`.
 
 ``TEST_ORDERED(group, name, level)``
 -------------------------------------

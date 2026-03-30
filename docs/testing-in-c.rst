@@ -2,8 +2,8 @@ Testing C Code
 ==============
 
 mutiny supports writing tests in pure C. Because the test runner itself
-is C++, you need two files per test group: a ``.c`` file containing
-the tests, and a ``.cpp`` wrapper that registers them with the C++
+is C++, you need two files per test group: a C file containing
+the tests, and a C++ wrapper that registers them with the C++
 runner.
 
 The Two-File Pattern
@@ -12,13 +12,13 @@ The Two-File Pattern
 The C test file
 ~~~~~~~~~~~~~~~
 
-Include ``"mutiny/test.h"`` and use the C macros:
+Include :ref:`"mutiny/test.h" <file_include_mutiny_test.h>` and use the C macros:
 
 .. literalinclude:: ../examples/tests/hello.test.c
    :language: c
 
 :c:macro:`TEST_GROUP_SETUP` and :c:macro:`TEST_GROUP_TEARDOWN` in C define wrapper
-functions that the ``.cpp`` file calls. :c:macro:`TEST` in C defines a
+functions that the C++ file calls. :c:macro:`TEST` in C defines a
 wrapper function body.
 
 The C++ registration wrapper

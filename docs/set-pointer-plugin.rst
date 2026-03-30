@@ -5,7 +5,7 @@ SetPointerPlugin
 embedded-testing problem: swapping out a function pointer (or any global pointer)
 for a test stub, then automatically restoring it after the test.
 
-Include ``"mutiny/test.hpp"`` — :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is included
+Include :ref:`"mutiny/test.hpp" <file_include_mutiny_test.hpp>` — :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is included
 transitively, and the :c:macro:`MUTINY_PTR_SET` macro is available without any
 additional install step.
 
@@ -79,8 +79,8 @@ Use Cases
 Limit
 -----
 
-``SetPointerPlugin::max_set = 32`` — at most 32 pointers can be saved
-simultaneously per test. Each ``MUTINY_PTR_SET`` call consumes one slot;
+:cpp:member:`SetPointerPlugin::max_set <mu::tiny::test::SetPointerPlugin::max_set>` = 32 — at most 32 pointers can be saved
+simultaneously per test. Each :c:macro:`MUTINY_PTR_SET` call consumes one slot;
 the slots are released at the end of the test.
 
 Exceeding 32 calls in a single test body will crash or corrupt memory.

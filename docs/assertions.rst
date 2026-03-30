@@ -1,8 +1,8 @@
 Assertion Macros
 ================
 
-Include ``"mutiny/test.hpp"`` (C++) or ``"mutiny/test.h"`` (C) for
-assertions.
+Include :ref:`"mutiny/test.hpp" <file_include_mutiny_test.hpp>` (C++) or
+:ref:`"mutiny/test.h" <file_include_mutiny_test.h>` (C) for assertions.
 
 A failing assertion immediately exits the current test body. Each macro
 increments an internal check counter on success, which appears in the
@@ -46,7 +46,7 @@ Equality (generic)
 
 :c:macro:`CHECK_EQUAL` uses ``operator==`` and implicit arithmetic promotion to compare
 ``expected`` and ``actual``. Works with any type that supports
-``operator==``. On failure, calls ``string_from(value)`` to format the
+``operator==``. On failure, calls :cpp:func:`string_from() <mu::tiny::string_from>` to format the
 message.
 
 .. code-block:: cpp

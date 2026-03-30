@@ -11,7 +11,7 @@ Activating JUnit Output
 Via command-line flag
 ~~~~~~~~~~~~~~~~~~~~~
 
-Pass ``-pjunit`` when running your test executable:
+Pass :option:`-pjunit` when running your test executable:
 
 .. code-block:: bash
 
