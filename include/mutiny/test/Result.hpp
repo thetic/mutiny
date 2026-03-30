@@ -2,7 +2,8 @@
  * @file
  * @brief Accumulates pass/fail/skip counters for a test run.
  *
- * @see Registry::run_all_tests(), Output
+ * Passed through @ref mu::tiny::test::Registry::run_all_tests() and delegates
+ * output to an @ref mu::tiny::test::Output sink.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_RESULT_HPP
@@ -22,13 +23,12 @@ class Output;
 class Shell;
 
 /**
- * @brief Collects test run statistics and delegates output to an Output sink.
+ * @brief Collects test run statistics and delegates output to an @ref Output
+ * sink.
  *
- * A single Result is created per test run and passed through the Registry and
- * Shell to accumulate counts of tests run, checks made, failures encountered,
- * and execution time.
- *
- * @see Registry::run_all_tests(), Output
+ * A single Result is created per test run and passed through the @ref Registry
+ * and @ref Shell to accumulate counts of tests run, checks made, failures
+ * encountered, and execution time.
  */
 class MUTINY_EXPORT Result
 {

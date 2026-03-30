@@ -1,8 +1,8 @@
 /**
  * @file
- * @brief Shell subclass for tests marked as ignored.
+ * @brief @ref mu::tiny::test::Shell subclass for tests marked as ignored.
  *
- * @see IGNORE_TEST, IGNORE_TEST_C_WRAPPER, Shell
+ * Used by @ref IGNORE_TEST and @ref IGNORE_TEST_C_WRAPPER.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_IGNOREDSHELL_HPP
@@ -19,10 +19,9 @@ namespace test {
 /**
  * @brief Shell for a test that is skipped unless `-r` (run-ignored) is set.
  *
- * Used by the IGNORE_TEST() macro. The test body is still compiled and
- * registered, but will_run() returns false until set_run_ignored() is called.
- *
- * @see IGNORE_TEST, IGNORE_TEST_C_WRAPPER
+ * Used by the @ref IGNORE_TEST() macro. The test body is still compiled and
+ * registered, but @ref will_run() returns false until @ref set_run_ignored()
+ * is called. See also @ref IGNORE_TEST_C_WRAPPER.
  */
 class MUTINY_EXPORT IgnoredShell : public Shell
 {

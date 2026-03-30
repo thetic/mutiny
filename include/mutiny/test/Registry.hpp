@@ -2,7 +2,10 @@
  * @file
  * @brief Global collection of tests that can be discovered, filtered, and run.
  *
- * @see CommandLineRunner, Shell, Plugin
+ * Used by @ref mu::tiny::test::CommandLineRunner to drive the test suite.
+ * Tests are registered into the Registry by @ref mu::tiny::test::Shell
+ * instances (via @ref mu::tiny::test::Installer) and executed via @ref
+ * mu::tiny::test::Plugin hooks.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_REGISTRY_HPP
@@ -27,11 +30,10 @@ class Plugin;
  * @brief Central repository of all registered tests.
  *
  * Tests are registered automatically at static-initialization time by
- * Installer instances created by the TEST() and TEST_GROUP() macros. The
- * CommandLineRunner retrieves the current registry via get_current_registry()
- * and delegates to run_all_tests() to execute them.
- *
- * @see CommandLineRunner, Shell, Installer, Plugin
+ * @ref Installer instances created by the @ref TEST() and @ref TEST_GROUP()
+ * macros. @ref CommandLineRunner retrieves the current registry via
+ * @ref get_current_registry() and delegates to @ref run_all_tests() to execute
+ * them.
  */
 class MUTINY_EXPORT Registry
 {
@@ -46,8 +48,8 @@ public:
    */
   virtual void add_test(Shell* test);
 
-  /** @brief Remove the most recently added test (used by Installer::un_do()).
-   */
+  /** @brief Remove the most recently added test (used by
+   * @ref Installer::un_do()). */
   virtual void un_do_last_add_test();
 
   /** @return Number of registered tests. */
@@ -157,8 +159,8 @@ public:
   virtual Shell* find_test_with_group(const String& name);
 
   /**
-   * @return The process-wide current registry (used by the TEST() macro and
-   *         CommandLineRunner).
+   * @return The process-wide current registry (used by the @ref TEST() macro
+   *         and @ref CommandLineRunner).
    */
   static Registry* get_current_registry();
 
@@ -171,7 +173,7 @@ public:
   /** @return The current repetition number (1-based during a multi-run). */
   int get_current_repetition();
 
-  /** @brief Enable running IGNORE_TEST() tests in this registry. */
+  /** @brief Enable running @ref IGNORE_TEST() tests in this registry. */
   void set_run_ignored();
 
 private:

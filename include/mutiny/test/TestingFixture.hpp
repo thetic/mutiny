@@ -2,7 +2,10 @@
  * @file
  * @brief Self-contained test harness for testing the framework itself.
  *
- * @see Registry, Shell, ExecFunction
+ * Owns a private @ref mu::tiny::test::Registry, @ref mu::tiny::test::Output,
+ * and @ref mu::tiny::test::Result so that tests run through it do not affect
+ * global state. See also @ref mu::tiny::test::ExecFunction for the callable
+ * interface it accepts.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_TESTINGFIXTURE_HPP
@@ -22,14 +25,12 @@ namespace test {
 class ExecFunctionShell;
 
 /**
- * @brief Encapsulates an isolated Registry, Output, and Result for running
- * tests inside other tests.
+ * @brief Encapsulates an isolated @ref Registry, @ref Output, and @ref Result
+ * for running tests inside other tests.
  *
  * TestingFixture is used to test the mutiny framework itself. It owns a
- * private Registry and StringBufferOutput so that tests run through it do not
- * affect the global Registry or console output.
- *
- * @see Registry, Shell, ExecFunction
+ * private @ref Registry and @ref StringBufferOutput so that tests run through
+ * it do not affect the global @ref Registry or console output.
  */
 class MUTINY_EXPORT TestingFixture
 {

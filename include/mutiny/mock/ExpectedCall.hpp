@@ -1,17 +1,16 @@
-#ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
-#define INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
-
 /**
  * @file
- * @brief Fluent interface returned by Support::expect_one_call() and
- * friends.
+ * @brief Fluent interface returned by @ref
+ * mu::tiny::mock::Support::expect_one_call() and friends.
  *
  * Use the fluent methods to constrain which parameter values and call order the
  * actual call must match, and to configure the return value the mock will
- * produce.
- *
- * @see Support::expect_one_call(), ActualCall
+ * produce. The corresponding fluent interface for actual calls is
+ * @ref mu::tiny::mock::ActualCall.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
+#define INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
 
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
@@ -26,9 +25,7 @@ class NamedValue;
  * @brief Abstract fluent interface for configuring a single call expectation.
  *
  * Each method returns @c *this for chaining. Concrete implementations are
- * created internally by Support.
- *
- * @see Support::expect_one_call(), ActualCall
+ * created internally by @ref Support. See also @ref ActualCall.
  */
 class MUTINY_EXPORT ExpectedCall
 {

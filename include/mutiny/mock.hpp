@@ -1,17 +1,15 @@
-#ifndef INCLUDED_MUTINY_MOCK_HPP
-#define INCLUDED_MUTINY_MOCK_HPP
-
 /**
  * @file
  * @brief Core mock support: expectation recording, call verification, and data
  * sharing.
  *
- * The canonical entry point is the free function mock(), which returns a
- * reference to the global (or a named scope) Support.
- *
- * @see mock() for the free function entry point
- * @see SupportPlugin for automatic check/clear in teardown
+ * The canonical entry point is the free function @ref mu::tiny::mock::mock(),
+ * which returns a reference to the global (or a named scope)
+ * @ref mu::tiny::mock::Support.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_HPP
+#define INCLUDED_MUTINY_MOCK_HPP
 
 #include "mutiny/mock/ActualCall.hpp"
 #include "mutiny/mock/ExpectedCall.hpp"
@@ -33,16 +31,17 @@ class NamedValueListNode;
  * verification.
  *
  * One Support instance represents one named scope (or the global scope when
- * the name is empty). Nested scopes are created transparently by mock("scope").
+ * the name is empty). Nested scopes are created transparently by @c
+ * mock("scope").
  *
  * @par Lifecycle within a test
- * 1. In setup (or at the start of the test): optionally call strict_order() or
- *    install_comparator().
- * 2. Register expectations with expect_one_call() / expect_n_calls().
- * 3. Production code calls actual_call() when the mocked function executes.
- * 4. In teardown: call check_expectations() then clear().
- *
- * @see mock(), SupportPlugin
+ * 1. In setup (or at the start of the test): optionally call @ref
+ * strict_order() or
+ *    @ref install_comparator().
+ * 2. Register expectations with @ref expect_one_call() / @ref expect_n_calls().
+ * 3. Production code calls @ref actual_call() when the mocked function
+ * executes.
+ * 4. In teardown: call @ref check_expectations() then @ref clear().
  */
 class MUTINY_EXPORT Support
 {
@@ -53,7 +52,7 @@ public:
   /**
    * @brief Construct a Support with an optional scope name.
    *
-   * Prefer the free function mock() over constructing directly.
+   * Prefer the free function @ref mock() over constructing directly.
    *
    * @param mock_name  Scope name; empty string means the global scope.
    */
@@ -64,7 +63,7 @@ public:
    * @brief Require actual calls to arrive in the same order expectations were
    * set.
    *
-   * By default calls may arrive in any order. Call strict_order() before
+   * By default calls may arrive in any order. Call @ref strict_order() before
    * registering expectations to enforce ordering.
    */
   virtual void strict_order();
@@ -73,15 +72,17 @@ public:
    * @brief Expect exactly one call to @p function_name.
    *
    * @param function_name  Name of the function that should be called once.
-   * @return A fluent ExpectedCall for chaining .with_parameter() and
-   *         .and_return_value() constraints.
+   * @return A fluent @ref ExpectedCall for chaining @ref
+   *         mu::tiny::mock::ExpectedCall::with_parameter() and @ref
+   *         mu::tiny::mock::ExpectedCall::and_return_value() constraints.
    */
   virtual ExpectedCall& expect_one_call(const String& function_name);
 
   /**
    * @brief Assert that @p function_name is never called.
    *
-   * If actual_call() is invoked with this name, the test fails immediately.
+   * If @ref actual_call() is invoked with this name, the test fails
+   * immediately.
    *
    * @param function_name  Function that must not be called.
    */
@@ -92,7 +93,7 @@ public:
    *
    * @param amount         Number of times the function should be called.
    * @param function_name  Name of the function.
-   * @return A fluent ExpectedCall for chaining parameter/return
+   * @return A fluent @ref ExpectedCall for chaining parameter/return
    * constraints.
    */
   virtual ExpectedCall& expect_n_calls(
@@ -105,21 +106,25 @@ public:
    *
    * Call this from inside a mock function implementation, then chain
    * with_parameter() for each argument. Retrieve the configured return value
-   * with the appropriate return_*_value() method at the end.
+   * with the appropriate @c return_*_value() method at the end.
    *
    * @param function_name  Name of the function being called.
-   * @return A fluent ActualCall for supplying parameters and reading the
+   * @return A fluent @ref ActualCall for supplying parameters and reading the
    *         return value.
    */
   virtual ActualCall& actual_call(const char* function_name);
 
-  /** @return true if the last actual_call() has an associated return value. */
+  /** @return true if the last @ref actual_call() has an associated return
+   * value. */
   virtual bool has_return_value();
-  /** @return The return value of the last actual_call() as a NamedValue. */
+
+  /** @return The return value of the last @ref actual_call() as a NamedValue.
+   */
   virtual NamedValue return_value();
 
   /** @return The bool return value configured for the current call. */
   virtual bool bool_return_value();
+
   /**
    * @return The bool return value if one was configured, otherwise @p
    * default_value.
@@ -129,6 +134,7 @@ public:
 
   /** @return The int return value configured for the current call. */
   virtual int int_return_value();
+
   /**
    * @return The int return value if one was configured, otherwise @p
    * default_value.
@@ -141,6 +147,7 @@ public:
 
   /** @return The long int return value configured for the current call. */
   virtual long int long_int_return_value();
+
   /**
    * @return The long int return value if configured, otherwise @p
    * default_value.
@@ -151,6 +158,7 @@ public:
   /** @return The unsigned long int return value configured for the current
    * call. */
   virtual unsigned long int unsigned_long_int_return_value();
+
   /**
    * @return The unsigned long int return value if configured, otherwise @p
    * default_value.
@@ -162,6 +170,7 @@ public:
 
   /** @return The long long int return value configured for the current call. */
   virtual long long long_long_int_return_value();
+
   /**
    * @return The long long int return value if configured, otherwise @p
    * default_value.
@@ -173,6 +182,7 @@ public:
 
   /** @return The unsigned long long int return value for the current call. */
   virtual unsigned long long unsigned_long_long_int_return_value();
+
   /**
    * @return The unsigned long long return value if configured, otherwise @p
    * default_value.
@@ -193,6 +203,7 @@ public:
 
   /** @return The const char* return value configured for the current call. */
   virtual const char* string_return_value();
+
   /**
    * @return The string return value if configured, otherwise @p default_value.
    * @param default_value  Fallback when no return value was set.
@@ -204,16 +215,19 @@ public:
    * @param default_value  Fallback when no return value was set.
    */
   virtual double return_double_value_or_default(double default_value);
+
   /** @return The double return value configured for the current call. */
   virtual double double_return_value();
 
   /** @return The void* return value configured for the current call. */
   virtual void* pointer_return_value();
+
   /**
    * @return The pointer return value if configured, otherwise @p default_value.
    * @param default_value  Fallback when no return value was set.
    */
   virtual void* return_pointer_value_or_default(void* default_value);
+
   /**
    * @return The const void* return value if configured, otherwise @p
    * default_value.
@@ -222,6 +236,7 @@ public:
   virtual const void* return_const_pointer_value_or_default(
       const void* default_value
   );
+
   /** @return The const void* return value configured for the current call. */
   virtual const void* const_pointer_return_value();
 
@@ -233,7 +248,9 @@ public:
   virtual FunctionPointerValue return_function_pointer_value_or_default(
       FunctionPointerValue default_value
   );
-  /** @return The function-pointer return value configured for the current call.
+
+  /**
+   * @return The function-pointer return value configured for the current call.
    */
   virtual FunctionPointerValue function_pointer_return_value();
 
@@ -245,29 +262,75 @@ public:
    */
   bool has_data(const String& name);
 
-  /** @brief Store a bool value under @p name for retrieval across mock calls.
-   * @param name Key. @param value Value. */
+  /**
+   * @brief Store a bool value under @p name for retrieval across mock calls.
+   *
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, bool value);
-  /** @brief Store an int value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store an int value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, int value);
-  /** @brief Store an unsigned int value. @param name Key. @param value Value.
+
+  /**
+   * @brief Store an unsigned int value.
+   * @param name Key.
+   * @param value Value.
    */
   void set_data(const String& name, unsigned int value);
-  /** @brief Store a long int value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store a long int value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, long int value);
-  /** @brief Store an unsigned long int value. @param name Key. @param value
-   * Value. */
+
+  /**
+   * @brief Store an unsigned long int value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, unsigned long int value);
-  /** @brief Store a string value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store a string value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, const char* value);
-  /** @brief Store a double value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store a double value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, double value);
-  /** @brief Store a void* value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store a void* value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, void* value);
-  /** @brief Store a const void* value. @param name Key. @param value Value. */
+
+  /**
+   * @brief Store a const void* value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, const void* value);
-  /** @brief Store a function pointer value. @param name Key. @param value
-   * Value. */
+
+  /**
+   * @brief Store a function pointer value.
+   * @param name Key.
+   * @param value Value.
+   */
   void set_data(const String& name, FunctionPointerValue value);
 
   /**
@@ -304,7 +367,7 @@ public:
   /**
    * @brief Get (or create) a named child scope.
    *
-   * Equivalent to calling mock("scope") but from an existing Support
+   * Equivalent to calling mock("scope") but from an existing @ref Support
    * reference. Useful when you already hold a reference to the global scope.
    *
    * @param name  Scope name.
@@ -318,9 +381,11 @@ public:
    */
   const char* get_trace_output();
 
-  /** @brief Disable this scope; all actual_call() invocations become no-ops. */
+  /** @brief Disable this scope; all @ref actual_call() invocations become
+   * no-ops. */
   virtual void disable();
-  /** @brief Re-enable this scope after disable(). */
+
+  /** @brief Re-enable this scope after @ref disable(). */
   virtual void enable();
 
   /**
@@ -333,7 +398,7 @@ public:
   /**
    * @brief Suppress unexpected-call failures.
    *
-   * All calls to actual_call() are silently accepted without matching an
+   * All calls to @ref actual_call() are silently accepted without matching an
    * expectation. Useful when testing code that uses a collaborator you
    * do not want to fully specify.
    */
@@ -342,8 +407,9 @@ public:
   /**
    * @brief Verify all expected calls were fulfilled; fail the test if not.
    *
-   * Typically called in teardown() after all assertions have run. Reports
-   * every unsatisfied expectation as a separate test failure.
+   * Typically called in @ref mu::tiny::test::Test::teardown() after all
+   * assertions have run. Reports every unsatisfied expectation as a separate
+   * test failure.
    */
   virtual void check_expectations();
 
@@ -354,8 +420,9 @@ public:
   /**
    * @brief Remove all expectations, actual calls, data, and child scopes.
    *
-   * Call in teardown() after check_expectations() to leave the mock support
-   * in a clean state for the next test.
+   * Call in @ref mu::tiny::test::Test::teardown() after @ref
+   * check_expectations() to leave the mock support in a clean state for the
+   * next test.
    */
   virtual void clear();
 
@@ -369,7 +436,7 @@ public:
   /**
    * @brief Replace the standard failure reporter.
    *
-   * @param reporter  New standard reporter; pass nullptr to restore the
+   * @param reporter  New standard reporter; pass @c nullptr to restore the
    * default.
    */
   virtual void set_mock_failure_standard_reporter(FailureReporter* reporter);
@@ -387,10 +454,11 @@ public:
   /**
    * @brief Register a custom comparator for objects of type @p type_name.
    *
-   * Required when passing objects via with_parameter_of_type().
+   * Required when passing objects via @ref
+   * mu::tiny::mock::ExpectedCall::with_parameter_of_type().
    *
    * @param type_name   Type name string, must match the one used in
-   * with_parameter_of_type().
+   * @ref mu::tiny::mock::ExpectedCall::with_parameter_of_type().
    * @param comparator  Comparator whose lifetime must exceed the test.
    */
   virtual void install_comparator(
@@ -401,7 +469,8 @@ public:
   /**
    * @brief Register a custom copier for objects of type @p type_name.
    *
-   * Required when using with_output_parameter_of_type_returning().
+   * Required when using @ref
+   * mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning().
    *
    * @param type_name  Type name string.
    * @param copier     Copier whose lifetime must exceed the test.
@@ -427,10 +496,13 @@ public:
 protected:
   /** @brief Create a child Support scope with the given name. */
   Support* clone(const String& mock_name);
+
   /** @brief Factory method for the actual-call object (override in tests). */
   virtual CheckedActualCall* create_actual_call();
+
   /** @brief Record a mock failure via the active failure reporter. */
   virtual void fail_test(Failure& failure);
+
   /** @brief Increment the assertion-check count in the active Result. */
   void count_check();
 
@@ -465,14 +537,6 @@ private:
  * @brief Access the global mock support or a named scope.
  *
  * This is the primary entry point for all mock interaction in test code.
- *
- * @code{.cpp}
- * // Global scope:
- * mock().expect_one_call("connect");
- *
- * // Named scope (useful when multiple subsystems share a mock):
- * mock("db").expect_one_call("query");
- * @endcode
  *
  * @param mock_name                     Scope name; empty string is the global
  * scope.

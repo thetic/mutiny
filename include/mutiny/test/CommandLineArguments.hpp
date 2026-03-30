@@ -2,7 +2,9 @@
  * @file
  * @brief Parser for the mutiny command-line argument set.
  *
- * @see CommandLineRunner, Filter
+ * Used internally by @ref mu::tiny::test::CommandLineRunner; builds @ref
+ * mu::tiny::test::Filter chains from `-g` / `-n` flags and exposes the parsed
+ * state via accessors.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_COMMANDLINEARGUMENTS_HPP
@@ -24,10 +26,9 @@ class Plugin;
  * @brief Parses and stores the mutiny command-line options.
  *
  * Pass the raw `argc`/`argv` from `main()` to the constructor, then call
- * parse() (optionally passing a Plugin chain for plugin-specific arguments).
- * Query the resulting state with the `is_*()` and `get_*()` accessors.
- *
- * @see CommandLineRunner, Filter
+ * @ref parse() (optionally passing a @ref Plugin chain for plugin-specific
+ * arguments). Query the resulting state with the `is_*()` and `get_*()`
+ * accessors. Used internally by @ref CommandLineRunner.
  */
 class MUTINY_EXPORT CommandLineArguments
 {

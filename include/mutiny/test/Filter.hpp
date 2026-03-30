@@ -2,8 +2,10 @@
  * @file
  * @brief Test name/group filter used by the command-line runner.
  *
- * @see CommandLineArguments, Registry::set_name_filters(),
- *      Registry::set_group_filters()
+ * Built from `-g` / `-n` arguments by @ref
+ * mu::tiny::test::CommandLineArguments and applied via @ref
+ * mu::tiny::test::Registry::set_name_filters() and @ref
+ * mu::tiny::test::Registry::set_group_filters().
  */
 
 #ifndef INCLUDED_MUTINY_TEST_FILTER_HPP
@@ -19,13 +21,11 @@ namespace test {
 /**
  * @brief A singly-linked list node representing one test name or group filter.
  *
- * Filters are built from the `-g` / `-n` command-line flags and applied by
- * Registry before running each test. By default matching is case-insensitive
- * substring; use strict_matching() for exact equality or invert_matching()
- * to exclude matching tests.
- *
- * @see CommandLineArguments, Registry::set_name_filters(),
- *      Registry::set_group_filters()
+ * Filters are built from the `-g` / `-n` command-line flags by
+ * @ref CommandLineArguments and applied by @ref Registry before running each
+ * test. By default matching is case-insensitive substring; use
+ * @ref strict_matching() for exact equality or @ref invert_matching() to
+ * exclude matching tests.
  */
 class MUTINY_EXPORT Filter
 {

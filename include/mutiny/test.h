@@ -2,16 +2,13 @@
  * @file
  * @brief C interface for writing mutiny tests in pure C.
  *
- * Include this header in .c test files. Test definitions use the same macro
- * names as the C++ interface (TEST, IGNORE_TEST, EXPECT_FAIL_TEST) but expand
- * to C function stubs that are called by corresponding C++ wrapper macros in
- * the bridging .cpp file.
+ * Include this header in C test files. Test definitions use the same macro
+ * names as the C++ interface (@ref TEST, @ref IGNORE_TEST, @ref
+ * EXPECT_FAIL_TEST) but expand to C function stubs that are called by
+ * corresponding C++ wrapper macros in the bridging C++ file.
  *
- * Assertion macros use type-specific names (CHECK_EQUAL_INT, CHECK_EQUAL_LONG,
- * etc.) because C has no function overloading.
- *
- * @see mutiny/test.hpp for the C++ interface
- * @see TEST_GROUP_C_WRAPPER and friends in mutiny/test.hpp for the .cpp bridge
+ * Assertion macros use type-specific names (@ref CHECK_EQUAL_INT, @ref
+ * CHECK_EQUAL_LONG, etc.) because C has no function overloading.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_H
@@ -35,8 +32,7 @@ extern "C"
 #define CHECK_EQUAL_BOOL(expected, actual)                                     \
   mutiny_check_equal_bool(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_BOOL with a custom failure message. @see CHECK_EQUAL_BOOL
- */
+/** @brief @ref CHECK_EQUAL_BOOL with a custom failure message. */
 #define CHECK_EQUAL_BOOL_TEXT(expected, actual, text)                          \
   mutiny_check_equal_bool(expected, actual, text, __FILE__, __LINE__)
 
@@ -48,8 +44,7 @@ extern "C"
 #define CHECK_EQUAL_INT(expected, actual)                                      \
   mutiny_check_equal_int(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_INT with a custom failure message. @see CHECK_EQUAL_INT
- */
+/** @brief @ref CHECK_EQUAL_INT with a custom failure message. */
 #define CHECK_EQUAL_INT_TEXT(expected, actual, text)                           \
   mutiny_check_equal_int(expected, actual, text, __FILE__, __LINE__)
 
@@ -61,8 +56,7 @@ extern "C"
 #define CHECK_EQUAL_UINT(expected, actual)                                     \
   mutiny_check_equal_uint(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_UINT with a custom failure message. @see CHECK_EQUAL_UINT
- */
+/** @brief @ref CHECK_EQUAL_UINT with a custom failure message. */
 #define CHECK_EQUAL_UINT_TEXT(expected, actual, text)                          \
   mutiny_check_equal_uint(expected, actual, text, __FILE__, __LINE__)
 
@@ -74,8 +68,7 @@ extern "C"
 #define CHECK_EQUAL_LONG(expected, actual)                                     \
   mutiny_check_equal_long(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_LONG with a custom failure message. @see CHECK_EQUAL_LONG
- */
+/** @brief @ref CHECK_EQUAL_LONG with a custom failure message. */
 #define CHECK_EQUAL_LONG_TEXT(expected, actual, text)                          \
   mutiny_check_equal_long(expected, actual, text, __FILE__, __LINE__)
 
@@ -87,8 +80,7 @@ extern "C"
 #define CHECK_EQUAL_ULONG(expected, actual)                                    \
   mutiny_check_equal_ulong(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_ULONG with a custom failure message. @see
- * CHECK_EQUAL_ULONG */
+/** @brief @ref CHECK_EQUAL_ULONG with a custom failure message. */
 #define CHECK_EQUAL_ULONG_TEXT(expected, actual, text)                         \
   mutiny_check_equal_ulong(expected, actual, text, __FILE__, __LINE__)
 
@@ -100,8 +92,7 @@ extern "C"
 #define CHECK_EQUAL_LONGLONG(expected, actual)                                 \
   mutiny_check_equal_longlong(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_LONGLONG with a custom failure message. @see
- * CHECK_EQUAL_LONGLONG */
+/** @brief @ref CHECK_EQUAL_LONGLONG with a custom failure message. */
 #define CHECK_EQUAL_LONGLONG_TEXT(expected, actual, text)                      \
   mutiny_check_equal_longlong(expected, actual, text, __FILE__, __LINE__)
 
@@ -113,8 +104,7 @@ extern "C"
 #define CHECK_EQUAL_ULONGLONG(expected, actual)                                \
   mutiny_check_equal_ulonglong(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_ULONGLONG with a custom failure message. @see
- * CHECK_EQUAL_ULONGLONG */
+/** @brief @ref CHECK_EQUAL_ULONGLONG with a custom failure message. */
 #define CHECK_EQUAL_ULONGLONG_TEXT(expected, actual, text)                     \
   mutiny_check_equal_ulonglong(expected, actual, text, __FILE__, __LINE__)
 
@@ -128,8 +118,7 @@ extern "C"
 #define CHECK_EQUAL_DOUBLE(expected, actual, threshold)                        \
   mutiny_check_equal_double(expected, actual, threshold, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_DOUBLE with a custom failure message. @see
- * CHECK_EQUAL_DOUBLE */
+/** @brief @ref CHECK_EQUAL_DOUBLE with a custom failure message. */
 #define CHECK_EQUAL_DOUBLE_TEXT(expected, actual, threshold, text)             \
   mutiny_check_equal_double(                                                   \
       expected, actual, threshold, text, __FILE__, __LINE__                    \
@@ -143,8 +132,7 @@ extern "C"
 #define CHECK_EQUAL_CHAR(expected, actual)                                     \
   mutiny_check_equal_char(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_CHAR with a custom failure message. @see CHECK_EQUAL_CHAR
- */
+/** @brief @ref CHECK_EQUAL_CHAR with a custom failure message. */
 #define CHECK_EQUAL_CHAR_TEXT(expected, actual, text)                          \
   mutiny_check_equal_char(expected, actual, text, __FILE__, __LINE__)
 
@@ -156,8 +144,7 @@ extern "C"
 #define CHECK_EQUAL_UBYTE(expected, actual)                                    \
   mutiny_check_equal_ubyte(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_UBYTE with a custom failure message. @see
- * CHECK_EQUAL_UBYTE */
+/** @brief @ref CHECK_EQUAL_UBYTE with a custom failure message. */
 #define CHECK_EQUAL_UBYTE_TEXT(expected, actual, text)                         \
   mutiny_check_equal_ubyte(expected, actual, text, __FILE__, __LINE__)
 
@@ -169,8 +156,7 @@ extern "C"
 #define CHECK_EQUAL_SBYTE(expected, actual)                                    \
   mutiny_check_equal_sbyte(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_SBYTE with a custom failure message. @see
- * CHECK_EQUAL_SBYTE */
+/** @brief @ref CHECK_EQUAL_SBYTE with a custom failure message. */
 #define CHECK_EQUAL_SBYTE_TEXT(expected, actual, text)                         \
   mutiny_check_equal_sbyte(expected, actual, text, __FILE__, __LINE__)
 
@@ -182,8 +168,7 @@ extern "C"
 #define CHECK_EQUAL_STRING(expected, actual)                                   \
   mutiny_check_equal_string(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_STRING with a custom failure message. @see
- * CHECK_EQUAL_STRING */
+/** @brief @ref CHECK_EQUAL_STRING with a custom failure message. */
 #define CHECK_EQUAL_STRING_TEXT(expected, actual, text)                        \
   mutiny_check_equal_string(expected, actual, text, __FILE__, __LINE__)
 
@@ -195,8 +180,7 @@ extern "C"
 #define CHECK_EQUAL_POINTER(expected, actual)                                  \
   mutiny_check_equal_pointer(expected, actual, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_POINTER with a custom failure message. @see
- * CHECK_EQUAL_POINTER */
+/** @brief @ref CHECK_EQUAL_POINTER with a custom failure message. */
 #define CHECK_EQUAL_POINTER_TEXT(expected, actual, text)                       \
   mutiny_check_equal_pointer(expected, actual, text, __FILE__, __LINE__)
 
@@ -209,8 +193,7 @@ extern "C"
 #define CHECK_EQUAL_MEMCMP(expected, actual, size)                             \
   mutiny_check_equal_memcmp(expected, actual, size, "", __FILE__, __LINE__)
 
-/** @brief CHECK_EQUAL_MEMCMP with a custom failure message. @see
- * CHECK_EQUAL_MEMCMP */
+/** @brief @ref CHECK_EQUAL_MEMCMP with a custom failure message. */
 #define CHECK_EQUAL_MEMCMP_TEXT(expected, actual, size, text)                  \
   mutiny_check_equal_memcmp(expected, actual, size, text, __FILE__, __LINE__)
 
@@ -220,7 +203,7 @@ extern "C"
  */
 #define FAIL_TEXT(text) mutiny_fail(text, __FILE__, __LINE__)
 
-/** @brief Unconditionally fail with an empty message. @see FAIL_TEXT */
+/** @brief Unconditionally fail with an empty message. */
 #define FAIL() mutiny_fail("", __FILE__, __LINE__)
 
 /**
@@ -230,7 +213,7 @@ extern "C"
 #define CHECK(condition)                                                       \
   mutiny_check(condition, #condition, "", __FILE__, __LINE__)
 
-/** @brief CHECK with a custom failure message. @see CHECK */
+/** @brief @ref CHECK with a custom failure message. */
 #define CHECK_TEXT(condition, text)                                            \
   mutiny_check(condition, #condition, text, __FILE__, __LINE__)
 
@@ -247,11 +230,11 @@ extern "C"
 
 /**
  * @brief Define the C setup function for a group declared with
- * TEST_GROUP_C_WRAPPER.
+ * @ref TEST_GROUP_C_WRAPPER.
  *
  * The body you write runs before each test in the group.
  *
- * @param group_name  Must match the TEST_GROUP_C_WRAPPER declaration.
+ * @param group_name  Must match the @ref TEST_GROUP_C_WRAPPER declaration.
  */
 #define TEST_GROUP_SETUP(group_name)                                           \
   extern void group_##group_name##_setup_wrapper_c(void);                      \
@@ -259,9 +242,9 @@ extern "C"
 
 /**
  * @brief Define the C teardown function for a group declared with
- * TEST_GROUP_C_WRAPPER.
+ * @ref TEST_GROUP_C_WRAPPER.
  *
- * @param group_name  Must match the TEST_GROUP_C_WRAPPER declaration.
+ * @param group_name  Must match the @ref TEST_GROUP_C_WRAPPER declaration.
  */
 #define TEST_GROUP_TEARDOWN(group_name)                                        \
   extern void group_##group_name##_teardown_wrapper_c(void);                   \
@@ -270,8 +253,8 @@ extern "C"
 /**
  * @brief Define a C test function body.
  *
- * The function stub is called by the corresponding TEST_C_WRAPPER macro in the
- * .cpp bridge file.
+ * The function stub is called by the corresponding @ref TEST_C_WRAPPER macro in
+ * the C++ bridge file.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
@@ -301,9 +284,14 @@ extern "C"
   void expect_fail_##group_name##_##test_name##_wrapper_c(void)
 #endif
 
-  /** @brief C implementation of CHECK_EQUAL_BOOL. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_BOOL.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_bool(
       bool expected,
       bool actual,
@@ -312,9 +300,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_INT. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_INT.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_int(
       int expected,
       int actual,
@@ -323,9 +316,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_UINT. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_UINT.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_uint(
       unsigned int expected,
       unsigned int actual,
@@ -334,9 +332,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_LONG. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_LONG.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_long(
       long expected,
       long actual,
@@ -345,9 +348,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_ULONG. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_ULONG.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_ulong(
       unsigned long expected,
       unsigned long actual,
@@ -356,9 +364,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_LONGLONG. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_LONGLONG.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_longlong(
       long long expected,
       long long actual,
@@ -367,9 +380,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_ULONGLONG. @param expected
-   * Expected. @param actual Actual. @param text Message. @param file_name File.
-   * @param line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_ULONGLONG.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_ulonglong(
       unsigned long long expected,
       unsigned long long actual,
@@ -378,9 +396,15 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_DOUBLE. @param expected Expected.
-   * @param actual Actual. @param threshold Threshold. @param text Message.
-   * @param file_name File. @param line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_DOUBLE.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param threshold Threshold.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_double(
       double expected,
       double actual,
@@ -390,9 +414,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_CHAR. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_CHAR.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_char(
       char expected,
       char actual,
@@ -401,9 +430,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_UBYTE. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_UBYTE.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_ubyte(
       unsigned char expected,
       unsigned char actual,
@@ -412,9 +446,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_SBYTE. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_SBYTE.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_sbyte(
       signed char expected,
       signed char actual,
@@ -423,9 +462,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_STRING. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_STRING.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_string(
       const char* expected,
       const char* actual,
@@ -434,9 +478,14 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_POINTER. @param expected Expected.
-   * @param actual Actual. @param text Message. @param file_name File. @param
-   * line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_POINTER.
+   * @param expected Expected.
+   * @param actual Actual.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_pointer(
       const void* expected,
       const void* actual,
@@ -445,9 +494,15 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK_EQUAL_MEMCMP. @param expected Expected
-   * buffer. @param actual Actual buffer. @param size Bytes to compare. @param
-   * text Message. @param file_name File. @param line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK_EQUAL_MEMCMP.
+   * @param expected Expected buffer.
+   * @param actual Actual buffer.
+   * @param size Bytes to compare.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check_equal_memcmp(
       const void* expected,
       const void* actual,
@@ -457,17 +512,26 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation of FAIL/FAIL_TEXT. @param text Message. @param
-   * file_name File. @param line_number Line. */
+  /**
+   * @brief C implementation of @ref FAIL / @ref FAIL_TEXT.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_fail(
       const char* text,
       const char* file_name,
       size_t line_number
   );
 
-  /** @brief C implementation of CHECK/CHECK_TEXT. @param condition Condition
-   * (non-zero = true). @param condition_string Stringified condition. @param
-   * text Message. @param file_name File. @param line_number Line. */
+  /**
+   * @brief C implementation of @ref CHECK / @ref CHECK_TEXT.
+   * @param condition Condition (non-zero = true).
+   * @param condition_string Stringified condition.
+   * @param text Message.
+   * @param file_name File.
+   * @param line_number Line.
+   */
   MUTINY_EXPORT void mutiny_check(
       int condition,
       const char* condition_string,
@@ -476,8 +540,11 @@ extern "C"
       size_t line_number
   );
 
-  /** @brief C implementation backing TEST_PROPERTY in C files. @param name
-   * Property name. @param value Property value. */
+  /**
+   * @brief C implementation backing @ref TEST_PROPERTY in C files.
+   * @param name Property name.
+   * @param value Property value.
+   */
   MUTINY_EXPORT void mutiny_add_test_property(
       const char* name,
       const char* value

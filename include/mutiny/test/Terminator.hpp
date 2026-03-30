@@ -2,11 +2,11 @@
  * @file
  * @brief Strategies for ending a failing test.
  *
- * Shell calls the active Terminator when a test must stop. The concrete
- * subclasses implement normal (exception-based), exception-free, and
- * crash-on-failure exit strategies.
- *
- * @see Shell::get_current_test_terminator()
+ * @ref mu::tiny::test::Shell calls the active @ref mu::tiny::test::Terminator
+ * when a test must stop. The concrete subclasses implement normal
+ * (exception-based), exception-free, and crash-on-failure exit strategies.
+ * Retrieve the active terminator via @ref
+ * mu::tiny::test::Shell::get_current_test_terminator().
  */
 
 #ifndef INCLUDED_MUTINY_TEST_TERMINATOR_HPP
@@ -35,9 +35,8 @@ public:
 /**
  * @brief Standard terminator that exits via a thrown FailedException.
  *
- * Used by default when exceptions are available.
- *
- * @see Shell::get_current_test_terminator()
+ * Used by default when exceptions are available. Retrieve it via
+ * @ref Shell::get_current_test_terminator().
  */
 class MUTINY_EXPORT NormalTerminator : public Terminator
 {
@@ -50,9 +49,8 @@ public:
  * @brief Terminator for builds without exception support.
  *
  * Uses a platform-specific non-exception mechanism (e.g. `setjmp`/`longjmp`)
- * to unwind from a failing test.
- *
- * @see Shell::get_current_test_terminator_without_exceptions()
+ * to unwind from a failing test. Retrieve it via
+ * @ref Shell::get_current_test_terminator_without_exceptions().
  */
 class MUTINY_EXPORT TerminatorWithoutExceptions : public Terminator
 {
@@ -64,10 +62,9 @@ public:
 /**
  * @brief Terminator that crashes the process on failure.
  *
- * Extends NormalTerminator so that test failures also trigger a hard crash
- * (e.g. for use with crash-dump or post-mortem debugging).
- *
- * @see Shell::set_crash_on_fail()
+ * Extends @ref NormalTerminator so that test failures also trigger a hard crash
+ * (e.g. for use with crash-dump or post-mortem debugging). Enable via
+ * @ref Shell::set_crash_on_fail().
  */
 class MUTINY_EXPORT CrashingTerminator : public NormalTerminator
 {
@@ -77,11 +74,10 @@ public:
 };
 
 /**
- * @brief Exception-free variant of CrashingTerminator.
+ * @brief Exception-free variant of @ref CrashingTerminator.
  *
- * Combines the no-exceptions unwinding strategy with a hard crash on failure.
- *
- * @see Shell::set_crash_on_fail()
+ * Combines the @ref TerminatorWithoutExceptions unwinding strategy with a hard
+ * crash on failure. Enable via @ref Shell::set_crash_on_fail().
  */
 class MUTINY_EXPORT CrashingTerminatorWithoutExceptions
   : public TerminatorWithoutExceptions

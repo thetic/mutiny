@@ -1,17 +1,16 @@
-#ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
-#define INCLUDED_MUTINY_TEST_SHELL_HPP
-
 /**
  * @file
  * @brief Assertion macros and the Shell base class.
  *
- * This header is the primary source of assertion macros (CHECK, CHECK_EQUAL,
- * STRCMP_EQUAL, LONGS_EQUAL, DOUBLES_EQUAL, etc.) and the Shell class
- * that backs them. It is included transitively by mutiny/test.hpp; you rarely
- * need to include it directly.
- *
- * @see mutiny/test.hpp for test-definition macros
+ * This header is the primary source of assertion macros (@ref CHECK, @ref
+ * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref LONGS_EQUAL, @ref DOUBLES_EQUAL, etc.)
+ * and the @ref mu::tiny::test::Shell class that backs them. It is included
+ * transitively by @ref mutiny/test.hpp; you rarely need to include it
+ * directly.
  */
+
+#ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
+#define INCLUDED_MUTINY_TEST_SHELL_HPP
 
 #include "mutiny/test/Terminator.hpp"
 
@@ -31,32 +30,30 @@ class Filter;
 /**
  * @brief Returns true if @p d1 and @p d2 differ by at most @p threshold.
  *
- * Used by the DOUBLES_EQUAL macro. Handles NaN correctly: if either operand
- * is NaN the function returns false.
+ * Used by the @ref DOUBLES_EQUAL macro. Handles NaN correctly: if either
+ * operand is NaN the function returns false.
  *
  * @param d1         First value.
  * @param d2         Second value.
  * @param threshold  Maximum allowed absolute difference (must be >= 0).
  * @return true if |d1 - d2| <= threshold.
- *
- * @see DOUBLES_EQUAL
  */
 MUTINY_EXPORT bool doubles_equal(double d1, double d2, double threshold);
 
 /**
  * @brief Shell for a single test — tracks metadata and drives execution.
  *
- * Each TEST macro instantiates a Shell subclass and registers it with
- * the Registry at static initialisation time. The test runner then calls
- * run_one_test() for each registered shell.
+ * Each @ref TEST() macro instantiates a Shell subclass and registers it with
+ * the @ref Registry at static initialisation time. The test runner then calls
+ * @ref run_one_test() for each registered shell.
  *
  * Users interact with Shell primarily through the assertion macros
- * (CHECK, CHECK_EQUAL, FAIL, etc.), which forward to the assert_* virtual
- * methods. This design allows the testing framework's own tests to substitute
- * a mock shell and verify assertion behaviour.
+ * (@ref CHECK, @ref CHECK_EQUAL, @ref FAIL, etc.), which forward to the
+ * assert_* virtual methods. This design allows the testing framework's own
+ * tests to substitute a mock shell and verify assertion behaviour.
  *
  * The static methods control global runner state: the currently running test,
- * the active Terminator, and crash-on-failure mode.
+ * the active @ref Terminator, and crash-on-failure mode.
  */
 class MUTINY_EXPORT Shell
 {
@@ -102,7 +99,7 @@ public:
   /**
    * @brief Construct a Shell with source-location metadata.
    *
-   * Called by the TEST macro; users do not construct TestShells directly.
+   * Called by the @ref TEST() macro; users do not construct Shells directly.
    *
    * @param group_name   Name of the test group.
    * @param test_name    Name of the individual test.
@@ -375,7 +372,7 @@ public:
   /**
    * @brief Attach a key/value property to this test.
    *
-   * Properties appear in JUnit XML output. Prefer the TEST_PROPERTY macro.
+   * Properties appear in JUnit XML output. Prefer the @ref TEST_PROPERTY macro.
    *
    * @param name   Property name.
    * @param value  Property value.
@@ -558,12 +555,12 @@ void check_enum_equal(
  *
  * @param condition  Any expression convertible to bool.
  *
- * @see CHECK_TEXT, CHECK_TRUE, CHECK_FALSE
+ * See also @ref CHECK_TEXT, @ref CHECK_TRUE, and @ref CHECK_FALSE.
  */
 #define CHECK(condition)                                                       \
   CHECK_TRUE_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
 
-/** @brief CHECK with a custom failure message. @see CHECK */
+/** @brief @ref CHECK with a custom failure message. */
 #define CHECK_TEXT(condition, text)                                            \
   CHECK_TRUE_LOCATION(                                                         \
       static_cast<bool>(condition),                                            \
@@ -574,7 +571,8 @@ void check_enum_equal(
       __LINE__                                                                 \
   )
 
-/** @brief Fail if @p condition is false (explicit TRUE variant). @see CHECK */
+/** @brief Fail if @p condition is false (explicit TRUE variant of @ref CHECK).
+ */
 #define CHECK_TRUE(condition)                                                  \
   CHECK_TRUE_LOCATION(                                                         \
       static_cast<bool>(condition),                                            \
@@ -1135,7 +1133,7 @@ void check_enum_equal(
  *
  * The test fails if @p expression throws nothing or throws an exception of a
  * different type. Only available when exceptions are enabled
- * (MUTINY_HAVE_EXCEPTIONS is non-zero).
+ * (@ref MUTINY_HAVE_EXCEPTIONS is non-zero).
  *
  * @param expected    Exception type that must be thrown (not a string).
  * @param expression  Expression that should throw.

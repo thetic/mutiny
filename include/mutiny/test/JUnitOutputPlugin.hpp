@@ -1,8 +1,9 @@
 /**
  * @file
- * @brief Plugin that writes JUnit-compatible XML output.
+ * @brief @ref mu::tiny::test::Plugin that writes JUnit-compatible XML output.
  *
- * @see Plugin, JUnitOutputPlugin::name, junit-output
+ * See @ref mu::tiny::test::JUnitOutputPlugin::name for the canonical plugin
+ * identifier.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_JUNITOUTPUTPLUGIN_HPP
@@ -19,15 +20,14 @@ namespace test {
 class Output;
 
 /**
- * @brief Plugin that produces a JUnit-style XML report alongside console
+ * @brief @ref Plugin that produces a JUnit-style XML report alongside console
  * output.
  *
- * Install this plugin before calling CommandLineRunner::run_all_tests_main()
- * to enable the `--junit <file>` command-line argument. When activated,
- * create_output() returns a composite output that writes both to the console
- * and to the XML file.
- *
- * @see Plugin, CommandLineRunner
+ * Install this plugin before calling
+ * @ref CommandLineRunner::run_all_tests_main() to enable the
+ * `--junit <file>` command-line argument. When activated,
+ * @ref create_output() returns a composite output that writes both to the
+ * console and to the XML file.
  */
 class MUTINY_EXPORT JUnitOutputPlugin : public Plugin
 {
@@ -58,7 +58,7 @@ public:
   Output* create_output() override;
 
   /** @brief Canonical plugin name; used for look-up by
-   * Registry::get_plugin_by_name(). */
+   * @ref Registry::get_plugin_by_name(). */
   static constexpr const char* name{ "JUnitOutputPlugin" };
 
 private:

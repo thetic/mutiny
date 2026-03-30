@@ -1,8 +1,10 @@
 /**
  * @file
- * @brief printf-based Output implementation for console logging.
+ * @brief printf-based @ref mu::tiny::test::Output implementation for console
+ * logging.
  *
- * @see Output, CommandLineRunner
+ * The default @ref mu::tiny::test::Output used by @ref
+ * mu::tiny::test::CommandLineRunner.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_CONSOLEOUTPUT_HPP
@@ -19,11 +21,10 @@ namespace test {
 /**
  * @brief Writes test output to stdout using printf.
  *
- * This is the default Output used by CommandLineRunner. It relies on the
- * replaceable Output::stdout_, Output::fopen_, Output::fputs_, and
- * Output::fclose_ function pointers, allowing I/O to be redirected in tests.
- *
- * @see Output, CommandLineRunner
+ * This is the default @ref Output used by @ref CommandLineRunner. It relies on
+ * the replaceable @ref Output::stdout_, @ref Output::fopen_,
+ * @ref Output::fputs_, and @ref Output::fclose_ function pointers, allowing
+ * I/O to be redirected in tests.
  */
 class MUTINY_EXPORT ConsoleOutput : public Output
 {

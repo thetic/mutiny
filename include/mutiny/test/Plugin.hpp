@@ -1,17 +1,18 @@
-#ifndef INCLUDED_MUTINY_TEST_PLUGIN_HPP
-#define INCLUDED_MUTINY_TEST_PLUGIN_HPP
-
 /**
  * @file
  * @brief Extension point for running code before/after every test.
  *
- * Subclass Plugin to intercept the test lifecycle, contribute a custom
- * Output, or handle extra command-line arguments. Plugins form a
- * singly-linked list; install them with CommandLineRunner before calling
- * run_all_tests_main().
- *
- * @see SupportPlugin, SetPointerPlugin
+ * Subclass @ref mu::tiny::test::Plugin to intercept the test lifecycle,
+ * contribute a custom @ref mu::tiny::test::Output, or handle extra
+ * command-line arguments. Plugins form a singly-linked list; install them with
+ * @ref mu::tiny::test::CommandLineRunner before calling @ref
+ * mu::tiny::test::CommandLineRunner::run_all_tests_main(). See also @ref
+ * mu::tiny::mock::SupportPlugin and @ref mu::tiny::test::SetPointerPlugin for
+ * built-in plugin implementations.
  */
+
+#ifndef INCLUDED_MUTINY_TEST_PLUGIN_HPP
+#define INCLUDED_MUTINY_TEST_PLUGIN_HPP
 
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
@@ -84,9 +85,9 @@ public:
   virtual String get_help() const { return ""; }
 
   /**
-   * @brief Create a Output for this plugin, if any.
+   * @brief Create an @ref Output for this plugin, if any.
    *
-   * @return A new Output, or nullptr if this plugin produces no output.
+   * @return A new @ref Output, or nullptr if this plugin produces no output.
    */
   virtual Output* create_output() { return nullptr; }
 

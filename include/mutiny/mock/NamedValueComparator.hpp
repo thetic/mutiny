@@ -1,21 +1,23 @@
-#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
-#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
-
 /**
  * @file
  * @brief Interface and helpers for comparing mock parameters of custom types.
  *
- * When a mock expectation is set with with_parameter_of_type(), the framework
- * needs to know how to compare the expected value against the actual value.
- * Implement NamedValueComparator for your type and register it with
- * Support::install_comparator().
+ * When a mock expectation is set with @ref
+ * mu::tiny::mock::ExpectedCall::with_parameter_of_type(), the framework needs
+ * to know how to compare the expected value against the actual value.
+ * Implement @ref mu::tiny::mock::NamedValueComparator for your type and
+ * register it with @ref mu::tiny::mock::Support::install_comparator().
  *
  * Three concrete implementations are provided:
- * - FunctionComparator wraps plain function pointers
- * - TypedMockComparator<T> uses T::operator== and string_from()
+ * - @ref mu::tiny::mock::FunctionComparator wraps plain function pointers
+ * - @ref mu::tiny::mock::TypedMockComparator uses `T::operator==` and
+ *   @ref mu::tiny::string_from()
  *
- * @see Support::install_comparator(), NamedValueCopier
+ * See also @ref mu::tiny::mock::NamedValueCopier for output-parameter support.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATOR_HPP
 
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
@@ -29,8 +31,8 @@ namespace mock {
  * type.
  *
  * Implement both pure virtual methods and pass an instance to
- * Support::install_comparator(). The comparator's lifetime must extend
- * at least as long as the test (or SupportPlugin scope).
+ * @ref mu::tiny::mock::Support::install_comparator(). The comparator's lifetime
+ * must extend at least as long as the test (or @ref SupportPlugin scope).
  */
 class MUTINY_EXPORT NamedValueComparator
 {

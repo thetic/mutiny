@@ -1,8 +1,7 @@
 /**
  * @file
- * @brief RAII helper that registers a Shell with the global Registry.
- *
- * @see Shell, Registry
+ * @brief RAII helper that registers a @ref mu::tiny::test::Shell with the
+ * global @ref mu::tiny::test::Registry.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_INSTALLER_HPP
@@ -19,13 +18,13 @@ namespace test {
 class Shell;
 
 /**
- * @brief Registers a Shell with the current Registry at construction time.
+ * @brief Registers a @ref Shell with the current @ref Registry at construction
+ * time.
  *
- * The TEST() and TEST_GROUP() macros create static Installer instances to
- * auto-register each test shell before main() runs. Call un_do() to remove
- * a shell that was registered by mistake (used internally by TestingFixture).
- *
- * @see Shell, Registry
+ * The @ref TEST() and @ref TEST_GROUP() macros create static Installer
+ * instances to auto-register each test shell before main() runs. Call @ref
+ * un_do() to remove a shell that was registered by mistake (used internally by
+ * @ref TestingFixture).
  */
 class MUTINY_EXPORT Installer
 {

@@ -2,7 +2,10 @@
  * @file
  * @brief Mock failure reporter and failure types.
  *
- * @see mu::tiny::mock::Support, mu::tiny::mock::Failure
+ * @ref mu::tiny::mock::FailureReporter routes failures from @ref
+ * mu::tiny::mock::Support to the test framework. @ref mu::tiny::mock::Failure
+ * is the base class for all mock-layer failure
+ * messages.
  */
 
 #ifndef INCLUDED_MUTINY_MOCK_FAILURE_HPP
@@ -24,11 +27,10 @@ class Failure;
 /**
  * @brief Sink for mock failures; reports them through the test framework.
  *
- * The default implementation forwards failures to the current Shell. Replace
- * the reporter on a Support object to intercept or silence mock failures in
- * tests that verify the mock layer itself.
- *
- * @see Support::set_mock_failure_reporter()
+ * The default implementation forwards failures to the current @ref test::Shell.
+ * Replace the reporter on a @ref Support object via
+ * @ref Support::set_mock_failure_standard_reporter() to intercept or silence
+ * mock failures in tests that verify the mock layer itself.
  */
 class MUTINY_EXPORT FailureReporter
 {
@@ -72,10 +74,9 @@ public:
 /**
  * @brief Base class for all mock-layer failure messages.
  *
- * Extends test::Failure to carry expectation history in the failure message.
- * Concrete subclasses describe specific kinds of mock violations.
- *
- * @see FailureReporter, Support
+ * Extends @ref test::Failure to carry expectation history in the failure
+ * message. Concrete subclasses describe specific kinds of mock violations.
+ * Reported via @ref FailureReporter from @ref Support.
  */
 class MUTINY_EXPORT Failure : public test::Failure
 {
@@ -110,8 +111,8 @@ protected:
 /**
  * @brief Failure reported when expected calls were never made.
  *
- * Triggered by Support::check_expectations() when one or more expected calls
- * did not occur.
+ * Triggered by @ref Support::check_expectations() when one or more expected
+ * calls did not occur.
  */
 class MUTINY_EXPORT ExpectedCallsDidntHappenFailure : public Failure
 {
@@ -149,8 +150,8 @@ public:
 /**
  * @brief Failure reported when calls arrive in the wrong order.
  *
- * Triggered when ordered expectations (set via with_call_order()) are
- * satisfied out of sequence.
+ * Triggered when ordered expectations (set via
+ * @ref ExpectedCall::with_call_order()) are satisfied out of sequence.
  */
 class MUTINY_EXPORT CallOrderFailure : public Failure
 {
@@ -227,7 +228,8 @@ public:
 /**
  * @brief Failure reported when no comparator is registered for a custom type.
  *
- * @see NamedValueComparator, Support::install_comparator()
+ * Register one via @ref Support::install_comparator(); see
+ * @ref NamedValueComparator for the interface to implement.
  */
 class MUTINY_EXPORT NoWayToCompareCustomTypeFailure : public Failure
 {
@@ -242,7 +244,8 @@ public:
 /**
  * @brief Failure reported when no copier is registered for a custom type.
  *
- * @see NamedValueCopier, Support::install_copier()
+ * Register one via @ref Support::install_copier(); see @ref NamedValueCopier
+ * for the interface to implement.
  */
 class MUTINY_EXPORT NoWayToCopyCustomTypeFailure : public Failure
 {
@@ -257,8 +260,8 @@ public:
 /**
  * @brief Failure reported when a call arrives on an unexpected object.
  *
- * Triggered when on_object() was set in the expectation but the actual call
- * used a different object pointer.
+ * Triggered when @ref ExpectedCall::on_object() was set in the expectation but
+ * the actual call used a different object pointer.
  */
 class MUTINY_EXPORT UnexpectedObjectFailure : public Failure
 {
@@ -281,8 +284,8 @@ public:
  * @brief Failure reported when an expected object constraint was never
  * satisfied.
  *
- * Triggered by check_expectations() when an expectation with on_object() was
- * never matched.
+ * Triggered by @ref Support::check_expectations() when an expectation with
+ * @ref ExpectedCall::on_object() was never matched.
  */
 class MUTINY_EXPORT ExpectedObjectDidntHappenFailure : public Failure
 {

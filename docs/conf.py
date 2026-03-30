@@ -65,14 +65,7 @@ exhale_args = {
         EXTRACT_STATIC       = YES
         ENABLE_PREPROCESSING = YES
         MACRO_EXPANSION      = YES
-        # Explicitly define capability macros so Doxygen processes the full
-        # API surface without relying on compiler-detection macros
-        # (e.g. __EXCEPTIONS, __GXX_RTTI) that it doesn't have.
-        PREDEFINED           += MUTINY_HAVE_EXCEPTIONS=1 \\
-                                MUTINY_HAVE_RTTI=1 \\
-                                MUTINY_USE_STD_CPP_LIB=1 \\
-                                MUTINY_USE_STD_STRING=0 \\
-                                MUTINY_EXPORT=
+        PREDEFINED           += MUTINY_EXPORT=
         WARN_IF_UNDOCUMENTED = NO
         WARN_AS_ERROR        = YES
         QUIET                = YES
@@ -121,6 +114,7 @@ pygments_dark_style = "a11y-high-contrast-dark"
 suppress_warnings = ["duplicate_declaration.c"]
 
 # -- sphinx.ext.linkcode ------------------------------------------------------
+
 
 def _build_doxygen_index():
     """Parse Doxygen XML output into a {id_or_name: (filepath, lineno)} map.
@@ -221,6 +215,7 @@ def linkcode_resolve(domain, info):
 
 # -- GitHub source links for generated file pages -----------------------------
 
+
 # Inject a "View source on GitHub" link into each Exhale-generated file page.
 # These pages previously linked to program_listing_*.rst (local code dumps);
 # XML_PROGRAMLISTING = NO in exhaleDoxygenStdin suppresses those, and this
@@ -245,6 +240,7 @@ def setup(app):
     # signode['ids'], which contains both Doxygen refids and Sphinx qualified
     # names.  Must be called after sphinx.ext.linkcode has been loaded.
     from sphinx.ext.linkcode import add_linkcode_domain
+
     add_linkcode_domain("cpp", ["ids"], override=True)
     add_linkcode_domain("c", ["ids"], override=True)
     app.connect("source-read", _add_github_source_links)

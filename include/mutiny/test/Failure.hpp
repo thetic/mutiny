@@ -2,10 +2,10 @@
  * @file
  * @brief Test failure types carrying location and message information.
  *
- * Failure is the base class; each assertion macro creates an appropriate
- * concrete subclass when the assertion does not hold.
- *
- * @see Shell::add_failure(), Output::print_failure()
+ * @ref mu::tiny::test::Failure is the base class; each assertion macro creates
+ * an appropriate concrete subclass when the assertion does not hold. Failures
+ * are reported via @ref mu::tiny::test::Shell::add_failure() and rendered by
+ * @ref mu::tiny::test::Output::print_failure().
  */
 
 #ifndef INCLUDED_MUTINY_TEST_FAILURE_HPP
@@ -29,11 +29,9 @@ class Output;
 /**
  * @brief Holds location and message information for a single test failure.
  *
- * Subclass Failure to provide richer diagnostic messages. The assertion
- * macros (CHECK, CHECK_EQUAL, LONGS_EQUAL, etc.) construct the appropriate
- * concrete subclass and pass it to Shell::add_failure().
- *
- * @see Shell::add_failure(), Output::print_failure()
+ * Subclass @ref Failure to provide richer diagnostic messages. The assertion
+ * macros (@ref CHECK, @ref CHECK_EQUAL, @ref LONGS_EQUAL, etc.) construct the
+ * appropriate concrete subclass and pass it to @ref Shell::add_failure().
  */
 class MUTINY_EXPORT Failure
 {
@@ -146,9 +144,7 @@ protected:
 };
 
 /**
- * @brief Failure for CHECK_EQUAL when two values compare unequal.
- *
- * @see CHECK_EQUAL
+ * @brief Failure for @ref CHECK_EQUAL when two values compare unequal.
  */
 class MUTINY_EXPORT EqualsFailure : public Failure
 {
@@ -188,10 +184,8 @@ public:
 };
 
 /**
- * @brief Failure for DOUBLES_EQUAL when two doubles differ by more than the
- * threshold.
- *
- * @see DOUBLES_EQUAL
+ * @brief Failure for @ref DOUBLES_EQUAL when two doubles differ by more than
+ * the threshold.
  */
 class MUTINY_EXPORT DoublesEqualFailure : public Failure
 {
@@ -217,9 +211,7 @@ public:
 };
 
 /**
- * @brief Failure for generic CHECK_EQUAL on arbitrary types.
- *
- * @see CHECK_EQUAL
+ * @brief Failure for generic @ref CHECK_EQUAL on arbitrary types.
  */
 class MUTINY_EXPORT CheckEqualFailure : public Failure
 {
@@ -243,9 +235,7 @@ public:
 };
 
 /**
- * @brief Failure for CHECK_COMPARE when a relational comparison fails.
- *
- * @see CHECK_COMPARE
+ * @brief Failure for @ref CHECK_COMPARE when a relational comparison fails.
  */
 class MUTINY_EXPORT ComparisonFailure : public Failure
 {
@@ -269,10 +259,8 @@ public:
 };
 
 /**
- * @brief Failure for STRCMP_CONTAINS when a string does not contain the
+ * @brief Failure for @ref STRCMP_CONTAINS when a string does not contain the
  * expected substring.
- *
- * @see STRCMP_CONTAINS
  */
 class MUTINY_EXPORT ContainsFailure : public Failure
 {
@@ -296,9 +284,7 @@ public:
 };
 
 /**
- * @brief Failure for CHECK/CHECK_TRUE/CHECK_FALSE.
- *
- * @see CHECK, CHECK_TRUE, CHECK_FALSE
+ * @brief Failure for @ref CHECK / @ref CHECK_TRUE / @ref CHECK_FALSE.
  */
 class MUTINY_EXPORT CheckFailure : public Failure
 {
@@ -322,9 +308,7 @@ public:
 };
 
 /**
- * @brief Failure for FAIL / FAIL_TEST.
- *
- * @see FAIL, FAIL_TEST
+ * @brief Failure for @ref FAIL / @ref FAIL_TEST.
  */
 class MUTINY_EXPORT FailFailure : public Failure
 {
@@ -344,9 +328,7 @@ public:
 };
 
 /**
- * @brief Failure for LONGS_EQUAL.
- *
- * @see LONGS_EQUAL
+ * @brief Failure for @ref LONGS_EQUAL.
  */
 class MUTINY_EXPORT LongsEqualFailure : public Failure
 {
@@ -370,9 +352,7 @@ public:
 };
 
 /**
- * @brief Failure for UNSIGNED_LONGS_EQUAL.
- *
- * @see UNSIGNED_LONGS_EQUAL
+ * @brief Failure for @ref UNSIGNED_LONGS_EQUAL.
  */
 class MUTINY_EXPORT UnsignedLongsEqualFailure : public Failure
 {
@@ -396,9 +376,7 @@ public:
 };
 
 /**
- * @brief Failure for LONGLONGS_EQUAL.
- *
- * @see LONGLONGS_EQUAL
+ * @brief Failure for @ref LONGLONGS_EQUAL.
  */
 class MUTINY_EXPORT LongLongsEqualFailure : public Failure
 {
@@ -422,9 +400,7 @@ public:
 };
 
 /**
- * @brief Failure for UNSIGNED_LONGLONGS_EQUAL.
- *
- * @see UNSIGNED_LONGLONGS_EQUAL
+ * @brief Failure for @ref UNSIGNED_LONGLONGS_EQUAL.
  */
 class MUTINY_EXPORT UnsignedLongLongsEqualFailure : public Failure
 {
@@ -448,9 +424,7 @@ public:
 };
 
 /**
- * @brief Failure for SIGNED_BYTES_EQUAL.
- *
- * @see SIGNED_BYTES_EQUAL
+ * @brief Failure for @ref SIGNED_BYTES_EQUAL.
  */
 class MUTINY_EXPORT SignedBytesEqualFailure : public Failure
 {
@@ -474,9 +448,7 @@ public:
 };
 
 /**
- * @brief Failure for STRCMP_EQUAL.
- *
- * @see STRCMP_EQUAL
+ * @brief Failure for @ref STRCMP_EQUAL.
  */
 class MUTINY_EXPORT StringEqualFailure : public Failure
 {
@@ -524,9 +496,7 @@ public:
 };
 
 /**
- * @brief Failure for MEMCMP_EQUAL.
- *
- * @see MEMCMP_EQUAL
+ * @brief Failure for @ref MEMCMP_EQUAL.
  */
 class MUTINY_EXPORT BinaryEqualFailure : public Failure
 {
@@ -553,8 +523,6 @@ public:
 
 /**
  * @brief Failure reported when a required feature is unavailable.
- *
- * Used by CHECK_THROWS on builds where MUTINY_HAVE_EXCEPTIONS is 0.
  */
 class MUTINY_EXPORT FeatureUnsupportedFailure : public Failure
 {
@@ -579,10 +547,10 @@ public:
 /**
  * @brief Failure reported when a test body throws an unexpected exception.
  *
- * is_error() returns true for this subclass because it represents an
+ * @ref is_error() returns true for this subclass because it represents an
  * unhandled exception rather than a deliberate assertion.
  *
- * Only available when MUTINY_HAVE_EXCEPTIONS is 1.
+ * Only available when @ref MUTINY_HAVE_EXCEPTIONS is 1.
  */
 class MUTINY_EXPORT UnexpectedExceptionFailure : public Failure
 {

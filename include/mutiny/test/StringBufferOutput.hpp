@@ -1,8 +1,8 @@
 /**
  * @file
- * @brief In-memory Output implementation for use in tests.
+ * @brief In-memory @ref mu::tiny::test::Output implementation for use in tests.
  *
- * @see Output, TestingFixture
+ * Used by @ref mu::tiny::test::TestingFixture to capture output for assertions.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_STRINGBUFFEROUTPUT_HPP
@@ -19,10 +19,8 @@ namespace test {
 /**
  * @brief Captures all output into an in-memory String for later inspection.
  *
- * Used by TestingFixture to collect the output from a test run so that tests
- * can assert on what was printed.
- *
- * @see Output, TestingFixture
+ * Used by @ref TestingFixture to collect the output from a test run so that
+ * tests can assert on what was printed.
  */
 class MUTINY_EXPORT StringBufferOutput : public Output
 {

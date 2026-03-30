@@ -3,8 +3,10 @@
  * @brief Repository of custom type comparators and copiers for mock parameter
  * matching.
  *
- * @see NamedValueComparator, NamedValueCopier, Support::install_comparator(),
- *      Support::install_copier()
+ * Stores @ref mu::tiny::mock::NamedValueComparator and @ref
+ * mu::tiny::mock::NamedValueCopier instances keyed by type name. Populated via
+ * @ref mu::tiny::mock::Support::install_comparator() and @ref
+ * mu::tiny::mock::Support::install_copier().
  */
 
 #ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOMPARATORSANDCOPIERSREPOSITORY_HPP
@@ -22,16 +24,13 @@ namespace mock {
 class NamedValueComparatorsAndCopiersRepositoryNode;
 
 /**
- * @brief Stores NamedValueComparator and NamedValueCopier instances keyed by
- * type name.
+ * @brief Stores @ref NamedValueComparator and @ref NamedValueCopier instances
+ * keyed by type name.
  *
- * Install comparators and copiers via install_comparator() / install_copier()
- * before running tests that pass custom types as mock parameters.
- * Support delegates to this repository when comparing or copying parameter
- * values of custom types.
- *
- * @see NamedValueComparator, NamedValueCopier, Support::install_comparator(),
- *      Support::install_copier()
+ * Install comparators and copiers via @ref install_comparator() /
+ * @ref install_copier() before running tests that pass custom types as mock
+ * parameters. @ref Support delegates to this repository when comparing or
+ * copying parameter values of custom types.
  */
 class MUTINY_EXPORT NamedValueComparatorsAndCopiersRepository
 {

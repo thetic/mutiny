@@ -1,8 +1,8 @@
 /**
  * @file
- * @brief Shell subclass for tests expected to fail.
+ * @brief @ref mu::tiny::test::Shell subclass for tests expected to fail.
  *
- * @see EXPECT_FAIL_TEST, EXPECT_FAIL_TEST_C_WRAPPER, Shell
+ * Used by @ref EXPECT_FAIL_TEST and @ref EXPECT_FAIL_TEST_C_WRAPPER.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_EXPECTFAILSHELL_HPP
@@ -19,10 +19,9 @@ namespace test {
 /**
  * @brief Shell that inverts the pass/fail outcome of a test.
  *
- * Used by the EXPECT_FAIL_TEST() macro. The test body is expected to trigger
- * a failure; if it passes without failing, the shell marks it as failed.
- *
- * @see EXPECT_FAIL_TEST, EXPECT_FAIL_TEST_C_WRAPPER
+ * Used by the @ref EXPECT_FAIL_TEST() macro. The test body is expected to
+ * trigger a failure; if it passes without failing, the shell marks it as
+ * failed. See also @ref EXPECT_FAIL_TEST_C_WRAPPER.
  */
 class MUTINY_EXPORT ExpectFailShell : public Shell
 {

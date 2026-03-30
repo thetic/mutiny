@@ -1,16 +1,18 @@
-#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
-#define INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
-
 /**
  * @file
  * @brief Generic named-value container used to store mock parameters and data.
  *
- * NamedValue ties together a name, a type tag, a value (from a union of
- * all supported native types plus opaque object pointers), and optional
- * NamedValueComparator / NamedValueCopier instances for non-native
- * types. Users encounter NamedValue primarily via Support::get_data()
- * and the return_value() methods on ActualCall.
+ * @ref mu::tiny::mock::NamedValue ties together a name, a type tag, a value
+ * (from a union of all supported native types plus opaque object pointers),
+ * and optional @ref mu::tiny::mock::NamedValueComparator / @ref
+ * mu::tiny::mock::NamedValueCopier instances for non-native types. Users
+ * encounter @ref mu::tiny::mock::NamedValue primarily via @ref
+ * mu::tiny::mock::Support::get_data() and the @ref
+ * mu::tiny::mock::ActualCall::return_value() methods.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
 
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
@@ -28,10 +30,9 @@ class NamedValueCopier;
  *
  * Encapsulates all primitive types and opaque object pointers in a single
  * union so that a heterogeneous collection of parameters can be stored and
- * compared uniformly. Custom types register a NamedValueComparator (for
- * comparison) and a NamedValueCopier (for output parameters).
- *
- * @see Support::install_comparator(), Support::install_copier()
+ * compared uniformly. Custom types register a @ref NamedValueComparator (for
+ * comparison) and a @ref NamedValueCopier (for output parameters) via
+ * @ref Support::install_comparator() and @ref Support::install_copier().
  */
 class MUTINY_EXPORT NamedValue
 {

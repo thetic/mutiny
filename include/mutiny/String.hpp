@@ -3,14 +3,16 @@
  * @brief Lightweight string class and string-conversion utilities for the
  *        mutiny test framework.
  *
- * When `MUTINY_USE_STD_STRING` is defined, `mu::tiny::String` is an
+ * When @ref MUTINY_USE_STD_STRING is defined, @ref mu::tiny::String is an
  * alias for `std::string` and the custom class body is omitted entirely.
  * Otherwise a self-contained `String` class is provided that avoids any
  * dependency on the C++ standard library, allowing the framework to be used
  * in bare-metal and other constrained environments.
  *
- * The free functions below (`string_from`, `hex_string_from`,
- * `brackets_formatted_hex_string_from`, and related utilities) are used
+ * The free functions below (@ref mu::tiny::string_from,
+ * @ref mu::tiny::hex_string_from,
+ * @ref mu::tiny::brackets_formatted_hex_string_from, and related utilities)
+ * are used
  * throughout the framework to convert arbitrary values to their printable
  * representations in assertion failure messages.
  */
@@ -19,6 +21,7 @@
 #define INCLUDED_MUTINY_TEST_STRING_HPP
 
 #include "mutiny/export.h"
+#include "mutiny/features.hpp"
 
 #include <stdarg.h>
 #include <stddef.h>
@@ -44,13 +47,10 @@ namespace mu {
 namespace tiny {
 
 #if MUTINY_USE_STD_STRING
-#if !MUTINY_USE_STD_CPP_LIB
-#error MUTINY_USE_STD_STRING requires MUTINY_USE_STD_CPP_LIB
-#endif
 /**
  * @brief String type used throughout the mutiny framework.
  *
- * When `MUTINY_USE_STD_STRING` is enabled this is an alias for
+ * When @ref MUTINY_USE_STD_STRING is enabled this is an alias for
  * `std::string`; otherwise it is the custom class defined below.
  */
 using String = std::string;
@@ -62,7 +62,7 @@ using String = std::string;
  * internal bookkeeping without depending on the C++ standard library.
  * The interface deliberately mirrors the subset of `std::string` that
  * the framework uses so that switching to `std::string` via
- * `MUTINY_USE_STD_STRING` requires no call-site changes.
+ * @ref MUTINY_USE_STD_STRING requires no call-site changes.
  */
 class MUTINY_EXPORT String
 {
@@ -199,7 +199,7 @@ MUTINY_EXPORT void string_replace(
 
 /**
  * @brief Wrappers for C standard library functions, placed in the
- *        `mu::tiny::test` namespace to avoid polluting the global namespace
+ *        @ref mu::tiny::test namespace to avoid polluting the global namespace
  *        when the standard library is unavailable.
  */
 MUTINY_EXPORT bool iscntrl(char ch);

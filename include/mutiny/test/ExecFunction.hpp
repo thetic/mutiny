@@ -1,8 +1,6 @@
 /**
  * @file
- * @brief Callable interface used by TestingFixture.
- *
- * @see TestingFixture
+ * @brief Callable interface used by @ref mu::tiny::test::TestingFixture.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_EXECFUNCTION_HPP
@@ -15,12 +13,10 @@ namespace tiny {
 namespace test {
 
 /**
- * @brief Abstract callable invoked by TestingFixture as the test body.
+ * @brief Abstract callable invoked by @ref TestingFixture as the test body.
  *
- * Implement exec() to wrap a test function for use with
- * TestingFixture::set_test_function().
- *
- * @see TestingFixture
+ * Implement @ref exec() to wrap a test function for use with
+ * @ref TestingFixture::set_test_function().
  */
 class MUTINY_EXPORT ExecFunction
 {

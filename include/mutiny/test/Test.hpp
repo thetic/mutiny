@@ -2,7 +2,8 @@
  * @file
  * @brief Base class for all test objects.
  *
- * @see Shell, TEST_GROUP, TEST
+ * Used by @ref mu::tiny::test::Shell and created indirectly through the @ref
+ * TEST_GROUP and @ref TEST macros.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_TEST_HPP
@@ -17,11 +18,10 @@ namespace test {
 /**
  * @brief Abstract base class for a single runnable test.
  *
- * The TEST() macro generates a subclass of Shell (which extends Test) that
- * overrides test_body() with the test code. setup() and teardown() are called
- * by run() before and after test_body(), respectively.
- *
- * @see Shell, TEST_GROUP, TEST
+ * The @ref TEST() macro generates a subclass of @ref Shell (which extends
+ * @ref Test) that overrides @ref test_body() with the test code.
+ * @ref setup() and @ref teardown() are called by @ref run() before and after
+ * @ref test_body(), respectively.
  */
 class MUTINY_EXPORT Test
 {
@@ -32,15 +32,15 @@ public:
   /** @brief Execute this test, calling setup(), test_body(), and teardown(). */
   virtual void run();
 
-  /** @brief Called before test_body(); override in a TEST_GROUP to set up
-   * fixtures. */
+  /** @brief Called before @ref test_body(); override in a @ref TEST_GROUP to
+   * set up fixtures. */
   virtual void setup();
 
-  /** @brief Called after test_body() (even on failure); override in a
-   * TEST_GROUP to release fixtures. */
+  /** @brief Called after @ref test_body() (even on failure); override in a
+   * @ref TEST_GROUP to release fixtures. */
   virtual void teardown();
 
-  /** @brief The test body; overridden by the TEST() macro expansion. */
+  /** @brief The test body; overridden by the @ref TEST() macro expansion. */
   virtual void test_body();
 };
 

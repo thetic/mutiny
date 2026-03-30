@@ -2,7 +2,8 @@
  * @file
  * @brief Array-of-Shell-pointers helper for shuffling and reversing tests.
  *
- * @see Registry::shuffle_tests(), Registry::reverse_tests()
+ * Used by @ref mu::tiny::test::Registry::shuffle_tests() and @ref
+ * mu::tiny::test::Registry::reverse_tests().
  */
 
 #ifndef INCLUDED_MUTINY_TEST_SHELLPOINTERARRAY_HPP
@@ -20,9 +21,8 @@ namespace test {
  * @brief Replaceable pseudo-random number generator used for test shuffling.
  *
  * Defaults to the platform's `rand()`. Replace with a deterministic function
- * to make shuffle order reproducible in tests.
- *
- * @see ShellPointerArray::shuffle()
+ * to make shuffle order reproducible in tests. Used by
+ * @ref ShellPointerArray::shuffle().
  */
 MUTINY_EXPORT extern int (*rand)();
 
@@ -31,11 +31,10 @@ class Shell;
 /**
  * @brief Flat array of Shell pointers that supports in-place shuffle/reverse.
  *
- * Built from the linked list of tests held by Registry so that O(n) random
- * access is available for shuffling. Call relink_tests_in_order() after
- * sorting to restore the linked-list structure.
- *
- * @see Registry::shuffle_tests(), Registry::reverse_tests()
+ * Built from the linked list of tests held by @ref Registry so that O(n)
+ * random access is available for shuffling. Call @ref relink_tests_in_order()
+ * after sorting to restore the linked-list structure. Used by
+ * @ref Registry::shuffle_tests() and @ref Registry::reverse_tests().
  */
 class MUTINY_EXPORT ShellPointerArray
 {

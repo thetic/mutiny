@@ -1,6 +1,3 @@
-#ifndef INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
-#define INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
-
 /**
  * @file
  * @brief Entry point for running all registered tests from a main() function.
@@ -12,6 +9,9 @@
  * - @c -r count    repeat the test run @c count times
  * - @c -s          run each test in a separate subprocess (crash isolation)
  */
+
+#ifndef INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
+#define INCLUDED_MUTINY_TEST_COMMANDLINERUNNER_HPP
 
 #include "mutiny/test/CommandLineArguments.hpp"
 #include "mutiny/test/Output.hpp"
@@ -27,10 +27,10 @@ class Registry;
 /**
  * @brief Parses command-line arguments and drives the test run.
  *
- * Construct one, then call run_all_tests_main(), or use the static helper
- * run_all_tests() which does both in one call. Subclass and override
- * create_console_output() or create_composite_output() to supply a custom
- * output formatter.
+ * Construct one, then call @ref run_all_tests_main(), or use the static helper
+ * @ref run_all_tests() which does both in one call. Subclass and override
+ * @ref create_console_output() or @ref create_composite_output() to supply a
+ * custom output formatter.
  */
 class MUTINY_EXPORT CommandLineRunner
 {
@@ -82,7 +82,9 @@ public:
   int run_all_tests_main();
 
 protected:
-  /** @brief Factory: create the console output object. Override to replace it.
+  /**
+   * @brief Factory: create the console @ref Output object. Override to replace
+   * it.
    */
   virtual Output* create_console_output();
 

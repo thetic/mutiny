@@ -2,9 +2,10 @@
  * @file
  * @brief Abstract output interface for test result reporting.
  *
- * Kept stream-free to reduce footprint and support limited compilers.
- *
- * @see ConsoleOutput, StringBufferOutput, JUnitOutputPlugin
+ * Kept stream-free to reduce footprint and support limited compilers. Concrete
+ * implementations: @ref mu::tiny::test::ConsoleOutput, @ref
+ * mu::tiny::test::StringBufferOutput, and @ref
+ * mu::tiny::test::JUnitOutputPlugin.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_OUTPUT_HPP
@@ -24,13 +25,11 @@ class Result;
 /**
  * @brief Abstract base class for all test output sinks.
  *
- * Implement print_buffer() in a subclass to direct output anywhere. All
- * higher-level printing methods (print_failure(), print_test_run(), etc.)
- * are built on top of print_buffer(). The static function pointers
- * (stdout_, fopen_, fputs_, fclose_) allow ConsoleOutput to redirect file
- * I/O without a virtual dispatch.
- *
- * @see ConsoleOutput, StringBufferOutput
+ * Implement @ref print_buffer() in a subclass to direct output anywhere. All
+ * higher-level printing methods (@ref print_failure(), @ref print_test_run(),
+ * etc.) are built on top of @ref print_buffer(). The static function pointers
+ * (@ref stdout_, @ref fopen_, @ref fputs_, @ref fclose_) allow
+ * @ref ConsoleOutput to redirect file I/O without a virtual dispatch.
  */
 class MUTINY_EXPORT Output
 {
@@ -156,8 +155,8 @@ public:
   virtual void print_very_verbose(const char* s);
 
   /**
-   * @return true if this output needs a ConsoleOutput companion for
-   * interactive output (e.g. JUnit XML output paired with a console).
+   * @return true if this output needs a @ref ConsoleOutput companion for
+   * interactive output (e.g. @ref JUnitOutputPlugin paired with a console).
    */
   virtual bool needs_console_companion() const { return false; }
 

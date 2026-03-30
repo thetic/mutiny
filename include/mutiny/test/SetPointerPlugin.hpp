@@ -1,19 +1,17 @@
-#ifndef INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
-#define INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
-
 /**
  * @file
  * @brief Automatic pointer restoration after each test.
  *
- * SetPointerPlugin records the original address stored in a pointer variable
- * before it is overwritten and restores it at the end of every test, without
- * requiring explicit teardown code.
+ * @ref mu::tiny::test::SetPointerPlugin records the original address stored in
+ * a pointer variable before it is overwritten and restores it at the end of
+ * every test, without requiring explicit teardown code.
  *
- * Use the MUTINY_PTR_SET macro (the preferred interface) or call
- * SetPointerPlugin::set_pointer() directly.
- *
- * @see MUTINY_PTR_SET
+ * Use the @ref MUTINY_PTR_SET macro (the preferred interface) or call
+ * @ref mu::tiny::test::SetPointerPlugin::set_pointer() directly.
  */
+
+#ifndef INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
+#define INCLUDED_MUTINY_TEST_SETPOINTERPLUGIN_HPP
 
 #include "mutiny/test/Plugin.hpp"
 
@@ -79,13 +77,13 @@ private:
 /**
  * @brief Save the original value of pointer @p a, then set @p a = @p b.
  *
- * The original value is automatically restored after the test ends.
- * Requires SetPointerPlugin to be installed in the test runner's plugin chain.
+ * The original value is automatically restored after the test ends. Requires
+ * @ref mu::tiny::test::SetPointerPlugin to be installed in the test runner's
+ * plugin chain. Calls @ref mu::tiny::test::SetPointerPlugin::set_pointer()
+ * internally.
  *
  * @param a  Pointer variable to overwrite (must be an lvalue).
  * @param b  New pointer value.
- *
- * @see SetPointerPlugin::set_pointer()
  */
 #define MUTINY_PTR_SET(a, b)                                                   \
   mu::tiny::test::SetPointerPlugin::set_pointer((a), b)

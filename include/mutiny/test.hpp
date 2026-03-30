@@ -1,18 +1,16 @@
-#ifndef INCLUDED_MUTINY_TEST_HPP
-#define INCLUDED_MUTINY_TEST_HPP
-
 /**
  * @file
  * @brief Primary test-definition header for mutiny.
  *
  * Include this header in every C++ test file. It provides the macros needed
- * to declare test groups and individual tests: TEST_GROUP, TEST, IGNORE_TEST,
- * EXPECT_FAIL_TEST, and the C-interop wrappers. Assertion macros are provided
- * by Shell.hpp, which this header includes transitively.
- *
- * @see Shell.hpp for assertion macros
- * @see OrderedTest.hpp for tests with a defined execution order
+ * to declare test groups and individual tests: @ref TEST_GROUP, @ref TEST, @ref
+ * IGNORE_TEST, @ref EXPECT_FAIL_TEST, and the C-interop wrappers. Assertion
+ * macros are provided by @ref Shell.hpp, which this header includes
+ * transitively.
  */
+
+#ifndef INCLUDED_MUTINY_TEST_HPP
+#define INCLUDED_MUTINY_TEST_HPP
 
 #include "mutiny/test/ExpectFailShell.hpp"
 #include "mutiny/test/Failure.hpp"
@@ -29,10 +27,12 @@
  * @brief Define a named test group using mu::tiny::test::Test as the base
  * class.
  *
- * All tests in the group share the same setup() and teardown() methods.
- * setup() runs before each test body; teardown() runs after, even if the
- * test fails. A group body may also declare helper member variables and
- * methods accessible to all tests in the group.
+ * All tests in the group share the same @ref mu::tiny::test::Test::setup() and
+ * @ref mu::tiny::test::Test::teardown() methods.
+ * @ref mu::tiny::test::Test::setup() runs before each test body; @ref
+ * mu::tiny::test::Test::teardown() runs after, even if the test fails. A group
+ * body may also declare helper member variables and methods accessible to all
+ * tests in the group.
  *
  * @param testGroup  Identifier for the group (used in filtering and output).
  */
@@ -44,14 +44,13 @@
 /**
  * @brief Define an individual test.
  *
- * The test body follows this macro in braces. setup() is called first,
- * then the body, then teardown(). A test failure aborts the body but still
- * calls teardown().
+ * The test body follows this macro in braces. @ref
+ * mu::tiny::test::Test::setup() is called first, then the body, then @ref
+ * mu::tiny::test::Test::teardown(). A test failure aborts the body but still
+ * calls @ref mu::tiny::test::Test::teardown().
  *
  * @param testGroup  The group this test belongs to (must be declared first).
  * @param testName   Unique name within the group.
- *
- * @see IGNORE_TEST, EXPECT_FAIL_TEST
  */
 #define TEST(testGroup, testName)                                              \
   /* External declarations for strict compilers */                             \
@@ -96,8 +95,6 @@
  *
  * @param testGroup  The group this test belongs to.
  * @param testName   Name of the test.
- *
- * @see TEST, EXPECT_FAIL_TEST
  */
 #define IGNORE_TEST(testGroup, testName)                                       \
   /* External declarations for strict compilers */                             \
@@ -142,12 +139,10 @@
  * If the test body passes (no assertion failure), the outer run reports an
  * error. Use this to document known failures that must stay failing — the
  * test run breaks immediately if the code is accidentally fixed without
- * removing the EXPECT_FAIL_TEST declaration.
+ * removing the @ref EXPECT_FAIL_TEST declaration.
  *
  * @param testGroup  The group this test belongs to.
  * @param testName   Name of the test.
- *
- * @see TEST, IGNORE_TEST
  */
 #define EXPECT_FAIL_TEST(testGroup, testName)                                  \
   /* External declarations for strict compilers */                             \
@@ -199,14 +194,11 @@
 /**
  * @brief Declare a test group that bridges C setup/teardown functions.
  *
- * Equivalent to @ref TEST_GROUP but additionally declares the extern "C"
- * setup and teardown wrapper symbols expected by
- * @ref TEST_GROUP_C_SETUP_WRAPPER and @ref TEST_GROUP_C_TEARDOWN_WRAPPER.
+ * Equivalent to @ref TEST_GROUP but additionally declares the <tt>extern
+ * "C"</tt> setup and teardown wrapper symbols expected by @ref
+ * TEST_GROUP_C_SETUP_WRAPPER and @ref TEST_GROUP_C_TEARDOWN_WRAPPER.
  *
  * @param group_name  Name of the group (also forms the C wrapper symbol names).
- *
- * @see TEST_GROUP_C_SETUP_WRAPPER, TEST_GROUP_C_TEARDOWN_WRAPPER,
- * TEST_C_WRAPPER
  */
 #define TEST_GROUP_C_WRAPPER(group_name)                                       \
   extern "C" void group_##group_name##_setup_wrapper_c(void);                  \
@@ -215,15 +207,13 @@
 
 /**
  * @brief Define the C setup wrapper for a group declared with
- * TEST_GROUP_C_WRAPPER.
+ * @ref TEST_GROUP_C_WRAPPER.
  *
  * The body you write delegates to the C function
  * @c group_\#\#group_name\#\#_setup_wrapper_c, which is defined in the .c file.
  *
- * @param group_name  Group name, must match the TEST_GROUP_C_WRAPPER
+ * @param group_name  Group name, must match the @ref TEST_GROUP_C_WRAPPER
  * declaration.
- *
- * @see TEST_GROUP_C_WRAPPER
  */
 #define TEST_GROUP_C_SETUP_WRAPPER(group_name)                                 \
   void setup() override                                                        \
@@ -233,12 +223,10 @@
 
 /**
  * @brief Define the C teardown wrapper for a group declared with
- * TEST_GROUP_C_WRAPPER.
+ * @ref TEST_GROUP_C_WRAPPER.
  *
- * @param group_name  Group name, must match the TEST_GROUP_C_WRAPPER
+ * @param group_name  Group name, must match the @ref TEST_GROUP_C_WRAPPER
  * declaration.
- *
- * @see TEST_GROUP_C_WRAPPER
  */
 #define TEST_GROUP_C_TEARDOWN_WRAPPER(group_name)                              \
   void teardown() override                                                     \
@@ -249,14 +237,12 @@
 /**
  * @brief Bridge a C test function into a TEST.
  *
- * Creates a TEST whose body calls the C function
+ * Creates a @ref TEST whose body calls the C function
  * @c test_\#\#group_name\#\#_\#\#test_name\#\#_wrapper_c. The corresponding
- * C-side definition uses TEST() from mutiny/test.h in the .c file.
+ * C-side definition uses @ref TEST() from @ref mutiny/test.h in the .c file.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
- *
- * @see TEST_GROUP_C_WRAPPER, IGNORE_TEST_C_WRAPPER, EXPECT_FAIL_TEST_C_WRAPPER
  */
 #define TEST_C_WRAPPER(group_name, test_name)                                  \
   extern "C" void test_##group_name##_##test_name##_wrapper_c();               \
@@ -266,12 +252,10 @@
   }
 
 /**
- * @brief Bridge a C IGNORE_TEST into an IGNORE_TEST.
+ * @brief Bridge a C @ref IGNORE_TEST into an @ref IGNORE_TEST.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
- *
- * @see TEST_C_WRAPPER
  */
 #define IGNORE_TEST_C_WRAPPER(group_name, test_name)                           \
   extern "C" void ignore_##group_name##_##test_name##_wrapper_c();             \
@@ -281,12 +265,10 @@
   }
 
 /**
- * @brief Bridge a C EXPECT_FAIL_TEST into an EXPECT_FAIL_TEST.
+ * @brief Bridge a C @ref EXPECT_FAIL_TEST into an @ref EXPECT_FAIL_TEST.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
- *
- * @see TEST_C_WRAPPER
  */
 #define EXPECT_FAIL_TEST_C_WRAPPER(group_name, test_name)                      \
   extern "C" void expect_fail_##group_name##_##test_name##_wrapper_c();        \
