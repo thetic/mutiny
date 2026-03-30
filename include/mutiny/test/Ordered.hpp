@@ -30,7 +30,7 @@ namespace test {
 class MUTINY_EXPORT OrderedShell : public mu::tiny::test::Shell
 {
 public:
-  OrderedShell() = default;
+  OrderedShell() noexcept = default;
   ~OrderedShell() override = default;
 
   /**
@@ -112,7 +112,7 @@ public:
       const char* file_name,
       size_t line_number,
       int level
-  );
+  ) noexcept;
   virtual ~OrderedInstaller() = default;
 
 private:

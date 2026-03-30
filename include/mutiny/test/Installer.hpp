@@ -20,7 +20,7 @@ public:
       const char* test_name,
       const char* file_name,
       size_t line_number
-  );
+  ) noexcept;
   virtual ~Installer() = default;
   Installer(const Installer&) = delete;
   Installer& operator=(const Installer&) = delete;

@@ -134,7 +134,7 @@
     : public TEST_GROUP_##MutinyGroup##testGroup                               \
   {                                                                            \
   public:                                                                      \
-    TEST_##testGroup##_##testName##_Test()                                     \
+    TEST_##testGroup##_##testName##_Test() noexcept                            \
       : TEST_GROUP_##MutinyGroup##testGroup()                                  \
     {                                                                          \
     }                                                                          \
@@ -180,7 +180,7 @@
     : public TEST_GROUP_##MutinyGroup##testGroup                               \
   {                                                                            \
   public:                                                                      \
-    IGNORE##testGroup##_##testName##_Test()                                    \
+    IGNORE##testGroup##_##testName##_Test() noexcept                           \
       : TEST_GROUP_##MutinyGroup##testGroup()                                  \
     {                                                                          \
     }                                                                          \
@@ -230,7 +230,7 @@
     : public TEST_GROUP_##MutinyGroup##testGroup                               \
   {                                                                            \
   public:                                                                      \
-    EXPECT_FAIL##testGroup##_##testName##_Test()                               \
+    EXPECT_FAIL##testGroup##_##testName##_Test() noexcept                      \
       : TEST_GROUP_##MutinyGroup##testGroup()                                  \
     {                                                                          \
     }                                                                          \

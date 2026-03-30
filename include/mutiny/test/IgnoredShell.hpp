@@ -12,14 +12,14 @@ namespace test {
 class MUTINY_EXPORT IgnoredShell : public Shell
 {
 public:
-  IgnoredShell();
+  IgnoredShell() noexcept;
   ~IgnoredShell() override = default;
   explicit IgnoredShell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
-  );
+  ) noexcept;
   IgnoredShell(const IgnoredShell&) = delete;
   IgnoredShell& operator=(const IgnoredShell&) = delete;
   bool will_run() const override;

@@ -14,9 +14,13 @@ int mutiny_jmp_buf_depth = 0;
 bool set_jump(void (*volatile function)(void*), void* volatile data)
 {
 #ifdef _MSC_VER
+#pragma warning(push)
 #pragma warning(disable : 4611)
 #endif
   if (0 == setjmp(mutiny_jmp_buf[mutiny_jmp_buf_depth])) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
     mutiny_jmp_buf_depth++;
     function(data);
     mutiny_jmp_buf_depth--;

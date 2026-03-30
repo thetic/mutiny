@@ -73,7 +73,7 @@ OrderedInstaller::OrderedInstaller(
     const char* file_name,
     size_t line_number,
     int level
-)
+) noexcept
 {
   test.set_test_name(test_name);
   test.set_group_name(group_name);
