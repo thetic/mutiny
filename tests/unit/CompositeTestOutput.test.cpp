@@ -145,7 +145,9 @@ TEST(CompositeOutput, printDouble)
 
 TEST(CompositeOutput, verbose)
 {
-  composite_output.verbose(mu::tiny::test::Output::MutinyVerbosityLevel::verbose);
+  composite_output.verbose(
+      mu::tiny::test::Output::MutinyVerbosityLevel::verbose
+  );
   CHECK(output1->is_verbose());
   CHECK(output2->is_verbose());
 }
