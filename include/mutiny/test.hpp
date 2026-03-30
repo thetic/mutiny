@@ -26,39 +26,6 @@
 #include "mutiny/test/Test.hpp"
 
 /**
- * @brief Define a custom base class for test groups.
- *
- * Creates a struct that derives from mu::tiny::test::Test. Use with
- * @ref TEST_GROUP_BASE to share helper state across groups, or standalone to
- * define a named base for multiple groups.
- *
- * @param testBaseClass  Name of the new base struct.
- */
-#define TEST_BASE(testBaseClass)                                               \
-  struct testBaseClass : public mu::tiny::test::Test
-
-/**
- * @brief Define a test group with a custom base class.
- *
- * All tests in the group share the same setup() and teardown() methods
- * (both optional). setup() runs before each test body; teardown() runs after,
- * even if the test fails.
- *
- * Use this variant to provide a custom base class (created with @ref TEST_BASE)
- * that carries shared fixtures or helpers. For the common case, prefer
- * @ref TEST_GROUP which uses mu::tiny::test::Test directly.
- *
- * @param testGroup  Identifier for the group (used in filtering and output).
- * @param baseclass  Base class that must derive from mu::tiny::test::Test.
- *
- * @see TEST_GROUP, TEST_BASE
- */
-#define TEST_GROUP_BASE(testGroup, baseclass)                                  \
-  extern int externTestGroup##testGroup;                                       \
-  int externTestGroup##testGroup = 0;                                          \
-  struct TEST_GROUP_##MutinyGroup##testGroup : public baseclass
-
-/**
  * @brief Define a named test group using mu::tiny::test::Test as the base
  * class.
  *
@@ -67,43 +34,12 @@
  * test fails. A group body may also declare helper member variables and
  * methods accessible to all tests in the group.
  *
- * @code{.cpp}
- * TEST_GROUP(Calculator)
- * {
- *   Calculator* calc;
- *
- *   void setup() override    { calc = new Calculator; }
- *   void teardown() override { delete calc; }
- * };
- * @endcode
- *
  * @param testGroup  Identifier for the group (used in filtering and output).
- *
- * @see TEST_GROUP_BASE, TEST_SETUP, TEST_TEARDOWN
  */
-#define TEST_GROUP(testGroup) TEST_GROUP_BASE(testGroup, mu::tiny::test::Test)
-
-/**
- * @brief Define the setup method for a test group.
- *
- * The body you write immediately after this macro runs before the body of
- * each TEST in the group. Must appear inside a TEST_GROUP or TEST_GROUP_BASE
- * struct body.
- *
- * @see TEST_TEARDOWN
- */
-#define TEST_SETUP() virtual void setup() override
-
-/**
- * @brief Define the teardown method for a test group.
- *
- * The body you write immediately after this macro runs after each TEST in the
- * group, even when the test fails. Must appear inside a TEST_GROUP or
- * TEST_GROUP_BASE struct body.
- *
- * @see TEST_SETUP
- */
-#define TEST_TEARDOWN() virtual void teardown() override
+#define TEST_GROUP(testGroup)                                                  \
+  extern int externTestGroup##testGroup;                                       \
+  int externTestGroup##testGroup = 0;                                          \
+  struct TEST_GROUP_##MutinyGroup##testGroup : public mu::tiny::test::Test
 
 /**
  * @brief Define an individual test.
@@ -111,13 +47,6 @@
  * The test body follows this macro in braces. setup() is called first,
  * then the body, then teardown(). A test failure aborts the body but still
  * calls teardown().
- *
- * @code{.cpp}
- * TEST(Calculator, add_two_numbers)
- * {
- *   CHECK_EQUAL(5, calc->add(2, 3));
- * }
- * @endcode
  *
  * @param testGroup  The group this test belongs to (must be declared first).
  * @param testName   Unique name within the group.

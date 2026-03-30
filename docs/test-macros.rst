@@ -27,23 +27,6 @@ All tests in the group share a fresh instance of the struct (constructed
 before :cpp:func:`setup() <mu::tiny::test::Test::setup>`, destroyed after
 :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`).
 
-``TEST_SETUP()`` / ``TEST_TEARDOWN()``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`TEST_SETUP` and :c:macro:`TEST_TEARDOWN` are convenience aliases for declaring
-:cpp:func:`setup() <mu::tiny::test::Test::setup>` and
-:cpp:func:`teardown() <mu::tiny::test::Test::teardown>` inside a :c:macro:`TEST_GROUP`
-body. Equivalent to writing ``virtual void setup() override``.
-
-.. code-block:: cpp
-
-   TEST_GROUP(Counter)
-   {
-       int count;
-       TEST_SETUP()    { count = 0; }
-       TEST_TEARDOWN() { /* cleanup */ }
-   };
-
 ``TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -56,37 +39,6 @@ follows is the test body.
    {
        CHECK(obj->do_thing());
    }
-
-Custom Base Classes
--------------------
-
-``TEST_BASE(ClassName)``
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`TEST_BASE` defines a custom base class struct that inherits from
-:cpp:class:`mu::tiny::test::Test`. Use when you want a reusable base that
-multiple groups can share.
-
-.. code-block:: cpp
-
-   TEST_BASE(LoggingTestBase)
-   {
-       void setup() override   { start_log(); }
-       void teardown() override { end_log(); }
-   };
-
-``TEST_GROUP_BASE(group, baseclass)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`TEST_GROUP_BASE` is like :c:macro:`TEST_GROUP`, but inherits from ``baseclass``
-instead of :cpp:class:`mu::tiny::test::Test`.
-
-.. code-block:: cpp
-
-   TEST_GROUP_BASE(Networking, LoggingTestBase)
-   {
-       // inherits setup/teardown from LoggingTestBase
-   };
 
 Skipping and Expected Failures
 -------------------------------
