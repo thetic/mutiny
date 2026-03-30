@@ -41,7 +41,6 @@
 #endif
 #endif
 
-#ifndef MUTINY_USE_STD_CPP_LIB
 /**
  * @def MUTINY_USE_STD_CPP_LIB
  * @brief Enable use of the C++ standard library.
@@ -51,10 +50,12 @@
  * bare-metal or other constrained environments where the C++ standard
  * library is unavailable. Defaults to 1.
  */
+#ifdef DOXYGEN_DOCUMENTATION_BUILD
+#define MUTINY_USE_STD_CPP_LIB 0
+#elif !defined(MUTINY_USE_STD_CPP_LIB)
 #define MUTINY_USE_STD_CPP_LIB 1
 #endif
 
-#ifndef MUTINY_USE_STD_STRING
 /**
  * @def MUTINY_USE_STD_STRING
  * @brief Use `std::string` as @ref mu::tiny::String instead of the built-in
@@ -64,6 +65,7 @@
  * and the custom class body in @ref String.hpp is omitted entirely.
  * Requires @ref MUTINY_USE_STD_CPP_LIB.
  */
+#ifndef MUTINY_USE_STD_STRING
 #define MUTINY_USE_STD_STRING MUTINY_USE_STD_CPP_LIB
 #endif
 

@@ -65,6 +65,7 @@ exhale_args = {
         EXTRACT_STATIC       = YES
         ENABLE_PREPROCESSING = YES
         MACRO_EXPANSION      = YES
+        INCLUDE_PATH         = ../include
         PREDEFINED           += MUTINY_EXPORT=
         WARN_IF_UNDOCUMENTED = NO
         WARN_AS_ERROR        = YES
