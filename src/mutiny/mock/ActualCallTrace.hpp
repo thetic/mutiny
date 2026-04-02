@@ -84,17 +84,6 @@ public:
   bool return_bool_value_or_default(bool default_value) override;
   bool return_bool_value() override;
 
-  int return_int_value_or_default(int default_value) override;
-  int return_int_value() override;
-
-  unsigned long int return_unsigned_long_int_value() override;
-  unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int
-  ) override;
-
-  long int return_long_int_value() override;
-  long int return_long_int_value_or_default(long int default_value) override;
-
   unsigned long long return_unsigned_long_long_int_value() override;
   unsigned long long return_unsigned_long_long_int_value_or_default(
       unsigned long long default_value
@@ -103,11 +92,6 @@ public:
   long long return_long_long_int_value() override;
   long long return_long_long_int_value_or_default(
       long long default_value
-  ) override;
-
-  unsigned int return_unsigned_int_value() override;
-  unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value
   ) override;
 
   const char* return_string_value_or_default(

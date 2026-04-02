@@ -222,28 +222,6 @@ NamedValue ActualCallTrace::return_value()
   return NamedValue("");
 }
 
-long int ActualCallTrace::return_long_int_value()
-{
-  return 0;
-}
-
-unsigned long int ActualCallTrace::return_unsigned_long_int_value()
-{
-  return 0;
-}
-
-unsigned long int ActualCallTrace::return_unsigned_long_int_value_or_default(
-    unsigned long
-)
-{
-  return 0;
-}
-
-long int ActualCallTrace::return_long_int_value_or_default(long int)
-{
-  return 0;
-}
-
 long long ActualCallTrace::return_long_long_int_value()
 {
   return 0;
@@ -275,11 +253,6 @@ bool ActualCallTrace::return_bool_value_or_default(bool)
   return false;
 }
 
-int ActualCallTrace::return_int_value()
-{
-  return 0;
-}
-
 double ActualCallTrace::return_double_value()
 {
   return 0.0;
@@ -288,11 +261,6 @@ double ActualCallTrace::return_double_value()
 double ActualCallTrace::return_double_value_or_default(double)
 {
   return return_double_value();
-}
-
-unsigned int ActualCallTrace::return_unsigned_int_value()
-{
-  return 0;
 }
 
 void* ActualCallTrace::return_pointer_value()
@@ -335,16 +303,6 @@ const char* ActualCallTrace::return_string_value()
 const char* ActualCallTrace::return_string_value_or_default(const char*)
 {
   return return_string_value();
-}
-
-int ActualCallTrace::return_int_value_or_default(int)
-{
-  return 0;
-}
-
-unsigned int ActualCallTrace::return_unsigned_int_value_or_default(unsigned int)
-{
-  return return_unsigned_int_value();
 }
 
 ActualCall& ActualCallTrace::on_object(const void* object_ptr)

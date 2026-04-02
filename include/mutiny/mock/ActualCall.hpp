@@ -30,11 +30,15 @@ namespace detail {
  * @c T(-1) wraps around to the maximum value for unsigned types, which is
  * always greater than @c T(0). For signed types, @c T(-1) equals @c -1,
  * which is less than @c T(0). The check works for all integer types in
- * C++11 without requiring @c <type_traits>.
+ * C++11 without requiring @c \<type_traits\>.
  */
 template<typename T>
-struct IsUnsignedInteger {
-  enum { value = (T(-1) > T(0)) ? 1 : 0 };
+struct IsUnsignedInteger
+{
+  enum
+  {
+    value = (T(-1) > T(0)) ? 1 : 0
+  };
 };
 
 } // namespace detail
@@ -305,34 +309,6 @@ public:
   /** @return The configured bool return value. */
   virtual bool return_bool_value() = 0;
 
-  /**
-   * @return The configured int return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual int return_int_value_or_default(int default_value) = 0;
-  /** @return The configured int return value. */
-  virtual int return_int_value() = 0;
-
-  /** @return The configured unsigned long int return value. */
-  virtual unsigned long int return_unsigned_long_int_value() = 0;
-  /**
-   * @return The configured unsigned long int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int default_value
-  ) = 0;
-
-  /** @return The configured long int return value. */
-  virtual long int return_long_int_value() = 0;
-  /**
-   * @return The configured long int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual long int return_long_int_value_or_default(long int default_value) = 0;
-
   /** @return The configured unsigned long long int return value. */
   virtual unsigned long long return_unsigned_long_long_int_value() = 0;
   /**
@@ -352,17 +328,6 @@ public:
    */
   virtual long long return_long_long_int_value_or_default(
       long long default_value
-  ) = 0;
-
-  /** @return The configured unsigned int return value. */
-  virtual unsigned int return_unsigned_int_value() = 0;
-  /**
-   * @return The configured unsigned int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value
   ) = 0;
 
   /**
@@ -424,8 +389,9 @@ public:
    * Dispatches to @c return_unsigned_long_long_int_value() for unsigned types
    * and @c return_long_long_int_value() for signed types, then casts to @p T.
    * The wide getters accept all narrower storage widths, making this method
-   * portable for fixed-width types (@c uint8_t–@c uint64_t, @c int8_t–@c int64_t,
-   * @c size_t, @c ptrdiff_t, @c uintptr_t, @c intptr_t, etc.) regardless of
+   * portable for fixed-width types (@c uint8_t, @c uint64_t, @c int8_t,
+   * @c int64_t, @c size_t, @c ptrdiff_t, @c uintptr_t, @c intptr_t, etc.)
+   * regardless of
    * the underlying fundamental type chosen by the platform.
    *
    * @tparam T  Target integral type.

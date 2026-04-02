@@ -966,7 +966,7 @@ int return_bool_value_or_default(int default_value)
 
 int int_return_value()
 {
-  return current_actual_call->return_int_value();
+  return current_actual_call->return_value_as<int>();
 }
 
 int return_int_value_or_default(int default_value)
@@ -979,7 +979,7 @@ int return_int_value_or_default(int default_value)
 
 unsigned int unsigned_int_return_value()
 {
-  return current_actual_call->return_unsigned_int_value();
+  return current_actual_call->return_value_as<unsigned int>();
 }
 
 unsigned int return_unsigned_int_value_or_default(unsigned int default_value)
@@ -992,7 +992,7 @@ unsigned int return_unsigned_int_value_or_default(unsigned int default_value)
 
 long int long_int_return_value()
 {
-  return current_actual_call->return_long_int_value();
+  return current_actual_call->return_value_as<long int>();
 }
 
 long int return_long_int_value_or_default(long int default_value)
@@ -1005,7 +1005,7 @@ long int return_long_int_value_or_default(long int default_value)
 
 unsigned long int unsigned_long_int_return_value()
 {
-  return current_actual_call->return_unsigned_long_int_value();
+  return current_actual_call->return_value_as<unsigned long int>();
 }
 
 unsigned long int return_unsigned_long_int_value_or_default(

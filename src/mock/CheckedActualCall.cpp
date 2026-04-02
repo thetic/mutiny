@@ -507,49 +507,6 @@ bool CheckedActualCall::return_bool_value()
   return return_value().get_bool_value();
 }
 
-int CheckedActualCall::return_int_value_or_default(int default_value)
-{
-  if (!has_return_value()) {
-    return default_value;
-  }
-  return return_int_value();
-}
-
-int CheckedActualCall::return_int_value()
-{
-  return return_value().get_int_value();
-}
-
-unsigned long int CheckedActualCall::return_unsigned_long_int_value()
-{
-  return return_value().get_unsigned_long_int_value();
-}
-
-unsigned long int CheckedActualCall::return_unsigned_long_int_value_or_default(
-    unsigned long int default_value
-)
-{
-  if (!has_return_value()) {
-    return default_value;
-  }
-  return return_unsigned_long_int_value();
-}
-
-long int CheckedActualCall::return_long_int_value()
-{
-  return return_value().get_long_int_value();
-}
-
-long int CheckedActualCall::return_long_int_value_or_default(
-    long int default_value
-)
-{
-  if (!has_return_value()) {
-    return default_value;
-  }
-  return return_long_int_value();
-}
-
 unsigned long long CheckedActualCall::return_unsigned_long_long_int_value()
 {
   return return_value().get_unsigned_long_long_int_value();
@@ -592,21 +549,6 @@ double CheckedActualCall::return_double_value_or_default(double default_value)
     return default_value;
   }
   return return_double_value();
-}
-
-unsigned int CheckedActualCall::return_unsigned_int_value()
-{
-  return return_value().get_unsigned_int_value();
-}
-
-unsigned int CheckedActualCall::return_unsigned_int_value_or_default(
-    unsigned int default_value
-)
-{
-  if (!has_return_value()) {
-    return default_value;
-  }
-  return return_unsigned_int_value();
 }
 
 void* CheckedActualCall::return_pointer_value_or_default(void* default_value)

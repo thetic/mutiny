@@ -117,23 +117,6 @@ public:
   bool return_bool_value_or_default(bool value) override { return value; }
   bool return_bool_value() override { return false; }
 
-  int return_int_value() override { return 0; }
-  int return_int_value_or_default(int value) override { return value; }
-
-  unsigned long int return_unsigned_long_int_value() override { return 0; }
-  unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int value
-  ) override
-  {
-    return value;
-  }
-
-  long int return_long_int_value() override { return 0; }
-  long int return_long_int_value_or_default(long int value) override
-  {
-    return value;
-  }
-
   unsigned long long return_unsigned_long_long_int_value() override
   {
     return 0;
@@ -149,12 +132,6 @@ public:
   long long return_long_long_int_value() override { return 0; }
 
   long long return_long_long_int_value_or_default(long long value) override
-  {
-    return value;
-  }
-
-  unsigned int return_unsigned_int_value() override { return 0; }
-  unsigned int return_unsigned_int_value_or_default(unsigned int value) override
   {
     return value;
   }

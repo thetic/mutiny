@@ -147,24 +147,31 @@ Retrieve the return value in your mock stub with the typed accessors on
 
 .. code-block:: cpp
 
-   // In the mock stub:
+   // In the mock stub — use the template for any integral type:
    return mock().actual_call("compute")
                 .with_parameter("x", x)
-                .return_int_value();
+                .return_value_as<int>();
 
    // Or with a default if no expectation was set:
    return mock().actual_call("compute")
                 .with_parameter("x", x)
-                .return_int_value_or_default(0);
+                .return_value_as_or_default(0);
 
-Available typed getters on :cpp:class:`ActualCall <mu::tiny::mock::ActualCall>`:
+For **integral types** use the template accessors on
+:cpp:class:`ActualCall <mu::tiny::mock::ActualCall>`:
+
+* ``return_value_as<T>()`` — returns the configured value cast to ``T``.
+* ``return_value_as_or_default<T>(default_value)`` — returns the default when no return value was configured.
+
+``T`` may be any integral type: ``int``, ``unsigned int``, ``long int``,
+``unsigned long int``, ``long long``, ``unsigned long long``, or any
+fixed-width alias (``uint8_t``–``uint64_t``, ``size_t``, ``ptrdiff_t``,
+``uintptr_t``, etc.).  The template dispatches through the widest getter so
+the correct value is retrieved regardless of the underlying fundamental type
+chosen by the platform.
+
+For **non-integral types**, use the specific typed getters:
 :cpp:func:`return_bool_value() <mu::tiny::mock::ActualCall::return_bool_value>`,
-:cpp:func:`return_int_value() <mu::tiny::mock::ActualCall::return_int_value>`,
-:cpp:func:`return_unsigned_int_value() <mu::tiny::mock::ActualCall::return_unsigned_int_value>`,
-:cpp:func:`return_long_int_value() <mu::tiny::mock::ActualCall::return_long_int_value>`,
-:cpp:func:`return_unsigned_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_int_value>`,
-:cpp:func:`return_long_long_int_value() <mu::tiny::mock::ActualCall::return_long_long_int_value>`,
-:cpp:func:`return_unsigned_long_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_long_int_value>`,
 :cpp:func:`return_double_value() <mu::tiny::mock::ActualCall::return_double_value>`,
 :cpp:func:`return_string_value() <mu::tiny::mock::ActualCall::return_string_value>`,
 :cpp:func:`return_pointer_value() <mu::tiny::mock::ActualCall::return_pointer_value>`,

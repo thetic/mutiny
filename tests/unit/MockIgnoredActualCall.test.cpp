@@ -98,18 +98,27 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
   ignored.return_value();
   CHECK(!ignored.return_bool_value());
   CHECK(ignored.return_bool_value_or_default(true));
-  CHECK_EQUAL(0, ignored.return_int_value());
-  CHECK_EQUAL(1, ignored.return_int_value_or_default(1));
-  CHECK_EQUAL(0U, ignored.return_unsigned_int_value());
-  CHECK_EQUAL(1U, ignored.return_unsigned_int_value_or_default(1));
-  CHECK_EQUAL(0L, ignored.return_long_int_value());
-  CHECK_EQUAL(1L, ignored.return_long_int_value_or_default(1));
-  CHECK_EQUAL(0UL, ignored.return_unsigned_long_int_value());
-  CHECK_EQUAL(1UL, ignored.return_unsigned_long_int_value_or_default(1));
-  CHECK_EQUAL(0LL, ignored.return_long_long_int_value());
-  CHECK_EQUAL(1LL, ignored.return_long_long_int_value_or_default(1));
-  CHECK_EQUAL(0ULL, ignored.return_unsigned_long_long_int_value());
-  CHECK_EQUAL(1ULL, ignored.return_unsigned_long_long_int_value_or_default(1));
+  CHECK_EQUAL(0, ignored.return_value_as<int>());
+  CHECK_EQUAL(1, ignored.return_value_as_or_default(1));
+  CHECK_EQUAL(0U, ignored.return_value_as<unsigned int>());
+  CHECK_EQUAL(1U, ignored.return_value_as_or_default(1U));
+  CHECK_EQUAL(0L, ignored.return_value_as<long int>());
+  CHECK_EQUAL(1L, ignored.return_value_as_or_default(1L));
+  CHECK_EQUAL(0UL, ignored.return_value_as<unsigned long int>());
+  CHECK_EQUAL(1UL, ignored.return_value_as_or_default(1UL));
+  CHECK_EQUAL(static_cast<long long>(0), ignored.return_long_long_int_value());
+  CHECK_EQUAL(
+      static_cast<long long>(1),
+      ignored.return_long_long_int_value_or_default(1)
+  );
+  CHECK_EQUAL(
+      static_cast<unsigned long long>(0),
+      ignored.return_unsigned_long_long_int_value()
+  );
+  CHECK_EQUAL(
+      static_cast<unsigned long long>(1),
+      ignored.return_unsigned_long_long_int_value_or_default(1)
+  );
   CHECK_APPROX(0.0, ignored.return_double_value(), 0.001);
   CHECK_APPROX(1.1, ignored.return_double_value_or_default(1.1), 0.001);
   STRCMP_EQUAL("", ignored.return_string_value());
