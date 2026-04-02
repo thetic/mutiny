@@ -1,6 +1,8 @@
 #include "mutiny/mock.hpp"
 #include "mutiny/test.hpp"
 
+#include <stdint.h>
+
 using mu::tiny::mock::mock;
 
 TEST_GROUP(MockReturnValue)
@@ -1248,4 +1250,69 @@ TEST(MockReturnValue, whenCallingDisabledOrIgnoredActualCallsThenTheyDontReturnP
   mock().actual_call("An Ignored Call");
 
   CHECK(!mock().has_return_value());
+}
+
+// --- return_value_as<T>() portability tests ---
+// Fixed-width types (uint8_t..uint64_t, size_t, ptrdiff_t, etc.) are typedefs
+// for platform-specific fundamental types.  On LP64 (Linux 64-bit) uint64_t
+// is unsigned long; on LLP64 (Windows 64-bit) it is unsigned long long.
+// return_value_as<T>() dispatches to the widest compatible getter so callers
+// need not know which fundamental type the platform chose.
+
+TEST(MockReturnValue, ReturnValueAsUnsignedLongLongFromUnsignedLongStorage)
+{
+  // Simulates LP64: and_return_value(unsigned long) stores "unsigned long int".
+  // return_value_as<unsigned long long>() must still retrieve the value.
+  mock().expect_one_call("foo").and_return_value(42UL);
+  LONGS_EQUAL(42, mock().actual_call("foo").return_value_as<unsigned long long>());
+}
+
+TEST(MockReturnValue, ReturnValueAsUnsignedLongLongFromUnsignedLongLongStorage)
+{
+  // Simulates LLP64: and_return_value(unsigned long long) stores
+  // "unsigned long long int". return_value_as<unsigned long long>() retrieves it.
+  mock().expect_one_call("foo").and_return_value(42ULL);
+  LONGS_EQUAL(42, mock().actual_call("foo").return_value_as<unsigned long long>());
+}
+
+TEST(MockReturnValue, ReturnValueAsUint64)
+{
+  // Portable use of uint64_t as a return type regardless of whether the
+  // platform defines it as unsigned long or unsigned long long.
+  mock().expect_one_call("foo").and_return_value(UINT64_C(0xDEADBEEF));
+  LONGS_EQUAL(
+      UINT64_C(0xDEADBEEF),
+      mock().actual_call("foo").return_value_as<uint64_t>()
+  );
+}
+
+TEST(MockReturnValue, ReturnValueAsSizeT)
+{
+  size_t expected = 1024;
+  mock().expect_one_call("foo").and_return_value(expected);
+  LONGS_EQUAL(expected, mock().actual_call("foo").return_value_as<size_t>());
+}
+
+TEST(MockReturnValue, ReturnValueAsInt64FromLongLongStorage)
+{
+  mock().expect_one_call("foo").and_return_value(INT64_C(-1));
+  LONGS_EQUAL(INT64_C(-1), mock().actual_call("foo").return_value_as<int64_t>());
+}
+
+TEST(MockReturnValue, ReturnValueAsOrDefaultReturnsDefaultWhenNoValueSet)
+{
+  mock().expect_one_call("foo");
+  LONGS_EQUAL(
+      UINT32_C(99),
+      mock().actual_call("foo").return_value_as_or_default<uint32_t>(UINT32_C(99))
+  );
+}
+
+TEST(MockReturnValue, ReturnValueAsOrDefaultIgnoresDefaultWhenValueSet)
+{
+  mock().expect_one_call("foo").and_return_value(UINT32_C(7));
+  LONGS_EQUAL(
+      UINT32_C(7),
+      mock().actual_call("foo").return_value_as_or_default<uint32_t>(UINT32_C(99))
+  );
 }

@@ -22,6 +22,23 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
+namespace detail {
+
+/**
+ * @brief Detects whether @p T behaves as an unsigned integer type.
+ *
+ * @c T(-1) wraps around to the maximum value for unsigned types, which is
+ * always greater than @c T(0). For signed types, @c T(-1) equals @c -1,
+ * which is less than @c T(0). The check works for all integer types in
+ * C++11 without requiring @c <type_traits>.
+ */
+template<typename T>
+struct IsUnsignedInteger {
+  enum { value = (T(-1) > T(0)) ? 1 : 0 };
+};
+
+} // namespace detail
+
 class FailureReporter;
 
 /**
@@ -400,6 +417,49 @@ public:
   virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
       void (*default_value)()
   ) = 0;
+
+  /**
+   * @brief Return the configured value as any integral type @p T.
+   *
+   * Dispatches to @c return_unsigned_long_long_int_value() for unsigned types
+   * and @c return_long_long_int_value() for signed types, then casts to @p T.
+   * The wide getters accept all narrower storage widths, making this method
+   * portable for fixed-width types (@c uint8_t–@c uint64_t, @c int8_t–@c int64_t,
+   * @c size_t, @c ptrdiff_t, @c uintptr_t, @c intptr_t, etc.) regardless of
+   * the underlying fundamental type chosen by the platform.
+   *
+   * @tparam T  Target integral type.
+   * @return The configured return value cast to @c T.
+   */
+  template<typename T>
+  T return_value_as()
+  {
+    if (detail::IsUnsignedInteger<T>::value) {
+      return static_cast<T>(return_unsigned_long_long_int_value());
+    }
+    return static_cast<T>(return_long_long_int_value());
+  }
+
+  /**
+   * @brief Return the configured value as @p T, or @p default_value if none
+   * is set.
+   *
+   * @tparam T             Target integral type.
+   * @param default_value  Fallback value.
+   * @return The configured return value cast to @c T, or @p default_value.
+   */
+  template<typename T>
+  T return_value_as_or_default(T default_value)
+  {
+    if (detail::IsUnsignedInteger<T>::value) {
+      return static_cast<T>(return_unsigned_long_long_int_value_or_default(
+          static_cast<unsigned long long>(default_value)
+      ));
+    }
+    return static_cast<T>(return_long_long_int_value_or_default(
+        static_cast<long long>(default_value)
+    ));
+  }
 
   /**
    * @brief Restrict this actual call to a specific object instance.

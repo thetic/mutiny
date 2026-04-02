@@ -28,13 +28,9 @@ void mutiny_all_mock_support_c_calls(void)
       ->with_bool_parameters("bool", 1)
       ->with_unsigned_int_parameters("unsigned", 1)
       ->with_long_int_parameters("long int", (long int)-1)
-      ->with_unsigned_long_int_parameters(
-          "unsigned long int", (unsigned long int)1
-      )
+      ->with_unsigned_long_int_parameters("unsigned long int", 1UL)
       ->with_long_long_int_parameters("long long int", (long long int)-1)
-      ->with_unsigned_long_long_int_parameters(
-          "unsigned long long int", (unsigned long long int)1
-      )
+      ->with_unsigned_long_long_int_parameters("unsigned long long int", 1ULL)
       ->with_double_parameters("double", 1.0)
       ->with_double_parameters_and_tolerance("doubleWithTolerance", 1.0, 1.0)
       ->with_string_parameters("string", "string")
@@ -48,15 +44,11 @@ void mutiny_all_mock_support_c_calls(void)
       ->actual_call("boo")
       ->with_int_parameters("integer", 1)
       ->with_bool_parameters("bool", 1)
-      ->with_unsigned_int_parameters("unsigned", 1)
-      ->with_long_int_parameters("long int", (long int)-1)
-      ->with_unsigned_long_int_parameters(
-          "unsigned long int", (unsigned long int)1
-      )
-      ->with_long_long_int_parameters("long long int", (long long int)-1)
-      ->with_unsigned_long_long_int_parameters(
-          "unsigned long long int", (unsigned long long int)1
-      )
+      ->with_unsigned_int_parameters("unsigned", 1U)
+      ->with_long_int_parameters("long int", -1L)
+      ->with_unsigned_long_int_parameters("unsigned long int", 1UL)
+      ->with_long_long_int_parameters("long long int", -1LL)
+      ->with_unsigned_long_long_int_parameters("unsigned long long int", 1ULL)
       ->with_double_parameters("double", 1.0)
       ->with_double_parameters("doubleWithTolerance", 0.0)
       ->with_string_parameters("string", "string")
