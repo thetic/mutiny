@@ -21,31 +21,25 @@ TEST(IgnoredActualCall, allWithMethodsReturnSelf)
   auto& r04 = ignored.with_bool_parameter("umm", true);
   CHECK_EQUAL(&ignored, &r04);
 
-  auto& r05 = ignored.with_int_parameter("bla", static_cast<int>(1));
+  auto& r05 = ignored.with_int_parameter("bla", 1);
   CHECK_EQUAL(&ignored, &r05);
 
-  auto& r06 =
-      ignored.with_unsigned_int_parameter("foo", static_cast<unsigned int>(1));
+  auto& r06 = ignored.with_unsigned_int_parameter("foo", 1U);
   CHECK_EQUAL(&ignored, &r06);
 
-  auto& r07 = ignored.with_long_int_parameter("hey", static_cast<long int>(1));
+  auto& r07 = ignored.with_long_int_parameter("hey", 1L);
   CHECK_EQUAL(&ignored, &r07);
 
-  auto& r08 = ignored.with_unsigned_long_int_parameter(
-      "bah", static_cast<unsigned long int>(1)
-  );
+  auto& r08 = ignored.with_unsigned_long_int_parameter("bah", 1UL);
   CHECK_EQUAL(&ignored, &r08);
 
-  auto& r09 =
-      ignored.with_long_long_int_parameter("yo", static_cast<long long>(1));
+  auto& r09 = ignored.with_long_long_int_parameter("yo", 1LL);
   CHECK_EQUAL(&ignored, &r09);
 
-  auto& r10 = ignored.with_unsigned_long_long_int_parameter(
-      "grr", static_cast<unsigned long long>(1)
-  );
+  auto& r10 = ignored.with_unsigned_long_long_int_parameter("grr", 1ULL);
   CHECK_EQUAL(&ignored, &r10);
 
-  auto& r11 = ignored.with_double_parameter("hah", static_cast<double>(1.1));
+  auto& r11 = ignored.with_double_parameter("hah", 1.1);
   CHECK_EQUAL(&ignored, &r11);
 
   auto& r12 = ignored.with_string_parameter("goo", "hello");
@@ -106,38 +100,16 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
   CHECK(ignored.return_bool_value_or_default(true));
   CHECK_EQUAL(0, ignored.return_int_value());
   CHECK_EQUAL(1, ignored.return_int_value_or_default(1));
-  CHECK_EQUAL(
-      static_cast<unsigned int>(0), ignored.return_unsigned_int_value()
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned int>(1),
-      ignored.return_unsigned_int_value_or_default(1)
-  );
-  CHECK_EQUAL(static_cast<long int>(0), ignored.return_long_int_value());
-  CHECK_EQUAL(
-      static_cast<long int>(1), ignored.return_long_int_value_or_default(1)
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long int>(0),
-      ignored.return_unsigned_long_int_value()
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long int>(1),
-      ignored.return_unsigned_long_int_value_or_default(1)
-  );
-  CHECK_EQUAL(static_cast<long long>(0), ignored.return_long_long_int_value());
-  CHECK_EQUAL(
-      static_cast<long long>(1),
-      ignored.return_long_long_int_value_or_default(1)
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long long>(0),
-      ignored.return_unsigned_long_long_int_value()
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long long>(1),
-      ignored.return_unsigned_long_long_int_value_or_default(1)
-  );
+  CHECK_EQUAL(0U, ignored.return_unsigned_int_value());
+  CHECK_EQUAL(1U, ignored.return_unsigned_int_value_or_default(1));
+  CHECK_EQUAL(0L, ignored.return_long_int_value());
+  CHECK_EQUAL(1L, ignored.return_long_int_value_or_default(1));
+  CHECK_EQUAL(0UL, ignored.return_unsigned_long_int_value());
+  CHECK_EQUAL(1UL, ignored.return_unsigned_long_int_value_or_default(1));
+  CHECK_EQUAL(0LL, ignored.return_long_long_int_value());
+  CHECK_EQUAL(1LL, ignored.return_long_long_int_value_or_default(1));
+  CHECK_EQUAL(0ULL, ignored.return_unsigned_long_long_int_value());
+  CHECK_EQUAL(1ULL, ignored.return_unsigned_long_long_int_value_or_default(1));
   CHECK_APPROX(0.0, ignored.return_double_value(), 0.001);
   CHECK_APPROX(1.1, ignored.return_double_value_or_default(1.1), 0.001);
   STRCMP_EQUAL("", ignored.return_string_value());

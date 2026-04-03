@@ -59,265 +59,165 @@ TEST(MockParameter, expectOneLongLongIntegerParameterAndValue)
 
 TEST(MockParameter, mismatchedIntegerTypesIntAndLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1);
+  mock().actual_call("foo").with_parameter("parameter", 1L);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1L);
+  mock().actual_call("foo").with_parameter("parameter", 1);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1);
+  mock().actual_call("foo").with_parameter("parameter", 1U);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1U);
+  mock().actual_call("foo").with_parameter("parameter", 1);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1);
+  mock().actual_call("foo").with_parameter("parameter", 1UL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1UL);
+  mock().actual_call("foo").with_parameter("parameter", 1);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1U);
+  mock().actual_call("foo").with_parameter("parameter", 1L);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1L);
+  mock().actual_call("foo").with_parameter("parameter", 1U);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndUnsignedLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1U);
+  mock().actual_call("foo").with_parameter("parameter", 1UL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1UL);
+  mock().actual_call("foo").with_parameter("parameter", 1U);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1L);
+  mock().actual_call("foo").with_parameter("parameter", 1UL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1UL);
+  mock().actual_call("foo").with_parameter("parameter", 1L);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesIntAndLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1);
+  mock().actual_call("foo").with_parameter("parameter", 1LL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1LL);
+  mock().actual_call("foo").with_parameter("parameter", 1);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesIntAndUnsignedLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<int>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1);
+  mock().actual_call("foo").with_parameter("parameter", 1ULL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<int>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1ULL);
+  mock().actual_call("foo").with_parameter("parameter", 1);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1U);
+  mock().actual_call("foo").with_parameter("parameter", 1LL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1LL);
+  mock().actual_call("foo").with_parameter("parameter", 1U);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedAndUnsignedLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1U);
+  mock().actual_call("foo").with_parameter("parameter", 1ULL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1ULL);
+  mock().actual_call("foo").with_parameter("parameter", 1U);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedLongAndUnsignedLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1UL);
+  mock().actual_call("foo").with_parameter("parameter", 1ULL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1ULL);
+  mock().actual_call("foo").with_parameter("parameter", 1UL);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesLongAndLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1L);
+  mock().actual_call("foo").with_parameter("parameter", 1LL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1LL);
+  mock().actual_call("foo").with_parameter("parameter", 1L);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesLongAndUnsignedLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1L);
+  mock().actual_call("foo").with_parameter("parameter", 1ULL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(1));
+  mock().expect_one_call("foo").with_parameter("parameter", 1ULL);
+  mock().actual_call("foo").with_parameter("parameter", 1L);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesUnsignedLongAndLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1UL);
+  mock().actual_call("foo").with_parameter("parameter", 1LL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1LL);
+  mock().actual_call("foo").with_parameter("parameter", 1UL);
 
   mock().check_expectations();
 }
 
 TEST(MockParameter, mismatchedIntegerTypesLongLongAndUnsignedLongLongAreAllowed)
 {
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1LL);
+  mock().actual_call("foo").with_parameter("parameter", 1ULL);
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<unsigned long long>(1)
-  );
-  mock().actual_call("foo").with_parameter(
-      "parameter", static_cast<long long>(1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", 1ULL);
+  mock().actual_call("foo").with_parameter("parameter", 1LL);
 
   mock().check_expectations();
 }
@@ -326,9 +226,7 @@ TEST(MockParameter, longAndUnsignedLongWithSameBitRepresentationShouldNotBeTreat
 {
   FailureReporterInstaller failure_reporter_installer;
 
-  mock().expect_one_call("foo").with_parameter(
-      "parameter", static_cast<long>(-1)
-  );
+  mock().expect_one_call("foo").with_parameter("parameter", -1L);
   mock().actual_call("foo").with_parameter(
       "parameter", static_cast<unsigned long>(-1)
   );
@@ -343,7 +241,7 @@ TEST(MockParameter, unsignedLongAndLongWithSameBitRepresentationShouldnotBeTreat
   mock().expect_one_call("foo").with_parameter(
       "parameter", static_cast<unsigned long>(-1)
   );
-  mock().actual_call("foo").with_parameter("parameter", static_cast<long>(-1));
+  mock().actual_call("foo").with_parameter("parameter", -1L);
 
   STRCMP_CONTAINS("foo", mock_failure_string().c_str());
 }
