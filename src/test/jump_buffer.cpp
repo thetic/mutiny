@@ -11,7 +11,7 @@ jmp_buf mutiny_jmp_buf[10];
 int mutiny_jmp_buf_depth = 0;
 } // namespace
 
-bool set_jump(void (*volatile function)(void*), void* volatile data)
+bool set_jump(void (*function)(void*), void* data)
 {
 #ifdef _MSC_VER
 #pragma warning(push)

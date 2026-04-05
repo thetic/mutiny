@@ -79,9 +79,11 @@
         "CMAKE_SYSTEM_NAME": "Generic",
         "CMAKE_SYSTEM_PROCESSOR": "cortex-m4",
         "CMAKE_C_COMPILER": "arm-none-eabi-gcc",
+        "CMAKE_CXX_COMPILER": "arm-none-eabi-g++",
         "CMAKE_C_FLAGS_INIT": "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
         "CMAKE_CXX_FLAGS_INIT": "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard",
         "CMAKE_EXE_LINKER_FLAGS_INIT": "-specs=rdimon.specs",
+        "CMAKE_TRY_COMPILE_TARGET_TYPE": "STATIC_LIBRARY",
         "CMAKE_CROSSCOMPILING_EMULATOR": "docker;run;--rm;-v=${sourceDir}:${sourceDir};multiarch/qemu-user-static:arm-7.1.0-2;qemu-arm-static;-cpu;cortex-m4"
       }
     },
@@ -161,15 +163,16 @@
     {
       "name": "base",
       "hidden": true,
-      "jobs": 0
+      "jobs": 0,
+      "targets": ["all", "all_verify_interface_header_sets"]
     },
     { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
     { "name": "shared",        "inherits": "base", "configurePreset": "shared" },
     { "name": "GNU",           "inherits": "base", "configurePreset": "GNU" },
     { "name": "Clang",         "inherits": "base", "configurePreset": "Clang" },
     { "name": "clang-tidy",    "inherits": "base", "configurePreset": "clang-tidy" },
-    { "name": "MSVC",          "inherits": "base", "configurePreset": "MSVC",          "configuration": "Debug" },
-    { "name": "ClangCL",       "inherits": "base", "configurePreset": "ClangCL",       "configuration": "Debug" },
+    { "name": "MSVC",          "inherits": "base", "configurePreset": "MSVC",          "configuration": "Debug", "targets": ["ALL_BUILD", "all_verify_interface_header_sets"] },
+    { "name": "ClangCL",       "inherits": "base", "configurePreset": "ClangCL",       "configuration": "Debug", "targets": ["ALL_BUILD", "all_verify_interface_header_sets"] },
     { "name": "MinGW",         "inherits": "base", "configurePreset": "MinGW" },
     { "name": "arm-embedded",  "inherits": "base", "configurePreset": "arm-embedded" },
     { "name": "coverage",      "inherits": "base", "configurePreset": "coverage" },
@@ -178,13 +181,7 @@
     { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
     { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
     { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
-    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" },
-    {
-      "name": "verify-headers",
-      "inherits": "base",
-      "configurePreset": "GNU",
-      "targets": ["all_verify_interface_header_sets"]
-    }
+    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
   "testPresets": [
     {
@@ -324,13 +321,6 @@
         { "type": "configure", "name": "detailed" },
         { "type": "build",     "name": "detailed" },
         { "type": "test",      "name": "detailed" }
-      ]
-    },
-    {
-      "name": "verify-headers",
-      "steps": [
-        { "type": "configure", "name": "GNU" },
-        { "type": "build", "name": "verify-headers" }
       ]
     },
     {

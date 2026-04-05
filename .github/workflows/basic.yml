@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: jidicula/clang-format-action@v4.17.0
         with:
-          clang-format-version: '21'
+          clang-format-version: '22'
           check-path: '.'
 
   abi_check:
@@ -27,16 +27,16 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Install Libabigail
-        run: sudo apt-get update && sudo apt-get install -y libabigail-tools
+        run: sudo apt-get update && sudo apt-get install -y abigail-tools
 
       - name: Checkout Base Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.base_ref }}
           path: baseline
 
       - name: Configure Baseline Build
-        run: cmake --preset shared baseline
+        run: cmake --preset shared
         working-directory: baseline
 
       - name: Build Baseline Library
@@ -44,12 +44,12 @@ jobs:
         working-directory: baseline
 
       - name: Checkout Current Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: current
 
       - name: Configure Current Build
-        run: cmake --preset shared current
+        run: cmake --preset shared
         working-directory: current
 
       - name: Build Current Library
@@ -66,7 +66,7 @@ jobs:
             current/build/shared/libmutiny.so
 
 
-  cmake:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -185,7 +185,7 @@ jobs:
             os: macos-latest
             cmake_args: -DCMAKE_CXX_STANDARD=14
             preset: GNU
-    name: CMake ${{ matrix.name }}
+    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     env:
       CMAKE_C_COMPILER_LAUNCHER: ccache
@@ -199,7 +199,7 @@ jobs:
           sudo apt-get install -y ${{ matrix.apt_packages }}
         if: ${{ matrix.apt_packages }}
 
-      - uses: hendrikmuhs/ccache-action@v1.2
+      - uses: hendrikmuhs/ccache-action@v1.2.22
         with:
           key: ${{ matrix.name }}
           variant: ccache
@@ -208,7 +208,7 @@ jobs:
         if: ${{ matrix.name == 'GCC ARM embedded' }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       ## BUILD AND TEST
 
@@ -239,7 +239,6 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           path-to-lcov: build/coverage/coverage.lcov
-          github-token: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ matrix.name == 'Coverage' }}
 
   test_report:
@@ -250,31 +249,21 @@ jobs:
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: hendrikmuhs/ccache-action@v1.2
+        uses: actions/checkout@v6
+      - uses: hendrikmuhs/ccache-action@v1.2.22
         with:
           variant: ccache
-      - run: cmake --preset=defaults -DCPPUTEST_JUNIT_REPORT=TRUE
+      - run: cmake --preset=defaults -DMUTINY_JUNIT_REPORT=TRUE
       - run: cmake --build --preset defaults
       - run: ctest --preset defaults
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
           name: test-results
-          path: "build/defaults/**/cpputest_*.xml"
-
-  verify_headers:
-    name: Verify Interface Header Sets
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure
-        run: cmake --preset GNU
-      - name: Build
-        run: cmake --build --preset verify-headers
+          path: "build/defaults/**/mutiny_*.xml"
 
   cmake_msys:
-    name: CMake MSYS
+    name: MSYS
     runs-on: windows-latest
     defaults:
       run:
@@ -285,7 +274,7 @@ jobs:
       CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
@@ -297,7 +286,7 @@ jobs:
             mingw-w64-x86_64-make
             mingw-w64-x86_64-ccache
       - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
+        uses: hendrikmuhs/ccache-action@v1.2.22
         with:
           variant: ccache
       - name: Configure
@@ -311,32 +300,31 @@ jobs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
           python-version: "3.14"
       - name: Install Doxygen
-        run: sudo apt-get update && sudo apt-get install -y doxygen
+        uses: ssciwr/doxygen-install@v1
+        with:
+          version: "1.16.1"
       - name: Build documentation
         run: uv run --project docs make -C docs html
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: docs
           path: docs/_build/html
 
-  cmake_cygwin:
-    name: CMake Cygwin
+  cygwin:
+    name: Cygwin
     runs-on: windows-latest
-    env:
-      CMAKE_C_COMPILER_LAUNCHER: ccache
-      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Set line endings
         run: git config --global core.autocrlf input
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Cygwin
         uses: cygwin/cygwin-install-action@v6
         with:
@@ -345,11 +333,6 @@ jobs:
             gcc-core
             gcc-g++
             ninja
-            ccache
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          variant: ccache
       - name: Configure
         run: cmake --preset=GNU -G Ninja
       - name: Build

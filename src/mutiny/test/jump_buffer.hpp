@@ -8,7 +8,7 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-bool set_jump(void (*volatile function)(void*), void* volatile data);
+bool set_jump(void (*function)(void*), void* data);
 
 [[noreturn]] void long_jump(void);
 
