@@ -1,13 +1,13 @@
 Mu::tiny
 ========
 
-*Mu::tiny* is a C/C++ unit testing and mocking framework.
+.. include:: ../README.md
+   :parser: myst_parser.sphinx_
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: User Guide
 
-   getting-started
    test-macros
    assertions
    mocking
@@ -17,13 +17,13 @@ Mu::tiny
    plugins
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: CMake Integration
 
    cmake
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: API Reference
 
    api/library_root
