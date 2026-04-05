@@ -36,7 +36,7 @@ jobs:
           path: baseline
 
       - name: Configure Baseline Build
-        run: cmake --preset shared baseline
+        run: cmake --preset shared
         working-directory: baseline
 
       - name: Build Baseline Library
@@ -49,7 +49,7 @@ jobs:
           path: current
 
       - name: Configure Current Build
-        run: cmake --preset shared current
+        run: cmake --preset shared
         working-directory: current
 
       - name: Build Current Library
