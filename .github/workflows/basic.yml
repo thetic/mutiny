@@ -257,7 +257,7 @@ jobs:
       - run: cmake --preset=defaults -DMUTINY_JUNIT_REPORT=TRUE
       - run: cmake --build --preset defaults
       - run: ctest --preset defaults
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
           name: test-results
@@ -313,7 +313,7 @@ jobs:
           version: "1.16.1"
       - name: Build documentation
         run: uv run --project docs make -C docs html
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: docs
           path: docs/_build/html
