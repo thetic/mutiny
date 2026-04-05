@@ -1,7 +1,7 @@
-mutiny
-======
+Mu::tiny
+========
 
-mutiny is a C/C++ unit testing and mocking framework.
+*Mu::tiny* is a C/C++ unit testing and mocking framework.
 
 .. toctree::
    :maxdepth: 2

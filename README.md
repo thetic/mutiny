@@ -1,11 +1,11 @@
-<img src="docs/_static/logo.png" alt="mutiny" width="300">
+<img src="docs/_static/logo.png" alt="Mu::tiny" width="300">
 
 [![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
 
 ---
 
-mutiny is a C/C++ unit testing and mocking framework suited for embedded and
+*Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded and
 low-resource targets.
 
 ## Quick Start
@@ -44,7 +44,7 @@ Run it:
 
 ## Attribution
 
-mutiny is descended from [CppUTest](https://github.com/cpputest/cpputest),
+*Mu::tiny* is descended from [CppUTest](https://github.com/cpputest/cpputest),
 a unit testing framework originally created by Michael Feathers and maintained
 by the CppUTest community. The test API, assertion macros, mock framework, and
 core architecture are all derived from that project.

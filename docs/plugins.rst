@@ -2,7 +2,7 @@ Plugins
 =======
 
 Plugins let you run code before and after every test, parse custom
-command-line flags, and create additional output formatters. mutiny
+command-line flags, and create additional output formatters. *Mu::tiny*
 ships several built-in plugins; you can also write your own.
 
 :cpp:class:`Plugin <mu::tiny::test::Plugin>` Base Class

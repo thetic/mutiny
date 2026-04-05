@@ -1,7 +1,7 @@
 Testing C Code
 ==============
 
-mutiny supports writing tests in pure C. Because the test runner itself
+*Mu::tiny* supports writing tests in pure C. Because the test runner itself
 is C++, you need two files per test group: a C file containing
 the tests, and a C++ wrapper that registers them with the C++
 runner.
