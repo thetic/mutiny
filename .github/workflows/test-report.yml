@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: dorny/test-reporter@v2
+      - uses: dorny/test-reporter@v3
         with:
           artifact: test-results
           name: JUnit Tests
