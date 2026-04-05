@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
       - uses: jidicula/clang-format-action@v4.17.0
         with:
-          clang-format-version: '21'
+          clang-format-version: '22'
           check-path: '.'
 
   abi_check:
