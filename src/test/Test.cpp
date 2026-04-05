@@ -89,10 +89,10 @@ void Test::run()
 
 void Test::run()
 {
-  if (mutiny_set_jmp(helper_do_test_setup, this)) {
-    mutiny_set_jmp(helper_do_test_body, this);
+  if (set_jump(helper_do_test_setup, this)) {
+    set_jump(helper_do_test_body, this);
   }
-  mutiny_set_jmp(helper_do_test_teardown, this);
+  set_jump(helper_do_test_teardown, this);
 }
 
 #endif
