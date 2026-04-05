@@ -331,9 +331,6 @@ jobs:
   cmake_cygwin:
     name: CMake Cygwin
     runs-on: windows-latest
-    env:
-      CMAKE_C_COMPILER_LAUNCHER: ccache
-      CMAKE_CXX_COMPILER_LAUNCHER: ccache
     steps:
       - name: Set line endings
         run: git config --global core.autocrlf input
@@ -347,11 +344,6 @@ jobs:
             gcc-core
             gcc-g++
             ninja
-            ccache
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          variant: ccache
       - name: Configure
         run: cmake --preset=GNU -G Ninja
       - name: Build
