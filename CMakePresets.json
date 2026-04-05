@@ -162,7 +162,8 @@
     {
       "name": "base",
       "hidden": true,
-      "jobs": 0
+      "jobs": 0,
+      "targets": ["all", "all_verify_interface_header_sets"]
     },
     { "name": "defaults",      "inherits": "base", "configurePreset": "defaults" },
     { "name": "shared",        "inherits": "base", "configurePreset": "shared" },
@@ -179,13 +180,7 @@
     { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
     { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
     { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
-    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" },
-    {
-      "name": "verify-headers",
-      "inherits": "base",
-      "configurePreset": "GNU",
-      "targets": ["all_verify_interface_header_sets"]
-    }
+    { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
   "testPresets": [
     {
@@ -325,13 +320,6 @@
         { "type": "configure", "name": "detailed" },
         { "type": "build",     "name": "detailed" },
         { "type": "test",      "name": "detailed" }
-      ]
-    },
-    {
-      "name": "verify-headers",
-      "steps": [
-        { "type": "configure", "name": "GNU" },
-        { "type": "build", "name": "verify-headers" }
       ]
     },
     {

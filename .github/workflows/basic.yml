@@ -263,16 +263,6 @@ jobs:
           name: test-results
           path: "build/defaults/**/cpputest_*.xml"
 
-  verify_headers:
-    name: Verify Interface Header Sets
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Configure
-        run: cmake --preset GNU
-      - name: Build
-        run: cmake --build --preset verify-headers
-
   cmake_msys:
     name: CMake MSYS
     runs-on: windows-latest
