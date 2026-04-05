@@ -37,7 +37,6 @@ add_executable(mutiny_integration
     TestRegistry.test.cpp
     TestResult.test.cpp
     Shell.test.cpp
-    TestShellCustomBase.test.cpp
     TestShellMacros.test.cpp
     TestShellPointerArray.test.cpp
     TestShellProperty.test.cpp

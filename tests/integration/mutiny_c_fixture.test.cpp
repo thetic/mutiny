@@ -42,12 +42,12 @@ void crash_method()
 TEST_GROUP(MutinyCFixture)
 {
   mu::tiny::test::TestingFixture* fixture;
-  TEST_SETUP()
+  void setup() override
   {
     has_destructor_of_the_destructor_checked_been_called = false;
     fixture = new mu::tiny::test::TestingFixture();
   }
-  TEST_TEARDOWN() { delete fixture; }
+  void teardown() override { delete fixture; }
 };
 
 TEST(MutinyCFixture, checkFail)
