@@ -318,7 +318,9 @@ jobs:
           enable-cache: true
           python-version: "3.14"
       - name: Install Doxygen
-        run: sudo apt-get update && sudo apt-get install -y doxygen
+        uses: ssciwr/doxygen-install@v1
+        with:
+          version: "1.16.1"
       - name: Build documentation
         run: uv run --project docs make -C docs html
       - uses: actions/upload-artifact@v4
