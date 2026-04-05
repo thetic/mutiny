@@ -5,7 +5,7 @@ SetPointerPlugin
 embedded-testing problem: swapping out a function pointer (or any global pointer)
 for a test stub, then automatically restoring it after the test.
 
-Include ``"mutiny/test.hpp"`` — ``SetPointerPlugin`` is included
+Include :ref:`"mutiny/test.hpp" <file_include_mutiny_test.hpp>` — :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is included
 transitively, and the :c:macro:`MUTINY_PTR_SET` macro is available without any
 additional install step.
 
@@ -18,7 +18,7 @@ The Macro
 
 - Saves the current value of ``pointer``.
 - Replaces ``pointer`` with ``replacement``.
-- After the test body (in ``post_test_action``), restores ``pointer``
+- After the test body (in :cpp:func:`post_test_action() <mu::tiny::test::Plugin::post_test_action>`), restores ``pointer``
   to the saved value.
 
 Both ``pointer`` and ``replacement`` must be the same pointer-to-T type.
@@ -79,8 +79,8 @@ Use Cases
 Limit
 -----
 
-``SetPointerPlugin::max_set = 32`` — at most 32 pointers can be saved
-simultaneously per test. Each ``MUTINY_PTR_SET`` call consumes one slot;
+:cpp:member:`SetPointerPlugin::max_set <mu::tiny::test::SetPointerPlugin::max_set>` = 32 — at most 32 pointers can be saved
+simultaneously per test. Each :c:macro:`MUTINY_PTR_SET` call consumes one slot;
 the slots are released at the end of the test.
 
 Exceeding 32 calls in a single test body will crash or corrupt memory.
@@ -90,7 +90,8 @@ How It Works
 ------------
 
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is a
-:cpp:class:`Plugin <mu::tiny::test::Plugin>` with a ``post_test_action``
+:cpp:class:`Plugin <mu::tiny::test::Plugin>` with a
+:cpp:func:`post_test_action() <mu::tiny::test::Plugin::post_test_action>`
 that iterates the saved location/value pairs and writes each original
 value back. The static storage array means no heap allocation is needed,
 which is safe even in environments without ``malloc``.
@@ -104,7 +105,7 @@ Examples
    * - File
      - Demonstrates
    * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
-     - :c:macro:`MUTINY_PTR_SET` swapping a function pointer in ``setup()``
+     - :c:macro:`MUTINY_PTR_SET` swapping a function pointer in :cpp:func:`setup() <mu::tiny::test::Test::setup>`
    * - :source:`hello.test.c <examples/tests/hello.test.c>` +
        :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
      - Function pointer stub pattern in C (manual save/restore instead of

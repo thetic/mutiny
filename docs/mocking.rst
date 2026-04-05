@@ -53,11 +53,11 @@ Expecting Calls
 
    * - Method
      - Description
-   * - ``mock().expect_one_call("func")``
+   * - ``mock().``\ :cpp:func:`expect_one_call("func") <mu::tiny::mock::Support::expect_one_call>`
      - Expect exactly one call to ``"func"``
-   * - ``mock().expect_n_calls(n, "func")``
+   * - ``mock().``\ :cpp:func:`expect_n_calls(n, "func") <mu::tiny::mock::Support::expect_n_calls>`
      - Expect exactly ``n`` calls
-   * - ``mock().expect_no_call("func")``
+   * - ``mock().``\ :cpp:func:`expect_no_call("func") <mu::tiny::mock::Support::expect_no_call>`
      - Expect that ``"func"`` is never called
 
 Parameter Matching

@@ -62,7 +62,7 @@ Plugin flags begin with ``-p``. The plugin must be installed in
 
 .. option:: -pjunit
 
-   Write JUnit XML output files (requires ``JUnitOutputPlugin``).
+   Write JUnit XML output files (requires :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`).
    See :doc:`junit-output`.
 
 Filter Flags

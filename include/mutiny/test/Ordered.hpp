@@ -1,6 +1,3 @@
-#ifndef INCLUDED_MUTINY_TEST_ORDERED_HPP
-#define INCLUDED_MUTINY_TEST_ORDERED_HPP
-
 /**
  * @file
  * @brief Tests with a deterministic execution order based on a numeric level.
@@ -11,6 +8,9 @@
  *
  * @see TEST_ORDERED
  */
+
+#ifndef INCLUDED_MUTINY_TEST_ORDERED_HPP
+#define INCLUDED_MUTINY_TEST_ORDERED_HPP
 
 #include "mutiny/test/Shell.hpp"
 
@@ -128,9 +128,9 @@ private:
  * @brief Define a test that runs at a specific position relative to other
  * ordered tests.
  *
- * Like TEST, but execution is deferred until all unordered tests have run.
- * Among ordered tests, those with a lower @p testLevel run first. Tests with
- * equal levels run in an unspecified order relative to each other.
+ * Like @ref TEST(), but execution is deferred until all unordered tests have
+ * run. Among ordered tests, those with a lower @p testLevel run first. Tests
+ * with equal levels run in an unspecified order relative to each other.
  *
  * @code{.cpp}
  * TEST_ORDERED(Lifecycle, init,    10) { system_init(); }
@@ -138,11 +138,12 @@ private:
  * TEST_ORDERED(Lifecycle, cleanup, 30) { system_cleanup(); }
  * @endcode
  *
- * @param testGroup  Test group (must be declared with TEST_GROUP beforehand).
+ * @param testGroup  Test group (must be declared with @ref TEST_GROUP
+ *                   beforehand).
  * @param testName   Unique test name within the group.
  * @param testLevel  Integer level; lower values run first.
  *
- * @see TEST_ORDERED_C_WRAPPER for bridging C test functions
+ * Use @ref TEST_ORDERED_C_WRAPPER for bridging C test functions.
  */
 #define TEST_ORDERED(testGroup, testName, testLevel)                           \
   /* declarations for compilers */                                             \
@@ -180,13 +181,11 @@ private:
   void TEST_##testGroup##_##testName##_Test::test_body()
 
 /**
- * @brief Bridge a C test function into a TEST_ORDERED.
+ * @brief Bridge a C test function into a @ref TEST_ORDERED.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
  * @param testLevel   Execution level.
- *
- * @see TEST_ORDERED
  */
 #define TEST_ORDERED_C_WRAPPER(group_name, test_name, testLevel)               \
   extern "C" void test_##group_name##_##test_name##_wrapper_c(void);           \

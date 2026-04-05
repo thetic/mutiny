@@ -1,17 +1,18 @@
-#ifndef INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
-#define INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
-
 /**
  * @file
- * @brief Fluent interface returned by Support::actual_call().
+ * @brief Fluent interface returned by @ref
+ * mu::tiny::mock::Support::actual_call().
  *
- * Inside a mock function implementation, call Support::actual_call() and
- * then chain with_parameter() for each argument before querying the return
- * value. The framework matches the actual call against the registered
- * expectations and fails the test if a mismatch is found.
- *
- * @see Support::actual_call(), ExpectedCall
+ * Inside a mock function implementation, call @ref
+ * mu::tiny::mock::Support::actual_call() and then chain @ref
+ * mu::tiny::mock::ActualCall::with_parameter() for each argument before
+ * querying the return value. The framework matches the actual call against the
+ * registered expectations and fails the test if a mismatch is found. See also
+ * @ref mu::tiny::mock::ExpectedCall.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
+#define INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
 
 #include "mutiny/mock/NamedValue.hpp"
 
@@ -143,7 +144,7 @@ public:
   /**
    * @brief Report an object parameter identified by a type name string.
    *
-   * The mock framework uses the installed NamedValueComparator for
+   * The mock framework uses the installed @ref NamedValueComparator for
    * @p type_name to compare against the expectation.
    *
    * @param type_name  Type name, must match the one used in the expectation.
@@ -182,7 +183,7 @@ public:
    * @brief Report an output parameter with a custom object type.
    *
    * @param type_name  Type name; must match the copier installed via
-   * install_copier().
+   * @ref Support::install_copier().
    * @param name       Parameter name.
    * @param output     Pointer to the caller's output buffer.
    * @return *this for chaining.

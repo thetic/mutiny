@@ -1,23 +1,20 @@
-#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOPIER_HPP
-#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOPIER_HPP
-
 /**
  * @file
  * @brief Interface and helpers for copying mock output parameters of custom
  * types.
  *
- * When a mock expectation is set with
- * with_output_parameter_of_type_returning(), the framework needs to copy the
- * configured value into the caller's output buffer. Implement
- * NamedValueCopier for your type and register it with
- * Support::install_copier().
+ * When a mock expectation is set with @ref
+ * mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning(), the
+ * framework needs to copy the configured value into the caller's output
+ * buffer. Implement @ref mu::tiny::mock::NamedValueCopier for your type and
+ * register it with @ref mu::tiny::mock::Support::install_copier().
  *
- * Two concrete implementations are provided:
- * - FunctionCopier wraps a plain function pointer
- * - TypedMockCopier<T> uses T::operator=
- *
- * @see Support::install_copier(), NamedValueComparator
+ * See also @ref mu::tiny::mock::NamedValueComparator for expected-parameter
+ * matching.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUECOPIER_HPP
+#define INCLUDED_MUTINY_MOCK_NAMEDVALUECOPIER_HPP
 
 #include "mutiny/export.h"
 
@@ -29,9 +26,9 @@ namespace mock {
  * @brief Abstract interface for deep-copying a custom mock output-parameter
  * value.
  *
- * Implement copy() to transfer the object at @p in into the buffer at @p out.
- * The copier's lifetime must extend at least as long as the test (or
- * SupportPlugin scope).
+ * Implement @ref copy() to transfer the object at @p in into the buffer at
+ * @p out. The copier's lifetime must extend at least as long as the test (or
+ * @ref SupportPlugin scope).
  */
 class MUTINY_EXPORT NamedValueCopier
 {
@@ -54,15 +51,6 @@ public:
  * @brief NamedValueCopier backed by a plain function pointer.
  *
  * Convenient when you want to keep copy logic in a standalone function.
- *
- * @code{.cpp}
- * void copy_point(void* dst, const void* src) {
- *   *static_cast<Point*>(dst) = *static_cast<const Point*>(src);
- * }
- *
- * FunctionCopier copier(copy_point);
- * mock().install_copier("Point", copier);
- * @endcode
  */
 class MUTINY_EXPORT FunctionCopier : public NamedValueCopier
 {

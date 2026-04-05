@@ -2,11 +2,11 @@ Ordered Tests
 =============
 
 Normally mutiny runs tests in an unspecified order (registration order,
-possibly shuffled with :option:`-s [seed]`). ``OrderedTest`` lets you assign a
+possibly shuffled with :option:`-s [seed]`). :cpp:class:`OrderedTest <mu::tiny::test::OrderedShell>` lets you assign a
 numeric level to selected tests so they run in level order, independent
 of the registration order of all other tests.
 
-Include ``"mutiny/test/Ordered.hpp"``.
+Include :ref:`"mutiny/test/Ordered.hpp" <file_include_mutiny_test_Ordered.hpp>`.
 
 ``TEST_ORDERED(group, name, level)``
 -------------------------------------
@@ -27,7 +27,7 @@ C Wrapper
 
 :c:macro:`TEST_ORDERED_C_WRAPPER(group, name, level) <TEST_ORDERED_C_WRAPPER>` wires a C test function
 into an ordered test. Use it in the ``.test.cpp`` companion file
-alongside ``TEST_C_WRAPPER``:
+alongside :c:macro:`TEST_C_WRAPPER`:
 
 .. code-block:: cpp
 

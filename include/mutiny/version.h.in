@@ -1,9 +1,32 @@
+/**
+ * @file
+ * @brief Version number macros for the mutiny framework.
+ *
+ * This file is a CMake template; the `@...@` placeholders are substituted
+ * at configure time to produce the installed `mutiny/version.h`.
+ */
+
 #ifndef INCLUDED_MUTINY_TEST_VERSION_H
 #define INCLUDED_MUTINY_TEST_VERSION_H
 
+/** @def MUTINY_VERSION_MAJOR
+ * @brief Major version number of the mutiny framework.
+ */
 #define MUTINY_VERSION_MAJOR @PROJECT_VERSION_MAJOR @
+
+/** @def MUTINY_VERSION_MINOR
+ * @brief Minor version number of the mutiny framework.
+ */
 #define MUTINY_VERSION_MINOR @PROJECT_VERSION_MINOR @
+
+/** @def MUTINY_VERSION_PATCH
+ * @brief Patch version number of the mutiny framework.
+ */
 #define MUTINY_VERSION_PATCH @PROJECT_VERSION_PATCH @
+
+/** @def MUTINY_VERSION_STRING
+ * @brief Full version string of the mutiny framework (e.g. `"1.2.3"`).
+ */
 #define MUTINY_VERSION_STRING "@PROJECT_VERSION@"
 
 #endif

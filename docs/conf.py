@@ -1,4 +1,6 @@
+import re
 import textwrap
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 # -- Project information -------------------------------------------------------
@@ -21,6 +23,7 @@ extensions = [
     "myst_parser",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.linkcode",
     "sphinxcontrib.moderncmakedomain",
 ]
 
@@ -44,6 +47,8 @@ exhale_args = {
     # Strip prefix from reported file paths in the API docs.
     "doxygenStripFromPath": "..",
     "createTreeView": False,
+    # Furo does not support .. contents:: directives — suppress them.
+    "contentsDirectives": False,
     # Let Exhale drive Doxygen.
     "exhaleExecutesDoxygen": True,
     # Only specify INPUT and extraction settings — Exhale manages all output
@@ -62,17 +67,14 @@ exhale_args = {
         EXTRACT_STATIC       = YES
         ENABLE_PREPROCESSING = YES
         MACRO_EXPANSION      = YES
-        # Explicitly define capability macros so Doxygen processes the full
-        # API surface without relying on compiler-detection macros
-        # (e.g. __EXCEPTIONS, __GXX_RTTI) that it doesn't have.
-        PREDEFINED           += MUTINY_HAVE_EXCEPTIONS=1 \\
-                                MUTINY_HAVE_RTTI=1 \\
-                                MUTINY_USE_STD_CPP_LIB=1 \\
-                                MUTINY_USE_STD_STRING=0 \\
-                                MUTINY_EXPORT=
+        INCLUDE_PATH         = ../include
+        PREDEFINED           += MUTINY_EXPORT=
         WARN_IF_UNDOCUMENTED = NO
         WARN_AS_ERROR        = YES
         QUIET                = YES
+        # Omit <programlisting> from XML so Exhale skips generating
+        # program_listing_*.rst files; GitHub source links replace them.
+        XML_PROGRAMLISTING   = NO
         """),
 }
 
@@ -113,3 +115,135 @@ pygments_dark_style = "a11y-high-contrast-dark"
 # duplicate c:macro declarations — Sphinx has no cpp:macro domain, so this is a
 # known upstream limitation rather than a documentation error.
 suppress_warnings = ["duplicate_declaration.c"]
+
+# -- sphinx.ext.linkcode ------------------------------------------------------
+
+
+def _build_doxygen_index():
+    """Parse Doxygen XML output into a {id_or_name: (filepath, lineno)} map.
+
+    Keys stored per entry:
+    - compounddef@id   (e.g. classmu_1_1tiny_1_1test_1_1Shell)
+    - compoundname     (e.g. mu::tiny::test::Shell)
+    - memberdef@id     (e.g. classmu_1_1tiny_1_1test_1_1Shell_1a70e3...)
+    - qualifiedname    (e.g. mu::tiny::test::Shell::run)
+    - name             (bare macro name, fallback for C defines)
+
+    Breathe inserts both the Doxygen refid and the Sphinx-style qualified name
+    into signode['ids'], so any of these lookups can match.
+    """
+    xml_dir = Path(__file__).parent / "doxyoutput" / "xml"
+    index = {}
+    skip = {"index.xml", "Doxyfile.xml", "index.xsd", "compound.xsd"}
+
+    for xml_file in sorted(xml_dir.glob("*.xml")):
+        if xml_file.name in skip:
+            continue
+        try:
+            root = ET.parse(xml_file).getroot()
+        except ET.ParseError:
+            continue
+
+        for compound in root.iter("compounddef"):
+            compound_id = compound.get("id", "")
+            cname = compound.findtext("compoundname") or ""
+            loc = compound.find("location")
+            if loc is not None:
+                f, ln = loc.get("file"), loc.get("line")
+                if f and ln:
+                    entry = (f, int(ln))
+                    if compound_id:
+                        index.setdefault(compound_id, entry)
+                    if cname:
+                        index.setdefault(cname, entry)
+
+            for member in compound.iter("memberdef"):
+                member_id = member.get("id", "")
+                name = member.findtext("name") or ""
+                qname = member.findtext("qualifiedname") or name
+                loc = member.find("location")
+                if loc is None:
+                    continue
+                f, ln = loc.get("file"), loc.get("line")
+                if not (f and ln):
+                    continue
+                entry = (f, int(ln))
+                if member_id:
+                    index.setdefault(member_id, entry)
+                if qname:
+                    index.setdefault(qname, entry)
+                if name and name != qname:
+                    index.setdefault(name, entry)
+
+    return index
+
+
+_doxygen_index = None
+
+
+def linkcode_resolve(domain, info):
+    """Return a GitHub blob URL for a C/C++ symbol, or None to suppress the link."""
+    if domain not in ("cpp", "c"):
+        return None
+    # With add_linkcode_domain overrides in setup(), info['ids'] is a list of
+    # all signode IDs: Doxygen refids, Sphinx C++ qualified names, etc.
+    ids = info.get("ids") or []
+    if isinstance(ids, str):
+        ids = [ids]
+    if not ids:
+        return None
+
+    global _doxygen_index
+    if _doxygen_index is None:
+        _doxygen_index = _build_doxygen_index()
+
+    for node_id in ids:
+        if not node_id:
+            continue
+        # Skip mangled Sphinx ABI IDs (_CPPv4...) — not present in our index
+        if node_id.startswith("_"):
+            continue
+        entry = _doxygen_index.get(node_id)
+        if entry:
+            file_path, line = entry
+            return f"{_github_root}/blob/{_github_branch}/{file_path}#L{line}"
+        # Sphinx C domain prefixes macro names with "c." → try the bare name
+        if node_id.startswith("c."):
+            entry = _doxygen_index.get(node_id[2:])
+            if entry:
+                file_path, line = entry
+                return f"{_github_root}/blob/{_github_branch}/{file_path}#L{line}"
+    return None
+
+
+# -- GitHub source links for generated file pages -----------------------------
+
+
+# Inject a "View source on GitHub" link into each Exhale-generated file page.
+# These pages previously linked to program_listing_*.rst (local code dumps);
+# XML_PROGRAMLISTING = NO in exhaleDoxygenStdin suppresses those, and this
+# handler replaces them with direct links into the GitHub source tree.
+def _add_github_source_links(app, docname, source):
+    if not docname.startswith("api/file_"):
+        return
+    m = re.search(r"Definition \(``(.+?)``\)", source[0])
+    if not m:
+        return
+    path = m.group(1)
+    link = f"\n:source:`View source on GitHub <{path}>`\n"
+    source[0] = re.sub(
+        r"(Definition \(``[^`]+``\)\n-+\n)",
+        r"\1" + link,
+        source[0],
+    )
+
+
+def setup(app):
+    # Switch linkcode from signode['names'] (always empty in Breathe) to
+    # signode['ids'], which contains both Doxygen refids and Sphinx qualified
+    # names.  Must be called after sphinx.ext.linkcode has been loaded.
+    from sphinx.ext.linkcode import add_linkcode_domain
+
+    add_linkcode_domain("cpp", ["ids"], override=True)
+    add_linkcode_domain("c", ["ids"], override=True)
+    app.connect("source-read", _add_github_source_links)

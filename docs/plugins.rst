@@ -115,16 +115,16 @@ Built-in Plugins
      - Purpose
      - Docs
    * - :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`
-     - ``mutiny/test/SetPointerPlugin.hpp``
+     - :ref:`mutiny/test/SetPointerPlugin.hpp <file_include_mutiny_test_SetPointerPlugin.hpp>`
      - Restore overwritten pointers after each test
      - :doc:`set-pointer-plugin`
    * - :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`
-     - ``mutiny/mock/SupportPlugin.hpp``
+     - :ref:`mutiny/mock/SupportPlugin.hpp <file_include_mutiny_mock_SupportPlugin.hpp>`
      - Auto-verify and clear mock expectations
      - :doc:`mocking`
-   * - ``JUnitOutputPlugin``
-     - ``mutiny/test/JUnitOutputPlugin.hpp``
-     - Write JUnit XML output via ``-pjunit``
+   * - :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`
+     - :ref:`mutiny/test/JUnitOutputPlugin.hpp <file_include_mutiny_test_JUnitOutputPlugin.hpp>`
+     - Write JUnit XML output via :option:`-pjunit`
      - :doc:`junit-output`
 
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is automatically

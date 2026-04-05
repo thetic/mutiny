@@ -1,21 +1,22 @@
-#ifndef INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
-#define INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
-
 /**
  * @file
- * @brief Plugin that automates mock check/clear and comparator lifetime.
+ * @brief @ref mu::tiny::test::Plugin that automates mock check/clear and
+ * comparator lifetime.
  *
- * Install SupportPlugin once in your test runner (or in the test group) to
- * have the framework automatically call mock().check_expectations() and
- * mock().clear() after each test, eliminating the need to write teardown code
- * for every test group.
+ * Install @ref mu::tiny::mock::SupportPlugin once in your test runner (or in
+ * the test group) to have the framework automatically call @ref
+ * mu::tiny::mock::Support::check_expectations() and @ref
+ * mu::tiny::mock::Support::clear() after each test, eliminating the need to
+ * write teardown code for every test group.
  *
- * It also provides install_comparator() and install_copier() methods whose
- * lifetime is tied to the plugin scope, ensuring comparators and copiers are
- * removed after each test run.
- *
- * @see Support, Plugin
+ * It also provides @ref mu::tiny::mock::SupportPlugin::install_comparator() and
+ * @ref mu::tiny::mock::SupportPlugin::install_copier() methods whose lifetime
+ * is tied to the plugin scope, ensuring comparators and copiers are removed
+ * after each test run.
  */
+
+#ifndef INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
+#define INCLUDED_MUTINY_MOCK_SUPPORTPLUGIN_HPP
 
 #include "mutiny/mock/NamedValueComparator.hpp"
 #include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
@@ -30,12 +31,13 @@ namespace tiny {
 namespace mock {
 
 /**
- * @brief Plugin that manages mock lifecycle and comparator/copier
+ * @brief @ref Plugin that manages mock lifecycle and comparator/copier
  * registration.
  *
- * pre_test_action() installs the plugin's comparator/copier repository into the
- * global mock scope. post_test_action() calls check_expectations() and clear()
- * on the global mock, then removes the repository.
+ * @ref pre_test_action() installs the plugin's comparator/copier repository
+ * into the global mock scope. @ref post_test_action() calls
+ * @ref Support::check_expectations() and @ref Support::clear() on the global
+ * mock, then removes the repository.
  */
 class MUTINY_EXPORT SupportPlugin : public test::Plugin
 {
