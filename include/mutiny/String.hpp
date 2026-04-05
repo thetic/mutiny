@@ -25,6 +25,7 @@
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <string>
+#include <type_traits>
 #endif
 
 #ifndef __has_attribute
@@ -336,7 +337,6 @@ inline String string_from(T* value)
 // constraint via SFINAE; without it the fallback is omitted and a missing
 // overload surfaces as a linker error instead.
 #if MUTINY_USE_STD_CPP_LIB
-#include <type_traits>
 template<
     typename T,
     typename std::enable_if<std::is_class<T>::value, int>::type = 0>
