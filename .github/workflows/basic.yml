@@ -239,7 +239,7 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           path-to-lcov: build/coverage/coverage.lcov
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          coveralls-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
         if: ${{ matrix.name == 'Coverage' }}
 
   test_report:
