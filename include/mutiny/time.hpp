@@ -3,10 +3,12 @@
 
 #include "mutiny/export.h"
 
+#include <stdint.h>
+
 namespace mu {
 namespace tiny {
 
-MUTINY_EXPORT extern unsigned long (*get_time_in_millis)();
+MUTINY_EXPORT extern uint_least64_t (*get_time_in_millis)();
 MUTINY_EXPORT extern const char* (*get_time_string)();
 
 } // namespace tiny

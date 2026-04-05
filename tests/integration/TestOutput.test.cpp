@@ -6,9 +6,9 @@
 #include "mutiny/time.hpp"
 
 namespace {
-unsigned long millis_time;
+uint_least64_t millis_time;
 
-unsigned long mock_get_time_in_millis()
+uint_least64_t mock_get_time_in_millis()
 {
   return millis_time;
 }

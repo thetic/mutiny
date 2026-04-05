@@ -34,7 +34,9 @@ void TeamCityTestOutput::print_current_test_ended(
   print("##teamcity[testFinished name='");
   print_escaped(currtest_->get_name());
   print("' duration='");
-  print(res.get_current_test_total_execution_time());
+  print(
+      mu::tiny::string_from(res.get_current_test_total_execution_time()).c_str()
+  );
   print("']\n");
 }
 
