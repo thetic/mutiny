@@ -1,5 +1,8 @@
 <img src="docs/_static/logo.png" alt="mutiny" width="300">
 
+[![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
+[![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
+
 ---
 
 mutiny is a C/C++ unit testing and mocking framework suited for embedded and
