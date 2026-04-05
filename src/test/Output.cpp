@@ -98,7 +98,7 @@ void Output::print_current_test_ended(const Result& res)
 {
   if (verbose_ > MutinyVerbosityLevel::quiet) {
     print(" - ");
-    print(res.get_current_test_total_execution_time());
+    print(string_from(res.get_current_test_total_execution_time()).c_str());
     print(" ms\n");
   } else {
     print_progress_indicator();
@@ -155,7 +155,7 @@ void Output::print_tests_ended(const Result& result)
   print(" ignored, ");
   print(result.get_filtered_out_count());
   print(" filtered out, ");
-  print(result.get_total_execution_time());
+  print(string_from(result.get_total_execution_time()).c_str());
   print(" ms)");
   if (color_) {
     print("\033[m");

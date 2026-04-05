@@ -10,6 +10,7 @@
 #include "mutiny/export.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 namespace mu {
 namespace tiny {
@@ -56,11 +57,11 @@ public:
            (get_run_count() + get_ignored_count() == 0);
   }
 
-  size_t get_total_execution_time() const;
-  void set_total_execution_time(size_t ex_time);
+  uint_least64_t get_total_execution_time() const;
+  void set_total_execution_time(uint_least64_t ex_time);
 
-  size_t get_current_test_total_execution_time() const;
-  size_t get_current_group_total_execution_time() const;
+  uint_least64_t get_current_test_total_execution_time() const;
+  uint_least64_t get_current_group_total_execution_time() const;
 
 private:
   Output& output_;
@@ -70,12 +71,12 @@ private:
   size_t failure_count_{ 0 };
   size_t filtered_out_count_{ 0 };
   size_t ignored_count_{ 0 };
-  size_t total_execution_time_{ 0 };
-  size_t time_started_{ 0 };
-  size_t current_test_time_started_{ 0 };
-  size_t current_test_total_execution_time_{ 0 };
-  size_t current_group_time_started_{ 0 };
-  size_t current_group_total_execution_time_{ 0 };
+  uint_least64_t total_execution_time_{ 0 };
+  uint_least64_t time_started_{ 0 };
+  uint_least64_t current_test_time_started_{ 0 };
+  uint_least64_t current_test_total_execution_time_{ 0 };
+  uint_least64_t current_group_time_started_{ 0 };
+  uint_least64_t current_group_total_execution_time_{ 0 };
 };
 
 } // namespace test

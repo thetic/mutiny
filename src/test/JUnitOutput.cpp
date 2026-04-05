@@ -7,6 +7,8 @@
 
 #include "mutiny/time.hpp"
 
+#include <stdint.h>
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -29,7 +31,7 @@ public:
   JUnitTestCaseResultNode() = default;
 
   String name;
-  size_t exec_time{ 0 };
+  uint_least64_t exec_time{ 0 };
   Failure* failure{ nullptr };
   bool failure_is_error{ false };
   bool ignored{ false };
@@ -50,8 +52,8 @@ public:
   size_t failure_count{ 0 };
   size_t error_count{ 0 };
   size_t total_check_count{ 0 };
-  size_t start_time{ 0 };
-  size_t group_exec_time{ 0 };
+  uint_least64_t start_time{ 0 };
+  uint_least64_t group_exec_time{ 0 };
   String group;
   JUnitTestCaseResultNode* head{ nullptr };
   JUnitTestCaseResultNode* tail{ nullptr };
@@ -125,7 +127,7 @@ void JUnitOutput::print_current_test_started(const Shell& test)
 {
   impl_->results.test_count++;
   impl_->results.group = test.get_group();
-  impl_->results.start_time = static_cast<size_t>(get_time_in_millis());
+  impl_->results.start_time = get_time_in_millis();
 
   if (impl_->results.tail == nullptr) {
     impl_->results.head = impl_->results.tail = new JUnitTestCaseResultNode;

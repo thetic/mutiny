@@ -13,7 +13,7 @@ namespace tiny {
 
 namespace {
 
-unsigned long get_time_in_millis_impl()
+uint_least64_t get_time_in_millis_impl()
 {
 #if defined(_WIN32)
   static LARGE_INTEGER s_frequency;
@@ -21,20 +21,20 @@ unsigned long get_time_in_millis_impl()
   if (s_use_qpc) {
     LARGE_INTEGER now;
     QueryPerformanceCounter(&now);
-    return static_cast<unsigned long>(
+    return static_cast<uint_least64_t>(
         now.QuadPart * 1000 / s_frequency.QuadPart
     );
   } else {
-    return static_cast<unsigned long>(GetTickCount64());
+    return static_cast<uint_least64_t>(GetTickCount64());
   }
 #elif defined(MUTINY_HAVE_GETTIMEOFDAY)
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  return (static_cast<unsigned long>(tv.tv_sec) * 1000) +
-         (static_cast<unsigned long>(tv.tv_usec) / 1000);
+  return (static_cast<uint_least64_t>(tv.tv_sec) * 1000) +
+         (static_cast<uint_least64_t>(tv.tv_usec) / 1000);
 #else
-  return static_cast<unsigned long>(clock()) * 1000 /
-         static_cast<unsigned long>(CLOCKS_PER_SEC);
+  return static_cast<uint_least64_t>(clock()) * 1000 /
+         static_cast<uint_least64_t>(CLOCKS_PER_SEC);
 #endif
 }
 
@@ -55,7 +55,7 @@ const char* get_time_string_impl()
 
 } // namespace
 
-unsigned long (*get_time_in_millis)() = get_time_in_millis_impl;
+uint_least64_t (*get_time_in_millis)() = get_time_in_millis_impl;
 const char* (*get_time_string)() = get_time_string_impl;
 
 } // namespace tiny

@@ -12,7 +12,9 @@
 #include <cstring>
 #endif
 
+#include <inttypes.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 
 namespace mu {
@@ -664,12 +666,12 @@ String hex_string_from(unsigned long long value)
 
 String hex_string_from(const void* value)
 {
-  return hex_string_from(reinterpret_cast<unsigned long long>(value));
+  return string_from_format("%" PRIxPTR, reinterpret_cast<uintptr_t>(value));
 }
 
 String hex_string_from(void (*value)())
 {
-  return hex_string_from(reinterpret_cast<unsigned long long>(value));
+  return string_from_format("%" PRIxPTR, reinterpret_cast<uintptr_t>(value));
 }
 
 String brackets_formatted_hex_string_from(long long value)

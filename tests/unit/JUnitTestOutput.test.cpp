@@ -103,10 +103,10 @@ public:
   }
 };
 
-unsigned long millis_time = 0;
+uint_least64_t millis_time = 0;
 const char* the_time = "";
 
-unsigned long mock_get_time_in_millis()
+uint_least64_t mock_get_time_in_millis()
 {
   return millis_time;
 }
