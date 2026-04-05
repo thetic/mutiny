@@ -47,6 +47,8 @@ exhale_args = {
     # Strip prefix from reported file paths in the API docs.
     "doxygenStripFromPath": "..",
     "createTreeView": False,
+    # Furo does not support .. contents:: directives — suppress them.
+    "contentsDirectives": False,
     # Let Exhale drive Doxygen.
     "exhaleExecutesDoxygen": True,
     # Only specify INPUT and extraction settings — Exhale manages all output

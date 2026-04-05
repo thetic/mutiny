@@ -54,7 +54,7 @@ public:
    */
   bool parse(Plugin* plugin);
 
-  /** @return true if `--help` or `-h` was passed. */
+  /** @return true if `-h` was passed. */
   bool need_help() const;
   /** @return true if verbose output was requested (`-v`). */
   bool is_verbose() const;
