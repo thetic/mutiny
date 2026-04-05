@@ -5,6 +5,11 @@ set(RunCMake_TEST_OPTIONS
     "-DMUTINY_MODULE_PATH=${MUTINY_MODULE_PATH}"
     "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
 )
+if(DEFINED CMAKE_TRY_COMPILE_TARGET_TYPE)
+    list(APPEND RunCMake_TEST_OPTIONS
+        "-DCMAKE_TRY_COMPILE_TARGET_TYPE=${CMAKE_TRY_COMPILE_TARGET_TYPE}"
+    )
+endif()
 
 # ── mutiny.cmake configure-time tests ─────────────────────────────────────────
 
