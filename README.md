@@ -1,9 +1,7 @@
-<img src="docs/_static/logo.png" alt="Mu::tiny" width="300">
+# Mu::tiny
 
 [![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
-
----
 
 *Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded and
 low-resource targets.
@@ -58,20 +56,21 @@ find_package(mutiny 0.1 REQUIRED)
 
 ## Headers
 
-All public headers live under [include/mutiny/].
+All public headers live under `include/mutiny/`.
 The main headers you'll use:
 
-| Header                              | Purpose                                                            |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| `mutiny/test.hpp`                   | Test and assertion macros (`TEST_GROUP`, `TEST`, `CHECK`, etc.)    |
-| `mutiny/mock.hpp`                   | Mock framework (`mu::tiny::mock::mock`, `mu::tiny::mock::Support`) |
-| `mutiny/test.h`                     | C interface                                                        |
-| `mutiny/test/CommandLineRunner.hpp` | `mu::tiny::test::CommandLineRunner` (`main()` runner)              |
+| Header                              | Purpose                                                                                                          |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `mutiny/test.hpp`                   | Test and assertion macros ({c:macro}`TEST_GROUP`, {c:macro}`TEST`, {c:macro}`CHECK`, etc.)                       |
+| `mutiny/mock.hpp`                   | Mock framework ({cpp:func}`mock() <mu::tiny::mock::mock>`, {cpp:class}`Support <mu::tiny::mock::Support>`)       |
+| `mutiny/test.h`                     | C interface                                                                                                      |
+| `mutiny/test/CommandLineRunner.hpp` | {cpp:class}`CommandLineRunner <mu::tiny::test::CommandLineRunner>` (`main()` runner)                             |
+| `mutiny/test/Ordered.hpp`           | {c:macro}`TEST_ORDERED` macro                                                                                    |
 
 ## Writing `main`
 
 Every test executable needs a `main()`.
-The simplest form uses `mu::tiny::test::CommandLineRunner`:
+The simplest form uses {cpp:class}`CommandLineRunner <mu::tiny::test::CommandLineRunner>`:
 
 ```cpp
 #include "mutiny/test/CommandLineRunner.hpp"
@@ -82,7 +81,10 @@ int main(int argc, char** argv)
 }
 ```
 
-To add plugins (e.g. `mu::tiny::test::JUnitOutputPlugin`, `mu::tiny::test::SetPointerPlugin`, `mu::tiny::mock::SupportPlugin`), install them via `mu::tiny::test::Registry`:
+To add plugins (e.g. {cpp:class}`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`,
+{cpp:class}`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`,
+{cpp:class}`SupportPlugin <mu::tiny::mock::SupportPlugin>`), install them via
+{cpp:class}`Registry <mu::tiny::test::Registry>`:
 
 ```cpp
 #include "mutiny/test/CommandLineRunner.hpp"
@@ -103,16 +105,16 @@ int main(int argc, char** argv)
 
 ## Your First Test
 
-[examples/tests/CheatSheet.test.cpp]
+```{literalinclude} ../examples/tests/CheatSheet.test.cpp
+:language: cpp
+```
 
 - `TEST_GROUP` declares a group;
-  the `struct` implicitly inherits from `mu::tiny::test::Test`.
+  the `struct` implicitly inherits from {cpp:class}`mu::tiny::test::Test`.
   `setup()` runs before each test body;
   `teardown()` runs after.
 - `TEST(group, name)` defines a single test.
 - A failing assertion immediately exits the test body.
-
-Find further examples in [examples/].
 
 ## Running Tests
 
@@ -125,14 +127,21 @@ Run the binary directly:
 ./build/GNU/tests/my_tests -n TestName      # only tests whose name contains this
 ```
 
-Via CTest (after `mutiny_discover_tests` in CMakeLists):
+Via CTest (after {cmake:command}`mutiny_discover_tests` in CMakeLists):
 
 ```sh
 ctest --preset GNU
 ctest --preset GNU -R CheatSheet
 ```
 
-See [docs/command-line-reference.rst] for all flags.
+See {doc}`command-line-reference` for all flags.
+
+## Examples
+
+| File                                                                                     | Demonstrates                                                                                                                       |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| {source}`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`                      | Minimal {c:macro}`TEST_GROUP` + {c:macro}`TEST` with {cpp:func}`setup() <mu::tiny::test::Test::setup>`, {c:macro}`MUTINY_PTR_SET` |
+| {source}`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`              | Full group with setup/teardown, helper methods, and multiple assertion styles                                                      |
 
 ## Attribution
 
