@@ -567,8 +567,6 @@ void check_approx(
 } // namespace tiny
 } // namespace mu
 
-// Different checking macros
-
 /**
  * @brief Fail the current test if @p condition is false.
  *
@@ -590,7 +588,6 @@ void check_approx(
       __LINE__                                                                 \
   )
 
-/** @brief Location-explicit variant of CHECK. Prefer CHECK in test code. */
 #define CHECK_LOCATION(                                                        \
     condition, checkString, conditionString, text, file, line                  \
 )                                                                              \
@@ -617,8 +614,6 @@ void check_approx(
 #define CHECK_EQUAL_TEXT(expected, actual, text)                               \
   CHECK_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of CHECK_EQUAL. Prefer CHECK_EQUAL in test
- * code. */
 #define CHECK_EQUAL_LOCATION(expected, actual, text, file, line)               \
   mu::tiny::test::check_equal((expected), (actual), text, file, line)
 
@@ -653,8 +648,6 @@ void check_approx(
 #define CHECK_COMPARE_TEXT(first, relop, second, text)                         \
   CHECK_COMPARE_LOCATION(first, relop, second, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of CHECK_COMPARE. Prefer CHECK_COMPARE in
- * test code. */
 #define CHECK_COMPARE_LOCATION(first, relop, second, text, file, line)         \
   mu::tiny::test::check_compare(                                               \
       (first), (second), (first)relop(second), #relop, text, file, line        \
@@ -678,8 +671,6 @@ void check_approx(
 #define STRCMP_EQUAL_TEXT(expected, actual, text)                              \
   STRCMP_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of STRCMP_EQUAL. Prefer STRCMP_EQUAL in
- * test code. */
 #define STRCMP_EQUAL_LOCATION(expected, actual, text, file, line)              \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_cstr_equal(                   \
@@ -704,7 +695,6 @@ void check_approx(
 #define STRNCMP_EQUAL_TEXT(expected, actual, length, text)                     \
   STRNCMP_EQUAL_LOCATION(expected, actual, length, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of STRNCMP_EQUAL. */
 #define STRNCMP_EQUAL_LOCATION(expected, actual, length, text, file, line)     \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_cstr_n_equal(                 \
@@ -728,7 +718,6 @@ void check_approx(
 #define STRCMP_CONTAINS_TEXT(expected, actual, text)                           \
   STRCMP_CONTAINS_LOCATION(expected, actual, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of STRCMP_CONTAINS. */
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_cstr_contains(                \
@@ -756,7 +745,6 @@ void check_approx(
 #define CHECK_APPROX_TEXT(expected, actual, threshold, text)                   \
   CHECK_APPROX_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of CHECK_APPROX. */
 #define CHECK_APPROX_LOCATION(expected, actual, threshold, text, file, line)   \
   mu::tiny::test::check_approx(                                                \
       (expected), (actual), (threshold), text, file, line                      \
@@ -778,7 +766,6 @@ void check_approx(
 #define MEMCMP_EQUAL_TEXT(expected, actual, size, text)                        \
   MEMCMP_EQUAL_LOCATION(expected, actual, size, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of MEMCMP_EQUAL. */
 #define MEMCMP_EQUAL_LOCATION(expected, actual, size, text, file, line)        \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_binary_equal(                 \
@@ -827,7 +814,6 @@ void check_approx(
       underlying_type, expected, actual, text, __FILE__, __LINE__              \
   )
 
-/** @brief Location-explicit variant of ENUMS_EQUAL_TYPE. */
 #define ENUMS_EQUAL_TYPE_LOCATION(                                             \
     underlying_type, expected, actual, text, file, line                        \
 )                                                                              \
@@ -848,7 +834,6 @@ void check_approx(
 #ifndef FAIL
 #define FAIL(text) FAIL_LOCATION(text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of FAIL. */
 #define FAIL_LOCATION(text, file, line)                                        \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
@@ -859,7 +844,6 @@ void check_approx(
  * defined. @see FAIL */
 #define FAIL_TEST(text) FAIL_TEST_LOCATION(text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of FAIL_TEST. */
 #define FAIL_TEST_LOCATION(text, file, line)                                   \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
