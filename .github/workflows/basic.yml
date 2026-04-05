@@ -95,6 +95,7 @@ jobs:
             os: ubuntu-latest
             cmake_args: -DCMAKE_CXX_STANDARD=11
             preset: Clang
+            fetchcontent: true
           - name: Linux Clang 14
             os: ubuntu-latest
             cmake_args: -DCMAKE_CXX_STANDARD=14
@@ -241,6 +242,14 @@ jobs:
           cmake --build examples_build -j
           ctest --test-dir examples_build
         if: ${{ matrix.install }}
+
+      - name: Use FetchContent (source build)
+        run: |
+          cmake -B examples_fc_build -S examples \
+            -DFETCHCONTENT_SOURCE_DIR_MUTINY=${{ github.workspace }}
+          cmake --build examples_fc_build -j
+          ctest --test-dir examples_fc_build
+        if: ${{ matrix.fetchcontent }}
 
       - name: Coveralls
         uses: coverallsapp/github-action@v2

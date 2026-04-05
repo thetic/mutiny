@@ -3,7 +3,14 @@ cmake_minimum_required(VERSION 3.29)
 project(mutinyExample)
 
 if(PROJECT_IS_TOP_LEVEL)
-  find_package(mutiny 0.1 REQUIRED)
+    include(FetchContent)
+    FetchContent_Declare(
+        mutiny
+        GIT_REPOSITORY https://github.com/thetic/mutiny.git
+        GIT_TAG v0.1.0
+        FIND_PACKAGE_ARGS 0.1
+    )
+    FetchContent_MakeAvailable(mutiny)
 endif()
 
 include(CTest)
