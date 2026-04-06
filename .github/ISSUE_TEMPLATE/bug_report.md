@@ -1,13 +1,13 @@
 ---
 name: Bug Report
-about: Report a technical issue or unexpected behavior in the mutiny framework.
+about: Report a technical issue or unexpected behavior in the *Mu::tiny* framework.
 labels: bug
 assignees: ''
 
 ---
 
 ## Description
-A clear and consise description of the bug.
+A clear and concise description of the bug.
 
 ## Environment Context
 - **Framework Version/Commit:** (e.g., v1.0.0 or commit hash)

@@ -1,10 +1,10 @@
-Getting Started with mutiny
-===========================
+Getting Started with Mu::tiny
+=============================
 
-Building mutiny
----------------
+Building Mu::tiny
+-----------------
 
-mutiny uses CMake. Clone the repository and configure:
+*Mu::tiny* uses CMake. Clone the repository and configure:
 
 .. code-block:: bash
 
@@ -12,8 +12,8 @@ mutiny uses CMake. Clone the repository and configure:
    cmake --build build
    cmake --install build  # optional system install
 
-Adding mutiny to Your Project
------------------------------
+Adding Mu::tiny to Your Project
+-------------------------------
 
 The recommended approach uses CMake :cmake:module:`FetchContent <cmake:module:FetchContent>`
 with :cmake:variable:`FIND_PACKAGE_ARGS <cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE>`.

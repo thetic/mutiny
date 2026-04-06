@@ -1,4 +1,4 @@
-# Contributing to mutiny
+# Contributing to *Mu::tiny*
 
 ## Building for Development
 
