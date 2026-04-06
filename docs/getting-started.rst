@@ -15,18 +15,22 @@ mutiny uses CMake. Clone the repository and configure:
 Adding mutiny to Your Project
 -----------------------------
 
-The recommended approach is CMake :cmake:module:`FetchContent <cmake:module:FetchContent>`:
+The recommended approach uses CMake :cmake:module:`FetchContent <cmake:module:FetchContent>`
+with :cmake:variable:`FIND_PACKAGE_ARGS <cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE>`.
+This first attempts :cmake:command:`find_package <cmake:command:find_package>`; if *Mu::tiny*
+is not installed, CMake fetches and builds it from source automatically:
 
 .. code-block:: cmake
 
-   cmake_minimum_required(VERSION 3.11)
+   cmake_minimum_required(VERSION 3.24)
    project(my_tests)
 
    include(FetchContent)
    FetchContent_Declare(
        mutiny
        GIT_REPOSITORY https://github.com/thetic/mutiny.git
-       GIT_TAG        main
+       GIT_TAG        v0.1.0
+       FIND_PACKAGE_ARGS 0.1
    )
    FetchContent_MakeAvailable(mutiny)
 
@@ -37,9 +41,13 @@ The recommended approach is CMake :cmake:module:`FetchContent <cmake:module:Fetc
    include(mutiny)
    mutiny_discover_tests(my_tests)
 
-If mutiny is already installed system-wide, use
-:cmake:command:`find_package(mutiny REQUIRED) <cmake:command:find_package>` instead of
-:cmake:module:`FetchContent <cmake:module:FetchContent>`.
+If *Mu::tiny* is already installed and you prefer not to use
+:cmake:module:`FetchContent <cmake:module:FetchContent>`, use
+:cmake:command:`find_package <cmake:command:find_package>` directly:
+
+.. code-block:: cmake
+
+   find_package(mutiny 0.1 REQUIRED)
 
 Headers
 ~~~~~~~
