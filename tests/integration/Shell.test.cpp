@@ -161,6 +161,33 @@ TEST(Shell, compareDoublesInf)
 }
 #endif
 
+TEST(Shell, compareFloats)
+{
+  CHECK(mu::tiny::test::approx_equal(1.0f, 1.001f, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.1f, 0.05f));
+}
+
+#ifdef NAN
+TEST(Shell, compareFloatsNaN)
+{
+  CHECK(!mu::tiny::test::approx_equal(NAN, 1.0f, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, NAN, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.001f, NAN));
+}
+#endif
+
+TEST(Shell, compareIntegers)
+{
+  CHECK(mu::tiny::test::approx_equal(1000, 1001, 10));
+  CHECK(!mu::tiny::test::approx_equal(1000, 1020, 10));
+  CHECK(mu::tiny::test::approx_equal(-5, 5, 10));
+  CHECK(!mu::tiny::test::approx_equal(-5, 6, 10));
+  CHECK(mu::tiny::test::approx_equal(3u, 5u, 10u));
+  CHECK(!mu::tiny::test::approx_equal(3u, 5u, 1u));
+  CHECK(mu::tiny::test::approx_equal(5u, 3u, 10u));
+  CHECK(!mu::tiny::test::approx_equal(5u, 3u, 1u));
+}
+
 TEST(Shell, FailWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(fail_method);

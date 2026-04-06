@@ -177,6 +177,18 @@ void failing_test_method_with_check_approx_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
+void failing_test_method_with_check_approx_float()
+{
+  CHECK_APPROX(1.0f, 3.0f, 0.5f);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
+void failing_test_method_with_check_approx_int()
+{
+  CHECK_APPROX(1000, 1020, 10);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
 bool line_of_code_executed_after_check = false;
 
 void passing_test_method()
@@ -205,6 +217,8 @@ int function_that_returns_a_value()
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
   CHECK_APPROX(1.0, 1.0, .01);
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
+  CHECK_APPROX(1.0f, 1.0f, .01f);
+  CHECK_APPROX(1000, 1000, 10);
   POINTERS_EQUAL(nullptr, nullptr);
   POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);
@@ -532,6 +546,22 @@ TEST(TestShellMacros, FailureWithCHECK_APPROX_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <44.1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <0.3>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_APPROXFloat)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_approx_float);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <3>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <0.5>");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_APPROXInt)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_approx_int);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1000>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <1020>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <10>");
 }
 
 TEST(TestShellMacros, SuccessPrintsNothing)
