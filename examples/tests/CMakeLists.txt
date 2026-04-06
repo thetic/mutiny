@@ -1,17 +1,21 @@
-include(CheckSourceRuns)
-# Verify that FP exception flags are actually raised at runtime, not just that
-# fenv.h compiles.  Soft-float targets (e.g. ARM without -mfpu/-mfloat-abi)
-# compile fenv.h cleanly but never write FPSCR, so fetestexcept() returns 0.
-check_source_runs(CXX
-    "#include <fenv.h>
-     int main(void) {
-         volatile float z = 0.0f;
-         volatile float r = 1.0f / z;
-         (void)r;
-         return fetestexcept(FE_DIVBYZERO) ? 0 : 1;
-     }"
-    MUTINY_HAVE_FENV
-)
+if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    set(MUTINY_HAVE_FENV OFF)
+else()
+    include(CheckSourceRuns)
+    # Verify that FP exception flags are actually raised at runtime, not just that
+    # fenv.h compiles.  Soft-float targets (e.g. ARM without -mfpu/-mfloat-abi)
+    # compile fenv.h cleanly but never write FPSCR, so fetestexcept() returns 0.
+    check_source_runs(CXX
+        "#include <fenv.h>
+        int main(void) {
+            volatile float z = 0.0f;
+            volatile float r = 1.0f / z;
+            (void)r;
+            return fetestexcept(FE_DIVBYZERO) ? 0 : 1;
+        }"
+        MUTINY_HAVE_FENV
+    )
+endif()
 
 add_executable(ExampleTests
     main.cpp
