@@ -22,14 +22,14 @@ TEST_GROUP(FEDemo)
   void setup() override { IEEE754ExceptionsPlugin::disable_inexact(); }
 };
 
-IGNORE_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
+EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
 {
   float f = 1.0f;
   volatile float zero = 0.0f;
   CHECK((f /= zero) >= INFINITY);
 }
 
-IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
+EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
 {
   volatile float f = 0.01f;
   while (f > 0.0f)
@@ -37,7 +37,7 @@ IGNORE_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
   CHECK(f == 0.0f);
 }
 
-IGNORE_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
+EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 {
   volatile float f = 1000.0f;
   while (f < INFINITY)
@@ -45,10 +45,10 @@ IGNORE_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
   CHECK(f >= INFINITY);
 }
 
-IGNORE_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
+EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
 {
   IEEE754ExceptionsPlugin::enable_inexact();
-  float f = 10.0f;
+  volatile float f = 10.0f;
   DOUBLES_EQUAL(
       static_cast<double>(f / 3.0f),
       static_cast<double>(3.333f),
