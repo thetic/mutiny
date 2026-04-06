@@ -38,7 +38,7 @@ is not installed, CMake fetches and builds it from source automatically:
    target_link_libraries(my_tests PRIVATE mu::tiny)
 
    include(CTest)
-   include(mutiny)
+   include(Mutiny)
    mutiny_discover_tests(my_tests)
 
 If *Mu::tiny* is already installed and you prefer not to use

@@ -24,5 +24,5 @@ target_include_directories(mutiny_unit
     PRIVATE $<TARGET_PROPERTY:mutiny,INCLUDE_DIRECTORIES>
 )
 
-include(mutiny)
+include(Mutiny)
 mutiny_discover_tests(mutiny_unit)
