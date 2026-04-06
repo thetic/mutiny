@@ -28,7 +28,7 @@ cmake_dependent_option(MUTINY_EXAMPLES "Compile and make examples?"
     OFF)
 
 
-set(MUTINY_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
+set(MUTINY_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
     CACHE PATH "Path to the mutiny CMake modules directory" FORCE
 )
 list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
@@ -216,7 +216,7 @@ if(PROJECT_IS_TOP_LEVEL)
     set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
     set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}")
     set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
-    set(MODULES_DIR "${PROJECT_SOURCE_DIR}/cmake/Modules")
+    set(MODULES_DIR "${MUTINY_MODULE_PATH}")
 
     set(MUTINY_CONFIG_DEST "${LIB_INSTALL_DIR}/mutiny/cmake")
 
@@ -243,8 +243,8 @@ if(PROJECT_IS_TOP_LEVEL)
     )
     install(
         FILES
-            ${PROJECT_SOURCE_DIR}/cmake/Modules/mutiny.cmake
-            ${PROJECT_SOURCE_DIR}/cmake/Modules/_mutiny_discovery.cmake
+            ${MUTINY_MODULE_PATH}/mutiny.cmake
+            ${MUTINY_MODULE_PATH}/_mutiny_discovery.cmake
         DESTINATION "${MUTINY_CONFIG_DEST}/Modules"
     )
 
