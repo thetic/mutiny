@@ -269,8 +269,11 @@ MUTINY_EXPORT String string_from(long long value);
 /** @brief Return the decimal string representation of @p value. */
 MUTINY_EXPORT String string_from(unsigned long long value);
 
-/** @brief Return @p value formatted with enough precision to round-trip. */
-MUTINY_EXPORT String string_from(float value);
+/**
+ * @brief Return the decimal string representation of @p value with the given
+ *        @p precision.
+ */
+MUTINY_EXPORT String string_from(float value, int precision = 6);
 
 /** @brief Return @p value as a `0x`-prefixed hexadecimal string. */
 MUTINY_EXPORT String hex_string_from(unsigned int value);
