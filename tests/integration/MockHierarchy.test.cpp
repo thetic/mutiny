@@ -24,8 +24,8 @@ TEST(MockHierarchy, usingTwoMockSupportsByName)
 {
   mock("first").expect_one_call("boo");
 
-  LONGS_EQUAL(0, mock("other").expected_calls_left());
-  LONGS_EQUAL(1, mock("first").expected_calls_left());
+  CHECK_FALSE(mock("other").expected_calls_left());
+  CHECK_TRUE(mock("first").expected_calls_left());
 
   mock("first").clear();
 }
@@ -36,11 +36,11 @@ TEST(MockHierarchy, EnableDisableWorkHierarchically)
 
   mock().disable();
   mock("first").expect_one_call("boo");
-  LONGS_EQUAL(0, mock("first").expected_calls_left());
+  CHECK_FALSE(mock("first").expected_calls_left());
 
   mock().enable();
   mock("first").expect_one_call("boo");
-  LONGS_EQUAL(1, mock("first").expected_calls_left());
+  CHECK_TRUE(mock("first").expected_calls_left());
 
   mock("first").clear();
 }
@@ -49,11 +49,11 @@ TEST(MockHierarchy, EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreat
 {
   mock().disable();
   mock("first").expect_one_call("boo");
-  LONGS_EQUAL(0, mock("first").expected_calls_left());
+  CHECK_FALSE(mock("first").expected_calls_left());
 
   mock().enable();
   mock("second").expect_one_call("boo");
-  LONGS_EQUAL(1, mock("second").expected_calls_left());
+  CHECK_TRUE(mock("second").expected_calls_left());
 
   mock().clear();
 }
@@ -61,7 +61,7 @@ TEST(MockHierarchy, EnableDisableWorkHierarchicallyWhenSupportIsDynamicallyCreat
 TEST(MockHierarchy, ExpectedCallsLeftWorksHierarchically)
 {
   mock("first").expect_one_call("foobar");
-  LONGS_EQUAL(1, mock().expected_calls_left());
+  CHECK_TRUE(mock().expected_calls_left());
 
   mock().clear();
 }

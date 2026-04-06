@@ -99,7 +99,7 @@ public:
   String& operator+=(char ch);
 
   /** @brief Sentinel value returned by `find()` when no match is found. */
-  static const size_t npos = static_cast<size_t>(-1);
+  static constexpr size_t npos = static_cast<size_t>(-1);
 
   /** @return Reference to the character at position @p pos. */
   char& operator[](size_t pos) { return data()[pos]; }
@@ -268,6 +268,9 @@ MUTINY_EXPORT String string_from(long long value);
 
 /** @brief Return the decimal string representation of @p value. */
 MUTINY_EXPORT String string_from(unsigned long long value);
+
+/** @brief Return @p value formatted with enough precision to round-trip. */
+MUTINY_EXPORT String string_from(float value);
 
 /** @brief Return @p value as a `0x`-prefixed hexadecimal string. */
 MUTINY_EXPORT String hex_string_from(unsigned int value);

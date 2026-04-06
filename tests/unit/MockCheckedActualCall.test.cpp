@@ -121,19 +121,19 @@ TEST(CheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  LONGS_EQUAL(2, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(2U, list->amount_of_unfulfilled_expectations());
 
   mu::tiny::mock::CheckedActualCall actual_call1(1, reporter, *list);
   actual_call1.with_name("func");
   actual_call1.check_expectations();
 
-  LONGS_EQUAL(1, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(1U, list->amount_of_unfulfilled_expectations());
 
   mu::tiny::mock::CheckedActualCall actual_call2(2, reporter, *list);
   actual_call2.with_name("func");
   actual_call2.check_expectations();
 
-  LONGS_EQUAL(0, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(0U, list->amount_of_unfulfilled_expectations());
 
   list->delete_all_expectations_and_clear_list();
 }

@@ -30,8 +30,8 @@ class Output;
  * @brief Holds location and message information for a single test failure.
  *
  * Subclass @ref Failure to provide richer diagnostic messages. The assertion
- * macros (@ref CHECK, @ref CHECK_EQUAL, @ref LONGS_EQUAL, etc.) construct the
- * appropriate concrete subclass and pass it to @ref Shell::add_failure().
+ * macros construct the appropriate concrete subclass and pass it to @ref
+ * Shell::add_failure().
  */
 class MUTINY_EXPORT Failure
 {
@@ -328,68 +328,24 @@ public:
 };
 
 /**
- * @brief Failure for @ref LONGS_EQUAL.
+ * @brief Failure for C integer equality checks (signed, any width).
+ *
+ * Used by the C-interface wrappers for @c bool, @c int, @c long, and @c long
+ * @c long; values are widened to @c intmax_t before the comparison so that a
+ * single failure class covers all signed widths.
  */
-class MUTINY_EXPORT LongsEqualFailure : public Failure
+class MUTINY_EXPORT IntMaxEqualFailure : public Failure
 {
 public:
   /**
    * @param test         The failing test.
    * @param file_name    Source file.
    * @param line_number  Line number.
-   * @param expected     Expected long value.
-   * @param actual       Actual long value.
+   * @param expected     Expected value (widened to @c intmax_t).
+   * @param actual       Actual value (widened to @c intmax_t).
    * @param text         Optional user text.
    */
-  LongsEqualFailure(
-      Shell* test,
-      const char* file_name,
-      size_t line_number,
-      long expected,
-      long actual,
-      const String& text
-  );
-};
-
-/**
- * @brief Failure for @ref UNSIGNED_LONGS_EQUAL.
- */
-class MUTINY_EXPORT UnsignedLongsEqualFailure : public Failure
-{
-public:
-  /**
-   * @param test         The failing test.
-   * @param file_name    Source file.
-   * @param line_number  Line number.
-   * @param expected     Expected unsigned long value.
-   * @param actual       Actual unsigned long value.
-   * @param text         Optional user text.
-   */
-  UnsignedLongsEqualFailure(
-      Shell* test,
-      const char* file_name,
-      size_t line_number,
-      unsigned long expected,
-      unsigned long actual,
-      const String& text
-  );
-};
-
-/**
- * @brief Failure for @ref LONGLONGS_EQUAL.
- */
-class MUTINY_EXPORT LongLongsEqualFailure : public Failure
-{
-public:
-  /**
-   * @param test         The failing test.
-   * @param file_name    Source file.
-   * @param line_number  Line number.
-   * @param expected     Expected long long value.
-   * @param actual       Actual long long value.
-   * @param text         Optional user text.
-   */
-  LongLongsEqualFailure(
+  IntMaxEqualFailure(
       Shell* test,
       const char* file_name,
       size_t line_number,
@@ -400,20 +356,23 @@ public:
 };
 
 /**
- * @brief Failure for @ref UNSIGNED_LONGLONGS_EQUAL.
+ * @brief Failure for C integer equality checks (unsigned, any width).
+ *
+ * Used by the C-interface wrappers for @c unsigned @c int, @c unsigned @c
+ * long, and @c unsigned @c long @c long; values are widened to @c uintmax_t.
  */
-class MUTINY_EXPORT UnsignedLongLongsEqualFailure : public Failure
+class MUTINY_EXPORT UintMaxEqualFailure : public Failure
 {
 public:
   /**
    * @param test         The failing test.
    * @param file_name    Source file.
    * @param line_number  Line number.
-   * @param expected     Expected unsigned long long value.
-   * @param actual       Actual unsigned long long value.
+   * @param expected     Expected value (widened to @c uintmax_t).
+   * @param actual       Actual value (widened to @c uintmax_t).
    * @param text         Optional user text.
    */
-  UnsignedLongLongsEqualFailure(
+  UintMaxEqualFailure(
       Shell* test,
       const char* file_name,
       size_t line_number,

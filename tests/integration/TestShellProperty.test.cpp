@@ -46,7 +46,7 @@ TEST(TestShellProperty, addTestPropertyRoutesToTestOutputPrintTestProperty)
   mu::tiny::test::Result result(output);
   result.add_test_property("ticket_id", "12345");
 
-  LONGS_EQUAL(1, output.call_count);
+  CHECK_EQUAL(1, output.call_count);
   STRCMP_EQUAL("ticket_id", output.recorded_name);
   STRCMP_EQUAL("12345", output.recorded_value);
 }
@@ -65,7 +65,7 @@ TEST(TestShellProperty, addTestPropertyOnShellRoutesToResult)
   // Directly test Result delegation (Shell routes through Result)
   result.add_test_property("suite", "smoke");
 
-  LONGS_EQUAL(1, output.call_count);
+  CHECK_EQUAL(1, output.call_count);
   STRCMP_EQUAL("suite", output.recorded_name);
   STRCMP_EQUAL("smoke", output.recorded_value);
 }
@@ -76,7 +76,7 @@ TEST(TestShellProperty, addTestPropertyCRoutesGetCurrentToOutput)
   fixture.set_test_function([] { mutiny_add_test_property("ticket", "123"); });
   fixture.run_all_tests();
 
-  LONGS_EQUAL(1, fixture.capture->call_count);
+  CHECK_EQUAL(1, fixture.capture->call_count);
   STRCMP_EQUAL("ticket", fixture.capture->recorded_name);
   STRCMP_EQUAL("123", fixture.capture->recorded_value);
 }

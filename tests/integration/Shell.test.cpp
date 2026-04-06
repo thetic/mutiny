@@ -167,14 +167,14 @@ TEST(Shell, FailWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST(Shell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(passing_check_equal_test_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
@@ -195,7 +195,7 @@ TEST(Shell, MacrosUsedInSetup)
   fixture.set_setup(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 }
 
 TEST(Shell, MacrosUsedInTearDown)
@@ -203,14 +203,14 @@ TEST(Shell, MacrosUsedInTearDown)
   fixture.set_teardown(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 }
 
 TEST(Shell, ExitLeavesQuietly)
 {
   fixture.set_test_function(exit_test_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(0, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
 }
 
 TEST(Shell, FailWillNotCrashIfNotEnabled)
@@ -222,7 +222,7 @@ TEST(Shell, FailWillNotCrashIfNotEnabled)
   fixture.run_all_tests();
 
   CHECK_FALSE(mutiny_has_crashed);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -248,8 +248,8 @@ TEST(Shell, TeardownCalledAfterTestFailure)
   fixture.set_teardown(teardown_method);
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
-  LONGS_EQUAL(1, teardown_called);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1, teardown_called);
 }
 
 TEST(Shell, TestStopsAfterTestFailure)
@@ -258,8 +258,8 @@ TEST(Shell, TestStopsAfterTestFailure)
   fixture.set_test_function(stop_after_failure_method);
   fixture.run_all_tests();
   CHECK(fixture.has_test_failed());
-  LONGS_EQUAL(1, fixture.get_failure_count());
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(0, stop_after_failure);
 }
 
 TEST(Shell, TestStopsAfterSetupFailure)
@@ -269,8 +269,8 @@ TEST(Shell, TestStopsAfterSetupFailure)
   fixture.set_teardown(stop_after_failure_method);
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_failure_count());
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_failure_count());
+  CHECK_EQUAL(0, stop_after_failure);
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
@@ -284,11 +284,11 @@ TEST(Shell, TestStopsAfterUnknownExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_test_function(thrown_unknown_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -307,8 +307,8 @@ TEST(Shell, NoExceptionIsRethrownIfEnabledButNotThrown)
     exception_rethrown = true;
   }
   CHECK_FALSE(exception_rethrown);
-  LONGS_EQUAL(0, fixture.get_failure_count());
-  LONGS_EQUAL(1, stop_after_failure);
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
+  CHECK_EQUAL(1, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -328,11 +328,11 @@ TEST(Shell, UnknownExceptionIsRethrownIfEnabled)
     exception_rethrown = true;
   }
   CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -347,7 +347,7 @@ TEST(Shell, TestStopsAfterStandardExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_test_function(thrown_standard_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 #if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
@@ -357,7 +357,7 @@ TEST(Shell, TestStopsAfterStandardExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
 #endif
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -377,11 +377,11 @@ TEST(Shell, StandardExceptionIsRethrownIfEnabled)
     exception_rethrown = true;
   }
   CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -396,11 +396,11 @@ TEST(Shell, TeardownStopsAfterUnknownExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_teardown(thrown_unknown_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -420,11 +420,11 @@ TEST(Shell, TeardownUnknownExceptionIsRethrownIfEnabled)
     exception_rethrown = true;
   }
   CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -439,7 +439,7 @@ TEST(Shell, TeardownStopsAfterStandardExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_teardown(thrown_standard_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 #if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
@@ -449,7 +449,7 @@ TEST(Shell, TeardownStopsAfterStandardExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
 #endif
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -469,11 +469,11 @@ TEST(Shell, TeardownStandardExceptionIsRethrownIfEnabled)
     exception_rethrown = true;
   }
   CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -504,7 +504,7 @@ TEST(Shell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods
   DefaultTestShell shell;
   fixture.add_test(&shell);
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_test_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_test_count());
 }
 
 #if MUTINY_HAVE_EXCEPTIONS

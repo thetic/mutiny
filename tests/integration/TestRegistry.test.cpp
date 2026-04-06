@@ -195,21 +195,21 @@ TEST(Registry, runTwoTestsCheckResultFunctionsCalled)
   my_registry->add_test(test1);
   my_registry->add_test(test2);
   my_registry->run_all_tests(*result);
-  LONGS_EQUAL(1, mock_result->count_tests_started);
-  LONGS_EQUAL(1, mock_result->count_tests_ended);
-  LONGS_EQUAL(1, mock_result->count_current_group_started);
-  LONGS_EQUAL(1, mock_result->count_current_group_ended);
-  LONGS_EQUAL(2, mock_result->count_current_test_started);
-  LONGS_EQUAL(2, mock_result->count_current_test_ended);
+  CHECK_EQUAL(1, mock_result->count_tests_started);
+  CHECK_EQUAL(1, mock_result->count_tests_ended);
+  CHECK_EQUAL(1, mock_result->count_current_group_started);
+  CHECK_EQUAL(1, mock_result->count_current_group_ended);
+  CHECK_EQUAL(2, mock_result->count_current_test_started);
+  CHECK_EQUAL(2, mock_result->count_current_test_ended);
 }
 
 TEST(Registry, runThreeTestsandTwoGroupsCheckResultFunctionsCalled)
 {
   add_and_run_all_tests();
-  LONGS_EQUAL(2, mock_result->count_current_group_started);
-  LONGS_EQUAL(2, mock_result->count_current_group_ended);
-  LONGS_EQUAL(3, mock_result->count_current_test_started);
-  LONGS_EQUAL(3, mock_result->count_current_test_ended);
+  CHECK_EQUAL(2, mock_result->count_current_group_started);
+  CHECK_EQUAL(2, mock_result->count_current_group_ended);
+  CHECK_EQUAL(3, mock_result->count_current_test_started);
+  CHECK_EQUAL(3, mock_result->count_current_test_ended);
 }
 
 TEST(Registry, unDoTest)
@@ -299,7 +299,7 @@ TEST(Registry, CurrentRepetitionIsCorrectNone)
 {
   CHECK(0 == my_registry->get_current_repetition());
   my_registry->run_all_tests(*result);
-  LONGS_EQUAL(1, my_registry->get_current_repetition());
+  CHECK_EQUAL(1, my_registry->get_current_repetition());
 }
 
 TEST(Registry, CurrentRepetitionIsCorrectTwo)
@@ -307,7 +307,7 @@ TEST(Registry, CurrentRepetitionIsCorrectTwo)
   CHECK(0 == my_registry->get_current_repetition());
   my_registry->run_all_tests(*result);
   my_registry->run_all_tests(*result);
-  LONGS_EQUAL(2, my_registry->get_current_repetition());
+  CHECK_EQUAL(2, my_registry->get_current_repetition());
 }
 
 TEST(Registry, ResetPluginsWorks)
@@ -316,9 +316,9 @@ TEST(Registry, ResetPluginsWorks)
   MyTestPluginDummy plugin2("Plugin-2");
   my_registry->install_plugin(&plugin1);
   my_registry->install_plugin(&plugin2);
-  LONGS_EQUAL(2, my_registry->count_plugins());
+  CHECK_EQUAL(2, my_registry->count_plugins());
   my_registry->reset_plugins();
-  LONGS_EQUAL(0, my_registry->count_plugins());
+  CHECK_EQUAL(0, my_registry->count_plugins());
 }
 
 TEST(Registry, listTestGroupNames_shouldListBackwardsGroup1AfterGroup11AndGroup2OnlyOnce)

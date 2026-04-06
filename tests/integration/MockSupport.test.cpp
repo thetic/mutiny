@@ -24,14 +24,14 @@ TEST(Support, setDataForUnsignedIntegerValues)
 {
   unsigned int expected_data = 7;
   mock().set_data("data", expected_data);
-  LONGS_EQUAL(expected_data, mock().get_data("data").get_unsigned_int_value());
+  CHECK_EQUAL(expected_data, mock().get_data("data").get_unsigned_int_value());
 }
 
 TEST(Support, setDataForIntegerValues)
 {
   int expected_data = 10;
   mock().set_data("data", expected_data);
-  LONGS_EQUAL(expected_data, mock().get_data("data").get_int_value());
+  CHECK_EQUAL(expected_data, mock().get_data("data").get_int_value());
 }
 
 TEST(Support, setDataForBooleanValues)
@@ -52,12 +52,12 @@ TEST(Support, dataCanBeChanged)
 {
   mock().set_data("data", 10);
   mock().set_data("data", 15);
-  LONGS_EQUAL(15, mock().get_data("data").get_int_value());
+  CHECK_EQUAL(15, mock().get_data("data").get_int_value());
 }
 
 TEST(Support, uninitializedData)
 {
-  LONGS_EQUAL(0, mock().get_data("nonexisting").get_int_value());
+  CHECK_EQUAL(0, mock().get_data("nonexisting").get_int_value());
   STRCMP_EQUAL("int", mock().get_data("nonexisting").get_type().c_str());
 }
 
@@ -65,8 +65,8 @@ TEST(Support, setMultipleData)
 {
   mock().set_data("data", 1);
   mock().set_data("data2", 10);
-  LONGS_EQUAL(1, mock().get_data("data").get_int_value());
-  LONGS_EQUAL(10, mock().get_data("data2").get_int_value());
+  CHECK_EQUAL(1, mock().get_data("data").get_int_value());
+  CHECK_EQUAL(10, mock().get_data("data2").get_int_value());
 }
 
 TEST(Support, setDataString)
@@ -85,16 +85,14 @@ TEST(Support, setDataLongInt)
 {
   long int i = 100;
   mock().set_data("data", i);
-  LONGS_EQUAL(i, mock().get_data("data").get_long_int_value());
+  CHECK_EQUAL(i, mock().get_data("data").get_long_int_value());
 }
 
 TEST(Support, setDataUnsignedLongInt)
 {
   unsigned long int i = 100;
   mock().set_data("data", i);
-  UNSIGNED_LONGS_EQUAL(
-      i, mock().get_data("data").get_unsigned_long_int_value()
-  );
+  CHECK_EQUAL(i, mock().get_data("data").get_unsigned_long_int_value());
 }
 
 TEST(Support, setDataPointer)

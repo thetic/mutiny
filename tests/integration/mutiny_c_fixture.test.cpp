@@ -54,7 +54,7 @@ TEST(MutinyCFixture, checkFail)
 {
   fixture->set_test_function(fail_method);
   fixture->run_all_tests();
-  LONGS_EQUAL(1, fixture->get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture->get_failure_count());
   fixture->assert_print_contains("Booo");
   fixture->assert_print_contains("fail_method_c_body");
   CHECK(!has_destructor_of_the_destructor_checked_been_called);
@@ -69,7 +69,7 @@ TEST(MutinyCFixture, doesNotCrashIfNotSetToCrash)
   fixture->run_all_tests();
 
   CHECK_FALSE(mutiny_has_crashed);
-  LONGS_EQUAL(1, fixture->get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture->get_failure_count());
   CHECK(!has_destructor_of_the_destructor_checked_been_called);
 
   mu::tiny::test::Shell::reset_crash_method();

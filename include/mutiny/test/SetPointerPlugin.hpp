@@ -45,7 +45,7 @@ public:
   void post_test_action(Shell& test, Result& result) override;
 
   /** @brief Maximum number of pointers that can be registered per test. */
-  static constexpr int max_set = 32;
+  static constexpr size_t max_set = 32;
   /** @brief Plugin name used for identification in the plugin chain. */
   static constexpr const char* name{ "SetPointerPlugin" };
 

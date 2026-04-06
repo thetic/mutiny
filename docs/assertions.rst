@@ -96,14 +96,6 @@ sign-compare warnings and makes failure messages type-accurate.
 
    * - Macro
      - Type
-   * - :c:macro:`LONGS_EQUAL(expected, actual) <LONGS_EQUAL>`
-     - ``long``
-   * - :c:macro:`UNSIGNED_LONGS_EQUAL(expected, actual) <UNSIGNED_LONGS_EQUAL>`
-     - ``unsigned long``
-   * - :c:macro:`LONGLONGS_EQUAL(expected, actual) <LONGLONGS_EQUAL>`
-     - ``long long``
-   * - :c:macro:`UNSIGNED_LONGLONGS_EQUAL(expected, actual) <UNSIGNED_LONGLONGS_EQUAL>`
-     - ``unsigned long long``
    * - :c:macro:`BYTES_EQUAL(expected, actual) <BYTES_EQUAL>`
      - low 8 bits as ``long``
    * - :c:macro:`SIGNED_BYTES_EQUAL(expected, actual) <SIGNED_BYTES_EQUAL>`
@@ -113,7 +105,7 @@ sign-compare warnings and makes failure messages type-accurate.
 
 .. code-block:: cpp
 
-   LONGS_EQUAL(0, error_code);
+   CHECK_EQUAL(0, error_code);
    BYTES_EQUAL(0xAB, packet[0]);
    DOUBLES_EQUAL(3.14, compute_pi(), 0.001);
 
@@ -253,6 +245,6 @@ Examples
    * - File
      - Demonstrates
    * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
-     - :c:macro:`LONGS_EQUAL`, :c:macro:`CHECK`, :c:macro:`STRCMP_EQUAL` in a minimal test
+     - :c:macro:`CHECK_EQUAL`, :c:macro:`CHECK`, :c:macro:`STRCMP_EQUAL` in a minimal test
    * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
-     - :c:macro:`CHECK`, :c:macro:`LONGS_EQUAL`, :c:macro:`STRCMP_EQUAL` across a variety of test scenarios
+     - :c:macro:`CHECK`, :c:macro:`CHECK_EQUAL`, :c:macro:`STRCMP_EQUAL` across a variety of test scenarios

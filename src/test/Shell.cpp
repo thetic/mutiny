@@ -462,9 +462,9 @@ void Shell::assert_cstr_contains(
   }
 }
 
-void Shell::assert_longs_equal(
-    long expected,
-    long actual,
+void Shell::assert_intmax_equal(
+    intmax_t expected,
+    intmax_t actual,
     const char* text,
     const char* file_name,
     size_t line_number,
@@ -474,15 +474,15 @@ void Shell::assert_longs_equal(
   get_test_result()->count_check();
   if (expected != actual) {
     add_failure(
-        LongsEqualFailure(this, file_name, line_number, expected, actual, text)
+        IntMaxEqualFailure(this, file_name, line_number, expected, actual, text)
     );
     test_terminator.exit_current_test();
   }
 }
 
-void Shell::assert_unsigned_longs_equal(
-    unsigned long expected,
-    unsigned long actual,
+void Shell::assert_uintmax_equal(
+    uintmax_t expected,
+    uintmax_t actual,
     const char* text,
     const char* file_name,
     size_t line_number,
@@ -491,43 +491,7 @@ void Shell::assert_unsigned_longs_equal(
 {
   get_test_result()->count_check();
   if (expected != actual) {
-    add_failure(UnsignedLongsEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_long_longs_equal(
-    long long expected,
-    long long actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(LongLongsEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_unsigned_long_longs_equal(
-    unsigned long long expected,
-    unsigned long long actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(UnsignedLongLongsEqualFailure(
+    add_failure(UintMaxEqualFailure(
         this, file_name, line_number, expected, actual, text
     ));
     test_terminator.exit_current_test();

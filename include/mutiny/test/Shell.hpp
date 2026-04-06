@@ -3,10 +3,9 @@
  * @brief Assertion macros and the Shell base class.
  *
  * This header is the primary source of assertion macros (@ref CHECK, @ref
- * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref LONGS_EQUAL, @ref DOUBLES_EQUAL, etc.)
- * and the @ref mu::tiny::test::Shell class that backs them. It is included
- * transitively by @ref mutiny/test.hpp; you rarely need to include it
- * directly.
+ * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref DOUBLES_EQUAL, etc.) and the @ref
+ * mu::tiny::test::Shell class that backs them. It is included transitively by
+ * @ref mutiny/test.hpp; you rarely need to include it directly.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
@@ -17,6 +16,8 @@
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
 #include "mutiny/features.hpp"
+
+#include <stdint.h>
 
 namespace mu {
 namespace tiny {
@@ -190,38 +191,29 @@ public:
       const char* file_name,
       size_t line_number
   );
-  /** @brief Macro backend: assert two @c long values are equal. */
-  virtual void assert_longs_equal(
-      long expected,
-      long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c unsigned long values are equal. */
-  virtual void assert_unsigned_longs_equal(
-      unsigned long expected,
-      unsigned long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c long long values are equal. */
-  virtual void assert_long_longs_equal(
-      long long expected,
-      long long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c unsigned long long values are equal.
+  /**
+   * @brief C-interface backend: assert two signed integer values are equal.
+   *
+   * Both operands have been widened to @c long @c long (the same range as
+   * @c intmax_t on all supported platforms) by the caller.
    */
-  virtual void assert_unsigned_long_longs_equal(
-      unsigned long long expected,
-      unsigned long long actual,
+  virtual void assert_intmax_equal(
+      intmax_t expected,
+      intmax_t actual,
+      const char* text,
+      const char* file_name,
+      size_t line_number,
+      const Terminator& test_terminator = get_current_test_terminator()
+  );
+  /**
+   * @brief C-interface backend: assert two unsigned integer values are equal.
+   *
+   * Both operands have been widened to @c unsigned @c long @c long (the same
+   * range as @c uintmax_t on all supported platforms) by the caller.
+   */
+  virtual void assert_uintmax_equal(
+      uintmax_t expected,
+      uintmax_t actual,
       const char* text,
       const char* file_name,
       size_t line_number,
@@ -444,12 +436,9 @@ void check_equal(
     size_t line
 )
 {
-  // Deduce the common type via the conditional operator's arithmetic
-  // conversion rules (the same implicit promotion the old macro relied on),
-  // then cast both operands explicitly so the comparison is same-type and
-  // no -Wsign-compare/-Wsign-conversion warning fires.
-  using Common = decltype(true ? expected : actual);
-  if (static_cast<Common>(expected) != static_cast<Common>(actual)) {
+  // Compare with the natural types so that mixed signed/unsigned comparisons
+  // produce the same compiler diagnostic they would outside the macro.
+  if (expected != actual) {
     Shell::get_current()->assert_equals(
         true,
         string_from(expected).c_str(),
@@ -631,8 +620,6 @@ void check_enum_equal(
  *
  * @param expected  Expected value.
  * @param actual    Actual value.
- *
- * @see CHECK_EQUAL_TEXT, LONGS_EQUAL, STRCMP_EQUAL
  */
 #define CHECK_EQUAL(expected, actual)                                          \
   CHECK_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
@@ -761,121 +748,6 @@ void check_enum_equal(
   } while (0)
 
 /**
- * @brief Fail if @p expected != @p actual when both are cast to @c long.
- *
- * Suitable for any integral type that fits in a @c long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see LONGS_EQUAL_TEXT, UNSIGNED_LONGS_EQUAL, LONGLONGS_EQUAL
- */
-#define LONGS_EQUAL(expected, actual)                                          \
-  LONGS_EQUAL_LOCATION(                                                        \
-      (expected),                                                              \
-      (actual),                                                                \
-      "LONGS_EQUAL(" #expected ", " #actual ") failed",                        \
-      __FILE__,                                                                \
-      __LINE__                                                                 \
-  )
-
-/** @brief LONGS_EQUAL with a custom failure message. @see LONGS_EQUAL */
-#define LONGS_EQUAL_TEXT(expected, actual, text)                               \
-  LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/**
- * @brief Fail if @p expected != @p actual when both are cast to @c unsigned
- * long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see UNSIGNED_LONGS_EQUAL_TEXT
- */
-#define UNSIGNED_LONGS_EQUAL(expected, actual)                                 \
-  UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief UNSIGNED_LONGS_EQUAL with a custom failure message. @see
- * UNSIGNED_LONGS_EQUAL */
-#define UNSIGNED_LONGS_EQUAL_TEXT(expected, actual, text)                      \
-  UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of LONGS_EQUAL. */
-#define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)               \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_longs_equal(                  \
-        static_cast<long>(expected),                                           \
-        static_cast<long>(actual),                                             \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of UNSIGNED_LONGS_EQUAL. */
-#define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)      \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_unsigned_longs_equal(         \
-        static_cast<unsigned long>(expected),                                  \
-        static_cast<unsigned long>(actual),                                    \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if @p expected != @p actual when both are cast to @c long long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see LONGLONGS_EQUAL_TEXT
- */
-#define LONGLONGS_EQUAL(expected, actual)                                      \
-  LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
-
-/** @brief LONGLONGS_EQUAL with a custom failure message. @see LONGLONGS_EQUAL
- */
-#define LONGLONGS_EQUAL_TEXT(expected, actual, text)                           \
-  LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/**
- * @brief Fail if @p expected != @p actual as @c unsigned long long.
- * @see UNSIGNED_LONGLONGS_EQUAL_TEXT
- */
-#define UNSIGNED_LONGLONGS_EQUAL(expected, actual)                             \
-  UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
-
-/** @brief UNSIGNED_LONGLONGS_EQUAL with a custom failure message. */
-#define UNSIGNED_LONGLONGS_EQUAL_TEXT(expected, actual, text)                  \
-  UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of LONGLONGS_EQUAL. */
-#define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)           \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_long_longs_equal(             \
-        static_cast<long long>(expected),                                      \
-        static_cast<long long>(actual),                                        \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of UNSIGNED_LONGLONGS_EQUAL. */
-#define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)  \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_unsigned_long_longs_equal(    \
-        static_cast<unsigned long long>(expected),                             \
-        static_cast<unsigned long long>(actual),                               \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
  * @brief Fail if the low 8 bits of @p expected != the low 8 bits of @p actual.
  *
  * @param expected  Expected byte value.
@@ -884,11 +756,15 @@ void check_enum_equal(
  * @see BYTES_EQUAL_TEXT, SIGNED_BYTES_EQUAL
  */
 #define BYTES_EQUAL(expected, actual)                                          \
-  LONGS_EQUAL((expected) & 0xff, (actual) & 0xff)
+  CHECK_EQUAL_LOCATION(                                                        \
+      (expected) & 0xff, (actual) & 0xff, "", __FILE__, __LINE__               \
+  )
 
 /** @brief BYTES_EQUAL with a custom failure message. @see BYTES_EQUAL */
 #define BYTES_EQUAL_TEXT(expected, actual, text)                               \
-  LONGS_EQUAL_TEXT((expected) & 0xff, (actual) & 0xff, text)
+  CHECK_EQUAL_LOCATION(                                                        \
+      (expected) & 0xff, (actual) & 0xff, text, __FILE__, __LINE__             \
+  )
 
 /**
  * @brief Fail if the signed byte values @p expected and @p actual differ.

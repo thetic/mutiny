@@ -50,7 +50,7 @@ TEST(SupportPlugin, checkExpectationsAndClearAtEnd)
   plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS("foobar", output.get_output().c_str());
-  LONGS_EQUAL(0, mock().expected_calls_left());
+  CHECK_FALSE(mock().expected_calls_left());
   CHECK_NO_MOCK_FAILURE();
 }
 
@@ -146,7 +146,7 @@ TEST(SupportPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSup
   );
 
   mock().check_expectations();
-  LONGS_EQUAL(0, result->get_failure_count());
+  CHECK_EQUAL(size_t{ 0 }, result->get_failure_count());
 
   plugin.clear();
 }

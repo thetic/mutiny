@@ -73,7 +73,7 @@ TEST_GROUP(ExpectedCall)
 TEST(ExpectedCall, callWithoutParameterSetOrNotFound)
 {
   STRCMP_EQUAL("", call->get_input_parameter_type("nonexisting").c_str());
-  LONGS_EQUAL(0, call->get_input_parameter("nonexisting").get_int_value());
+  CHECK_EQUAL(0, call->get_input_parameter("nonexisting").get_int_value());
   CHECK(!call->has_input_parameter_with_name("nonexisting"));
 }
 
@@ -85,7 +85,7 @@ TEST(ExpectedCall, callWithUnsignedIntegerParameter)
   STRCMP_EQUAL(
       "unsigned int", call->get_input_parameter_type(param_name).c_str()
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_unsigned_int_value()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
@@ -101,7 +101,7 @@ TEST(ExpectedCall, callWithIntegerParameter)
   int value = 2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("int", call->get_input_parameter_type(param_name).c_str());
-  LONGS_EQUAL(value, call->get_input_parameter(param_name).get_int_value());
+  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_int_value());
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
       "funcName -> int paramName: <2 (0x2)>", call->call_to_string().c_str()
@@ -129,7 +129,7 @@ TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
   STRCMP_EQUAL(
       "unsigned long int", call->get_input_parameter_type(param_name).c_str()
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_unsigned_long_int_value()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
@@ -145,7 +145,7 @@ TEST(ExpectedCall, callWithLongIntegerParameter)
   long value = 777;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("long int", call->get_input_parameter_type(param_name).c_str());
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_long_int_value()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
@@ -164,7 +164,7 @@ TEST(ExpectedCall, callWithUnsignedLongLongIntegerParameter)
       "unsigned long long int",
       call->get_input_parameter_type(param_name).c_str()
   );
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       value,
       call->get_input_parameter(param_name).get_unsigned_long_long_int_value()
   );
@@ -183,7 +183,7 @@ TEST(ExpectedCall, callWithLongLongIntegerParameter)
   STRCMP_EQUAL(
       "long long int", call->get_input_parameter_type(param_name).c_str()
   );
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_long_long_int_value()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
@@ -301,7 +301,7 @@ TEST(ExpectedCall, callWithMemoryBuffer)
   POINTERS_EQUAL(
       value, call->get_input_parameter(param_name).get_memory_buffer()
   );
-  LONGS_EQUAL(sizeof(value), call->get_input_parameter(param_name).get_size());
+  CHECK_EQUAL(sizeof(value), call->get_input_parameter(param_name).get_size());
   STRCMP_CONTAINS(
       "funcName -> const unsigned char* paramName: <Size = 3 | "
       "HexContents = 12 FE A1>",
@@ -430,11 +430,11 @@ TEST(ExpectedCall, callWithTwoUnsignedIntegerParameter)
       "unsigned int",
       call->get_input_parameter_type("unsigned-integer2").c_str()
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       call->get_input_parameter("unsigned-integer1").get_unsigned_int_value()
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       another_expected_value,
       call->get_input_parameter("unsigned-integer2").get_unsigned_int_value()
   );
@@ -449,10 +449,10 @@ TEST(ExpectedCall, callWithTwoIntegerParameter)
   call->with_parameter("integer2", another_expected_value);
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer1").c_str());
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer2").c_str());
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, call->get_input_parameter("integer1").get_int_value()
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       another_expected_value,
       call->get_input_parameter("integer2").get_int_value()
   );
@@ -466,7 +466,7 @@ TEST(ExpectedCall, callWithThreeDifferentParameter)
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer").c_str());
   STRCMP_EQUAL("const char*", call->get_input_parameter_type("string").c_str());
   STRCMP_EQUAL("double", call->get_input_parameter_type("double").c_str());
-  LONGS_EQUAL(1, call->get_input_parameter("integer").get_int_value());
+  CHECK_EQUAL(1, call->get_input_parameter("integer").get_int_value());
   STRCMP_EQUAL(
       "hello world", call->get_input_parameter("string").get_string_value()
   );

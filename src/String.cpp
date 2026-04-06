@@ -684,6 +684,16 @@ String brackets_formatted_hex_string_from(unsigned long long value)
   return brackets_formatted_hex_string(hex_string_from(value));
 }
 
+String string_from(float value)
+{
+  if (is_nan(value))
+    return "Nan - Not a number";
+  else if (is_inf(value))
+    return "Inf - Infinity";
+  else
+    return string_from_format("%.7g", value);
+}
+
 String string_from(double value, int precision)
 {
   if (is_nan(value))

@@ -29,9 +29,9 @@ void mutiny_check_equal_int(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_longs_equal(
-      static_cast<long>(expected),
-      static_cast<long>(actual),
+  mu::tiny::test::Shell::get_current()->assert_intmax_equal(
+      static_cast<intmax_t>(expected),
+      static_cast<intmax_t>(actual),
       text,
       file_name,
       line_number,
@@ -47,9 +47,9 @@ void mutiny_check_equal_uint(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_unsigned_longs_equal(
-      static_cast<unsigned long>(expected),
-      static_cast<unsigned long>(actual),
+  mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
+      static_cast<uintmax_t>(expected),
+      static_cast<uintmax_t>(actual),
       text,
       file_name,
       line_number,
@@ -65,9 +65,9 @@ void mutiny_check_equal_long(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_longs_equal(
-      expected,
-      actual,
+  mu::tiny::test::Shell::get_current()->assert_intmax_equal(
+      static_cast<intmax_t>(expected),
+      static_cast<intmax_t>(actual),
       text,
       file_name,
       line_number,
@@ -83,9 +83,9 @@ void mutiny_check_equal_ulong(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_unsigned_longs_equal(
-      expected,
-      actual,
+  mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
+      static_cast<uintmax_t>(expected),
+      static_cast<uintmax_t>(actual),
       text,
       file_name,
       line_number,
@@ -101,9 +101,9 @@ void mutiny_check_equal_longlong(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_long_longs_equal(
-      expected,
-      actual,
+  mu::tiny::test::Shell::get_current()->assert_intmax_equal(
+      static_cast<intmax_t>(expected),
+      static_cast<intmax_t>(actual),
       text,
       file_name,
       line_number,
@@ -119,9 +119,9 @@ void mutiny_check_equal_ulonglong(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_unsigned_long_longs_equal(
-      expected,
-      actual,
+  mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
+      static_cast<uintmax_t>(expected),
+      static_cast<uintmax_t>(actual),
       text,
       file_name,
       line_number,

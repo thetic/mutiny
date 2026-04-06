@@ -45,7 +45,7 @@ TEST(CircularBuffer, NotEmptyThenEmpty)
 TEST(CircularBuffer, GetPutOneValue)
 {
   buffer->put(4567);
-  LONGS_EQUAL(4567, buffer->get());
+  CHECK_EQUAL(4567, buffer->get());
 }
 
 TEST(CircularBuffer, GetPutAFew)
@@ -53,15 +53,15 @@ TEST(CircularBuffer, GetPutAFew)
   buffer->put(1);
   buffer->put(2);
   buffer->put(3);
-  LONGS_EQUAL(1, buffer->get());
-  LONGS_EQUAL(2, buffer->get());
-  LONGS_EQUAL(3, buffer->get());
+  CHECK_EQUAL(1, buffer->get());
+  CHECK_EQUAL(2, buffer->get());
+  CHECK_EQUAL(3, buffer->get());
 }
 
 TEST(CircularBuffer, Capacity)
 {
   CircularBuffer b(2);
-  LONGS_EQUAL(2, b.capacity());
+  CHECK_EQUAL(2, b.capacity());
 }
 
 TEST(CircularBuffer, IsFull)
@@ -86,14 +86,14 @@ TEST(CircularBuffer, WrapAround)
   fill_the_queue(100, buffer->capacity());
 
   CHECK(buffer->is_full());
-  LONGS_EQUAL(100, buffer->get());
+  CHECK_EQUAL(100, buffer->get());
   CHECK(!buffer->is_full());
   buffer->put(1000);
   CHECK(buffer->is_full());
 
   remove_from_queue(buffer->capacity() - 1);
 
-  LONGS_EQUAL(1000, buffer->get());
+  CHECK_EQUAL(1000, buffer->get());
   CHECK(buffer->is_empty());
 }
 
@@ -104,9 +104,9 @@ TEST(CircularBuffer, PutToFull)
   buffer->put(9999);
 
   for (int i = 0; i < buffer->capacity() - 1; i++)
-    LONGS_EQUAL(i + 900 + 1, buffer->get());
+    CHECK_EQUAL(i + 900 + 1, buffer->get());
 
-  LONGS_EQUAL(9999, buffer->get());
+  CHECK_EQUAL(9999, buffer->get());
   CHECK(buffer->is_empty());
 }
 
@@ -115,7 +115,7 @@ TEST(CircularBuffer, PutToFull)
 
 TEST(CircularBuffer, GetFromEmpty)
 {
-  LONGS_EQUAL(-1, buffer->get());
+  CHECK_EQUAL(-1, buffer->get());
   CHECK(buffer->is_empty());
 }
 

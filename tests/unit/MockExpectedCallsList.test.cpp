@@ -40,14 +40,14 @@ TEST(ExpectedCallsList, emptyList)
 {
   CHECK(!list->has_unfulfilled_expectations());
   CHECK(!list->has_finalized_matching_expectations());
-  LONGS_EQUAL(0, list->size());
+  CHECK_EQUAL(0U, list->size());
 }
 
 TEST(ExpectedCallsList, addingCalls)
 {
   list->add_expected_call(call1);
   list->add_expected_call(call2);
-  LONGS_EQUAL(2, list->size());
+  CHECK_EQUAL(2U, list->size());
 }
 
 TEST(ExpectedCallsList, listWithFulfilledExpectationHasNoUnfulfilledOnes)
@@ -97,7 +97,7 @@ TEST(ExpectedCallsList, onlyKeepUnmatchingExpectations)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
   list->only_keep_unmatching_expectations();
-  LONGS_EQUAL(1, list->size());
+  CHECK_EQUAL(1U, list->size());
 }
 
 TEST(ExpectedCallsList, onlyKeepExpectationsRelatedTo)
@@ -109,7 +109,7 @@ TEST(ExpectedCallsList, onlyKeepExpectationsRelatedTo)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
   list->only_keep_expectations_related_to("relate");
-  LONGS_EQUAL(1, list->size());
+  CHECK_EQUAL(1U, list->size());
 }
 
 TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToTheWoleList)
@@ -121,7 +121,7 @@ TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToTheWoleList)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
   list->only_keep_expectations_related_to("unrelate");
-  LONGS_EQUAL(0, list->size());
+  CHECK_EQUAL(0U, list->size());
 }
 
 TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToFirstOne)
@@ -131,7 +131,7 @@ TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToFirstOne)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
   list->only_keep_expectations_related_to("unrelate");
-  LONGS_EQUAL(1, list->size());
+  CHECK_EQUAL(1U, list->size());
 }
 
 TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToLastOne)
@@ -141,7 +141,7 @@ TEST(ExpectedCallsList, removeAllExpectationsExceptThisThatRelateToLastOne)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
   list->only_keep_expectations_related_to("unrelate");
-  LONGS_EQUAL(1, list->size());
+  CHECK_EQUAL(1U, list->size());
 }
 
 TEST(ExpectedCallsList, onlyKeepExpectationsWithInputParameterName)
@@ -153,7 +153,7 @@ TEST(ExpectedCallsList, onlyKeepExpectationsWithInputParameterName)
   list->add_expected_call(call2);
   list->add_expected_call(call3);
   list->only_keep_expectations_with_input_parameter_name("diffname");
-  LONGS_EQUAL(2, list->size());
+  CHECK_EQUAL(2U, list->size());
 }
 
 TEST(ExpectedCallsList, onlyKeepExpectationsWithInputParameter)
@@ -171,14 +171,14 @@ TEST(ExpectedCallsList, onlyKeepExpectationsWithInputParameter)
   list->add_expected_call(call3);
   list->add_expected_call(call4);
   list->only_keep_expectations_with_input_parameter(parameter);
-  LONGS_EQUAL(2, list->size());
+  CHECK_EQUAL(2U, list->size());
 }
 
 TEST(ExpectedCallsList, addPotentiallyMatchingExpectationsWithEmptyList)
 {
   ExpectedCallsListForTest::ExpectedCallsList new_list;
   new_list.add_potentially_matching_expectations(*list);
-  LONGS_EQUAL(0, new_list.size());
+  CHECK_EQUAL(0U, new_list.size());
 }
 
 TEST(ExpectedCallsList, addPotentiallyMatchingExpectationsMultipleUnmatchedExpectations)
@@ -189,7 +189,7 @@ TEST(ExpectedCallsList, addPotentiallyMatchingExpectationsMultipleUnmatchedExpec
   list->add_expected_call(call3);
   ExpectedCallsListForTest::ExpectedCallsList new_list;
   new_list.add_potentially_matching_expectations(*list);
-  LONGS_EQUAL(2, new_list.size());
+  CHECK_EQUAL(2U, new_list.size());
 }
 
 TEST(ExpectedCallsList, amountOfActualCallsFulfilledFor_HasOneRelated)
@@ -200,7 +200,7 @@ TEST(ExpectedCallsList, amountOfActualCallsFulfilledFor_HasOneRelated)
   call2->call_was_made(2);
   list->add_expected_call(call1);
   list->add_expected_call(call2);
-  LONGS_EQUAL(1, list->amount_of_actual_calls_fulfilled_for("bar"));
+  CHECK_EQUAL(1U, list->amount_of_actual_calls_fulfilled_for("bar"));
 }
 
 TEST(ExpectedCallsList, amountOfActualCallsFulfilledFor_HasNone)
@@ -209,7 +209,7 @@ TEST(ExpectedCallsList, amountOfActualCallsFulfilledFor_HasNone)
   call1->call_was_made(1);
   call2->with_name("bar");
   list->add_expected_call(call1);
-  LONGS_EQUAL(0, list->amount_of_actual_calls_fulfilled_for("bar"));
+  CHECK_EQUAL(0U, list->amount_of_actual_calls_fulfilled_for("bar"));
 }
 
 TEST(ExpectedCallsList, callToStringForUnfulfilledFunctions)

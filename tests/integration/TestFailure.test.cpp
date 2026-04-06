@@ -39,7 +39,7 @@ TEST(Failure, GetTestFileAndLineFromFailure)
       test, fail_file_name, fail_line_number, "the failure message"
   );
   STRCMP_EQUAL(fail_file_name, f1.get_test_file_name().c_str());
-  LONGS_EQUAL(1, f1.get_test_line_number());
+  CHECK_EQUAL(size_t{ 1 }, f1.get_test_line_number());
 }
 
 TEST(Failure, EqualsFailureWithText)
@@ -135,7 +135,7 @@ TEST(Failure, FailFailure)
 
 TEST(Failure, LongsEqualFailureWithText)
 {
-  mu::tiny::test::LongsEqualFailure f(
+  mu::tiny::test::IntMaxEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, "text"
   );
   FAILURE_EQUAL(
@@ -147,7 +147,7 @@ TEST(Failure, LongsEqualFailureWithText)
 
 TEST(Failure, LongsEqualFailure)
 {
-  mu::tiny::test::LongsEqualFailure f(
+  mu::tiny::test::IntMaxEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
   );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
@@ -155,7 +155,7 @@ TEST(Failure, LongsEqualFailure)
 
 TEST(Failure, LongLongsEqualFailure)
 {
-  mu::tiny::test::LongLongsEqualFailure f(
+  mu::tiny::test::IntMaxEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
   );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
@@ -163,7 +163,7 @@ TEST(Failure, LongLongsEqualFailure)
 
 TEST(Failure, UnsignedLongLongsEqualFailure)
 {
-  mu::tiny::test::UnsignedLongLongsEqualFailure f(
+  mu::tiny::test::UintMaxEqualFailure f(
       test, fail_file_name, fail_line_number, 1, 2, ""
   );
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);

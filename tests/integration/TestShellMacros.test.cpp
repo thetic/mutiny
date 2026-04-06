@@ -25,39 +25,6 @@ void failing_test_method_with_fail()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void unsigned_longs_equal_test_method()
-{
-  UNSIGNED_LONGS_EQUAL(1, 1);
-  UNSIGNED_LONGS_EQUAL(1, 0);
-}
-
-void unsigned_longs_equal_text_test_method()
-{
-  UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
-void longlongs_equal_test_method()
-{
-  LONGLONGS_EQUAL(1, 1);
-  LONGLONGS_EQUAL(1, 0);
-}
-
-void longlongs_equal_text_test_method()
-{
-  LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
-void unsigned_longlongs_equal_test_method()
-{
-  UNSIGNED_LONGLONGS_EQUAL(1, 1);
-  UNSIGNED_LONGLONGS_EQUAL(1, 0);
-}
-
-void unsigned_longlongs_equal_text_test_method()
-{
-  UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
 void failing_test_method_with_check()
 {
   CHECK(false);
@@ -135,26 +102,6 @@ void failing_test_method_with_check_equal_zero()
 void failing_test_method_with_check_equal_zero_text()
 {
   CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_longs_equal()
-{
-  LONGS_EQUAL(1, 0xff);
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_longs_equal_with_symbolic_parameters()
-{
-#define MONDAY 1
-  int day_of_the_week = MONDAY + 1;
-  LONGS_EQUAL(MONDAY, day_of_the_week);
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_longs_equal_text()
-{
-  LONGS_EQUAL_TEXT(1, 0xff, "Failed because it failed");
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -246,8 +193,8 @@ int function_that_returns_a_value()
   CHECK_TRUE_TEXT(0 == 0, "Shouldn't fail");
   CHECK_FALSE(0 != 0);
   CHECK_FALSE_TEXT(0 != 0, "Shouldn't fail");
-  LONGS_EQUAL(1, 1);
-  LONGS_EQUAL_TEXT(1, 1, "Shouldn't fail");
+  CHECK_EQUAL(1, 1);
+  CHECK_EQUAL_TEXT(1, 1, "Shouldn't fail");
   BYTES_EQUAL(0xab, 0xab);
   BYTES_EQUAL_TEXT(0xab, 0xab, "Shouldn't fail");
   CHECK_EQUAL(100, 100);
@@ -414,129 +361,6 @@ IGNORE_TEST(TestShellMacros, FAILworksInAnIgnoredTest)
   FAIL("die!");
 }
 
-TEST(TestShellMacros, TestUNSIGNED_LONGS_EQUAL)
-{
-  fixture.run_test_with_method(unsigned_longs_equal_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-}
-
-TEST(TestShellMacros, UNSIGNED_LONGS_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    UNSIGNED_LONGS_EQUAL(1, 0);
-  else
-    UNSIGNED_LONGS_EQUAL(1, 1);
-}
-
-IGNORE_TEST(TestShellMacros, UNSIGNED_LONGS_EQUALWorksInAnIgnoredTest)
-{
-  UNSIGNED_LONGS_EQUAL(1, 0);
-}
-
-TEST(TestShellMacros, TestUNSIGNED_LONGS_EQUAL_TEXT)
-{
-  fixture.run_test_with_method(unsigned_longs_equal_text_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, UNSIGNED_LONGS_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-  else
-    UNSIGNED_LONGS_EQUAL_TEXT(1, 1, "Failed because it failed");
-}
-
-IGNORE_TEST(TestShellMacros, UNSIGNED_LONGS_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  UNSIGNED_LONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
-TEST(TestShellMacros, TestLONGLONGS_EQUAL)
-{
-  fixture.run_test_with_method(longlongs_equal_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-}
-
-TEST(TestShellMacros, LONGLONGS_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    LONGLONGS_EQUAL(1, 0);
-  else
-    LONGLONGS_EQUAL(1, 1);
-}
-
-IGNORE_TEST(TestShellMacros, LONGLONGS_EQUALWorksInAnIgnoredTest)
-{
-  LONGLONGS_EQUAL(1, 0);
-}
-
-TEST(TestShellMacros, TestLONGLONGS_EQUAL_TEXT)
-{
-  fixture.run_test_with_method(longlongs_equal_text_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, LONGLONGS_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-  else
-    LONGLONGS_EQUAL_TEXT(1, 1, "Failed because it failed");
-}
-
-IGNORE_TEST(TestShellMacros, LONGLONGS_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
-TEST(TestShellMacros, TestUNSIGNED_LONGLONGS_EQUAL)
-{
-  fixture.run_test_with_method(unsigned_longlongs_equal_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-}
-
-TEST(TestShellMacros, UNSIGNED_LONGLONGS_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    UNSIGNED_LONGLONGS_EQUAL(1, 0);
-  else
-    UNSIGNED_LONGLONGS_EQUAL(1, 1);
-}
-
-IGNORE_TEST(TestShellMacros, UNSIGNED_LONGLONGS_EQUALWorksInAnIgnoredTest)
-{
-  UNSIGNED_LONGLONGS_EQUAL(1, 0);
-}
-
-TEST(TestShellMacros, TestUNSIGNED_LONGLONGS_EQUAL_TEXT)
-{
-  fixture.run_test_with_method(unsigned_longlongs_equal_text_test_method);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0 (0x0)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, UNSIGNED_LONGLONGS_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-  else
-    UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 1, "Failed because it failed");
-}
-
-IGNORE_TEST(TestShellMacros, UNSIGNED_LONGLONGS_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  UNSIGNED_LONGLONGS_EQUAL_TEXT(1, 0, "Failed because it failed");
-}
-
 TEST(TestShellMacros, FailureWithCHECK)
 {
   fixture.run_test_with_method(failing_test_method_with_check);
@@ -700,28 +524,12 @@ IGNORE_TEST(TestShellMacros, CHECK_COMPARE_TEXTWorksInAnIgnoredTest)
   CHECK_COMPARE_TEXT(1, >, 2, "1 smaller than 2");
 }
 
-TEST(TestShellMacros, LONGS_EQUAL_macroExpressionSafety)
-{
-  LONGS_EQUAL(1, 0.4 + 0.7);
-  LONGS_EQUAL(0.4 + 0.7, 1);
-  LONGS_EQUAL_TEXT(1, 0.4 + 0.7, "-Wconversion=great");
-  LONGS_EQUAL_TEXT(0.4 + 0.7, 1, "-Wconversion=great");
-}
-
-TEST(TestShellMacros, UNSIGNED_LONGS_EQUAL_macroExpressionSafety)
-{
-  UNSIGNED_LONGS_EQUAL(1, 0.4 + 0.7);
-  UNSIGNED_LONGS_EQUAL(0.4 + 0.7, 1);
-  UNSIGNED_LONGS_EQUAL_TEXT(1, 0.4 + 0.7, "-Wconversion=great");
-  UNSIGNED_LONGS_EQUAL_TEXT(0.4 + 0.7, 1, "-Wconversion=great");
-}
-
 TEST(TestShellMacros, passingCheckEqualWillNotBeEvaluatedMultipleTimesWithCHECK_EQUAL)
 {
   count_in_counting_method = 0;
   CHECK_EQUAL(0, counting_method());
 
-  LONGS_EQUAL(1, count_in_counting_method);
+  CHECK_EQUAL(1, count_in_counting_method);
 }
 
 TEST(TestShellMacros, failing_CHECK_EQUAL_withParamatersThatDontChangeWillNotGiveAnyWarning)
@@ -776,7 +584,7 @@ TEST(TestShellMacros, passingCheckEqualWillNotBeEvaluatedMultipleTimesWithCHECK_
   count_in_counting_method = 0;
   CHECK_EQUAL_ZERO(counting_method());
 
-  LONGS_EQUAL(1, count_in_counting_method);
+  CHECK_EQUAL(1, count_in_counting_method);
 }
 
 TEST(TestShellMacros, failing_CHECK_EQUAL_ZERO_withParamatersThatDontChangeWillNotGiveAnyWarning)
@@ -819,65 +627,11 @@ IGNORE_TEST(TestShellMacros, CHECK_EQUAL_ZERO_TEXTWorksInAnIgnoredTest)
   CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
 }
 
-TEST(TestShellMacros, FailureWithLONGS_EQUALS)
-{
-  fixture.run_test_with_method(failing_test_method_with_longs_equal);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <  1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <255 (0xff)>");
-}
-
-TEST(TestShellMacros, FailureWithLONGS_EQUALShowsSymbolicParameters)
-{
-  fixture.run_test_with_method(
-      failing_test_method_with_longs_equal_with_symbolic_parameters
-  );
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT(
-      "LONGS_EQUAL(MONDAY, day_of_the_week) failed"
-  );
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2 (0x2)>");
-  CHECK_FALSE(mu::tiny::string_contains(fixture.get_output(), "Message: "));
-}
-
-TEST(TestShellMacros, LONGS_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    LONGS_EQUAL(1, 2);
-  else
-    LONGS_EQUAL(10, 10);
-}
-
-IGNORE_TEST(TestShellMacros, LONGS_EQUALWorksInAnIgnoredTest)
-{
-  LONGS_EQUAL(11, 22);
-}
-
-TEST(TestShellMacros, FailureWithLONGS_EQUALS_TEXT)
-{
-  fixture.run_test_with_method(failing_test_method_with_longs_equal_text);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <  1 (0x1)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <255 (0xff)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, LONGS_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    LONGS_EQUAL_TEXT(1, 2, "Failed because it failed");
-  else
-    LONGS_EQUAL_TEXT(10, 10, "Failed because it failed");
-}
-
-IGNORE_TEST(TestShellMacros, LONGS_EQUAL_TEXTWorksInAnIgnoredTest)
-{
-  LONGS_EQUAL_TEXT(11, 22, "Failed because it failed");
-}
-
 TEST(TestShellMacros, FailureWithBYTES_EQUAL)
 {
   fixture.run_test_with_method(failing_test_method_with_bytes_equal);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <97 (0x61)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <98 (0x62)>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <97>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <98>");
 }
 
 TEST(TestShellMacros, BYTES_EQUALBehavesAsProperMacro)
@@ -896,8 +650,8 @@ IGNORE_TEST(TestShellMacros, BYTES_EQUALWorksInAnIgnoredTest)
 TEST(TestShellMacros, FailureWithBYTES_EQUAL_TEXT)
 {
   fixture.run_test_with_method(failing_test_method_with_bytes_equal_text);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <97 (0x61)>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <98 (0x62)>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <97>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <98>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
@@ -1125,7 +879,7 @@ TEST(TestShellMacros, SuccessPrintsNothing)
 {
   fixture.run_test_with_method(passing_test_method);
 
-  LONGS_EQUAL(0, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
   fixture.assert_print_contains(".\nOK (1 tests");
   CHECK(line_of_code_executed_after_check);
 }
@@ -1392,7 +1146,7 @@ TestShellMacros, FailureWithCHECK_THROWS_whenDoesntThrow)
   fixture.run_test_with_method(failing_test_method_no_throw_with_check_throws);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected to throw int");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but threw nothing");
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST( TestShellMacros, SuccessWithCHECK_THROWS)
@@ -1400,7 +1154,7 @@ TEST( TestShellMacros, SuccessWithCHECK_THROWS)
   fixture.run_test_with_method(
       succeeding_test_method_correct_throw_with_check_throws
   );
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST( TestShellMacros, FailureWithCHECK_THROWS_whenWrongThrow)
@@ -1410,7 +1164,7 @@ TEST( TestShellMacros, FailureWithCHECK_THROWS_whenWrongThrow)
   );
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected to throw int");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but threw a different type");
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST( TestShellMacros, MultipleCHECK_THROWS_inOneScope)

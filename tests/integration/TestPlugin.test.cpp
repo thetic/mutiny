@@ -100,7 +100,7 @@ TEST(Plugin, InstallPlugin)
 {
   CHECK_EQUAL(first_plugin, registry->get_first_plugin());
   CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
-  LONGS_EQUAL(1, registry->count_plugins());
+  CHECK_EQUAL(1, registry->count_plugins());
 }
 
 TEST(Plugin, InstallMultiplePlugins)
@@ -127,16 +127,16 @@ TEST(Plugin, Sequence)
   CHECK_EQUAL(2, first_plugin->pre_action_sequence);
   CHECK_EQUAL(3, first_plugin->post_action_sequence);
   CHECK_EQUAL(4, third_plugin->post_action_sequence);
-  LONGS_EQUAL(2, registry->count_plugins());
+  CHECK_EQUAL(2, registry->count_plugins());
 }
 
 TEST(Plugin, RemovePluginByName)
 {
   registry->install_plugin(second_plugin);
   registry->install_plugin(third_plugin);
-  LONGS_EQUAL(3, registry->count_plugins());
+  CHECK_EQUAL(3, registry->count_plugins());
   registry->remove_plugin_by_name(GENERIC_PLUGIN2);
-  LONGS_EQUAL(2, registry->count_plugins());
+  CHECK_EQUAL(2, registry->count_plugins());
 }
 
 struct DefaultPlugin : public mu::tiny::test::Plugin

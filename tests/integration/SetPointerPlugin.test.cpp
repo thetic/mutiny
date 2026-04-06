@@ -101,8 +101,8 @@ TEST(SetPointerPlugin, installTwoFunctionPointer)
   my_registry->run_all_tests(*result);
   CHECK(fp1 == orig_func1);
   CHECK(fp2 == orig_func2);
-  LONGS_EQUAL(0, result->get_failure_count());
-  LONGS_EQUAL(2, result->get_check_count());
+  CHECK_EQUAL(size_t{ 0 }, result->get_failure_count());
+  CHECK_EQUAL(size_t{ 2 }, result->get_check_count());
   delete tst;
 }
 
@@ -147,13 +147,13 @@ TEST(SetPointerPlugin, installTooMuchFunctionPointer)
 
   my_registry->run_all_tests(*result);
 
-  LONGS_EQUAL(1, result->get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, result->get_failure_count());
   delete tst;
 }
 
 EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 {
-  for (int i = 0; i <= mu::tiny::test::SetPointerPlugin::max_set; ++i) {
+  for (size_t i{ 0 }; i <= mu::tiny::test::SetPointerPlugin::max_set; ++i) {
     MUTINY_PTR_SET(fp1, stub_func1);
   }
 }
@@ -165,6 +165,6 @@ TEST(SetPointerPlugin, doublePointer)
   my_registry->run_all_tests(*result);
 
   CHECK(orig_double_ptr == &orig_double);
-  LONGS_EQUAL(1, result->get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, result->get_check_count());
   delete doubletst;
 }
