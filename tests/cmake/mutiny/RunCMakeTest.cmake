@@ -11,7 +11,7 @@ if(DEFINED CMAKE_TRY_COMPILE_TARGET_TYPE)
     )
 endif()
 
-# ── mutiny.cmake configure-time tests ─────────────────────────────────────────
+# ── Mutiny.cmake configure-time tests ─────────────────────────────────────────
 
 # Error cases
 run_cmake(NotATarget)

@@ -43,7 +43,7 @@ and are available to consuming projects immediately after that call.
 
 .. variable:: MUTINY_MODULE_PATH
 
-   Path to the directory containing ``mutiny.cmake``.
+   Path to the directory containing ``Mutiny.cmake``.
    :cmake:command:`find_package(mutiny) <cmake:command:find_package>` also
    appends this directory to :cmake:variable:`CMAKE_MODULE_PATH
    <cmake:variable:CMAKE_MODULE_PATH>` so that ``include(mutiny)`` works
@@ -52,4 +52,4 @@ and are available to consuming projects immediately after that call.
 CTest Integration Module
 ------------------------
 
-.. cmake-module:: ../cmake/mutiny.cmake
+.. cmake-module:: ../cmake/Mutiny.cmake

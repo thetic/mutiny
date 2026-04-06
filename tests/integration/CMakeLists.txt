@@ -49,5 +49,5 @@ target_link_libraries(mutiny_integration
         mutiny_test_util
 )
 
-include(mutiny)
+include(Mutiny)
 mutiny_discover_tests(mutiny_integration)

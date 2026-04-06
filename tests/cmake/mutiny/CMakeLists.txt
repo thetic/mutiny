@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(mutinyConfigTests LANGUAGES NONE)
 
 list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
-include(mutiny)
+include(Mutiny)
 
 # ── Error cases (no compiler needed) ─────────────────────────────────────────
 
