@@ -57,7 +57,7 @@ This means `<type_traits>`, `<utility>`, `std::enable_if`, and similar are off-l
 ## Warnings Policy
 
 The CI presets enable `-Werror`. All warnings must be clean across all presets before a change is ready.
-Warning flags are defined in `cmake/warnings.cmake`.
+Warning flags are defined in `cfg/warnings.cmake`.
 New warning flags are checked for compiler support before being applied.
 
 ## Adding Tests
@@ -91,7 +91,7 @@ User-facing features must be documented in `docs/`. The docs are written in reSt
 ## Semantic Versioning
 
 This project follows [Semantic Versioning 2.0.0](https://semver.org/).
-The version is defined in the `VERSION` file in the root directory and is used to generate the version header `mutiny/test/version.hpp`.
+The version is defined in the `cfg/VERSION` file and is used to generate the version header `mutiny/test/version.hpp`.
 
 ### Incrementing the Version
 
@@ -109,7 +109,7 @@ Reviewers will check for breaking changes to ensure the MAJOR version is increme
 
 ## Creating a Release
 
-1. Update the `VERSION` file with the new version number.
+1. Update the `cfg/VERSION` file with the new version number.
 2. Merge to `main`.
 3. Create a GitHub release tagged `v<version>` (e.g. `v1.2.3`).
 

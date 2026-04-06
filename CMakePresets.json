@@ -11,7 +11,7 @@
         "CMAKE_CXX_EXTENSIONS": false,
         "CMAKE_C_EXTENSIONS": false,
         "CMAKE_OPTIMIZE_DEPENDENCIES": true,
-        "CMAKE_PROJECT_INCLUDE": "${sourceDir}/cmake/warnings.cmake",
+        "CMAKE_PROJECT_INCLUDE": "${sourceDir}/cfg/warnings.cmake",
         "CMAKE_VERIFY_INTERFACE_HEADER_SETS": true
       },
       "errors": {
@@ -96,7 +96,7 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cmake/lcov.cmake",
+        "CMAKE_PROJECT_mutiny_INCLUDE": "${sourceDir}/cfg/lcov.cmake",
         "MUTINY_USE_STD_STRING": false,
         "MUTINY_EXAMPLES": false
       }

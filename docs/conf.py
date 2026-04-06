@@ -10,7 +10,7 @@ copyright = "2026, Chad Condon"
 author = "Chad Condon"
 language = "en"
 
-version = Path("../VERSION").read_text().strip()
+version = Path("../cfg/VERSION").read_text().strip()
 release = version
 
 # -- General configuration -----------------------------------------------------

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.29)
 
-file(READ "VERSION" MUTINY_VERSION_RAW)
+file(READ "cfg/VERSION" MUTINY_VERSION_RAW)
 string(STRIP "${MUTINY_VERSION_RAW}" MUTINY_VERSION)
 
 project(mutiny
@@ -221,7 +221,7 @@ if(PROJECT_IS_TOP_LEVEL)
     set(MUTINY_CONFIG_DEST "${LIB_INSTALL_DIR}/mutiny/cmake")
 
     # CMake package config files (install tree).
-    configure_package_config_file(cmake/mutiny-config.cmake.install.in
+    configure_package_config_file(cfg/mutiny-config.cmake.install.in
         ${CMAKE_CURRENT_BINARY_DIR}/install/mutiny-config.cmake
         INSTALL_DESTINATION "${MUTINY_CONFIG_DEST}"
         PATH_VARS INCLUDE_INSTALL_DIR LIB_INSTALL_DIR
@@ -249,7 +249,7 @@ if(PROJECT_IS_TOP_LEVEL)
     )
 
     # CMake package config files (build tree).
-    configure_package_config_file(cmake/mutiny-config.cmake.build.in
+    configure_package_config_file(cfg/mutiny-config.cmake.build.in
         ${PROJECT_BINARY_DIR}/mutiny-config.cmake
         INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
         PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR MODULES_DIR
@@ -271,10 +271,9 @@ if(PROJECT_IS_TOP_LEVEL)
         "/docs/"
         "/examples/"
         "/tests/"
-        "/cmake/c\\.clang-tidy$"
-        "/cmake/CTestCustom\\.cmake\\.in$"
-        "/cmake/lcov\\.cmake$"
-        "/cmake/warnings\\.cmake$"
+        "/cfg/CTestCustom\\.cmake\\.in$"
+        "/cfg/lcov\\.cmake$"
+        "/cfg/warnings\\.cmake$"
         "/\\.clang-format$"
         "/\\.clang-tidy$"
         "/CMakePresets\\.json$"
