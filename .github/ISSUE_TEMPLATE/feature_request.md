@@ -1,7 +1,6 @@
 ---
 name: Feature Request
 about: Propose a new feature, improvement, or extension to the mutiny framework.
-title: "[FEATURE] "
 labels: enhancement
 assignees: ''
 

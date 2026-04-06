@@ -1,7 +1,6 @@
 ---
 name: Bug Report
 about: Report a technical issue or unexpected behavior in the mutiny framework.
-title: "[BUG] "
 labels: bug
 assignees: ''
 
