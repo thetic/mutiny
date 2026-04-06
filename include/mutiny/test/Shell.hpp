@@ -3,7 +3,7 @@
  * @brief Assertion macros and the Shell base class.
  *
  * This header is the primary source of assertion macros (@ref CHECK, @ref
- * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref DOUBLES_EQUAL, etc.) and the @ref
+ * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref CHECK_APPROX, etc.) and the @ref
  * mu::tiny::test::Shell class that backs them. It is included transitively by
  * @ref mutiny/test.hpp; you rarely need to include it directly.
  */
@@ -31,15 +31,33 @@ class Filter;
 /**
  * @brief Returns true if @p d1 and @p d2 differ by at most @p threshold.
  *
- * Used by the @ref DOUBLES_EQUAL macro. Handles NaN correctly: if either
- * operand is NaN the function returns false.
+ * Used by the @ref CHECK_APPROX macro. Handles NaN and infinity correctly.
  *
  * @param d1         First value.
  * @param d2         Second value.
  * @param threshold  Maximum allowed absolute difference (must be >= 0).
  * @return true if |d1 - d2| <= threshold.
  */
-MUTINY_EXPORT bool doubles_equal(double d1, double d2, double threshold);
+MUTINY_EXPORT bool approx_equal(double d1, double d2, double threshold);
+
+/**
+ * @brief approx_equal for non-double arithmetic types.
+ *
+ * For floating-point @p T, NaN in any operand returns false. Infinity and
+ * signed-overflow edge cases are not handled specially; if you need them,
+ * convert to @c double and call the @c double overload.
+ *
+ * For integral @p T the comparison is done entirely in integer arithmetic —
+ * no conversion to floating-point occurs.
+ */
+template<typename T>
+bool approx_equal(T d1, T d2, T threshold)
+{
+  // d != d is true iff d is NaN (IEEE 754); always false for integral types.
+  if (d1 != d1 || d2 != d2 || threshold != threshold)
+    return false;
+  return (d1 >= d2 ? d1 - d2 : d2 - d1) <= threshold;
+}
 
 /**
  * @brief Shell for a single test — tracks metadata and drives execution.
@@ -238,7 +256,7 @@ public:
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two doubles are equal within @p threshold. */
-  virtual void assert_doubles_equal(
+  virtual void assert_approx_equal(
       double expected,
       double actual,
       double threshold,
@@ -515,6 +533,39 @@ void check_enum_equal(
   if (e != a) {
     Shell::get_current()->assert_equals(
         true, string_from(e).c_str(), string_from(a).c_str(), text, file, line
+    );
+  } else {
+    Shell::get_current()->count_check();
+  }
+}
+
+/**
+ * @brief Implementation helper for CHECK_APPROX.
+ *
+ * All three operands share the same type @p T so mismatched-type calls produce
+ * a compiler diagnostic rather than silent promotion. Prefer the CHECK_APPROX
+ * macro.
+ *
+ * @param expected   Expected value.
+ * @param actual     Actual value.
+ * @param threshold  Maximum allowed absolute difference.
+ * @param text       Optional failure message.
+ * @param file       Source file path.
+ * @param line       Source line number.
+ */
+template<typename T>
+void check_approx(
+    T expected,
+    T actual,
+    T threshold,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  if (!approx_equal(expected, actual, threshold)) {
+    Shell::get_current()->assert_approx_equal(
+        expected, actual, threshold, text, file, line
     );
   } else {
     Shell::get_current()->count_check();
@@ -806,28 +857,28 @@ void check_enum_equal(
 /**
  * @brief Fail if @p expected and @p actual differ by more than @p threshold.
  *
+ * Accepts any numeric type (floating-point or integral); all three operands
+ * must share the same type so mismatched pairs produce a compiler diagnostic.
  * Handles NaN correctly: a NaN operand always fails the check.
  *
- * @param expected   Expected double value.
- * @param actual     Actual double value.
+ * @param expected   Expected value.
+ * @param actual     Actual value.
  * @param threshold  Maximum allowed absolute difference (must be >= 0).
  *
- * @see DOUBLES_EQUAL_TEXT, doubles_equal
+ * @see CHECK_APPROX_TEXT, approx_equal
  */
-#define DOUBLES_EQUAL(expected, actual, threshold)                             \
-  DOUBLES_EQUAL_LOCATION(expected, actual, threshold, "", __FILE__, __LINE__)
+#define CHECK_APPROX(expected, actual, threshold)                              \
+  CHECK_APPROX_LOCATION(expected, actual, threshold, "", __FILE__, __LINE__)
 
-/** @brief DOUBLES_EQUAL with a custom failure message. @see DOUBLES_EQUAL */
-#define DOUBLES_EQUAL_TEXT(expected, actual, threshold, text)                  \
-  DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
+/** @brief CHECK_APPROX with a custom failure message. @see CHECK_APPROX */
+#define CHECK_APPROX_TEXT(expected, actual, threshold, text)                   \
+  CHECK_APPROX_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of DOUBLES_EQUAL. */
-#define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)  \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_doubles_equal(                \
-        expected, actual, threshold, text, file, line                          \
-    );                                                                         \
-  } while (0)
+/** @brief Location-explicit variant of CHECK_APPROX. */
+#define CHECK_APPROX_LOCATION(expected, actual, threshold, text, file, line)   \
+  mu::tiny::test::check_approx(                                                \
+      (expected), (actual), (threshold), text, file, line                      \
+  )
 
 /**
  * @brief Fail if @p size bytes starting at @p expected and @p actual differ.

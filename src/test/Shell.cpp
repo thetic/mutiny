@@ -98,7 +98,7 @@ const CrashingTerminatorWithoutExceptions
 void (*please_crash_me_right_now)() = abort;
 } // namespace
 
-bool doubles_equal(double d1, double d2, double threshold)
+bool approx_equal(double d1, double d2, double threshold)
 {
   if (is_nan(d1) || is_nan(d2) || is_nan(threshold))
     return false;
@@ -544,7 +544,7 @@ void Shell::assert_function_pointers_equal(
   }
 }
 
-void Shell::assert_doubles_equal(
+void Shell::assert_approx_equal(
     double expected,
     double actual,
     double threshold,
@@ -554,13 +554,10 @@ void Shell::assert_doubles_equal(
     const Terminator& test_terminator
 )
 {
-  get_test_result()->count_check();
-  if (!doubles_equal(expected, actual, threshold)) {
-    add_failure(DoublesEqualFailure(
-        this, file_name, line_number, expected, actual, threshold, text
-    ));
-    test_terminator.exit_current_test();
-  }
+  add_failure(ApproxEqualFailure(
+      this, file_name, line_number, expected, actual, threshold, text
+  ));
+  test_terminator.exit_current_test();
 }
 
 void Shell::assert_binary_equal(

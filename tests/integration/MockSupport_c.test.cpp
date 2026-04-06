@@ -687,10 +687,10 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnStringValueOrDefaultShouldlUse
 TEST(MockSupport_c, returnDoubleValue)
 {
   mutiny_mock()->expect_one_call("boo")->and_return_double_value(1.0);
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       1.0, mutiny_mock()->actual_call("boo")->double_return_value(), 0.005
   );
-  DOUBLES_EQUAL(1.0, mutiny_mock()->double_return_value(), 0.005);
+  CHECK_APPROX(1.0, mutiny_mock()->double_return_value(), 0.005);
   CHECK_EQUAL(mutiny_type_double, mutiny_mock()->return_value().type);
 }
 
@@ -701,14 +701,14 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnDoubleValueOrDefaultShouldIgnore
   mutiny_mock()->expect_one_call("foo")->and_return_double_value(
       expected_value
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_double_value_or_default(
           default_value
       ),
       0.005
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_value,
       mutiny_mock()->return_double_value_or_default(default_value),
       0.005
@@ -719,14 +719,14 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnDoubleValueOrDefaultShouldlUse
 {
   double default_value = 2.2;
   mutiny_mock()->expect_one_call("foo");
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_value,
       mutiny_mock()->actual_call("foo")->return_double_value_or_default(
           default_value
       ),
       0.005
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_value,
       mutiny_mock()->return_double_value_or_default(default_value),
       0.005
@@ -932,7 +932,7 @@ TEST(MockSupport_c, MockSupportSetUnsignedLongIntData)
 TEST(MockSupport_c, MockSupportSetDoubleData)
 {
   mutiny_mock()->set_double_data("double", 1.0);
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       1.00, mutiny_mock()->get_data("double").value.double_value, 0.05
   );
 }

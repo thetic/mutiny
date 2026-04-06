@@ -199,7 +199,7 @@ TEST(ExpectedCall, callWithDoubleParameter)
   double value = 1.2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       value, call->get_input_parameter(param_name).get_double_value(), 0.0
   );
   STRCMP_CONTAINS(
@@ -214,10 +214,10 @@ TEST(ExpectedCall, callWithDoubleParameterAndTolerance)
   double tolerance = 0.2;
   call->with_parameter(param_name, value, tolerance);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       value, call->get_input_parameter(param_name).get_double_value(), 0.0
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       tolerance,
       call->get_input_parameter(param_name).get_double_tolerance(),
       0.0
@@ -470,7 +470,7 @@ TEST(ExpectedCall, callWithThreeDifferentParameter)
   STRCMP_EQUAL(
       "hello world", call->get_input_parameter("string").get_string_value()
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       0.12, call->get_input_parameter("double").get_double_value(), 0.05
   );
 }

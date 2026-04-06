@@ -121,18 +121,18 @@ void thrown_standard_exception_method()
 
 TEST(Shell, compareDoubles)
 {
-  CHECK(mu::tiny::test::doubles_equal(1.0, 1.001, 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.1, 0.05));
+  CHECK(mu::tiny::test::approx_equal(1.0, 1.001, 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, 1.1, 0.05));
   double a = 1.2345678;
-  CHECK(mu::tiny::test::doubles_equal(a, a, 0.000000001));
+  CHECK(mu::tiny::test::approx_equal(a, a, 0.000000001));
 }
 
 #ifdef NAN
 TEST(Shell, compareDoublesNaN)
 {
-  CHECK(!mu::tiny::test::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
+  CHECK(!mu::tiny::test::approx_equal(static_cast<double>(NAN), 1.001, 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, static_cast<double>(NAN), 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, 1.001, static_cast<double>(NAN)));
 }
 #endif
 
@@ -140,21 +140,19 @@ TEST(Shell, compareDoublesNaN)
 TEST(Shell, compareDoublesInf)
 {
   CHECK(
-      !mu::tiny::test::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01)
+      !mu::tiny::test::approx_equal(static_cast<double>(INFINITY), 1.0, 0.01)
   );
   CHECK(
-      !mu::tiny::test::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01)
+      !mu::tiny::test::approx_equal(1.0, static_cast<double>(INFINITY), 0.01)
   );
+  CHECK(mu::tiny::test::approx_equal(1.0, -1.0, static_cast<double>(INFINITY)));
   CHECK(
-      mu::tiny::test::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY))
-  );
-  CHECK(
-      mu::tiny::test::doubles_equal(
+      mu::tiny::test::approx_equal(
           static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01
       )
   );
   CHECK(
-      mu::tiny::test::doubles_equal(
+      mu::tiny::test::approx_equal(
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY)

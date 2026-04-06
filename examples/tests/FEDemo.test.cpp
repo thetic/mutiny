@@ -49,7 +49,7 @@ EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
 {
   IEEE754ExceptionsPlugin::enable_inexact();
   volatile float f = 10.0f;
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       static_cast<double>(f / 3.0f),
       static_cast<double>(3.333f),
       static_cast<double>(0.001f)

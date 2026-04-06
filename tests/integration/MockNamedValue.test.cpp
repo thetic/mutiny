@@ -13,7 +13,7 @@ TEST_GROUP(NamedValue)
 TEST(NamedValue, DefaultToleranceUsedWhenNoToleranceGiven)
 {
   value->set_value(0.2);
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       mu::tiny::mock::NamedValue::default_double_tolerance,
       value->get_double_tolerance(),
       0.0
@@ -24,8 +24,8 @@ TEST(NamedValue, GivenToleranceUsed)
 {
   value->set_value(0.2, 3.2);
   STRCMP_EQUAL("double", value->get_type().c_str());
-  DOUBLES_EQUAL(0.2, value->get_double_value(), 0.0);
-  DOUBLES_EQUAL(3.2, value->get_double_tolerance(), 0.0);
+  CHECK_APPROX(0.2, value->get_double_value(), 0.0);
+  CHECK_APPROX(3.2, value->get_double_tolerance(), 0.0);
 }
 
 TEST(NamedValue, DoublesEqualIfWithinTolerance)

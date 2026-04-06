@@ -78,7 +78,7 @@ TEST(Support, setDataString)
 TEST(Support, setDataDouble)
 {
   mock().set_data("data", 1.0);
-  DOUBLES_EQUAL(1.0, mock().get_data("data").get_double_value(), 0.05);
+  CHECK_APPROX(1.0, mock().get_data("data").get_double_value(), 0.05);
 }
 
 TEST(Support, setDataLongInt)

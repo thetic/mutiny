@@ -184,10 +184,10 @@ public:
 };
 
 /**
- * @brief Failure for @ref DOUBLES_EQUAL when two doubles differ by more than
+ * @brief Failure for @ref CHECK_APPROX when two values differ by more than
  * the threshold.
  */
-class MUTINY_EXPORT DoublesEqualFailure : public Failure
+class MUTINY_EXPORT ApproxEqualFailure : public Failure
 {
 public:
   /**
@@ -199,7 +199,7 @@ public:
    * @param threshold    Allowed tolerance.
    * @param text         Optional user text.
    */
-  DoublesEqualFailure(
+  ApproxEqualFailure(
       Shell* test,
       const char* file_name,
       size_t line_number,

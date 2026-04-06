@@ -262,7 +262,7 @@ EqualsFailure::EqualsFailure(
   message_ += create_but_was_string(expected, actual);
 }
 
-DoublesEqualFailure::DoublesEqualFailure(
+ApproxEqualFailure::ApproxEqualFailure(
     Shell* test,
     const char* file_name,
     size_t line_number,

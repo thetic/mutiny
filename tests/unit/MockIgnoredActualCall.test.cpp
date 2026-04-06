@@ -138,8 +138,8 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
       static_cast<unsigned long long>(1),
       ignored.return_unsigned_long_long_int_value_or_default(1)
   );
-  DOUBLES_EQUAL(0.0, ignored.return_double_value(), 0.001);
-  DOUBLES_EQUAL(1.1, ignored.return_double_value_or_default(1.1), 0.001);
+  CHECK_APPROX(0.0, ignored.return_double_value(), 0.001);
+  CHECK_APPROX(1.1, ignored.return_double_value_or_default(1.1), 0.001);
   STRCMP_EQUAL("", ignored.return_string_value());
   STRCMP_EQUAL("hi", ignored.return_string_value_or_default("hi"));
   POINTERS_EQUAL(nullptr, ignored.return_pointer_value());

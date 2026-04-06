@@ -85,23 +85,22 @@ literal operator like ``<``, ``>=``, ``!=``.
    CHECK_COMPARE(result, >=, 0);
    CHECK_COMPARE(count, !=, 0);
 
-Numeric (typed)
----------------
+Approximate equality
+--------------------
 
-These macros cast to a specific type before comparing, which avoids
-sign-compare warnings and makes failure messages type-accurate.
+``CHECK_APPROX(expected, actual, threshold)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. list-table::
-   :header-rows: 1
-
-   * - Macro
-     - Type
-   * - :c:macro:`DOUBLES_EQUAL(expected, actual, threshold) <DOUBLES_EQUAL>`
-     - ``double`` within ±threshold
+:c:macro:`CHECK_APPROX` checks that ``expected`` and ``actual`` differ by at
+most ``threshold``. All three operands must share the same numeric type
+(floating-point or integral); mismatched types produce a compiler diagnostic
+rather than silent promotion.
 
 .. code-block:: cpp
 
-   DOUBLES_EQUAL(3.14, compute_pi(), 0.001);
+   CHECK_APPROX(3.14, compute_pi(), 0.001);
+   CHECK_APPROX(1.0f, compute_float(), 0.01f);
+   CHECK_APPROX(1000, compute_int(), 10);
 
 Pointer
 -------

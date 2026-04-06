@@ -159,8 +159,8 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   CHECK(1ll == actual.return_long_long_int_value_or_default(1ll));
   CHECK(0 == actual.return_unsigned_long_long_int_value());
   CHECK(1ull == actual.return_unsigned_long_long_int_value_or_default(1ull));
-  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
-  DOUBLES_EQUAL(1.5, actual.return_double_value_or_default(1.5), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
+  CHECK_APPROX(1.5, actual.return_double_value_or_default(1.5), 0.0);
   STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());
@@ -257,8 +257,8 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   CHECK(0 == actual.return_unsigned_long_long_int_value_or_default(1ull));
   CHECK(0 == actual.return_unsigned_int_value());
   CHECK(0 == actual.return_unsigned_int_value_or_default(1u));
-  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
-  DOUBLES_EQUAL(0.0, actual.return_double_value_or_default(1.0), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value_or_default(1.0), 0.0);
   STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());

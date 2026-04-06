@@ -138,15 +138,19 @@ void mutiny_check_equal_double(
     size_t line_number
 )
 {
-  mu::tiny::test::Shell::get_current()->assert_doubles_equal(
-      expected,
-      actual,
-      threshold,
-      text,
-      file_name,
-      line_number,
-      mu::tiny::test::Shell::get_current_test_terminator_without_exceptions()
-  );
+  if (!mu::tiny::test::approx_equal(expected, actual, threshold)) {
+    mu::tiny::test::Shell::get_current()->assert_approx_equal(
+        expected,
+        actual,
+        threshold,
+        text,
+        file_name,
+        line_number,
+        mu::tiny::test::Shell::get_current_test_terminator_without_exceptions()
+    );
+  } else {
+    mu::tiny::test::Shell::get_current()->count_check();
+  }
 }
 
 void mutiny_check_equal_char(

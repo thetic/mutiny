@@ -165,15 +165,15 @@ void failing_test_method_with_functionpointers_equal_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_doubles_equal()
+void failing_test_method_with_check_approx()
 {
-  DOUBLES_EQUAL(0.12, 44.1, 0.3);
+  CHECK_APPROX(0.12, 44.1, 0.3);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_doubles_equal_text()
+void failing_test_method_with_check_approx_text()
 {
-  DOUBLES_EQUAL_TEXT(0.12, 44.1, 0.3, "Failed because it failed");
+  CHECK_APPROX_TEXT(0.12, 44.1, 0.3, "Failed because it failed");
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -203,8 +203,8 @@ int function_that_returns_a_value()
   CHECK_EQUAL_ZERO_TEXT(0, "Shouldn't fail");
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
-  DOUBLES_EQUAL(1.0, 1.0, .01);
-  DOUBLES_EQUAL_TEXT(1.0, 1.0, .01, "Shouldn't fail");
+  CHECK_APPROX(1.0, 1.0, .01);
+  CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
   POINTERS_EQUAL(nullptr, nullptr);
   POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);
@@ -517,17 +517,17 @@ TEST(TestShellMacros, FailureWithFUNCTIONPOINTERS_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-TEST(TestShellMacros, FailureWithDOUBLES_EQUAL)
+TEST(TestShellMacros, FailureWithCHECK_APPROX)
 {
-  fixture.run_test_with_method(failing_test_method_with_doubles_equal);
+  fixture.run_test_with_method(failing_test_method_with_check_approx);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0.12>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <44.1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <0.3>");
 }
 
-TEST(TestShellMacros, FailureWithDOUBLES_EQUAL_TEXT)
+TEST(TestShellMacros, FailureWithCHECK_APPROX_TEXT)
 {
-  fixture.run_test_with_method(failing_test_method_with_doubles_equal_text);
+  fixture.run_test_with_method(failing_test_method_with_check_approx_text);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0.12>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <44.1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <0.3>");

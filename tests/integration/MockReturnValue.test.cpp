@@ -295,14 +295,14 @@ TEST(MockReturnValue, WhenADoubleReturnValueIsExpectedAndAlsoThereIsADefaultShou
   double expected_return_value = default_return_value + 1.3;
   mock().expect_one_call("foo").and_return_value(expected_return_value);
 
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_return_value,
       mock().actual_call("foo").return_double_value_or_default(
           default_return_value
       ),
       0.05
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_return_value,
       mock().return_double_value_or_default(default_return_value),
       0.05
@@ -313,14 +313,14 @@ TEST(MockReturnValue, WhenNoDoubleReturnValueIsExpectedButThereIsADefaultShouldl
 {
   double default_return_value = 7.7;
   mock().expect_one_call("foo");
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_return_value,
       mock().actual_call("foo").return_double_value_or_default(
           default_return_value
       ),
       0.05
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_return_value,
       mock().return_double_value_or_default(default_return_value),
       0.05
@@ -1102,11 +1102,11 @@ TEST(MockReturnValue, DoubleReturnValue)
   mock().expect_one_call("foo").and_return_value(expected_return_value);
 
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_return_value, actual_call.return_value().get_double_value(), 0.05
   );
-  DOUBLES_EQUAL(expected_return_value, actual_call.return_double_value(), 0.05);
-  DOUBLES_EQUAL(expected_return_value, mock().double_return_value(), 0.05);
+  CHECK_APPROX(expected_return_value, actual_call.return_double_value(), 0.05);
+  CHECK_APPROX(expected_return_value, mock().double_return_value(), 0.05);
 }
 
 TEST(MockReturnValue, WhenAConstPointerReturnValueIsExpectedAndAlsoThereIsADefaultShouldlIgnoreTheDefault)

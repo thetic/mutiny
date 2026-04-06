@@ -460,7 +460,7 @@ bool NamedValue::equals(const NamedValue& p) const
   else if (type_ == "void (*)()")
     return value_.function_pointer_value == p.value_.function_pointer_value;
   else if (type_ == "double")
-    return (test::doubles_equal(
+    return (test::approx_equal(
         value_.double_value.value,
         p.value_.double_value.value,
         value_.double_value.tolerance
