@@ -93,8 +93,7 @@ Approximate equality
 
 :c:macro:`CHECK_APPROX` checks that ``expected`` and ``actual`` differ by at
 most ``threshold``. All three operands must share the same numeric type
-(floating-point or integral); mismatched types produce a compiler diagnostic
-rather than silent promotion.
+(floating-point or integral).
 
 .. code-block:: cpp
 
