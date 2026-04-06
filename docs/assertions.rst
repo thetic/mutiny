@@ -96,17 +96,11 @@ sign-compare warnings and makes failure messages type-accurate.
 
    * - Macro
      - Type
-   * - :c:macro:`BYTES_EQUAL(expected, actual) <BYTES_EQUAL>`
-     - low 8 bits as ``long``
-   * - :c:macro:`SIGNED_BYTES_EQUAL(expected, actual) <SIGNED_BYTES_EQUAL>`
-     - ``signed char``
    * - :c:macro:`DOUBLES_EQUAL(expected, actual, threshold) <DOUBLES_EQUAL>`
      - ``double`` within ±threshold
 
 .. code-block:: cpp
 
-   CHECK_EQUAL(0, error_code);
-   BYTES_EQUAL(0xAB, packet[0]);
    DOUBLES_EQUAL(3.14, compute_pi(), 0.001);
 
 Pointer

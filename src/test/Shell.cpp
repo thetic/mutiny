@@ -498,24 +498,6 @@ void Shell::assert_uintmax_equal(
   }
 }
 
-void Shell::assert_signed_bytes_equal(
-    signed char expected,
-    signed char actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(SignedBytesEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
 void Shell::assert_pointers_equal(
     const void* expected,
     const void* actual,

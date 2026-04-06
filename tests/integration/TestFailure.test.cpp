@@ -169,19 +169,6 @@ TEST(Failure, UnsignedLongLongsEqualFailure)
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
-TEST(Failure, SignedBytesEqualFailure)
-{
-  mu::tiny::test::SignedBytesEqualFailure f(
-      test,
-      fail_file_name,
-      fail_line_number,
-      static_cast<signed char>(-1),
-      static_cast<signed char>(2),
-      ""
-  );
-  FAILURE_EQUAL("expected <-1 (0xff)>\n\tbut was  < 2 (0x2)>", f);
-}
-
 TEST(Failure, StringsEqualFailureWithText)
 {
   mu::tiny::test::StringEqualFailure f(

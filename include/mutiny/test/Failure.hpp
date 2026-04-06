@@ -383,30 +383,6 @@ public:
 };
 
 /**
- * @brief Failure for @ref SIGNED_BYTES_EQUAL.
- */
-class MUTINY_EXPORT SignedBytesEqualFailure : public Failure
-{
-public:
-  /**
-   * @param test         The failing test.
-   * @param file_name    Source file.
-   * @param line_number  Line number.
-   * @param expected     Expected signed byte value.
-   * @param actual       Actual signed byte value.
-   * @param text         Optional user text.
-   */
-  SignedBytesEqualFailure(
-      Shell* test,
-      const char* file_name,
-      size_t line_number,
-      signed char expected,
-      signed char actual,
-      const String& text
-  );
-};
-
-/**
  * @brief Failure for @ref STRCMP_EQUAL.
  */
 class MUTINY_EXPORT StringEqualFailure : public Failure

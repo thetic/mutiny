@@ -426,30 +426,6 @@ UintMaxEqualFailure::UintMaxEqualFailure(
   message_ += create_but_was_string(expected_reported, actual_reported);
 }
 
-SignedBytesEqualFailure::SignedBytesEqualFailure(
-    Shell* test,
-    const char* file_name,
-    size_t line_number,
-    signed char expected,
-    signed char actual,
-    const String& text
-)
-  : Failure(test, file_name, line_number)
-{
-  message_ = create_user_text(text);
-
-  String a_decimal = string_from(static_cast<int>(actual));
-  String e_decimal = string_from(static_cast<int>(expected));
-
-  pad_strings_to_same_length(a_decimal, e_decimal, ' ');
-
-  String actual_reported =
-      a_decimal + " " + brackets_formatted_hex_string_from(actual);
-  String expected_reported =
-      e_decimal + " " + brackets_formatted_hex_string_from(expected);
-  message_ += create_but_was_string(expected_reported, actual_reported);
-}
-
 StringEqualFailure::StringEqualFailure(
     Shell* test,
     const char* file_name,

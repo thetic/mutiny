@@ -290,7 +290,7 @@ TEST(String, dataConst)
 TEST(String, index)
 {
   mu::tiny::String str("Hello World");
-  BYTES_EQUAL('H', str[0]);
+  CHECK_EQUAL('H', str[0]);
 }
 
 TEST(String, NULLReportsNullString)

@@ -219,15 +219,6 @@ public:
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
-  /** @brief Macro backend: assert two @c signed char values are equal. */
-  virtual void assert_signed_bytes_equal(
-      signed char expected,
-      signed char actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
   /** @brief Macro backend: assert two pointers are equal. */
   virtual void assert_pointers_equal(
       const void* expected,
@@ -743,57 +734,6 @@ void check_enum_equal(
 #define STRCMP_CONTAINS_LOCATION(expected, actual, text, file, line)           \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_cstr_contains(                \
-        expected, actual, text, file, line                                     \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if the low 8 bits of @p expected != the low 8 bits of @p actual.
- *
- * @param expected  Expected byte value.
- * @param actual    Actual byte value.
- *
- * @see BYTES_EQUAL_TEXT, SIGNED_BYTES_EQUAL
- */
-#define BYTES_EQUAL(expected, actual)                                          \
-  CHECK_EQUAL_LOCATION(                                                        \
-      (expected) & 0xff, (actual) & 0xff, "", __FILE__, __LINE__               \
-  )
-
-/** @brief BYTES_EQUAL with a custom failure message. @see BYTES_EQUAL */
-#define BYTES_EQUAL_TEXT(expected, actual, text)                               \
-  CHECK_EQUAL_LOCATION(                                                        \
-      (expected) & 0xff, (actual) & 0xff, text, __FILE__, __LINE__             \
-  )
-
-/**
- * @brief Fail if the signed byte values @p expected and @p actual differ.
- *
- * @param expected  Expected signed byte.
- * @param actual    Actual signed byte.
- *
- * @see SIGNED_BYTES_EQUAL_TEXT
- */
-#define SIGNED_BYTES_EQUAL(expected, actual)                                   \
-  SIGNED_BYTES_EQUAL_LOCATION(expected, actual, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of SIGNED_BYTES_EQUAL. */
-#define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
-        expected, actual, "", file, line                                       \
-    );                                                                         \
-  } while (0)
-
-/** @brief SIGNED_BYTES_EQUAL with a custom failure message. @see
- * SIGNED_BYTES_EQUAL */
-#define SIGNED_BYTES_EQUAL_TEXT(expected, actual, text)                        \
-  SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of SIGNED_BYTES_EQUAL_TEXT. */
-#define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line)   \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
         expected, actual, text, file, line                                     \
     );                                                                         \
   } while (0)
