@@ -161,6 +161,14 @@ TEST(Failure, LongLongsEqualFailure)
   FAILURE_EQUAL("expected <1 (0x1)>\n\tbut was  <2 (0x2)>", f);
 }
 
+TEST(Failure, LongsEqualFailureActualLongerThanExpected)
+{
+  mu::tiny::test::IntMaxEqualFailure f(
+      test, fail_file_name, fail_line_number, 1, 1000, ""
+  );
+  FAILURE_EQUAL("expected <   1 (0x1)>\n\tbut was  <1000 (0x3e8)>", f);
+}
+
 TEST(Failure, UnsignedLongLongsEqualFailure)
 {
   mu::tiny::test::UintMaxEqualFailure f(

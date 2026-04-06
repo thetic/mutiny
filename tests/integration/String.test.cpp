@@ -369,6 +369,12 @@ TEST(String, UnsignedLongLongInts)
   CHECK(s == s2);
 }
 
+TEST(String, Floats)
+{
+  mu::tiny::String s(mu::tiny::string_from(1.2f));
+  STRCMP_EQUAL("1.2", s.c_str());
+}
+
 TEST(String, Doubles)
 {
   mu::tiny::String s(mu::tiny::string_from(1.2));

@@ -215,6 +215,7 @@ int function_that_returns_a_value()
   CHECK_EQUAL_ZERO_TEXT(0, "Shouldn't fail");
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
+  CHECK_COMPARE(1, <, 2);
   CHECK_APPROX(1.0, 1.0, .01);
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
   CHECK_APPROX(1.0f, 1.0f, .01f);
