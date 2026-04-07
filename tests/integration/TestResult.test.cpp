@@ -43,14 +43,14 @@ TEST(Result, ResultIsOkIfTestIsRunWithNoFailures)
 {
   res->count_test();
   res->count_run();
-  CHECK_FALSE(res->is_failure());
+  CHECK(!res->is_failure());
 }
 
 TEST(Result, ResultIsOkIfTestIsIgnored)
 {
   res->count_test();
   res->count_ignored();
-  CHECK_FALSE(res->is_failure());
+  CHECK(!res->is_failure());
 }
 
 TEST(Result, ResultIsNotOkIfFailures)
@@ -63,16 +63,16 @@ TEST(Result, ResultIsNotOkIfFailures)
           mu::tiny::string_from("dummy message")
       )
   );
-  CHECK_TRUE(res->is_failure());
+  CHECK(res->is_failure());
 }
 
 TEST(Result, ResultIsNotOkIfNoTestsAtAll)
 {
-  CHECK_TRUE(res->is_failure());
+  CHECK(res->is_failure());
 }
 
 TEST(Result, ResultIsNotOkIfNoTestsRunOrIgnored)
 {
   res->count_test();
-  CHECK_TRUE(res->is_failure());
+  CHECK(res->is_failure());
 }

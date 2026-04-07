@@ -246,7 +246,7 @@ TEST(Shell, FailWillNotCrashIfNotEnabled)
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();
@@ -331,7 +331,7 @@ TEST(Shell, NoExceptionIsRethrownIfEnabledButNotThrown)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_FALSE(exception_rethrown);
+  CHECK(!exception_rethrown);
   CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
   CHECK_EQUAL(1, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
@@ -352,7 +352,7 @@ TEST(Shell, UnknownExceptionIsRethrownIfEnabled)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
+  CHECK(exception_rethrown);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
@@ -401,7 +401,7 @@ TEST(Shell, StandardExceptionIsRethrownIfEnabled)
   } catch (const std::exception&) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
+  CHECK(exception_rethrown);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
@@ -444,7 +444,7 @@ TEST(Shell, TeardownUnknownExceptionIsRethrownIfEnabled)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
+  CHECK(exception_rethrown);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
@@ -493,7 +493,7 @@ TEST(Shell, TeardownStandardExceptionIsRethrownIfEnabled)
   } catch (const std::exception&) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
+  CHECK(exception_rethrown);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");

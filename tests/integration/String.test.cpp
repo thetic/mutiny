@@ -883,7 +883,7 @@ TEST(String, StartsWithEmptyPrefixIsAlwaysTrue)
 
 TEST(String, StartsWithOnEmptyStringIsAlwaysFalse)
 {
-  CHECK_FALSE(mu::tiny::string_starts_with("", "abc"));
+  CHECK(!mu::tiny::string_starts_with("", "abc"));
 }
 
 TEST(String, EndsWithEmptySuffixIsAlwaysTrue)

@@ -77,11 +77,11 @@ TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedNa
 
 TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
 {
-  CHECK_FALSE(ignored_test.will_run());
+  CHECK(!ignored_test.will_run());
 }
 
 TEST(IgnoredShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
 {
   ignored_test.set_run_ignored();
-  CHECK_TRUE(ignored_test.will_run());
+  CHECK(ignored_test.will_run());
 }

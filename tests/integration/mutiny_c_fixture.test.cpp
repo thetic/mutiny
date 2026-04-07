@@ -68,7 +68,7 @@ TEST(MutinyCFixture, doesNotCrashIfNotSetToCrash)
 
   fixture->run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
   CHECK_EQUAL(size_t{ 1 }, fixture->get_failure_count());
   CHECK(!has_destructor_of_the_destructor_checked_been_called);
 

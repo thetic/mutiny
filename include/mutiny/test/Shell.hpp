@@ -572,19 +572,16 @@ void check_approx(
 /**
  * @brief Fail the current test if @p condition is false.
  *
- * Equivalent to CHECK_TRUE. Prefer CHECK when the condition is a plain
- * boolean; use CHECK_TRUE_TEXT when you also want to supply a message.
- *
  * @param condition  Any expression convertible to bool.
  *
- * See also @ref CHECK_TEXT, @ref CHECK_TRUE, and @ref CHECK_FALSE.
+ * See also @ref CHECK_TEXT.
  */
 #define CHECK(condition)                                                       \
-  CHECK_TRUE_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
+  CHECK_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
 
 /** @brief @ref CHECK with a custom failure message. */
 #define CHECK_TEXT(condition, text)                                            \
-  CHECK_TRUE_LOCATION(                                                         \
+  CHECK_LOCATION(                                                              \
       static_cast<bool>(condition),                                            \
       "CHECK",                                                                 \
       #condition,                                                              \
@@ -593,54 +590,13 @@ void check_approx(
       __LINE__                                                                 \
   )
 
-/** @brief Fail if @p condition is false (explicit TRUE variant of @ref CHECK).
- */
-#define CHECK_TRUE(condition)                                                  \
-  CHECK_TRUE_LOCATION(                                                         \
-      static_cast<bool>(condition),                                            \
-      "CHECK_TRUE",                                                            \
-      #condition,                                                              \
-      "",                                                                      \
-      __FILE__,                                                                \
-      __LINE__                                                                 \
-  )
-
-/** @brief CHECK_TRUE with a custom failure message. @see CHECK_TRUE */
-#define CHECK_TRUE_TEXT(condition, text)                                       \
-  CHECK_TRUE_LOCATION(                                                         \
-      condition, "CHECK_TRUE", #condition, text, __FILE__, __LINE__            \
-  )
-
-/** @brief Fail if @p condition is true. @see CHECK_FALSE_TEXT */
-#define CHECK_FALSE(condition)                                                 \
-  CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, "", __FILE__, __LINE__             \
-  )
-
-/** @brief CHECK_FALSE with a custom failure message. @see CHECK_FALSE */
-#define CHECK_FALSE_TEXT(condition, text)                                      \
-  CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, text, __FILE__, __LINE__           \
-  )
-
 /** @brief Location-explicit variant of CHECK. Prefer CHECK in test code. */
-#define CHECK_TRUE_LOCATION(                                                   \
+#define CHECK_LOCATION(                                                        \
     condition, checkString, conditionString, text, file, line                  \
 )                                                                              \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_true(                         \
         (condition), checkString, conditionString, text, file, line            \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of CHECK_FALSE. Prefer CHECK_FALSE in test
- * code. */
-#define CHECK_FALSE_LOCATION(                                                  \
-    condition, checkString, conditionString, text, file, line                  \
-)                                                                              \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_true(                         \
-        !(condition), checkString, conditionString, text, file, line           \
     );                                                                         \
   } while (0)
 

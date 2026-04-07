@@ -50,7 +50,7 @@ TEST(SupportPlugin, checkExpectationsAndClearAtEnd)
   plugin.post_test_action(*test, *result);
 
   STRCMP_CONTAINS("foobar", output.get_output().c_str());
-  CHECK_FALSE(mock().expected_calls_left());
+  CHECK(!mock().expected_calls_left());
   CHECK_NO_MOCK_FAILURE();
 }
 

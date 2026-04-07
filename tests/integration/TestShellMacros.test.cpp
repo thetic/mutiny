@@ -37,30 +37,6 @@ void failing_test_method_with_check_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_check_true()
-{
-  CHECK_TRUE(false);
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_check_true_text()
-{
-  CHECK_TRUE_TEXT(false, "Failed because it failed");
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_check_false()
-{
-  CHECK_FALSE(true);
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_check_false_text()
-{
-  CHECK_FALSE_TEXT(true, "Failed because it failed");
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
 void failing_test_method_with_check_equal()
 {
   CHECK_EQUAL(1, 2);
@@ -199,10 +175,10 @@ int function_that_returns_a_value()
 {
   CHECK(0 == 0);
   CHECK_TEXT(0 == 0, "Shouldn't fail");
-  CHECK_TRUE(0 == 0);
-  CHECK_TRUE_TEXT(0 == 0, "Shouldn't fail");
-  CHECK_FALSE(0 != 0);
-  CHECK_FALSE_TEXT(0 != 0, "Shouldn't fail");
+  CHECK(0 == 0);
+  CHECK_TEXT(0 == 0, "Shouldn't fail");
+  CHECK(!(0 != 0));
+  CHECK_TEXT(!(0 != 0), "Shouldn't fail");
   CHECK_EQUAL(1, 1);
   CHECK_EQUAL_TEXT(1, 1, "Shouldn't fail");
   CHECK_EQUAL(0xab, 0xab);
@@ -366,32 +342,6 @@ TEST(TestShellMacros, FailureWithCHECK_TEXT)
 {
   fixture.run_test_with_method(failing_test_method_with_check_text);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("CHECK(false) failed");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_TRUE)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_true);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("CHECK_TRUE(false) failed");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_TRUE_TEXT)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_true_text);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("CHECK_TRUE(false) failed");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_FALSE)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_false);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("CHECK_FALSE(true) failed");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_FALSE_TEXT)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_false_text);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("CHECK_FALSE(true)");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 

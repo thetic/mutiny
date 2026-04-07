@@ -106,7 +106,7 @@ TEST(CommandLineArguments, reverseEnabled)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-b" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_TRUE(args->is_reversing());
+  CHECK(args->is_reversing());
 }
 
 TEST(CommandLineArguments, shuffleDisabledByDefault)
@@ -114,7 +114,7 @@ TEST(CommandLineArguments, shuffleDisabledByDefault)
   int argc = 1;
   const char* argv[] = { "tests.exe" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_FALSE(args->is_shuffling());
+  CHECK(!args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleEnabled)
@@ -122,14 +122,14 @@ TEST(CommandLineArguments, shuffleEnabled)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_TRUE(args->is_shuffling());
+  CHECK(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleWithSeedZeroIsOk)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s0" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
   CHECK_EQUAL(size_t{ 0 }, args->get_shuffle_seed());
 }
 
@@ -165,7 +165,7 @@ TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
-  CHECK_TRUE(args->is_shuffling());
+  CHECK(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, setGroupFilter)
@@ -180,7 +180,7 @@ TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-t", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilter)
@@ -196,7 +196,7 @@ TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-st", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
@@ -216,7 +216,7 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xt", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
@@ -236,7 +236,7 @@ TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilterInvalidArgu
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilter)
@@ -554,5 +554,5 @@ TEST(CommandLineArguments, setOptRethrowExceptions)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-e" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_FALSE(args->is_rethrowing_exceptions());
+  CHECK(!args->is_rethrowing_exceptions());
 }

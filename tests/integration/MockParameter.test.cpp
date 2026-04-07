@@ -624,7 +624,7 @@ TEST(MockParameter, ignoreOtherParametersMultipleCalls)
       .with_parameter("p2", 2)
       .with_parameter("p3", 3)
       .with_parameter("p4", 4);
-  CHECK_TRUE(mock().expected_calls_left());
+  CHECK(mock().expected_calls_left());
   mock()
       .actual_call("foo")
       .with_parameter("p2", 2)

@@ -27,16 +27,12 @@ Boolean
      - Passes when
    * - :c:macro:`CHECK(condition) <CHECK>`
      - ``condition`` is truthy
-   * - :c:macro:`CHECK_TRUE(condition) <CHECK_TRUE>`
-     - same as ``CHECK``
-   * - :c:macro:`CHECK_FALSE(condition) <CHECK_FALSE>`
-     - ``condition`` is falsy
 
 .. code-block:: cpp
 
    CHECK(ptr != nullptr);
-   CHECK_TRUE(list.empty());
-   CHECK_FALSE(error_occurred);
+   CHECK(list.empty());
+   CHECK(!error_occurred);
 
 Equality (generic)
 ------------------
@@ -206,7 +202,7 @@ helpers so failures point to the call site:
 
    void assert_valid_id(int id, const char* file, size_t line)
    {
-       CHECK_TRUE_LOCATION(id > 0, "CHECK_TRUE", "id > 0", "", file, line);
+       CHECK_LOCATION(id > 0, "CHECK", "id > 0", "", file, line);
    }
 
    #define ASSERT_VALID_ID(id) assert_valid_id((id), __FILE__, __LINE__)

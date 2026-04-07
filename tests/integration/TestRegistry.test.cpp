@@ -403,16 +403,16 @@ TEST(Registry, listOrderedTestLocations_onlyIncludesOrderedTests)
 
 TEST(Registry, shuffleEmptyListIsNoOp)
 {
-  CHECK_TRUE(my_registry->get_first_test() == nullptr);
+  CHECK(my_registry->get_first_test() == nullptr);
   my_registry->shuffle_tests(0);
-  CHECK_TRUE(my_registry->get_first_test() == nullptr);
+  CHECK(my_registry->get_first_test() == nullptr);
 }
 
 TEST(Registry, shuffleSingleTestIsNoOp)
 {
   my_registry->add_test(test1);
   my_registry->shuffle_tests(0);
-  CHECK_TRUE(my_registry->get_first_test() == test1);
+  CHECK(my_registry->get_first_test() == test1);
 }
 
 IGNORE_TEST(Registry, shuffleTestList)
@@ -426,10 +426,10 @@ IGNORE_TEST(Registry, shuffleTestList)
   mu::tiny::test::Shell* second_before = first_before->get_next();
   mu::tiny::test::Shell* third_before = second_before->get_next();
 
-  CHECK_TRUE(first_before == test1);
-  CHECK_TRUE(second_before == test2);
-  CHECK_TRUE(third_before == test3);
-  CHECK_TRUE(third_before->get_next() == nullptr);
+  CHECK(first_before == test1);
+  CHECK(second_before == test2);
+  CHECK(third_before == test3);
+  CHECK(third_before->get_next() == nullptr);
 
   // shuffle always with element at index 0: [1] 2 [3] --> [3] [2] 1 --> 2 3 1
   my_registry->shuffle_tests(0);
@@ -438,10 +438,10 @@ IGNORE_TEST(Registry, shuffleTestList)
   mu::tiny::test::Shell* second_after = first_after->get_next();
   mu::tiny::test::Shell* third_after = second_after->get_next();
 
-  CHECK_TRUE(first_after == test2);
-  CHECK_TRUE(second_after == test3);
-  CHECK_TRUE(third_after == test1);
-  CHECK_TRUE(third_after->get_next() == nullptr);
+  CHECK(first_after == test2);
+  CHECK(second_after == test3);
+  CHECK(third_after == test1);
+  CHECK(third_after->get_next() == nullptr);
 }
 
 TEST(Registry, reverseTests)

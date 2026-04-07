@@ -757,7 +757,7 @@ TEST(ExpectedCall, callOrderIsFulfilledSingle)
   call->with_call_order(1);
   call->call_was_made(1);
   CHECK(call->is_fulfilled());
-  CHECK_FALSE(call->is_out_of_order());
+  CHECK(!call->is_out_of_order());
 }
 
 TEST(ExpectedCall, callOrderIsFulfilledMultiple)
@@ -770,7 +770,7 @@ TEST(ExpectedCall, callOrderIsFulfilledMultiple)
   expected_call.call_was_made(152);
   expected_call.call_was_made(153);
   CHECK(expected_call.is_fulfilled());
-  CHECK_FALSE(expected_call.is_out_of_order());
+  CHECK(!expected_call.is_out_of_order());
 }
 
 TEST(ExpectedCall, hasOutputParameter)
@@ -796,7 +796,7 @@ TEST(ExpectedCall, hasNoOutputParameter)
   call->with_int_parameter("foo", static_cast<int>(1));
   mu::tiny::mock::NamedValue foo("foo");
   foo.set_value(static_cast<int>(1));
-  CHECK_FALSE(call->has_output_parameter(foo));
+  CHECK(!call->has_output_parameter(foo));
 }
 
 TEST(ExpectedCall, hasOutputParameterOfType)
@@ -818,7 +818,7 @@ TEST(ExpectedCall, hasNoOutputParameterOfTypeSameTypeButInput)
   );
   mu::tiny::mock::NamedValue foo("foo");
   foo.set_const_object_pointer("TypeForTestingExpectedFunctionCall", &object);
-  CHECK_FALSE(call->has_output_parameter(foo));
+  CHECK(!call->has_output_parameter(foo));
 }
 
 TEST(ExpectedCall, hasNoOutputParameterOfTypeDifferentType)
@@ -831,5 +831,5 @@ TEST(ExpectedCall, hasNoOutputParameterOfTypeDifferentType)
   foo.set_const_object_pointer(
       "OtherTypeForTestingExpectedFunctionCall", &object
   );
-  CHECK_FALSE(call->has_output_parameter(foo));
+  CHECK(!call->has_output_parameter(foo));
 }

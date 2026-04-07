@@ -107,7 +107,7 @@ TEST(MockSupportWithFixture, ShouldNotCrashOnFailureAfterCrashMethodWasReset)
   fixture.run_all_tests();
 
   fixture.assert_print_contains("Unexpected call to function: unexpected");
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
 }
 
 TEST(MockSupportWithFixture, shouldCrashOnFailureWithMutinySetting)

@@ -182,7 +182,7 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
           reinterpret_cast<void (*)()>(0x1)
       )
   );
-  CHECK_FALSE(actual.has_return_value());
+  CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
 }
 
@@ -240,7 +240,7 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expected_string += mu::tiny::hex_string_from(&const_value);
   STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
-  CHECK_FALSE(actual.has_return_value());
+  CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
   CHECK(false == actual.return_bool_value());
   CHECK(false == actual.return_bool_value_or_default(true));

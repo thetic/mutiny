@@ -34,7 +34,7 @@ TEST(NamedValue, DoublesEqualIfWithinTolerance)
   mu::tiny::mock::NamedValue other("param2");
   other.set_value(5.3);
 
-  CHECK_TRUE(value->equals(other));
+  CHECK(value->equals(other));
 }
 
 TEST(NamedValue, DoublesNotEqualIfOutsideTolerance)
@@ -43,5 +43,5 @@ TEST(NamedValue, DoublesNotEqualIfOutsideTolerance)
   mu::tiny::mock::NamedValue other("param2");
   other.set_value(5.5);
 
-  CHECK_FALSE(value->equals(other));
+  CHECK(!value->equals(other));
 }

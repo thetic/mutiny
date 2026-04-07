@@ -13,10 +13,10 @@ TEST_GROUP(Compatibility)
 TEST(Compatibility, UniquePtrConversationToBool)
 {
   auto const a_null = std::unique_ptr<int>(nullptr);
-  CHECK_FALSE(a_null);
+  CHECK(!a_null);
 
   auto const not_null = std::make_unique<int>(1);
-  CHECK_TRUE(not_null);
+  CHECK(static_cast<bool>(not_null));
 }
 
 #endif

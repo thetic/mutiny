@@ -1061,7 +1061,7 @@ TEST(MockSupport_c, nextTestShouldNotCrashOnFailure)
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -1076,7 +1076,7 @@ TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
   CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();

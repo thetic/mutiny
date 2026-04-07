@@ -46,7 +46,7 @@ TEST_GROUP(OrderedDemo)
 // Regular test — unordered tests run before the ordered block.
 TEST(OrderedDemo, StartsUninitialized)
 {
-  CHECK_FALSE(g_log.initialized);
+  CHECK(!g_log.initialized);
 }
 
 // Level 10: initialize.

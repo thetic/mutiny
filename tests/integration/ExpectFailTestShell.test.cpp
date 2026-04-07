@@ -45,7 +45,7 @@ TEST(ExpectFailShell, innerTestPasses_outerCountsRunAndFailure)
 TEST(ExpectFailShell, willRun_alwaysReturnsTrue)
 {
   mu::tiny::test::ExpectFailShell shell;
-  CHECK_TRUE(shell.will_run());
+  CHECK(shell.will_run());
 }
 
 TEST(ExpectFailShell, getFormattedName_showsEXPECT_FAIL_TEST)

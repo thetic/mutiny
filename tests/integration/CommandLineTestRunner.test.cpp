@@ -195,7 +195,7 @@ TEST(CommandLineRunner, ReturnsZeroPrintsHelpOnHelp)
           ->get_output()
           .c_str()
   );
-  CHECK_FALSE(TestExecutionVerifier::was_run_);
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
@@ -217,7 +217,7 @@ TEST(CommandLineRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
           ->get_output()
           .c_str()
   );
-  CHECK_FALSE(TestExecutionVerifier::was_run_);
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, ReturnsZeroWhenNoErrors)
@@ -473,7 +473,7 @@ TEST(CommandLineRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK_FALSE(RunIgnoredTest::checker_);
+  CHECK(!RunIgnoredTest::checker_);
   RunIgnoredTest::checker_ = false;
 }
 
@@ -501,6 +501,6 @@ TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK_TRUE(RunIgnoredTest::checker_);
+  CHECK(RunIgnoredTest::checker_);
   RunIgnoredTest::checker_ = false;
 }

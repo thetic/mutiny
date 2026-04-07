@@ -100,9 +100,9 @@ TEST(IgnoredActualCall, allWithMethodsReturnSelf)
 
 TEST(IgnoredActualCall, returnValuesAreNullDefaults)
 {
-  CHECK_FALSE(ignored.has_return_value());
+  CHECK(!ignored.has_return_value());
   ignored.return_value();
-  CHECK_FALSE(ignored.return_bool_value());
+  CHECK(!ignored.return_bool_value());
   CHECK(ignored.return_bool_value_or_default(true));
   CHECK_EQUAL(0, ignored.return_int_value());
   CHECK_EQUAL(1, ignored.return_int_value_or_default(1));

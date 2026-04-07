@@ -284,7 +284,7 @@ public:
 };
 
 /**
- * @brief Failure for @ref CHECK / @ref CHECK_TRUE / @ref CHECK_FALSE.
+ * @brief Failure for @ref CHECK.
  */
 class MUTINY_EXPORT CheckFailure : public Failure
 {
