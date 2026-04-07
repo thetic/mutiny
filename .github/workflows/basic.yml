@@ -329,6 +329,33 @@ jobs:
           name: docs
           path: docs/_build/html
 
+  source_archive:
+    name: Source Archive
+    runs-on: ubuntu-latest
+    env:
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - uses: hendrikmuhs/ccache-action@v1.2.22
+        with:
+          variant: ccache
+      - name: Configure
+        run: cmake --preset GNU
+      - name: Package
+        run: cpack --preset source
+      - name: Extract archive
+        run: |
+          mkdir archive
+          tar -xzf build/GNU/mutiny-*-Source.tar.gz -C archive --strip-components=1
+      - name: Build examples from archive
+        run: |
+          cmake -B examples_build -S examples \
+            -DFETCHCONTENT_SOURCE_DIR_MUTINY=${{ github.workspace }}/archive
+          cmake --build examples_build -j
+          ctest --test-dir examples_build
+
   cygwin:
     name: Cygwin
     runs-on: windows-latest
