@@ -173,7 +173,10 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
       reinterpret_cast<const void*>(0x2) ==
       actual.return_value_as_or_default(reinterpret_cast<const void*>(0x2))
   );
-  CHECK(nullptr == actual.return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>());
+  CHECK(
+      nullptr == actual.return_value_as<
+                     mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
+  );
   CHECK(
       reinterpret_cast<void (*)()>(1) ==
       actual.return_value_as_or_default(reinterpret_cast<void (*)()>(0x1))
@@ -251,8 +254,7 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   STRCMP_EQUAL("", actual.return_value_as<const char*>());
   CHECK(nullptr == actual.return_value_as<void*>());
   CHECK(
-      nullptr ==
-      actual.return_value_as_or_default(static_cast<void*>(nullptr))
+      nullptr == actual.return_value_as_or_default(static_cast<void*>(nullptr))
   );
   CHECK(nullptr == actual.return_value_as<const void*>());
   CHECK(

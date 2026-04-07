@@ -73,7 +73,7 @@ TEST_GROUP(ExpectedCall)
 TEST(ExpectedCall, callWithoutParameterSetOrNotFound)
 {
   STRCMP_EQUAL("", call->get_input_parameter_type("nonexisting").c_str());
-  CHECK_EQUAL(0, call->get_input_parameter("nonexisting").get_int_value());
+  CHECK_EQUAL(0, call->get_input_parameter("nonexisting").get_value_as<int>());
   CHECK(!call->has_input_parameter_with_name("nonexisting"));
 }
 
@@ -86,7 +86,7 @@ TEST(ExpectedCall, callWithUnsignedIntegerParameter)
       "unsigned int", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_unsigned_int_value()
+      value, call->get_input_parameter(param_name).get_value_as<unsigned int>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -101,7 +101,7 @@ TEST(ExpectedCall, callWithIntegerParameter)
   int value = 2;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("int", call->get_input_parameter_type(param_name).c_str());
-  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_int_value());
+  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_value_as<int>());
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
       "funcName -> int paramName: <2 (0x2)>", call->call_to_string().c_str()
@@ -114,7 +114,9 @@ TEST(ExpectedCall, callWithBooleanParameter)
   bool value = true;
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("bool", call->get_input_parameter_type(param_name).c_str());
-  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_bool_value());
+  CHECK_EQUAL(
+      value, call->get_input_parameter(param_name).get_value_as<bool>()
+  );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
       "funcName -> bool paramName: <true>", call->call_to_string().c_str()
@@ -130,7 +132,8 @@ TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
       "unsigned long int", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_unsigned_long_int_value()
+      value,
+      call->get_input_parameter(param_name).get_value_as<unsigned long int>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -146,7 +149,7 @@ TEST(ExpectedCall, callWithLongIntegerParameter)
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("long int", call->get_input_parameter_type(param_name).c_str());
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_long_int_value()
+      value, call->get_input_parameter(param_name).get_value_as<long int>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -166,7 +169,7 @@ TEST(ExpectedCall, callWithUnsignedLongLongIntegerParameter)
   );
   CHECK_EQUAL(
       value,
-      call->get_input_parameter(param_name).get_unsigned_long_long_int_value()
+      call->get_input_parameter(param_name).get_value_as<unsigned long long>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -184,7 +187,7 @@ TEST(ExpectedCall, callWithLongLongIntegerParameter)
       "long long int", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_long_long_int_value()
+      value, call->get_input_parameter(param_name).get_value_as<long long>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -200,7 +203,7 @@ TEST(ExpectedCall, callWithDoubleParameter)
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
   CHECK_APPROX(
-      value, call->get_input_parameter(param_name).get_double_value(), 0.0
+      value, call->get_input_parameter(param_name).get_value_as<double>(), 0.0
   );
   STRCMP_CONTAINS(
       "funcName -> double paramName: <1.2>", call->call_to_string().c_str()
@@ -215,7 +218,7 @@ TEST(ExpectedCall, callWithDoubleParameterAndTolerance)
   call->with_parameter(param_name, value, tolerance);
   STRCMP_EQUAL("double", call->get_input_parameter_type(param_name).c_str());
   CHECK_APPROX(
-      value, call->get_input_parameter(param_name).get_double_value(), 0.0
+      value, call->get_input_parameter(param_name).get_value_as<double>(), 0.0
   );
   CHECK_APPROX(
       tolerance,
@@ -235,7 +238,9 @@ TEST(ExpectedCall, callWithStringParameter)
   STRCMP_EQUAL(
       "const char*", call->get_input_parameter_type(param_name).c_str()
   );
-  STRCMP_EQUAL(value, call->get_input_parameter(param_name).get_string_value());
+  STRCMP_EQUAL(
+      value, call->get_input_parameter(param_name).get_value_as<const char*>()
+  );
   STRCMP_CONTAINS(
       "funcName -> const char* paramName: <hello world>",
       call->call_to_string().c_str()
@@ -248,7 +253,9 @@ TEST(ExpectedCall, callWithPointerParameter)
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("void*", call->get_input_parameter_type(param_name).c_str());
-  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_pointer_value());
+  CHECK_EQUAL(
+      value, call->get_input_parameter(param_name).get_value_as<void*>()
+  );
   STRCMP_CONTAINS(
       "funcName -> void* paramName: <0x123>", call->call_to_string().c_str()
   );
@@ -263,7 +270,7 @@ TEST(ExpectedCall, callWithConstPointerParameter)
       "const void*", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_const_pointer_value()
+      value, call->get_input_parameter(param_name).get_value_as<const void*>()
   );
   STRCMP_CONTAINS(
       "funcName -> const void* paramName: <0x345>",
@@ -280,7 +287,9 @@ TEST(ExpectedCall, callWithFunctionPointerParameter)
       "void (*)()", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_function_pointer_value()
+      value,
+      call->get_input_parameter(param_name)
+          .get_value_as<mu::tiny::mock::NamedValue::FunctionPointerValue>()
   );
   STRCMP_CONTAINS(
       "funcName -> void (*)() paramName: <0xdead>",
@@ -428,11 +437,13 @@ TEST(ExpectedCall, callWithTwoUnsignedIntegerParameter)
   );
   CHECK_EQUAL(
       expected_value,
-      call->get_input_parameter("unsigned-integer1").get_unsigned_int_value()
+      call->get_input_parameter("unsigned-integer1")
+          .get_value_as<unsigned int>()
   );
   CHECK_EQUAL(
       another_expected_value,
-      call->get_input_parameter("unsigned-integer2").get_unsigned_int_value()
+      call->get_input_parameter("unsigned-integer2")
+          .get_value_as<unsigned int>()
   );
 }
 
@@ -446,11 +457,11 @@ TEST(ExpectedCall, callWithTwoIntegerParameter)
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer1").c_str());
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer2").c_str());
   CHECK_EQUAL(
-      expected_value, call->get_input_parameter("integer1").get_int_value()
+      expected_value, call->get_input_parameter("integer1").get_value_as<int>()
   );
   CHECK_EQUAL(
       another_expected_value,
-      call->get_input_parameter("integer2").get_int_value()
+      call->get_input_parameter("integer2").get_value_as<int>()
   );
 }
 
@@ -462,12 +473,13 @@ TEST(ExpectedCall, callWithThreeDifferentParameter)
   STRCMP_EQUAL("int", call->get_input_parameter_type("integer").c_str());
   STRCMP_EQUAL("const char*", call->get_input_parameter_type("string").c_str());
   STRCMP_EQUAL("double", call->get_input_parameter_type("double").c_str());
-  CHECK_EQUAL(1, call->get_input_parameter("integer").get_int_value());
+  CHECK_EQUAL(1, call->get_input_parameter("integer").get_value_as<int>());
   STRCMP_EQUAL(
-      "hello world", call->get_input_parameter("string").get_string_value()
+      "hello world",
+      call->get_input_parameter("string").get_value_as<const char*>()
   );
   CHECK_APPROX(
-      0.12, call->get_input_parameter("double").get_double_value(), 0.05
+      0.12, call->get_input_parameter("double").get_value_as<double>(), 0.05
   );
 }
 

@@ -410,10 +410,8 @@ inline const char* mu::tiny::mock::ActualCall::return_value_as<const char*>()
 }
 
 template<>
-inline const char*
-mu::tiny::mock::ActualCall::return_value_as_or_default<const char*>(
-    const char* default_value
-)
+inline const char* mu::tiny::mock::ActualCall::return_value_as_or_default<
+    const char*>(const char* default_value)
 {
   return return_string_value_or_default(default_value);
 }
@@ -439,28 +437,26 @@ inline const void* mu::tiny::mock::ActualCall::return_value_as<const void*>()
 }
 
 template<>
-inline const void*
-mu::tiny::mock::ActualCall::return_value_as_or_default<const void*>(
-    const void* default_value
-)
+inline const void* mu::tiny::mock::ActualCall::return_value_as_or_default<
+    const void*>(const void* default_value)
 {
   return return_const_pointer_value_or_default(default_value);
 }
 
 template<>
-inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue
-mu::tiny::mock::ActualCall::return_value_as<
-    mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
+inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue mu::tiny::mock::
+    ActualCall::return_value_as<
+        mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
 {
   return return_function_pointer_value();
 }
 
 template<>
-inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue
-mu::tiny::mock::ActualCall::return_value_as_or_default<
-    mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
-    FunctionPointerReturnValue default_value
-)
+inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue mu::tiny::mock::
+    ActualCall::return_value_as_or_default<
+        mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
+        FunctionPointerReturnValue default_value
+    )
 {
   return return_function_pointer_value_or_default(default_value);
 }

@@ -108,9 +108,13 @@ private:
       unsigned long long default_value
   ) override;
   long long return_long_long_int_value() override;
-  long long return_long_long_int_value_or_default(long long default_value) override;
+  long long return_long_long_int_value_or_default(
+      long long default_value
+  ) override;
   const char* return_string_value() override;
-  const char* return_string_value_or_default(const char* default_value) override;
+  const char* return_string_value_or_default(
+      const char* default_value
+  ) override;
   double return_double_value() override;
   double return_double_value_or_default(double default_value) override;
   void* return_pointer_value() override;

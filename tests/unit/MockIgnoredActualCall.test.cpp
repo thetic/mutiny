@@ -115,12 +115,18 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
   STRCMP_EQUAL("", ignored.return_value_as<const char*>());
   STRCMP_EQUAL("hi", ignored.return_value_as_or_default("hi"));
   CHECK_EQUAL(nullptr, ignored.return_value_as<void*>());
-  CHECK_EQUAL(nullptr, ignored.return_value_as_or_default(static_cast<void*>(nullptr)));
+  CHECK_EQUAL(
+      nullptr, ignored.return_value_as_or_default(static_cast<void*>(nullptr))
+  );
   CHECK_EQUAL(nullptr, ignored.return_value_as<const void*>());
-  CHECK_EQUAL(nullptr, ignored.return_value_as_or_default(static_cast<const void*>(nullptr)));
+  CHECK_EQUAL(
+      nullptr,
+      ignored.return_value_as_or_default(static_cast<const void*>(nullptr))
+  );
   CHECK_EQUAL(
       static_cast<void (*)()>(nullptr),
-      ignored.return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
+      ignored.return_value_as<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
   );
   CHECK_EQUAL(
       static_cast<void (*)()>(nullptr),

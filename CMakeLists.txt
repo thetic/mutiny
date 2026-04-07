@@ -102,6 +102,7 @@ target_sources(mutiny
             include/mutiny/mock.hpp
             include/mutiny/mock/ActualCall.hpp
             include/mutiny/mock/ExpectedCall.hpp
+            include/mutiny/mock/IntegerTypeTraits.hpp
             include/mutiny/mock/Failure.hpp
             include/mutiny/mock/NamedValue.hpp
             include/mutiny/mock/NamedValueComparator.hpp

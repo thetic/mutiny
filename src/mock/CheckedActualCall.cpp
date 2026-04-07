@@ -68,7 +68,7 @@ void CheckedActualCall::copy_output_parameters(
     } else if (
         (output_parameter.get_type() == "const void*") && (p->type == "void*")
     ) {
-      const void* data = output_parameter.get_const_pointer_value();
+      const void* data = output_parameter.get_value_as<const void*>();
       size_t size = output_parameter.get_size();
       memcpy(p->ptr, data, size);
     } else if (output_parameter.get_name() != "") {
@@ -504,12 +504,12 @@ bool CheckedActualCall::return_bool_value_or_default(bool default_value)
 
 bool CheckedActualCall::return_bool_value()
 {
-  return return_value().get_bool_value();
+  return return_value().get_value_as<bool>();
 }
 
 unsigned long long CheckedActualCall::return_unsigned_long_long_int_value()
 {
-  return return_value().get_unsigned_long_long_int_value();
+  return return_value().get_value_as<unsigned long long>();
 }
 
 unsigned long long CheckedActualCall::
@@ -525,7 +525,7 @@ unsigned long long CheckedActualCall::
 
 long long CheckedActualCall::return_long_long_int_value()
 {
-  return return_value().get_long_long_int_value();
+  return return_value().get_value_as<long long>();
 }
 
 long long CheckedActualCall::return_long_long_int_value_or_default(
@@ -540,7 +540,7 @@ long long CheckedActualCall::return_long_long_int_value_or_default(
 
 double CheckedActualCall::return_double_value()
 {
-  return return_value().get_double_value();
+  return return_value().get_value_as<double>();
 }
 
 double CheckedActualCall::return_double_value_or_default(double default_value)
@@ -561,12 +561,12 @@ void* CheckedActualCall::return_pointer_value_or_default(void* default_value)
 
 void* CheckedActualCall::return_pointer_value()
 {
-  return return_value().get_pointer_value();
+  return return_value().get_value_as<void*>();
 }
 
 const void* CheckedActualCall::return_const_pointer_value()
 {
-  return return_value().get_const_pointer_value();
+  return return_value().get_value_as<const void*>();
 }
 
 const void* CheckedActualCall::return_const_pointer_value_or_default(
@@ -582,7 +582,7 @@ const void* CheckedActualCall::return_const_pointer_value_or_default(
 ActualCall::FunctionPointerReturnValue CheckedActualCall::
     return_function_pointer_value()
 {
-  return return_value().get_function_pointer_value();
+  return return_value().get_value_as<NamedValue::FunctionPointerValue>();
 }
 
 ActualCall::FunctionPointerReturnValue CheckedActualCall::
@@ -606,7 +606,7 @@ const char* CheckedActualCall::return_string_value_or_default(
 
 const char* CheckedActualCall::return_string_value()
 {
-  return return_value().get_string_value();
+  return return_value().get_value_as<const char*>();
 }
 
 bool CheckedActualCall::has_return_value()

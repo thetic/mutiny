@@ -24,7 +24,7 @@ TEST(NamedValue, GivenToleranceUsed)
 {
   value->set_value(0.2, 3.2);
   STRCMP_EQUAL("double", value->get_type().c_str());
-  CHECK_APPROX(0.2, value->get_double_value(), 0.0);
+  CHECK_APPROX(0.2, value->get_value_as<double>(), 0.0);
   CHECK_APPROX(3.2, value->get_double_tolerance(), 0.0);
 }
 

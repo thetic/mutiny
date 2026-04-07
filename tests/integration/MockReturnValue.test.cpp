@@ -35,11 +35,13 @@ TEST(MockReturnValue, UnsignedIntegerReturnValue)
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
   CHECK_EQUAL(
-      expected_value, actual_call.return_value().get_unsigned_int_value()
+      expected_value, actual_call.return_value().get_value_as<unsigned int>()
   );
   CHECK_EQUAL(expected_value, actual_call.return_value_as<unsigned int>());
 
-  CHECK_EQUAL(expected_value, mock().return_value().get_unsigned_int_value());
+  CHECK_EQUAL(
+      expected_value, mock().return_value().get_value_as<unsigned int>()
+  );
   CHECK_EQUAL(expected_value, mock().unsigned_int_return_value());
 }
 
@@ -49,7 +51,7 @@ TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<unsigned int>(expected_value),
-      mock().actual_call("foo").return_value().get_unsigned_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned int>()
   );
 }
 
@@ -59,7 +61,7 @@ TEST(MockReturnValue, IntReturnValueCanBeRetrievedAsLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long int>()
   );
 }
 
@@ -69,7 +71,7 @@ TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<long int>(expected_value),
-      mock().actual_call("foo").return_value().get_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long int>()
   );
 }
 
@@ -79,7 +81,7 @@ TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<unsigned long int>(expected_value),
-      mock().actual_call("foo").return_value().get_unsigned_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned long int>()
   );
 }
 
@@ -89,7 +91,7 @@ TEST(MockReturnValue, PositiveLongIntReturnValueCanBeRetrievedAsUnsignedLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<unsigned long int>(expected_value),
-      mock().actual_call("foo").return_value().get_unsigned_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned long int>()
   );
 }
 
@@ -99,7 +101,7 @@ TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_unsigned_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned long int>()
   );
 }
 
@@ -112,7 +114,7 @@ TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -125,7 +127,7 @@ TEST(MockReturnValue, PositiveLongIntReturnValueCanBeRetrievedAsUnsignedLongLong
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -138,7 +140,7 @@ TEST(MockReturnValue, PositiveLongLongIntReturnValueCanBeRetrievedAsUnsignedLong
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -151,7 +153,7 @@ TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsUnsignedLongLongInt)
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -164,7 +166,7 @@ TEST(MockReturnValue, UnsignedLongIntReturnValueCanBeRetrievedAsUnsignedLongLong
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -177,7 +179,7 @@ TEST(MockReturnValue, UnsignedLongLongIntReturnValueCanBeRetrieved)
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
 }
 
@@ -187,7 +189,7 @@ TEST(MockReturnValue, PositiveIntReturnValueCanBeRetrievedAsLongLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
 }
 
@@ -197,7 +199,7 @@ TEST(MockReturnValue, PositiveLongIntReturnValueCanBeRetrievedAsLongLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
 }
 
@@ -207,7 +209,7 @@ TEST(MockReturnValue, UnsignedIntReturnValueCanBeRetrievedAsLongLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<long long int>(expected_value),
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
 }
 
@@ -217,7 +219,7 @@ TEST(MockReturnValue, UnsignedLongIntReturnValueCanBeRetrievedAsLongLongInt)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       static_cast<long long int>(expected_value),
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
 }
 
@@ -227,7 +229,7 @@ TEST(MockReturnValue, LongLongIntReturnValueCanBeRetrieved)
   mock().expect_one_call("foo").and_return_value(expected_value);
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
 }
 
@@ -241,15 +243,17 @@ TEST(MockReturnValue, UnsignedIntegerReturnValueSetsDifferentValues)
 
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_unsigned_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned int>()
   );
-  CHECK_EQUAL(expected_value, mock().return_value().get_unsigned_int_value());
+  CHECK_EQUAL(
+      expected_value, mock().return_value().get_value_as<unsigned int>()
+  );
   CHECK_EQUAL(
       another_expected_value,
-      mock().actual_call("foo").return_value().get_unsigned_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned int>()
   );
   CHECK_EQUAL(
-      another_expected_value, mock().return_value().get_unsigned_int_value()
+      another_expected_value, mock().return_value().get_value_as<unsigned int>()
   );
 }
 
@@ -275,19 +279,19 @@ TEST(MockReturnValue, UnsignedIntegerReturnValueSetsDifferentValuesWhileParamete
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_int_value()
+          .get_value_as<unsigned int>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_unsigned_int_value());
+  CHECK_EQUAL(ret_value, mock().return_value().get_value_as<unsigned int>());
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_int_value()
+          .get_value_as<unsigned int>()
   );
   CHECK_EQUAL(
-      another_ret_value, mock().return_value().get_unsigned_int_value()
+      another_ret_value, mock().return_value().get_value_as<unsigned int>()
   );
 }
 
@@ -299,7 +303,9 @@ TEST(MockReturnValue, WhenADoubleReturnValueIsExpectedAndAlsoThereIsADefaultShou
 
   CHECK_APPROX(
       expected_return_value,
-      mock().actual_call("foo").return_value_as_or_default(default_return_value),
+      mock().actual_call("foo").return_value_as_or_default(
+          default_return_value
+      ),
       0.05
   );
   CHECK_APPROX(
@@ -315,7 +321,9 @@ TEST(MockReturnValue, WhenNoDoubleReturnValueIsExpectedButThereIsADefaultShouldl
   mock().expect_one_call("foo");
   CHECK_APPROX(
       default_return_value,
-      mock().actual_call("foo").return_value_as_or_default(default_return_value),
+      mock().actual_call("foo").return_value_as_or_default(
+          default_return_value
+      ),
       0.05
   );
   CHECK_APPROX(
@@ -538,10 +546,10 @@ TEST(MockReturnValue, BooleanReturnValue)
   mock().expect_one_call("foo").and_return_value(true);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  CHECK_EQUAL(expected_value, actual_call.return_value().get_bool_value());
+  CHECK_EQUAL(expected_value, actual_call.return_value().get_value_as<bool>());
   CHECK_EQUAL(expected_value, actual_call.return_value_as<bool>());
 
-  CHECK_EQUAL(expected_value, mock().return_value().get_bool_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<bool>());
   CHECK_EQUAL(expected_value, mock().bool_return_value());
 }
 
@@ -554,14 +562,17 @@ TEST(MockReturnValue, BooleanReturnValueSetsDifferentValues)
   mock().expect_one_call("foo").and_return_value(another_expected_value);
 
   CHECK_EQUAL(
-      expected_value, mock().actual_call("foo").return_value().get_bool_value()
+      expected_value,
+      mock().actual_call("foo").return_value().get_value_as<bool>()
   );
-  CHECK_EQUAL(expected_value, mock().return_value().get_bool_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<bool>());
   CHECK_EQUAL(
       another_expected_value,
-      mock().actual_call("foo").return_value().get_bool_value()
+      mock().actual_call("foo").return_value().get_value_as<bool>()
   );
-  CHECK_EQUAL(another_expected_value, mock().return_value().get_bool_value());
+  CHECK_EQUAL(
+      another_expected_value, mock().return_value().get_value_as<bool>()
+  );
 }
 
 TEST(MockReturnValue, BooleanReturnValueSetsDifferentValuesWhileParametersAreIgnored)
@@ -586,18 +597,18 @@ TEST(MockReturnValue, BooleanReturnValueSetsDifferentValuesWhileParametersAreIgn
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_bool_value()
+          .get_value_as<bool>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_bool_value());
+  CHECK_EQUAL(ret_value, mock().return_value().get_value_as<bool>());
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_bool_value()
+          .get_value_as<bool>()
   );
-  CHECK_EQUAL(another_ret_value, mock().return_value().get_bool_value());
+  CHECK_EQUAL(another_ret_value, mock().return_value().get_value_as<bool>());
 }
 
 TEST(MockReturnValue, IntegerReturnValue)
@@ -606,10 +617,10 @@ TEST(MockReturnValue, IntegerReturnValue)
   mock().expect_one_call("foo").and_return_value(1);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  CHECK_EQUAL(expected_value, actual_call.return_value().get_int_value());
+  CHECK_EQUAL(expected_value, actual_call.return_value().get_value_as<int>());
   CHECK_EQUAL(expected_value, actual_call.return_value_as<int>());
 
-  CHECK_EQUAL(expected_value, mock().return_value().get_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<int>());
   CHECK_EQUAL(expected_value, mock().int_return_value());
 }
 
@@ -622,14 +633,17 @@ TEST(MockReturnValue, IntegerReturnValueSetsDifferentValues)
   mock().expect_one_call("foo").and_return_value(another_expected_value);
 
   CHECK_EQUAL(
-      expected_value, mock().actual_call("foo").return_value().get_int_value()
+      expected_value,
+      mock().actual_call("foo").return_value().get_value_as<int>()
   );
-  CHECK_EQUAL(expected_value, mock().return_value().get_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<int>());
   CHECK_EQUAL(
       another_expected_value,
-      mock().actual_call("foo").return_value().get_int_value()
+      mock().actual_call("foo").return_value().get_value_as<int>()
   );
-  CHECK_EQUAL(another_expected_value, mock().return_value().get_int_value());
+  CHECK_EQUAL(
+      another_expected_value, mock().return_value().get_value_as<int>()
+  );
 }
 
 TEST(MockReturnValue, IntegerReturnValueSetsDifferentValuesWhileParametersAreIgnored)
@@ -654,18 +668,18 @@ TEST(MockReturnValue, IntegerReturnValueSetsDifferentValuesWhileParametersAreIgn
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_int_value());
+  CHECK_EQUAL(ret_value, mock().return_value().get_value_as<int>());
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
-  CHECK_EQUAL(another_ret_value, mock().return_value().get_int_value());
+  CHECK_EQUAL(another_ret_value, mock().return_value().get_value_as<int>());
 }
 
 TEST(MockReturnValue, LongIntegerReturnValue)
@@ -674,9 +688,11 @@ TEST(MockReturnValue, LongIntegerReturnValue)
   mock().expect_one_call("foo").and_return_value(expected_value);
 
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
-  CHECK_EQUAL(expected_value, actual_call.return_value().get_long_int_value());
+  CHECK_EQUAL(
+      expected_value, actual_call.return_value().get_value_as<long int>()
+  );
   CHECK_EQUAL(expected_value, actual_call.return_value_as<long int>());
-  CHECK_EQUAL(expected_value, mock().return_value().get_long_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<long int>());
   CHECK_EQUAL(expected_value, mock().long_int_return_value());
 }
 
@@ -690,15 +706,15 @@ TEST(MockReturnValue, LongIntegerReturnValueSetsDifferentValues)
 
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long int>()
   );
-  CHECK_EQUAL(expected_value, mock().return_value().get_long_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<long int>());
   CHECK_EQUAL(
       another_expected_value,
-      mock().actual_call("foo").return_value().get_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long int>()
   );
   CHECK_EQUAL(
-      another_expected_value, mock().return_value().get_long_int_value()
+      another_expected_value, mock().return_value().get_value_as<long int>()
   );
 }
 
@@ -724,18 +740,20 @@ TEST(MockReturnValue, LongIntegerReturnValueSetsDifferentValuesWhileParametersAr
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_long_int_value()
+          .get_value_as<long int>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_long_int_value());
+  CHECK_EQUAL(ret_value, mock().return_value().get_value_as<long int>());
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_long_int_value()
+          .get_value_as<long int>()
   );
-  CHECK_EQUAL(another_ret_value, mock().return_value().get_long_int_value());
+  CHECK_EQUAL(
+      another_ret_value, mock().return_value().get_value_as<long int>()
+  );
 }
 
 TEST(MockReturnValue, UnsignedLongIntegerReturnValue)
@@ -745,11 +763,12 @@ TEST(MockReturnValue, UnsignedLongIntegerReturnValue)
 
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
   CHECK_EQUAL(
-      expected_value, actual_call.return_value().get_unsigned_long_int_value()
+      expected_value,
+      actual_call.return_value().get_value_as<unsigned long int>()
   );
   CHECK_EQUAL(expected_value, actual_call.return_value_as<unsigned long int>());
   CHECK_EQUAL(
-      expected_value, mock().return_value().get_unsigned_long_int_value()
+      expected_value, mock().return_value().get_value_as<unsigned long int>()
   );
   CHECK_EQUAL(expected_value, mock().unsigned_long_int_return_value());
 }
@@ -764,18 +783,18 @@ TEST(MockReturnValue, UnsignedLongIntegerReturnValueSetsDifferentValues)
 
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_unsigned_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned long int>()
   );
   CHECK_EQUAL(
-      expected_value, mock().return_value().get_unsigned_long_int_value()
-  );
-  CHECK_EQUAL(
-      another_expected_value,
-      mock().actual_call("foo").return_value().get_unsigned_long_int_value()
+      expected_value, mock().return_value().get_value_as<unsigned long int>()
   );
   CHECK_EQUAL(
       another_expected_value,
-      mock().return_value().get_unsigned_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<unsigned long int>()
+  );
+  CHECK_EQUAL(
+      another_expected_value,
+      mock().return_value().get_value_as<unsigned long int>()
   );
 }
 
@@ -801,19 +820,21 @@ TEST(MockReturnValue, UnsignedLongIntegerReturnValueSetsDifferentValuesWhilePara
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_long_int_value()
+          .get_value_as<unsigned long int>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_unsigned_long_int_value());
+  CHECK_EQUAL(
+      ret_value, mock().return_value().get_value_as<unsigned long int>()
+  );
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_long_int_value()
+          .get_value_as<unsigned long int>()
   );
   CHECK_EQUAL(
-      another_ret_value, mock().return_value().get_unsigned_long_int_value()
+      another_ret_value, mock().return_value().get_value_as<unsigned long int>()
   );
 }
 
@@ -824,10 +845,10 @@ TEST(MockReturnValue, LongLongIntegerReturnValue)
 
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
   CHECK_EQUAL(
-      expected_value, actual_call.return_value().get_long_long_int_value()
+      expected_value, actual_call.return_value().get_value_as<long long>()
   );
   CHECK_EQUAL(expected_value, actual_call.return_value_as<long long>());
-  CHECK_EQUAL(expected_value, mock().return_value().get_long_long_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<long long>());
   CHECK_EQUAL(expected_value, mock().long_long_int_return_value());
 }
 
@@ -841,15 +862,15 @@ TEST(MockReturnValue, LongLongIntegerReturnValueSetsDifferentValues)
 
   CHECK_EQUAL(
       expected_value,
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
-  CHECK_EQUAL(expected_value, mock().return_value().get_long_long_int_value());
+  CHECK_EQUAL(expected_value, mock().return_value().get_value_as<long long>());
   CHECK_EQUAL(
       another_expected_value,
-      mock().actual_call("foo").return_value().get_long_long_int_value()
+      mock().actual_call("foo").return_value().get_value_as<long long>()
   );
   CHECK_EQUAL(
-      another_expected_value, mock().return_value().get_long_long_int_value()
+      another_expected_value, mock().return_value().get_value_as<long long>()
   );
 }
 
@@ -875,19 +896,19 @@ TEST(MockReturnValue, LongLongIntegerReturnValueSetsDifferentValuesWhileParamete
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_long_long_int_value()
+          .get_value_as<long long>()
   );
-  CHECK_EQUAL(ret_value, mock().return_value().get_long_long_int_value());
+  CHECK_EQUAL(ret_value, mock().return_value().get_value_as<long long>());
   CHECK_EQUAL(
       another_ret_value,
       mock()
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_long_long_int_value()
+          .get_value_as<long long>()
   );
   CHECK_EQUAL(
-      another_ret_value, mock().return_value().get_long_long_int_value()
+      another_ret_value, mock().return_value().get_value_as<long long>()
   );
 }
 
@@ -899,13 +920,13 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValue)
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
   CHECK_EQUAL(
       expected_value,
-      actual_call.return_value().get_unsigned_long_long_int_value()
+      actual_call.return_value().get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
       expected_value, actual_call.return_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
-      expected_value, mock().return_value().get_unsigned_long_long_int_value()
+      expected_value, mock().return_value().get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(expected_value, mock().unsigned_long_long_int_return_value());
 }
@@ -923,21 +944,21 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValueSetsDifferentValues)
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
-      expected_value, mock().return_value().get_unsigned_long_long_int_value()
+      expected_value, mock().return_value().get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
       another_expected_value,
       mock()
           .actual_call("foo")
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
       another_expected_value,
-      mock().return_value().get_unsigned_long_long_int_value()
+      mock().return_value().get_value_as<unsigned long long>()
   );
 }
 
@@ -963,10 +984,10 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValueSetsDifferentValuesWhile
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
-      ret_value, mock().return_value().get_unsigned_long_long_int_value()
+      ret_value, mock().return_value().get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
       another_ret_value,
@@ -974,11 +995,11 @@ TEST(MockReturnValue, UnsignedLongLongIntegerReturnValueSetsDifferentValuesWhile
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_unsigned_long_long_int_value()
+          .get_value_as<unsigned long long>()
   );
   CHECK_EQUAL(
       another_ret_value,
-      mock().return_value().get_unsigned_long_long_int_value()
+      mock().return_value().get_value_as<unsigned long long>()
   );
 }
 
@@ -995,7 +1016,7 @@ TEST(MockReturnValue, MatchingReturnValueOnWhileSignature)
           .actual_call("foo")
           .with_parameter("p1", 3)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
   CHECK_EQUAL(
       4,
@@ -1003,7 +1024,7 @@ TEST(MockReturnValue, MatchingReturnValueOnWhileSignature)
           .actual_call("foo")
           .with_parameter("p1", 4)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
   CHECK_EQUAL(
       1,
@@ -1011,7 +1032,7 @@ TEST(MockReturnValue, MatchingReturnValueOnWhileSignature)
           .actual_call("foo")
           .with_parameter("p1", 1)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
   CHECK_EQUAL(
       2,
@@ -1019,7 +1040,7 @@ TEST(MockReturnValue, MatchingReturnValueOnWhileSignature)
           .actual_call("foo")
           .with_parameter("p1", 2)
           .return_value()
-          .get_int_value()
+          .get_value_as<int>()
   );
 }
 
@@ -1057,7 +1078,9 @@ TEST(MockReturnValue, StringReturnValue)
   mock().expect_one_call("foo").and_return_value("hello world");
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  STRCMP_EQUAL("hello world", actual_call.return_value().get_string_value());
+  STRCMP_EQUAL(
+      "hello world", actual_call.return_value().get_value_as<const char*>()
+  );
   STRCMP_EQUAL("hello world", actual_call.return_value_as<const char*>());
   STRCMP_EQUAL("hello world", mock().string_return_value());
 }
@@ -1069,9 +1092,13 @@ TEST(MockReturnValue, DoubleReturnValue)
 
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
   CHECK_APPROX(
-      expected_return_value, actual_call.return_value().get_double_value(), 0.05
+      expected_return_value,
+      actual_call.return_value().get_value_as<double>(),
+      0.05
   );
-  CHECK_APPROX(expected_return_value, actual_call.return_value_as<double>(), 0.05);
+  CHECK_APPROX(
+      expected_return_value, actual_call.return_value_as<double>(), 0.05
+  );
   CHECK_APPROX(expected_return_value, mock().double_return_value(), 0.05);
 }
 
@@ -1168,7 +1195,7 @@ TEST(MockReturnValue, PointerReturnValue)
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  CHECK_EQUAL(ptr, actual_call.return_value().get_pointer_value());
+  CHECK_EQUAL(ptr, actual_call.return_value().get_value_as<void*>());
   CHECK_EQUAL(ptr, actual_call.return_value_as<void*>());
   CHECK_EQUAL(ptr, mock().pointer_return_value());
 }
@@ -1178,7 +1205,7 @@ TEST(MockReturnValue, ConstPointerReturnValue)
   const void* ptr = reinterpret_cast<const void*>(0x001074);
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
-  CHECK_EQUAL(ptr, actual_call.return_value().get_const_pointer_value());
+  CHECK_EQUAL(ptr, actual_call.return_value().get_value_as<const void*>());
   CHECK_EQUAL(ptr, actual_call.return_value_as<const void*>());
   CHECK_EQUAL(ptr, mock().const_pointer_return_value());
 }
@@ -1189,10 +1216,15 @@ TEST(MockReturnValue, FunctionPointerReturnValue)
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  CHECK_EQUAL(ptr, actual_call.return_value().get_function_pointer_value());
   CHECK_EQUAL(
       ptr,
-      actual_call.return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
+      actual_call.return_value()
+          .get_value_as<mu::tiny::mock::NamedValue::FunctionPointerValue>()
+  );
+  CHECK_EQUAL(
+      ptr,
+      actual_call.return_value_as<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
   );
   CHECK_EQUAL(ptr, mock().function_pointer_return_value());
 }

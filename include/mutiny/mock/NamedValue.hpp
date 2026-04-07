@@ -14,6 +14,8 @@
 #ifndef INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
 #define INCLUDED_MUTINY_MOCK_NAMEDVALUE_HPP
 
+#include "mutiny/mock/IntegerTypeTraits.hpp"
+
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
 
@@ -156,32 +158,28 @@ public:
   /** @return The type tag string (e.g. "int", "MyClass", "const char*"). */
   virtual String get_type() const;
 
-  /** @return The stored bool. */
-  virtual bool get_bool_value() const;
-  /** @return The stored int. */
-  virtual int get_int_value() const;
-  /** @return The stored unsigned int. */
-  virtual unsigned int get_unsigned_int_value() const;
-  /** @return The stored long int. */
-  virtual long int get_long_int_value() const;
-  /** @return The stored unsigned long int. */
-  virtual unsigned long int get_unsigned_long_int_value() const;
-  /** @return The stored long long. */
-  virtual long long get_long_long_int_value() const;
-  /** @return The stored unsigned long long. */
-  virtual unsigned long long get_unsigned_long_long_int_value() const;
-  /** @return The stored double. */
-  virtual double get_double_value() const;
+  /**
+   * @brief Retrieve the stored value as type @p T.
+   *
+   * For integer types the primary template routes through the widest signed
+   * or unsigned 64-bit getter and casts down. Full specialisations handle
+   * @c bool, @c double, @c const @c char*, pointer types, and
+   * @ref FunctionPointerValue.
+   *
+   * @tparam T  Target type.
+   * @return The stored value converted to @c T.
+   */
+  template<typename T>
+  T get_value_as() const
+  {
+    if (detail::IsUnsignedInteger<T>::value) {
+      return static_cast<T>(get_unsigned_long_long_int_value());
+    }
+    return static_cast<T>(get_long_long_int_value());
+  }
+
   /** @return The stored double tolerance. */
   virtual double get_double_tolerance() const;
-  /** @return The stored C string pointer (not a copy). */
-  virtual const char* get_string_value() const;
-  /** @return The stored void* pointer. */
-  virtual void* get_pointer_value() const;
-  /** @return The stored const void* pointer. */
-  virtual const void* get_const_pointer_value() const;
-  /** @return The stored function pointer. */
-  virtual FunctionPointerValue get_function_pointer_value() const;
   /** @return The stored memory buffer pointer. */
   virtual const unsigned char* get_memory_buffer() const;
   /** @return The stored const object pointer. */
@@ -225,6 +223,31 @@ public:
   static const double default_double_tolerance;
 
 private:
+  /** @return The stored bool. */
+  virtual bool get_bool_value() const;
+  /** @return The stored int. */
+  virtual int get_int_value() const;
+  /** @return The stored unsigned int. */
+  virtual unsigned int get_unsigned_int_value() const;
+  /** @return The stored long int. */
+  virtual long int get_long_int_value() const;
+  /** @return The stored unsigned long int. */
+  virtual unsigned long int get_unsigned_long_int_value() const;
+  /** @return The stored long long. */
+  virtual long long get_long_long_int_value() const;
+  /** @return The stored unsigned long long. */
+  virtual unsigned long long get_unsigned_long_long_int_value() const;
+  /** @return The stored double. */
+  virtual double get_double_value() const;
+  /** @return The stored C string pointer (not a copy). */
+  virtual const char* get_string_value() const;
+  /** @return The stored void* pointer. */
+  virtual void* get_pointer_value() const;
+  /** @return The stored const void* pointer. */
+  virtual const void* get_const_pointer_value() const;
+  /** @return The stored function pointer. */
+  virtual FunctionPointerValue get_function_pointer_value() const;
+
   String name_;
   String type_;
   bool is_const_object_{ false };
@@ -260,5 +283,43 @@ private:
 } // namespace mock
 } // namespace tiny
 } // namespace mu
+
+template<>
+inline bool mu::tiny::mock::NamedValue::get_value_as<bool>() const
+{
+  return get_bool_value();
+}
+
+template<>
+inline double mu::tiny::mock::NamedValue::get_value_as<double>() const
+{
+  return get_double_value();
+}
+
+template<>
+inline const char* mu::tiny::mock::NamedValue::get_value_as<const char*>() const
+{
+  return get_string_value();
+}
+
+template<>
+inline void* mu::tiny::mock::NamedValue::get_value_as<void*>() const
+{
+  return get_pointer_value();
+}
+
+template<>
+inline const void* mu::tiny::mock::NamedValue::get_value_as<const void*>() const
+{
+  return get_const_pointer_value();
+}
+
+template<>
+inline mu::tiny::mock::NamedValue::FunctionPointerValue mu::tiny::mock::
+    NamedValue::get_value_as<
+        mu::tiny::mock::NamedValue::FunctionPointerValue>() const
+{
+  return get_function_pointer_value();
+}
 
 #endif

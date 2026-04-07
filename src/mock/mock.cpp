@@ -553,17 +553,17 @@ NamedValue Support::return_value()
 
 bool Support::bool_return_value()
 {
-  return return_value().get_bool_value();
+  return return_value().get_value_as<bool>();
 }
 
 unsigned int Support::unsigned_int_return_value()
 {
-  return return_value().get_unsigned_int_value();
+  return return_value().get_value_as<unsigned int>();
 }
 
 int Support::int_return_value()
 {
-  return return_value().get_int_value();
+  return return_value().get_value_as<int>();
 }
 
 const char* Support::return_string_value_or_default(const char* default_value)
@@ -628,22 +628,22 @@ unsigned long int Support::return_unsigned_long_int_value_or_default(
 
 long int Support::long_int_return_value()
 {
-  return return_value().get_long_int_value();
+  return return_value().get_value_as<long int>();
 }
 
 unsigned long int Support::unsigned_long_int_return_value()
 {
-  return return_value().get_unsigned_long_int_value();
+  return return_value().get_value_as<unsigned long int>();
 }
 
 long long Support::long_long_int_return_value()
 {
-  return return_value().get_long_long_int_value();
+  return return_value().get_value_as<long long>();
 }
 
 unsigned long long Support::unsigned_long_long_int_return_value()
 {
-  return return_value().get_unsigned_long_long_int_value();
+  return return_value().get_value_as<unsigned long long>();
 }
 
 long long Support::return_long_long_int_value_or_default(
@@ -668,12 +668,12 @@ unsigned long long Support::return_unsigned_long_long_int_value_or_default(
 
 const char* Support::string_return_value()
 {
-  return return_value().get_string_value();
+  return return_value().get_value_as<const char*>();
 }
 
 double Support::double_return_value()
 {
-  return return_value().get_double_value();
+  return return_value().get_value_as<double>();
 }
 
 void* Support::return_pointer_value_or_default(void* default_value)
@@ -706,17 +706,17 @@ Support::FunctionPointerValue Support::return_function_pointer_value_or_default(
 
 void* Support::pointer_return_value()
 {
-  return return_value().get_pointer_value();
+  return return_value().get_value_as<void*>();
 }
 
 const void* Support::const_pointer_return_value()
 {
-  return return_value().get_const_pointer_value();
+  return return_value().get_value_as<const void*>();
 }
 
 Support::FunctionPointerValue Support::function_pointer_return_value()
 {
-  return return_value().get_function_pointer_value();
+  return return_value().get_value_as<NamedValue::FunctionPointerValue>();
 }
 
 bool Support::has_return_value()
