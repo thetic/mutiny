@@ -198,19 +198,11 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   actual.on_object(&value);
 
   actual.with_bool_parameter("bool", true);
-  actual.with_unsigned_int_parameter(
-      "unsigned_int", static_cast<unsigned int>(1)
-  );
-  actual.with_unsigned_long_int_parameter(
-      "unsigned_long", static_cast<unsigned long>(1)
-  );
-  actual.with_long_int_parameter("long_int", static_cast<long int>(1));
-  actual.with_long_long_int_parameter(
-      "long_long_int", static_cast<long long int>(1)
-  );
-  actual.with_unsigned_long_long_int_parameter(
-      "unsigned_long_long_int", static_cast<unsigned long long int>(1)
-  );
+  actual.with_unsigned_int_parameter("unsigned_int", 1U);
+  actual.with_unsigned_long_int_parameter("unsigned_long", 1UL);
+  actual.with_long_int_parameter("long_int", 1L);
+  actual.with_long_long_int_parameter("long_long_int", 1LL);
+  actual.with_unsigned_long_long_int_parameter("unsigned_long_long_int", 1ULL);
   actual.with_pointer_parameter("pointer", &value);
   actual.with_const_pointer_parameter("const_pointer", &const_value);
   actual.with_function_pointer_parameter("function_pointer", function_value);

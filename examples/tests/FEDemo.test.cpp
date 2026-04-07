@@ -48,12 +48,8 @@ EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 EXPECT_FAIL_TEST(FEDemo, should_fail_when_FE_INEXACT_is_set)
 {
   IEEE754ExceptionsPlugin::enable_inexact();
-  volatile float f = 10.0f;
-  CHECK_APPROX(
-      static_cast<double>(f / 3.0f),
-      static_cast<double>(3.333f),
-      static_cast<double>(0.001f)
-  );
+  volatile double f = 10.0;
+  CHECK_APPROX(f / 3.0, 3.333, 0.001);
 }
 
 TEST(FEDemo, should_succeed_when_no_flags_are_set)

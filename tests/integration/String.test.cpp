@@ -150,9 +150,11 @@ TEST(String, stringEndsWith)
   CHECK(mu::tiny::string_ends_with(str, "World"));
   CHECK(!mu::tiny::string_ends_with(str, "Worl"));
   CHECK(!mu::tiny::string_ends_with(str, "Hello"));
+
   mu::tiny::String str2("ah");
   CHECK(mu::tiny::string_ends_with(str2, "ah"));
   CHECK(!mu::tiny::string_ends_with(str2, "baah"));
+
   mu::tiny::String str3("");
   CHECK(!mu::tiny::string_ends_with(str3, "baah"));
 
@@ -343,29 +345,27 @@ TEST(String, PositiveSignedBytes)
 
 TEST(String, LongInts)
 {
-  mu::tiny::String s(mu::tiny::string_from(static_cast<long>(1)));
+  mu::tiny::String s(mu::tiny::string_from(1L));
   CHECK(s == "1");
 }
 
 TEST(String, UnsignedLongInts)
 {
-  mu::tiny::String s(mu::tiny::string_from(static_cast<unsigned long>(1)));
-  mu::tiny::String s2(mu::tiny::string_from(static_cast<unsigned long>(1)));
+  mu::tiny::String s(mu::tiny::string_from(1UL));
+  mu::tiny::String s2(mu::tiny::string_from(1UL));
   CHECK(s == s2);
 }
 
 TEST(String, LongLongInts)
 {
-  mu::tiny::String s(mu::tiny::string_from(static_cast<long long>(1)));
+  mu::tiny::String s(mu::tiny::string_from(1LL));
   CHECK(s == "1");
 }
 
 TEST(String, UnsignedLongLongInts)
 {
-  mu::tiny::String s(mu::tiny::string_from(static_cast<unsigned long long>(1)));
-  mu::tiny::String s2(
-      mu::tiny::string_from(static_cast<unsigned long long>(1))
-  );
+  mu::tiny::String s(mu::tiny::string_from(1ULL));
+  mu::tiny::String s2(mu::tiny::string_from(1ULL));
   CHECK(s == s2);
 }
 
