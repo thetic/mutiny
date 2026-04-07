@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Semver-aware ABI compatibility check using abidiff.
 #
 # Usage: abi_check.sh <baseline_lib> <current_lib> <baseline_version> <current_version>
 #
-# abidiff exit code bitmask:
+# abidiff exit code bitmask (values are OR'd; multiple bits can be set simultaneously):
 #   0  = no change
 #   1  = abidiff error
 #   2  = abidiff usage error
@@ -17,10 +17,10 @@
 
 set -e
 
-BASELINE_LIB=$1
-CURRENT_LIB=$2
-BASELINE_VERSION=$3
-CURRENT_VERSION=$4
+BASELINE_LIB=${1:?missing arg 1: baseline_lib}
+CURRENT_LIB=${2:?missing arg 2: current_lib}
+BASELINE_VERSION=${3:?missing arg 3: baseline_version}
+CURRENT_VERSION=${4:?missing arg 4: current_version}
 
 BASELINE_MAJOR=$(echo "$BASELINE_VERSION" | cut -d. -f1)
 BASELINE_MINOR=$(echo "$BASELINE_VERSION" | cut -d. -f2)
@@ -56,8 +56,12 @@ if [ "$HAS_INCOMPATIBLE" -ne 0 ]; then
     exit 1
 fi
 
-if [ "$CURRENT_MAJOR" -gt "$BASELINE_MAJOR" ] || [ "$CURRENT_MINOR" -gt "$BASELINE_MINOR" ]; then
-    echo "Version bump ($BASELINE_VERSION -> $CURRENT_VERSION): compatible ABI changes are allowed."
+if [ "$CURRENT_MAJOR" -gt "$BASELINE_MAJOR" ]; then
+    echo "Major version bump ($BASELINE_VERSION -> $CURRENT_VERSION): compatible ABI changes are allowed."
+    exit 0
+fi
+if [ "$CURRENT_MAJOR" -eq "$BASELINE_MAJOR" ] && [ "$CURRENT_MINOR" -gt "$BASELINE_MINOR" ]; then
+    echo "Minor version bump ($BASELINE_VERSION -> $CURRENT_VERSION): compatible ABI changes are allowed."
     exit 0
 fi
 
