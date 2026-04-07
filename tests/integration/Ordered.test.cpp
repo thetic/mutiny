@@ -74,8 +74,8 @@ TEST(Ordered, TestInstallerSetsFields)
   STRCMP_EQUAL("testgroup", ordered_test.get_group());
   STRCMP_EQUAL("testname", ordered_test.get_name());
   STRCMP_EQUAL("this.cpp", ordered_test.get_file());
-  LONGS_EQUAL(10, ordered_test.get_line_number());
-  LONGS_EQUAL(5, ordered_test.get_level());
+  CHECK_EQUAL(size_t{ 10 }, ordered_test.get_line_number());
+  CHECK_EQUAL(5, ordered_test.get_level());
 }
 
 TEST(Ordered, InstallOneText)

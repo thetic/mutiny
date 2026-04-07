@@ -27,16 +27,12 @@ Boolean
      - Passes when
    * - :c:macro:`CHECK(condition) <CHECK>`
      - ``condition`` is truthy
-   * - :c:macro:`CHECK_TRUE(condition) <CHECK_TRUE>`
-     - same as ``CHECK``
-   * - :c:macro:`CHECK_FALSE(condition) <CHECK_FALSE>`
-     - ``condition`` is falsy
 
 .. code-block:: cpp
 
    CHECK(ptr != nullptr);
-   CHECK_TRUE(list.empty());
-   CHECK_FALSE(error_occurred);
+   CHECK(list.empty());
+   CHECK(!error_occurred);
 
 Equality (generic)
 ------------------
@@ -85,54 +81,21 @@ literal operator like ``<``, ``>=``, ``!=``.
    CHECK_COMPARE(result, >=, 0);
    CHECK_COMPARE(count, !=, 0);
 
-Numeric (typed)
----------------
+Approximate equality
+--------------------
 
-These macros cast to a specific type before comparing, which avoids
-sign-compare warnings and makes failure messages type-accurate.
+``CHECK_APPROX(expected, actual, threshold)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. list-table::
-   :header-rows: 1
-
-   * - Macro
-     - Type
-   * - :c:macro:`LONGS_EQUAL(expected, actual) <LONGS_EQUAL>`
-     - ``long``
-   * - :c:macro:`UNSIGNED_LONGS_EQUAL(expected, actual) <UNSIGNED_LONGS_EQUAL>`
-     - ``unsigned long``
-   * - :c:macro:`LONGLONGS_EQUAL(expected, actual) <LONGLONGS_EQUAL>`
-     - ``long long``
-   * - :c:macro:`UNSIGNED_LONGLONGS_EQUAL(expected, actual) <UNSIGNED_LONGLONGS_EQUAL>`
-     - ``unsigned long long``
-   * - :c:macro:`BYTES_EQUAL(expected, actual) <BYTES_EQUAL>`
-     - low 8 bits as ``long``
-   * - :c:macro:`SIGNED_BYTES_EQUAL(expected, actual) <SIGNED_BYTES_EQUAL>`
-     - ``signed char``
-   * - :c:macro:`DOUBLES_EQUAL(expected, actual, threshold) <DOUBLES_EQUAL>`
-     - ``double`` within ±threshold
+:c:macro:`CHECK_APPROX` checks that ``expected`` and ``actual`` differ by at
+most ``threshold``. All three operands must share the same numeric type
+(floating-point or integral).
 
 .. code-block:: cpp
 
-   LONGS_EQUAL(0, error_code);
-   BYTES_EQUAL(0xAB, packet[0]);
-   DOUBLES_EQUAL(3.14, compute_pi(), 0.001);
-
-Pointer
--------
-
-``POINTERS_EQUAL(expected, actual)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`POINTERS_EQUAL` compares two pointers as ``const void*``. Accepts object
-pointers and ``nullptr``. For raw integer values cast to pointer, you
-must use ``reinterpret_cast<void*>`` explicitly before passing.
-
-``FUNCTIONPOINTERS_EQUAL(expected, actual)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`FUNCTIONPOINTERS_EQUAL` compares two function pointers via
-``reinterpret_cast<void(*)()>``. For a null function pointer use
-``static_cast<void(*)()>(nullptr)``.
+   CHECK_APPROX(3.14, compute_pi(), 0.001);
+   CHECK_APPROX(1.0f, compute_float(), 0.01f);
+   CHECK_APPROX(1000, compute_int(), 10);
 
 String
 ------
@@ -239,7 +202,7 @@ helpers so failures point to the call site:
 
    void assert_valid_id(int id, const char* file, size_t line)
    {
-       CHECK_TRUE_LOCATION(id > 0, "CHECK_TRUE", "id > 0", "", file, line);
+       CHECK_LOCATION(id > 0, "CHECK", "id > 0", "", file, line);
    }
 
    #define ASSERT_VALID_ID(id) assert_valid_id((id), __FILE__, __LINE__)
@@ -253,6 +216,6 @@ Examples
    * - File
      - Demonstrates
    * - :source:`CheatSheet.test.cpp <examples/tests/CheatSheet.test.cpp>`
-     - :c:macro:`LONGS_EQUAL`, :c:macro:`CHECK`, :c:macro:`STRCMP_EQUAL` in a minimal test
+     - :c:macro:`CHECK_EQUAL`, :c:macro:`CHECK`, :c:macro:`STRCMP_EQUAL` in a minimal test
    * - :source:`CircularBuffer.test.cpp <examples/tests/CircularBuffer.test.cpp>`
-     - :c:macro:`CHECK`, :c:macro:`LONGS_EQUAL`, :c:macro:`STRCMP_EQUAL` across a variety of test scenarios
+     - :c:macro:`CHECK`, :c:macro:`CHECK_EQUAL`, :c:macro:`STRCMP_EQUAL` across a variety of test scenarios

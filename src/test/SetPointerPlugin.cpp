@@ -13,7 +13,7 @@ struct MutinyPair
   void* orig_value;
 };
 
-int pointer_table_index;
+size_t pointer_table_index;
 MutinyPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
@@ -35,8 +35,8 @@ void SetPointerPlugin::store(void** function)
 
 void SetPointerPlugin::post_test_action(Shell& /*test*/, Result& /*result*/)
 {
-  for (int i = pointer_table_index - 1; i >= 0; i--)
-    *reinterpret_cast<void**>(setlist[i].orig) = setlist[i].orig_value;
+  for (size_t i{ pointer_table_index }; i > 0; i--)
+    *reinterpret_cast<void**>(setlist[i - 1].orig) = setlist[i - 1].orig_value;
   pointer_table_index = 0;
 }
 

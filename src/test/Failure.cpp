@@ -223,11 +223,7 @@ String Failure::create_user_text(const String& text)
 {
   String user_message = "";
   if (!text.empty()) {
-    // This is a kludge to turn off "Message: " for this case.
-    // I don't think "Message: " adds anything, as you get to see the
-    // message. I propose we remove "Message: " lead in
-    if (!string_starts_with(text, "LONGS_EQUAL"))
-      user_message += "Message: ";
+    user_message += "Message: ";
     user_message += text;
     user_message += "\n\t";
   }
@@ -266,7 +262,7 @@ EqualsFailure::EqualsFailure(
   message_ += create_but_was_string(expected, actual);
 }
 
-DoublesEqualFailure::DoublesEqualFailure(
+ApproxEqualFailure::ApproxEqualFailure(
     Shell* test,
     const char* file_name,
     size_t line_number,
@@ -382,56 +378,7 @@ FailFailure::FailFailure(
   message_ = message;
 }
 
-LongsEqualFailure::LongsEqualFailure(
-    Shell* test,
-    const char* file_name,
-    size_t line_number,
-    long expected,
-    long actual,
-    const String& text
-)
-  : Failure(test, file_name, line_number)
-{
-  message_ = create_user_text(text);
-
-  String a_decimal = string_from(actual);
-  String e_decimal = string_from(expected);
-
-  pad_strings_to_same_length(a_decimal, e_decimal, ' ');
-
-  String actual_reported =
-      a_decimal + " " + brackets_formatted_hex_string_from(actual);
-  String expected_reported =
-      e_decimal + " " + brackets_formatted_hex_string_from(expected);
-  message_ += create_but_was_string(expected_reported, actual_reported);
-}
-
-UnsignedLongsEqualFailure::UnsignedLongsEqualFailure(
-    Shell* test,
-    const char* file_name,
-    size_t line_number,
-    unsigned long expected,
-    unsigned long actual,
-    const String& text
-)
-  : Failure(test, file_name, line_number)
-{
-  message_ = create_user_text(text);
-
-  String a_decimal = string_from(actual);
-  String e_decimal = string_from(expected);
-
-  pad_strings_to_same_length(a_decimal, e_decimal, ' ');
-
-  String actual_reported =
-      a_decimal + " " + brackets_formatted_hex_string_from(actual);
-  String expected_reported =
-      e_decimal + " " + brackets_formatted_hex_string_from(expected);
-
-  message_ += create_but_was_string(expected_reported, actual_reported);
-}
-
-LongLongsEqualFailure::LongLongsEqualFailure(
+IntMaxEqualFailure::IntMaxEqualFailure(
     Shell* test,
     const char* file_name,
     size_t line_number,
@@ -455,7 +402,7 @@ LongLongsEqualFailure::LongLongsEqualFailure(
   message_ += create_but_was_string(expected_reported, actual_reported);
 }
 
-UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(
+UintMaxEqualFailure::UintMaxEqualFailure(
     Shell* test,
     const char* file_name,
     size_t line_number,
@@ -469,30 +416,6 @@ UnsignedLongLongsEqualFailure::UnsignedLongLongsEqualFailure(
 
   String a_decimal = string_from(actual);
   String e_decimal = string_from(expected);
-
-  pad_strings_to_same_length(a_decimal, e_decimal, ' ');
-
-  String actual_reported =
-      a_decimal + " " + brackets_formatted_hex_string_from(actual);
-  String expected_reported =
-      e_decimal + " " + brackets_formatted_hex_string_from(expected);
-  message_ += create_but_was_string(expected_reported, actual_reported);
-}
-
-SignedBytesEqualFailure::SignedBytesEqualFailure(
-    Shell* test,
-    const char* file_name,
-    size_t line_number,
-    signed char expected,
-    signed char actual,
-    const String& text
-)
-  : Failure(test, file_name, line_number)
-{
-  message_ = create_user_text(text);
-
-  String a_decimal = string_from(static_cast<int>(actual));
-  String e_decimal = string_from(static_cast<int>(expected));
 
   pad_strings_to_same_length(a_decimal, e_decimal, ' ');
 

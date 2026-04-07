@@ -28,8 +28,8 @@ TEST(ExpectFailShell, innerTestFails_outerCountsRunNotFailure)
   fixture.add_test(&shell);
   fixture.run_all_tests();
   // 2 runs: fixture's built-in genTest_ + shell
-  LONGS_EQUAL(2, fixture.get_run_count());
-  LONGS_EQUAL(0, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
 }
 
 TEST(ExpectFailShell, innerTestPasses_outerCountsRunAndFailure)
@@ -38,14 +38,14 @@ TEST(ExpectFailShell, innerTestPasses_outerCountsRunAndFailure)
   fixture.add_test(&shell);
   fixture.run_all_tests();
   // 2 runs: fixture's built-in genTest_ + shell
-  LONGS_EQUAL(2, fixture.get_run_count());
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 }
 
 TEST(ExpectFailShell, willRun_alwaysReturnsTrue)
 {
   mu::tiny::test::ExpectFailShell shell;
-  CHECK_TRUE(shell.will_run());
+  CHECK(shell.will_run());
 }
 
 TEST(ExpectFailShell, getFormattedName_showsEXPECT_FAIL_TEST)
@@ -74,5 +74,5 @@ TEST(ExpectFailShell, fourArgConstructor_setsGroupTestFileAndLine)
   STRCMP_EQUAL("MyGroup", shell.get_group());
   STRCMP_EQUAL("MyTest", shell.get_name());
   STRCMP_EQUAL("myfile.cpp", shell.get_file());
-  LONGS_EQUAL(42, static_cast<long>(shell.get_line_number()));
+  CHECK_EQUAL(size_t{ 42 }, shell.get_line_number());
 }

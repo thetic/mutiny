@@ -108,7 +108,7 @@ TEST(MockDocumentation, returnValue)
   mu::tiny::mock::mock().expect_one_call("function").and_return_value(10);
   mu::tiny::mock::mock().actual_call("function").return_value().get_int_value();
   int value = mu::tiny::mock::mock().return_value().get_int_value();
-  LONGS_EQUAL(10, value);
+  CHECK_EQUAL(10, value);
 }
 
 TEST(MockDocumentation, setData)
@@ -125,8 +125,8 @@ TEST(MockDocumentation, setData)
       mu::tiny::mock::mock().get_data("importantObject").get_object_pointer()
   );
 
-  LONGS_EQUAL(10, value);
-  POINTERS_EQUAL(pobject, &object);
+  CHECK_EQUAL(10, value);
+  CHECK_EQUAL(pobject, &object);
 }
 
 TEST(MockDocumentation, otherMockSupport)

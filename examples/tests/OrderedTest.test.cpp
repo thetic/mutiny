@@ -46,7 +46,7 @@ TEST_GROUP(OrderedDemo)
 // Regular test — unordered tests run before the ordered block.
 TEST(OrderedDemo, StartsUninitialized)
 {
-  CHECK_FALSE(g_log.initialized);
+  CHECK(!g_log.initialized);
 }
 
 // Level 10: initialize.
@@ -54,7 +54,7 @@ TEST_ORDERED(OrderedDemo, Init, 10)
 {
   g_log.init();
   CHECK(g_log.initialized);
-  LONGS_EQUAL(0, g_log.count);
+  CHECK_EQUAL(0, g_log.count);
 }
 
 // Level 20: record two events. Tests at the same level run in
@@ -62,19 +62,19 @@ TEST_ORDERED(OrderedDemo, Init, 10)
 TEST_ORDERED(OrderedDemo, FirstEvent, 20)
 {
   g_log.append("startup");
-  LONGS_EQUAL(1, g_log.count);
+  CHECK_EQUAL(1, g_log.count);
 }
 
 TEST_ORDERED(OrderedDemo, SecondEvent, 20)
 {
   g_log.append("ready");
-  LONGS_EQUAL(2, g_log.count);
+  CHECK_EQUAL(2, g_log.count);
 }
 
 // Level 30: verify accumulated state from both level-20 tests.
 TEST_ORDERED(OrderedDemo, VerifyLog, 30)
 {
-  LONGS_EQUAL(2, g_log.count);
+  CHECK_EQUAL(2, g_log.count);
   STRCMP_EQUAL("startup", g_log.entries[0]);
   STRCMP_EQUAL("ready", g_log.entries[1]);
 }
@@ -83,6 +83,6 @@ TEST_ORDERED(OrderedDemo, VerifyLog, 30)
 TEST_ORDERED(OrderedDemo, Shutdown, 40)
 {
   g_log.flush();
-  LONGS_EQUAL(0, g_log.count);
+  CHECK_EQUAL(0, g_log.count);
   CHECK(g_log.flushed);
 }

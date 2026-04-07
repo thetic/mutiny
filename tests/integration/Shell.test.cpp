@@ -121,18 +121,18 @@ void thrown_standard_exception_method()
 
 TEST(Shell, compareDoubles)
 {
-  CHECK(mu::tiny::test::doubles_equal(1.0, 1.001, 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.1, 0.05));
+  CHECK(mu::tiny::test::approx_equal(1.0, 1.001, 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, 1.1, 0.05));
   double a = 1.2345678;
-  CHECK(mu::tiny::test::doubles_equal(a, a, 0.000000001));
+  CHECK(mu::tiny::test::approx_equal(a, a, 0.000000001));
 }
 
 #ifdef NAN
 TEST(Shell, compareDoublesNaN)
 {
-  CHECK(!mu::tiny::test::doubles_equal(static_cast<double>(NAN), 1.001, 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, static_cast<double>(NAN), 0.01));
-  CHECK(!mu::tiny::test::doubles_equal(1.0, 1.001, static_cast<double>(NAN)));
+  CHECK(!mu::tiny::test::approx_equal(static_cast<double>(NAN), 1.001, 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, static_cast<double>(NAN), 0.01));
+  CHECK(!mu::tiny::test::approx_equal(1.0, 1.001, static_cast<double>(NAN)));
 }
 #endif
 
@@ -140,21 +140,19 @@ TEST(Shell, compareDoublesNaN)
 TEST(Shell, compareDoublesInf)
 {
   CHECK(
-      !mu::tiny::test::doubles_equal(static_cast<double>(INFINITY), 1.0, 0.01)
+      !mu::tiny::test::approx_equal(static_cast<double>(INFINITY), 1.0, 0.01)
   );
   CHECK(
-      !mu::tiny::test::doubles_equal(1.0, static_cast<double>(INFINITY), 0.01)
+      !mu::tiny::test::approx_equal(1.0, static_cast<double>(INFINITY), 0.01)
   );
+  CHECK(mu::tiny::test::approx_equal(1.0, -1.0, static_cast<double>(INFINITY)));
   CHECK(
-      mu::tiny::test::doubles_equal(1.0, -1.0, static_cast<double>(INFINITY))
-  );
-  CHECK(
-      mu::tiny::test::doubles_equal(
+      mu::tiny::test::approx_equal(
           static_cast<double>(INFINITY), static_cast<double>(INFINITY), 0.01
       )
   );
   CHECK(
-      mu::tiny::test::doubles_equal(
+      mu::tiny::test::approx_equal(
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY),
           static_cast<double>(INFINITY)
@@ -163,18 +161,45 @@ TEST(Shell, compareDoublesInf)
 }
 #endif
 
+TEST(Shell, compareFloats)
+{
+  CHECK(mu::tiny::test::approx_equal(1.0f, 1.001f, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.1f, 0.05f));
+}
+
+#ifdef NAN
+TEST(Shell, compareFloatsNaN)
+{
+  CHECK(!mu::tiny::test::approx_equal(NAN, 1.0f, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, NAN, 0.01f));
+  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.001f, NAN));
+}
+#endif
+
+TEST(Shell, compareIntegers)
+{
+  CHECK(mu::tiny::test::approx_equal(1000, 1001, 10));
+  CHECK(!mu::tiny::test::approx_equal(1000, 1020, 10));
+  CHECK(mu::tiny::test::approx_equal(-5, 5, 10));
+  CHECK(!mu::tiny::test::approx_equal(-5, 6, 10));
+  CHECK(mu::tiny::test::approx_equal(3u, 5u, 10u));
+  CHECK(!mu::tiny::test::approx_equal(3u, 5u, 1u));
+  CHECK(mu::tiny::test::approx_equal(5u, 3u, 10u));
+  CHECK(!mu::tiny::test::approx_equal(5u, 3u, 1u));
+}
+
 TEST(Shell, FailWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST(Shell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(passing_check_equal_test_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
 }
 
 TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
@@ -195,7 +220,7 @@ TEST(Shell, MacrosUsedInSetup)
   fixture.set_setup(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 }
 
 TEST(Shell, MacrosUsedInTearDown)
@@ -203,14 +228,14 @@ TEST(Shell, MacrosUsedInTearDown)
   fixture.set_teardown(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 }
 
 TEST(Shell, ExitLeavesQuietly)
 {
   fixture.set_test_function(exit_test_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(0, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
 }
 
 TEST(Shell, FailWillNotCrashIfNotEnabled)
@@ -221,8 +246,8 @@ TEST(Shell, FailWillNotCrashIfNotEnabled)
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(!mutiny_has_crashed);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -248,8 +273,8 @@ TEST(Shell, TeardownCalledAfterTestFailure)
   fixture.set_teardown(teardown_method);
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
-  LONGS_EQUAL(1, teardown_called);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1, teardown_called);
 }
 
 TEST(Shell, TestStopsAfterTestFailure)
@@ -258,8 +283,8 @@ TEST(Shell, TestStopsAfterTestFailure)
   fixture.set_test_function(stop_after_failure_method);
   fixture.run_all_tests();
   CHECK(fixture.has_test_failed());
-  LONGS_EQUAL(1, fixture.get_failure_count());
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(0, stop_after_failure);
 }
 
 TEST(Shell, TestStopsAfterSetupFailure)
@@ -269,8 +294,8 @@ TEST(Shell, TestStopsAfterSetupFailure)
   fixture.set_teardown(stop_after_failure_method);
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_failure_count());
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_failure_count());
+  CHECK_EQUAL(0, stop_after_failure);
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
@@ -284,11 +309,11 @@ TEST(Shell, TestStopsAfterUnknownExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_test_function(thrown_unknown_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -306,9 +331,9 @@ TEST(Shell, NoExceptionIsRethrownIfEnabledButNotThrown)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_FALSE(exception_rethrown);
-  LONGS_EQUAL(0, fixture.get_failure_count());
-  LONGS_EQUAL(1, stop_after_failure);
+  CHECK(!exception_rethrown);
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
+  CHECK_EQUAL(1, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -327,12 +352,12 @@ TEST(Shell, UnknownExceptionIsRethrownIfEnabled)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(exception_rethrown);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -347,7 +372,7 @@ TEST(Shell, TestStopsAfterStandardExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_test_function(thrown_standard_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 #if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
@@ -357,7 +382,7 @@ TEST(Shell, TestStopsAfterStandardExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
 #endif
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -376,12 +401,12 @@ TEST(Shell, StandardExceptionIsRethrownIfEnabled)
   } catch (const std::exception&) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(exception_rethrown);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -396,11 +421,11 @@ TEST(Shell, TeardownStopsAfterUnknownExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_teardown(thrown_unknown_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -419,12 +444,12 @@ TEST(Shell, TeardownUnknownExceptionIsRethrownIfEnabled)
   } catch (...) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(exception_rethrown);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains(
       "Unexpected exception of unknown type was thrown"
   );
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -439,7 +464,7 @@ TEST(Shell, TeardownStopsAfterStandardExceptionIsThrown)
   should_throw_exception = true;
   fixture.set_teardown(thrown_standard_exception_method);
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 #if MUTINY_HAVE_RTTI
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
@@ -449,7 +474,7 @@ TEST(Shell, TeardownStopsAfterStandardExceptionIsThrown)
       "Unexpected exception of unknown type was thrown"
   );
 #endif
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -468,12 +493,12 @@ TEST(Shell, TeardownStandardExceptionIsRethrownIfEnabled)
   } catch (const std::exception&) {
     exception_rethrown = true;
   }
-  CHECK_TRUE(exception_rethrown);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(exception_rethrown);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   fixture.assert_print_contains("Unexpected exception of type '");
   fixture.assert_print_contains("runtime_error");
   fixture.assert_print_contains("' was thrown: exception text");
-  LONGS_EQUAL(0, stop_after_failure);
+  CHECK_EQUAL(0, stop_after_failure);
   mu::tiny::test::Shell::set_rethrow_exceptions(initial_rethrow_exceptions);
 }
 
@@ -504,7 +529,7 @@ TEST(Shell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods
   DefaultTestShell shell;
   fixture.add_test(&shell);
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_test_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_test_count());
 }
 
 #if MUTINY_HAVE_EXCEPTIONS

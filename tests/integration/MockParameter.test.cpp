@@ -624,7 +624,7 @@ TEST(MockParameter, ignoreOtherParametersMultipleCalls)
       .with_parameter("p2", 2)
       .with_parameter("p3", 3)
       .with_parameter("p4", 4);
-  LONGS_EQUAL(1, mock().expected_calls_left());
+  CHECK(mock().expected_calls_left());
   mock()
       .actual_call("foo")
       .with_parameter("p2", 2)
@@ -896,7 +896,7 @@ TEST(MockParameter, outputAndInputParameter)
       "bar", &returned_value
   );
 
-  LONGS_EQUAL(5, returned_value);
+  CHECK_EQUAL(5, returned_value);
   mock().check_expectations();
 }
 
@@ -937,7 +937,7 @@ TEST(MockParameter, outputParameterWithIgnoredParameters)
       .with_output_parameter("bar", &retval)
       .with_parameter("other", 1);
 
-  LONGS_EQUAL(param, retval);
+  CHECK_EQUAL(param, retval);
 
   mock().check_expectations();
 }

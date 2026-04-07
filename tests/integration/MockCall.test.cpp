@@ -531,7 +531,7 @@ TEST(MockCall, mockExpectationShouldIncreaseNumberOfChecks)
   mu::tiny::test::TestingFixture fixture;
   fixture.set_test_function(mocks_are_counted_as_checks_test_function);
   fixture.run_all_tests();
-  LONGS_EQUAL(3, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 3 }, fixture.get_check_count());
 }
 
 TEST(MockCall, expectationsLeftBeforCheckExpectations)

@@ -121,19 +121,19 @@ TEST(CheckedActualCall, multipleSameFunctionsExpectingAndHappenGradually)
   list->add_expected_call(call1);
   list->add_expected_call(call2);
 
-  LONGS_EQUAL(2, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(2U, list->amount_of_unfulfilled_expectations());
 
   mu::tiny::mock::CheckedActualCall actual_call1(1, reporter, *list);
   actual_call1.with_name("func");
   actual_call1.check_expectations();
 
-  LONGS_EQUAL(1, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(1U, list->amount_of_unfulfilled_expectations());
 
   mu::tiny::mock::CheckedActualCall actual_call2(2, reporter, *list);
   actual_call2.with_name("func");
   actual_call2.check_expectations();
 
-  LONGS_EQUAL(0, list->amount_of_unfulfilled_expectations());
+  CHECK_EQUAL(0U, list->amount_of_unfulfilled_expectations());
 
   list->delete_all_expectations_and_clear_list();
 }
@@ -159,8 +159,8 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   CHECK(1ll == actual.return_long_long_int_value_or_default(1ll));
   CHECK(0 == actual.return_unsigned_long_long_int_value());
   CHECK(1ull == actual.return_unsigned_long_long_int_value_or_default(1ull));
-  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
-  DOUBLES_EQUAL(1.5, actual.return_double_value_or_default(1.5), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
+  CHECK_APPROX(1.5, actual.return_double_value_or_default(1.5), 0.0);
   STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());
@@ -182,7 +182,7 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
           reinterpret_cast<void (*)()>(0x1)
       )
   );
-  CHECK_FALSE(actual.has_return_value());
+  CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
 }
 
@@ -240,7 +240,7 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   expected_string += mu::tiny::hex_string_from(&const_value);
   STRCMP_EQUAL(expected_string.c_str(), actual.get_trace_output());
 
-  CHECK_FALSE(actual.has_return_value());
+  CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
   CHECK(false == actual.return_bool_value());
   CHECK(false == actual.return_bool_value_or_default(true));
@@ -257,8 +257,8 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   CHECK(0 == actual.return_unsigned_long_long_int_value_or_default(1ull));
   CHECK(0 == actual.return_unsigned_int_value());
   CHECK(0 == actual.return_unsigned_int_value_or_default(1u));
-  DOUBLES_EQUAL(0.0, actual.return_double_value(), 0.0);
-  DOUBLES_EQUAL(0.0, actual.return_double_value_or_default(1.0), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
+  CHECK_APPROX(0.0, actual.return_double_value_or_default(1.0), 0.0);
   STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());

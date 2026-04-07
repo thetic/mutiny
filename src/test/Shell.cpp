@@ -98,7 +98,7 @@ const CrashingTerminatorWithoutExceptions
 void (*please_crash_me_right_now)() = abort;
 } // namespace
 
-bool doubles_equal(double d1, double d2, double threshold)
+bool approx_equal(double d1, double d2, double threshold)
 {
   if (is_nan(d1) || is_nan(d2) || is_nan(threshold))
     return false;
@@ -462,9 +462,9 @@ void Shell::assert_cstr_contains(
   }
 }
 
-void Shell::assert_longs_equal(
-    long expected,
-    long actual,
+void Shell::assert_intmax_equal(
+    intmax_t expected,
+    intmax_t actual,
     const char* text,
     const char* file_name,
     size_t line_number,
@@ -474,15 +474,15 @@ void Shell::assert_longs_equal(
   get_test_result()->count_check();
   if (expected != actual) {
     add_failure(
-        LongsEqualFailure(this, file_name, line_number, expected, actual, text)
+        IntMaxEqualFailure(this, file_name, line_number, expected, actual, text)
     );
     test_terminator.exit_current_test();
   }
 }
 
-void Shell::assert_unsigned_longs_equal(
-    unsigned long expected,
-    unsigned long actual,
+void Shell::assert_uintmax_equal(
+    uintmax_t expected,
+    uintmax_t actual,
     const char* text,
     const char* file_name,
     size_t line_number,
@@ -491,61 +491,7 @@ void Shell::assert_unsigned_longs_equal(
 {
   get_test_result()->count_check();
   if (expected != actual) {
-    add_failure(UnsignedLongsEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_long_longs_equal(
-    long long expected,
-    long long actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(LongLongsEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_unsigned_long_longs_equal(
-    unsigned long long expected,
-    unsigned long long actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(UnsignedLongLongsEqualFailure(
-        this, file_name, line_number, expected, actual, text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_signed_bytes_equal(
-    signed char expected,
-    signed char actual,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(SignedBytesEqualFailure(
+    add_failure(UintMaxEqualFailure(
         this, file_name, line_number, expected, actual, text
     ));
     test_terminator.exit_current_test();
@@ -575,30 +521,7 @@ void Shell::assert_pointers_equal(
   }
 }
 
-void Shell::assert_function_pointers_equal(
-    void (*expected)(),
-    void (*actual)(),
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(EqualsFailure(
-        this,
-        file_name,
-        line_number,
-        string_from(expected),
-        string_from(actual),
-        text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
-void Shell::assert_doubles_equal(
+void Shell::assert_approx_equal(
     double expected,
     double actual,
     double threshold,
@@ -608,13 +531,10 @@ void Shell::assert_doubles_equal(
     const Terminator& test_terminator
 )
 {
-  get_test_result()->count_check();
-  if (!doubles_equal(expected, actual, threshold)) {
-    add_failure(DoublesEqualFailure(
-        this, file_name, line_number, expected, actual, threshold, text
-    ));
-    test_terminator.exit_current_test();
-  }
+  add_failure(ApproxEqualFailure(
+      this, file_name, line_number, expected, actual, threshold, text
+  ));
+  test_terminator.exit_current_test();
 }
 
 void Shell::assert_binary_equal(

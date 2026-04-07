@@ -383,7 +383,7 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  LONGS_EQUAL(1, file_system.amount_of_files());
+  CHECK_EQUAL(1, file_system.amount_of_files());
   CHECK(file_system.file_exists("mutiny_groupname.xml"));
 }
 

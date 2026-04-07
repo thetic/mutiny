@@ -82,7 +82,7 @@ TEST(CommandLineArguments, repeatSet)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-r3" };
   CHECK(new_argument_parser(argc, argv));
-  LONGS_EQUAL(3, args->get_repeat_count());
+  CHECK_EQUAL(size_t{ 3 }, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, repeatSetDifferentParameter)
@@ -90,7 +90,7 @@ TEST(CommandLineArguments, repeatSetDifferentParameter)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-r", "4" };
   CHECK(new_argument_parser(argc, argv));
-  LONGS_EQUAL(4, args->get_repeat_count());
+  CHECK_EQUAL(size_t{ 4 }, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, repeatSetDefaultsToTwoAndShuffleDisabled)
@@ -98,7 +98,7 @@ TEST(CommandLineArguments, repeatSetDefaultsToTwoAndShuffleDisabled)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-r" };
   CHECK(new_argument_parser(argc, argv));
-  LONGS_EQUAL(2, args->get_repeat_count());
+  CHECK_EQUAL(size_t{ 2 }, args->get_repeat_count());
 }
 
 TEST(CommandLineArguments, reverseEnabled)
@@ -106,7 +106,7 @@ TEST(CommandLineArguments, reverseEnabled)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-b" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_TRUE(args->is_reversing());
+  CHECK(args->is_reversing());
 }
 
 TEST(CommandLineArguments, shuffleDisabledByDefault)
@@ -114,7 +114,7 @@ TEST(CommandLineArguments, shuffleDisabledByDefault)
   int argc = 1;
   const char* argv[] = { "tests.exe" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_FALSE(args->is_shuffling());
+  CHECK(!args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleEnabled)
@@ -122,15 +122,15 @@ TEST(CommandLineArguments, shuffleEnabled)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_TRUE(args->is_shuffling());
+  CHECK(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, shuffleWithSeedZeroIsOk)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s0" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
-  CHECK_EQUAL(0, args->get_shuffle_seed());
+  CHECK(!new_argument_parser(argc, argv));
+  CHECK_EQUAL(size_t{ 0 }, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase1)
@@ -138,7 +138,7 @@ TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase1)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s999" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(999, args->get_shuffle_seed());
+  CHECK_EQUAL(size_t{ 999 }, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase2)
@@ -146,7 +146,7 @@ TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase2)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-s 888" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(888, args->get_shuffle_seed());
+  CHECK_EQUAL(size_t{ 888 }, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase3)
@@ -154,7 +154,7 @@ TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase3)
   int argc = 3;
   const char* argv[] = { "tests.exe", "-s", "777" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_EQUAL(777, args->get_shuffle_seed());
+  CHECK_EQUAL(size_t{ 777 }, args->get_shuffle_seed());
 }
 
 TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
@@ -165,7 +165,7 @@ TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
-  CHECK_TRUE(args->is_shuffling());
+  CHECK(args->is_shuffling());
 }
 
 TEST(CommandLineArguments, setGroupFilter)
@@ -180,7 +180,7 @@ TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-t", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilter)
@@ -196,7 +196,7 @@ TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-st", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
@@ -216,7 +216,7 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xt", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
@@ -236,7 +236,7 @@ TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilterInvalidArgu
 {
   int argc = 3;
   const char* argv[] = { "tests.exe", "-xst", "groupname" };
-  CHECK_FALSE(new_argument_parser(argc, argv));
+  CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilter)
@@ -498,7 +498,7 @@ TEST(CommandLineArguments, checkDefaultArguments)
   const char* argv[] = { "tests.exe" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(!args->is_verbose());
-  LONGS_EQUAL(1, args->get_repeat_count());
+  CHECK_EQUAL(size_t{ 1 }, args->get_repeat_count());
   CHECK(nullptr == args->get_group_filters());
   CHECK(nullptr == args->get_name_filters());
   CHECK(!args->is_crashing_on_fail());
@@ -554,5 +554,5 @@ TEST(CommandLineArguments, setOptRethrowExceptions)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-e" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK_FALSE(args->is_rethrowing_exceptions());
+  CHECK(!args->is_rethrowing_exceptions());
 }

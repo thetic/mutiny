@@ -64,7 +64,7 @@ void call_to_mock_c_with_output_parameter_of_type()
   mutiny_mock()->actual_call("bar")->with_output_parameter_of_type(
       "intType", "bla", &value1
   );
-  LONGS_EQUAL(value1, value2);
+  CHECK_EQUAL(value1, value2);
 }
 
 void failing_call_to_mock_c_with_memory_buffer()
@@ -241,8 +241,8 @@ TEST(MockSupport_c, outputParameters)
   );
   mutiny_mock()->actual_call("foo")->with_output_parameter("out", &param);
   mutiny_mock()->check_expectations();
-  LONGS_EQUAL(2, param);
-  LONGS_EQUAL(2, retval);
+  CHECK_EQUAL(2, param);
+  CHECK_EQUAL(2, retval);
 }
 
 TEST(MockSupport_c, unmodifiedOutputParameter)
@@ -253,7 +253,7 @@ TEST(MockSupport_c, unmodifiedOutputParameter)
   );
   mutiny_mock()->actual_call("foo")->with_output_parameter("out", &param);
   mutiny_mock()->check_expectations();
-  LONGS_EQUAL(1, param);
+  CHECK_EQUAL(1, param);
 }
 
 TEST(MockSupport_c, outputParameters_differentType)
@@ -265,8 +265,8 @@ TEST(MockSupport_c, outputParameters_differentType)
   );
   mutiny_mock()->actual_call("foo")->with_output_parameter("out", &param);
   mutiny_mock()->check_expectations();
-  LONGS_EQUAL(2, param);
-  LONGS_EQUAL(2, retval);
+  CHECK_EQUAL(2, param);
+  CHECK_EQUAL(2, retval);
 }
 
 TEST(MockSupport_c, outputParametersOfType)
@@ -280,8 +280,8 @@ TEST(MockSupport_c, outputParametersOfType)
   mutiny_mock()->actual_call("foo")->with_output_parameter_of_type(
       "typeName", "out", &param
   );
-  LONGS_EQUAL(2, param);
-  LONGS_EQUAL(2, retval);
+  CHECK_EQUAL(2, param);
+  CHECK_EQUAL(2, retval);
   mutiny_mock()->check_expectations();
   mutiny_mock()->remove_all_comparators_and_copiers();
 }
@@ -307,7 +307,7 @@ TEST(MockSupport_c, returnBoolValue)
       expected_value, mutiny_mock()->actual_call("boo")->bool_return_value()
   );
   CHECK_EQUAL(expected_value, mutiny_mock()->bool_return_value());
-  LONGS_EQUAL(mutiny_type_bool, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(mutiny_type_bool, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnBoolValueOrDefaultShouldIgnoreTheDefault)
@@ -315,13 +315,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnBoolValueOrDefaultShouldIgnoreTh
   int default_value = 1;
   int expected_value = 0;
   mutiny_mock()->expect_one_call("foo")->and_return_bool_value(expected_value);
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_bool_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, mutiny_mock()->return_bool_value_or_default(default_value)
   );
 }
@@ -330,13 +330,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnBoolValueOrDefaultShouldlUseTh
 {
   int default_value = 1;
   mutiny_mock()->expect_one_call("foo");
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_bool_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value, mutiny_mock()->return_bool_value_or_default(default_value)
   );
 }
@@ -345,11 +345,11 @@ TEST(MockSupport_c, returnIntValue)
 {
   int expected_value = -10;
   mutiny_mock()->expect_one_call("boo")->and_return_int_value(expected_value);
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, mutiny_mock()->actual_call("boo")->int_return_value()
   );
-  LONGS_EQUAL(expected_value, mutiny_mock()->int_return_value());
-  LONGS_EQUAL(mutiny_type_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(expected_value, mutiny_mock()->int_return_value());
+  CHECK_EQUAL(mutiny_type_integer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnIntValueOrDefaultShouldIgnoreTheDefault)
@@ -357,13 +357,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnIntValueOrDefaultShouldIgnoreThe
   int default_value = -10;
   int expected_value = default_value - 1;
   mutiny_mock()->expect_one_call("foo")->and_return_int_value(expected_value);
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, mutiny_mock()->return_int_value_or_default(default_value)
   );
 }
@@ -372,13 +372,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnIntValueOrDefaultShouldlUseThe
 {
   int default_value = -10;
   mutiny_mock()->expect_one_call("foo");
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value, mutiny_mock()->return_int_value_or_default(default_value)
   );
 }
@@ -389,12 +389,12 @@ TEST(MockSupport_c, returnUnsignedIntValue)
   mutiny_mock()->expect_one_call("boo")->and_return_unsigned_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("boo")->unsigned_int_return_value()
   );
-  LONGS_EQUAL(expected_value, mutiny_mock()->unsigned_int_return_value());
-  LONGS_EQUAL(mutiny_type_unsigned_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(expected_value, mutiny_mock()->unsigned_int_return_value());
+  CHECK_EQUAL(mutiny_type_unsigned_integer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnUnsignedIntValueOrDefaultShouldIgnoreTheDefault)
@@ -404,13 +404,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnUnsignedIntValueOrDefaultShouldI
   mutiny_mock()->expect_one_call("foo")->and_return_unsigned_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_unsigned_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_unsigned_int_value_or_default(default_value)
   );
@@ -420,13 +420,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnUnsignedIntValueOrDefaultShoul
 {
   unsigned int default_value = 10;
   mutiny_mock()->expect_one_call("foo");
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_unsigned_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_unsigned_int_value_or_default(default_value)
   );
@@ -438,11 +438,11 @@ TEST(MockSupport_c, returnLongIntValue)
   mutiny_mock()->expect_one_call("boo")->and_return_long_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, mutiny_mock()->actual_call("boo")->long_int_return_value()
   );
-  LONGS_EQUAL(expected_value, mutiny_mock()->long_int_return_value());
-  LONGS_EQUAL(mutiny_type_long_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(expected_value, mutiny_mock()->long_int_return_value());
+  CHECK_EQUAL(mutiny_type_long_integer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnLongIntValueOrDefaultShouldIgnoreTheDefault)
@@ -452,13 +452,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnLongIntValueOrDefaultShouldIgnor
   mutiny_mock()->expect_one_call("foo")->and_return_long_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_long_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_long_int_value_or_default(default_value)
   );
@@ -468,13 +468,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnLongIntValueOrDefaultShouldlUs
 {
   long int default_value = -10L;
   mutiny_mock()->expect_one_call("foo");
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_long_int_value_or_default(
           default_value
       )
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_long_int_value_or_default(default_value)
   );
@@ -486,12 +486,12 @@ TEST(MockSupport_c, returnUnsignedLongIntValue)
   mutiny_mock()->expect_one_call("boo")->and_return_unsigned_long_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("boo")->unsigned_long_int_return_value()
   );
-  LONGS_EQUAL(expected_value, mutiny_mock()->unsigned_long_int_return_value());
-  LONGS_EQUAL(
+  CHECK_EQUAL(expected_value, mutiny_mock()->unsigned_long_int_return_value());
+  CHECK_EQUAL(
       mutiny_type_unsigned_long_integer, mutiny_mock()->return_value().type
   );
 }
@@ -503,13 +503,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnUnsignedLongIntValueOrDefaultSho
   mutiny_mock()->expect_one_call("foo")->and_return_unsigned_long_int_value(
       expected_value
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()
           ->actual_call("foo")
           ->return_unsigned_long_int_value_or_default(default_value)
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_unsigned_long_int_value_or_default(default_value)
   );
@@ -519,13 +519,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnUnsignedLongIntValueOrDefaultS
 {
   unsigned long int default_value = 10L;
   mutiny_mock()->expect_one_call("foo");
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()
           ->actual_call("foo")
           ->return_unsigned_long_int_value_or_default(default_value)
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_unsigned_long_int_value_or_default(default_value)
   );
@@ -537,12 +537,12 @@ TEST(MockSupport_c, returnLongLongIntValue)
   mutiny_mock()->expect_one_call("boo")->and_return_long_long_int_value(
       expected_value
   );
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("boo")->long_long_int_return_value()
   );
-  LONGLONGS_EQUAL(expected_value, mutiny_mock()->long_long_int_return_value());
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(expected_value, mutiny_mock()->long_long_int_return_value());
+  CHECK_EQUAL(
       mutiny_type_long_long_integer, mutiny_mock()->return_value().type
   );
 }
@@ -554,13 +554,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnLongLongIntValueOrDefaultShouldI
   mutiny_mock()->expect_one_call("foo")->and_return_long_long_int_value(
       expected_value
   );
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_long_long_int_value_or_default(
           default_value
       )
   );
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_long_long_int_value_or_default(default_value)
   );
@@ -570,13 +570,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnLongLongIntValueOrDefaultShoul
 {
   long long int default_value = -10L;
   mutiny_mock()->expect_one_call("foo");
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_long_long_int_value_or_default(
           default_value
       )
   );
-  LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_long_long_int_value_or_default(default_value)
   );
@@ -588,14 +588,14 @@ TEST(MockSupport_c, returnUnsignedLongLongIntValue)
   mutiny_mock()
       ->expect_one_call("boo")
       ->and_return_unsigned_long_long_int_value(expected_value);
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("boo")->unsigned_long_long_int_return_value()
   );
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value, mutiny_mock()->unsigned_long_long_int_return_value()
   );
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       mutiny_type_unsigned_long_long_integer, mutiny_mock()->return_value().type
   );
 }
@@ -607,13 +607,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnUnsignedLongLongIntValueOrDefaul
   mutiny_mock()
       ->expect_one_call("foo")
       ->and_return_unsigned_long_long_int_value(expected_value);
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()
           ->actual_call("foo")
           ->return_unsigned_long_long_int_value_or_default(default_value)
   );
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_unsigned_long_long_int_value_or_default(
           default_value
@@ -625,13 +625,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnUnsignedLongLongIntValueOrDefa
 {
   unsigned long long int default_value = 10L;
   mutiny_mock()->expect_one_call("foo");
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()
           ->actual_call("foo")
           ->return_unsigned_long_long_int_value_or_default(default_value)
   );
-  UNSIGNED_LONGLONGS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_unsigned_long_long_int_value_or_default(
           default_value
@@ -646,7 +646,7 @@ TEST(MockSupport_c, returnStringValue)
       "hello world", mutiny_mock()->actual_call("boo")->string_return_value()
   );
   STRCMP_EQUAL("hello world", mutiny_mock()->string_return_value());
-  LONGS_EQUAL(mutiny_type_string, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(mutiny_type_string, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnStringValueOrDefaultShouldIgnoreTheDefault)
@@ -687,11 +687,11 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnStringValueOrDefaultShouldlUse
 TEST(MockSupport_c, returnDoubleValue)
 {
   mutiny_mock()->expect_one_call("boo")->and_return_double_value(1.0);
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       1.0, mutiny_mock()->actual_call("boo")->double_return_value(), 0.005
   );
-  DOUBLES_EQUAL(1.0, mutiny_mock()->double_return_value(), 0.005);
-  LONGS_EQUAL(mutiny_type_double, mutiny_mock()->return_value().type);
+  CHECK_APPROX(1.0, mutiny_mock()->double_return_value(), 0.005);
+  CHECK_EQUAL(mutiny_type_double, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnDoubleValueOrDefaultShouldIgnoreTheDefault)
@@ -701,14 +701,14 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnDoubleValueOrDefaultShouldIgnore
   mutiny_mock()->expect_one_call("foo")->and_return_double_value(
       expected_value
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_double_value_or_default(
           default_value
       ),
       0.005
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       expected_value,
       mutiny_mock()->return_double_value_or_default(default_value),
       0.005
@@ -719,14 +719,14 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnDoubleValueOrDefaultShouldlUse
 {
   double default_value = 2.2;
   mutiny_mock()->expect_one_call("foo");
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_value,
       mutiny_mock()->actual_call("foo")->return_double_value_or_default(
           default_value
       ),
       0.005
   );
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       default_value,
       mutiny_mock()->return_double_value_or_default(default_value),
       0.005
@@ -738,14 +738,14 @@ TEST(MockSupport_c, returnPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_pointer_value(
       reinterpret_cast<void*>(10)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(10),
       mutiny_mock()->actual_call("boo")->pointer_return_value()
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(10), mutiny_mock()->pointer_return_value()
   );
-  LONGS_EQUAL(mutiny_type_pointer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(mutiny_type_pointer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnPointerValueOrDefaultShouldIgnoreTheDefault)
@@ -755,13 +755,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnPointerValueOrDefaultShouldIgnor
   mutiny_mock()->expect_one_call("foo")->and_return_pointer_value(
       expected_value
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_pointer_value_or_default(default_value)
   );
@@ -771,13 +771,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnPointerValueOrDefaultShouldlUs
 {
   void* default_value = reinterpret_cast<void*>(10);
   mutiny_mock()->expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_pointer_value_or_default(default_value)
   );
@@ -788,15 +788,15 @@ TEST(MockSupport_c, returnConstPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_const_pointer_value(
       reinterpret_cast<const void*>(10)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(10),
       mutiny_mock()->actual_call("boo")->const_pointer_return_value()
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(10),
       mutiny_mock()->const_pointer_return_value()
   );
-  LONGS_EQUAL(mutiny_type_const_pointer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(mutiny_type_const_pointer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnConstPointerValueOrDefaultShouldIgnoreTheDefault)
@@ -806,13 +806,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnConstPointerValueOrDefaultShould
   mutiny_mock()->expect_one_call("foo")->and_return_const_pointer_value(
       expected_value
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_const_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_const_pointer_value_or_default(default_value)
   );
@@ -822,13 +822,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnConstPointerValueOrDefaultShou
 {
   const void* default_value = reinterpret_cast<void*>(10);
   mutiny_mock()->expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_const_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_const_pointer_value_or_default(default_value)
   );
@@ -839,15 +839,15 @@ TEST(MockSupport_c, returnFunctionPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_function_pointer_value(
       dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->actual_call("boo")->function_pointer_return_value()
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->function_pointer_return_value()
   );
-  LONGS_EQUAL(mutiny_type_functionpointer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(mutiny_type_functionpointer, mutiny_mock()->return_value().type);
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultShouldIgnoreTheDefault)
@@ -855,7 +855,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
   mutiny_mock()->expect_one_call("foo")->and_return_function_pointer_value(
       dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()
           ->actual_call("foo")
@@ -863,7 +863,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
               dummy_function_for_mock_c_test_two
           )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->return_function_pointer_value_or_default(
           dummy_function_for_mock_c_test_two
@@ -874,7 +874,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
 TEST(MockSupport_c, whenNoReturnValueIsGivenReturnFunctionPointerValueOrDefaultShouldlUseTheDefaultValue)
 {
   mutiny_mock()->expect_one_call("foo");
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test_two,
       mutiny_mock()
           ->actual_call("foo")
@@ -882,7 +882,7 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnFunctionPointerValueOrDefaultS
               dummy_function_for_mock_c_test_two
           )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test_two,
       mutiny_mock()->return_function_pointer_value_or_default(
           dummy_function_for_mock_c_test_two
@@ -893,8 +893,8 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnFunctionPointerValueOrDefaultS
 TEST(MockSupport_c, MockSupportWithScope)
 {
   mutiny_mock_scope("scope")->expect_one_call("boo");
-  LONGS_EQUAL(0, mutiny_mock_scope("other")->expected_calls_left());
-  LONGS_EQUAL(1, mutiny_mock_scope("scope")->expected_calls_left());
+  CHECK_EQUAL(0, mutiny_mock_scope("other")->expected_calls_left());
+  CHECK_EQUAL(1, mutiny_mock_scope("scope")->expected_calls_left());
   mutiny_mock_scope("scope")->actual_call("boo");
 }
 
@@ -907,21 +907,21 @@ TEST(MockSupport_c, MockSupportSetBoolData)
 TEST(MockSupport_c, MockSupportSetIntData)
 {
   mutiny_mock()->set_int_data("integer", 10);
-  LONGS_EQUAL(10, mutiny_mock()->get_data("integer").value.int_value);
+  CHECK_EQUAL(10, mutiny_mock()->get_data("integer").value.int_value);
 }
 
 TEST(MockSupport_c, MockSupportSetLongIntData)
 {
   long int i = 100;
   mutiny_mock()->set_long_int_data("long integer", i);
-  LONGS_EQUAL(i, mutiny_mock()->get_data("long integer").value.long_int_value);
+  CHECK_EQUAL(i, mutiny_mock()->get_data("long integer").value.long_int_value);
 }
 
 TEST(MockSupport_c, MockSupportSetUnsignedLongIntData)
 {
   unsigned long int i = 100;
   mutiny_mock()->set_unsigned_long_int_data("unsigned long integer", i);
-  UNSIGNED_LONGS_EQUAL(
+  CHECK_EQUAL(
       i,
       mutiny_mock()
           ->get_data("unsigned long integer")
@@ -932,7 +932,7 @@ TEST(MockSupport_c, MockSupportSetUnsignedLongIntData)
 TEST(MockSupport_c, MockSupportSetDoubleData)
 {
   mutiny_mock()->set_double_data("double", 1.0);
-  DOUBLES_EQUAL(
+  CHECK_APPROX(
       1.00, mutiny_mock()->get_data("double").value.double_value, 0.05
   );
 }
@@ -948,7 +948,7 @@ TEST(MockSupport_c, MockSupportSetStringData)
 TEST(MockSupport_c, MockSupportSetPointerData)
 {
   mutiny_mock()->set_pointer_data("pointer", reinterpret_cast<void*>(1));
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(1),
       mutiny_mock()->get_data("pointer").value.pointer_value
   );
@@ -959,7 +959,7 @@ TEST(MockSupport_c, MockSupportSetConstPointerData)
   mutiny_mock()->set_const_pointer_data(
       "constPointer", reinterpret_cast<const void*>(1)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(1),
       mutiny_mock()->get_data("constPointer").value.const_pointer_value
   );
@@ -970,11 +970,11 @@ TEST(MockSupport_c, MockSupportMemoryBufferData)
   mutiny_mock()->set_data_object(
       "name", "const unsigned char*", reinterpret_cast<void*>(0xDEAD)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(0xDEAD),
       mutiny_mock()->get_data("name").value.memory_buffer_value
   );
-  LONGS_EQUAL(mutiny_type_memorybuffer, mutiny_mock()->get_data("name").type);
+  CHECK_EQUAL(mutiny_type_memorybuffer, mutiny_mock()->get_data("name").type);
 }
 
 TEST(MockSupport_c, MockSupportSetFunctionPointerData)
@@ -982,7 +982,7 @@ TEST(MockSupport_c, MockSupportSetFunctionPointerData)
   mutiny_mock()->set_function_pointer_data(
       "functionPointer", dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->get_data("functionPointer").value.function_pointer_value
   );
@@ -991,11 +991,11 @@ TEST(MockSupport_c, MockSupportSetFunctionPointerData)
 TEST(MockSupport_c, MockSupportSetDataObject)
 {
   mutiny_mock()->set_data_object("name", "type", reinterpret_cast<void*>(1));
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(1),
       mutiny_mock()->get_data("name").value.object_value
   );
-  LONGS_EQUAL(mutiny_type_object, mutiny_mock()->get_data("name").type);
+  CHECK_EQUAL(mutiny_type_object, mutiny_mock()->get_data("name").type);
 }
 
 TEST(MockSupport_c, MockSupportSetDataConstObject)
@@ -1003,11 +1003,11 @@ TEST(MockSupport_c, MockSupportSetDataConstObject)
   mutiny_mock()->set_data_const_object(
       "name", "type", reinterpret_cast<const void*>(5)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(5),
       mutiny_mock()->get_data("name").value.const_object_value
   );
-  LONGS_EQUAL(mutiny_type_const_object, mutiny_mock()->get_data("name").type);
+  CHECK_EQUAL(mutiny_type_const_object, mutiny_mock()->get_data("name").type);
 }
 
 TEST(MockSupport_c, WorksInCFile)
@@ -1030,7 +1030,7 @@ MSC_SWITCHED_TEST(MockSupport_c, NoExceptionsAreThrownWhenAMock_cCallFailed)
   fixture.set_test_function(failed_call_to_mock_c);
   fixture.run_all_tests();
 
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
   // Odd behavior in Visual C++, destructor still gets called here
   CHECK(!destructor_was_called);
 }
@@ -1061,7 +1061,7 @@ TEST(MockSupport_c, nextTestShouldNotCrashOnFailure)
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
+  CHECK(!mutiny_has_crashed);
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -1076,8 +1076,8 @@ TEST(MockSupport_c, FailWillNotCrashIfNotEnabled)
 
   fixture.run_all_tests();
 
-  CHECK_FALSE(mutiny_has_crashed);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK(!mutiny_has_crashed);
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -1094,7 +1094,7 @@ TEST(MockSupport_c, FailWillCrashIfEnabled)
   fixture.run_all_tests();
 
   CHECK(mutiny_has_crashed);
-  LONGS_EQUAL(1, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
 
   mu::tiny::test::Shell::restore_default_test_terminator();
   mu::tiny::test::Shell::reset_crash_method();
@@ -1118,8 +1118,8 @@ TEST(MockSupport_c, successWithOutputParameterOfType)
   mutiny_mock()->install_copier("intType", type_copy);
   fixture.set_test_function(call_to_mock_c_with_output_parameter_of_type);
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_check_count());
-  LONGS_EQUAL(0, fixture.get_failure_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_check_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
   mutiny_mock()->remove_all_comparators_and_copiers();
 }
 

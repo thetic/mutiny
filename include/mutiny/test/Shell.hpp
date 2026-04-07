@@ -3,10 +3,9 @@
  * @brief Assertion macros and the Shell base class.
  *
  * This header is the primary source of assertion macros (@ref CHECK, @ref
- * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref LONGS_EQUAL, @ref DOUBLES_EQUAL, etc.)
- * and the @ref mu::tiny::test::Shell class that backs them. It is included
- * transitively by @ref mutiny/test.hpp; you rarely need to include it
- * directly.
+ * CHECK_EQUAL, @ref STRCMP_EQUAL, @ref CHECK_APPROX, etc.) and the @ref
+ * mu::tiny::test::Shell class that backs them. It is included transitively by
+ * @ref mutiny/test.hpp; you rarely need to include it directly.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
@@ -17,6 +16,8 @@
 #include "mutiny/String.hpp"
 #include "mutiny/export.h"
 #include "mutiny/features.hpp"
+
+#include <stdint.h>
 
 namespace mu {
 namespace tiny {
@@ -30,15 +31,33 @@ class Filter;
 /**
  * @brief Returns true if @p d1 and @p d2 differ by at most @p threshold.
  *
- * Used by the @ref DOUBLES_EQUAL macro. Handles NaN correctly: if either
- * operand is NaN the function returns false.
+ * Used by the @ref CHECK_APPROX macro. Handles NaN and infinity correctly.
  *
  * @param d1         First value.
  * @param d2         Second value.
  * @param threshold  Maximum allowed absolute difference (must be >= 0).
  * @return true if |d1 - d2| <= threshold.
  */
-MUTINY_EXPORT bool doubles_equal(double d1, double d2, double threshold);
+MUTINY_EXPORT bool approx_equal(double d1, double d2, double threshold);
+
+/**
+ * @brief approx_equal for non-double arithmetic types.
+ *
+ * For floating-point @p T, NaN in any operand returns false. Infinity and
+ * signed-overflow edge cases are not handled specially; if you need them,
+ * convert to @c double and call the @c double overload.
+ *
+ * For integral @p T the comparison is done entirely in integer arithmetic —
+ * no conversion to floating-point occurs.
+ */
+template<typename T>
+bool approx_equal(T d1, T d2, T threshold)
+{
+  // d != d is true iff d is NaN (IEEE 754); always false for integral types.
+  if (d1 != d1 || d2 != d2 || threshold != threshold)
+    return false;
+  return (d1 >= d2 ? d1 - d2 : d2 - d1) <= threshold;
+}
 
 /**
  * @brief Shell for a single test — tracks metadata and drives execution.
@@ -190,47 +209,29 @@ public:
       const char* file_name,
       size_t line_number
   );
-  /** @brief Macro backend: assert two @c long values are equal. */
-  virtual void assert_longs_equal(
-      long expected,
-      long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c unsigned long values are equal. */
-  virtual void assert_unsigned_longs_equal(
-      unsigned long expected,
-      unsigned long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c long long values are equal. */
-  virtual void assert_long_longs_equal(
-      long long expected,
-      long long actual,
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
-  /** @brief Macro backend: assert two @c unsigned long long values are equal.
+  /**
+   * @brief C-interface backend: assert two signed integer values are equal.
+   *
+   * Both operands have been widened to @c long @c long (the same range as
+   * @c intmax_t on all supported platforms) by the caller.
    */
-  virtual void assert_unsigned_long_longs_equal(
-      unsigned long long expected,
-      unsigned long long actual,
+  virtual void assert_intmax_equal(
+      intmax_t expected,
+      intmax_t actual,
       const char* text,
       const char* file_name,
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
-  /** @brief Macro backend: assert two @c signed char values are equal. */
-  virtual void assert_signed_bytes_equal(
-      signed char expected,
-      signed char actual,
+  /**
+   * @brief C-interface backend: assert two unsigned integer values are equal.
+   *
+   * Both operands have been widened to @c unsigned @c long @c long (the same
+   * range as @c uintmax_t on all supported platforms) by the caller.
+   */
+  virtual void assert_uintmax_equal(
+      uintmax_t expected,
+      uintmax_t actual,
       const char* text,
       const char* file_name,
       size_t line_number,
@@ -245,17 +246,8 @@ public:
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
-  /** @brief Macro backend: assert two function pointers are equal. */
-  virtual void assert_function_pointers_equal(
-      void (*expected)(),
-      void (*actual)(),
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
   /** @brief Macro backend: assert two doubles are equal within @p threshold. */
-  virtual void assert_doubles_equal(
+  virtual void assert_approx_equal(
       double expected,
       double actual,
       double threshold,
@@ -444,12 +436,9 @@ void check_equal(
     size_t line
 )
 {
-  // Deduce the common type via the conditional operator's arithmetic
-  // conversion rules (the same implicit promotion the old macro relied on),
-  // then cast both operands explicitly so the comparison is same-type and
-  // no -Wsign-compare/-Wsign-conversion warning fires.
-  using Common = decltype(true ? expected : actual);
-  if (static_cast<Common>(expected) != static_cast<Common>(actual)) {
+  // Compare with the natural types so that mixed signed/unsigned comparisons
+  // produce the same compiler diagnostic they would outside the macro.
+  if (expected != actual) {
     Shell::get_current()->assert_equals(
         true,
         string_from(expected).c_str(),
@@ -541,6 +530,39 @@ void check_enum_equal(
   }
 }
 
+/**
+ * @brief Implementation helper for CHECK_APPROX.
+ *
+ * All three operands share the same type @p T so mismatched-type calls produce
+ * a compiler diagnostic rather than silent promotion. Prefer the CHECK_APPROX
+ * macro.
+ *
+ * @param expected   Expected value.
+ * @param actual     Actual value.
+ * @param threshold  Maximum allowed absolute difference.
+ * @param text       Optional failure message.
+ * @param file       Source file path.
+ * @param line       Source line number.
+ */
+template<typename T>
+void check_approx(
+    T expected,
+    T actual,
+    T threshold,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  if (!approx_equal(expected, actual, threshold)) {
+    Shell::get_current()->assert_approx_equal(
+        expected, actual, threshold, text, file, line
+    );
+  } else {
+    Shell::get_current()->count_check();
+  }
+}
+
 } // namespace test
 } // namespace tiny
 } // namespace mu
@@ -550,19 +572,16 @@ void check_enum_equal(
 /**
  * @brief Fail the current test if @p condition is false.
  *
- * Equivalent to CHECK_TRUE. Prefer CHECK when the condition is a plain
- * boolean; use CHECK_TRUE_TEXT when you also want to supply a message.
- *
  * @param condition  Any expression convertible to bool.
  *
- * See also @ref CHECK_TEXT, @ref CHECK_TRUE, and @ref CHECK_FALSE.
+ * See also @ref CHECK_TEXT.
  */
 #define CHECK(condition)                                                       \
-  CHECK_TRUE_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
+  CHECK_LOCATION(condition, "CHECK", #condition, "", __FILE__, __LINE__)
 
 /** @brief @ref CHECK with a custom failure message. */
 #define CHECK_TEXT(condition, text)                                            \
-  CHECK_TRUE_LOCATION(                                                         \
+  CHECK_LOCATION(                                                              \
       static_cast<bool>(condition),                                            \
       "CHECK",                                                                 \
       #condition,                                                              \
@@ -571,54 +590,13 @@ void check_enum_equal(
       __LINE__                                                                 \
   )
 
-/** @brief Fail if @p condition is false (explicit TRUE variant of @ref CHECK).
- */
-#define CHECK_TRUE(condition)                                                  \
-  CHECK_TRUE_LOCATION(                                                         \
-      static_cast<bool>(condition),                                            \
-      "CHECK_TRUE",                                                            \
-      #condition,                                                              \
-      "",                                                                      \
-      __FILE__,                                                                \
-      __LINE__                                                                 \
-  )
-
-/** @brief CHECK_TRUE with a custom failure message. @see CHECK_TRUE */
-#define CHECK_TRUE_TEXT(condition, text)                                       \
-  CHECK_TRUE_LOCATION(                                                         \
-      condition, "CHECK_TRUE", #condition, text, __FILE__, __LINE__            \
-  )
-
-/** @brief Fail if @p condition is true. @see CHECK_FALSE_TEXT */
-#define CHECK_FALSE(condition)                                                 \
-  CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, "", __FILE__, __LINE__             \
-  )
-
-/** @brief CHECK_FALSE with a custom failure message. @see CHECK_FALSE */
-#define CHECK_FALSE_TEXT(condition, text)                                      \
-  CHECK_FALSE_LOCATION(                                                        \
-      condition, "CHECK_FALSE", #condition, text, __FILE__, __LINE__           \
-  )
-
 /** @brief Location-explicit variant of CHECK. Prefer CHECK in test code. */
-#define CHECK_TRUE_LOCATION(                                                   \
+#define CHECK_LOCATION(                                                        \
     condition, checkString, conditionString, text, file, line                  \
 )                                                                              \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_true(                         \
         (condition), checkString, conditionString, text, file, line            \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of CHECK_FALSE. Prefer CHECK_FALSE in test
- * code. */
-#define CHECK_FALSE_LOCATION(                                                  \
-    condition, checkString, conditionString, text, file, line                  \
-)                                                                              \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_true(                         \
-        !(condition), checkString, conditionString, text, file, line           \
     );                                                                         \
   } while (0)
 
@@ -631,8 +609,6 @@ void check_enum_equal(
  *
  * @param expected  Expected value.
  * @param actual    Actual value.
- *
- * @see CHECK_EQUAL_TEXT, LONGS_EQUAL, STRCMP_EQUAL
  */
 #define CHECK_EQUAL(expected, actual)                                          \
   CHECK_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
@@ -761,257 +737,30 @@ void check_enum_equal(
   } while (0)
 
 /**
- * @brief Fail if @p expected != @p actual when both are cast to @c long.
- *
- * Suitable for any integral type that fits in a @c long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see LONGS_EQUAL_TEXT, UNSIGNED_LONGS_EQUAL, LONGLONGS_EQUAL
- */
-#define LONGS_EQUAL(expected, actual)                                          \
-  LONGS_EQUAL_LOCATION(                                                        \
-      (expected),                                                              \
-      (actual),                                                                \
-      "LONGS_EQUAL(" #expected ", " #actual ") failed",                        \
-      __FILE__,                                                                \
-      __LINE__                                                                 \
-  )
-
-/** @brief LONGS_EQUAL with a custom failure message. @see LONGS_EQUAL */
-#define LONGS_EQUAL_TEXT(expected, actual, text)                               \
-  LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/**
- * @brief Fail if @p expected != @p actual when both are cast to @c unsigned
- * long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see UNSIGNED_LONGS_EQUAL_TEXT
- */
-#define UNSIGNED_LONGS_EQUAL(expected, actual)                                 \
-  UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief UNSIGNED_LONGS_EQUAL with a custom failure message. @see
- * UNSIGNED_LONGS_EQUAL */
-#define UNSIGNED_LONGS_EQUAL_TEXT(expected, actual, text)                      \
-  UNSIGNED_LONGS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of LONGS_EQUAL. */
-#define LONGS_EQUAL_LOCATION(expected, actual, text, file, line)               \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_longs_equal(                  \
-        static_cast<long>(expected),                                           \
-        static_cast<long>(actual),                                             \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of UNSIGNED_LONGS_EQUAL. */
-#define UNSIGNED_LONGS_EQUAL_LOCATION(expected, actual, text, file, line)      \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_unsigned_longs_equal(         \
-        static_cast<unsigned long>(expected),                                  \
-        static_cast<unsigned long>(actual),                                    \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if @p expected != @p actual when both are cast to @c long long.
- *
- * @param expected  Expected value.
- * @param actual    Actual value.
- *
- * @see LONGLONGS_EQUAL_TEXT
- */
-#define LONGLONGS_EQUAL(expected, actual)                                      \
-  LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
-
-/** @brief LONGLONGS_EQUAL with a custom failure message. @see LONGLONGS_EQUAL
- */
-#define LONGLONGS_EQUAL_TEXT(expected, actual, text)                           \
-  LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/**
- * @brief Fail if @p expected != @p actual as @c unsigned long long.
- * @see UNSIGNED_LONGLONGS_EQUAL_TEXT
- */
-#define UNSIGNED_LONGLONGS_EQUAL(expected, actual)                             \
-  UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, "", __FILE__, __LINE__)
-
-/** @brief UNSIGNED_LONGLONGS_EQUAL with a custom failure message. */
-#define UNSIGNED_LONGLONGS_EQUAL_TEXT(expected, actual, text)                  \
-  UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of LONGLONGS_EQUAL. */
-#define LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)           \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_long_longs_equal(             \
-        static_cast<long long>(expected),                                      \
-        static_cast<long long>(actual),                                        \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/** @brief Location-explicit variant of UNSIGNED_LONGLONGS_EQUAL. */
-#define UNSIGNED_LONGLONGS_EQUAL_LOCATION(expected, actual, text, file, line)  \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_unsigned_long_longs_equal(    \
-        static_cast<unsigned long long>(expected),                             \
-        static_cast<unsigned long long>(actual),                               \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if the low 8 bits of @p expected != the low 8 bits of @p actual.
- *
- * @param expected  Expected byte value.
- * @param actual    Actual byte value.
- *
- * @see BYTES_EQUAL_TEXT, SIGNED_BYTES_EQUAL
- */
-#define BYTES_EQUAL(expected, actual)                                          \
-  LONGS_EQUAL((expected) & 0xff, (actual) & 0xff)
-
-/** @brief BYTES_EQUAL with a custom failure message. @see BYTES_EQUAL */
-#define BYTES_EQUAL_TEXT(expected, actual, text)                               \
-  LONGS_EQUAL_TEXT((expected) & 0xff, (actual) & 0xff, text)
-
-/**
- * @brief Fail if the signed byte values @p expected and @p actual differ.
- *
- * @param expected  Expected signed byte.
- * @param actual    Actual signed byte.
- *
- * @see SIGNED_BYTES_EQUAL_TEXT
- */
-#define SIGNED_BYTES_EQUAL(expected, actual)                                   \
-  SIGNED_BYTES_EQUAL_LOCATION(expected, actual, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of SIGNED_BYTES_EQUAL. */
-#define SIGNED_BYTES_EQUAL_LOCATION(expected, actual, file, line)              \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
-        expected, actual, "", file, line                                       \
-    );                                                                         \
-  } while (0)
-
-/** @brief SIGNED_BYTES_EQUAL with a custom failure message. @see
- * SIGNED_BYTES_EQUAL */
-#define SIGNED_BYTES_EQUAL_TEXT(expected, actual, text)                        \
-  SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of SIGNED_BYTES_EQUAL_TEXT. */
-#define SIGNED_BYTES_EQUAL_TEXT_LOCATION(expected, actual, text, file, line)   \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_signed_bytes_equal(           \
-        expected, actual, text, file, line                                     \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if pointer values @p expected and @p actual differ.
- *
- * Both operands are cast to @c const void* before comparison, so pointers to
- * any object type (including nullptr) can be compared. Raw integer values are
- * not accepted; use reinterpret_cast first if needed.
- *
- * @param expected  Expected pointer.
- * @param actual    Actual pointer.
- *
- * @see POINTERS_EQUAL_TEXT, FUNCTIONPOINTERS_EQUAL
- */
-#define POINTERS_EQUAL(expected, actual)                                       \
-  POINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief POINTERS_EQUAL with a custom failure message. @see POINTERS_EQUAL */
-#define POINTERS_EQUAL_TEXT(expected, actual, text)                            \
-  POINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of POINTERS_EQUAL. */
-#define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)            \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_pointers_equal(               \
-        static_cast<const void*>(expected),                                    \
-        static_cast<const void*>(actual),                                      \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if function pointer values @p expected and @p actual differ.
- *
- * Both operands are cast to @c void(*)() before comparison. Pass
- * @c static_cast<void(*)()>(nullptr) to compare against a null function
- * pointer.
- *
- * @param expected  Expected function pointer.
- * @param actual    Actual function pointer.
- *
- * @see FUNCTIONPOINTERS_EQUAL_TEXT
- */
-#define FUNCTIONPOINTERS_EQUAL(expected, actual)                               \
-  FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief FUNCTIONPOINTERS_EQUAL with a custom failure message. @see
- * FUNCTIONPOINTERS_EQUAL */
-#define FUNCTIONPOINTERS_EQUAL_TEXT(expected, actual, text)                    \
-  FUNCTIONPOINTERS_EQUAL_LOCATION(                                             \
-      (expected), (actual), text, __FILE__, __LINE__                           \
-  )
-
-/** @brief Location-explicit variant of FUNCTIONPOINTERS_EQUAL. */
-#define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)    \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_function_pointers_equal(      \
-        reinterpret_cast<void (*)()>(expected),                                \
-        reinterpret_cast<void (*)()>(actual),                                  \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
  * @brief Fail if @p expected and @p actual differ by more than @p threshold.
  *
+ * Accepts any numeric type (floating-point or integral); all three operands
+ * must share the same type so mismatched pairs produce a compiler diagnostic.
  * Handles NaN correctly: a NaN operand always fails the check.
  *
- * @param expected   Expected double value.
- * @param actual     Actual double value.
+ * @param expected   Expected value.
+ * @param actual     Actual value.
  * @param threshold  Maximum allowed absolute difference (must be >= 0).
  *
- * @see DOUBLES_EQUAL_TEXT, doubles_equal
+ * @see CHECK_APPROX_TEXT, approx_equal
  */
-#define DOUBLES_EQUAL(expected, actual, threshold)                             \
-  DOUBLES_EQUAL_LOCATION(expected, actual, threshold, "", __FILE__, __LINE__)
+#define CHECK_APPROX(expected, actual, threshold)                              \
+  CHECK_APPROX_LOCATION(expected, actual, threshold, "", __FILE__, __LINE__)
 
-/** @brief DOUBLES_EQUAL with a custom failure message. @see DOUBLES_EQUAL */
-#define DOUBLES_EQUAL_TEXT(expected, actual, threshold, text)                  \
-  DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
+/** @brief CHECK_APPROX with a custom failure message. @see CHECK_APPROX */
+#define CHECK_APPROX_TEXT(expected, actual, threshold, text)                   \
+  CHECK_APPROX_LOCATION(expected, actual, threshold, text, __FILE__, __LINE__)
 
-/** @brief Location-explicit variant of DOUBLES_EQUAL. */
-#define DOUBLES_EQUAL_LOCATION(expected, actual, threshold, text, file, line)  \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_doubles_equal(                \
-        expected, actual, threshold, text, file, line                          \
-    );                                                                         \
-  } while (0)
+/** @brief Location-explicit variant of CHECK_APPROX. */
+#define CHECK_APPROX_LOCATION(expected, actual, threshold, text, file, line)   \
+  mu::tiny::test::check_approx(                                                \
+      (expected), (actual), (threshold), text, file, line                      \
+  )
 
 /**
  * @brief Fail if @p size bytes starting at @p expected and @p actual differ.

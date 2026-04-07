@@ -629,12 +629,13 @@ String brackets_formatted_hex_string(const String& hex_string)
   return String("(0x") + hex_string + ")";
 }
 
-#if MUTINY_USE_STD_CPP_LIB
-String string_from(const std::nullptr_t value)
+String string_from(decltype(nullptr) value)
 {
   (void)value;
   return "(null)";
 }
+
+#if MUTINY_USE_STD_CPP_LIB
 
 #if !MUTINY_USE_STD_STRING
 String string_from(std::string const& str)
@@ -682,6 +683,16 @@ String brackets_formatted_hex_string_from(long long value)
 String brackets_formatted_hex_string_from(unsigned long long value)
 {
   return brackets_formatted_hex_string(hex_string_from(value));
+}
+
+String string_from(float value, int precision)
+{
+  if (is_nan(value))
+    return "Nan - Not a number";
+  else if (is_inf(value))
+    return "Inf - Infinity";
+  else
+    return string_from_format("%.*g", precision, value);
 }
 
 String string_from(double value, int precision)

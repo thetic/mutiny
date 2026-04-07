@@ -20,7 +20,7 @@ TEST_GROUP(IgnoredShell)
 TEST(IgnoredShell, doesIgnoreCount)
 {
   fixture.run_all_tests();
-  LONGS_EQUAL(1, fixture.get_ignore_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
 }
 
 TEST(IgnoredShell, printsIGNORE_TESTwhenVerbose)
@@ -34,23 +34,23 @@ TEST(IgnoredShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
 {
   ignored_test.set_run_ignored();
   fixture.run_all_tests();
-  LONGS_EQUAL(3, fixture.get_run_count());
-  LONGS_EQUAL(0, fixture.get_ignore_count());
+  CHECK_EQUAL(size_t{ 3 }, fixture.get_run_count());
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_ignore_count());
 }
 
 TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenIncreaseIgnoredCount)
 {
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_run_count());
-  LONGS_EQUAL(1, fixture.get_ignore_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
 }
 
 TEST(IgnoredShell, runIgnoredOptionSpecifiedWillNotInfluenceNormalTestCount)
 {
   normal_utest_shell.set_run_ignored();
   fixture.run_all_tests();
-  LONGS_EQUAL(2, fixture.get_run_count());
-  LONGS_EQUAL(1, fixture.get_ignore_count());
+  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
 }
 
 TEST(IgnoredShell, runIgnoredOptionSpecifiedThenReturnTESTInFormattedName)
@@ -77,11 +77,11 @@ TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedNa
 
 TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenWillRunReturnFalse)
 {
-  CHECK_FALSE(ignored_test.will_run());
+  CHECK(!ignored_test.will_run());
 }
 
 TEST(IgnoredShell, runIgnoredOptionSpecifiedThenWillRunReturnTrue)
 {
   ignored_test.set_run_ignored();
-  CHECK_TRUE(ignored_test.will_run());
+  CHECK(ignored_test.will_run());
 }

@@ -75,7 +75,7 @@ TEST_GROUP(NamedValueComparatorsAndCopiersRepository)
 TEST(NamedValueComparatorsAndCopiersRepository, getComparatorForNonExistingName)
 {
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
-  POINTERS_EQUAL(nullptr, repository.get_comparator_for_type("typeName"));
+  CHECK_EQUAL(nullptr, repository.get_comparator_for_type("typeName"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, installComparator)
@@ -83,7 +83,7 @@ TEST(NamedValueComparatorsAndCopiersRepository, installComparator)
   TypeForTestingExpectedFunctionCallComparator comparator;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
   repository.install_comparator("typeName", comparator);
-  POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("typeName"));
+  CHECK_EQUAL(&comparator, repository.get_comparator_for_type("typeName"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleComparators)
@@ -94,15 +94,15 @@ TEST(NamedValueComparatorsAndCopiersRepository, installMultipleComparators)
   repository.install_comparator("type1", comparator1);
   repository.install_comparator("type2", comparator2);
   repository.install_comparator("type3", comparator3);
-  POINTERS_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
-  POINTERS_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
-  POINTERS_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));
+  CHECK_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
+  CHECK_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
+  CHECK_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, getCopierForNonExistingName)
 {
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
-  POINTERS_EQUAL(nullptr, repository.get_copier_for_type("typeName"));
+  CHECK_EQUAL(nullptr, repository.get_copier_for_type("typeName"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, installCopier)
@@ -110,7 +110,7 @@ TEST(NamedValueComparatorsAndCopiersRepository, installCopier)
   TypeForTestingExpectedFunctionCallCopier copier;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("typeName", copier);
-  POINTERS_EQUAL(&copier, repository.get_copier_for_type("typeName"));
+  CHECK_EQUAL(&copier, repository.get_copier_for_type("typeName"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleCopiers)
@@ -120,9 +120,9 @@ TEST(NamedValueComparatorsAndCopiersRepository, installMultipleCopiers)
   repository.install_copier("type1", copier1);
   repository.install_copier("type2", copier2);
   repository.install_copier("type3", copier3);
-  POINTERS_EQUAL(&copier3, repository.get_copier_for_type("type3"));
-  POINTERS_EQUAL(&copier2, repository.get_copier_for_type("type2"));
-  POINTERS_EQUAL(&copier1, repository.get_copier_for_type("type1"));
+  CHECK_EQUAL(&copier3, repository.get_copier_for_type("type3"));
+  CHECK_EQUAL(&copier2, repository.get_copier_for_type("type2"));
+  CHECK_EQUAL(&copier1, repository.get_copier_for_type("type1"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleHandlers)
@@ -137,12 +137,12 @@ TEST(NamedValueComparatorsAndCopiersRepository, installMultipleHandlers)
   repository.install_copier("type3", copier3);
   repository.install_comparator("type2", comparator2);
   repository.install_comparator("type3", comparator3);
-  POINTERS_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
-  POINTERS_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
-  POINTERS_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));
-  POINTERS_EQUAL(&copier3, repository.get_copier_for_type("type3"));
-  POINTERS_EQUAL(&copier2, repository.get_copier_for_type("type2"));
-  POINTERS_EQUAL(&copier1, repository.get_copier_for_type("type1"));
+  CHECK_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
+  CHECK_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
+  CHECK_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));
+  CHECK_EQUAL(&copier3, repository.get_copier_for_type("type3"));
+  CHECK_EQUAL(&copier2, repository.get_copier_for_type("type2"));
+  CHECK_EQUAL(&copier1, repository.get_copier_for_type("type1"));
 }
 
 TEST(NamedValueComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
@@ -150,7 +150,7 @@ TEST(NamedValueComparatorsAndCopiersRepository, InstallCopierAndRetrieveIt)
   MyCopier copier;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
-  POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
+  CHECK_EQUAL(&copier, repository.get_copier_for_type("MyType"));
   repository.clear();
 }
 
@@ -161,8 +161,8 @@ TEST(NamedValueComparatorsAndCopiersRepository, ComparatorAndCopierByTheSameName
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
   repository.install_copier("MyType", copier);
   repository.install_comparator("MyType", comparator);
-  POINTERS_EQUAL(&comparator, repository.get_comparator_for_type("MyType"));
-  POINTERS_EQUAL(&copier, repository.get_copier_for_type("MyType"));
+  CHECK_EQUAL(&comparator, repository.get_comparator_for_type("MyType"));
+  CHECK_EQUAL(&copier, repository.get_copier_for_type("MyType"));
   repository.clear();
 }
 
@@ -178,8 +178,8 @@ TEST(NamedValueComparatorsAndCopiersRepository, InstallComparatorsAndCopiersFrom
 
   target.install_comparators_and_copiers(source);
 
-  POINTERS_EQUAL(&comparator, target.get_comparator_for_type("MyType"));
-  POINTERS_EQUAL(&copier, target.get_copier_for_type("MyType"));
+  CHECK_EQUAL(&comparator, target.get_comparator_for_type("MyType"));
+  CHECK_EQUAL(&copier, target.get_copier_for_type("MyType"));
 
   source.clear();
   target.clear();

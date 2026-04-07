@@ -84,7 +84,7 @@ TEST(String, Size)
 {
   mu::tiny::String s1("hello!");
 
-  LONGS_EQUAL(6, s1.size());
+  CHECK_EQUAL(size_t{ 6 }, s1.size());
 }
 
 TEST(String, Addition)
@@ -227,40 +227,40 @@ TEST(String, subStringFromPos6ToEndOfString)
 TEST(String, findNormal)
 {
   mu::tiny::String str("Hello World");
-  LONGS_EQUAL(0, str.find('H'));
-  LONGS_EQUAL(1, str.find('e'));
-  LONGS_EQUAL(mu::tiny::String::npos, str.find('!'));
+  CHECK_EQUAL(size_t{ 0 }, str.find('H'));
+  CHECK_EQUAL(size_t{ 1 }, str.find('e'));
+  CHECK_EQUAL(mu::tiny::String::npos, str.find('!'));
 }
 
 TEST(String, findCharFromPos)
 {
   mu::tiny::String str("Hello World");
-  LONGS_EQUAL(2, str.find('l', 0));
-  LONGS_EQUAL(3, str.find('l', 3));
-  LONGS_EQUAL(mu::tiny::String::npos, str.find('l', 10));
+  CHECK_EQUAL(size_t{ 2 }, str.find('l', 0));
+  CHECK_EQUAL(size_t{ 3 }, str.find('l', 3));
+  CHECK_EQUAL(mu::tiny::String::npos, str.find('l', 10));
 }
 
 TEST(String, findSubstring)
 {
   mu::tiny::String str("Hello World");
-  LONGS_EQUAL(0, str.find("Hello"));
-  LONGS_EQUAL(6, str.find("World"));
-  LONGS_EQUAL(mu::tiny::String::npos, str.find("xyz"));
+  CHECK_EQUAL(size_t{ 0 }, str.find("Hello"));
+  CHECK_EQUAL(size_t{ 6 }, str.find("World"));
+  CHECK_EQUAL(mu::tiny::String::npos, str.find("xyz"));
 }
 
 TEST(String, findSubstringFromPos)
 {
   mu::tiny::String str("abcabc");
-  LONGS_EQUAL(0, str.find("abc", 0));
-  LONGS_EQUAL(3, str.find("abc", 1));
-  LONGS_EQUAL(mu::tiny::String::npos, str.find("abc", 4));
+  CHECK_EQUAL(size_t{ 0 }, str.find("abc", 0));
+  CHECK_EQUAL(size_t{ 3 }, str.find("abc", 1));
+  CHECK_EQUAL(mu::tiny::String::npos, str.find("abc", 4));
 }
 
 TEST(String, findEmptySubstring)
 {
   mu::tiny::String str("Hello");
-  LONGS_EQUAL(0, str.find(""));
-  LONGS_EQUAL(3, str.find("", 3));
+  CHECK_EQUAL(size_t{ 0 }, str.find(""));
+  CHECK_EQUAL(size_t{ 3 }, str.find("", 3));
 }
 
 TEST(String, clear)
@@ -268,7 +268,7 @@ TEST(String, clear)
   mu::tiny::String str("Hello");
   str.clear();
   STRCMP_EQUAL("", str.c_str());
-  LONGS_EQUAL(0, str.size());
+  CHECK_EQUAL(size_t{ 0 }, str.size());
 }
 
 TEST(String, lessThan)
@@ -290,7 +290,7 @@ TEST(String, dataConst)
 TEST(String, index)
 {
   mu::tiny::String str("Hello World");
-  BYTES_EQUAL('H', str[0]);
+  CHECK_EQUAL('H', str[0]);
 }
 
 TEST(String, NULLReportsNullString)
@@ -367,6 +367,12 @@ TEST(String, UnsignedLongLongInts)
       mu::tiny::string_from(static_cast<unsigned long long>(1))
   );
   CHECK(s == s2);
+}
+
+TEST(String, Floats)
+{
+  mu::tiny::String s(mu::tiny::string_from(1.2f));
+  STRCMP_EQUAL("1.2", s.c_str());
 }
 
 TEST(String, Doubles)
@@ -464,7 +470,7 @@ TEST(String, StringFromFormatLarge)
   mu::tiny::String h1 = mu::tiny::string_from_format(
       "%s%s%s%s%s%s%s%s%s%s", s, s, s, s, s, s, s, s, s, s
   );
-  LONGS_EQUAL(
+  CHECK_EQUAL(
       10 * static_cast<long>(mu::tiny::String(s).size()),
       static_cast<long>(h1.size())
   );
@@ -481,7 +487,7 @@ TEST(String, PlatformSpecificSprintf_fits)
 
   int count = wrapped_up_vsn_printf(buf, sizeof(buf), "%s", "12345");
   STRCMP_EQUAL("12345", buf);
-  LONGS_EQUAL(5, count);
+  CHECK_EQUAL(5, count);
 }
 
 TEST(String, PlatformSpecificSprintf_doesNotFit)
@@ -490,7 +496,7 @@ TEST(String, PlatformSpecificSprintf_doesNotFit)
 
   int count = wrapped_up_vsn_printf(buf, sizeof(buf), "%s", "12345678901");
   STRCMP_EQUAL("123456789", buf);
-  LONGS_EQUAL(11, count);
+  CHECK_EQUAL(11, count);
 }
 
 TEST(String, NullParameters2)
@@ -614,13 +620,13 @@ TEST(String, StrCmp)
 TEST(String, StrNCmp_equal)
 {
   int result = mu::tiny::strncmp("teststring", "tests", 5);
-  LONGS_EQUAL(0, result);
+  CHECK_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_should_always_return_0_when_n_is_0)
 {
   int result = mu::tiny::strncmp("a", "b", 0);
-  LONGS_EQUAL(0, result);
+  CHECK_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_s1_smaller)
@@ -638,7 +644,7 @@ TEST(String, StrNCmp_s1_larger)
 TEST(String, StrNCmp_n_too_large)
 {
   int result = mu::tiny::strncmp("teststring", "teststring", 20);
-  LONGS_EQUAL(0, result);
+  CHECK_EQUAL(0, result);
 }
 
 TEST(String, StrNCmp_s1_empty)
@@ -656,7 +662,7 @@ TEST(String, StrNCmp_s2_empty)
 TEST(String, StrNCmp_s1_and_s2_empty)
 {
   int result = mu::tiny::strncmp("", "", 2);
-  LONGS_EQUAL(0, result);
+  CHECK_EQUAL(0, result);
 }
 
 TEST(String, strtol)
@@ -752,10 +758,10 @@ TEST(String, MemCmp)
   unsigned char smaller[] = { 0x00, 0x01, 0x2A, 0xFF };
   unsigned char greater[] = { 0x00, 0x01, 0xFF, 0xFF };
 
-  LONGS_EQUAL(0, mu::tiny::memcmp(smaller, smaller, sizeof(smaller)));
+  CHECK_EQUAL(0, mu::tiny::memcmp(smaller, smaller, sizeof(smaller)));
   CHECK(mu::tiny::memcmp(smaller, greater, sizeof(smaller)) < 0);
   CHECK(mu::tiny::memcmp(greater, smaller, sizeof(smaller)) > 0);
-  LONGS_EQUAL(0, mu::tiny::memcmp(nullptr, nullptr, 0));
+  CHECK_EQUAL(0, mu::tiny::memcmp(nullptr, nullptr, 0));
 }
 
 TEST(String, MemCmpFirstLastNotMatching)
@@ -877,7 +883,7 @@ TEST(String, StartsWithEmptyPrefixIsAlwaysTrue)
 
 TEST(String, StartsWithOnEmptyStringIsAlwaysFalse)
 {
-  CHECK_FALSE(mu::tiny::string_starts_with("", "abc"));
+  CHECK(!mu::tiny::string_starts_with("", "abc"));
 }
 
 TEST(String, EndsWithEmptySuffixIsAlwaysTrue)

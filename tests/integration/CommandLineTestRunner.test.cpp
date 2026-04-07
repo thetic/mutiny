@@ -148,8 +148,8 @@ TEST(CommandLineRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
   command_line_test_runner.run_all_tests_main();
   registry.remove_plugin_by_name("PluginCountingPlugin");
 
-  LONGS_EQUAL(0, registry.count_plugins());
-  LONGS_EQUAL(2, plugin_counting_plugin->amount_of_plugins);
+  CHECK_EQUAL(0, registry.count_plugins());
+  CHECK_EQUAL(2, plugin_counting_plugin->amount_of_plugins);
 }
 
 TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
@@ -161,7 +161,7 @@ TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreIn
   );
   command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(0, registry.count_plugins());
+  CHECK_EQUAL(0, registry.count_plugins());
 }
 
 TEST(CommandLineRunner, ReturnsOneWhenTheArgumentsAreInvalid)
@@ -173,7 +173,7 @@ TEST(CommandLineRunner, ReturnsOneWhenTheArgumentsAreInvalid)
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(1, returned);
+  CHECK_EQUAL(1, returned);
 }
 
 TEST(CommandLineRunner, ReturnsZeroPrintsHelpOnHelp)
@@ -188,14 +188,14 @@ TEST(CommandLineRunner, ReturnsZeroPrintsHelpOnHelp)
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(0, returned);
+  CHECK_EQUAL(0, returned);
   STRCMP_CONTAINS(
       "Options that do not run tests but query:",
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output()
           .c_str()
   );
-  CHECK_FALSE(TestExecutionVerifier::was_run_);
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
@@ -210,14 +210,14 @@ TEST(CommandLineRunner, ReturnsOnePrintsHelpOnHelpWithInvalidArg)
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(1, returned);
+  CHECK_EQUAL(1, returned);
   STRCMP_CONTAINS(
       "Options that do not run tests but query:",
       command_line_test_runner.fake_console_output_which_is_really_a_buffer
           ->get_output()
           .c_str()
   );
-  CHECK_FALSE(TestExecutionVerifier::was_run_);
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, ReturnsZeroWhenNoErrors)
@@ -229,7 +229,7 @@ TEST(CommandLineRunner, ReturnsZeroWhenNoErrors)
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(0, returned);
+  CHECK_EQUAL(0, returned);
 }
 
 TEST(CommandLineRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
@@ -241,7 +241,7 @@ TEST(CommandLineRunner, ReturnsOneWhenNoTestsMatchProvidedFilter)
   );
   int returned = command_line_test_runner.run_all_tests_main();
 
-  LONGS_EQUAL(1, returned);
+  CHECK_EQUAL(1, returned);
 }
 
 TEST(CommandLineRunner, veryVerboseSetOnOutput)
@@ -473,7 +473,7 @@ TEST(CommandLineRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK_FALSE(RunIgnoredTest::checker_);
+  CHECK(!RunIgnoredTest::checker_);
   RunIgnoredTest::checker_ = false;
 }
 
@@ -483,7 +483,7 @@ TEST(CommandLineRunner, listOrderedTestLocations)
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
   );
-  LONGS_EQUAL(0, command_line_test_runner.run_all_tests_main());
+  CHECK_EQUAL(0, command_line_test_runner.run_all_tests_main());
 }
 
 TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
@@ -501,6 +501,6 @@ TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK_TRUE(RunIgnoredTest::checker_);
+  CHECK(RunIgnoredTest::checker_);
   RunIgnoredTest::checker_ = false;
 }
