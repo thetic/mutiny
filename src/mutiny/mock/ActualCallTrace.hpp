@@ -81,40 +81,6 @@ public:
   bool has_return_value() override;
   NamedValue return_value() override;
 
-  bool return_bool_value_or_default(bool default_value) override;
-  bool return_bool_value() override;
-
-  unsigned long long return_unsigned_long_long_int_value() override;
-  unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value
-  ) override;
-
-  long long return_long_long_int_value() override;
-  long long return_long_long_int_value_or_default(
-      long long default_value
-  ) override;
-
-  const char* return_string_value_or_default(
-      const char* default_value
-  ) override;
-  const char* return_string_value() override;
-
-  double return_double_value() override;
-  double return_double_value_or_default(double default_value) override;
-
-  void* return_pointer_value() override;
-  void* return_pointer_value_or_default(void*) override;
-
-  const void* return_const_pointer_value() override;
-  const void* return_const_pointer_value_or_default(
-      const void* default_value
-  ) override;
-
-  FunctionPointerReturnValue return_function_pointer_value() override;
-  FunctionPointerReturnValue return_function_pointer_value_or_default(
-      void (*)()
-  ) override;
-
   ActualCall& on_object(const void* object_ptr) override;
 
   const char* get_trace_output();
@@ -123,6 +89,27 @@ public:
   static void clear_instance();
 
 private:
+  bool return_bool_value() override;
+  bool return_bool_value_or_default(bool) override;
+  unsigned long long return_unsigned_long_long_int_value() override;
+  unsigned long long return_unsigned_long_long_int_value_or_default(
+      unsigned long long
+  ) override;
+  long long return_long_long_int_value() override;
+  long long return_long_long_int_value_or_default(long long) override;
+  const char* return_string_value() override;
+  const char* return_string_value_or_default(const char*) override;
+  double return_double_value() override;
+  double return_double_value_or_default(double) override;
+  void* return_pointer_value() override;
+  void* return_pointer_value_or_default(void*) override;
+  const void* return_const_pointer_value() override;
+  const void* return_const_pointer_value_or_default(const void*) override;
+  FunctionPointerReturnValue return_function_pointer_value() override;
+  FunctionPointerReturnValue return_function_pointer_value_or_default(
+      void (*)()
+  ) override;
+
   String trace_buffer_;
 
   static ActualCallTrace* instance_;

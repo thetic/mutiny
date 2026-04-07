@@ -155,100 +155,26 @@ public:
   /** @return The configured return value as a generic NamedValue. */
   virtual NamedValue return_value() = 0;
 
-  /**
-   * @return The configured return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual bool return_bool_value_or_default(bool default_value) = 0;
-  /** @return The configured bool return value. */
-  virtual bool return_bool_value() = 0;
-
-  /** @return The configured unsigned long long int return value. */
-  virtual unsigned long long return_unsigned_long_long_int_value() = 0;
-  /**
-   * @return The unsigned long long return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value
-  ) = 0;
-
-  /** @return The configured long long int return value. */
-  virtual long long return_long_long_int_value() = 0;
-  /**
-   * @return The long long return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual long long return_long_long_int_value_or_default(
-      long long default_value
-  ) = 0;
-
-  /**
-   * @return The configured string return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual const char* return_string_value_or_default(
-      const char* default_value
-  ) = 0;
-  /** @return The configured C string return value. */
-  virtual const char* return_string_value() = 0;
-
-  /** @return The configured double return value. */
-  virtual double return_double_value() = 0;
-  /**
-   * @return The configured double return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual double return_double_value_or_default(double default_value) = 0;
-
-  /** @return The configured void* return value. */
-  virtual void* return_pointer_value() = 0;
-  /**
-   * @return The configured void* return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual void* return_pointer_value_or_default(void* default_value) = 0;
-
-  /** @return The configured const void* return value. */
-  virtual const void* return_const_pointer_value() = 0;
-  /**
-   * @return The configured const void* return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual const void* return_const_pointer_value_or_default(
-      const void* default_value
-  ) = 0;
-
   /** Function pointer return type alias for readability. */
   using FunctionPointerReturnValue = void (*)();
-  /** @return The configured function pointer return value. */
-  virtual FunctionPointerReturnValue return_function_pointer_value() = 0;
-  /**
-   * @return The configured function pointer return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
-      void (*default_value)()
-  ) = 0;
 
   /**
-   * @brief Return the configured value as any integral type @p T.
+   * @brief Return the configured value as type @p T.
    *
-   * Dispatches to @c return_unsigned_long_long_int_value() for unsigned types
-   * and @c return_long_long_int_value() for signed types, then casts to @p T.
-   * The wide getters accept all narrower storage widths, making this method
-   * portable for fixed-width types (@c uint8_t, @c uint64_t, @c int8_t,
-   * @c int64_t, @c size_t, @c ptrdiff_t, @c uintptr_t, @c intptr_t, etc.)
-   * regardless of the underlying fundamental type chosen by the platform.
+   * Specializations exist for @c bool, @c double, @c const @c char*,
+   * @c void*, @c const @c void*, and @c FunctionPointerReturnValue, each
+   * delegating to the appropriate typed virtual.
    *
-   * @tparam T  Target integral type.
-   * @return The configured return value cast to @c T.
+   * For integer types, dispatches to @c return_unsigned_long_long_int_value()
+   * for unsigned types and @c return_long_long_int_value() for signed types,
+   * then casts to @p T. The wide getters accept all narrower storage widths,
+   * making this method portable for fixed-width types (@c uint8_t, @c
+   * uint64_t, @c int8_t, @c int64_t, @c size_t, @c ptrdiff_t, @c uintptr_t,
+   * @c intptr_t, etc.) regardless of the underlying fundamental type chosen
+   * by the platform.
+   *
+   * @tparam T  Target type.
+   * @return The configured return value as @c T.
    */
   template<typename T>
   T return_value_as()
@@ -263,9 +189,9 @@ public:
    * @brief Return the configured value as @p T, or @p default_value if none
    * is set.
    *
-   * @tparam T             Target integral type.
+   * @tparam T             Target type.
    * @param default_value  Fallback value.
-   * @return The configured return value cast to @c T, or @p default_value.
+   * @return The configured return value as @c T, or @p default_value.
    */
   template<typename T>
   T return_value_as_or_default(T default_value)
@@ -351,7 +277,39 @@ private:
   /** @} */
 
   /**
-   * @name Typed pure virtuals (NVI back-end)
+   * @name Return value NVI back-ends
+   * @{
+   */
+  virtual bool return_bool_value() = 0;
+  virtual bool return_bool_value_or_default(bool default_value) = 0;
+  virtual unsigned long long return_unsigned_long_long_int_value() = 0;
+  virtual unsigned long long return_unsigned_long_long_int_value_or_default(
+      unsigned long long default_value
+  ) = 0;
+  virtual long long return_long_long_int_value() = 0;
+  virtual long long return_long_long_int_value_or_default(
+      long long default_value
+  ) = 0;
+  virtual const char* return_string_value() = 0;
+  virtual const char* return_string_value_or_default(
+      const char* default_value
+  ) = 0;
+  virtual double return_double_value() = 0;
+  virtual double return_double_value_or_default(double default_value) = 0;
+  virtual void* return_pointer_value() = 0;
+  virtual void* return_pointer_value_or_default(void* default_value) = 0;
+  virtual const void* return_const_pointer_value() = 0;
+  virtual const void* return_const_pointer_value_or_default(
+      const void* default_value
+  ) = 0;
+  virtual FunctionPointerReturnValue return_function_pointer_value() = 0;
+  virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
+      void (*default_value)()
+  ) = 0;
+  /** @} */
+
+  /**
+   * @name Parameter NVI back-ends
    *
    * Override these in concrete subclasses to implement parameter reporting.
    * They are private here so that the only public entry point is
@@ -416,5 +374,95 @@ private:
 } // namespace mock
 } // namespace tiny
 } // namespace mu
+
+template<>
+inline bool mu::tiny::mock::ActualCall::return_value_as<bool>()
+{
+  return return_bool_value();
+}
+
+template<>
+inline bool mu::tiny::mock::ActualCall::return_value_as_or_default<bool>(
+    bool default_value
+)
+{
+  return return_bool_value_or_default(default_value);
+}
+
+template<>
+inline double mu::tiny::mock::ActualCall::return_value_as<double>()
+{
+  return return_double_value();
+}
+
+template<>
+inline double mu::tiny::mock::ActualCall::return_value_as_or_default<double>(
+    double default_value
+)
+{
+  return return_double_value_or_default(default_value);
+}
+
+template<>
+inline const char* mu::tiny::mock::ActualCall::return_value_as<const char*>()
+{
+  return return_string_value();
+}
+
+template<>
+inline const char*
+mu::tiny::mock::ActualCall::return_value_as_or_default<const char*>(
+    const char* default_value
+)
+{
+  return return_string_value_or_default(default_value);
+}
+
+template<>
+inline void* mu::tiny::mock::ActualCall::return_value_as<void*>()
+{
+  return return_pointer_value();
+}
+
+template<>
+inline void* mu::tiny::mock::ActualCall::return_value_as_or_default<void*>(
+    void* default_value
+)
+{
+  return return_pointer_value_or_default(default_value);
+}
+
+template<>
+inline const void* mu::tiny::mock::ActualCall::return_value_as<const void*>()
+{
+  return return_const_pointer_value();
+}
+
+template<>
+inline const void*
+mu::tiny::mock::ActualCall::return_value_as_or_default<const void*>(
+    const void* default_value
+)
+{
+  return return_const_pointer_value_or_default(default_value);
+}
+
+template<>
+inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue
+mu::tiny::mock::ActualCall::return_value_as<
+    mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
+{
+  return return_function_pointer_value();
+}
+
+template<>
+inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue
+mu::tiny::mock::ActualCall::return_value_as_or_default<
+    mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
+    FunctionPointerReturnValue default_value
+)
+{
+  return return_function_pointer_value_or_default(default_value);
+}
 
 #endif

@@ -953,7 +953,7 @@ struct MutinyMockValue return_value()
 
 int bool_return_value()
 {
-  return current_actual_call->return_bool_value() ? 1 : 0;
+  return current_actual_call->return_value_as<bool>() ? 1 : 0;
 }
 
 int return_bool_value_or_default(int default_value)
@@ -1020,7 +1020,7 @@ unsigned long int return_unsigned_long_int_value_or_default(
 
 long long long_long_int_return_value()
 {
-  return current_actual_call->return_long_long_int_value();
+  return current_actual_call->return_value_as<long long>();
 }
 
 long long return_long_long_int_value_or_default(long long default_value)
@@ -1033,7 +1033,7 @@ long long return_long_long_int_value_or_default(long long default_value)
 
 unsigned long long unsigned_long_long_int_return_value()
 {
-  return current_actual_call->return_unsigned_long_long_int_value();
+  return current_actual_call->return_value_as<unsigned long long>();
 }
 
 unsigned long long return_unsigned_long_long_int_value_or_default(
@@ -1048,7 +1048,7 @@ unsigned long long return_unsigned_long_long_int_value_or_default(
 
 const char* string_return_value()
 {
-  return current_actual_call->return_string_value();
+  return current_actual_call->return_value_as<const char*>();
 }
 
 const char* return_string_value_or_default(const char* default_value)
@@ -1061,7 +1061,7 @@ const char* return_string_value_or_default(const char* default_value)
 
 double double_return_value()
 {
-  return current_actual_call->return_double_value();
+  return current_actual_call->return_value_as<double>();
 }
 
 double return_double_value_or_default(double default_value)
@@ -1074,7 +1074,7 @@ double return_double_value_or_default(double default_value)
 
 void* pointer_return_value()
 {
-  return current_actual_call->return_pointer_value();
+  return current_actual_call->return_value_as<void*>();
 }
 
 void* return_pointer_value_or_default(void* default_value)
@@ -1087,7 +1087,7 @@ void* return_pointer_value_or_default(void* default_value)
 
 const void* const_pointer_return_value()
 {
-  return current_actual_call->return_const_pointer_value();
+  return current_actual_call->return_value_as<const void*>();
 }
 
 const void* return_const_pointer_value_or_default(const void* default_value)
@@ -1100,7 +1100,8 @@ const void* return_const_pointer_value_or_default(const void* default_value)
 
 void (*function_pointer_return_value())()
 {
-  return current_actual_call->return_function_pointer_value();
+  return current_actual_call
+      ->return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>();
 }
 
 void (*return_function_pointer_value_or_default(void (*default_value)()))()

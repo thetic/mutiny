@@ -114,46 +114,46 @@ public:
   bool has_return_value() override { return false; }
   NamedValue return_value() override { return NamedValue(""); }
 
-  bool return_bool_value_or_default(bool value) override { return value; }
-  bool return_bool_value() override { return false; }
+  ActualCall& on_object(const void*) override { return *this; }
 
+  static IgnoredActualCall& instance()
+  {
+    static IgnoredActualCall call;
+    return call;
+  }
+
+private:
+  bool return_bool_value() override { return false; }
+  bool return_bool_value_or_default(bool value) override { return value; }
   unsigned long long return_unsigned_long_long_int_value() override
   {
     return 0;
   }
-
   unsigned long long return_unsigned_long_long_int_value_or_default(
       unsigned long long value
   ) override
   {
     return value;
   }
-
   long long return_long_long_int_value() override { return 0; }
-
   long long return_long_long_int_value_or_default(long long value) override
   {
     return value;
   }
-
-  double return_double_value() override { return 0.0; }
-  double return_double_value_or_default(double value) override { return value; }
-
   const char* return_string_value() override { return ""; }
   const char* return_string_value_or_default(const char* value) override
   {
     return value;
   }
-
+  double return_double_value() override { return 0.0; }
+  double return_double_value_or_default(double value) override { return value; }
   void* return_pointer_value() override { return nullptr; }
   void* return_pointer_value_or_default(void* value) override { return value; }
-
   const void* return_const_pointer_value() override { return nullptr; }
   const void* return_const_pointer_value_or_default(const void* value) override
   {
     return value;
   }
-
   FunctionPointerReturnValue return_function_pointer_value() override
   {
     return nullptr;
@@ -163,14 +163,6 @@ public:
   ) override
   {
     return value;
-  }
-
-  ActualCall& on_object(const void*) override { return *this; }
-
-  static IgnoredActualCall& instance()
-  {
-    static IgnoredActualCall call;
-    return call;
   }
 };
 

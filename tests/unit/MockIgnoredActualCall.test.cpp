@@ -96,8 +96,8 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
 {
   CHECK(!ignored.has_return_value());
   ignored.return_value();
-  CHECK(!ignored.return_bool_value());
-  CHECK(ignored.return_bool_value_or_default(true));
+  CHECK(!ignored.return_value_as<bool>());
+  CHECK(ignored.return_value_as_or_default(true));
   CHECK_EQUAL(0, ignored.return_value_as<int>());
   CHECK_EQUAL(1, ignored.return_value_as_or_default(1));
   CHECK_EQUAL(0U, ignored.return_value_as<unsigned int>());
@@ -106,32 +106,24 @@ TEST(IgnoredActualCall, returnValuesAreNullDefaults)
   CHECK_EQUAL(1L, ignored.return_value_as_or_default(1L));
   CHECK_EQUAL(0UL, ignored.return_value_as<unsigned long int>());
   CHECK_EQUAL(1UL, ignored.return_value_as_or_default(1UL));
-  CHECK_EQUAL(static_cast<long long>(0), ignored.return_long_long_int_value());
+  CHECK_EQUAL(0LL, ignored.return_value_as<long long>());
+  CHECK_EQUAL(1LL, ignored.return_value_as_or_default(1LL));
+  CHECK_EQUAL(0ULL, ignored.return_value_as<unsigned long long>());
+  CHECK_EQUAL(1ULL, ignored.return_value_as_or_default(1ULL));
+  CHECK_APPROX(0.0, ignored.return_value_as<double>(), 0.001);
+  CHECK_APPROX(1.1, ignored.return_value_as_or_default(1.1), 0.001);
+  STRCMP_EQUAL("", ignored.return_value_as<const char*>());
+  STRCMP_EQUAL("hi", ignored.return_value_as_or_default("hi"));
+  CHECK_EQUAL(nullptr, ignored.return_value_as<void*>());
+  CHECK_EQUAL(nullptr, ignored.return_value_as_or_default(static_cast<void*>(nullptr)));
+  CHECK_EQUAL(nullptr, ignored.return_value_as<const void*>());
+  CHECK_EQUAL(nullptr, ignored.return_value_as_or_default(static_cast<const void*>(nullptr)));
   CHECK_EQUAL(
-      static_cast<long long>(1),
-      ignored.return_long_long_int_value_or_default(1)
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long long>(0),
-      ignored.return_unsigned_long_long_int_value()
-  );
-  CHECK_EQUAL(
-      static_cast<unsigned long long>(1),
-      ignored.return_unsigned_long_long_int_value_or_default(1)
-  );
-  CHECK_APPROX(0.0, ignored.return_double_value(), 0.001);
-  CHECK_APPROX(1.1, ignored.return_double_value_or_default(1.1), 0.001);
-  STRCMP_EQUAL("", ignored.return_string_value());
-  STRCMP_EQUAL("hi", ignored.return_string_value_or_default("hi"));
-  CHECK_EQUAL(nullptr, ignored.return_pointer_value());
-  CHECK_EQUAL(nullptr, ignored.return_pointer_value_or_default(nullptr));
-  CHECK_EQUAL(nullptr, ignored.return_const_pointer_value());
-  CHECK_EQUAL(nullptr, ignored.return_const_pointer_value_or_default(nullptr));
-  CHECK_EQUAL(
-      static_cast<void (*)()>(nullptr), ignored.return_function_pointer_value()
+      static_cast<void (*)()>(nullptr),
+      ignored.return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
   );
   CHECK_EQUAL(
       static_cast<void (*)()>(nullptr),
-      ignored.return_function_pointer_value_or_default(nullptr)
+      ignored.return_value_as_or_default(static_cast<void (*)()>(nullptr))
   );
 }

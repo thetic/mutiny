@@ -144,9 +144,9 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   actual.with_name("func");
   actual.with_call_order(1);
 
-  CHECK(false == actual.return_bool_value());
-  CHECK(true == actual.return_bool_value_or_default(true));
-  CHECK(false == actual.return_bool_value_or_default(false));
+  CHECK(false == actual.return_value_as<bool>());
+  CHECK(true == actual.return_value_as_or_default(true));
+  CHECK(false == actual.return_value_as_or_default(false));
   CHECK(0 == actual.return_value_as<unsigned long int>());
   CHECK(0 == actual.return_value_as<int>());
   CHECK(1ul == actual.return_value_as_or_default(1ul));
@@ -155,32 +155,28 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
   CHECK(1l == actual.return_value_as_or_default(1l));
   CHECK(0 == actual.return_value_as<unsigned int>());
   CHECK(1u == actual.return_value_as_or_default(1u));
-  CHECK(0 == actual.return_long_long_int_value());
-  CHECK(1ll == actual.return_long_long_int_value_or_default(1ll));
-  CHECK(0 == actual.return_unsigned_long_long_int_value());
-  CHECK(1ull == actual.return_unsigned_long_long_int_value_or_default(1ull));
-  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
-  CHECK_APPROX(1.5, actual.return_double_value_or_default(1.5), 0.0);
-  STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
-  STRCMP_EQUAL("", actual.return_string_value());
-  CHECK(nullptr == actual.return_pointer_value());
+  CHECK(0 == actual.return_value_as<long long>());
+  CHECK(1ll == actual.return_value_as_or_default(1ll));
+  CHECK(0 == actual.return_value_as<unsigned long long>());
+  CHECK(1ull == actual.return_value_as_or_default(1ull));
+  CHECK_APPROX(0.0, actual.return_value_as<double>(), 0.0);
+  CHECK_APPROX(1.5, actual.return_value_as_or_default(1.5), 0.0);
+  STRCMP_EQUAL("bla", actual.return_value_as_or_default("bla"));
+  STRCMP_EQUAL("", actual.return_value_as<const char*>());
+  CHECK(nullptr == actual.return_value_as<void*>());
   CHECK(
       reinterpret_cast<void*>(0x2) ==
-      actual.return_pointer_value_or_default(reinterpret_cast<void*>(0x2))
+      actual.return_value_as_or_default(reinterpret_cast<void*>(0x2))
   );
-  CHECK(nullptr == actual.return_const_pointer_value());
+  CHECK(nullptr == actual.return_value_as<const void*>());
   CHECK(
       reinterpret_cast<const void*>(0x2) ==
-      actual.return_const_pointer_value_or_default(
-          reinterpret_cast<const void*>(0x2)
-      )
+      actual.return_value_as_or_default(reinterpret_cast<const void*>(0x2))
   );
-  CHECK(nullptr == actual.return_function_pointer_value());
+  CHECK(nullptr == actual.return_value_as<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>());
   CHECK(
       reinterpret_cast<void (*)()>(1) ==
-      actual.return_function_pointer_value_or_default(
-          reinterpret_cast<void (*)()>(0x1)
-      )
+      actual.return_value_as_or_default(reinterpret_cast<void (*)()>(0x1))
   );
   CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
@@ -234,8 +230,8 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
 
   CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
-  CHECK(false == actual.return_bool_value());
-  CHECK(false == actual.return_bool_value_or_default(true));
+  CHECK(false == actual.return_value_as<bool>());
+  CHECK(false == actual.return_value_as_or_default(true));
   CHECK(0 == actual.return_value_as<long int>());
   CHECK(0 == actual.return_value_as<unsigned long int>());
   CHECK(0 == actual.return_value_as<int>());
@@ -243,32 +239,31 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   CHECK(0 == actual.return_value_as_or_default(1));
   CHECK(0 == actual.return_value_as<long int>());
   CHECK(0 == actual.return_value_as_or_default(1l));
-  CHECK(0 == actual.return_long_long_int_value());
-  CHECK(0 == actual.return_long_long_int_value_or_default(1ll));
-  CHECK(0 == actual.return_unsigned_long_long_int_value());
-  CHECK(0 == actual.return_unsigned_long_long_int_value_or_default(1ull));
+  CHECK(0 == actual.return_value_as<long long>());
+  CHECK(0 == actual.return_value_as_or_default(1ll));
+  CHECK(0 == actual.return_value_as<unsigned long long>());
+  CHECK(0 == actual.return_value_as_or_default(1ull));
   CHECK(0 == actual.return_value_as<unsigned int>());
   CHECK(0 == actual.return_value_as_or_default(1u));
-  CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
-  CHECK_APPROX(0.0, actual.return_double_value_or_default(1.0), 0.0);
-  STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
-  STRCMP_EQUAL("", actual.return_string_value());
-  CHECK(nullptr == actual.return_pointer_value());
+  CHECK_APPROX(0.0, actual.return_value_as<double>(), 0.0);
+  CHECK_APPROX(0.0, actual.return_value_as_or_default(1.0), 0.0);
+  STRCMP_EQUAL("", actual.return_value_as_or_default("bla"));
+  STRCMP_EQUAL("", actual.return_value_as<const char*>());
+  CHECK(nullptr == actual.return_value_as<void*>());
   CHECK(
       nullptr ==
-      actual.return_pointer_value_or_default(static_cast<void*>(nullptr))
+      actual.return_value_as_or_default(static_cast<void*>(nullptr))
   );
-  CHECK(nullptr == actual.return_const_pointer_value());
+  CHECK(nullptr == actual.return_value_as<const void*>());
   CHECK(
-      nullptr == actual.return_const_pointer_value_or_default(
-                     static_cast<const void*>(nullptr)
-                 )
+      nullptr ==
+      actual.return_value_as_or_default(static_cast<const void*>(nullptr))
   );
-  CHECK(nullptr == actual.return_function_pointer_value());
+  using FP = mu::tiny::mock::ActualCall::FunctionPointerReturnValue;
+  CHECK(nullptr == actual.return_value_as<FP>());
   CHECK(
-      nullptr == actual.return_function_pointer_value_or_default(
-                     static_cast<void (*)()>(nullptr)
-                 )
+      nullptr ==
+      actual.return_value_as_or_default(static_cast<void (*)()>(nullptr))
   );
 }
 
