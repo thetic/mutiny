@@ -255,10 +255,9 @@ public:
   template<typename T>
   ExpectedCall& and_return_value(T value)
   {
-    if (detail::IsUnsignedInteger<T>::value) {
-      return and_return_value(static_cast<unsigned long long>(value));
-    }
-    return and_return_value(static_cast<long long>(value));
+    return do_and_return_value(
+        value, typename detail::IsUnsignedInteger<T>::Tag{}
+    );
   }
 
   /**
@@ -328,6 +327,22 @@ private:
   ExpectedCall& do_with_parameter(const String& n, const void* v)
   {
     return with_const_pointer_parameter(n, v);
+  }
+  /** @} */
+
+  /**
+   * @name and_return_value() tag-dispatch back-ends
+   * @{
+   */
+  template<typename T>
+  ExpectedCall& do_and_return_value(T value, detail::BoolTag<true>)
+  {
+    return and_return_value(static_cast<unsigned long long>(value));
+  }
+  template<typename T>
+  ExpectedCall& do_and_return_value(T value, detail::BoolTag<false>)
+  {
+    return and_return_value(static_cast<long long>(value));
   }
   /** @} */
 

@@ -179,10 +179,9 @@ public:
   template<typename T>
   T return_value_as()
   {
-    if (detail::IsUnsignedInteger<T>::value) {
-      return static_cast<T>(return_unsigned_long_long_int_value());
-    }
-    return static_cast<T>(return_long_long_int_value());
+    return do_return_value_as(
+        typename detail::IsUnsignedInteger<T>::Tag{}, static_cast<T*>(nullptr)
+    );
   }
 
   /**
@@ -196,14 +195,9 @@ public:
   template<typename T>
   T return_value_as_or_default(T default_value)
   {
-    if (detail::IsUnsignedInteger<T>::value) {
-      return static_cast<T>(return_unsigned_long_long_int_value_or_default(
-          static_cast<unsigned long long>(default_value)
-      ));
-    }
-    return static_cast<T>(return_long_long_int_value_or_default(
-        static_cast<long long>(default_value)
-    ));
+    return do_return_value_as_or_default(
+        default_value, typename detail::IsUnsignedInteger<T>::Tag{}
+    );
   }
 
   /**
@@ -218,14 +212,6 @@ public:
   virtual ActualCall& on_object(const void* object_ptr) = 0;
 
 private:
-  /**
-   * @name NVI dispatch helpers
-   *
-   * These non-virtual overloads are selected by the @ref with_parameter()
-   * template via overload resolution and forward to the corresponding typed
-   * pure virtual. Unsupported types produce a compile-time error here.
-   * @{
-   */
   ActualCall& do_with_parameter(const String& n, bool v)
   {
     return with_bool_parameter(n, v);
@@ -274,12 +260,37 @@ private:
   {
     return with_const_pointer_parameter(n, v);
   }
-  /** @} */
 
   /**
-   * @name Return value NVI back-ends
+   * @name return_value_as() tag-dispatch back-ends
    * @{
    */
+  template<typename T>
+  T do_return_value_as(detail::BoolTag<true>, T*)
+  {
+    return static_cast<T>(return_unsigned_long_long_int_value());
+  }
+  template<typename T>
+  T do_return_value_as(detail::BoolTag<false>, T*)
+  {
+    return static_cast<T>(return_long_long_int_value());
+  }
+  template<typename T>
+  T do_return_value_as_or_default(T default_value, detail::BoolTag<true>)
+  {
+    return static_cast<T>(return_unsigned_long_long_int_value_or_default(
+        static_cast<unsigned long long>(default_value)
+    ));
+  }
+  template<typename T>
+  T do_return_value_as_or_default(T default_value, detail::BoolTag<false>)
+  {
+    return static_cast<T>(return_long_long_int_value_or_default(
+        static_cast<long long>(default_value)
+    ));
+  }
+  /** @} */
+
   virtual bool return_bool_value() = 0;
   virtual bool return_bool_value_or_default(bool default_value) = 0;
   virtual unsigned long long return_unsigned_long_long_int_value() = 0;
@@ -306,16 +317,7 @@ private:
   virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
       void (*default_value)()
   ) = 0;
-  /** @} */
 
-  /**
-   * @name Parameter NVI back-ends
-   *
-   * Override these in concrete subclasses to implement parameter reporting.
-   * They are private here so that the only public entry point is
-   * @ref with_parameter().
-   * @{
-   */
   virtual ActualCall& with_bool_parameter(const String& name, bool value) = 0;
   virtual ActualCall& with_int_parameter(const String& name, int value) = 0;
   virtual ActualCall& with_unsigned_int_parameter(
@@ -368,7 +370,6 @@ private:
       const unsigned char* value,
       size_t size
   ) = 0;
-  /** @} */
 };
 
 } // namespace mock

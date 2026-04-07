@@ -172,10 +172,9 @@ public:
   template<typename T>
   T get_value_as() const
   {
-    if (detail::IsUnsignedInteger<T>::value) {
-      return static_cast<T>(get_unsigned_long_long_int_value());
-    }
-    return static_cast<T>(get_long_long_int_value());
+    return do_get_value_as(
+        typename detail::IsUnsignedInteger<T>::Tag{}, static_cast<T*>(nullptr)
+    );
   }
 
   /** @return The stored double tolerance. */
@@ -247,6 +246,22 @@ private:
   virtual const void* get_const_pointer_value() const;
   /** @return The stored function pointer. */
   virtual FunctionPointerValue get_function_pointer_value() const;
+
+  /**
+   * @name get_value_as() tag-dispatch back-ends
+   * @{
+   */
+  template<typename T>
+  T do_get_value_as(detail::BoolTag<true>, T*) const
+  {
+    return static_cast<T>(get_unsigned_long_long_int_value());
+  }
+  template<typename T>
+  T do_get_value_as(detail::BoolTag<false>, T*) const
+  {
+    return static_cast<T>(get_long_long_int_value());
+  }
+  /** @} */
 
   String name_;
   String type_;

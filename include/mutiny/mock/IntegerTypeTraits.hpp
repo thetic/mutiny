@@ -19,12 +19,25 @@ namespace mock {
 namespace detail {
 
 /**
+ * @brief Tag type used to select overloads at compile time.
+ *
+ * @tparam B  Compile-time boolean selector.
+ */
+template<bool B>
+struct BoolTag
+{};
+
+/**
  * @brief Detects whether @p T behaves as an unsigned integer type.
  *
  * @c T(-1) wraps around to the maximum value for unsigned types, which is
  * always greater than @c T(0). For signed types, @c T(-1) equals @c -1,
  * which is less than @c T(0). The check works for all integer types in
  * C++11 without requiring @c \<type_traits\>.
+ *
+ * The nested @c tag typedef resolves to @c BoolTag<true> for unsigned types
+ * and @c BoolTag<false> for signed types, enabling tag dispatch without a
+ * constant-condition @c if.
  */
 template<typename T>
 struct IsUnsignedInteger
@@ -33,6 +46,7 @@ struct IsUnsignedInteger
   {
     value = (T(-1) > T(0)) ? 1 : 0
   };
+  using Tag = BoolTag<(T(-1) > T(0))>;
 };
 
 } // namespace detail
