@@ -13,26 +13,20 @@ TEST(IgnoredExpectedCall, worksAsItShould)
   ignored.with_call_order(1);
   ignored.with_call_order(1, 1);
   ignored.on_object(nullptr);
-  ignored.with_bool_parameter("umm", true);
-  ignored.with_int_parameter("bla", 1);
-  ignored.with_unsigned_int_parameter("foo", 1U);
-  ignored.with_long_int_parameter("hey", 1L);
-  ignored.with_unsigned_long_int_parameter("bah", 1UL);
-  ignored.with_long_long_int_parameter("yo", 1LL);
-  ignored.with_unsigned_long_long_int_parameter("grr", 1ULL);
-  ignored.with_double_parameter("hah", 1.1);
-  ignored.with_double_parameter("gah", 2.1, 0.3);
-  ignored.with_string_parameter("goo", "hello");
-  ignored.with_pointer_parameter("pie", static_cast<void*>(nullptr));
-  ignored.with_const_pointer_parameter(
-      "woo", static_cast<const void*>(nullptr)
-  );
-  ignored.with_function_pointer_parameter(
-      "fop", static_cast<void (*)()>(nullptr)
-  );
-  ignored.with_memory_buffer_parameter(
-      "waa", static_cast<const unsigned char*>(nullptr), 0
-  );
+  ignored.with_parameter("umm", true);
+  ignored.with_parameter("bla", static_cast<int>(1));
+  ignored.with_parameter("foo", static_cast<unsigned int>(1));
+  ignored.with_parameter("hey", static_cast<long int>(1));
+  ignored.with_parameter("bah", static_cast<unsigned long int>(1));
+  ignored.with_parameter("yo", static_cast<long long int>(1));
+  ignored.with_parameter("grr", static_cast<unsigned long long int>(1));
+  ignored.with_parameter("hah", static_cast<double>(1.1f));
+  ignored.with_parameter("gah", 2.1, 0.3);
+  ignored.with_parameter("goo", "hello");
+  ignored.with_parameter("pie", static_cast<void*>(nullptr));
+  ignored.with_parameter("woo", static_cast<const void*>(nullptr));
+  ignored.with_parameter("fop", static_cast<void (*)()>(nullptr));
+  ignored.with_parameter("waa", static_cast<const unsigned char*>(nullptr), 0);
   ignored.with_parameter_of_type(
       "mytype", "top", static_cast<const void*>(nullptr)
   );

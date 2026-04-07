@@ -14,6 +14,7 @@
 #ifndef INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
 #define INCLUDED_MUTINY_MOCK_ACTUALCALL_HPP
 
+#include "mutiny/mock/IntegerTypeTraits.hpp"
 #include "mutiny/mock/NamedValue.hpp"
 
 #include "mutiny/export.h"
@@ -22,27 +23,6 @@ namespace mu {
 namespace tiny {
 namespace mock {
 
-namespace detail {
-
-/**
- * @brief Detects whether @p T behaves as an unsigned integer type.
- *
- * @c T(-1) wraps around to the maximum value for unsigned types, which is
- * always greater than @c T(0). For signed types, @c T(-1) equals @c -1,
- * which is less than @c T(0). The check works for all integer types in
- * C++11 without requiring @c \<type_traits\>.
- */
-template<typename T>
-struct IsUnsignedInteger
-{
-  enum
-  {
-    value = (T(-1) > T(0)) ? 1 : 0
-  };
-};
-
-} // namespace detail
-
 class FailureReporter;
 
 /**
@@ -50,6 +30,11 @@ class FailureReporter;
  *
  * Each method returns @c *this so that parameter reporting can be chained.
  * Concrete implementations are created internally by Support.
+ *
+ * Use @ref with_parameter() to report each argument. The framework compares
+ * each parameter against the registered expectation using exact type matching:
+ * an @c int argument does not match an @c unsigned @c int expectation even if
+ * the numeric value is the same.
  */
 class MUTINY_EXPORT ActualCall
 {
@@ -67,75 +52,25 @@ public:
   /**
    * @brief Report a parameter of any supported type.
    *
-   * Overloads for bool, int, unsigned int, long int, unsigned long int,
-   * long long, unsigned long long, double, const char*, void*, void(*)(),
-   * const void*, and (const unsigned char*, size_t) memory buffers are
-   * provided. Each delegates to the corresponding typed with_*_parameter()
-   * virtual method.
+   * Supported types: @c bool, @c int, @c unsigned @c int, @c long @c int,
+   * @c unsigned @c long @c int, @c long @c long, @c unsigned @c long @c long,
+   * @c double, @c const @c char*, @c void*, @c void(*)(), @c const @c void*.
+   * Each value is compared against the expectation with exact type matching.
    *
+   * Call `with_parameter<T>(name, value)` to be explicit about the type, or
+   * pass a value of the exact expected type directly.
+   *
+   * @tparam T     Type of the parameter value.
    * @param name   Parameter name, must match the expectation.
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  ActualCall& with_parameter(const String& name, bool value)
+  template<typename T>
+  ActualCall& with_parameter(const String& name, T value)
   {
-    return with_bool_parameter(name, value);
+    return do_with_parameter(name, value);
   }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, int value)
-  {
-    return with_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned int value)
-  {
-    return with_unsigned_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long int value)
-  {
-    return with_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long int value)
-  {
-    return with_unsigned_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long long value)
-  {
-    return with_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long long value)
-  {
-    return with_unsigned_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, double value)
-  {
-    return with_double_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const char* value)
-  {
-    return with_string_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void* value)
-  {
-    return with_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void (*value)())
-  {
-    return with_function_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const void* value)
-  {
-    return with_const_pointer_parameter(name, value);
-  }
+
   /**
    * @brief Report a memory buffer parameter.
    *
@@ -213,87 +148,6 @@ public:
       const String& type_name,
       const String& name,
       void* output
-  ) = 0;
-
-  /** @brief Report a bool parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_bool_parameter(const String& name, bool value) = 0;
-  /** @brief Report an int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_int_parameter(const String& name, int value) = 0;
-  /** @brief Report an unsigned int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_unsigned_int_parameter(
-      const String& name,
-      unsigned int value
-  ) = 0;
-  /** @brief Report a long int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_long_int_parameter(
-      const String& name,
-      long int value
-  ) = 0;
-  /** @brief Report an unsigned long int parameter. @param name Name. @param
-   * value Value. @return *this. */
-  virtual ActualCall& with_unsigned_long_int_parameter(
-      const String& name,
-      unsigned long int value
-  ) = 0;
-  /** @brief Report a long long int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_long_long_int_parameter(
-      const String& name,
-      long long value
-  ) = 0;
-  /** @brief Report an unsigned long long int parameter. @param name Name.
-   * @param value Value. @return *this. */
-  virtual ActualCall& with_unsigned_long_long_int_parameter(
-      const String& name,
-      unsigned long long value
-  ) = 0;
-  /** @brief Report a double parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_double_parameter(
-      const String& name,
-      double value
-  ) = 0;
-  /** @brief Report a C string parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_string_parameter(
-      const String& name,
-      const char* value
-  ) = 0;
-  /** @brief Report a void* parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_pointer_parameter(
-      const String& name,
-      void* value
-  ) = 0;
-  /** @brief Report a function pointer parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_function_pointer_parameter(
-      const String& name,
-      void (*value)()
-  ) = 0;
-  /** @brief Report a const void* parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_const_pointer_parameter(
-      const String& name,
-      const void* value
-  ) = 0;
-  /** @brief Report a memory buffer parameter (String name). @param name Name.
-   * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual ActualCall& with_memory_buffer_parameter(
-      const String& name,
-      const unsigned char* value,
-      size_t size
-  ) = 0;
-  /** @brief Report a memory buffer parameter (C string name). @param name Name.
-   * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual ActualCall& with_memory_buffer_parameter(
-      const char* name,
-      const unsigned char* value,
-      size_t size
   ) = 0;
 
   /** @return true if the matching expectation set a return value. */
@@ -391,8 +245,7 @@ public:
    * The wide getters accept all narrower storage widths, making this method
    * portable for fixed-width types (@c uint8_t, @c uint64_t, @c int8_t,
    * @c int64_t, @c size_t, @c ptrdiff_t, @c uintptr_t, @c intptr_t, etc.)
-   * regardless of
-   * the underlying fundamental type chosen by the platform.
+   * regardless of the underlying fundamental type chosen by the platform.
    *
    * @tparam T  Target integral type.
    * @return The configured return value cast to @c T.
@@ -437,6 +290,127 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& on_object(const void* object_ptr) = 0;
+
+private:
+  /**
+   * @name NVI dispatch helpers
+   *
+   * These non-virtual overloads are selected by the @ref with_parameter()
+   * template via overload resolution and forward to the corresponding typed
+   * pure virtual. Unsupported types produce a compile-time error here.
+   * @{
+   */
+  ActualCall& do_with_parameter(const String& n, bool v)
+  {
+    return with_bool_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, int v)
+  {
+    return with_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, unsigned int v)
+  {
+    return with_unsigned_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, long int v)
+  {
+    return with_long_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, unsigned long int v)
+  {
+    return with_unsigned_long_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, long long v)
+  {
+    return with_long_long_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, unsigned long long v)
+  {
+    return with_unsigned_long_long_int_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, double v)
+  {
+    return with_double_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, const char* v)
+  {
+    return with_string_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, void* v)
+  {
+    return with_pointer_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, void (*v)())
+  {
+    return with_function_pointer_parameter(n, v);
+  }
+  ActualCall& do_with_parameter(const String& n, const void* v)
+  {
+    return with_const_pointer_parameter(n, v);
+  }
+  /** @} */
+
+  /**
+   * @name Typed pure virtuals (NVI back-end)
+   *
+   * Override these in concrete subclasses to implement parameter reporting.
+   * They are private here so that the only public entry point is
+   * @ref with_parameter().
+   * @{
+   */
+  virtual ActualCall& with_bool_parameter(const String& name, bool value) = 0;
+  virtual ActualCall& with_int_parameter(const String& name, int value) = 0;
+  virtual ActualCall& with_unsigned_int_parameter(
+      const String& name,
+      unsigned int value
+  ) = 0;
+  virtual ActualCall& with_long_int_parameter(
+      const String& name,
+      long int value
+  ) = 0;
+  virtual ActualCall& with_unsigned_long_int_parameter(
+      const String& name,
+      unsigned long int value
+  ) = 0;
+  virtual ActualCall& with_long_long_int_parameter(
+      const String& name,
+      long long value
+  ) = 0;
+  virtual ActualCall& with_unsigned_long_long_int_parameter(
+      const String& name,
+      unsigned long long value
+  ) = 0;
+  virtual ActualCall& with_double_parameter(
+      const String& name,
+      double value
+  ) = 0;
+  virtual ActualCall& with_string_parameter(
+      const String& name,
+      const char* value
+  ) = 0;
+  virtual ActualCall& with_pointer_parameter(
+      const String& name,
+      void* value
+  ) = 0;
+  virtual ActualCall& with_function_pointer_parameter(
+      const String& name,
+      void (*value)()
+  ) = 0;
+  virtual ActualCall& with_const_pointer_parameter(
+      const String& name,
+      const void* value
+  ) = 0;
+  virtual ActualCall& with_memory_buffer_parameter(
+      const String& name,
+      const unsigned char* value,
+      size_t size
+  ) = 0;
+  virtual ActualCall& with_memory_buffer_parameter(
+      const char* name,
+      const unsigned char* value,
+      size_t size
+  ) = 0;
+  /** @} */
 };
 
 } // namespace mock

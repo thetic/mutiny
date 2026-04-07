@@ -396,11 +396,8 @@ TEST(MockCall, OnObjectIgnored_MatchingAlreadyWhenObjectPassed)
 TEST(MockCall, OnObjectIgnored_NotMatchingYetWhenObjectPassed)
 {
   void* object_ptr = reinterpret_cast<void*>(0x001);
-  mock().expect_one_call("boo").with_bool_parameter("p", true);
-  mock()
-      .actual_call("boo")
-      .on_object(object_ptr)
-      .with_bool_parameter("p", true);
+  mock().expect_one_call("boo").with_parameter("p", true);
+  mock().actual_call("boo").on_object(object_ptr).with_parameter("p", true);
 }
 
 TEST(MockCall, OnObjectIgnored_InitialMatchDiscarded)
@@ -409,11 +406,8 @@ TEST(MockCall, OnObjectIgnored_InitialMatchDiscarded)
   void* object_ptr2 = reinterpret_cast<void*>(0x002);
 
   mock().expect_one_call("boo");
-  mock().expect_one_call("boo").with_bool_parameter("p", true);
-  mock()
-      .actual_call("boo")
-      .on_object(object_ptr2)
-      .with_bool_parameter("p", true);
+  mock().expect_one_call("boo").with_parameter("p", true);
+  mock().actual_call("boo").on_object(object_ptr2).with_parameter("p", true);
   mock().actual_call("boo").on_object(object_ptr1);
 }
 

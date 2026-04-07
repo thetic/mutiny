@@ -26,58 +26,6 @@ public:
       unsigned int initial_call_order,
       unsigned int final_call_order
   ) override;
-  ExpectedCall& with_bool_parameter(const String& name, bool value) override;
-  ExpectedCall& with_int_parameter(const String& name, int value) override;
-  ExpectedCall& with_unsigned_int_parameter(
-      const String& name,
-      unsigned int value
-  ) override;
-  ExpectedCall& with_long_int_parameter(
-      const String& name,
-      long int value
-  ) override;
-  ExpectedCall& with_unsigned_long_int_parameter(
-      const String& name,
-      unsigned long int value
-  ) override;
-  ExpectedCall& with_long_long_int_parameter(
-      const String& name,
-      long long value
-  ) override;
-  ExpectedCall& with_unsigned_long_long_int_parameter(
-      const String& name,
-      unsigned long long value
-  ) override;
-  ExpectedCall& with_double_parameter(
-      const String& name,
-      double value
-  ) override;
-  ExpectedCall& with_double_parameter(
-      const String& name,
-      double value,
-      double tolerance
-  ) override;
-  ExpectedCall& with_string_parameter(
-      const String& name,
-      const char* value
-  ) override;
-  ExpectedCall& with_pointer_parameter(
-      const String& name,
-      void* value
-  ) override;
-  ExpectedCall& with_const_pointer_parameter(
-      const String& name,
-      const void* value
-  ) override;
-  ExpectedCall& with_function_pointer_parameter(
-      const String& name,
-      void (*value)()
-  ) override;
-  ExpectedCall& with_memory_buffer_parameter(
-      const String& name,
-      const unsigned char* value,
-      size_t size
-  ) override;
   ExpectedCall& with_parameter_of_type(
       const String& type_name,
       const String& name,
@@ -97,10 +45,6 @@ public:
   ExpectedCall& ignore_other_parameters() override;
 
   ExpectedCall& and_return_value(bool value) override;
-  ExpectedCall& and_return_value(int value) override;
-  ExpectedCall& and_return_value(unsigned int value) override;
-  ExpectedCall& and_return_value(long int value) override;
-  ExpectedCall& and_return_value(unsigned long int value) override;
   ExpectedCall& and_return_value(long long value) override;
   ExpectedCall& and_return_value(unsigned long long value) override;
   ExpectedCall& and_return_value(double value) override;
@@ -179,6 +123,60 @@ private:
   bool was_passed_to_object_;
   unsigned int actual_calls_;
   unsigned int expected_calls_;
+
+  // NVI back-end: private overrides of ExpectedCall's typed pure virtuals
+  ExpectedCall& with_bool_parameter(const String& name, bool value) override;
+  ExpectedCall& with_int_parameter(const String& name, int value) override;
+  ExpectedCall& with_unsigned_int_parameter(
+      const String& name,
+      unsigned int value
+  ) override;
+  ExpectedCall& with_long_int_parameter(
+      const String& name,
+      long int value
+  ) override;
+  ExpectedCall& with_unsigned_long_int_parameter(
+      const String& name,
+      unsigned long int value
+  ) override;
+  ExpectedCall& with_long_long_int_parameter(
+      const String& name,
+      long long value
+  ) override;
+  ExpectedCall& with_unsigned_long_long_int_parameter(
+      const String& name,
+      unsigned long long value
+  ) override;
+  ExpectedCall& with_double_parameter(
+      const String& name,
+      double value
+  ) override;
+  ExpectedCall& with_double_parameter(
+      const String& name,
+      double value,
+      double tolerance
+  ) override;
+  ExpectedCall& with_string_parameter(
+      const String& name,
+      const char* value
+  ) override;
+  ExpectedCall& with_pointer_parameter(
+      const String& name,
+      void* value
+  ) override;
+  ExpectedCall& with_const_pointer_parameter(
+      const String& name,
+      const void* value
+  ) override;
+  ExpectedCall& with_function_pointer_parameter(
+      const String& name,
+      void (*value)()
+  ) override;
+  ExpectedCall& with_memory_buffer_parameter(
+      const String& name,
+      const unsigned char* value,
+      size_t size
+  ) override;
 };
 
 } // namespace mock

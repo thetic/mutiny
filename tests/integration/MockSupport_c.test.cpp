@@ -349,7 +349,9 @@ TEST(MockSupport_c, returnIntValue)
       expected_value, mutiny_mock()->actual_call("boo")->int_return_value()
   );
   CHECK_EQUAL(expected_value, mutiny_mock()->int_return_value());
-  CHECK_EQUAL(mutiny_type_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(
+      mutiny_type_long_long_integer, mutiny_mock()->return_value().type
+  );
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnIntValueOrDefaultShouldIgnoreTheDefault)
@@ -394,7 +396,9 @@ TEST(MockSupport_c, returnUnsignedIntValue)
       mutiny_mock()->actual_call("boo")->unsigned_int_return_value()
   );
   CHECK_EQUAL(expected_value, mutiny_mock()->unsigned_int_return_value());
-  CHECK_EQUAL(mutiny_type_unsigned_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(
+      mutiny_type_unsigned_long_long_integer, mutiny_mock()->return_value().type
+  );
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnUnsignedIntValueOrDefaultShouldIgnoreTheDefault)
@@ -442,7 +446,9 @@ TEST(MockSupport_c, returnLongIntValue)
       expected_value, mutiny_mock()->actual_call("boo")->long_int_return_value()
   );
   CHECK_EQUAL(expected_value, mutiny_mock()->long_int_return_value());
-  CHECK_EQUAL(mutiny_type_long_integer, mutiny_mock()->return_value().type);
+  CHECK_EQUAL(
+      mutiny_type_long_long_integer, mutiny_mock()->return_value().type
+  );
 }
 
 TEST(MockSupport_c, whenReturnValueIsGivenReturnLongIntValueOrDefaultShouldIgnoreTheDefault)
@@ -492,7 +498,7 @@ TEST(MockSupport_c, returnUnsignedLongIntValue)
   );
   CHECK_EQUAL(expected_value, mutiny_mock()->unsigned_long_int_return_value());
   CHECK_EQUAL(
-      mutiny_type_unsigned_long_integer, mutiny_mock()->return_value().type
+      mutiny_type_unsigned_long_long_integer, mutiny_mock()->return_value().type
   );
 }
 

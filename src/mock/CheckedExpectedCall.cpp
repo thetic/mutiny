@@ -545,34 +545,6 @@ ExpectedCall& CheckedExpectedCall::and_return_value(bool value)
   return *this;
 }
 
-ExpectedCall& CheckedExpectedCall::and_return_value(unsigned int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(long int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(unsigned long int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
 ExpectedCall& CheckedExpectedCall::and_return_value(long long value)
 {
   return_value_.set_name("returnValue");

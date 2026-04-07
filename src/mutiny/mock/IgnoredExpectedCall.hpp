@@ -16,6 +16,52 @@ public:
   {
     return *this;
   }
+  ExpectedCall& with_parameter_of_type(
+      const String&,
+      const String&,
+      const void*
+  ) override
+  {
+    return *this;
+  }
+  ExpectedCall& with_output_parameter_returning(
+      const String&,
+      const void*,
+      size_t
+  ) override
+  {
+    return *this;
+  }
+  ExpectedCall& with_output_parameter_of_type_returning(
+      const String&,
+      const String&,
+      const void*
+  ) override
+  {
+    return *this;
+  }
+  ExpectedCall& with_unmodified_output_parameter(const String&) override
+  {
+    return *this;
+  }
+  ExpectedCall& ignore_other_parameters() override { return *this; }
+
+  using ExpectedCall::and_return_value;
+  ExpectedCall& and_return_value(bool) override { return *this; }
+  ExpectedCall& and_return_value(long long) override { return *this; }
+  ExpectedCall& and_return_value(unsigned long long) override { return *this; }
+  ExpectedCall& and_return_value(double) override { return *this; }
+  ExpectedCall& and_return_value(const char*) override { return *this; }
+  ExpectedCall& and_return_value(void*) override { return *this; }
+  ExpectedCall& and_return_value(const void*) override { return *this; }
+  ExpectedCall& and_return_value(void (*)()) override { return *this; }
+
+  ExpectedCall& on_object(void*) override { return *this; }
+
+  static ExpectedCall& instance();
+
+private:
+  // NVI back-end: ignored implementations of typed pure virtuals
   ExpectedCall& with_bool_parameter(const String&, bool) override
   {
     return *this;
@@ -91,52 +137,6 @@ public:
   {
     return *this;
   }
-  ExpectedCall& with_parameter_of_type(
-      const String&,
-      const String&,
-      const void*
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_output_parameter_returning(
-      const String&,
-      const void*,
-      size_t
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_output_parameter_of_type_returning(
-      const String&,
-      const String&,
-      const void*
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_unmodified_output_parameter(const String&) override
-  {
-    return *this;
-  }
-  ExpectedCall& ignore_other_parameters() override { return *this; }
-
-  ExpectedCall& and_return_value(bool) override { return *this; }
-  ExpectedCall& and_return_value(int) override { return *this; }
-  ExpectedCall& and_return_value(unsigned int) override { return *this; }
-  ExpectedCall& and_return_value(long int) override { return *this; }
-  ExpectedCall& and_return_value(unsigned long int) override { return *this; }
-  ExpectedCall& and_return_value(long long) override { return *this; }
-  ExpectedCall& and_return_value(unsigned long long) override { return *this; }
-  ExpectedCall& and_return_value(double) override { return *this; }
-  ExpectedCall& and_return_value(const char*) override { return *this; }
-  ExpectedCall& and_return_value(void*) override { return *this; }
-  ExpectedCall& and_return_value(const void*) override { return *this; }
-  ExpectedCall& and_return_value(void (*)()) override { return *this; }
-
-  ExpectedCall& on_object(void*) override { return *this; }
-
-  static ExpectedCall& instance();
 };
 
 } // namespace mock

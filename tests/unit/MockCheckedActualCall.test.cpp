@@ -289,9 +289,7 @@ TEST(CheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
   const unsigned char buf[] = { 0x01, 0x02 };
   mu::tiny::String name("mem");
   mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
-  actual_call.with_name("func").with_memory_buffer_parameter(
-      name, buf, sizeof(buf)
-  );
+  actual_call.with_name("func").with_parameter(name, buf, sizeof(buf));
 
   mu::tiny::mock::NamedValue parameter(name);
   parameter.set_memory_buffer(buf, sizeof(buf));

@@ -184,16 +184,24 @@ unsigned int NamedValue::get_unsigned_int_value() const
 {
   if (type_ == "int" && value_.int_value >= 0)
     return static_cast<unsigned int>(value_.int_value);
-  else {
-    STRCMP_EQUAL("unsigned int", type_.c_str());
+  else if (type_ == "unsigned int")
     return value_.unsigned_int_value;
+  else if (type_ == "long long int" && value_.long_long_int_value >= 0)
+    return static_cast<unsigned int>(value_.long_long_int_value);
+  else {
+    STRCMP_EQUAL("unsigned long long int", type_.c_str());
+    return static_cast<unsigned int>(value_.unsigned_long_long_int_value);
   }
 }
 
 int NamedValue::get_int_value() const
 {
-  STRCMP_EQUAL("int", type_.c_str());
-  return value_.int_value;
+  if (type_ == "int")
+    return value_.int_value;
+  else {
+    STRCMP_EQUAL("long long int", type_.c_str());
+    return static_cast<int>(value_.long_long_int_value);
+  }
 }
 
 long int NamedValue::get_long_int_value() const
@@ -202,9 +210,13 @@ long int NamedValue::get_long_int_value() const
     return value_.int_value;
   else if (type_ == "unsigned int")
     return static_cast<long int>(value_.unsigned_int_value);
-  else {
-    STRCMP_EQUAL("long int", type_.c_str());
+  else if (type_ == "long int")
     return value_.long_int_value;
+  else if (type_ == "long long int")
+    return static_cast<long int>(value_.long_long_int_value);
+  else {
+    STRCMP_EQUAL("unsigned long long int", type_.c_str());
+    return static_cast<long int>(value_.unsigned_long_long_int_value);
   }
 }
 
@@ -216,9 +228,13 @@ unsigned long int NamedValue::get_unsigned_long_int_value() const
     return static_cast<unsigned long int>(value_.int_value);
   else if (type_ == "long int" && value_.long_int_value >= 0)
     return static_cast<unsigned long int>(value_.long_int_value);
-  else {
-    STRCMP_EQUAL("unsigned long int", type_.c_str());
+  else if (type_ == "long long int" && value_.long_long_int_value >= 0)
+    return static_cast<unsigned long int>(value_.long_long_int_value);
+  else if (type_ == "unsigned long int")
     return value_.unsigned_long_int_value;
+  else {
+    STRCMP_EQUAL("unsigned long long int", type_.c_str());
+    return static_cast<unsigned long int>(value_.unsigned_long_long_int_value);
   }
 }
 
@@ -232,9 +248,11 @@ long long NamedValue::get_long_long_int_value() const
     return value_.long_int_value;
   else if (type_ == "unsigned long int")
     return static_cast<long long int>(value_.unsigned_long_int_value);
-  else {
-    STRCMP_EQUAL("long long int", type_.c_str());
+  else if (type_ == "long long int")
     return value_.long_long_int_value;
+  else {
+    STRCMP_EQUAL("unsigned long long int", type_.c_str());
+    return static_cast<long long int>(value_.unsigned_long_long_int_value);
   }
 }
 
