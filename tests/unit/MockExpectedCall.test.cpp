@@ -793,7 +793,7 @@ TEST(ExpectedCall, hasUnmodifiedOutputParameter)
 
 TEST(ExpectedCall, hasNoOutputParameter)
 {
-  call->with_parameter("foo", static_cast<int>(1));
+  call->with_parameter("foo", 1);
   mu::tiny::mock::NamedValue foo("foo");
   foo.set_value(1);
   CHECK(!call->has_output_parameter(foo));
