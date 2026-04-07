@@ -259,8 +259,20 @@ if(PROJECT_IS_TOP_LEVEL)
         COMPATIBILITY SameMajorVersion
     )
 
+    execute_process(
+        COMMAND git rev-parse HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE GIT_REVISION
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    file(WRITE "${CMAKE_BINARY_DIR}/source-extras/GIT_REVISION" "${GIT_REVISION}\n")
+
     set(CPACK_VERBATIM_VARIABLES YES)
-    set(CPACK_SOURCE_GENERATOR "TGZ;ZIP")
+    set(CPACK_SOURCE_INSTALLED_DIRECTORIES
+        "${CMAKE_SOURCE_DIR}" "/"
+        "${CMAKE_BINARY_DIR}/source-extras" "/"
+    )
     set(CPACK_SOURCE_IGNORE_FILES
         "/\\.git/"
         "/\\.github/"
