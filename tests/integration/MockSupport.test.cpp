@@ -99,30 +99,28 @@ TEST(Support, setDataPointer)
 {
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().set_data("data", ptr);
-  POINTERS_EQUAL(ptr, mock().get_data("data").get_pointer_value());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_pointer_value());
 }
 
 TEST(Support, setConstDataPointer)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001);
   mock().set_data("data", ptr);
-  POINTERS_EQUAL(ptr, mock().get_data("data").get_const_pointer_value());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_const_pointer_value());
 }
 
 TEST(Support, setDataFunctionPointer)
 {
   auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().set_data("data", ptr);
-  FUNCTIONPOINTERS_EQUAL(
-      ptr, mock().get_data("data").get_function_pointer_value()
-  );
+  CHECK_EQUAL(ptr, mock().get_data("data").get_function_pointer_value());
 }
 
 TEST(Support, setDataObject)
 {
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().set_data_object("data", "type", ptr);
-  POINTERS_EQUAL(ptr, mock().get_data("data").get_object_pointer());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_object_pointer());
   STRCMP_EQUAL("type", mock().get_data("data").get_type().c_str());
 }
 
@@ -130,7 +128,7 @@ TEST(Support, setDataConstObject)
 {
   void* ptr = reinterpret_cast<void*>(0x011);
   mock().set_data_const_object("data", "type", ptr);
-  POINTERS_EQUAL(ptr, mock().get_data("data").get_const_object_pointer());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_const_object_pointer());
   STRCMP_EQUAL("type", mock().get_data("data").get_type().c_str());
 }
 

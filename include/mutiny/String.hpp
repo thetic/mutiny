@@ -230,6 +230,13 @@ MUTINY_EXPORT String string_from(const void* value);
 /** @brief Return the function pointer address of @p value as a hex string. */
 MUTINY_EXPORT String string_from(void (*value)());
 
+/** @brief Route any typed function pointer to the @c void(*)() overload. */
+template<typename RET, typename... ARGS>
+inline String string_from(RET (*value)(ARGS...))
+{
+  return string_from(reinterpret_cast<void (*)()>(value));
+}
+
 /** @brief Return the decimal string representation of @p value. */
 MUTINY_EXPORT String string_from(char value);
 
@@ -311,9 +318,10 @@ MUTINY_EXPORT String string_from(double value, int precision = 6);
 /** @brief Return a copy of @p other as a String. */
 MUTINY_EXPORT String string_from(const String& other);
 
-#if MUTINY_USE_STD_CPP_LIB
 /** @brief Return the string representation of a null pointer constant. */
-MUTINY_EXPORT String string_from(const std::nullptr_t value);
+MUTINY_EXPORT String string_from(decltype(nullptr) value);
+
+#if MUTINY_USE_STD_CPP_LIB
 
 #if !MUTINY_USE_STD_STRING
 /** @brief Convert a `std::string` to a `String`. */

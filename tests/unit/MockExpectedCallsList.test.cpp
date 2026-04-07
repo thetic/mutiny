@@ -276,12 +276,12 @@ TEST(ExpectedCallsList, callToStringForFulfilledFunctions)
 
 TEST(ExpectedCallsList, removeOneFinalizedMatchingExpectationFromEmptyList)
 {
-  POINTERS_EQUAL(nullptr, list->remove_first_finalized_matching_expectation());
+  CHECK_EQUAL(nullptr, list->remove_first_finalized_matching_expectation());
 }
 
 TEST(ExpectedCallsList, getOneMatchingExpectationFromEmptyList)
 {
-  POINTERS_EQUAL(nullptr, list->get_first_matching_expectation());
+  CHECK_EQUAL(nullptr, list->get_first_matching_expectation());
 }
 
 TEST(ExpectedCallsList, toStringOnEmptyList)

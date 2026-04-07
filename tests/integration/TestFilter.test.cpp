@@ -132,7 +132,7 @@ TEST(Filter, listOfFilters)
   STRCMP_EQUAL("Filter: \"bar\"", mu::tiny::string_from(*current).c_str());
   current = current->get_next();
   STRCMP_EQUAL("Filter: \"foo\"", mu::tiny::string_from(*current).c_str());
-  POINTERS_EQUAL(nullptr, current->get_next());
+  CHECK_EQUAL(nullptr, current->get_next());
 }
 
 TEST(Filter, constructors)

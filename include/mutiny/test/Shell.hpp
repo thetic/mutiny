@@ -246,15 +246,6 @@ public:
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
-  /** @brief Macro backend: assert two function pointers are equal. */
-  virtual void assert_function_pointers_equal(
-      void (*expected)(),
-      void (*actual)(),
-      const char* text,
-      const char* file_name,
-      size_t line_number,
-      const Terminator& test_terminator = get_current_test_terminator()
-  );
   /** @brief Macro backend: assert two doubles are equal within @p threshold. */
   virtual void assert_approx_equal(
       double expected,
@@ -786,71 +777,6 @@ void check_approx(
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->assert_cstr_contains(                \
         expected, actual, text, file, line                                     \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if pointer values @p expected and @p actual differ.
- *
- * Both operands are cast to @c const void* before comparison, so pointers to
- * any object type (including nullptr) can be compared. Raw integer values are
- * not accepted; use reinterpret_cast first if needed.
- *
- * @param expected  Expected pointer.
- * @param actual    Actual pointer.
- *
- * @see POINTERS_EQUAL_TEXT, FUNCTIONPOINTERS_EQUAL
- */
-#define POINTERS_EQUAL(expected, actual)                                       \
-  POINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief POINTERS_EQUAL with a custom failure message. @see POINTERS_EQUAL */
-#define POINTERS_EQUAL_TEXT(expected, actual, text)                            \
-  POINTERS_EQUAL_LOCATION((expected), (actual), text, __FILE__, __LINE__)
-
-/** @brief Location-explicit variant of POINTERS_EQUAL. */
-#define POINTERS_EQUAL_LOCATION(expected, actual, text, file, line)            \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_pointers_equal(               \
-        static_cast<const void*>(expected),                                    \
-        static_cast<const void*>(actual),                                      \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
-    );                                                                         \
-  } while (0)
-
-/**
- * @brief Fail if function pointer values @p expected and @p actual differ.
- *
- * Both operands are cast to @c void(*)() before comparison. Pass
- * @c static_cast<void(*)()>(nullptr) to compare against a null function
- * pointer.
- *
- * @param expected  Expected function pointer.
- * @param actual    Actual function pointer.
- *
- * @see FUNCTIONPOINTERS_EQUAL_TEXT
- */
-#define FUNCTIONPOINTERS_EQUAL(expected, actual)                               \
-  FUNCTIONPOINTERS_EQUAL_LOCATION((expected), (actual), "", __FILE__, __LINE__)
-
-/** @brief FUNCTIONPOINTERS_EQUAL with a custom failure message. @see
- * FUNCTIONPOINTERS_EQUAL */
-#define FUNCTIONPOINTERS_EQUAL_TEXT(expected, actual, text)                    \
-  FUNCTIONPOINTERS_EQUAL_LOCATION(                                             \
-      (expected), (actual), text, __FILE__, __LINE__                           \
-  )
-
-/** @brief Location-explicit variant of FUNCTIONPOINTERS_EQUAL. */
-#define FUNCTIONPOINTERS_EQUAL_LOCATION(expected, actual, text, file, line)    \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->assert_function_pointers_equal(      \
-        reinterpret_cast<void (*)()>(expected),                                \
-        reinterpret_cast<void (*)()>(actual),                                  \
-        text,                                                                  \
-        file,                                                                  \
-        line                                                                   \
     );                                                                         \
   } while (0)
 

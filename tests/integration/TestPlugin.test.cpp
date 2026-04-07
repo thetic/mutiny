@@ -108,7 +108,7 @@ TEST(Plugin, InstallMultiplePlugins)
   registry->install_plugin(third_plugin);
   CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
   CHECK_EQUAL(third_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN3));
-  POINTERS_EQUAL(nullptr, registry->get_plugin_by_name("I do not exist"));
+  CHECK_EQUAL(nullptr, registry->get_plugin_by_name("I do not exist"));
 }
 
 TEST(Plugin, ActionsAllRun)

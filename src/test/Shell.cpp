@@ -521,29 +521,6 @@ void Shell::assert_pointers_equal(
   }
 }
 
-void Shell::assert_function_pointers_equal(
-    void (*expected)(),
-    void (*actual)(),
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  get_test_result()->count_check();
-  if (expected != actual) {
-    add_failure(EqualsFailure(
-        this,
-        file_name,
-        line_number,
-        string_from(expected),
-        string_from(actual),
-        text
-    ));
-    test_terminator.exit_current_test();
-  }
-}
-
 void Shell::assert_approx_equal(
     double expected,
     double actual,

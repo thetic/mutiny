@@ -16,7 +16,7 @@ TEST(MockHierarchy, getMockSupportScope)
 
   CHECK(!mock().has_data("name"));
   CHECK(mock1 != mock2);
-  POINTERS_EQUAL(mock1, mock().get_mock_support_scope("name"));
+  CHECK_EQUAL(mock1, mock().get_mock_support_scope("name"));
   CHECK(mock1 != &mock());
 }
 

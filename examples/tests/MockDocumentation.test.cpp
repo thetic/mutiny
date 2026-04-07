@@ -126,7 +126,7 @@ TEST(MockDocumentation, setData)
   );
 
   CHECK_EQUAL(10, value);
-  POINTERS_EQUAL(pobject, &object);
+  CHECK_EQUAL(pobject, &object);
 }
 
 TEST(MockDocumentation, otherMockSupport)

@@ -1114,13 +1114,13 @@ TEST(MockReturnValue, WhenAConstPointerReturnValueIsExpectedAndAlsoThereIsADefau
   const void* default_return_value = reinterpret_cast<void*>(0x7778);
   const void* expected_return_value = reinterpret_cast<void*>(0x144010);
   mock().expect_one_call("foo").and_return_value(expected_return_value);
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().actual_call("foo").return_const_pointer_value_or_default(
           default_return_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().return_const_pointer_value_or_default(default_return_value)
   );
@@ -1130,13 +1130,13 @@ TEST(MockReturnValue, WhenNoConstPointerReturnValueIsExpectedButThereIsADefaultS
 {
   const void* default_return_value = reinterpret_cast<void*>(0x11);
   mock().expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().actual_call("foo").return_const_pointer_value_or_default(
           default_return_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().return_const_pointer_value_or_default(default_return_value)
   );
@@ -1147,13 +1147,13 @@ TEST(MockReturnValue, WhenAPointerReturnValueIsExpectedAndAlsoThereIsADefaultSho
   void* default_return_value = reinterpret_cast<void*>(0x777);
   void* expected_return_value = reinterpret_cast<void*>(0x144000);
   mock().expect_one_call("foo").and_return_value(expected_return_value);
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().actual_call("foo").return_pointer_value_or_default(
           default_return_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().return_pointer_value_or_default(default_return_value)
   );
@@ -1163,13 +1163,13 @@ TEST(MockReturnValue, WhenNoPointerReturnValueIsExpectedButThereIsADefaultShould
 {
   void* default_return_value = reinterpret_cast<void*>(0x10);
   mock().expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().actual_call("foo").return_pointer_value_or_default(
           default_return_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().return_pointer_value_or_default(default_return_value)
   );
@@ -1180,13 +1180,13 @@ TEST(MockReturnValue, WhenAFunctionPointerReturnValueIsExpectedAndAlsoThereIsADe
   auto default_return_value = reinterpret_cast<void (*)()>(0x777);
   auto expected_return_value = reinterpret_cast<void (*)()>(0x144000);
   mock().expect_one_call("foo").and_return_value(expected_return_value);
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().actual_call("foo").return_function_pointer_value_or_default(
           default_return_value
       )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_return_value,
       mock().return_function_pointer_value_or_default(default_return_value)
   );
@@ -1196,13 +1196,13 @@ TEST(MockReturnValue, WhenNoFunctionPointerReturnValueIsExpectedButThereIsADefau
 {
   auto default_return_value = reinterpret_cast<void (*)()>(0x10);
   mock().expect_one_call("foo");
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().actual_call("foo").return_function_pointer_value_or_default(
           default_return_value
       )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       default_return_value,
       mock().return_function_pointer_value_or_default(default_return_value)
   );
@@ -1214,9 +1214,9 @@ TEST(MockReturnValue, PointerReturnValue)
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  POINTERS_EQUAL(ptr, actual_call.return_value().get_pointer_value());
-  POINTERS_EQUAL(ptr, actual_call.return_pointer_value());
-  POINTERS_EQUAL(ptr, mock().pointer_return_value());
+  CHECK_EQUAL(ptr, actual_call.return_value().get_pointer_value());
+  CHECK_EQUAL(ptr, actual_call.return_pointer_value());
+  CHECK_EQUAL(ptr, mock().pointer_return_value());
 }
 
 TEST(MockReturnValue, ConstPointerReturnValue)
@@ -1224,9 +1224,9 @@ TEST(MockReturnValue, ConstPointerReturnValue)
   const void* ptr = reinterpret_cast<const void*>(0x001074);
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
-  POINTERS_EQUAL(ptr, actual_call.return_value().get_const_pointer_value());
-  POINTERS_EQUAL(ptr, actual_call.return_const_pointer_value());
-  POINTERS_EQUAL(ptr, mock().const_pointer_return_value());
+  CHECK_EQUAL(ptr, actual_call.return_value().get_const_pointer_value());
+  CHECK_EQUAL(ptr, actual_call.return_const_pointer_value());
+  CHECK_EQUAL(ptr, mock().const_pointer_return_value());
 }
 
 TEST(MockReturnValue, FunctionPointerReturnValue)
@@ -1235,11 +1235,9 @@ TEST(MockReturnValue, FunctionPointerReturnValue)
   mock().expect_one_call("foo").and_return_value(ptr);
   mu::tiny::mock::ActualCall& actual_call = mock().actual_call("foo");
 
-  FUNCTIONPOINTERS_EQUAL(
-      ptr, actual_call.return_value().get_function_pointer_value()
-  );
-  FUNCTIONPOINTERS_EQUAL(ptr, actual_call.return_function_pointer_value());
-  FUNCTIONPOINTERS_EQUAL(ptr, mock().function_pointer_return_value());
+  CHECK_EQUAL(ptr, actual_call.return_value().get_function_pointer_value());
+  CHECK_EQUAL(ptr, actual_call.return_function_pointer_value());
+  CHECK_EQUAL(ptr, mock().function_pointer_return_value());
 }
 
 TEST(MockReturnValue, whenCallingDisabledOrIgnoredActualCallsThenTheyDontReturnPreviousCallsValues)

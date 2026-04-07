@@ -738,11 +738,11 @@ TEST(MockSupport_c, returnPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_pointer_value(
       reinterpret_cast<void*>(10)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(10),
       mutiny_mock()->actual_call("boo")->pointer_return_value()
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(10), mutiny_mock()->pointer_return_value()
   );
   CHECK_EQUAL(mutiny_type_pointer, mutiny_mock()->return_value().type);
@@ -755,13 +755,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnPointerValueOrDefaultShouldIgnor
   mutiny_mock()->expect_one_call("foo")->and_return_pointer_value(
       expected_value
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_pointer_value_or_default(default_value)
   );
@@ -771,13 +771,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnPointerValueOrDefaultShouldlUs
 {
   void* default_value = reinterpret_cast<void*>(10);
   mutiny_mock()->expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_pointer_value_or_default(default_value)
   );
@@ -788,11 +788,11 @@ TEST(MockSupport_c, returnConstPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_const_pointer_value(
       reinterpret_cast<const void*>(10)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(10),
       mutiny_mock()->actual_call("boo")->const_pointer_return_value()
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(10),
       mutiny_mock()->const_pointer_return_value()
   );
@@ -806,13 +806,13 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnConstPointerValueOrDefaultShould
   mutiny_mock()->expect_one_call("foo")->and_return_const_pointer_value(
       expected_value
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->actual_call("foo")->return_const_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       expected_value,
       mutiny_mock()->return_const_pointer_value_or_default(default_value)
   );
@@ -822,13 +822,13 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnConstPointerValueOrDefaultShou
 {
   const void* default_value = reinterpret_cast<void*>(10);
   mutiny_mock()->expect_one_call("foo");
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->actual_call("foo")->return_const_pointer_value_or_default(
           default_value
       )
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       default_value,
       mutiny_mock()->return_const_pointer_value_or_default(default_value)
   );
@@ -839,11 +839,11 @@ TEST(MockSupport_c, returnFunctionPointerValue)
   mutiny_mock()->expect_one_call("boo")->and_return_function_pointer_value(
       dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->actual_call("boo")->function_pointer_return_value()
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->function_pointer_return_value()
   );
@@ -855,7 +855,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
   mutiny_mock()->expect_one_call("foo")->and_return_function_pointer_value(
       dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()
           ->actual_call("foo")
@@ -863,7 +863,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
               dummy_function_for_mock_c_test_two
           )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->return_function_pointer_value_or_default(
           dummy_function_for_mock_c_test_two
@@ -874,7 +874,7 @@ TEST(MockSupport_c, whenReturnValueIsGivenReturnFunctionPointerValueOrDefaultSho
 TEST(MockSupport_c, whenNoReturnValueIsGivenReturnFunctionPointerValueOrDefaultShouldlUseTheDefaultValue)
 {
   mutiny_mock()->expect_one_call("foo");
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test_two,
       mutiny_mock()
           ->actual_call("foo")
@@ -882,7 +882,7 @@ TEST(MockSupport_c, whenNoReturnValueIsGivenReturnFunctionPointerValueOrDefaultS
               dummy_function_for_mock_c_test_two
           )
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test_two,
       mutiny_mock()->return_function_pointer_value_or_default(
           dummy_function_for_mock_c_test_two
@@ -948,7 +948,7 @@ TEST(MockSupport_c, MockSupportSetStringData)
 TEST(MockSupport_c, MockSupportSetPointerData)
 {
   mutiny_mock()->set_pointer_data("pointer", reinterpret_cast<void*>(1));
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(1),
       mutiny_mock()->get_data("pointer").value.pointer_value
   );
@@ -959,7 +959,7 @@ TEST(MockSupport_c, MockSupportSetConstPointerData)
   mutiny_mock()->set_const_pointer_data(
       "constPointer", reinterpret_cast<const void*>(1)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<const void*>(1),
       mutiny_mock()->get_data("constPointer").value.const_pointer_value
   );
@@ -970,7 +970,7 @@ TEST(MockSupport_c, MockSupportMemoryBufferData)
   mutiny_mock()->set_data_object(
       "name", "const unsigned char*", reinterpret_cast<void*>(0xDEAD)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(0xDEAD),
       mutiny_mock()->get_data("name").value.memory_buffer_value
   );
@@ -982,7 +982,7 @@ TEST(MockSupport_c, MockSupportSetFunctionPointerData)
   mutiny_mock()->set_function_pointer_data(
       "functionPointer", dummy_function_for_mock_c_test
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       dummy_function_for_mock_c_test,
       mutiny_mock()->get_data("functionPointer").value.function_pointer_value
   );
@@ -991,7 +991,7 @@ TEST(MockSupport_c, MockSupportSetFunctionPointerData)
 TEST(MockSupport_c, MockSupportSetDataObject)
 {
   mutiny_mock()->set_data_object("name", "type", reinterpret_cast<void*>(1));
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(1),
       mutiny_mock()->get_data("name").value.object_value
   );
@@ -1003,7 +1003,7 @@ TEST(MockSupport_c, MockSupportSetDataConstObject)
   mutiny_mock()->set_data_const_object(
       "name", "type", reinterpret_cast<const void*>(5)
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void*>(5),
       mutiny_mock()->get_data("name").value.const_object_value
   );

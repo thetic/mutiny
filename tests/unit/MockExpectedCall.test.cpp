@@ -248,9 +248,7 @@ TEST(ExpectedCall, callWithPointerParameter)
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter(param_name, value);
   STRCMP_EQUAL("void*", call->get_input_parameter_type(param_name).c_str());
-  POINTERS_EQUAL(
-      value, call->get_input_parameter(param_name).get_pointer_value()
-  );
+  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_pointer_value());
   STRCMP_CONTAINS(
       "funcName -> void* paramName: <0x123>", call->call_to_string().c_str()
   );
@@ -264,7 +262,7 @@ TEST(ExpectedCall, callWithConstPointerParameter)
   STRCMP_EQUAL(
       "const void*", call->get_input_parameter_type(param_name).c_str()
   );
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_const_pointer_value()
   );
   STRCMP_CONTAINS(
@@ -281,7 +279,7 @@ TEST(ExpectedCall, callWithFunctionPointerParameter)
   STRCMP_EQUAL(
       "void (*)()", call->get_input_parameter_type(param_name).c_str()
   );
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_function_pointer_value()
   );
   STRCMP_CONTAINS(
@@ -298,9 +296,7 @@ TEST(ExpectedCall, callWithMemoryBuffer)
   STRCMP_EQUAL(
       "const unsigned char*", call->get_input_parameter_type(param_name).c_str()
   );
-  POINTERS_EQUAL(
-      value, call->get_input_parameter(param_name).get_memory_buffer()
-  );
+  CHECK_EQUAL(value, call->get_input_parameter(param_name).get_memory_buffer());
   CHECK_EQUAL(sizeof(value), call->get_input_parameter(param_name).get_size());
   STRCMP_CONTAINS(
       "funcName -> const unsigned char* paramName: <Size = 3 | "
@@ -314,7 +310,7 @@ TEST(ExpectedCall, callWithObjectParameter)
   const mu::tiny::String param_name = "paramName";
   void* value = reinterpret_cast<void*>(0x123);
   call->with_parameter_of_type("ClassName", param_name, value);
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       value, call->get_input_parameter(param_name).get_const_object_pointer()
   );
   STRCMP_EQUAL("ClassName", call->get_input_parameter_type(param_name).c_str());
@@ -385,7 +381,7 @@ TEST(ExpectedCall, getParameterValueOfObjectType)
 
   TypeForTestingExpectedFunctionCall type(1);
   call->with_parameter_of_type("type", "name", &type);
-  POINTERS_EQUAL(
+  CHECK_EQUAL(
       &type, call->get_input_parameter("name").get_const_object_pointer()
   );
   STRCMP_EQUAL("1", call->get_input_parameter_value_string("name").c_str());

@@ -129,17 +129,15 @@ void failing_test_method_with_signed_bytes_equal_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_pointers_equal()
+void failing_test_method_with_check_equal_pointer()
 {
-  POINTERS_EQUAL(
-      reinterpret_cast<void*>(0xa5a5), reinterpret_cast<void*>(0xf0f0)
-  );
+  CHECK_EQUAL(reinterpret_cast<void*>(0xa5a5), reinterpret_cast<void*>(0xf0f0));
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_pointers_equal_text()
+void failing_test_method_with_check_equal_pointer_text()
 {
-  POINTERS_EQUAL_TEXT(
+  CHECK_EQUAL_TEXT(
       reinterpret_cast<void*>(0xa5a5),
       reinterpret_cast<void*>(0xf0f0),
       "Failed because it failed"
@@ -147,17 +145,17 @@ void failing_test_method_with_pointers_equal_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_functionpointers_equal()
+void failing_test_method_with_check_equal_function_pointer()
 {
-  FUNCTIONPOINTERS_EQUAL(
+  CHECK_EQUAL(
       reinterpret_cast<void (*)()>(0xa5a5), reinterpret_cast<void (*)()>(0xf0f0)
   );
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_functionpointers_equal_text()
+void failing_test_method_with_check_equal_function_pointer_text()
 {
-  FUNCTIONPOINTERS_EQUAL_TEXT(
+  CHECK_EQUAL_TEXT(
       reinterpret_cast<void (*)()>(0xa5a5),
       reinterpret_cast<void (*)()>(0xf0f0),
       "Failed because it failed"
@@ -220,8 +218,8 @@ int function_that_returns_a_value()
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
   CHECK_APPROX(1.0f, 1.0f, .01f);
   CHECK_APPROX(1000, 1000, 10);
-  POINTERS_EQUAL(nullptr, nullptr);
-  POINTERS_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
+  CHECK_EQUAL(nullptr, nullptr);
+  CHECK_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);
   MEMCMP_EQUAL_TEXT("THIS", "THIS", 5, "Shouldn't fail");
   return 0;
@@ -500,32 +498,36 @@ TEST(TestShellMacros, FailureWithSIGNED_BYTES_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-TEST(TestShellMacros, FailureWithPOINTERS_EQUAL)
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_Pointer)
 {
-  fixture.run_test_with_method(failing_test_method_with_pointers_equal);
+  fixture.run_test_with_method(failing_test_method_with_check_equal_pointer);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0xa5a5>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0xf0f0>");
 }
 
-TEST(TestShellMacros, FailureWithPOINTERS_EQUAL_TEXT)
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_PointerText)
 {
-  fixture.run_test_with_method(failing_test_method_with_pointers_equal_text);
+  fixture.run_test_with_method(
+      failing_test_method_with_check_equal_pointer_text
+  );
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0xa5a5>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0xf0f0>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-TEST(TestShellMacros, FailureWithFUNCTIONPOINTERS_EQUAL)
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_FunctionPointer)
 {
-  fixture.run_test_with_method(failing_test_method_with_functionpointers_equal);
+  fixture.run_test_with_method(
+      failing_test_method_with_check_equal_function_pointer
+  );
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0xa5a5>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0xf0f0>");
 }
 
-TEST(TestShellMacros, FailureWithFUNCTIONPOINTERS_EQUAL_TEXT)
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_FunctionPointerText)
 {
   fixture.run_test_with_method(
-      failing_test_method_with_functionpointers_equal_text
+      failing_test_method_with_check_equal_function_pointer_text
   );
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0xa5a5>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0xf0f0>");

@@ -629,12 +629,13 @@ String brackets_formatted_hex_string(const String& hex_string)
   return String("(0x") + hex_string + ")";
 }
 
-#if MUTINY_USE_STD_CPP_LIB
-String string_from(const std::nullptr_t value)
+String string_from(decltype(nullptr) value)
 {
   (void)value;
   return "(null)";
 }
+
+#if MUTINY_USE_STD_CPP_LIB
 
 #if !MUTINY_USE_STD_STRING
 String string_from(std::string const& str)

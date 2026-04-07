@@ -101,23 +101,6 @@ most ``threshold``. All three operands must share the same numeric type
    CHECK_APPROX(1.0f, compute_float(), 0.01f);
    CHECK_APPROX(1000, compute_int(), 10);
 
-Pointer
--------
-
-``POINTERS_EQUAL(expected, actual)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`POINTERS_EQUAL` compares two pointers as ``const void*``. Accepts object
-pointers and ``nullptr``. For raw integer values cast to pointer, you
-must use ``reinterpret_cast<void*>`` explicitly before passing.
-
-``FUNCTIONPOINTERS_EQUAL(expected, actual)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`FUNCTIONPOINTERS_EQUAL` compares two function pointers via
-``reinterpret_cast<void(*)()>``. For a null function pointer use
-``static_cast<void(*)()>(nullptr)``.
-
 String
 ------
 
