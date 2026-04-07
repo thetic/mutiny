@@ -59,12 +59,11 @@ jobs:
 
       - name: Run abidiff
         run: |
-          # abidiff returns non-zero if ABI changes are detected.
-          # The exit code is a bitmask: 0 = no change, 1 = compatible change, 2 = incompatible change, etc.
-          # We want to fail if there are any incompatible changes (bit 8 or higher, as per docs, or general non-zero for any change)
-          abidiff \
+          bash current/.github/scripts/abi_check.sh \
             baseline/build/shared/libmutiny.so \
-            current/build/shared/libmutiny.so
+            current/build/shared/libmutiny.so \
+            "$(cat baseline/cfg/VERSION)" \
+            "$(cat current/cfg/VERSION)"
 
 
   build:
