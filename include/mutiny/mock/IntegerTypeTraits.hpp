@@ -27,6 +27,10 @@ template<bool B>
 struct BoolTag
 {};
 
+/** @brief Tag type for function pointer types in overload dispatch. */
+struct FunctionPointerTag
+{};
+
 /**
  * @brief Detects whether @p T behaves as an unsigned integer type.
  *
@@ -48,6 +52,32 @@ struct IsUnsignedInteger
   };
   using Tag = BoolTag<(T(-1) > T(0))>;
 };
+
+/**
+ * @brief Maps a type to the appropriate dispatch tag.
+ *
+ * Produces @ref FunctionPointerTag for any function pointer type
+ * (@c Ret(*)(Args...)), @ref BoolTag<true> for unsigned integer types,
+ * and @ref BoolTag<false> for signed integer types.  Used by
+ * @ref mu::tiny::mock::ActualCall::return_value_as() and
+ * @ref mu::tiny::mock::NamedValue::get_value_as() to dispatch without
+ * @c if on compile-time constants.
+ *
+ * @tparam T  Type to classify.
+ */
+template<typename T>
+struct TypeCategory
+{
+  using Tag = BoolTag<(T(-1) > T(0))>;
+};
+
+/** @cond INTERNAL */
+template<typename RET, typename... ARGS>
+struct TypeCategory<RET (*)(ARGS...)>
+{
+  using Tag = FunctionPointerTag;
+};
+/** @endcond */
 
 } // namespace detail
 

@@ -180,7 +180,7 @@ public:
   T return_value_as()
   {
     return do_return_value_as(
-        typename detail::IsUnsignedInteger<T>::Tag{}, static_cast<T*>(nullptr)
+        typename detail::TypeCategory<T>::Tag{}, static_cast<T*>(nullptr)
     );
   }
 
@@ -196,7 +196,7 @@ public:
   T return_value_as_or_default(T default_value)
   {
     return do_return_value_as_or_default(
-        default_value, typename detail::IsUnsignedInteger<T>::Tag{}
+        default_value, typename detail::TypeCategory<T>::Tag{}
     );
   }
 
@@ -276,6 +276,11 @@ private:
     return static_cast<T>(return_long_long_int_value());
   }
   template<typename T>
+  T do_return_value_as(detail::FunctionPointerTag, T*)
+  {
+    return return_function_pointer_value();
+  }
+  template<typename T>
   T do_return_value_as_or_default(T default_value, detail::BoolTag<true>)
   {
     return static_cast<T>(return_unsigned_long_long_int_value_or_default(
@@ -288,6 +293,11 @@ private:
     return static_cast<T>(return_long_long_int_value_or_default(
         static_cast<long long>(default_value)
     ));
+  }
+  template<typename T>
+  T do_return_value_as_or_default(T default_value, detail::FunctionPointerTag)
+  {
+    return return_function_pointer_value_or_default(default_value);
   }
   /** @} */
 
@@ -442,24 +452,6 @@ inline const void* mu::tiny::mock::ActualCall::return_value_as_or_default<
     const void*>(const void* default_value)
 {
   return return_const_pointer_value_or_default(default_value);
-}
-
-template<>
-inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue mu::tiny::mock::
-    ActualCall::return_value_as<
-        mu::tiny::mock::ActualCall::FunctionPointerReturnValue>()
-{
-  return return_function_pointer_value();
-}
-
-template<>
-inline mu::tiny::mock::ActualCall::FunctionPointerReturnValue mu::tiny::mock::
-    ActualCall::return_value_as_or_default<
-        mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
-        FunctionPointerReturnValue default_value
-    )
-{
-  return return_function_pointer_value_or_default(default_value);
 }
 
 #endif

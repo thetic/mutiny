@@ -173,7 +173,7 @@ public:
   T get_value_as() const
   {
     return do_get_value_as(
-        typename detail::IsUnsignedInteger<T>::Tag{}, static_cast<T*>(nullptr)
+        typename detail::TypeCategory<T>::Tag{}, static_cast<T*>(nullptr)
     );
   }
 
@@ -261,6 +261,11 @@ private:
   {
     return static_cast<T>(get_long_long_int_value());
   }
+  template<typename T>
+  T do_get_value_as(detail::FunctionPointerTag, T*) const
+  {
+    return get_function_pointer_value();
+  }
   /** @} */
 
   String name_;
@@ -327,14 +332,6 @@ template<>
 inline const void* mu::tiny::mock::NamedValue::get_value_as<const void*>() const
 {
   return get_const_pointer_value();
-}
-
-template<>
-inline mu::tiny::mock::NamedValue::FunctionPointerValue mu::tiny::mock::
-    NamedValue::get_value_as<
-        mu::tiny::mock::NamedValue::FunctionPointerValue>() const
-{
-  return get_function_pointer_value();
 }
 
 #endif
