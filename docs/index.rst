@@ -1,5 +1,8 @@
-.. include:: ../README.md
-   :parser: myst_parser.sphinx_
+Mu::tiny
+========
+
+*Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded
+and low-resource targets.
 
 .. toctree::
    :maxdepth: 1
