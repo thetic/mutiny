@@ -91,6 +91,61 @@ CI tagging (e.g. requirement IDs).
        CHECK(meets_requirement_42());
    }
 
+Ordered Tests
+-------------
+
+Normally *Mu::tiny* runs tests in an unspecified order (registration order,
+possibly shuffled with :option:`-s [seed]`).
+:cpp:class:`OrderedShell <mu::tiny::test::OrderedShell>` lets you assign a
+numeric level to selected tests so they run in level order, independent of the
+registration order of all other tests.
+
+``TEST_ORDERED(group, name, level)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:c:macro:`TEST_ORDERED` declares a test that runs at the given level. Lower
+levels run first. Tests at the same level run in registration order relative to
+each other (``FirstEvent`` and ``SecondEvent`` both run at level 20 below).
+
+.. literalinclude:: ../examples/tests/OrderedTest.test.cpp
+   :language: cpp
+
+The leading ``TEST(OrderedDemo, StartsUninitialized)`` is a regular test: it
+runs before the ordered block. Ordered tests run as a block after all unordered
+tests by default.
+
+Listing Ordered Tests
+~~~~~~~~~~~~~~~~~~~~~
+
+Pass :option:`-lo` to print each ordered test's location as
+``group.name.file.line``:
+
+.. code-block:: console
+
+   $ ./my_tests -lo
+   OrderedDemo.Init.examples/tests/OrderedTest.test.cpp.53
+   OrderedDemo.FirstEvent.examples/tests/OrderedTest.test.cpp.62
+   OrderedDemo.SecondEvent.examples/tests/OrderedTest.test.cpp.68
+   OrderedDemo.VerifyLog.examples/tests/OrderedTest.test.cpp.75
+   OrderedDemo.Shutdown.examples/tests/OrderedTest.test.cpp.83
+
+When to Use Ordered Tests
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ordered tests are appropriate when:
+
+- You are integration-testing a stateful system (e.g. a database, a file
+  system) where setup steps must precede query steps.
+- The test itself mutates persistent state that subsequent tests depend on.
+
+Avoid them when:
+
+- Tests can be made independent through
+  :cpp:func:`setup() <mu::tiny::test::Test::setup>`/:cpp:func:`teardown() <mu::tiny::test::Test::teardown>` —
+  independent tests are more robust and can be run in isolation.
+- You want the :option:`-s [seed]` (shuffle) flag to help detect ordering
+  dependencies — ordered tests are excluded from the shuffle.
+
 C Wrapper Macros
 ----------------
 
@@ -114,6 +169,8 @@ These bridge C test files into the C++ test runner. See
      - Same as above but ignored
    * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
      - Same as above but expected to fail
+   * - :c:macro:`TEST_ORDERED_C_WRAPPER(group, name, level) <TEST_ORDERED_C_WRAPPER>`
+     - Wires a C test function into a :c:macro:`TEST_ORDERED`
 
 Examples
 --------
@@ -128,3 +185,5 @@ Examples
    * - :source:`hello.test.c <examples/tests/hello.test.c>` +
        :source:`hello.test.cpp <examples/tests/hello.test.cpp>`
      - C-wrapper two-file pattern with :c:macro:`TEST_GROUP_SETUP`, :c:macro:`TEST`, and :c:macro:`TEST_C_WRAPPER`
+   * - :source:`OrderedTest.test.cpp <examples/tests/OrderedTest.test.cpp>`
+     - :c:macro:`TEST_ORDERED` alongside regular :c:macro:`TEST`
