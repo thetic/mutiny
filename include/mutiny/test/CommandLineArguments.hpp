@@ -70,6 +70,8 @@ public:
   bool is_listing_test_locations() const;
   /** @return true if `-lo` (list ordered test locations) was passed. */
   bool is_listing_ordered_test_locations() const;
+  /** @return true if `-lgl` (list group locations) was passed. */
+  bool is_listing_test_group_locations() const;
   /** @return true if `-r` (run ignored tests) was passed. */
   bool is_run_ignored() const;
   /** @return The number of times to repeat the full test suite (`-r N`). */
@@ -103,6 +105,7 @@ private:
   bool list_test_group_and_case_names_{ false };
   bool list_test_locations_{ false };
   bool list_ordered_test_locations_{ false };
+  bool list_test_group_locations_{ false };
   bool run_ignored_{ false };
   bool reversing_{ false };
   bool crash_on_fail_{ false };
