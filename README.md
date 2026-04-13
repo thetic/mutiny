@@ -1,20 +1,12 @@
-# Mu::tiny
+<img src="docs/_static/logo.png" alt="Mu::tiny" width="300">
 
 [![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
 
-*Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded and
+---
+
+_Mu::tiny_ is a C/C++ unit testing and mocking framework suited for embedded and
 low-resource targets.
-
-## Building Mu::tiny
-
-*Mu::tiny* uses CMake. Clone the repository and configure:
-
-```sh
-cmake -B build
-cmake --build build
-cmake --install build  # optional system install
-```
 
 ## Adding Mu::tiny to Your Project
 
@@ -59,13 +51,13 @@ find_package(mutiny 0.1 REQUIRED)
 All public headers live under `include/mutiny/`.
 The main headers you'll use:
 
-| Header                              | Purpose                                                                         |
-| ----------------------------------- | ------------------------------------------------------------------------------- |
-| `mutiny/test.hpp`                   | Test and assertion macros (`TEST_GROUP`, `TEST`, `CHECK`, etc.)                 |
-| `mutiny/mock.hpp`                   | Mock framework (`mu::tiny::mock::mock`, `mu::tiny::mock::Support`)              |
-| `mutiny/test.h`                     | C interface                                                                     |
-| `mutiny/test/CommandLineRunner.hpp` | `mu::tiny::test::CommandLineRunner` (`main()` runner)                           |
-| `mutiny/test/Ordered.hpp`           | `TEST_ORDERED` macro                                                            |
+| Header                              | Purpose                                                            |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| `mutiny/test.hpp`                   | Test and assertion macros (`TEST_GROUP`, `TEST`, `CHECK`, etc.)    |
+| `mutiny/mock.hpp`                   | Mock framework (`mu::tiny::mock::mock`, `mu::tiny::mock::Support`) |
+| `mutiny/test.h`                     | C interface                                                        |
+| `mutiny/test/CommandLineRunner.hpp` | `mu::tiny::test::CommandLineRunner` (`main()` runner)              |
+| `mutiny/test/Ordered.hpp`           | `TEST_ORDERED` macro                                               |
 
 ## Writing `main`
 
@@ -136,12 +128,22 @@ See [docs/command-line-reference.rst](docs/command-line-reference.rst) for all f
 
 ## Examples
 
-| File                                                                                     | Demonstrates                                                                         |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| [CheatSheet.test.cpp](examples/tests/CheatSheet.test.cpp)                               | Minimal `TEST_GROUP` + `TEST` with `setup()`, `MUTINY_PTR_SET`, and assertion macros |
-| [CircularBuffer.test.cpp](examples/tests/CircularBuffer.test.cpp)                       | Full group with setup/teardown, helper methods, and multiple assertion styles        |
+| File                                                              | Demonstrates                                                                         |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| [CheatSheet.test.cpp](examples/tests/CheatSheet.test.cpp)         | Minimal `TEST_GROUP` + `TEST` with `setup()`, `MUTINY_PTR_SET`, and assertion macros |
+| [CircularBuffer.test.cpp](examples/tests/CircularBuffer.test.cpp) | Full group with setup/teardown, helper methods, and multiple assertion styles        |
+
+## Building Mu::tiny
+
+_Mu::tiny_ uses CMake. Clone the repository and configure:
+
+```sh
+cmake -B build
+cmake --build build
+cmake --install build  # optional system install
+```
 
 ## Attribution
 
-*Mu::tiny* is descended from [CppUTest](https://github.com/cpputest/cpputest).
-Users looking for more robust support of older language standards, or legacy compilers and platforms should consider using *CppUTest* instead.
+_Mu::tiny_ is descended from [CppUTest](https://github.com/cpputest/cpputest).
+Users looking for more robust support of older language standards, or legacy compilers and platforms should consider using _CppUTest_ instead.

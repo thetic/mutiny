@@ -8,6 +8,7 @@ and low-resource targets.
    :maxdepth: 1
    :caption: User Guide
 
+   getting-started
    test-macros
    assertions
    mocking
