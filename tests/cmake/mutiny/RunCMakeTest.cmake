@@ -13,6 +13,8 @@ endif()
 
 # ── Mutiny.cmake configure-time tests ─────────────────────────────────────────
 
+set(RunCMake_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/configure")
+
 # Error cases
 run_cmake(NotATarget)
 run_cmake(NotAnExecutable)
@@ -65,12 +67,14 @@ list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0")
 # ── _mutiny_discovery.cmake script tests ───────────────────────────────────────
 #
 # The "executable" is a cmake -P script (mock_test_exe.cmake) whose stdout
-# output matches the -ll / -lo format consumed by the discovery script.
+# matches the -ll / -lo format consumed by the discovery script.
 # EMULATOR_COMMAND + EMULATOR_ARG are reassembled into a list inside the
-# wrapper scripts to avoid semicolon-in-D-value quoting issues.
+# Discovery*.cmake wrappers to avoid semicolon-in-D-value quoting issues.
+
+set(RunCMake_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/discovery")
 
 set(discovery_common
-    "-DMUTINY_MODULE_PATH=${MUTINY_MODULE_PATH}"
+    "-D_MUTINY_DISCOVERY_SCRIPT=${_MUTINY_DISCOVERY_SCRIPT}"
     "-DEXECUTABLE=${RunCMake_SOURCE_DIR}/mock_test_exe.cmake"
     "-DEMULATOR_COMMAND=${CMAKE_COMMAND}"
     "-DEMULATOR_ARG=-P"
