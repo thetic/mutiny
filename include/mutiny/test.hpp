@@ -16,6 +16,7 @@
 #include "mutiny/test/Failure.hpp"
 #include "mutiny/test/IgnoredShell.hpp"
 #include "mutiny/test/Installer.hpp"
+#include "mutiny/test/Ordered.hpp"
 #include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/SetPointerPlugin.hpp"

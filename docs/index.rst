@@ -14,7 +14,6 @@ and low-resource targets.
    mocking
    testing-in-c
    command-line-reference
-   ordered-tests
    plugins
 
 .. toctree::
