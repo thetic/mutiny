@@ -1,10 +1,11 @@
 Mu::tiny
 ========
 
-*Mu::tiny* is a C/C++ unit testing and mocking framework.
+*Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded
+and low-resource targets.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: User Guide
 
    getting-started
@@ -17,13 +18,13 @@ Mu::tiny
    plugins
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: CMake Integration
 
    cmake
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: API Reference
 
    api/library_root

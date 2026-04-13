@@ -8,15 +8,6 @@ A failing assertion immediately exits the current test body. Each macro
 increments an internal check counter on success, which appears in the
 summary.
 
-Naming Conventions
-------------------
-
-- ``_TEXT`` suffix: takes an extra ``text`` argument that is printed on
-  failure (e.g. ``CHECK_TEXT(cond, "my message")``).
-- ``_LOCATION`` suffix: takes explicit ``file`` and ``line`` arguments —
-  used to write your own assertion wrappers that report the caller's
-  location rather than the wrapper's.
-
 Boolean
 -------
 
@@ -190,22 +181,6 @@ message to the failure output:
 
    CHECK_EQUAL_TEXT(expected, actual, "iteration " + std::to_string(i));
    STRCMP_EQUAL_TEXT("ok", result, "after calling init()");
-
-``_LOCATION`` Variants
-----------------------
-
-Every assertion has a ``_LOCATION`` variant that takes explicit ``file``
-and ``line`` parameters. Use these when writing your own assertion
-helpers so failures point to the call site:
-
-.. code-block:: cpp
-
-   void assert_valid_id(int id, const char* file, size_t line)
-   {
-       CHECK_LOCATION(id > 0, "CHECK", "id > 0", "", file, line);
-   }
-
-   #define ASSERT_VALID_ID(id) assert_valid_id((id), __FILE__, __LINE__)
 
 Examples
 --------

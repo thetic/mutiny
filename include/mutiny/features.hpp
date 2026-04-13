@@ -14,6 +14,8 @@
 /**
  * @def MUTINY_HAVE_EXCEPTIONS
  * @brief Enable use of C++ exceptions.
+ *
+ * When not defined, the value is deduced from the compiler's predefined macros.
  */
 #ifndef MUTINY_HAVE_EXCEPTIONS
 #if ((__cplusplus >= 202002L) && !__cpp_exceptions) ||                         \
@@ -30,6 +32,8 @@
 /**
  * @def MUTINY_HAVE_RTTI
  * @brief Enable use of C++ run-time type information.
+ *
+ * When not defined, the value is deduced from the compiler's predefined macros.
  */
 #ifndef MUTINY_HAVE_RTTI
 #if ((__cplusplus >= 202002L) && !__cpp_rtti) ||                               \
