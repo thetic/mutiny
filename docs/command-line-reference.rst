@@ -33,6 +33,11 @@ Query Flags (do not run tests)
 
    Print ordered test locations as ``group.name.file.line``.
 
+.. option:: -lgl
+
+   Print group source locations as ``group.file.line``.  Each entry points to
+   the :c:macro:`TEST_GROUP` declaration rather than an individual test.
+
 Output Flags
 ------------
 
