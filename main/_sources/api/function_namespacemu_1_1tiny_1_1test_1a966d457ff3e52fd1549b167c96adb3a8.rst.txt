@@ -1,0 +1,14 @@
+.. _exhale_function_namespacemu_1_1tiny_1_1test_1a966d457ff3e52fd1549b167c96adb3a8:
+
+Function mu::tiny::test::operator<<(Output&, const char \*)
+===========================================================
+
+- Defined in :ref:`file_include_mutiny_test_Output.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mu::tiny::test::operator<<(Output&, const char *)
+   :project: mutiny

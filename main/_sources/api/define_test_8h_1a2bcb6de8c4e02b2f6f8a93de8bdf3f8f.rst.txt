@@ -1,0 +1,14 @@
+.. _exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f:
+
+Define IGNORE_TEST
+==================
+
+- Defined in :ref:`file_include_mutiny_test.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: IGNORE_TEST
+   :project: mutiny

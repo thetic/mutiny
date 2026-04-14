@@ -1,0 +1,14 @@
+.. _exhale_function_test_8h_1a6e1bb7ec9eac3e47aa76996cd86a9a70:
+
+Function mutiny_check_equal_memcmp
+==================================
+
+- Defined in :ref:`file_include_mutiny_test.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mutiny_check_equal_memcmp(const void *, const void *, size_t, const char *, const char *, size_t)
+   :project: mutiny

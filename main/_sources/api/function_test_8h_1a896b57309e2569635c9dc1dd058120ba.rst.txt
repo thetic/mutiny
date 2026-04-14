@@ -1,0 +1,14 @@
+.. _exhale_function_test_8h_1a896b57309e2569635c9dc1dd058120ba:
+
+Function mutiny_check_equal_pointer
+===================================
+
+- Defined in :ref:`file_include_mutiny_test.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mutiny_check_equal_pointer(const void *, const void *, const char *, const char *, size_t)
+   :project: mutiny
