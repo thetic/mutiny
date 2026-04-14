@@ -521,37 +521,6 @@ void Shell::assert_pointers_equal(
   }
 }
 
-void Shell::assert_approx_equal(
-    double expected,
-    double actual,
-    double threshold,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  add_failure(ApproxEqualFailure(
-      this, file_name, line_number, expected, actual, threshold, text
-  ));
-  test_terminator.exit_current_test();
-}
-
-void Shell::assert_approx_equal(
-    float expected,
-    float actual,
-    float threshold,
-    const char* text,
-    const char* file_name,
-    size_t line_number,
-    const Terminator& test_terminator
-)
-{
-  add_failure(ApproxEqualFailure(
-      this, file_name, line_number, expected, actual, threshold, text
-  ));
-  test_terminator.exit_current_test();
-}
 
 void Shell::assert_binary_equal(
     const void* expected,

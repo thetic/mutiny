@@ -28,7 +28,7 @@ TEST_GROUP(TestFailureNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -47,7 +47,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -66,7 +66,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -85,7 +85,7 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsNaN)
 
 TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -103,7 +103,7 @@ TEST(TestFailureNaN, DoublesEqualExpectedIsInf)
 
 TEST(TestFailureNaN, DoublesEqualActualIsInf)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -121,7 +121,7 @@ TEST(TestFailureNaN, DoublesEqualActualIsInf)
 
 TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -140,7 +140,7 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 
 TEST(TestFailureNaN, FloatsEqualExpectedIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<float> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -159,7 +159,7 @@ TEST(TestFailureNaN, FloatsEqualExpectedIsNaN)
 
 TEST(TestFailureNaN, FloatsEqualActualIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<float> f(
       test,
       fail_file_name,
       fail_line_number,
@@ -178,7 +178,7 @@ TEST(TestFailureNaN, FloatsEqualActualIsNaN)
 
 TEST(TestFailureNaN, FloatsEqualThresholdIsNaN)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<float> f(
       test,
       fail_file_name,
       fail_line_number,
