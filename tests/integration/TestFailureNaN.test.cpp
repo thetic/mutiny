@@ -138,4 +138,61 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
   );
 }
 
+TEST(TestFailureNaN, FloatsEqualExpectedIsNaN)
+{
+  mu::tiny::test::ApproxEqualFailure f(
+      test,
+      fail_file_name,
+      fail_line_number,
+      static_cast<float>(NAN),
+      2.0f,
+      3.0f,
+      ""
+  );
+  FAILURE_EQUAL(
+      "expected <Nan - Not a number>\n"
+      "\tbut was  <2> threshold used was <3>\n"
+      "\tCannot make comparisons with Nan",
+      f
+  );
+}
+
+TEST(TestFailureNaN, FloatsEqualActualIsNaN)
+{
+  mu::tiny::test::ApproxEqualFailure f(
+      test,
+      fail_file_name,
+      fail_line_number,
+      1.0f,
+      static_cast<float>(NAN),
+      3.0f,
+      ""
+  );
+  FAILURE_EQUAL(
+      "expected <1>\n"
+      "\tbut was  <Nan - Not a number> threshold used was <3>\n"
+      "\tCannot make comparisons with Nan",
+      f
+  );
+}
+
+TEST(TestFailureNaN, FloatsEqualThresholdIsNaN)
+{
+  mu::tiny::test::ApproxEqualFailure f(
+      test,
+      fail_file_name,
+      fail_line_number,
+      1.0f,
+      2.0f,
+      static_cast<float>(NAN),
+      ""
+  );
+  FAILURE_EQUAL(
+      "expected <1>\n"
+      "\tbut was  <2> threshold used was <Nan - Not a number>\n"
+      "\tCannot make comparisons with Nan",
+      f
+  );
+}
+
 #endif

@@ -256,6 +256,16 @@ public:
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
+  /** @brief Macro backend: assert two floats are equal within @p threshold. */
+  virtual void assert_approx_equal(
+      float expected,
+      float actual,
+      float threshold,
+      const char* text,
+      const char* file_name,
+      size_t line_number,
+      const Terminator& test_terminator = get_current_test_terminator()
+  );
   /** @brief Macro backend: generic equality failure with pre-formatted strings.
    */
   virtual void assert_equals(
@@ -531,6 +541,48 @@ void check_enum_equal(
 }
 
 /**
+ * @brief Failure-reporting dispatch for @ref check_approx.
+ *
+ * Primary template: casts @p T to @c double so that integral types produce an
+ * unambiguous overload call and the conversion is explicit rather than silent.
+ * Explicitly specialised for @c float (see below) to avoid promoting float
+ * values to double.
+ */
+template<typename T>
+void check_approx_fail(
+    T expected,
+    T actual,
+    T threshold,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  Shell::get_current()->assert_approx_equal(
+      static_cast<double>(expected),
+      static_cast<double>(actual),
+      static_cast<double>(threshold),
+      text,
+      file,
+      line
+  );
+}
+
+/** @brief @c float specialisation: passes values as @c float, no promotion. */
+template<>
+inline void check_approx_fail<float>(
+    float expected,
+    float actual,
+    float threshold,
+    const char* text,
+    const char* file,
+    size_t line
+)
+{
+  Shell::get_current()->assert_approx_equal(expected, actual, threshold, text, file, line);
+}
+
+/**
  * @brief Implementation helper for CHECK_APPROX.
  *
  * All three operands share the same type @p T so mismatched-type calls produce
@@ -555,9 +607,7 @@ void check_approx(
 )
 {
   if (!approx_equal(expected, actual, threshold)) {
-    Shell::get_current()->assert_approx_equal(
-        expected, actual, threshold, text, file, line
-    );
+    check_approx_fail(expected, actual, threshold, text, file, line);
   } else {
     Shell::get_current()->count_check();
   }

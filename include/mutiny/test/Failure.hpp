@@ -208,6 +208,24 @@ public:
       double threshold,
       const String& text
   );
+  /**
+   * @param test         The failing test.
+   * @param file_name    Source file of the assertion.
+   * @param line_number  Line of the assertion.
+   * @param expected     Expected float value.
+   * @param actual       Actual float value.
+   * @param threshold    Allowed tolerance.
+   * @param text         Optional user text.
+   */
+  ApproxEqualFailure(
+      Shell* test,
+      const char* file_name,
+      size_t line_number,
+      float expected,
+      float actual,
+      float threshold,
+      const String& text
+  );
 };
 
 /**

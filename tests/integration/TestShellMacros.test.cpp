@@ -139,6 +139,12 @@ void failing_test_method_with_check_equal_function_pointer_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
+void failing_test_method_with_check_equal_float()
+{
+  CHECK_EQUAL(1.5f, 2.5f);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
 void failing_test_method_with_check_approx()
 {
   CHECK_APPROX(0.12, 44.1, 0.3);
@@ -190,6 +196,7 @@ int function_that_returns_a_value()
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
   CHECK_COMPARE(1, <, 2);
+  CHECK_EQUAL(1.0f, 1.0f);
   CHECK_APPROX(1.0, 1.0, .01);
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
   CHECK_APPROX(1.0f, 1.0f, .01f);
@@ -482,6 +489,13 @@ TEST(TestShellMacros, FailureWithCHECK_EQUAL_FunctionPointerText)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0xa5a5>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <0xf0f0>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_Float)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_equal_float);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1.5>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2.5>");
 }
 
 TEST(TestShellMacros, FailureWithCHECK_APPROX)

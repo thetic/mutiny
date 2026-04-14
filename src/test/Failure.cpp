@@ -285,6 +285,29 @@ ApproxEqualFailure::ApproxEqualFailure(
     message_ += "\n\tCannot make comparisons with Nan";
 }
 
+ApproxEqualFailure::ApproxEqualFailure(
+    Shell* test,
+    const char* file_name,
+    size_t line_number,
+    float expected,
+    float actual,
+    float threshold,
+    const String& text
+)
+  : Failure(test, file_name, line_number)
+{
+  message_ = create_user_text(text);
+
+  message_ +=
+      create_but_was_string(string_from(expected, 7), string_from(actual, 7));
+  message_ += " threshold used was <";
+  message_ += string_from(threshold, 7);
+  message_ += ">";
+
+  if (is_nan(expected) || is_nan(actual) || is_nan(threshold))
+    message_ += "\n\tCannot make comparisons with Nan";
+}
+
 CheckEqualFailure::CheckEqualFailure(
     Shell* test,
     const char* file_name,
