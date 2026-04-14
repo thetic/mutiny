@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1a92bdfb028cbcf7f3afb0c0646f75bd51:
+
+Define CHECK_TRUE
+=================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: CHECK_TRUE
+   :project: mutiny

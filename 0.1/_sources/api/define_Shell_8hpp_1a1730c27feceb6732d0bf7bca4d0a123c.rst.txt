@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1a1730c27feceb6732d0bf7bca4d0a123c:
+
+Define UNSIGNED_LONGS_EQUAL
+===========================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: UNSIGNED_LONGS_EQUAL
+   :project: mutiny

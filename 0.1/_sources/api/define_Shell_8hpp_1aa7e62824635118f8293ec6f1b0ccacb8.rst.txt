@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1aa7e62824635118f8293ec6f1b0ccacb8:
+
+Define SIGNED_BYTES_EQUAL_TEXT
+==============================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: SIGNED_BYTES_EQUAL_TEXT
+   :project: mutiny

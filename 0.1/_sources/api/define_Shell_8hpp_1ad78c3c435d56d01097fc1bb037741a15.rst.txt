@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1ad78c3c435d56d01097fc1bb037741a15:
+
+Define BYTES_EQUAL_TEXT
+=======================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: BYTES_EQUAL_TEXT
+   :project: mutiny

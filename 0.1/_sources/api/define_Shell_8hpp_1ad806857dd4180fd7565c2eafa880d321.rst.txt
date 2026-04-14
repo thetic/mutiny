@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1ad806857dd4180fd7565c2eafa880d321:
+
+Define DOUBLES_EQUAL_TEXT
+=========================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: DOUBLES_EQUAL_TEXT
+   :project: mutiny

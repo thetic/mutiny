@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1a41e480fb5a72e204ecc5f9f080924f28:
+
+Define FUNCTIONPOINTERS_EQUAL_TEXT
+==================================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: FUNCTIONPOINTERS_EQUAL_TEXT
+   :project: mutiny

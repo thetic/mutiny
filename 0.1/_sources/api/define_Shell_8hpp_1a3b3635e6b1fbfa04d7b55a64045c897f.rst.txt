@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1a3b3635e6b1fbfa04d7b55a64045c897f:
+
+Define LONGLONGS_EQUAL
+======================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: LONGLONGS_EQUAL
+   :project: mutiny

@@ -1,0 +1,229 @@
+
+.. _file_include_mutiny_test_Shell.hpp:
+
+File Shell.hpp
+==============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_mutiny_test>` (``include/mutiny/test``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Assertion macros and the Shell base class. 
+
+
+Definition (``include/mutiny/test/Shell.hpp``)
+----------------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+This header is the primary source of assertion macros (:ref:`exhale_define_test_8h_1a3e1cfef60e774a81f30eaddf26a3a274`, :ref:`exhale_define_Shell_8hpp_1ad8fa79f5d491cc01af302832785e90fe`, :ref:`exhale_define_Shell_8hpp_1ade1dda09c948fee9ceb853bc6dd5f3cb`, :ref:`exhale_define_Shell_8hpp_1a7921a0c4f152a7879e78fe6fc2905590`, :ref:`exhale_define_Shell_8hpp_1a64bb32929e2c1f2ed5521a27e775327e`, etc.) and the :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1Shell` class that backs them. It is included transitively by :ref:`file_include_mutiny_test.hpp`; you rarely need to include it directly. 
+
+
+
+
+Includes
+--------
+
+
+- ``mutiny/String.hpp`` (:ref:`file_include_mutiny_String.hpp`)
+
+- ``mutiny/export.h``
+
+- ``mutiny/features.hpp`` (:ref:`file_include_mutiny_features.hpp`)
+
+- ``mutiny/test/Terminator.hpp`` (:ref:`file_include_mutiny_test_Terminator.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_include_mutiny_test.hpp`
+
+- :ref:`file_include_mutiny_test_ExpectFailShell.hpp`
+
+- :ref:`file_include_mutiny_test_IgnoredShell.hpp`
+
+- :ref:`file_include_mutiny_test_Ordered.hpp`
+
+- :ref:`file_include_mutiny_test_TestingFixture.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_mu`
+
+- :ref:`namespace_mu__tiny`
+
+- :ref:`namespace_mu__tiny__test`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1FailedException`
+
+- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1Shell`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a6c434f2eacdeb5877d72a080a1ad38e7`
+
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a147ae295f17db749ff3238d9bf0eaa74`
+
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a49cd1e404db45a10fb97b42ba1c1e15d`
+
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a8a9a9e1dd5f004a04e2cd875997a6845`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_Shell_8hpp_1ab5c5a937e779cb320e847355f40107b0`
+
+- :ref:`exhale_define_Shell_8hpp_1ad78c3c435d56d01097fc1bb037741a15`
+
+- :ref:`exhale_define_Shell_8hpp_1a3e1cfef60e774a81f30eaddf26a3a274`
+
+- :ref:`exhale_define_Shell_8hpp_1a19c0cb87244aa821b500877f34957ef0`
+
+- :ref:`exhale_define_Shell_8hpp_1a91c08131142117789b66aea679b4b791`
+
+- :ref:`exhale_define_Shell_8hpp_1a04786aa43d71f26e1dbec2c95bd9be17`
+
+- :ref:`exhale_define_Shell_8hpp_1ad8fa79f5d491cc01af302832785e90fe`
+
+- :ref:`exhale_define_Shell_8hpp_1aaa8305c4be45c2fb2ea50df76cf4a891`
+
+- :ref:`exhale_define_Shell_8hpp_1a2681dda1dbf161c98ee17cbecb63c407`
+
+- :ref:`exhale_define_Shell_8hpp_1a56e80ae972f043c0221ec0440fc2e545`
+
+- :ref:`exhale_define_Shell_8hpp_1ac79bfe9ad36265cdd6113c9e8cc1e721`
+
+- :ref:`exhale_define_Shell_8hpp_1a09b0ff9e6719b11399ebfa571d397a04`
+
+- :ref:`exhale_define_Shell_8hpp_1a48ad3d18db10a7b1163daf78a771d09b`
+
+- :ref:`exhale_define_Shell_8hpp_1a843644b6944ebdacc726c65bae9e6a47`
+
+- :ref:`exhale_define_Shell_8hpp_1af534f9fdbade10fe33a8ff1306df9bb3`
+
+- :ref:`exhale_define_Shell_8hpp_1ab6d61c1f18bf6ed38b7fb4ddfd7f1e0c`
+
+- :ref:`exhale_define_Shell_8hpp_1a92bdfb028cbcf7f3afb0c0646f75bd51`
+
+- :ref:`exhale_define_Shell_8hpp_1abcb0a34de8de43445302cd6f6020f70c`
+
+- :ref:`exhale_define_Shell_8hpp_1ae7a6c4c3aec9ac73be795ac0d73e6d94`
+
+- :ref:`exhale_define_Shell_8hpp_1a64bb32929e2c1f2ed5521a27e775327e`
+
+- :ref:`exhale_define_Shell_8hpp_1af31afc4635b0b235213f28a25a6f835d`
+
+- :ref:`exhale_define_Shell_8hpp_1ad806857dd4180fd7565c2eafa880d321`
+
+- :ref:`exhale_define_Shell_8hpp_1a20c162ab9de1aa85370fb133cba0579e`
+
+- :ref:`exhale_define_Shell_8hpp_1a5702785c3eb3387382fbd7eb43117fce`
+
+- :ref:`exhale_define_Shell_8hpp_1ac585af859ccda9322e72f60771c1d1dc`
+
+- :ref:`exhale_define_Shell_8hpp_1a3d517aca774bffcb0d6fd972b80d513f`
+
+- :ref:`exhale_define_Shell_8hpp_1a36fe72c5d7f2bf84d9e7d943d19ef7d6`
+
+- :ref:`exhale_define_Shell_8hpp_1a5b870ba9f143d10f76df4fa5aa01d58f`
+
+- :ref:`exhale_define_Shell_8hpp_1ae321c9985531a9ad6a47563f7e4b4138`
+
+- :ref:`exhale_define_Shell_8hpp_1a052944f0e69b65f45c7d49b536767dc5`
+
+- :ref:`exhale_define_Shell_8hpp_1afaad3794e9cb3251df0d40539b9dc6e5`
+
+- :ref:`exhale_define_Shell_8hpp_1ad2b1c4d429bc04b230a5ae3b92de1072`
+
+- :ref:`exhale_define_Shell_8hpp_1ac212500721eca613c1392b80cd53a628`
+
+- :ref:`exhale_define_Shell_8hpp_1a41e480fb5a72e204ecc5f9f080924f28`
+
+- :ref:`exhale_define_Shell_8hpp_1a3b3635e6b1fbfa04d7b55a64045c897f`
+
+- :ref:`exhale_define_Shell_8hpp_1a6629245df2819e43dee8487949dadf06`
+
+- :ref:`exhale_define_Shell_8hpp_1aa76e8c21bb31b09beb7a921e4fbe3587`
+
+- :ref:`exhale_define_Shell_8hpp_1a7921a0c4f152a7879e78fe6fc2905590`
+
+- :ref:`exhale_define_Shell_8hpp_1aa6aff91a0f44a6a39d7cc74045775c72`
+
+- :ref:`exhale_define_Shell_8hpp_1a1199384b845a427ff2b5eac0d7ce49ee`
+
+- :ref:`exhale_define_Shell_8hpp_1a5d3d9fcb1ddddea44f3de9108102fdd9`
+
+- :ref:`exhale_define_Shell_8hpp_1ac2632bd3818a98d6c361bdee9bdbffb4`
+
+- :ref:`exhale_define_Shell_8hpp_1aea5d12dfaa5afd67fda54598b27d16ad`
+
+- :ref:`exhale_define_Shell_8hpp_1a90ab7c47dd5332b46f916b8976c5a242`
+
+- :ref:`exhale_define_Shell_8hpp_1aed7b4f43223fd21beb01a1361238ed3e`
+
+- :ref:`exhale_define_Shell_8hpp_1a89f9c9b5834b5c02a32065fb00a0dfa7`
+
+- :ref:`exhale_define_Shell_8hpp_1aed81a640e699a2839c5b6841ee06d261`
+
+- :ref:`exhale_define_Shell_8hpp_1a0a538c417fc2e78627fa3e4a15110b3f`
+
+- :ref:`exhale_define_Shell_8hpp_1aa7e62824635118f8293ec6f1b0ccacb8`
+
+- :ref:`exhale_define_Shell_8hpp_1a4641fd69af5d3365e8a1420f83c4453a`
+
+- :ref:`exhale_define_Shell_8hpp_1a13a6dd463439a53bd882a77f86550b1c`
+
+- :ref:`exhale_define_Shell_8hpp_1ada21cc2c59c94d280ec1552b2f2646c1`
+
+- :ref:`exhale_define_Shell_8hpp_1a076de7a9490a8ad749b45cef17d64d43`
+
+- :ref:`exhale_define_Shell_8hpp_1ade1dda09c948fee9ceb853bc6dd5f3cb`
+
+- :ref:`exhale_define_Shell_8hpp_1a15c8b2f5a92a6329bf719b5165c95d1d`
+
+- :ref:`exhale_define_Shell_8hpp_1af9975aa9eed001ff2a87ec5d633f3721`
+
+- :ref:`exhale_define_Shell_8hpp_1acc15b778468d011be96bd6631c8152ef`
+
+- :ref:`exhale_define_Shell_8hpp_1a857ff1670e4c8fb684fd293480d8fd0f`
+
+- :ref:`exhale_define_Shell_8hpp_1a2a0b026aed3349a3113a2dbd86c2cc6a`
+
+- :ref:`exhale_define_Shell_8hpp_1a1479c2dae511e359f2ae9c5fcb7e969c`
+
+- :ref:`exhale_define_Shell_8hpp_1a0dda628b0d509ffbfcf08ee2d5ed2dfe`
+
+- :ref:`exhale_define_Shell_8hpp_1a907ae4c401b330777fe4f06ab472838b`
+
+- :ref:`exhale_define_Shell_8hpp_1a35a7e0d50801b565cb1e0f59e4e824f5`
+
+- :ref:`exhale_define_Shell_8hpp_1a1730c27feceb6732d0bf7bca4d0a123c`
+
+- :ref:`exhale_define_Shell_8hpp_1a41c22ac4bec7f0495e4235320c2ba794`
+
+- :ref:`exhale_define_Shell_8hpp_1a92fefe9fbcf31bbbc42e13775573dad7`
+

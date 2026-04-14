@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1aed7b4f43223fd21beb01a1361238ed3e:
+
+Define POINTERS_EQUAL_LOCATION
+==============================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: POINTERS_EQUAL_LOCATION
+   :project: mutiny

@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1aa6aff91a0f44a6a39d7cc74045775c72:
+
+Define LONGS_EQUAL_LOCATION
+===========================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: LONGS_EQUAL_LOCATION
+   :project: mutiny

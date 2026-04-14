@@ -1,0 +1,14 @@
+.. _exhale_define_test_8h_1a7972b37cb2ef9ead74f88d07aaece430:
+
+Define FAIL_TEXT
+================
+
+- Defined in :ref:`file_include_mutiny_test.h`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: FAIL_TEXT
+   :project: mutiny

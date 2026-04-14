@@ -1,0 +1,84 @@
+
+.. _file_include_mutiny_test.hpp:
+
+File test.hpp
+=============
+
+|exhale_lsh| :ref:`Parent directory <dir_include_mutiny>` (``include/mutiny``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Primary test-definition header for mutiny. 
+
+
+Definition (``include/mutiny/test.hpp``)
+----------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+Include this header in every C++ test file. It provides the macros needed to declare test groups and individual tests: :ref:`exhale_define_test_8hpp_1a109b3c7ca51a87da0abc0a229663d7fd`, :ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`, :ref:`exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f`, :ref:`exhale_define_test_8h_1a131c35b131f7ee5d66b668eb151a63fe`, and the C-interop wrappers. Assertion macros are provided by :ref:`file_include_mutiny_test_Shell.hpp`, which this header includes transitively. 
+
+
+
+
+Includes
+--------
+
+
+- ``mutiny/test/ExpectFailShell.hpp`` (:ref:`file_include_mutiny_test_ExpectFailShell.hpp`)
+
+- ``mutiny/test/Failure.hpp`` (:ref:`file_include_mutiny_test_Failure.hpp`)
+
+- ``mutiny/test/IgnoredShell.hpp`` (:ref:`file_include_mutiny_test_IgnoredShell.hpp`)
+
+- ``mutiny/test/Installer.hpp`` (:ref:`file_include_mutiny_test_Installer.hpp`)
+
+- ``mutiny/test/Plugin.hpp`` (:ref:`file_include_mutiny_test_Plugin.hpp`)
+
+- ``mutiny/test/Result.hpp`` (:ref:`file_include_mutiny_test_Result.hpp`)
+
+- ``mutiny/test/SetPointerPlugin.hpp`` (:ref:`file_include_mutiny_test_SetPointerPlugin.hpp`)
+
+- ``mutiny/test/Shell.hpp`` (:ref:`file_include_mutiny_test_Shell.hpp`)
+
+- ``mutiny/test/ShellPointerArray.hpp`` (:ref:`file_include_mutiny_test_ShellPointerArray.hpp`)
+
+- ``mutiny/test/Test.hpp`` (:ref:`file_include_mutiny_test_Test.hpp`)
+
+
+
+
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_test_8hpp_1a2e2134db07d93189c32a7a322b54e910`
+
+- :ref:`exhale_define_test_8hpp_1a04a2464e13e00bbae7103de543b81527`
+
+- :ref:`exhale_define_test_8hpp_1aa11fb982f62c73d1fd75103b428c3213`
+
+- :ref:`exhale_define_test_8hpp_1a2876dd239ec50f387be38924f8cc901b`
+
+- :ref:`exhale_define_test_8hpp_1a13fb650bc56807117ccc8c53d4c957c9`
+
+- :ref:`exhale_define_test_8hpp_1a6c0c65b643024b9ee58fdc07f8fbe979`
+
+- :ref:`exhale_define_test_8hpp_1a109b3c7ca51a87da0abc0a229663d7fd`
+
+- :ref:`exhale_define_test_8hpp_1aeedf9322212e16ddaabc340404703745`
+
+- :ref:`exhale_define_test_8hpp_1aead14428ba6b29b394a23d4d45184b3d`
+
+- :ref:`exhale_define_test_8hpp_1a8327a4ff88f515110c861ff51be3aa4f`
+
+- :ref:`exhale_define_test_8hpp_1ab520808816db65b3eab94c6d3e54e26c`
+
