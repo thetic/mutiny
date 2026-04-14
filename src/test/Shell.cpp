@@ -521,7 +521,6 @@ void Shell::assert_pointers_equal(
   }
 }
 
-
 void Shell::assert_binary_equal(
     const void* expected,
     const void* actual,

@@ -261,7 +261,6 @@ EqualsFailure::EqualsFailure(
   message_ += create_but_was_string(expected, actual);
 }
 
-
 CheckEqualFailure::CheckEqualFailure(
     Shell* test,
     const char* file_name,

@@ -264,7 +264,9 @@ public:
   )
   {
     add_failure(
-        ApproxEqualFailure<T>(this, file_name, line_number, expected, actual, threshold, text)
+        ApproxEqualFailure<T>(
+            this, file_name, line_number, expected, actual, threshold, text
+        )
     );
     test_terminator.exit_current_test();
   }
@@ -567,7 +569,9 @@ void check_approx(
 )
 {
   if (!approx_equal(expected, actual, threshold)) {
-    Shell::get_current()->assert_approx_equal(expected, actual, threshold, text, file, line);
+    Shell::get_current()->assert_approx_equal(
+        expected, actual, threshold, text, file, line
+    );
   } else {
     Shell::get_current()->count_check();
   }

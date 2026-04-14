@@ -217,7 +217,8 @@ public:
     : Failure(test, file_name, line_number)
   {
     message_ = create_user_text(text);
-    message_ += create_but_was_string(string_from(expected), string_from(actual));
+    message_ +=
+        create_but_was_string(string_from(expected), string_from(actual));
     message_ += " threshold used was <";
     message_ += string_from(threshold);
     message_ += ">";

@@ -380,7 +380,7 @@ TEST(Failure, StringsEqualNoCaseFailure2)
 
 TEST(Failure, DoublesEqualNormalWithText)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, "text"
   );
   FAILURE_EQUAL(
@@ -393,7 +393,7 @@ TEST(Failure, DoublesEqualNormalWithText)
 
 TEST(Failure, DoublesEqualNormal)
 {
-  mu::tiny::test::ApproxEqualFailure f(
+  mu::tiny::test::ApproxEqualFailure<double> f(
       test, fail_file_name, fail_line_number, 1.0, 2.0, 3.0, ""
   );
   FAILURE_EQUAL(
