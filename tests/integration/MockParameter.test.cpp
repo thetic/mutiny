@@ -730,9 +730,9 @@ TEST(MockParameter, outputAndIntParametersOfSameNameInDifferentFunctionCallsOfSa
   mock().expect_one_call("foo").with_output_parameter_returning(
       "bar", &retval, sizeof(retval)
   );
-  mock().expect_one_call("foo").with_int_parameter("bar", 25);
+  mock().expect_one_call("foo").with_parameter("bar", 25);
   mock().actual_call("foo").with_output_parameter("bar", &param);
-  mock().actual_call("foo").with_int_parameter("bar", 25);
+  mock().actual_call("foo").with_parameter("bar", 25);
 
   CHECK_EQUAL(2, retval);
   CHECK_EQUAL(2, param);
@@ -770,9 +770,9 @@ TEST(MockParameter, twoOutputParametersOfSameNameInDifferentFunctionsSucceeds)
   mock().expect_one_call("foo1").with_output_parameter_returning(
       "bar", &retval, sizeof(retval)
   );
-  mock().expect_one_call("foo2").with_int_parameter("bar", 25);
+  mock().expect_one_call("foo2").with_parameter("bar", 25);
   mock().actual_call("foo1").with_output_parameter("bar", &param);
-  mock().actual_call("foo2").with_int_parameter("bar", 25);
+  mock().actual_call("foo2").with_parameter("bar", 25);
 
   CHECK_EQUAL(2, retval);
   CHECK_EQUAL(2, param);

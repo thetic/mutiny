@@ -122,137 +122,70 @@ public:
    */
   virtual NamedValue return_value();
 
-  /** @return The bool return value configured for the current call. */
-  virtual bool bool_return_value();
+  /**
+   * @brief Type-safe return-value accessor template.
+   *
+   * @tparam T  The type to retrieve.
+   * @return The stored return value converted to @p T.
+   */
+  template <typename T>
+  T return_value()
+  {
+    return return_value().get_value<T>();
+  }
 
   /**
-   * @return The bool return value if one was configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
+   * @brief Type-safe return-value accessor with a fallback default.
+   *
+   * @tparam T  The type to retrieve.
+   * @param default_value  Value returned when no return value was configured.
+   * @return The stored return value or @p default_value.
    */
-  virtual bool return_bool_value_or_default(bool default_value);
+  template <typename T>
+  T return_value_or_default(T default_value)
+  {
+    if (has_return_value())
+      return return_value().get_value<T>();
+    return default_value;
+  }
 
-  /** @return The int return value configured for the current call. */
-  virtual int int_return_value();
+  // -- Backward-compatible return-value accessors ---------------------------
 
-  /**
-   * @return The int return value if one was configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual int return_int_value_or_default(int default_value);
+  bool bool_return_value() { return return_value<bool>(); }
+  bool return_bool_value_or_default(bool d) { return return_value_or_default(d); }
 
-  /** @return The unsigned int return value configured for the current call. */
-  virtual unsigned int unsigned_int_return_value();
+  int int_return_value() { return return_value<int>(); }
+  int return_int_value_or_default(int d) { return return_value_or_default(d); }
 
-  /** @return The long int return value configured for the current call. */
-  virtual long int long_int_return_value();
+  unsigned int unsigned_int_return_value() { return return_value<unsigned int>(); }
+  unsigned int return_unsigned_int_value_or_default(unsigned int d) { return return_value_or_default(d); }
 
-  /**
-   * @return The long int return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual long int return_long_int_value_or_default(long int default_value);
+  long int long_int_return_value() { return return_value<long int>(); }
+  long int return_long_int_value_or_default(long int d) { return return_value_or_default(d); }
 
-  /** @return The unsigned long int return value configured for the current
-   * call. */
-  virtual unsigned long int unsigned_long_int_return_value();
+  unsigned long int unsigned_long_int_return_value() { return return_value<unsigned long int>(); }
+  unsigned long int return_unsigned_long_int_value_or_default(unsigned long int d) { return return_value_or_default(d); }
 
-  /**
-   * @return The unsigned long int return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int default_value
-  );
+  long long long_long_int_return_value() { return return_value<long long>(); }
+  long long return_long_long_int_value_or_default(long long d) { return return_value_or_default(d); }
 
-  /** @return The long long int return value configured for the current call. */
-  virtual long long long_long_int_return_value();
+  unsigned long long unsigned_long_long_int_return_value() { return return_value<unsigned long long>(); }
+  unsigned long long return_unsigned_long_long_int_value_or_default(unsigned long long d) { return return_value_or_default(d); }
 
-  /**
-   * @return The long long int return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual long long return_long_long_int_value_or_default(
-      long long default_value
-  );
+  const char* string_return_value() { return return_value<const char*>(); }
+  const char* return_string_value_or_default(const char* d) { return return_value_or_default(d); }
 
-  /** @return The unsigned long long int return value for the current call. */
-  virtual unsigned long long unsigned_long_long_int_return_value();
+  double double_return_value() { return return_value<double>(); }
+  double return_double_value_or_default(double d) { return return_value_or_default(d); }
 
-  /**
-   * @return The unsigned long long return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value
-  );
+  void* pointer_return_value() { return return_value<void*>(); }
+  void* return_pointer_value_or_default(void* d) { return return_value_or_default(d); }
 
-  /**
-   * @return The unsigned int return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value
-  );
+  const void* const_pointer_return_value() { return return_value<const void*>(); }
+  const void* return_const_pointer_value_or_default(const void* d) { return return_value_or_default(d); }
 
-  /** @return The const char* return value configured for the current call. */
-  virtual const char* string_return_value();
-
-  /**
-   * @return The string return value if configured, otherwise @p default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual const char* return_string_value_or_default(const char* default_value);
-
-  /**
-   * @return The double return value if configured, otherwise @p default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual double return_double_value_or_default(double default_value);
-
-  /** @return The double return value configured for the current call. */
-  virtual double double_return_value();
-
-  /** @return The void* return value configured for the current call. */
-  virtual void* pointer_return_value();
-
-  /**
-   * @return The pointer return value if configured, otherwise @p default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual void* return_pointer_value_or_default(void* default_value);
-
-  /**
-   * @return The const void* return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual const void* return_const_pointer_value_or_default(
-      const void* default_value
-  );
-
-  /** @return The const void* return value configured for the current call. */
-  virtual const void* const_pointer_return_value();
-
-  /**
-   * @return The function-pointer return value if configured, otherwise @p
-   * default_value.
-   * @param default_value  Fallback when no return value was set.
-   */
-  virtual FunctionPointerValue return_function_pointer_value_or_default(
-      FunctionPointerValue default_value
-  );
-
-  /**
-   * @return The function-pointer return value configured for the current call.
-   */
-  virtual FunctionPointerValue function_pointer_return_value();
+  FunctionPointerValue function_pointer_return_value() { return return_value<FunctionPointerValue>(); }
+  FunctionPointerValue return_function_pointer_value_or_default(FunctionPointerValue d) { return return_value_or_default(d); }
 
   /**
    * @brief Check whether named data exists in this scope.
@@ -325,6 +258,20 @@ public:
    * @param value Value.
    */
   void set_data(const String& name, const void* value);
+
+  /**
+   * @brief Store a long long value.
+   * @param name Key.
+   * @param value Value.
+   */
+  void set_data(const String& name, long long value);
+
+  /**
+   * @brief Store an unsigned long long value.
+   * @param name Key.
+   * @param value Value.
+   */
+  void set_data(const String& name, unsigned long long value);
 
   /**
    * @brief Store a function pointer value.

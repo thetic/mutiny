@@ -70,159 +70,11 @@ ExpectedCall& CheckedExpectedCall::with_name(const String& name)
   return *this;
 }
 
-ExpectedCall& CheckedExpectedCall::with_bool_parameter(
-    const String& name,
-    bool value
-)
+ExpectedCall& CheckedExpectedCall::with_typed_parameter(NamedValue parameter)
 {
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
+  auto* new_parameter =
+      new MockExpectedFunctionParameter(static_cast<NamedValue&&>(parameter));
   input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_unsigned_int_parameter(
-    const String& name,
-    unsigned int value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_int_parameter(
-    const String& name,
-    int value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_long_int_parameter(
-    const String& name,
-    long int value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_unsigned_long_int_parameter(
-    const String& name,
-    unsigned long int value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_long_long_int_parameter(
-    const String& name,
-    long long value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_unsigned_long_long_int_parameter(
-    const String& name,
-    unsigned long long value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_double_parameter(
-    const String& name,
-    double value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_double_parameter(
-    const String& name,
-    double value,
-    double tolerance
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value, tolerance);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_string_parameter(
-    const String& name,
-    const char* value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_pointer_parameter(
-    const String& name,
-    void* value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_const_pointer_parameter(
-    const String& name,
-    const void* value
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_function_pointer_parameter(
-    const String& name,
-    void (*value)()
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::with_memory_buffer_parameter(
-    const String& name,
-    const unsigned char* value,
-    size_t size
-)
-{
-  NamedValue* new_parameter = new MockExpectedFunctionParameter(name);
-  input_parameters_->add(new_parameter);
-  new_parameter->set_memory_buffer(value, size);
   return *this;
 }
 
@@ -526,6 +378,13 @@ CheckedExpectedCall::MockExpectedFunctionParameter::
 {
 }
 
+CheckedExpectedCall::MockExpectedFunctionParameter::
+    MockExpectedFunctionParameter(NamedValue&& nv)
+  : NamedValue(static_cast<NamedValue&&>(nv))
+
+{
+}
+
 void CheckedExpectedCall::MockExpectedFunctionParameter::
     set_matches_actual_call(bool b)
 {
@@ -538,87 +397,9 @@ bool CheckedExpectedCall::MockExpectedFunctionParameter::
   return matches_actual_call_;
 }
 
-ExpectedCall& CheckedExpectedCall::and_return_value(bool value)
+ExpectedCall& CheckedExpectedCall::and_return_typed_value(NamedValue value)
 {
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(unsigned int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(long int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(unsigned long int value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(long long value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(unsigned long long value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(const char* value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(double value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(void* value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(const void* value)
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
-  return *this;
-}
-
-ExpectedCall& CheckedExpectedCall::and_return_value(void (*value)())
-{
-  return_value_.set_name("returnValue");
-  return_value_.set_value(value);
+  return_value_ = static_cast<NamedValue&&>(value);
   return *this;
 }
 

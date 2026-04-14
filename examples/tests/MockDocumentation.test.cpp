@@ -4,6 +4,8 @@
 #include "mutiny/test.h"
 #include "mutiny/test.hpp"
 
+#include <stdint.h>
+
 TEST_GROUP_C_WRAPPER(MockDocumentation_C)
 {};
 
@@ -142,6 +144,25 @@ TEST(MockDocumentation, otherMockSupport)
   mu::tiny::mock::mock().enable();
 
   mu::tiny::mock::mock().clear();
+}
+
+namespace {
+uint32_t read_register(uint32_t addr)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("read_register")
+      .with_parameter("addr", addr)
+      .return_value<uint32_t>();
+}
+} // namespace
+
+TEST(MockDocumentation, fixedWidthTypes)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("read_register")
+      .with_parameter("addr", static_cast<uint32_t>(0x40000000))
+      .and_return_value(static_cast<uint32_t>(0xDEADBEEF));
+  CHECK_EQUAL(0xDEADBEEF, read_register(0x40000000));
 }
 
 TEST(MockDocumentation, scope)

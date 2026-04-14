@@ -172,9 +172,9 @@ TEST(Support, ignoredCallAcceptsAllParameterTypes)
   mock().ignore_other_calls();
   mock()
       .actual_call("anything")
-      .with_string_parameter("s", "hello")
-      .with_pointer_parameter("p", &obj)
-      .with_memory_buffer_parameter("buf", buf, sizeof(buf))
+      .with_parameter("s", "hello")
+      .with_parameter("p", &obj)
+      .with_parameter("buf", buf, sizeof(buf))
       .with_parameter_of_type("MyType", "t", &obj)
       .on_object(&obj);
 }

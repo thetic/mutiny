@@ -197,16 +197,16 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   actual.with_call_order(1);
   actual.on_object(&value);
 
-  actual.with_bool_parameter("bool", true);
-  actual.with_unsigned_int_parameter("unsigned_int", 1U);
-  actual.with_unsigned_long_int_parameter("unsigned_long", 1UL);
-  actual.with_long_int_parameter("long_int", 1L);
-  actual.with_long_long_int_parameter("long_long_int", 1LL);
-  actual.with_unsigned_long_long_int_parameter("unsigned_long_long_int", 1ULL);
-  actual.with_pointer_parameter("pointer", &value);
-  actual.with_const_pointer_parameter("const_pointer", &const_value);
-  actual.with_function_pointer_parameter("function_pointer", function_value);
-  actual.with_memory_buffer_parameter(
+  actual.with_parameter("bool", true);
+  actual.with_parameter("unsigned_int", 1U);
+  actual.with_parameter("unsigned_long", 1UL);
+  actual.with_parameter("long_int", 1L);
+  actual.with_parameter("long_long_int", 1LL);
+  actual.with_parameter("unsigned_long_long_int", 1ULL);
+  actual.with_parameter("pointer", &value);
+  actual.with_parameter("const_pointer", &const_value);
+  actual.with_parameter("function_pointer", function_value);
+  actual.with_parameter(
       "mem_buffer", mem_buffer, sizeof(mem_buffer)
   );
   actual.with_parameter_of_type("int", "named_type", &const_value);
@@ -235,23 +235,23 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   CHECK(!actual.has_return_value());
   CHECK(actual.return_value().equals(mu::tiny::mock::NamedValue("")));
   CHECK(false == actual.return_bool_value());
-  CHECK(false == actual.return_bool_value_or_default(true));
+  CHECK(true == actual.return_bool_value_or_default(true));
   CHECK(0 == actual.return_long_int_value());
   CHECK(0 == actual.return_unsigned_long_int_value());
   CHECK(0 == actual.return_int_value());
-  CHECK(0 == actual.return_unsigned_long_int_value_or_default(1ul));
-  CHECK(0 == actual.return_int_value_or_default(1));
+  CHECK(1ul == actual.return_unsigned_long_int_value_or_default(1ul));
+  CHECK(1 == actual.return_int_value_or_default(1));
   CHECK(0 == actual.return_long_int_value());
-  CHECK(0 == actual.return_long_int_value_or_default(1l));
+  CHECK(1l == actual.return_long_int_value_or_default(1l));
   CHECK(0 == actual.return_long_long_int_value());
-  CHECK(0 == actual.return_long_long_int_value_or_default(1ll));
+  CHECK(1ll == actual.return_long_long_int_value_or_default(1ll));
   CHECK(0 == actual.return_unsigned_long_long_int_value());
-  CHECK(0 == actual.return_unsigned_long_long_int_value_or_default(1ull));
+  CHECK(1ull == actual.return_unsigned_long_long_int_value_or_default(1ull));
   CHECK(0 == actual.return_unsigned_int_value());
-  CHECK(0 == actual.return_unsigned_int_value_or_default(1u));
+  CHECK(1u == actual.return_unsigned_int_value_or_default(1u));
   CHECK_APPROX(0.0, actual.return_double_value(), 0.0);
-  CHECK_APPROX(0.0, actual.return_double_value_or_default(1.0), 0.0);
-  STRCMP_EQUAL("", actual.return_string_value_or_default("bla"));
+  CHECK_APPROX(1.0, actual.return_double_value_or_default(1.0), 0.0);
+  STRCMP_EQUAL("bla", actual.return_string_value_or_default("bla"));
   STRCMP_EQUAL("", actual.return_string_value());
   CHECK(nullptr == actual.return_pointer_value());
   CHECK(
@@ -289,7 +289,7 @@ TEST(CheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
   const unsigned char buf[] = { 0x01, 0x02 };
   mu::tiny::String name("mem");
   mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
-  actual_call.with_name("func").with_memory_buffer_parameter(
+  actual_call.with_name("func").with_parameter(
       name, buf, sizeof(buf)
   );
 

@@ -47,6 +47,7 @@ public:
   NamedValue(const String& name);
   NamedValue(const NamedValue&) = default;
   NamedValue(NamedValue&&) noexcept;
+  NamedValue& operator=(NamedValue&&) noexcept = default;
   virtual ~NamedValue() = default;
 
   /** @brief Store a bool. @param value Value to store. */
@@ -194,6 +195,21 @@ public:
   virtual size_t get_size() const;
 
   /**
+   * @brief Type-safe value accessor template.
+   *
+   * Explicit specializations are provided for every fundamental type and
+   * pointer type supported by the mock framework.  Because fixed-width
+   * types from @c \<stdint.h\> are typedefs for fundamental types, writing
+   * @code get_value<int32_t>() @endcode automatically dispatches to the
+   * correct specialization on every platform.
+   *
+   * @tparam T  The type to retrieve.
+   * @return The stored value converted to @p T.
+   */
+  template <typename T>
+  T get_value() const;
+
+  /**
    * @return The comparator installed for this value's type, or nullptr if
    *         none was installed (native types do not need one).
    */
@@ -256,6 +272,26 @@ private:
   NamedValueCopier* copier_{ nullptr };
   static NamedValueComparatorsAndCopiersRepository* default_repository_;
 };
+
+// clang-format off
+template <> inline bool NamedValue::get_value<bool>() const { return get_bool_value(); }
+template <> inline char NamedValue::get_value<char>() const { return static_cast<char>(get_int_value()); }
+template <> inline signed char NamedValue::get_value<signed char>() const { return static_cast<signed char>(get_int_value()); }
+template <> inline unsigned char NamedValue::get_value<unsigned char>() const { return static_cast<unsigned char>(get_int_value()); }
+template <> inline short NamedValue::get_value<short>() const { return static_cast<short>(get_int_value()); }
+template <> inline unsigned short NamedValue::get_value<unsigned short>() const { return static_cast<unsigned short>(get_int_value()); }
+template <> inline int NamedValue::get_value<int>() const { return get_int_value(); }
+template <> inline unsigned int NamedValue::get_value<unsigned int>() const { return get_unsigned_int_value(); }
+template <> inline long int NamedValue::get_value<long int>() const { return get_long_int_value(); }
+template <> inline unsigned long int NamedValue::get_value<unsigned long int>() const { return get_unsigned_long_int_value(); }
+template <> inline long long NamedValue::get_value<long long>() const { return get_long_long_int_value(); }
+template <> inline unsigned long long NamedValue::get_value<unsigned long long>() const { return get_unsigned_long_long_int_value(); }
+template <> inline double NamedValue::get_value<double>() const { return get_double_value(); }
+template <> inline const char* NamedValue::get_value<const char*>() const { return get_string_value(); }
+template <> inline void* NamedValue::get_value<void*>() const { return get_pointer_value(); }
+template <> inline const void* NamedValue::get_value<const void*>() const { return get_const_pointer_value(); }
+template <> inline NamedValue::FunctionPointerValue NamedValue::get_value<NamedValue::FunctionPointerValue>() const { return get_function_pointer_value(); }
+// clang-format on
 
 } // namespace mock
 } // namespace tiny
