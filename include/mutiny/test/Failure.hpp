@@ -186,16 +186,22 @@ public:
 /**
  * @brief Failure for @ref CHECK_APPROX when two values differ by more than
  * the threshold.
+ *
+ * @tparam T  Numeric type of the values (@c int, @c float, @c double, etc.).
+ *            Values are formatted via @ref mu::tiny::string_from() and NaN is
+ *            detected with the IEEE 754 self-comparison trick (@c v!=v), the
+ *            same approach used by @ref mu::tiny::test::approx_equal.
  */
-class MUTINY_EXPORT ApproxEqualFailure : public Failure
+template<typename T>
+class ApproxEqualFailure : public Failure
 {
 public:
   /**
    * @param test         The failing test.
    * @param file_name    Source file of the assertion.
    * @param line_number  Line of the assertion.
-   * @param expected     Expected double value.
-   * @param actual       Actual double value.
+   * @param expected     Expected value.
+   * @param actual       Actual value.
    * @param threshold    Allowed tolerance.
    * @param text         Optional user text.
    */
@@ -203,11 +209,23 @@ public:
       Shell* test,
       const char* file_name,
       size_t line_number,
-      double expected,
-      double actual,
-      double threshold,
+      T expected,
+      T actual,
+      T threshold,
       const String& text
-  );
+  )
+    : Failure(test, file_name, line_number)
+  {
+    message_ = create_user_text(text);
+    message_ +=
+        create_but_was_string(string_from(expected), string_from(actual));
+    message_ += " threshold used was <";
+    message_ += string_from(threshold);
+    message_ += ">";
+    // v != v is true iff v is NaN (IEEE 754); always false for integral T
+    if (expected != expected || actual != actual || threshold != threshold)
+      message_ += "\n\tCannot make comparisons with Nan";
+  }
 };
 
 /**

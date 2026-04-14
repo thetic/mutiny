@@ -4,7 +4,6 @@
 #include "mutiny/test/Shell.hpp"
 
 #include "mutiny/String.hpp"
-#include "mutiny/math.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <typeinfo>
@@ -260,29 +259,6 @@ EqualsFailure::EqualsFailure(
   message_ = create_user_text(text);
 
   message_ += create_but_was_string(expected, actual);
-}
-
-ApproxEqualFailure::ApproxEqualFailure(
-    Shell* test,
-    const char* file_name,
-    size_t line_number,
-    double expected,
-    double actual,
-    double threshold,
-    const String& text
-)
-  : Failure(test, file_name, line_number)
-{
-  message_ = create_user_text(text);
-
-  message_ +=
-      create_but_was_string(string_from(expected, 7), string_from(actual, 7));
-  message_ += " threshold used was <";
-  message_ += string_from(threshold, 7);
-  message_ += ">";
-
-  if (is_nan(expected) || is_nan(actual) || is_nan(threshold))
-    message_ += "\n\tCannot make comparisons with Nan";
 }
 
 CheckEqualFailure::CheckEqualFailure(

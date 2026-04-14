@@ -11,6 +11,7 @@
 #ifndef INCLUDED_MUTINY_TEST_SHELL_HPP
 #define INCLUDED_MUTINY_TEST_SHELL_HPP
 
+#include "mutiny/test/Failure.hpp"
 #include "mutiny/test/Terminator.hpp"
 
 #include "mutiny/String.hpp"
@@ -246,16 +247,29 @@ public:
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
-  /** @brief Macro backend: assert two doubles are equal within @p threshold. */
-  virtual void assert_approx_equal(
-      double expected,
-      double actual,
-      double threshold,
+  /**
+   * @brief Macro backend: assert two values are equal within @p threshold.
+   *
+   * @tparam T  Numeric type; must have a @ref mu::tiny::string_from() overload.
+   */
+  template<typename T>
+  void assert_approx_equal(
+      T expected,
+      T actual,
+      T threshold,
       const char* text,
       const char* file_name,
       size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
-  );
+  )
+  {
+    add_failure(
+        ApproxEqualFailure<T>(
+            this, file_name, line_number, expected, actual, threshold, text
+        )
+    );
+    test_terminator.exit_current_test();
+  }
   /** @brief Macro backend: generic equality failure with pre-formatted strings.
    */
   virtual void assert_equals(

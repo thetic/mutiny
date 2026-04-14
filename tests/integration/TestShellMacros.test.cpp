@@ -139,6 +139,12 @@ void failing_test_method_with_check_equal_function_pointer_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
+void failing_test_method_with_check_equal_float()
+{
+  CHECK_EQUAL(1.5f, 2.5f);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
 void failing_test_method_with_check_approx()
 {
   CHECK_APPROX(0.12, 44.1, 0.3);
@@ -160,6 +166,27 @@ void failing_test_method_with_check_approx_float()
 void failing_test_method_with_check_approx_int()
 {
   CHECK_APPROX(1000, 1020, 10);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
+// actual < expected: exercises the d2 - d1 branch in approx_equal
+void failing_test_method_with_check_approx_int_reversed()
+{
+  CHECK_APPROX(1020, 1000, 10);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
+// unsigned: actual < expected — guards against unsigned wrap-around
+void failing_test_method_with_check_approx_unsigned()
+{
+  CHECK_APPROX(5u, 3u, 1u);
+  mu::tiny::test::TestingFixture::line_executed_after_check();
+}
+
+// signed integers spanning zero
+void failing_test_method_with_check_approx_negative()
+{
+  CHECK_APPROX(-10, 10, 5);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -190,10 +217,13 @@ int function_that_returns_a_value()
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
   CHECK_COMPARE(1, <, 2);
+  CHECK_EQUAL(1.0f, 1.0f);
   CHECK_APPROX(1.0, 1.0, .01);
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
   CHECK_APPROX(1.0f, 1.0f, .01f);
   CHECK_APPROX(1000, 1000, 10);
+  CHECK_APPROX(1000, 1010, 10); // exactly at threshold — must pass
+  CHECK_APPROX(5u, 5u, 1u);     // unsigned pass
   CHECK_EQUAL(nullptr, nullptr);
   CHECK_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);
@@ -484,6 +514,13 @@ TEST(TestShellMacros, FailureWithCHECK_EQUAL_FunctionPointerText)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
+TEST(TestShellMacros, FailureWithCHECK_EQUAL_Float)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_equal_float);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1.5>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2.5>");
+}
+
 TEST(TestShellMacros, FailureWithCHECK_APPROX)
 {
   fixture.run_test_with_method(failing_test_method_with_check_approx);
@@ -515,6 +552,32 @@ TEST(TestShellMacros, FailureWithCHECK_APPROXInt)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1000>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <1020>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <10>");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_APPROXIntReversed)
+{
+  fixture.run_test_with_method(
+      failing_test_method_with_check_approx_int_reversed
+  );
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1020>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <1000>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <10>");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_APPROXUnsigned)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_approx_unsigned);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <5>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <3>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <1>");
+}
+
+TEST(TestShellMacros, FailureWithCHECK_APPROXNegative)
+{
+  fixture.run_test_with_method(failing_test_method_with_check_approx_negative);
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <-10>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <10>");
+  CHECK_TEST_FAILS_PROPER_WITH_TEXT("threshold used was <5>");
 }
 
 TEST(TestShellMacros, SuccessPrintsNothing)
