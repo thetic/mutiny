@@ -5,8 +5,9 @@
  * Each @ref TEST_GROUP() macro instantiates one GroupLocation at static
  * initialisation time, capturing the file path and line number of the group
  * declaration. The instances form a singly-linked list accessible through
- * @ref get_head(). Used by the command-line runner to implement the `-lgl`
- * listing mode, which lets the cmake discovery script supply accurate
+ * @ref mu::tiny::test::GroupLocation::get_head(). Used by the command-line
+ * runner to implement the `-lgl` listing mode, which lets the cmake discovery
+ * script supply accurate
  * @c DEF_SOURCE_LINE properties for group-level CTest entries.
  */
 
