@@ -13,7 +13,7 @@ int foo(const char* param_string, int param_int)
       .with_parameter("param_string", param_string)
       .with_parameter("param_int", param_int)
       .return_value()
-      .get_int_value();
+      .get_value<int>();
 }
 
 void bar(double param_double, const char* param_string)

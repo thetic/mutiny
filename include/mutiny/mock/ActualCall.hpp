@@ -33,6 +33,9 @@ class FailureReporter;
 class MUTINY_EXPORT ActualCall
 {
 public:
+  /** Function pointer return type alias for readability. */
+  using FunctionPointerReturnValue = void (*)();
+
   ActualCall() = default;
   virtual ~ActualCall() = default;
 
@@ -46,99 +49,23 @@ public:
   /**
    * @brief Report a parameter of any supported type.
    *
-   * Overloads for bool, int, unsigned int, long int, unsigned long int,
-   * long long, unsigned long long, double, const char*, void*, void(*)(),
-   * const void*, and (const unsigned char*, size_t) memory buffers are
-   * provided. Each creates a NamedValue and passes it to the single
-   * with_typed_parameter() virtual method.
+   * The template creates a NamedValue and passes it to the single
+   * with_typed_parameter() virtual method. Overload resolution for
+   * NamedValue::set_value() selects the correct storage type.
    *
+   * @tparam T     Parameter type (deduced).
    * @param name   Parameter name, must match the expectation.
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  ActualCall& with_parameter(const String& name, bool value)
+  template <typename T>
+  ActualCall& with_parameter(const String& name, T value)
   {
     NamedValue nv(name);
     nv.set_value(value);
     return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, int value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned int value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long int value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long int value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long long value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long long value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, double value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const char* value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void* value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void (*value)())
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const void* value)
-  {
-    NamedValue nv(name);
-    nv.set_value(value);
-    return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
+
   /**
    * @brief Report a memory buffer parameter.
    *
@@ -267,123 +194,6 @@ public:
     if (has_return_value())
       return return_value().get_value<T>();
     return default_value;
-  }
-
-  // -- Backward-compatible return-value accessors ---------------------------
-  // The no-argument variants return a zero/null/empty default when no return
-  // value was configured (matching the previous IgnoredActualCall behavior).
-
-  bool return_bool_value() { return return_value_or_default<bool>(false); }
-  bool return_bool_value_or_default(bool default_value)
-  {
-    return return_value_or_default<bool>(default_value);
-  }
-
-  int return_int_value() { return return_value_or_default<int>(0); }
-  int return_int_value_or_default(int default_value)
-  {
-    return return_value_or_default<int>(default_value);
-  }
-
-  unsigned int return_unsigned_int_value()
-  {
-    return return_value_or_default<unsigned int>(0);
-  }
-  unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value
-  )
-  {
-    return return_value_or_default<unsigned int>(default_value);
-  }
-
-  long int return_long_int_value() { return return_value_or_default<long int>(0); }
-  /** @return @p default_value when no return value was configured. */
-  long int return_long_int_value_or_default(long int default_value)
-  {
-    return return_value_or_default<long int>(default_value);
-  }
-
-  unsigned long int return_unsigned_long_int_value()
-  {
-    return return_value_or_default<unsigned long int>(0);
-  }
-  unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int default_value
-  )
-  {
-    return return_value_or_default<unsigned long int>(default_value);
-  }
-
-  long long return_long_long_int_value()
-  {
-    return return_value_or_default<long long>(0);
-  }
-  long long return_long_long_int_value_or_default(long long default_value)
-  {
-    return return_value_or_default<long long>(default_value);
-  }
-
-  unsigned long long return_unsigned_long_long_int_value()
-  {
-    return return_value_or_default<unsigned long long>(0);
-  }
-  unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value
-  )
-  {
-    return return_value_or_default<unsigned long long>(default_value);
-  }
-
-  const char* return_string_value()
-  {
-    return return_value_or_default<const char*>("");
-  }
-  const char* return_string_value_or_default(const char* default_value)
-  {
-    return return_value_or_default<const char*>(default_value);
-  }
-
-  double return_double_value()
-  {
-    return return_value_or_default<double>(0.0);
-  }
-  double return_double_value_or_default(double default_value)
-  {
-    return return_value_or_default<double>(default_value);
-  }
-
-  void* return_pointer_value()
-  {
-    return return_value_or_default<void*>(nullptr);
-  }
-  void* return_pointer_value_or_default(void* default_value)
-  {
-    return return_value_or_default<void*>(default_value);
-  }
-
-  const void* return_const_pointer_value()
-  {
-    return return_value_or_default<const void*>(nullptr);
-  }
-  const void* return_const_pointer_value_or_default(
-      const void* default_value
-  )
-  {
-    return return_value_or_default<const void*>(default_value);
-  }
-
-  /** Function pointer return type alias for readability. */
-  using FunctionPointerReturnValue = void (*)();
-
-  FunctionPointerReturnValue return_function_pointer_value()
-  {
-    return return_value_or_default<FunctionPointerReturnValue>(nullptr);
-  }
-  FunctionPointerReturnValue return_function_pointer_value_or_default(
-      void (*default_value)()
-  )
-  {
-    return return_value_or_default<FunctionPointerReturnValue>(default_value);
   }
 
   /**

@@ -174,41 +174,42 @@ String NamedValue::get_type() const
   return type_;
 }
 
-bool NamedValue::get_bool_value() const
+template <>
+bool NamedValue::get_value<bool>() const
 {
   STRCMP_EQUAL("bool", type_.c_str());
   return value_.bool_value;
 }
 
-unsigned int NamedValue::get_unsigned_int_value() const
-{
-  if (type_ == "int" && value_.int_value >= 0)
-    return static_cast<unsigned int>(value_.int_value);
-  else {
-    STRCMP_EQUAL("unsigned int", type_.c_str());
-    return value_.unsigned_int_value;
-  }
-}
-
-int NamedValue::get_int_value() const
+template <>
+int NamedValue::get_value<int>() const
 {
   STRCMP_EQUAL("int", type_.c_str());
   return value_.int_value;
 }
 
-long int NamedValue::get_long_int_value() const
+template <>
+unsigned int NamedValue::get_value<unsigned int>() const
+{
+  if (type_ == "int" && value_.int_value >= 0)
+    return static_cast<unsigned int>(value_.int_value);
+  STRCMP_EQUAL("unsigned int", type_.c_str());
+  return value_.unsigned_int_value;
+}
+
+template <>
+long int NamedValue::get_value<long int>() const
 {
   if (type_ == "int")
     return value_.int_value;
   else if (type_ == "unsigned int")
     return static_cast<long int>(value_.unsigned_int_value);
-  else {
-    STRCMP_EQUAL("long int", type_.c_str());
-    return value_.long_int_value;
-  }
+  STRCMP_EQUAL("long int", type_.c_str());
+  return value_.long_int_value;
 }
 
-unsigned long int NamedValue::get_unsigned_long_int_value() const
+template <>
+unsigned long int NamedValue::get_value<unsigned long int>() const
 {
   if (type_ == "unsigned int")
     return value_.unsigned_int_value;
@@ -216,13 +217,12 @@ unsigned long int NamedValue::get_unsigned_long_int_value() const
     return static_cast<unsigned long int>(value_.int_value);
   else if (type_ == "long int" && value_.long_int_value >= 0)
     return static_cast<unsigned long int>(value_.long_int_value);
-  else {
-    STRCMP_EQUAL("unsigned long int", type_.c_str());
-    return value_.unsigned_long_int_value;
-  }
+  STRCMP_EQUAL("unsigned long int", type_.c_str());
+  return value_.unsigned_long_int_value;
 }
 
-long long NamedValue::get_long_long_int_value() const
+template <>
+long long NamedValue::get_value<long long>() const
 {
   if (type_ == "int")
     return value_.int_value;
@@ -232,13 +232,12 @@ long long NamedValue::get_long_long_int_value() const
     return value_.long_int_value;
   else if (type_ == "unsigned long int")
     return static_cast<long long int>(value_.unsigned_long_int_value);
-  else {
-    STRCMP_EQUAL("long long int", type_.c_str());
-    return value_.long_long_int_value;
-  }
+  STRCMP_EQUAL("long long int", type_.c_str());
+  return value_.long_long_int_value;
 }
 
-unsigned long long NamedValue::get_unsigned_long_long_int_value() const
+template <>
+unsigned long long NamedValue::get_value<unsigned long long>() const
 {
   if (type_ == "unsigned int")
     return value_.unsigned_int_value;
@@ -250,13 +249,12 @@ unsigned long long NamedValue::get_unsigned_long_long_int_value() const
     return value_.unsigned_long_int_value;
   else if (type_ == "long long int" && value_.long_long_int_value >= 0)
     return static_cast<unsigned long long int>(value_.long_long_int_value);
-  else {
-    STRCMP_EQUAL("unsigned long long int", type_.c_str());
-    return value_.unsigned_long_long_int_value;
-  }
+  STRCMP_EQUAL("unsigned long long int", type_.c_str());
+  return value_.unsigned_long_long_int_value;
 }
 
-double NamedValue::get_double_value() const
+template <>
+double NamedValue::get_value<double>() const
 {
   STRCMP_EQUAL("double", type_.c_str());
   return value_.double_value.value;
@@ -268,25 +266,30 @@ double NamedValue::get_double_tolerance() const
   return value_.double_value.tolerance;
 }
 
-const char* NamedValue::get_string_value() const
+template <>
+const char* NamedValue::get_value<const char*>() const
 {
   STRCMP_EQUAL("const char*", type_.c_str());
   return value_.string_value;
 }
 
-void* NamedValue::get_pointer_value() const
+template <>
+void* NamedValue::get_value<void*>() const
 {
   STRCMP_EQUAL("void*", type_.c_str());
   return value_.pointer_value;
 }
 
-const void* NamedValue::get_const_pointer_value() const
+template <>
+const void* NamedValue::get_value<const void*>() const
 {
   STRCMP_EQUAL("const void*", type_.c_str());
   return value_.pointer_value;
 }
 
-NamedValue::FunctionPointerValue NamedValue::get_function_pointer_value() const
+template <>
+NamedValue::FunctionPointerValue
+NamedValue::get_value<NamedValue::FunctionPointerValue>() const
 {
   STRCMP_EQUAL("void (*)()", type_.c_str());
   return value_.function_pointer_value;

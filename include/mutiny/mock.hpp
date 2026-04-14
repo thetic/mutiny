@@ -149,44 +149,6 @@ public:
     return default_value;
   }
 
-  // -- Backward-compatible return-value accessors ---------------------------
-
-  bool bool_return_value() { return return_value<bool>(); }
-  bool return_bool_value_or_default(bool d) { return return_value_or_default(d); }
-
-  int int_return_value() { return return_value<int>(); }
-  int return_int_value_or_default(int d) { return return_value_or_default(d); }
-
-  unsigned int unsigned_int_return_value() { return return_value<unsigned int>(); }
-  unsigned int return_unsigned_int_value_or_default(unsigned int d) { return return_value_or_default(d); }
-
-  long int long_int_return_value() { return return_value<long int>(); }
-  long int return_long_int_value_or_default(long int d) { return return_value_or_default(d); }
-
-  unsigned long int unsigned_long_int_return_value() { return return_value<unsigned long int>(); }
-  unsigned long int return_unsigned_long_int_value_or_default(unsigned long int d) { return return_value_or_default(d); }
-
-  long long long_long_int_return_value() { return return_value<long long>(); }
-  long long return_long_long_int_value_or_default(long long d) { return return_value_or_default(d); }
-
-  unsigned long long unsigned_long_long_int_return_value() { return return_value<unsigned long long>(); }
-  unsigned long long return_unsigned_long_long_int_value_or_default(unsigned long long d) { return return_value_or_default(d); }
-
-  const char* string_return_value() { return return_value<const char*>(); }
-  const char* return_string_value_or_default(const char* d) { return return_value_or_default(d); }
-
-  double double_return_value() { return return_value<double>(); }
-  double return_double_value_or_default(double d) { return return_value_or_default(d); }
-
-  void* pointer_return_value() { return return_value<void*>(); }
-  void* return_pointer_value_or_default(void* d) { return return_value_or_default(d); }
-
-  const void* const_pointer_return_value() { return return_value<const void*>(); }
-  const void* return_const_pointer_value_or_default(const void* d) { return return_value_or_default(d); }
-
-  FunctionPointerValue function_pointer_return_value() { return return_value<FunctionPointerValue>(); }
-  FunctionPointerValue return_function_pointer_value_or_default(FunctionPointerValue d) { return return_value_or_default(d); }
-
   /**
    * @brief Check whether named data exists in this scope.
    *

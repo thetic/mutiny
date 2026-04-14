@@ -355,7 +355,7 @@ TEST(MockFixedWidthTypes, setDataLongLong)
 {
   long long expected = 0x7FFFAAAAFFFFAAAALL;
   mock().set_data("data", expected);
-  CHECK_EQUAL(expected, mock().get_data("data").get_long_long_int_value());
+  CHECK_EQUAL(expected, mock().get_data("data").get_value<long long>());
 }
 
 TEST(MockFixedWidthTypes, setDataUnsignedLongLong)
@@ -364,7 +364,7 @@ TEST(MockFixedWidthTypes, setDataUnsignedLongLong)
   mock().set_data("data", expected);
   CHECK_EQUAL(
       expected,
-      mock().get_data("data").get_unsigned_long_long_int_value()
+      mock().get_data("data").get_value<unsigned long long>()
   );
 }
 

@@ -108,8 +108,8 @@ TEST(MockDocumentation, ObjectParameters)
 TEST(MockDocumentation, returnValue)
 {
   mu::tiny::mock::mock().expect_one_call("function").and_return_value(10);
-  mu::tiny::mock::mock().actual_call("function").return_value().get_int_value();
-  int value = mu::tiny::mock::mock().return_value().get_int_value();
+  mu::tiny::mock::mock().actual_call("function").return_value().get_value<int>();
+  int value = mu::tiny::mock::mock().return_value().get_value<int>();
   CHECK_EQUAL(10, value);
 }
 
@@ -122,7 +122,7 @@ TEST(MockDocumentation, setData)
   );
 
   ClassFromProductionCode* pobject;
-  int value = mu::tiny::mock::mock().get_data("importantValue").get_int_value();
+  int value = mu::tiny::mock::mock().get_data("importantValue").get_value<int>();
   pobject = static_cast<ClassFromProductionCode*>(
       mu::tiny::mock::mock().get_data("importantObject").get_object_pointer()
   );

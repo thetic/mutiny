@@ -68,7 +68,7 @@ void CheckedActualCall::copy_output_parameters(
     } else if (
         (output_parameter.get_type() == "const void*") && (p->type == "void*")
     ) {
-      const void* data = output_parameter.get_const_pointer_value();
+      const void* data = output_parameter.get_value<const void*>();
       size_t size = output_parameter.get_size();
       memcpy(p->ptr, data, size);
     } else if (output_parameter.get_name() != "") {

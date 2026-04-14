@@ -189,25 +189,6 @@ typedef to the correct platform-specific type at compile time:
 This is portable across LP64, LLP64, and ILP32 platforms — no ``#ifdef``
 required.
 
-Named return-value accessors
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For backward compatibility, named accessors are also available:
-``return_bool_value()``,
-``return_int_value()``,
-``return_unsigned_int_value()``,
-``return_long_int_value()``,
-``return_unsigned_long_int_value()``,
-``return_long_long_int_value()``,
-``return_unsigned_long_long_int_value()``,
-``return_double_value()``,
-``return_string_value()``,
-``return_pointer_value()``,
-``return_const_pointer_value()``,
-``return_function_pointer_value()``.
-All have ``_or_default`` variants. Prefer ``return_value<T>()`` for
-new code — it is portable across platforms where a fixed-width type may
-map to different fundamental types.
 
 Object Binding
 --------------
@@ -263,11 +244,8 @@ and stub code without extra globals:
    // In test setup:
    mock().set_data("timeout_ms", 100);
 
-   // In mock stub — template getter (preferred):
+   // In mock stub:
    int timeout = mock().get_data("timeout_ms").get_value<int>();
-
-   // Named getter (also works):
-   int timeout2 = mock().get_data("timeout_ms").get_int_value();
 
 ``get_value<T>()`` works with fixed-width types too:
 
