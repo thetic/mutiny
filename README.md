@@ -1,7 +1,7 @@
 <img src="docs/_static/logo.png" alt="Mu::tiny" width="300">
 
 [![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
-[![JUnit Tests](https://github.com/thetic/mutiny/actions/workflows/test-report.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/test-report.yml)
+[![Tests](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/thetic/YOUR_GIST_ID/raw/mutiny-tests.json)](https://github.com/thetic/mutiny/actions/workflows/test-report.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
 
 ---

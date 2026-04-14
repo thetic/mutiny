@@ -1,7 +1,7 @@
 ---
 name: 'Test Report'
-# This workflow must live in a separate file and be triggered by 'workflow_run' 
-# to allow it to have 'write' permissions (for creating checks and PR comments) 
+# This workflow must live in a separate file and be triggered by 'workflow_run'
+# to allow it to have 'write' permissions (for creating checks and PR comments)
 # even when the triggering workflow ('Basic builds') is run from a fork.
 "on":
   workflow_run:
@@ -18,9 +18,30 @@ jobs:
     if: always()
     steps:
       - uses: dorny/test-reporter@v3
+        id: test-reporter
         with:
           artifact: test-results
           name: JUnit Tests
           path: "**/mutiny_*.xml"
           reporter: java-junit
           use-actions-summary: false
+
+      # Updates the dynamic badge in the README on every successful main run.
+      # One-time setup required:
+      #   1. Create a public Gist at https://gist.github.com (any content)
+      #   2. Replace YOUR_GIST_ID below (and in README.md) with the ID from the Gist URL
+      #   3. Create a classic PAT with 'gist' scope at https://github.com/settings/tokens
+      #   4. Add it as a repository secret named GIST_SECRET
+      - uses: schneegans/dynamic-badges-action@v1.7.0
+        if: >-
+          github.event.workflow_run.head_branch == 'main' &&
+          steps.test-reporter.outcome == 'success'
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: YOUR_GIST_ID
+          filename: mutiny-tests.json
+          label: tests
+          message: >-
+            ${{ steps.test-reporter.outputs.passed }} passed,
+            ${{ steps.test-reporter.outputs.skipped }} skipped
+          color: ${{ steps.test-reporter.outputs.failed != '0' && 'red' || 'brightgreen' }}
