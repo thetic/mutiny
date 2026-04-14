@@ -154,15 +154,57 @@ uint32_t read_register(uint32_t addr)
       .with_parameter("addr", addr)
       .return_value<uint32_t>();
 }
+
+void write_register(uint32_t addr, uint32_t value)
+{
+  mu::tiny::mock::mock()
+      .actual_call("write_register")
+      .with_parameter("addr", addr)
+      .with_parameter("value", value);
+}
+
+int64_t read_sensor(uint8_t channel)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("read_sensor")
+      .with_parameter("channel", channel)
+      .return_value<int64_t>();
+}
 } // namespace
 
-TEST(MockDocumentation, fixedWidthTypes)
+TEST(MockDocumentation, fixedWidthReturnValue)
 {
   mu::tiny::mock::mock()
       .expect_one_call("read_register")
       .with_parameter("addr", static_cast<uint32_t>(0x40000000))
       .and_return_value(static_cast<uint32_t>(0xDEADBEEF));
   CHECK_EQUAL(0xDEADBEEF, read_register(0x40000000));
+}
+
+TEST(MockDocumentation, fixedWidthParameters)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("write_register")
+      .with_parameter("addr", static_cast<uint32_t>(0x40000000))
+      .with_parameter("value", static_cast<uint32_t>(0xCAFEBABE));
+  write_register(0x40000000, 0xCAFEBABE);
+}
+
+TEST(MockDocumentation, fixedWidthMixedSizes)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("read_sensor")
+      .with_parameter("channel", static_cast<uint8_t>(3))
+      .and_return_value(static_cast<int64_t>(-4000000000LL));
+  CHECK_EQUAL(-4000000000LL, read_sensor(3));
+}
+
+TEST(MockDocumentation, fixedWidthSetData)
+{
+  mu::tiny::mock::mock().set_data("calibration", static_cast<int64_t>(42));
+  auto value =
+      mu::tiny::mock::mock().get_data("calibration").get_value<int64_t>();
+  CHECK_EQUAL(42, value);
 }
 
 TEST(MockDocumentation, scope)
