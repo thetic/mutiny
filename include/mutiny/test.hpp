@@ -14,6 +14,7 @@
 
 #include "mutiny/test/ExpectFailShell.hpp"
 #include "mutiny/test/Failure.hpp"
+#include "mutiny/test/GroupLocation.hpp"
 #include "mutiny/test/IgnoredShell.hpp"
 #include "mutiny/test/Installer.hpp"
 #include "mutiny/test/Ordered.hpp"
@@ -38,8 +39,10 @@
  * @param testGroup  Identifier for the group (used in filtering and output).
  */
 #define TEST_GROUP(testGroup)                                                  \
-  extern int externTestGroup##testGroup;                                       \
-  int externTestGroup##testGroup = 0;                                          \
+  extern mu::tiny::test::GroupLocation externTestGroup##testGroup;             \
+  mu::tiny::test::GroupLocation externTestGroup##testGroup(                    \
+      #testGroup, __FILE__, __LINE__                                           \
+  );                                                                           \
   struct TEST_GROUP_##MutinyGroup##testGroup : public mu::tiny::test::Test
 
 /**

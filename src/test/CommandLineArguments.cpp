@@ -73,6 +73,8 @@ bool CommandLineArguments::parse(Plugin* plugin)
       list_test_group_and_case_names_ = true;
     else if (argument == "-lo")
       list_ordered_test_locations_ = true;
+    else if (argument == "-lgl")
+      list_test_group_locations_ = true;
     else if (argument == "-ll")
       list_test_locations_ = true;
     else if (argument == "-ri")
@@ -143,6 +145,8 @@ String CommandLineArguments::help() const
       "group.name.test_file_path.line\n"
       "  -lo               - print a list of ordered test names in the form "
       "of group.name.test_file_path.line\n"
+      "  -lgl              - print a list of group locations in the form of "
+      "group.file_path.line\n"
       "\n"
       "Options that change the output format:\n"
       "  -c                - colorize output, print green if OK, or red if "
@@ -242,6 +246,11 @@ bool CommandLineArguments::is_listing_test_locations() const
 bool CommandLineArguments::is_listing_ordered_test_locations() const
 {
   return list_ordered_test_locations_;
+}
+
+bool CommandLineArguments::is_listing_test_group_locations() const
+{
+  return list_test_group_locations_;
 }
 
 bool CommandLineArguments::is_run_ignored() const

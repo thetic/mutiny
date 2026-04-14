@@ -1,5 +1,6 @@
 #include "mutiny/test/Registry.hpp"
 
+#include "mutiny/test/GroupLocation.hpp"
 #include "mutiny/test/NullPlugin.hpp"
 #include "mutiny/test/Result.hpp"
 #include "mutiny/test/Shell.hpp"
@@ -143,6 +144,25 @@ void Registry::list_ordered_test_locations(Result& result)
   }
 
   result.print(test_locations.c_str());
+}
+
+void Registry::list_test_group_locations(Result& result)
+{
+  String group_locations;
+
+  for (GroupLocation* g = GroupLocation::get_head(); g != nullptr;
+       g = g->get_next()) {
+    String entry;
+    entry += g->get_group();
+    entry += ".";
+    entry += g->get_file();
+    entry += ".";
+    entry += string_from_format("%d\n", static_cast<int>(g->get_line_number()));
+
+    group_locations += entry;
+  }
+
+  result.print(group_locations.c_str());
 }
 
 bool Registry::end_of_group(Shell* test)

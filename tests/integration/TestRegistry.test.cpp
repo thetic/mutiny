@@ -1,3 +1,4 @@
+#include "mutiny/test/GroupLocation.hpp"
 #include "mutiny/test/Ordered.hpp"
 #include "mutiny/test/Output.hpp"
 #include "mutiny/test/Registry.hpp"
@@ -399,6 +400,24 @@ TEST(Registry, listOrderedTestLocations_onlyIncludesOrderedTests)
   STRCMP_EQUAL(
       "GROUP_A.test_a.my_tests/testa.cpp.100\n", output->get_output().c_str()
   );
+}
+
+TEST(Registry, listTestGroupLocations_outputsGroupFileLine)
+{
+  mu::tiny::test::GroupLocation* saved_head =
+      mu::tiny::test::GroupLocation::get_head();
+  mu::tiny::test::GroupLocation::set_head(nullptr);
+
+  mu::tiny::test::GroupLocation loc_b("GROUP_B", "tests/group_b.cpp", 5);
+  mu::tiny::test::GroupLocation loc_a("GROUP_A", "tests/group a.cpp", 12);
+
+  my_registry->list_test_group_locations(*result);
+  STRCMP_EQUAL(
+      "GROUP_A.tests/group a.cpp.12\nGROUP_B.tests/group_b.cpp.5\n",
+      output->get_output().c_str()
+  );
+
+  mu::tiny::test::GroupLocation::set_head(saved_head);
 }
 
 TEST(Registry, shuffleEmptyListIsNoOp)

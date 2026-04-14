@@ -114,6 +114,12 @@ int CommandLineRunner::run_all_tests()
     return 0;
   }
 
+  if (arguments_->is_listing_test_group_locations()) {
+    Result tr(*output_);
+    registry_->list_test_group_locations(tr);
+    return 0;
+  }
+
   if (arguments_->is_reversing())
     registry_->reverse_tests();
 

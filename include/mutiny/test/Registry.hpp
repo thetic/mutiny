@@ -95,6 +95,18 @@ public:
   virtual void list_ordered_test_locations(Result& result);
 
   /**
+   * @brief Print all test-group source locations to @p result.
+   *
+   * Each line has the format @c group.file.line. Locations are taken from
+   * @ref mu::tiny::test::GroupLocation instances registered by the @ref
+   * TEST_GROUP() macro, so they point to the group declaration itself rather
+   * than any individual test inside it.
+   *
+   * @param result  Output sink.
+   */
+  virtual void list_test_group_locations(Result& result);
+
+  /**
    * @brief Set the name filters applied when running tests.
    * @param filters  Linked list of name filters; may be nullptr.
    */

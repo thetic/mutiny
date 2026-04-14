@@ -18,7 +18,7 @@ set(patterns
     "add_test\\( MyTests\\.Group2\\.Test3 .* -st Group2\\.Test3\\)"
     "set_tests_properties\\( MyTests\\.Group2\\.Test3 PROPERTIES DEF_SOURCE_LINE file2\\.cpp:30\\)"
     "add_test\\( MyTests\\.OrderedGroup .* -sg OrderedGroup\\)"
-    "set_tests_properties\\( MyTests\\.OrderedGroup PROPERTIES DEF_SOURCE_LINE file3\\.cpp:40\\)"
+    "set_tests_properties\\( MyTests\\.OrderedGroup PROPERTIES DEF_SOURCE_LINE file3\\.cpp:35\\)"
 )
 
 foreach(p IN LISTS patterns)

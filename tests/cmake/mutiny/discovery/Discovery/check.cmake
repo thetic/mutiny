@@ -11,11 +11,11 @@ file(READ "${generated_file}" content)
 
 set(patterns
     "add_test\\( MyTests\\.Group1 .* -sg Group1\\)"
-    "set_tests_properties\\( MyTests\\.Group1 PROPERTIES DEF_SOURCE_LINE file1\\.cpp:10\\)"
+    "set_tests_properties\\( MyTests\\.Group1 PROPERTIES DEF_SOURCE_LINE file1\\.cpp:5\\)"
     "add_test\\( MyTests\\.Group2 .* -sg Group2\\)"
-    "set_tests_properties\\( MyTests\\.Group2 PROPERTIES DEF_SOURCE_LINE file2\\.cpp:30\\)"
+    "set_tests_properties\\( MyTests\\.Group2 PROPERTIES DEF_SOURCE_LINE file2\\.cpp:25\\)"
     "add_test\\( MyTests\\.OrderedGroup .* -sg OrderedGroup\\)"
-    "set_tests_properties\\( MyTests\\.OrderedGroup PROPERTIES DEF_SOURCE_LINE file3\\.cpp:40\\)"
+    "set_tests_properties\\( MyTests\\.OrderedGroup PROPERTIES DEF_SOURCE_LINE file3\\.cpp:35\\)"
 )
 
 foreach(p IN LISTS patterns)

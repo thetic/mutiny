@@ -72,6 +72,7 @@ target_sources(mutiny
         src/test/ExpectFailShell.cpp
         src/test/Failure.cpp
         src/test/Filter.cpp
+        src/test/GroupLocation.cpp
         src/test/IgnoredShell.cpp
         src/test/Installer.cpp
         src/test/JUnitOutput.cpp
@@ -118,6 +119,7 @@ target_sources(mutiny
             include/mutiny/test/ExpectFailShell.hpp
             include/mutiny/test/Failure.hpp
             include/mutiny/test/Filter.hpp
+            include/mutiny/test/GroupLocation.hpp
             include/mutiny/test/IgnoredShell.hpp
             include/mutiny/test/Installer.hpp
             include/mutiny/test/JUnitOutputPlugin.hpp

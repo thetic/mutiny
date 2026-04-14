@@ -447,6 +447,14 @@ TEST(CommandLineArguments, setPrintGroupsAndNames)
   CHECK(args->is_listing_test_group_and_case_names());
 }
 
+TEST(CommandLineArguments, setPrintGroupLocations)
+{
+  int argc = 2;
+  const char* argv[] = { "tests.exe", "-lgl" };
+  CHECK(new_argument_parser(argc, argv));
+  CHECK(args->is_listing_test_group_locations());
+}
+
 TEST(CommandLineArguments, weirdParamatersReturnsFalse)
 {
   int argc = 2;
