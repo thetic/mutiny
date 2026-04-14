@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1ac79bfe9ad36265cdd6113c9e8cc1e721:
+
+Define CHECK_EQUAL_ZERO_TEXT
+============================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: CHECK_EQUAL_ZERO_TEXT
+   :project: mutiny

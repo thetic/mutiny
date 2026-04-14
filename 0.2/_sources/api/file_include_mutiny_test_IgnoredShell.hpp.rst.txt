@@ -1,0 +1,65 @@
+
+.. _file_include_mutiny_test_IgnoredShell.hpp:
+
+File IgnoredShell.hpp
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_mutiny_test>` (``include/mutiny/test``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+:ref:`exhale_class_classmu_1_1tiny_1_1test_1_1Shell` subclass for tests marked as ignored. 
+
+
+Definition (``include/mutiny/test/IgnoredShell.hpp``)
+-----------------------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+Used by :ref:`exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f` and :ref:`exhale_define_test_8hpp_1a2876dd239ec50f387be38924f8cc901b`. 
+
+
+
+
+Includes
+--------
+
+
+- ``mutiny/export.h``
+
+- ``mutiny/test/Shell.hpp`` (:ref:`file_include_mutiny_test_Shell.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_include_mutiny_test.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_mu`
+
+- :ref:`namespace_mu__tiny`
+
+- :ref:`namespace_mu__tiny__test`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1IgnoredShell`
+

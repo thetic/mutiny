@@ -1,0 +1,14 @@
+.. _exhale_define_Shell_8hpp_1a1479c2dae511e359f2ae9c5fcb7e969c:
+
+Define TEST_EXIT
+================
+
+- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: TEST_EXIT
+   :project: mutiny

@@ -1,0 +1,59 @@
+
+.. _file_include_mutiny_test_JUnitOutputPlugin.hpp:
+
+File JUnitOutputPlugin.hpp
+==========================
+
+|exhale_lsh| :ref:`Parent directory <dir_include_mutiny_test>` (``include/mutiny/test``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+:ref:`exhale_class_classmu_1_1tiny_1_1test_1_1Plugin` that writes JUnit-compatible XML output. 
+
+
+Definition (``include/mutiny/test/JUnitOutputPlugin.hpp``)
+----------------------------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+See mu::tiny::test::JUnitOutputPlugin::name for the canonical plugin identifier. 
+
+
+
+
+Includes
+--------
+
+
+- ``mutiny/export.h``
+
+- ``mutiny/test/Plugin.hpp`` (:ref:`file_include_mutiny_test_Plugin.hpp`)
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_mu`
+
+- :ref:`namespace_mu__tiny`
+
+- :ref:`namespace_mu__tiny__test`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin`
+
