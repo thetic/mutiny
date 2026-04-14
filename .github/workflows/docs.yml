@@ -1,0 +1,118 @@
+---
+name: Deploy Docs
+
+"on":
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git tag to build docs for (e.g. v0.1.0). Leave empty to build from the default branch."
+        required: false
+
+concurrency:
+  group: docs-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build and Deploy Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine ref and version slug
+        id: ref
+        run: |
+          if [[ -n "${{ github.event.inputs.tag }}" ]]; then
+            TAG="${{ github.event.inputs.tag }}"
+            SLUG="$(echo "$TAG" | sed 's/^v//; s/\.[0-9]*$//')"
+            echo "ref=$TAG" >> "$GITHUB_OUTPUT"
+            echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+            echo "github_ref=$TAG" >> "$GITHUB_OUTPUT"
+          elif [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+            SLUG="$(echo "$TAG" | sed 's/^v//; s/\.[0-9]*$//')"
+            echo "ref=$TAG" >> "$GITHUB_OUTPUT"
+            echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+            echo "github_ref=$TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "ref=main" >> "$GITHUB_OUTPUT"
+            echo "slug=main" >> "$GITHUB_OUTPUT"
+            echo "github_ref=main" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.ref.outputs.ref }}
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          python-version: "3.14"
+
+      - name: Install Doxygen
+        uses: ssciwr/doxygen-install@v1
+        with:
+          version: "1.16.1"
+
+      - name: Build documentation
+        run: uv run --project docs make -C docs html
+        env:
+          DOCS_GITHUB_REF: ${{ steps.ref.outputs.github_ref }}
+
+      - name: Prepare gh-pages worktree
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch --depth 1 origin gh-pages:gh-pages 2>/dev/null || true
+          if git show-ref --verify refs/heads/gh-pages 2>/dev/null; then
+            git worktree add _gh-pages gh-pages
+          else
+            git worktree add --orphan -b gh-pages _gh-pages
+          fi
+
+      - name: Deploy version
+        run: |
+          SLUG="${{ steps.ref.outputs.slug }}"
+          rm -rf "_gh-pages/${SLUG}"
+          cp -r docs/_build/html "_gh-pages/${SLUG}"
+
+      - name: Update versions.json and root files
+        run: |
+          cd _gh-pages
+          # Build versions.json: main first, then major.minor dirs newest-first.
+          (
+            [ -d main ] && jq -n '{"version":"main","url":"main/"}'
+            for d in $(ls -d [0-9]*.[0-9]* 2>/dev/null | sort -Vr); do
+              jq -n --arg v "$d" '{"version":$v,"url":($v+"/")}'
+            done
+          ) | jq -s '.' > versions.json
+
+          cat > index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8">
+            <meta http-equiv="refresh" content="0; url=main/">
+            <title>Redirecting to mutiny docs…</title>
+          </head>
+          <body>
+            <p><a href="main/">Click here</a> if you are not redirected.</p>
+          </body>
+          </html>
+          EOF
+
+          touch .nojekyll
+
+      - name: Commit and push
+        run: |
+          cd _gh-pages
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: deploy ${{ steps.ref.outputs.slug }}"
+          git push origin gh-pages

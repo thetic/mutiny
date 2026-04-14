@@ -1,0 +1,69 @@
+<div class="sidebar-version-switcher">
+  <select
+    id="version-select"
+    aria-label="Select documentation version"
+    onchange="if(this.value) window.location.href=this.value;"
+  >
+    <option value="">Version: …</option>
+  </select>
+</div>
+<script>
+(function () {
+  // Derive the site root and current version slug from the URL.
+  // URL shape: /mutiny/<version>/path/to/page.html
+  //   parts[0] = ""
+  //   parts[1] = "mutiny"   (repo name / Pages base path)
+  //   parts[2] = "main" | "v0.1.0" | …
+  var parts = window.location.pathname.split("/");
+  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mutiny/"
+  var currentSlug = parts[2] || "";                         // e.g. "main"
+  var versionsUrl = siteRoot + "versions.json";
+
+  fetch(versionsUrl)
+    .then(function (r) {
+      if (!r.ok) throw new Error("versions.json not found");
+      return r.json();
+    })
+    .then(function (versions) {
+      var sel = document.getElementById("version-select");
+      sel.innerHTML = "";
+      versions.forEach(function (v) {
+        var opt = document.createElement("option");
+        opt.value = siteRoot + v.url;
+        opt.textContent = v.version;
+        if (v.version === currentSlug) {
+          opt.selected = true;
+        }
+        sel.appendChild(opt);
+      });
+    })
+    .catch(function () {
+      // Not deployed (local build) — hide the switcher silently.
+      var wrapper = document.querySelector(".sidebar-version-switcher");
+      if (wrapper) wrapper.style.display = "none";
+    });
+})();
+</script>
+<style>
+.sidebar-version-switcher {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--color-sidebar-item-background--hover);
+}
+
+.sidebar-version-switcher select {
+  width: 100%;
+  padding: 0.3rem 0.5rem;
+  background: var(--color-sidebar-item-background);
+  color: var(--color-sidebar-link-text);
+  border: 1px solid var(--color-sidebar-item-background--hover);
+  border-radius: 4px;
+  font-size: var(--font-size--small);
+  cursor: pointer;
+}
+
+.sidebar-version-switcher select:hover,
+.sidebar-version-switcher select:focus {
+  border-color: var(--color-brand-primary);
+  outline: none;
+}
+</style>
