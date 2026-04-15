@@ -929,6 +929,32 @@ TEST(MockSupport_c, MockSupportSetUnsignedLongIntData)
   );
 }
 
+TEST(MockSupport_c, MockSupportSetLongLongIntData)
+{
+  long long i = 0x7FFFAAAAFFFFAAAALL;
+  mutiny_mock()->set_long_long_int_data("long long integer", i);
+  CHECK_EQUAL(
+      i,
+      mutiny_mock()
+          ->get_data("long long integer")
+          .value.long_long_int_value
+  );
+}
+
+TEST(MockSupport_c, MockSupportSetUnsignedLongLongIntData)
+{
+  unsigned long long i = 0xFFFFAAAAFFFFAAAAULL;
+  mutiny_mock()->set_unsigned_long_long_int_data(
+      "unsigned long long integer", i
+  );
+  CHECK_EQUAL(
+      i,
+      mutiny_mock()
+          ->get_data("unsigned long long integer")
+          .value.unsigned_long_long_int_value
+  );
+}
+
 TEST(MockSupport_c, MockSupportSetDoubleData)
 {
   mutiny_mock()->set_double_data("double", 1.0);
