@@ -69,18 +69,6 @@ void failing_test_method_with_check_equal_text()
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
-void failing_test_method_with_check_equal_zero()
-{
-  CHECK_EQUAL_ZERO(1);
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
-void failing_test_method_with_check_equal_zero_text()
-{
-  CHECK_EQUAL_ZERO_TEXT(1, "Failed because it failed");
-  mu::tiny::test::TestingFixture::line_executed_after_check();
-}
-
 void failing_test_method_with_bytes_equal()
 {
   CHECK_EQUAL('a', 'b');
@@ -212,8 +200,6 @@ int function_that_returns_a_value()
   CHECK_EQUAL_TEXT(0xab, 0xab, "Shouldn't fail");
   CHECK_EQUAL(100, 100);
   CHECK_EQUAL_TEXT(100, 100, "Shouldn't fail");
-  CHECK_EQUAL_ZERO(0);
-  CHECK_EQUAL_ZERO_TEXT(0, "Shouldn't fail");
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
   CHECK_COMPARE(1, <, 2);
@@ -414,35 +400,6 @@ TEST(TestShellMacros, FailureWithCHECK_EQUAL_TEXT)
   fixture.run_test_with_method(failing_test_method_with_check_equal_text);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <2>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_EQUAL_ZERO)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_equal_zero);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <1>");
-}
-
-TEST(TestShellMacros, passingCheckEqualWillNotBeEvaluatedMultipleTimesWithCHECK_EQUAL_ZERO)
-{
-  count_in_counting_method = 0;
-  CHECK_EQUAL_ZERO(counting_method());
-
-  CHECK_EQUAL(1, count_in_counting_method);
-}
-
-TEST(TestShellMacros, failing_CHECK_EQUAL_ZERO_withParamatersThatDontChangeWillNotGiveAnyWarning)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_equal_zero);
-  fixture.assert_print_contains_not("WARNING");
-}
-
-TEST(TestShellMacros, FailureWithCHECK_EQUAL_ZERO_TEXT)
-{
-  fixture.run_test_with_method(failing_test_method_with_check_equal_zero_text);
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <0>");
-  CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <1>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
