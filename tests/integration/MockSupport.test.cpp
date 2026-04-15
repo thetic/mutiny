@@ -24,21 +24,21 @@ TEST(Support, setDataForUnsignedIntegerValues)
 {
   unsigned int expected_data = 7;
   mock().set_data("data", expected_data);
-  CHECK_EQUAL(expected_data, mock().get_data("data").get_unsigned_int_value());
+  CHECK_EQUAL(expected_data, mock().get_data("data").get_value<unsigned int>());
 }
 
 TEST(Support, setDataForIntegerValues)
 {
   int expected_data = 10;
   mock().set_data("data", expected_data);
-  CHECK_EQUAL(expected_data, mock().get_data("data").get_int_value());
+  CHECK_EQUAL(expected_data, mock().get_data("data").get_value<int>());
 }
 
 TEST(Support, setDataForBooleanValues)
 {
   bool expected_data = true;
   mock().set_data("data", expected_data);
-  CHECK_EQUAL(expected_data, mock().get_data("data").get_bool_value());
+  CHECK_EQUAL(expected_data, mock().get_data("data").get_value<bool>());
 }
 
 TEST(Support, hasDataBeenSet)
@@ -52,12 +52,12 @@ TEST(Support, dataCanBeChanged)
 {
   mock().set_data("data", 10);
   mock().set_data("data", 15);
-  CHECK_EQUAL(15, mock().get_data("data").get_int_value());
+  CHECK_EQUAL(15, mock().get_data("data").get_value<int>());
 }
 
 TEST(Support, uninitializedData)
 {
-  CHECK_EQUAL(0, mock().get_data("nonexisting").get_int_value());
+  CHECK_EQUAL(0, mock().get_data("nonexisting").get_value<int>());
   STRCMP_EQUAL("int", mock().get_data("nonexisting").get_type().c_str());
 }
 
@@ -65,55 +65,60 @@ TEST(Support, setMultipleData)
 {
   mock().set_data("data", 1);
   mock().set_data("data2", 10);
-  CHECK_EQUAL(1, mock().get_data("data").get_int_value());
-  CHECK_EQUAL(10, mock().get_data("data2").get_int_value());
+  CHECK_EQUAL(1, mock().get_data("data").get_value<int>());
+  CHECK_EQUAL(10, mock().get_data("data2").get_value<int>());
 }
 
 TEST(Support, setDataString)
 {
   mock().set_data("data", "string");
-  STRCMP_EQUAL("string", mock().get_data("data").get_string_value());
+  STRCMP_EQUAL("string", mock().get_data("data").get_value<const char*>());
 }
 
 TEST(Support, setDataDouble)
 {
   mock().set_data("data", 1.0);
-  CHECK_APPROX(1.0, mock().get_data("data").get_double_value(), 0.05);
+  CHECK_APPROX(1.0, mock().get_data("data").get_value<double>(), 0.05);
 }
 
 TEST(Support, setDataLongInt)
 {
   long int i = 100;
   mock().set_data("data", i);
-  CHECK_EQUAL(i, mock().get_data("data").get_long_int_value());
+  CHECK_EQUAL(i, mock().get_data("data").get_value<long int>());
 }
 
 TEST(Support, setDataUnsignedLongInt)
 {
   unsigned long int i = 100;
   mock().set_data("data", i);
-  CHECK_EQUAL(i, mock().get_data("data").get_unsigned_long_int_value());
+  CHECK_EQUAL(i, mock().get_data("data").get_value<unsigned long int>());
 }
 
 TEST(Support, setDataPointer)
 {
   void* ptr = reinterpret_cast<void*>(0x001);
   mock().set_data("data", ptr);
-  CHECK_EQUAL(ptr, mock().get_data("data").get_pointer_value());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_value<void*>());
 }
 
 TEST(Support, setConstDataPointer)
 {
   const void* ptr = reinterpret_cast<const void*>(0x001);
   mock().set_data("data", ptr);
-  CHECK_EQUAL(ptr, mock().get_data("data").get_const_pointer_value());
+  CHECK_EQUAL(ptr, mock().get_data("data").get_value<const void*>());
 }
 
 TEST(Support, setDataFunctionPointer)
 {
   auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().set_data("data", ptr);
-  CHECK_EQUAL(ptr, mock().get_data("data").get_function_pointer_value());
+  CHECK_EQUAL(
+      ptr,
+      mock()
+          .get_data("data")
+          .get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>()
+  );
 }
 
 TEST(Support, setDataObject)
@@ -172,9 +177,9 @@ TEST(Support, ignoredCallAcceptsAllParameterTypes)
   mock().ignore_other_calls();
   mock()
       .actual_call("anything")
-      .with_string_parameter("s", "hello")
-      .with_pointer_parameter("p", &obj)
-      .with_memory_buffer_parameter("buf", buf, sizeof(buf))
+      .with_parameter("s", "hello")
+      .with_parameter("p", &obj)
+      .with_parameter("buf", buf, sizeof(buf))
       .with_parameter_of_type("MyType", "t", &obj)
       .on_object(&obj);
 }

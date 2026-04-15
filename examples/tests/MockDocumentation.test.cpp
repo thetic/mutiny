@@ -4,6 +4,8 @@
 #include "mutiny/test.h"
 #include "mutiny/test.hpp"
 
+#include <stdint.h>
+
 TEST_GROUP_C_WRAPPER(MockDocumentation_C)
 {};
 
@@ -30,15 +32,6 @@ void parameters_function(int p1, const char* p2)
 
 void do_something_that_would_otherwise_blow_up_the_mocking_framework() {}
 
-} // namespace
-
-TEST(MockDocumentation, SimpleScenario)
-{
-  mu::tiny::mock::mock().expect_one_call("productionCode");
-  production_code();
-  mu::tiny::mock::mock().check_expectations();
-}
-
 class ClassFromProductionCode
 {
 public:
@@ -54,6 +47,39 @@ public:
     mu::tiny::mock::mock().actual_call("importantFunction").on_object(this);
   }
 };
+
+uint32_t uint32_function(uint32_t p1)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("uint32Function")
+      .with_parameter("p1", p1)
+      .return_value<uint32_t>();
+}
+
+void two_param_function(uint32_t p1, uint32_t p2)
+{
+  mu::tiny::mock::mock()
+      .actual_call("twoParamFunction")
+      .with_parameter("p1", p1)
+      .with_parameter("p2", p2);
+}
+
+int64_t mixed_sizes_function(uint8_t p1)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("mixedSizesFunction")
+      .with_parameter("p1", p1)
+      .return_value<int64_t>();
+}
+
+} // namespace
+
+TEST(MockDocumentation, SimpleScenario)
+{
+  mu::tiny::mock::mock().expect_one_call("productionCode");
+  production_code();
+  mu::tiny::mock::mock().check_expectations();
+}
 
 TEST(MockDocumentation, SimpleScenarioObject)
 {
@@ -106,8 +132,11 @@ TEST(MockDocumentation, ObjectParameters)
 TEST(MockDocumentation, returnValue)
 {
   mu::tiny::mock::mock().expect_one_call("function").and_return_value(10);
-  mu::tiny::mock::mock().actual_call("function").return_value().get_int_value();
-  int value = mu::tiny::mock::mock().return_value().get_int_value();
+  mu::tiny::mock::mock()
+      .actual_call("function")
+      .return_value()
+      .get_value<int>();
+  int value = mu::tiny::mock::mock().return_value().get_value<int>();
   CHECK_EQUAL(10, value);
 }
 
@@ -120,7 +149,8 @@ TEST(MockDocumentation, setData)
   );
 
   ClassFromProductionCode* pobject;
-  int value = mu::tiny::mock::mock().get_data("importantValue").get_int_value();
+  int value =
+      mu::tiny::mock::mock().get_data("importantValue").get_value<int>();
   pobject = static_cast<ClassFromProductionCode*>(
       mu::tiny::mock::mock().get_data("importantObject").get_object_pointer()
   );
@@ -142,6 +172,41 @@ TEST(MockDocumentation, otherMockSupport)
   mu::tiny::mock::mock().enable();
 
   mu::tiny::mock::mock().clear();
+}
+
+TEST(MockDocumentation, fixedWidthReturnValue)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("uint32Function")
+      .with_parameter("p1", UINT32_C(0x40000000))
+      .and_return_value(UINT32_C(0xDEADBEEF));
+  CHECK_EQUAL(UINT32_C(0xDEADBEEF), uint32_function(UINT32_C(0x40000000)));
+}
+
+TEST(MockDocumentation, fixedWidthParameters)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("twoParamFunction")
+      .with_parameter("p1", UINT32_C(0x40000000))
+      .with_parameter("p2", UINT32_C(0xCAFEBABE));
+  two_param_function(UINT32_C(0x40000000), UINT32_C(0xCAFEBABE));
+}
+
+TEST(MockDocumentation, fixedWidthMixedSizes)
+{
+  mu::tiny::mock::mock()
+      .expect_one_call("mixedSizesFunction")
+      .with_parameter("p1", UINT8_C(3))
+      .and_return_value(INT64_C(-4000000000));
+  CHECK_EQUAL(INT64_C(-4000000000), mixed_sizes_function(UINT8_C(3)));
+}
+
+TEST(MockDocumentation, fixedWidthSetData)
+{
+  mu::tiny::mock::mock().set_data("calibration", static_cast<int64_t>(42));
+  auto value =
+      mu::tiny::mock::mock().get_data("calibration").get_value<int64_t>();
+  CHECK_EQUAL(42, value);
 }
 
 TEST(MockDocumentation, scope)

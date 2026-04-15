@@ -16,81 +16,7 @@ public:
   {
     return *this;
   }
-  ExpectedCall& with_bool_parameter(const String&, bool) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_int_parameter(const String&, int) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_unsigned_int_parameter(
-      const String&,
-      unsigned int
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_long_int_parameter(const String&, long int) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_unsigned_long_int_parameter(
-      const String&,
-      unsigned long int
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_long_long_int_parameter(const String&, long long) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_unsigned_long_long_int_parameter(
-      const String&,
-      unsigned long long
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_double_parameter(const String&, double) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_double_parameter(const String&, double, double) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_string_parameter(const String&, const char*) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_pointer_parameter(const String&, void*) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_const_pointer_parameter(
-      const String&,
-      const void*
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_function_pointer_parameter(
-      const String&,
-      void (*)()
-  ) override
-  {
-    return *this;
-  }
-  ExpectedCall& with_memory_buffer_parameter(
-      const String&,
-      const unsigned char*,
-      size_t
-  ) override
-  {
-    return *this;
-  }
+  ExpectedCall& with_typed_parameter(NamedValue) override { return *this; }
   ExpectedCall& with_parameter_of_type(
       const String&,
       const String&,
@@ -121,18 +47,7 @@ public:
   }
   ExpectedCall& ignore_other_parameters() override { return *this; }
 
-  ExpectedCall& and_return_value(bool) override { return *this; }
-  ExpectedCall& and_return_value(int) override { return *this; }
-  ExpectedCall& and_return_value(unsigned int) override { return *this; }
-  ExpectedCall& and_return_value(long int) override { return *this; }
-  ExpectedCall& and_return_value(unsigned long int) override { return *this; }
-  ExpectedCall& and_return_value(long long) override { return *this; }
-  ExpectedCall& and_return_value(unsigned long long) override { return *this; }
-  ExpectedCall& and_return_value(double) override { return *this; }
-  ExpectedCall& and_return_value(const char*) override { return *this; }
-  ExpectedCall& and_return_value(void*) override { return *this; }
-  ExpectedCall& and_return_value(const void*) override { return *this; }
-  ExpectedCall& and_return_value(void (*)()) override { return *this; }
+  ExpectedCall& and_return_typed_value(NamedValue) override { return *this; }
 
   ExpectedCall& on_object(void*) override { return *this; }
 

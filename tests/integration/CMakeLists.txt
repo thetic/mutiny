@@ -11,6 +11,7 @@ add_executable(mutiny_integration
     fail_method_c_body.c
     ExpectFailTestShell.test.cpp
     MockComparatorCopier.test.cpp
+    MockFixedWidthTypes.test.cpp
     MockHierarchy.test.cpp
     MockNamedValue.test.cpp
     MockNamedValueComparatorsAndCopiersRepository.test.cpp

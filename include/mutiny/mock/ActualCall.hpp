@@ -33,6 +33,9 @@ class FailureReporter;
 class MUTINY_EXPORT ActualCall
 {
 public:
+  /** Function pointer return type alias for readability. */
+  using FunctionPointerReturnValue = void (*)();
+
   ActualCall() = default;
   virtual ~ActualCall() = default;
 
@@ -46,75 +49,23 @@ public:
   /**
    * @brief Report a parameter of any supported type.
    *
-   * Overloads for bool, int, unsigned int, long int, unsigned long int,
-   * long long, unsigned long long, double, const char*, void*, void(*)(),
-   * const void*, and (const unsigned char*, size_t) memory buffers are
-   * provided. Each delegates to the corresponding typed with_*_parameter()
-   * virtual method.
+   * The template creates a NamedValue and passes it to the single
+   * with_typed_parameter() virtual method. Overload resolution for
+   * NamedValue::set_value() selects the correct storage type.
    *
+   * @tparam T     Parameter type (deduced).
    * @param name   Parameter name, must match the expectation.
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  ActualCall& with_parameter(const String& name, bool value)
+  template<typename T>
+  ActualCall& with_parameter(const String& name, T value)
   {
-    return with_bool_parameter(name, value);
+    NamedValue nv(name);
+    nv.set_value(value);
+    return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, int value)
-  {
-    return with_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned int value)
-  {
-    return with_unsigned_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long int value)
-  {
-    return with_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long int value)
-  {
-    return with_unsigned_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, long long value)
-  {
-    return with_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, unsigned long long value)
-  {
-    return with_unsigned_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, double value)
-  {
-    return with_double_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const char* value)
-  {
-    return with_string_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void* value)
-  {
-    return with_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, void (*value)())
-  {
-    return with_function_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ActualCall& with_parameter(const String& name, const void* value)
-  {
-    return with_const_pointer_parameter(name, value);
-  }
+
   /**
    * @brief Report a memory buffer parameter.
    *
@@ -129,7 +80,9 @@ public:
       size_t size
   )
   {
-    return with_memory_buffer_parameter(name, value, size);
+    NamedValue nv(name);
+    nv.set_memory_buffer(value, size);
+    return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
   /** @overload */
   ActualCall& with_parameter(
@@ -138,8 +91,20 @@ public:
       size_t size
   )
   {
-    return with_memory_buffer_parameter(name, value, size);
+    return with_parameter(String(name), value, size);
   }
+
+  /**
+   * @brief Type-erased virtual entry point for parameter reporting.
+   *
+   * All non-virtual with_parameter() overloads delegate here after
+   * constructing a NamedValue. Subclasses override this single method
+   * instead of one method per type.
+   *
+   * @param parameter  Named, typed parameter value.
+   * @return *this for chaining.
+   */
+  virtual ActualCall& with_typed_parameter(NamedValue parameter) = 0;
 
   /**
    * @brief Report an object parameter identified by a type name string.
@@ -194,212 +159,42 @@ public:
       void* output
   ) = 0;
 
-  /** @brief Report a bool parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_bool_parameter(const String& name, bool value) = 0;
-  /** @brief Report an int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_int_parameter(const String& name, int value) = 0;
-  /** @brief Report an unsigned int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_unsigned_int_parameter(
-      const String& name,
-      unsigned int value
-  ) = 0;
-  /** @brief Report a long int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_long_int_parameter(
-      const String& name,
-      long int value
-  ) = 0;
-  /** @brief Report an unsigned long int parameter. @param name Name. @param
-   * value Value. @return *this. */
-  virtual ActualCall& with_unsigned_long_int_parameter(
-      const String& name,
-      unsigned long int value
-  ) = 0;
-  /** @brief Report a long long int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_long_long_int_parameter(
-      const String& name,
-      long long value
-  ) = 0;
-  /** @brief Report an unsigned long long int parameter. @param name Name.
-   * @param value Value. @return *this. */
-  virtual ActualCall& with_unsigned_long_long_int_parameter(
-      const String& name,
-      unsigned long long value
-  ) = 0;
-  /** @brief Report a double parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_double_parameter(
-      const String& name,
-      double value
-  ) = 0;
-  /** @brief Report a C string parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_string_parameter(
-      const String& name,
-      const char* value
-  ) = 0;
-  /** @brief Report a void* parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ActualCall& with_pointer_parameter(
-      const String& name,
-      void* value
-  ) = 0;
-  /** @brief Report a function pointer parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_function_pointer_parameter(
-      const String& name,
-      void (*value)()
-  ) = 0;
-  /** @brief Report a const void* parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ActualCall& with_const_pointer_parameter(
-      const String& name,
-      const void* value
-  ) = 0;
-  /** @brief Report a memory buffer parameter (String name). @param name Name.
-   * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual ActualCall& with_memory_buffer_parameter(
-      const String& name,
-      const unsigned char* value,
-      size_t size
-  ) = 0;
-  /** @brief Report a memory buffer parameter (C string name). @param name Name.
-   * @param value Buffer pointer. @param size Buffer size. @return *this. */
-  virtual ActualCall& with_memory_buffer_parameter(
-      const char* name,
-      const unsigned char* value,
-      size_t size
-  ) = 0;
-
   /** @return true if the matching expectation set a return value. */
   virtual bool has_return_value() = 0;
   /** @return The configured return value as a generic NamedValue. */
   virtual NamedValue return_value() = 0;
 
   /**
-   * @return The configured return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
+   * @brief Type-safe return-value accessor template.
+   *
+   * Returns the mock return value converted to @p T.  Because fixed-width
+   * types from @c \<stdint.h\> are typedefs for fundamental types, writing
+   * @code return_value<int32_t>() @endcode automatically dispatches to the
+   * correct getter on every platform.
+   *
+   * @tparam T  The type to retrieve.
+   * @return The stored return value converted to @p T.
    */
-  virtual bool return_bool_value_or_default(bool default_value) = 0;
-  /** @return The configured bool return value. */
-  virtual bool return_bool_value() = 0;
+  template<typename T>
+  T return_value()
+  {
+    return return_value().get_value<T>();
+  }
 
   /**
-   * @return The configured int return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
+   * @brief Type-safe return-value accessor with a fallback default.
+   *
+   * @tparam T  The type to retrieve.
+   * @param default_value  Value returned when no return value was configured.
+   * @return The stored return value or @p default_value.
    */
-  virtual int return_int_value_or_default(int default_value) = 0;
-  /** @return The configured int return value. */
-  virtual int return_int_value() = 0;
-
-  /** @return The configured unsigned long int return value. */
-  virtual unsigned long int return_unsigned_long_int_value() = 0;
-  /**
-   * @return The configured unsigned long int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned long int return_unsigned_long_int_value_or_default(
-      unsigned long int default_value
-  ) = 0;
-
-  /** @return The configured long int return value. */
-  virtual long int return_long_int_value() = 0;
-  /**
-   * @return The configured long int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual long int return_long_int_value_or_default(long int default_value) = 0;
-
-  /** @return The configured unsigned long long int return value. */
-  virtual unsigned long long return_unsigned_long_long_int_value() = 0;
-  /**
-   * @return The unsigned long long return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned long long return_unsigned_long_long_int_value_or_default(
-      unsigned long long default_value
-  ) = 0;
-
-  /** @return The configured long long int return value. */
-  virtual long long return_long_long_int_value() = 0;
-  /**
-   * @return The long long return value if set, otherwise @p default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual long long return_long_long_int_value_or_default(
-      long long default_value
-  ) = 0;
-
-  /** @return The configured unsigned int return value. */
-  virtual unsigned int return_unsigned_int_value() = 0;
-  /**
-   * @return The configured unsigned int return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual unsigned int return_unsigned_int_value_or_default(
-      unsigned int default_value
-  ) = 0;
-
-  /**
-   * @return The configured string return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual const char* return_string_value_or_default(
-      const char* default_value
-  ) = 0;
-  /** @return The configured C string return value. */
-  virtual const char* return_string_value() = 0;
-
-  /** @return The configured double return value. */
-  virtual double return_double_value() = 0;
-  /**
-   * @return The configured double return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual double return_double_value_or_default(double default_value) = 0;
-
-  /** @return The configured void* return value. */
-  virtual void* return_pointer_value() = 0;
-  /**
-   * @return The configured void* return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual void* return_pointer_value_or_default(void* default_value) = 0;
-
-  /** @return The configured const void* return value. */
-  virtual const void* return_const_pointer_value() = 0;
-  /**
-   * @return The configured const void* return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual const void* return_const_pointer_value_or_default(
-      const void* default_value
-  ) = 0;
-
-  /** Function pointer return type alias for readability. */
-  using FunctionPointerReturnValue = void (*)();
-  /** @return The configured function pointer return value. */
-  virtual FunctionPointerReturnValue return_function_pointer_value() = 0;
-  /**
-   * @return The configured function pointer return value if set, otherwise @p
-   * default_value.
-   * @param default_value  Fallback value.
-   */
-  virtual FunctionPointerReturnValue return_function_pointer_value_or_default(
-      void (*default_value)()
-  ) = 0;
+  template<typename T>
+  T return_value_or_default(T default_value)
+  {
+    if (has_return_value())
+      return return_value().get_value<T>();
+    return default_value;
+  }
 
   /**
    * @brief Restrict this actual call to a specific object instance.

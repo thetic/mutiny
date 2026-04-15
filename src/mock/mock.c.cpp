@@ -160,6 +160,11 @@ void set_int_data(const char* name, int value);
 void set_unsigned_int_data(const char* name, unsigned int value);
 void set_long_int_data(const char* name, long int value);
 void set_unsigned_long_int_data(const char* name, unsigned long int value);
+void set_long_long_int_data(const char* name, long long value);
+void set_unsigned_long_long_int_data(
+    const char* name,
+    unsigned long long value
+);
 void set_double_data(const char* name, double value);
 void set_string_data(const char* name, const char* value);
 void set_pointer_data(const char* name, void* value);
@@ -706,48 +711,48 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
   struct MutinyMockValue return_value;
   if (strcmp(named_value.get_type().c_str(), "bool") == 0) {
     return_value.type = mutiny_type_bool;
-    return_value.value.bool_value = named_value.get_bool_value() ? 1 : 0;
+    return_value.value.bool_value = named_value.get_value<bool>() ? 1 : 0;
   } else if (strcmp(named_value.get_type().c_str(), "int") == 0) {
     return_value.type = mutiny_type_integer;
-    return_value.value.int_value = named_value.get_int_value();
+    return_value.value.int_value = named_value.get_value<int>();
   } else if (strcmp(named_value.get_type().c_str(), "unsigned int") == 0) {
     return_value.type = mutiny_type_unsigned_integer;
     return_value.value.unsigned_int_value =
-        named_value.get_unsigned_int_value();
+        named_value.get_value<unsigned int>();
   } else if (strcmp(named_value.get_type().c_str(), "long int") == 0) {
     return_value.type = mutiny_type_long_integer;
-    return_value.value.long_int_value = named_value.get_long_int_value();
+    return_value.value.long_int_value = named_value.get_value<long int>();
   } else if (strcmp(named_value.get_type().c_str(), "unsigned long int") == 0) {
     return_value.type = mutiny_type_unsigned_long_integer;
     return_value.value.unsigned_long_int_value =
-        named_value.get_unsigned_long_int_value();
+        named_value.get_value<unsigned long int>();
   } else if (strcmp(named_value.get_type().c_str(), "long long int") == 0) {
     return_value.type = mutiny_type_long_long_integer;
-    return_value.value.long_long_int_value =
-        named_value.get_long_long_int_value();
+    return_value.value.long_long_int_value = named_value.get_value<long long>();
   } else if (
       strcmp(named_value.get_type().c_str(), "unsigned long long int") == 0
   ) {
     return_value.type = mutiny_type_unsigned_long_long_integer;
     return_value.value.unsigned_long_long_int_value =
-        named_value.get_unsigned_long_long_int_value();
+        named_value.get_value<unsigned long long>();
   } else if (strcmp(named_value.get_type().c_str(), "double") == 0) {
     return_value.type = mutiny_type_double;
-    return_value.value.double_value = named_value.get_double_value();
+    return_value.value.double_value = named_value.get_value<double>();
   } else if (strcmp(named_value.get_type().c_str(), "const char*") == 0) {
     return_value.type = mutiny_type_string;
-    return_value.value.string_value = named_value.get_string_value();
+    return_value.value.string_value = named_value.get_value<const char*>();
   } else if (strcmp(named_value.get_type().c_str(), "void*") == 0) {
     return_value.type = mutiny_type_pointer;
-    return_value.value.pointer_value = named_value.get_pointer_value();
+    return_value.value.pointer_value = named_value.get_value<void*>();
   } else if (strcmp(named_value.get_type().c_str(), "const void*") == 0) {
     return_value.type = mutiny_type_const_pointer;
     return_value.value.const_pointer_value =
-        named_value.get_const_pointer_value();
+        named_value.get_value<const void*>();
   } else if (strcmp(named_value.get_type().c_str(), "void (*)()") == 0) {
     return_value.type = mutiny_type_functionpointer;
     return_value.value.function_pointer_value =
-        named_value.get_function_pointer_value();
+        named_value
+            .get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>();
   } else if (
       strcmp(named_value.get_type().c_str(), "const unsigned char*") == 0
   ) {
@@ -953,7 +958,7 @@ struct MutinyMockValue return_value()
 
 int bool_return_value()
 {
-  return current_actual_call->return_bool_value() ? 1 : 0;
+  return current_actual_call->return_value_or_default<bool>(false) ? 1 : 0;
 }
 
 int return_bool_value_or_default(int default_value)
@@ -966,7 +971,7 @@ int return_bool_value_or_default(int default_value)
 
 int int_return_value()
 {
-  return current_actual_call->return_int_value();
+  return current_actual_call->return_value_or_default<int>(0);
 }
 
 int return_int_value_or_default(int default_value)
@@ -979,7 +984,7 @@ int return_int_value_or_default(int default_value)
 
 unsigned int unsigned_int_return_value()
 {
-  return current_actual_call->return_unsigned_int_value();
+  return current_actual_call->return_value_or_default<unsigned int>(0);
 }
 
 unsigned int return_unsigned_int_value_or_default(unsigned int default_value)
@@ -992,7 +997,7 @@ unsigned int return_unsigned_int_value_or_default(unsigned int default_value)
 
 long int long_int_return_value()
 {
-  return current_actual_call->return_long_int_value();
+  return current_actual_call->return_value_or_default<long int>(0);
 }
 
 long int return_long_int_value_or_default(long int default_value)
@@ -1005,7 +1010,7 @@ long int return_long_int_value_or_default(long int default_value)
 
 unsigned long int unsigned_long_int_return_value()
 {
-  return current_actual_call->return_unsigned_long_int_value();
+  return current_actual_call->return_value_or_default<unsigned long int>(0);
 }
 
 unsigned long int return_unsigned_long_int_value_or_default(
@@ -1020,7 +1025,7 @@ unsigned long int return_unsigned_long_int_value_or_default(
 
 long long long_long_int_return_value()
 {
-  return current_actual_call->return_long_long_int_value();
+  return current_actual_call->return_value_or_default<long long>(0);
 }
 
 long long return_long_long_int_value_or_default(long long default_value)
@@ -1033,7 +1038,7 @@ long long return_long_long_int_value_or_default(long long default_value)
 
 unsigned long long unsigned_long_long_int_return_value()
 {
-  return current_actual_call->return_unsigned_long_long_int_value();
+  return current_actual_call->return_value_or_default<unsigned long long>(0);
 }
 
 unsigned long long return_unsigned_long_long_int_value_or_default(
@@ -1048,7 +1053,7 @@ unsigned long long return_unsigned_long_long_int_value_or_default(
 
 const char* string_return_value()
 {
-  return current_actual_call->return_string_value();
+  return current_actual_call->return_value_or_default<const char*>("");
 }
 
 const char* return_string_value_or_default(const char* default_value)
@@ -1061,7 +1066,7 @@ const char* return_string_value_or_default(const char* default_value)
 
 double double_return_value()
 {
-  return current_actual_call->return_double_value();
+  return current_actual_call->return_value_or_default<double>(0.0);
 }
 
 double return_double_value_or_default(double default_value)
@@ -1074,7 +1079,7 @@ double return_double_value_or_default(double default_value)
 
 void* pointer_return_value()
 {
-  return current_actual_call->return_pointer_value();
+  return current_actual_call->return_value_or_default<void*>(nullptr);
 }
 
 void* return_pointer_value_or_default(void* default_value)
@@ -1087,7 +1092,7 @@ void* return_pointer_value_or_default(void* default_value)
 
 const void* const_pointer_return_value()
 {
-  return current_actual_call->return_const_pointer_value();
+  return current_actual_call->return_value_or_default<const void*>(nullptr);
 }
 
 const void* return_const_pointer_value_or_default(const void* default_value)
@@ -1100,7 +1105,8 @@ const void* return_const_pointer_value_or_default(const void* default_value)
 
 void (*function_pointer_return_value())()
 {
-  return current_actual_call->return_function_pointer_value();
+  return current_actual_call->return_value_or_default<
+      mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr);
 }
 
 void (*return_function_pointer_value_or_default(void (*default_value)()))()
@@ -1147,6 +1153,16 @@ void set_long_int_data(const char* name, long int value)
 }
 
 void set_unsigned_long_int_data(const char* name, unsigned long int value)
+{
+  current_mock_support->set_data(name, value);
+}
+
+void set_long_long_int_data(const char* name, long long value)
+{
+  current_mock_support->set_data(name, value);
+}
+
+void set_unsigned_long_long_int_data(const char* name, unsigned long long value)
 {
   current_mock_support->set_data(name, value);
 }
@@ -1259,6 +1275,8 @@ struct MutinyMockSupport g_mock_support = {
   set_unsigned_int_data,
   set_long_int_data,
   set_unsigned_long_int_data,
+  set_long_long_int_data,
+  set_unsigned_long_long_int_data,
   set_string_data,
   set_double_data,
   set_pointer_data,

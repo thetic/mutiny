@@ -12,14 +12,13 @@
 #ifndef INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
 #define INCLUDED_MUTINY_MOCK_EXPECTEDCALL_HPP
 
-#include "mutiny/String.hpp"
+#include "mutiny/mock/NamedValue.hpp"
+
 #include "mutiny/export.h"
 
 namespace mu {
 namespace tiny {
 namespace mock {
-
-class NamedValue;
 
 /**
  * @brief Abstract fluent interface for configuring a single call expectation.
@@ -60,56 +59,24 @@ public:
   /**
    * @brief Constrain a parameter of any supported type.
    *
-   * Overloads for bool, int, unsigned int, long int, unsigned long int,
-   * long long, unsigned long long, double (with optional tolerance), const
-   * char*, void*, const void*, void(*)(), and (const unsigned char*, size_t)
-   * memory buffers are provided. Each delegates to the corresponding typed
-   * with_*_parameter() virtual method.
+   * The template creates a NamedValue and passes it to the single
+   * with_typed_parameter() virtual method. Overload resolution for
+   * NamedValue::set_value() selects the correct storage type.
    *
+   * @tparam T     Parameter type (deduced).
    * @param name   Parameter name, must match what the mock implementation
    * reports.
    * @param value  Expected parameter value.
    * @return *this for chaining.
    */
-  ExpectedCall& with_parameter(const String& name, bool value)
+  template<typename T>
+  ExpectedCall& with_parameter(const String& name, T value)
   {
-    return with_bool_parameter(name, value);
+    NamedValue nv(name);
+    nv.set_value(value);
+    return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, int value)
-  {
-    return with_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, unsigned int value)
-  {
-    return with_unsigned_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, long int value)
-  {
-    return with_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, unsigned long int value)
-  {
-    return with_unsigned_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, long long value)
-  {
-    return with_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, unsigned long long value)
-  {
-    return with_unsigned_long_long_int_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, double value)
-  {
-    return with_double_parameter(name, value);
-  }
+
   /**
    * @brief Constrain a double parameter with an explicit tolerance.
    *
@@ -124,28 +91,11 @@ public:
       double tolerance
   )
   {
-    return with_double_parameter(name, value, tolerance);
+    NamedValue nv(name);
+    nv.set_value(value, tolerance);
+    return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, const char* value)
-  {
-    return with_string_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, void* value)
-  {
-    return with_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, const void* value)
-  {
-    return with_const_pointer_parameter(name, value);
-  }
-  /** @copydoc with_parameter(const String&, bool) */
-  ExpectedCall& with_parameter(const String& name, void (*value)())
-  {
-    return with_function_pointer_parameter(name, value);
-  }
+
   /**
    * @brief Constrain a memory buffer parameter.
    *
@@ -160,8 +110,22 @@ public:
       size_t size
   )
   {
-    return with_memory_buffer_parameter(name, value, size);
+    NamedValue nv(name);
+    nv.set_memory_buffer(value, size);
+    return with_typed_parameter(static_cast<NamedValue&&>(nv));
   }
+
+  /**
+   * @brief Type-erased virtual entry point for parameter constraints.
+   *
+   * All non-virtual with_parameter() overloads delegate here after
+   * constructing a NamedValue. Subclasses override this single method
+   * instead of one method per type.
+   *
+   * @param parameter  Named, typed parameter value.
+   * @return *this for chaining.
+   */
+  virtual ExpectedCall& with_typed_parameter(NamedValue parameter) = 0;
 
   /**
    * @brief Constrain an object parameter identified by a type name string.
@@ -234,125 +198,35 @@ public:
    */
   virtual ExpectedCall& ignore_other_parameters() = 0;
 
-  /** @brief Expect a bool parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ExpectedCall& with_bool_parameter(const String& name, bool value) = 0;
-  /** @brief Expect an int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ExpectedCall& with_int_parameter(const String& name, int value) = 0;
-  /** @brief Expect an unsigned int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ExpectedCall& with_unsigned_int_parameter(
-      const String& name,
-      unsigned int value
-  ) = 0;
-  /** @brief Expect a long int parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ExpectedCall& with_long_int_parameter(
-      const String& name,
-      long int value
-  ) = 0;
-  /** @brief Expect an unsigned long int parameter. @param name Name. @param
-   * value Value. @return *this. */
-  virtual ExpectedCall& with_unsigned_long_int_parameter(
-      const String& name,
-      unsigned long int value
-  ) = 0;
-  /** @brief Expect a long long int parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ExpectedCall& with_long_long_int_parameter(
-      const String& name,
-      long long value
-  ) = 0;
-  /** @brief Expect an unsigned long long int parameter. @param name Name.
-   * @param value Value. @return *this. */
-  virtual ExpectedCall& with_unsigned_long_long_int_parameter(
-      const String& name,
-      unsigned long long value
-  ) = 0;
-  /**
-   * @brief Expect a double parameter (exact comparison).
-   * @param name Name. @param value Expected value. @return *this.
-   */
-  virtual ExpectedCall& with_double_parameter(
-      const String& name,
-      double value
-  ) = 0;
-  /**
-   * @brief Expect a double parameter within a tolerance.
-   * @param name Name. @param value Expected value. @param tolerance Max
-   * difference. @return *this.
-   */
-  virtual ExpectedCall& with_double_parameter(
-      const String& name,
-      double value,
-      double tolerance
-  ) = 0;
-  /** @brief Expect a C string parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ExpectedCall& with_string_parameter(
-      const String& name,
-      const char* value
-  ) = 0;
-  /** @brief Expect a void* parameter. @param name Name. @param value Value.
-   * @return *this. */
-  virtual ExpectedCall& with_pointer_parameter(
-      const String& name,
-      void* value
-  ) = 0;
-  /** @brief Expect a function pointer parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ExpectedCall& with_function_pointer_parameter(
-      const String& name,
-      void (*value)()
-  ) = 0;
-  /** @brief Expect a const void* parameter. @param name Name. @param value
-   * Value. @return *this. */
-  virtual ExpectedCall& with_const_pointer_parameter(
-      const String& name,
-      const void* value
-  ) = 0;
-  /** @brief Expect a memory buffer parameter. @param name Name. @param value
-   * Buffer. @param size Size in bytes. @return *this. */
-  virtual ExpectedCall& with_memory_buffer_parameter(
-      const String& name,
-      const unsigned char* value,
-      size_t size
-  ) = 0;
-
   /**
    * @brief Configure the return value the mock will produce.
    *
-   * Overloads for bool, int, unsigned int, long int, unsigned long int, long
-   * long, unsigned long long, double, const char*, void*, const void*, and
-   * void(*)() are provided. Call exactly one overload per expectation.
+   * The template creates a NamedValue and passes it to the single
+   * and_return_typed_value() virtual method.
    *
+   * @tparam T     Return value type (deduced).
    * @param value  Value to return when this expectation is matched.
    * @return *this for chaining.
    */
-  virtual ExpectedCall& and_return_value(bool value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(int value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(unsigned int value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(long int value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(unsigned long int value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(long long value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(unsigned long long value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(double value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(const char* value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(void* value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(const void* value) = 0;
-  /** @copydoc and_return_value(bool) */
-  virtual ExpectedCall& and_return_value(void (*value)()) = 0;
+  template<typename T>
+  ExpectedCall& and_return_value(T value)
+  {
+    NamedValue nv("returnValue");
+    nv.set_value(value);
+    return and_return_typed_value(static_cast<NamedValue&&>(nv));
+  }
+
+  /**
+   * @brief Type-erased virtual entry point for return-value configuration.
+   *
+   * All non-virtual and_return_value() overloads delegate here after
+   * constructing a NamedValue. Subclasses override this single method
+   * instead of one method per type.
+   *
+   * @param value  Named return value.
+   * @return *this for chaining.
+   */
+  virtual ExpectedCall& and_return_typed_value(NamedValue value) = 0;
 
   /**
    * @brief Restrict this expectation to calls made on a specific object.
