@@ -151,27 +151,27 @@ TEST(MockDocumentation, otherMockSupport)
 }
 
 namespace {
-uint32_t read_register(uint32_t addr)
+uint32_t uint32_function(uint32_t p1)
 {
   return mu::tiny::mock::mock()
-      .actual_call("read_register")
-      .with_parameter("addr", addr)
+      .actual_call("uint32Function")
+      .with_parameter("p1", p1)
       .return_value<uint32_t>();
 }
 
-void write_register(uint32_t addr, uint32_t value)
+void two_param_function(uint32_t p1, uint32_t p2)
 {
   mu::tiny::mock::mock()
-      .actual_call("write_register")
-      .with_parameter("addr", addr)
-      .with_parameter("value", value);
+      .actual_call("twoParamFunction")
+      .with_parameter("p1", p1)
+      .with_parameter("p2", p2);
 }
 
-int64_t read_sensor(uint8_t channel)
+int64_t mixed_sizes_function(uint8_t p1)
 {
   return mu::tiny::mock::mock()
-      .actual_call("read_sensor")
-      .with_parameter("channel", channel)
+      .actual_call("mixedSizesFunction")
+      .with_parameter("p1", p1)
       .return_value<int64_t>();
 }
 } // namespace
@@ -179,28 +179,28 @@ int64_t read_sensor(uint8_t channel)
 TEST(MockDocumentation, fixedWidthReturnValue)
 {
   mu::tiny::mock::mock()
-      .expect_one_call("read_register")
-      .with_parameter("addr", static_cast<uint32_t>(0x40000000))
-      .and_return_value(static_cast<uint32_t>(0xDEADBEEF));
-  CHECK_EQUAL(0xDEADBEEF, read_register(0x40000000));
+      .expect_one_call("uint32Function")
+      .with_parameter("p1", UINT32_C(0x40000000))
+      .and_return_value(UINT32_C(0xDEADBEEF));
+  CHECK_EQUAL(UINT32_C(0xDEADBEEF), uint32_function(UINT32_C(0x40000000)));
 }
 
 TEST(MockDocumentation, fixedWidthParameters)
 {
   mu::tiny::mock::mock()
-      .expect_one_call("write_register")
-      .with_parameter("addr", static_cast<uint32_t>(0x40000000))
-      .with_parameter("value", static_cast<uint32_t>(0xCAFEBABE));
-  write_register(0x40000000, 0xCAFEBABE);
+      .expect_one_call("twoParamFunction")
+      .with_parameter("p1", UINT32_C(0x40000000))
+      .with_parameter("p2", UINT32_C(0xCAFEBABE));
+  two_param_function(UINT32_C(0x40000000), UINT32_C(0xCAFEBABE));
 }
 
 TEST(MockDocumentation, fixedWidthMixedSizes)
 {
   mu::tiny::mock::mock()
-      .expect_one_call("read_sensor")
-      .with_parameter("channel", static_cast<uint8_t>(3))
-      .and_return_value(static_cast<int64_t>(-4000000000LL));
-  CHECK_EQUAL(-4000000000LL, read_sensor(3));
+      .expect_one_call("mixedSizesFunction")
+      .with_parameter("p1", UINT8_C(3))
+      .and_return_value(INT64_C(-4000000000));
+  CHECK_EQUAL(INT64_C(-4000000000), mixed_sizes_function(UINT8_C(3)));
 }
 
 TEST(MockDocumentation, fixedWidthSetData)
