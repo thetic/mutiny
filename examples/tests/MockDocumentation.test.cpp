@@ -32,15 +32,6 @@ void parameters_function(int p1, const char* p2)
 
 void do_something_that_would_otherwise_blow_up_the_mocking_framework() {}
 
-} // namespace
-
-TEST(MockDocumentation, SimpleScenario)
-{
-  mu::tiny::mock::mock().expect_one_call("productionCode");
-  production_code();
-  mu::tiny::mock::mock().check_expectations();
-}
-
 class ClassFromProductionCode
 {
 public:
@@ -56,6 +47,39 @@ public:
     mu::tiny::mock::mock().actual_call("importantFunction").on_object(this);
   }
 };
+
+uint32_t uint32_function(uint32_t p1)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("uint32Function")
+      .with_parameter("p1", p1)
+      .return_value<uint32_t>();
+}
+
+void two_param_function(uint32_t p1, uint32_t p2)
+{
+  mu::tiny::mock::mock()
+      .actual_call("twoParamFunction")
+      .with_parameter("p1", p1)
+      .with_parameter("p2", p2);
+}
+
+int64_t mixed_sizes_function(uint8_t p1)
+{
+  return mu::tiny::mock::mock()
+      .actual_call("mixedSizesFunction")
+      .with_parameter("p1", p1)
+      .return_value<int64_t>();
+}
+
+} // namespace
+
+TEST(MockDocumentation, SimpleScenario)
+{
+  mu::tiny::mock::mock().expect_one_call("productionCode");
+  production_code();
+  mu::tiny::mock::mock().check_expectations();
+}
 
 TEST(MockDocumentation, SimpleScenarioObject)
 {
@@ -149,32 +173,6 @@ TEST(MockDocumentation, otherMockSupport)
 
   mu::tiny::mock::mock().clear();
 }
-
-namespace {
-uint32_t uint32_function(uint32_t p1)
-{
-  return mu::tiny::mock::mock()
-      .actual_call("uint32Function")
-      .with_parameter("p1", p1)
-      .return_value<uint32_t>();
-}
-
-void two_param_function(uint32_t p1, uint32_t p2)
-{
-  mu::tiny::mock::mock()
-      .actual_call("twoParamFunction")
-      .with_parameter("p1", p1)
-      .with_parameter("p2", p2);
-}
-
-int64_t mixed_sizes_function(uint8_t p1)
-{
-  return mu::tiny::mock::mock()
-      .actual_call("mixedSizesFunction")
-      .with_parameter("p1", p1)
-      .return_value<int64_t>();
-}
-} // namespace
 
 TEST(MockDocumentation, fixedWidthReturnValue)
 {
