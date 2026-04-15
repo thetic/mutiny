@@ -664,7 +664,7 @@
 <dd class="field-odd"><p><strong>function_name</strong> – Name of the function that should be called once. </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A fluent <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall"><span class="std std-ref">ExpectedCall</span></a> for chaining <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall_1a5fb83438ac93b7b9559bfad6aec7f774"><span class="std std-ref">mu::tiny::mock::ExpectedCall::with_parameter()</span></a> and <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall_1a7f15b52f085181658b7b4afe469b09c7"><span class="std std-ref">mu::tiny::mock::ExpectedCall::and_return_value()</span></a> constraints. </p>
+<dd class="field-even"><p>A fluent <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall"><span class="std std-ref">ExpectedCall</span></a> for chaining <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall_1ad22f5a30fc890828c21bacb4557a60b6"><span class="std std-ref">mu::tiny::mock::ExpectedCall::with_parameter()</span></a> and <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#classmu_1_1tiny_1_1mock_1_1ExpectedCall_1aaac014f0b62e2be6d0bca32c905f0652"><span class="std std-ref">mu::tiny::mock::ExpectedCall::and_return_value()</span></a> constraints. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -734,277 +734,32 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support17bool_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support17bool_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support17bool_return_valueEv"></span><span id="mu::tiny::mock::Support::bool_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a07f441dd28b6ca0a647fb743006062c2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bool_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support17bool_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L126"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The bool return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support28return_bool_value_or_defaultEb">
-<span id="_CPPv3N2mu4tiny4mock7Support28return_bool_value_or_defaultEb"></span><span id="_CPPv2N2mu4tiny4mock7Support28return_bool_value_or_defaultEb"></span><span id="mu::tiny::mock::Support::return_bool_value_or_default__b"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a9265338205a4089a3df63b3d7772b330"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_bool_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support28return_bool_value_or_defaultEb" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN2mu4tiny4mock7Support12return_valueE1Tv">
+<span id="_CPPv3I0EN2mu4tiny4mock7Support12return_valueEv"></span><span id="_CPPv2I0EN2mu4tiny4mock7Support12return_valueEv"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a2eb29fe5b41108a4eb19c9c58b3eb205"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN2mu4tiny4mock7Support12return_valueE1Tv" title="mu::tiny::mock::Support::return_value::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN2mu4tiny4mock7Support12return_valueE1Tv" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Type-safe return-value accessor template. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The type to retrieve. </p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The bool return value if one was configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
+<dd class="field-even"><p>The stored return value converted to <code class="docutils literal notranslate"><span class="pre">T</span></code>. </p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support16int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support16int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support16int_return_valueEv"></span><span id="mu::tiny::mock::Support::int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a96c1fa64df52c6c9c48d0c18c745ba2d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support16int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
+<dt class="sig sig-object cpp" id="_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T">
+<span id="_CPPv3I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T"></span><span id="_CPPv2I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">T</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a3a33104319d1aa557634bb49c7f0f69f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T" title="mu::tiny::mock::Support::return_value_or_default::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_value_or_default</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T" title="mu::tiny::mock::Support::return_value_or_default::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Type-safe return-value accessor with a fallback default. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> – The type to retrieve. </p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>default_value</strong> – Value returned when no return value was configured. </p>
+</dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The int return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support27return_int_value_or_defaultEi">
-<span id="_CPPv3N2mu4tiny4mock7Support27return_int_value_or_defaultEi"></span><span id="_CPPv2N2mu4tiny4mock7Support27return_int_value_or_defaultEi"></span><span id="mu::tiny::mock::Support::return_int_value_or_default__i"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a8b5bae248cbc5a9e88b3abef09db3bff"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support27return_int_value_or_defaultEi" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The int return value if one was configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support25unsigned_int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support25unsigned_int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support25unsigned_int_return_valueEv"></span><span id="mu::tiny::mock::Support::unsigned_int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ae6beba901822f853fcd242c1a271f252"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unsigned_int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support25unsigned_int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L146"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The unsigned int return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support21long_int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support21long_int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support21long_int_return_valueEv"></span><span id="mu::tiny::mock::Support::long_int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1af61cae0a3babe4e58291a052db6f2955"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">long_int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support21long_int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L149"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The long int return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support32return_long_int_value_or_defaultEl">
-<span id="_CPPv3N2mu4tiny4mock7Support32return_long_int_value_or_defaultEl"></span><span id="_CPPv2N2mu4tiny4mock7Support32return_long_int_value_or_defaultEl"></span><span id="mu::tiny::mock::Support::return_long_int_value_or_default__l-i"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a4984057cae5fdcf521306b7801bc50a0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_long_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support32return_long_int_value_or_defaultEl" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The long int return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support30unsigned_long_int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support30unsigned_long_int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support30unsigned_long_int_return_valueEv"></span><span id="mu::tiny::mock::Support::unsigned_long_int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1aab20a117befebe8b6097c81ff5cd44b5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unsigned_long_int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support30unsigned_long_int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L160"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The unsigned long int return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support41return_unsigned_long_int_value_or_defaultEm">
-<span id="_CPPv3N2mu4tiny4mock7Support41return_unsigned_long_int_value_or_defaultEm"></span><span id="_CPPv2N2mu4tiny4mock7Support41return_unsigned_long_int_value_or_defaultEm"></span><span id="mu::tiny::mock::Support::return_unsigned_long_int_value_or_default__unsigned-l-i"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ac98482d39be85c88d493c82d4f2411f9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_unsigned_long_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support41return_unsigned_long_int_value_or_defaultEm" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The unsigned long int return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support26long_long_int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support26long_long_int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support26long_long_int_return_valueEv"></span><span id="mu::tiny::mock::Support::long_long_int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a572218f905e15d6a961ea96da11cadc8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">long_long_int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support26long_long_int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L172"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The long long int return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support37return_long_long_int_value_or_defaultEx">
-<span id="_CPPv3N2mu4tiny4mock7Support37return_long_long_int_value_or_defaultEx"></span><span id="_CPPv2N2mu4tiny4mock7Support37return_long_long_int_value_or_defaultEx"></span><span id="mu::tiny::mock::Support::return_long_long_int_value_or_default__l-l"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a504d37f32676890e3d84ece5e6fdea27"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_long_long_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support37return_long_long_int_value_or_defaultEx" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The long long int return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support35unsigned_long_long_int_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support35unsigned_long_long_int_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support35unsigned_long_long_int_return_valueEv"></span><span id="mu::tiny::mock::Support::unsigned_long_long_int_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a75ddd18a4ece65bae49fb0a77cba2333"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">unsigned_long_long_int_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support35unsigned_long_long_int_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L184"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The unsigned long long int return value for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support46return_unsigned_long_long_int_value_or_defaultEy">
-<span id="_CPPv3N2mu4tiny4mock7Support46return_unsigned_long_long_int_value_or_defaultEy"></span><span id="_CPPv2N2mu4tiny4mock7Support46return_unsigned_long_long_int_value_or_defaultEy"></span><span id="mu::tiny::mock::Support::return_unsigned_long_long_int_value_or_default__unsigned-l-l"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1abbcd3ed563f6fdf4d31c8f60d71fd906"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_unsigned_long_long_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support46return_unsigned_long_long_int_value_or_defaultEy" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The unsigned long long return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support36return_unsigned_int_value_or_defaultEj">
-<span id="_CPPv3N2mu4tiny4mock7Support36return_unsigned_int_value_or_defaultEj"></span><span id="_CPPv2N2mu4tiny4mock7Support36return_unsigned_int_value_or_defaultEj"></span><span id="mu::tiny::mock::Support::return_unsigned_int_value_or_default__unsigned-i"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a56f8d36b863e4ed51526e89b7990553b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_unsigned_int_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support36return_unsigned_int_value_or_defaultEj" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The unsigned int return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support19string_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support19string_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support19string_return_valueEv"></span><span id="mu::tiny::mock::Support::string_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ad3c02f8343ffcbc14039c975cc795fbd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">string_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support19string_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L205"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The const char* return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support30return_string_value_or_defaultEPKc">
-<span id="_CPPv3N2mu4tiny4mock7Support30return_string_value_or_defaultEPKc"></span><span id="_CPPv2N2mu4tiny4mock7Support30return_string_value_or_defaultEPKc"></span><span id="mu::tiny::mock::Support::return_string_value_or_default__cCP"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1aad6d0a3bdbf14662df33fb5c9e667fc3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">return_string_value_or_default</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support30return_string_value_or_defaultEPKc" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The string return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support30return_double_value_or_defaultEd">
-<span id="_CPPv3N2mu4tiny4mock7Support30return_double_value_or_defaultEd"></span><span id="_CPPv2N2mu4tiny4mock7Support30return_double_value_or_defaultEd"></span><span id="mu::tiny::mock::Support::return_double_value_or_default__double"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a1dfa7900fcfeb3bc52f25fab53d12d97"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_double_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support30return_double_value_or_defaultEd" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The double return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support19double_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support19double_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support19double_return_valueEv"></span><span id="mu::tiny::mock::Support::double_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1aa591377f117ee06fe6bee602a61c104d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">double_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support19double_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L220"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The double return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support20pointer_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support20pointer_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support20pointer_return_valueEv"></span><span id="mu::tiny::mock::Support::pointer_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a6a5715212145044a3dc610d7bc871ff8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">pointer_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support20pointer_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L223"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The void* return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support31return_pointer_value_or_defaultEPv">
-<span id="_CPPv3N2mu4tiny4mock7Support31return_pointer_value_or_defaultEPv"></span><span id="_CPPv2N2mu4tiny4mock7Support31return_pointer_value_or_defaultEPv"></span><span id="mu::tiny::mock::Support::return_pointer_value_or_default__voidP"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a6990719c63f63c289edfd45baf701a9c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">return_pointer_value_or_default</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support31return_pointer_value_or_defaultEPv" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The pointer return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support37return_const_pointer_value_or_defaultEPKv">
-<span id="_CPPv3N2mu4tiny4mock7Support37return_const_pointer_value_or_defaultEPKv"></span><span id="_CPPv2N2mu4tiny4mock7Support37return_const_pointer_value_or_defaultEPKv"></span><span id="mu::tiny::mock::Support::return_const_pointer_value_or_default__voidCP"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ad4c85298d68d91540c763bb9445376de"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">return_const_pointer_value_or_default</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support37return_const_pointer_value_or_defaultEPKv" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The const void* return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support26const_pointer_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support26const_pointer_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support26const_pointer_return_valueEv"></span><span id="mu::tiny::mock::Support::const_pointer_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a94d0597fd2113b114b6a1f06ffca4c4c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">const_pointer_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support26const_pointer_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L241"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The const void* return value configured for the current call. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support40return_function_pointer_value_or_defaultE20FunctionPointerValue">
-<span id="_CPPv3N2mu4tiny4mock7Support40return_function_pointer_value_or_defaultE20FunctionPointerValue"></span><span id="_CPPv2N2mu4tiny4mock7Support40return_function_pointer_value_or_defaultE20FunctionPointerValue"></span><span id="mu::tiny::mock::Support::return_function_pointer_value_or_default__FunctionPointerValue"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1acb18434a62334112d985353d583fc054"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE" title="mu::tiny::mock::Support::FunctionPointerValue"><span class="n"><span class="pre">FunctionPointerValue</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">return_function_pointer_value_or_default</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE" title="mu::tiny::mock::Support::FunctionPointerValue"><span class="n"><span class="pre">FunctionPointerValue</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">default_value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support40return_function_pointer_value_or_defaultE20FunctionPointerValue" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_value</strong> – Fallback when no return value was set. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The function-pointer return value if configured, otherwise <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support29function_pointer_return_valueEv">
-<span id="_CPPv3N2mu4tiny4mock7Support29function_pointer_return_valueEv"></span><span id="_CPPv2N2mu4tiny4mock7Support29function_pointer_return_valueEv"></span><span id="mu::tiny::mock::Support::function_pointer_return_value"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a93451109a7c58a31e5c9940a7b73832d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE" title="mu::tiny::mock::Support::FunctionPointerValue"><span class="n"><span class="pre">FunctionPointerValue</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">function_pointer_return_value</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support29function_pointer_return_valueEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L255"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The function-pointer return value configured for the current call. </p>
+<dd class="field-odd"><p>The stored return value or <code class="docutils literal notranslate"><span class="pre">default_value</span></code>. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1150,6 +905,34 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringx">
+<span id="_CPPv3N2mu4tiny4mock7Support8set_dataERK6Stringx"></span><span id="_CPPv2N2mu4tiny4mock7Support8set_dataERK6Stringx"></span><span id="mu::tiny::mock::Support::set_data__StringCR.l-l"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a3efdb6631fa79edd47d0a4ecf719ed68"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringx" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Store a long long value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Key. </p></li>
+<li><p><strong>value</strong> – Value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringy">
+<span id="_CPPv3N2mu4tiny4mock7Support8set_dataERK6Stringy"></span><span id="_CPPv2N2mu4tiny4mock7Support8set_dataERK6Stringy"></span><span id="mu::tiny::mock::Support::set_data__StringCR.unsigned-l-l"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a1c3192c42cb494b16334dd2b40b4736f"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="kt"><span class="pre">long</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringy" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Store an unsigned long long value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Key. </p></li>
+<li><p><strong>value</strong> – Value. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue">
 <span id="_CPPv3N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue"></span><span id="_CPPv2N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue"></span><span id="mu::tiny::mock::Support::set_data__StringCR.FunctionPointerValue"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a039b4cf36ecd4c3287f059f7fe10be4b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_data</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE" title="mu::tiny::mock::Support::FunctionPointerValue"><span class="n"><span class="pre">FunctionPointerValue</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Store a function pointer value. </p>
@@ -1224,7 +1007,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support16get_trace_outputEv">
-<span id="_CPPv3N2mu4tiny4mock7Support16get_trace_outputEv"></span><span id="_CPPv2N2mu4tiny4mock7Support16get_trace_outputEv"></span><span id="mu::tiny::mock::Support::get_trace_output"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a502fee72996b2a0969c93a41161fd838"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_trace_output</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support16get_trace_outputEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L382"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support16get_trace_outputEv"></span><span id="_CPPv2N2mu4tiny4mock7Support16get_trace_outputEv"></span><span id="mu::tiny::mock::Support::get_trace_output"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a502fee72996b2a0969c93a41161fd838"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_trace_output</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support16get_trace_outputEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L291"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A C string containing all traced call output, or empty string if tracing was not enabled. </p>
@@ -1234,13 +1017,13 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support7disableEv">
-<span id="_CPPv3N2mu4tiny4mock7Support7disableEv"></span><span id="_CPPv2N2mu4tiny4mock7Support7disableEv"></span><span id="mu::tiny::mock::Support::disable"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a9fc89f3bc983b5cfe7abd54bd6beaf10"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">disable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support7disableEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L386"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support7disableEv"></span><span id="_CPPv2N2mu4tiny4mock7Support7disableEv"></span><span id="mu::tiny::mock::Support::disable"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a9fc89f3bc983b5cfe7abd54bd6beaf10"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">disable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support7disableEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L295"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Disable this scope; all <a class="reference internal" href="#classmu_1_1tiny_1_1mock_1_1Support_1a988b5351d056aeb806c9bffff2a642eb"><span class="std std-ref">actual_call()</span></a> invocations become no-ops. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support6enableEv">
-<span id="_CPPv3N2mu4tiny4mock7Support6enableEv"></span><span id="_CPPv2N2mu4tiny4mock7Support6enableEv"></span><span id="mu::tiny::mock::Support::enable"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ad5992e77c86e24c9c8d7b4f6b16172cc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support6enableEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L389"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support6enableEv"></span><span id="_CPPv2N2mu4tiny4mock7Support6enableEv"></span><span id="mu::tiny::mock::Support::enable"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ad5992e77c86e24c9c8d7b4f6b16172cc"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enable</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support6enableEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L298"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Re-enable this scope after <a class="reference internal" href="#classmu_1_1tiny_1_1mock_1_1Support_1a9fc89f3bc983b5cfe7abd54bd6beaf10"><span class="std std-ref">disable()</span></a>. </p>
 </dd></dl>
 
@@ -1257,21 +1040,21 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support18ignore_other_callsEv">
-<span id="_CPPv3N2mu4tiny4mock7Support18ignore_other_callsEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18ignore_other_callsEv"></span><span id="mu::tiny::mock::Support::ignore_other_calls"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1aeb6b83f23c3294c3467a413ffa1f56a3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_other_calls</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18ignore_other_callsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L405"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support18ignore_other_callsEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18ignore_other_callsEv"></span><span id="mu::tiny::mock::Support::ignore_other_calls"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1aeb6b83f23c3294c3467a413ffa1f56a3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_other_calls</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18ignore_other_callsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L314"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Suppress unexpected-call failures. </p>
 <p>All calls to <a class="reference internal" href="#classmu_1_1tiny_1_1mock_1_1Support_1a988b5351d056aeb806c9bffff2a642eb"><span class="std std-ref">actual_call()</span></a> are silently accepted without matching an expectation. Useful when testing code that uses a collaborator you do not want to fully specify. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support18check_expectationsEv">
-<span id="_CPPv3N2mu4tiny4mock7Support18check_expectationsEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18check_expectationsEv"></span><span id="mu::tiny::mock::Support::check_expectations"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a1a8fce0833088278c28afc97ec2dc178"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_expectations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18check_expectationsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L414"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support18check_expectationsEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18check_expectationsEv"></span><span id="mu::tiny::mock::Support::check_expectations"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a1a8fce0833088278c28afc97ec2dc178"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">check_expectations</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18check_expectationsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L323"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Verify all expected calls were fulfilled; fail the test if not. </p>
 <p>Typically called in <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Test.html#classmu_1_1tiny_1_1test_1_1Test_1a6c343b79d104aa1c56562c041bc70118"><span class="std std-ref">mu::tiny::test::Test::teardown()</span></a> after all assertions have run. Reports every unsatisfied expectation as a separate test failure. </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support19expected_calls_leftEv">
-<span id="_CPPv3N2mu4tiny4mock7Support19expected_calls_leftEv"></span><span id="_CPPv2N2mu4tiny4mock7Support19expected_calls_leftEv"></span><span id="mu::tiny::mock::Support::expected_calls_left"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1afb14db8056f1bb61e5116fdbfb39b664"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expected_calls_left</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support19expected_calls_leftEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L418"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support19expected_calls_leftEv"></span><span id="_CPPv2N2mu4tiny4mock7Support19expected_calls_leftEv"></span><span id="mu::tiny::mock::Support::expected_calls_left"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1afb14db8056f1bb61e5116fdbfb39b664"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expected_calls_left</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support19expected_calls_leftEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L327"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>true if there are registered expectations that have not been called yet. </p>
@@ -1281,7 +1064,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support5clearEv">
-<span id="_CPPv3N2mu4tiny4mock7Support5clearEv"></span><span id="_CPPv2N2mu4tiny4mock7Support5clearEv"></span><span id="mu::tiny::mock::Support::clear"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1adb1ee50510c21667e193c58f72852581"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support5clearEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L427"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support5clearEv"></span><span id="_CPPv2N2mu4tiny4mock7Support5clearEv"></span><span id="mu::tiny::mock::Support::clear"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1adb1ee50510c21667e193c58f72852581"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support5clearEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L336"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Remove all expectations, actual calls, data, and child scopes. </p>
 <p>Call in <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Test.html#classmu_1_1tiny_1_1test_1_1Test_1a6c343b79d104aa1c56562c041bc70118"><span class="std std-ref">mu::tiny::test::Test::teardown()</span></a> after <a class="reference internal" href="#classmu_1_1tiny_1_1mock_1_1Support_1a1a8fce0833088278c28afc97ec2dc178"><span class="std std-ref">check_expectations()</span></a> to leave the mock support in a clean state for the next test. </p>
 </dd></dl>
@@ -1321,7 +1104,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv">
-<span id="_CPPv3N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv"></span><span id="_CPPv2N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv"></span><span id="mu::tiny::mock::Support::set_default_comparators_and_copiers_repository"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ab847069e71edd767085d862f255df00d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_default_comparators_and_copiers_repository</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L452"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv"></span><span id="_CPPv2N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv"></span><span id="mu::tiny::mock::Support::set_default_comparators_and_copiers_repository"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ab847069e71edd767085d862f255df00d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_default_comparators_and_copiers_repository</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L361"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Restore the default comparators-and-copiers repository. </p>
 </dd></dl>
 
@@ -1368,7 +1151,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv">
-<span id="_CPPv3N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv"></span><span id="_CPPv2N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv"></span><span id="mu::tiny::mock::Support::remove_all_comparators_and_copiers"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ae3ea4daf27595af835cd6e11fa9557f6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_all_comparators_and_copiers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L494"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv"></span><span id="_CPPv2N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv"></span><span id="mu::tiny::mock::Support::remove_all_comparators_and_copiers"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1ae3ea4daf27595af835cd6e11fa9557f6"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_all_comparators_and_copiers</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L403"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Remove all installed comparators and copiers from this scope. </p>
 </dd></dl>
 
@@ -1383,7 +1166,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support18create_actual_callEv">
-<span id="_CPPv3N2mu4tiny4mock7Support18create_actual_callEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18create_actual_callEv"></span><span id="mu::tiny::mock::Support::create_actual_call"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a5a02a5071065bad0bc7b60e2a8823563"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">CheckedActualCall</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">create_actual_call</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18create_actual_callEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L501"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support18create_actual_callEv"></span><span id="_CPPv2N2mu4tiny4mock7Support18create_actual_callEv"></span><span id="mu::tiny::mock::Support::create_actual_call"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a5a02a5071065bad0bc7b60e2a8823563"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">CheckedActualCall</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">create_actual_call</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support18create_actual_callEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L410"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Factory method for the actual-call object (override in tests). </p>
 </dd></dl>
 
@@ -1395,7 +1178,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4mock7Support11count_checkEv">
-<span id="_CPPv3N2mu4tiny4mock7Support11count_checkEv"></span><span id="_CPPv2N2mu4tiny4mock7Support11count_checkEv"></span><span id="mu::tiny::mock::Support::count_check"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a21fbf5e3266a07c5fd84d01de417f559"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support11count_checkEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L507"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4mock7Support11count_checkEv"></span><span id="_CPPv2N2mu4tiny4mock7Support11count_checkEv"></span><span id="mu::tiny::mock::Support::count_check"></span><span class="target" id="classmu_1_1tiny_1_1mock_1_1Support_1a21fbf5e3266a07c5fd84d01de417f559"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_check</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4mock7Support11count_checkEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/mock.hpp#L416"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Increment the assertion-check count in the active Result. </p>
 </dd></dl>
 
@@ -1476,30 +1259,8 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support11actual_callEPKc"><code class="docutils literal notranslate"><span class="pre">actual_call()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support16has_return_valueEv"><code class="docutils literal notranslate"><span class="pre">has_return_value()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support12return_valueEv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support17bool_return_valueEv"><code class="docutils literal notranslate"><span class="pre">bool_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support28return_bool_value_or_defaultEb"><code class="docutils literal notranslate"><span class="pre">return_bool_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support16int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support27return_int_value_or_defaultEi"><code class="docutils literal notranslate"><span class="pre">return_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support25unsigned_int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">unsigned_int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support21long_int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">long_int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support32return_long_int_value_or_defaultEl"><code class="docutils literal notranslate"><span class="pre">return_long_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support30unsigned_long_int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">unsigned_long_int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support41return_unsigned_long_int_value_or_defaultEm"><code class="docutils literal notranslate"><span class="pre">return_unsigned_long_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support26long_long_int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">long_long_int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support37return_long_long_int_value_or_defaultEx"><code class="docutils literal notranslate"><span class="pre">return_long_long_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support35unsigned_long_long_int_return_valueEv"><code class="docutils literal notranslate"><span class="pre">unsigned_long_long_int_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support46return_unsigned_long_long_int_value_or_defaultEy"><code class="docutils literal notranslate"><span class="pre">return_unsigned_long_long_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support36return_unsigned_int_value_or_defaultEj"><code class="docutils literal notranslate"><span class="pre">return_unsigned_int_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support19string_return_valueEv"><code class="docutils literal notranslate"><span class="pre">string_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support30return_string_value_or_defaultEPKc"><code class="docutils literal notranslate"><span class="pre">return_string_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support30return_double_value_or_defaultEd"><code class="docutils literal notranslate"><span class="pre">return_double_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support19double_return_valueEv"><code class="docutils literal notranslate"><span class="pre">double_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support20pointer_return_valueEv"><code class="docutils literal notranslate"><span class="pre">pointer_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support31return_pointer_value_or_defaultEPv"><code class="docutils literal notranslate"><span class="pre">return_pointer_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support37return_const_pointer_value_or_defaultEPKv"><code class="docutils literal notranslate"><span class="pre">return_const_pointer_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support26const_pointer_return_valueEv"><code class="docutils literal notranslate"><span class="pre">const_pointer_return_value()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support40return_function_pointer_value_or_defaultE20FunctionPointerValue"><code class="docutils literal notranslate"><span class="pre">return_function_pointer_value_or_default()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support29function_pointer_return_valueEv"><code class="docutils literal notranslate"><span class="pre">function_pointer_return_value()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4I0EN2mu4tiny4mock7Support12return_valueE1Tv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T"><code class="docutils literal notranslate"><span class="pre">return_value_or_default()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8has_dataERK6String"><code class="docutils literal notranslate"><span class="pre">has_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringb"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringi"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
@@ -1510,6 +1271,8 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPKv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringx"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringy"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support15set_data_objectERK6StringRK6StringPv"><code class="docutils literal notranslate"><span class="pre">set_data_object()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectERK6StringRK6StringPKv"><code class="docutils literal notranslate"><span class="pre">set_data_const_object()</span></code></a></li>
@@ -1550,7 +1313,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../_static/documentation_options.js?v=e259d695"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

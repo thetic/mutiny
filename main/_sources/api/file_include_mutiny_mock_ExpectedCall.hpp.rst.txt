@@ -31,9 +31,9 @@ Includes
 --------
 
 
-- ``mutiny/String.hpp`` (:ref:`file_include_mutiny_String.hpp`)
-
 - ``mutiny/export.h``
+
+- ``mutiny/mock/NamedValue.hpp`` (:ref:`file_include_mutiny_mock_NamedValue.hpp`)
 
 
 

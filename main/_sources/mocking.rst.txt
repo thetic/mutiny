@@ -69,7 +69,9 @@ actual call side with the same overloads. Both accept: ``bool``,
 ``int``, ``unsigned int``, ``long``, ``unsigned long``, ``long long``,
 ``unsigned long long``, ``double``, ``const char*``, ``void*``,
 ``const void*``, ``void(*)()``, and memory buffers
-``(const unsigned char*, size_t)``.
+``(const unsigned char*, size_t)``. Fixed-width types from
+``<stdint.h>`` (``size_t``, ``uint32_t``, ``int64_t``, etc.) work
+directly because they are typedefs for these fundamental types.
 
 .. code-block:: cpp
 
@@ -142,35 +144,28 @@ Set the return value on the expected call with
 :cpp:func:`and_return_value() <mu::tiny::mock::ExpectedCall::and_return_value>`. The overload accepts all basic types plus
 ``void*``, ``const void*``, and ``void(*)()``.
 
-Retrieve the return value in your mock stub with the typed accessors on
-:cpp:class:`ActualCall <mu::tiny::mock::ActualCall>` or :cpp:class:`Support <mu::tiny::mock::Support>`:
+Retrieve the return value in your mock stub with the template accessor
+``return_value<T>()``:
 
 .. code-block:: cpp
 
    // In the mock stub:
    return mock().actual_call("compute")
                 .with_parameter("x", x)
-                .return_int_value();
+                .return_value<int>();
 
    // Or with a default if no expectation was set:
    return mock().actual_call("compute")
                 .with_parameter("x", x)
-                .return_int_value_or_default(0);
+                .return_value_or_default<int>(0);
 
-Available typed getters on :cpp:class:`ActualCall <mu::tiny::mock::ActualCall>`:
-:cpp:func:`return_bool_value() <mu::tiny::mock::ActualCall::return_bool_value>`,
-:cpp:func:`return_int_value() <mu::tiny::mock::ActualCall::return_int_value>`,
-:cpp:func:`return_unsigned_int_value() <mu::tiny::mock::ActualCall::return_unsigned_int_value>`,
-:cpp:func:`return_long_int_value() <mu::tiny::mock::ActualCall::return_long_int_value>`,
-:cpp:func:`return_unsigned_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_int_value>`,
-:cpp:func:`return_long_long_int_value() <mu::tiny::mock::ActualCall::return_long_long_int_value>`,
-:cpp:func:`return_unsigned_long_long_int_value() <mu::tiny::mock::ActualCall::return_unsigned_long_long_int_value>`,
-:cpp:func:`return_double_value() <mu::tiny::mock::ActualCall::return_double_value>`,
-:cpp:func:`return_string_value() <mu::tiny::mock::ActualCall::return_string_value>`,
-:cpp:func:`return_pointer_value() <mu::tiny::mock::ActualCall::return_pointer_value>`,
-:cpp:func:`return_const_pointer_value() <mu::tiny::mock::ActualCall::return_const_pointer_value>`,
-:cpp:func:`return_function_pointer_value() <mu::tiny::mock::ActualCall::return_function_pointer_value>`.
-All have ``_or_default`` variants.
+``return_value<T>()`` and ``return_value_or_default<T>()`` are available
+on both :cpp:class:`ActualCall <mu::tiny::mock::ActualCall>` and
+:cpp:class:`Support <mu::tiny::mock::Support>`. They work with any type
+that has a ``NamedValue::get_value<T>()`` specialization — all fundamental
+types plus ``const char*``, ``void*``, ``const void*``, ``void(*)()``,
+and any ``<stdint.h>`` typedef (``uint32_t``, ``int64_t``, etc.).
+
 
 Object Binding
 --------------
@@ -227,11 +222,19 @@ and stub code without extra globals:
    mock().set_data("timeout_ms", 100);
 
    // In mock stub:
-   int timeout = mock().get_data("timeout_ms").get_int_value();
+   int timeout = mock().get_data("timeout_ms").get_value<int>();
+
+``get_value<T>()`` works with fixed-width types too:
+
+.. code-block:: cpp
+
+   mock().set_data("calibration", static_cast<int64_t>(42));
+   auto cal = mock().get_data("calibration").get_value<int64_t>();
 
 :cpp:func:`set_data() <mu::tiny::mock::Support::set_data>` is overloaded for: ``bool``, ``int``, ``unsigned int``,
-``long``, ``unsigned long``, ``const char*``, ``double``, ``void*``,
-``const void*``, ``void(*)()``. For object types:
+``long``, ``unsigned long``, ``long long``, ``unsigned long long``,
+``const char*``, ``double``, ``void*``, ``const void*``, ``void(*)()``.
+For object types:
 :cpp:func:`set_data_object() <mu::tiny::mock::Support::set_data_object>` /
 :cpp:func:`set_data_const_object() <mu::tiny::mock::Support::set_data_const_object>`.
 
