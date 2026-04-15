@@ -63,11 +63,7 @@ public:
    */
   template<typename T>
   void set_value(T value);
-  /**
-   * @fn void NamedValue::set_value<FunctionPointerValue>(FunctionPointerValue
-   * value)
-   * @brief set_value() specialization for FunctionPointerValue (`void(*)()`).
-   */
+  /** @fn void NamedValue::set_value<FunctionPointerValue>(FunctionPointerValue value) */
   /**
    * @brief Store a double with an explicit tolerance.
    * @param value     Value to store.
