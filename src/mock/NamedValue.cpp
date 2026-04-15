@@ -44,49 +44,57 @@ NamedValue::NamedValue(NamedValue&& other) noexcept
 {
 }
 
-void NamedValue::set_value(bool value)
+template<>
+void NamedValue::set_value<bool>(bool value)
 {
   type_ = "bool";
   value_.bool_value = value;
 }
 
-void NamedValue::set_value(unsigned int value)
-{
-  type_ = "unsigned int";
-  value_.unsigned_int_value = value;
-}
-
-void NamedValue::set_value(int value)
+template<>
+void NamedValue::set_value<int>(int value)
 {
   type_ = "int";
   value_.int_value = value;
 }
 
-void NamedValue::set_value(long int value)
+template<>
+void NamedValue::set_value<unsigned int>(unsigned int value)
+{
+  type_ = "unsigned int";
+  value_.unsigned_int_value = value;
+}
+
+template<>
+void NamedValue::set_value<long int>(long int value)
 {
   type_ = "long int";
   value_.long_int_value = value;
 }
 
-void NamedValue::set_value(unsigned long int value)
+template<>
+void NamedValue::set_value<unsigned long int>(unsigned long int value)
 {
   type_ = "unsigned long int";
   value_.unsigned_long_int_value = value;
 }
 
-void NamedValue::set_value(long long value)
+template<>
+void NamedValue::set_value<long long>(long long value)
 {
   type_ = "long long int";
   value_.long_long_int_value = value;
 }
 
-void NamedValue::set_value(unsigned long long value)
+template<>
+void NamedValue::set_value<unsigned long long>(unsigned long long value)
 {
   type_ = "unsigned long long int";
   value_.unsigned_long_long_int_value = value;
 }
 
-void NamedValue::set_value(double value)
+template<>
+void NamedValue::set_value<double>(double value)
 {
   set_value(value, default_double_tolerance);
 }
@@ -98,25 +106,31 @@ void NamedValue::set_value(double value, double tolerance)
   value_.double_value.tolerance = tolerance;
 }
 
-void NamedValue::set_value(void* value)
+template<>
+void NamedValue::set_value<void*>(void* value)
 {
   type_ = "void*";
   value_.pointer_value = value;
 }
 
-void NamedValue::set_value(const void* value)
+template<>
+void NamedValue::set_value<const void*>(const void* value)
 {
   type_ = "const void*";
   value_.const_pointer_value = value;
 }
 
-void NamedValue::set_value(NamedValue::FunctionPointerValue value)
+template<>
+void NamedValue::set_value<NamedValue::FunctionPointerValue>(
+    NamedValue::FunctionPointerValue value
+)
 {
   type_ = "void (*)()";
   value_.function_pointer_value = value;
 }
 
-void NamedValue::set_value(const char* value)
+template<>
+void NamedValue::set_value<const char*>(const char* value)
 {
   type_ = "const char*";
   value_.string_value = value;

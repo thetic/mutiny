@@ -50,39 +50,25 @@ public:
   NamedValue& operator=(NamedValue&&) noexcept = default;
   virtual ~NamedValue() = default;
 
-  /** @brief Store a bool. @param value Value to store. */
-  void set_value(bool value);
-  /** @brief Store an int. @param value Value to store. */
-  void set_value(int value);
-  /** @brief Store an unsigned int. @param value Value to store. */
-  void set_value(unsigned int value);
-  /** @brief Store a long int. @param value Value to store. */
-  void set_value(long int value);
-  /** @brief Store an unsigned long int. @param value Value to store. */
-  void set_value(unsigned long int value);
-  /** @brief Store a long long. @param value Value to store. */
-  void set_value(long long value);
-  /** @brief Store an unsigned long long. @param value Value to store. */
-  void set_value(unsigned long long value);
   /**
-   * @brief Store a double with the default tolerance.
-   * @param value Value to store.
+   * @brief Store a value.
+   *
+   * Explicit specializations are provided for all supported native types.
+   * Because fixed-width types from @c \<stdint.h\> are typedefs for
+   * fundamental types, @code set_value(my_uint32) @endcode dispatches to the
+   * correct specialization on every platform.
+   *
+   * @tparam T  The type to store.
+   * @param value  Value to store.
    */
-  void set_value(double value);
+  template<typename T>
+  void set_value(T value);
   /**
    * @brief Store a double with an explicit tolerance.
    * @param value     Value to store.
    * @param tolerance Maximum allowed difference when comparing.
    */
   void set_value(double value, double tolerance);
-  /** @brief Store a void*. @param value Value to store. */
-  void set_value(void* value);
-  /** @brief Store a const void*. @param value Value to store. */
-  void set_value(const void* value);
-  /** @brief Store a function pointer. @param value Value to store. */
-  void set_value(FunctionPointerValue value);
-  /** @brief Store a C string (not copied). @param value Value to store. */
-  void set_value(const char* value);
   /**
    * @brief Store a raw memory buffer (not copied).
    *
@@ -252,7 +238,39 @@ private:
   static NamedValueComparatorsAndCopiersRepository* default_repository_;
 };
 
-// Full-width type specializations — declared here, defined in NamedValue.cpp
+// set_value specializations — declared here, defined in NamedValue.cpp.
+template<>
+MUTINY_EXPORT void NamedValue::set_value<bool>(bool value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<int>(int value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<unsigned int>(unsigned int value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<long int>(long int value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<unsigned long int>(
+    unsigned long int value
+);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<long long>(long long value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<unsigned long long>(
+    unsigned long long value
+);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<double>(double value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<void*>(void* value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<const void*>(const void* value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<const char*>(const char* value);
+template<>
+MUTINY_EXPORT void NamedValue::set_value<NamedValue::FunctionPointerValue>(
+    NamedValue::FunctionPointerValue value
+);
+
+// get_value specializations — declared here, defined in NamedValue.cpp
 // (they use STRCMP_EQUAL for type-mismatch diagnostics).
 template<>
 MUTINY_EXPORT bool NamedValue::get_value<bool>() const;
@@ -287,7 +305,16 @@ MUTINY_EXPORT NamedValue::FunctionPointerValue NamedValue::get_value<
     NamedValue::FunctionPointerValue>() const;
 /// @endcond
 
-// Sub-int type specializations — inline, delegate to the int specialization.
+// Sub-int set_value — inline, delegate to int.
+// clang-format off
+template <> inline void NamedValue::set_value<char>(char v) { set_value<int>(v); }
+template <> inline void NamedValue::set_value<signed char>(signed char v) { set_value<int>(v); }
+template <> inline void NamedValue::set_value<unsigned char>(unsigned char v) { set_value<int>(static_cast<int>(v)); }
+template <> inline void NamedValue::set_value<short>(short v) { set_value<int>(v); }
+template <> inline void NamedValue::set_value<unsigned short>(unsigned short v) { set_value<int>(static_cast<int>(v)); }
+// clang-format on
+
+// Sub-int get_value — inline, delegate to int.
 // clang-format off
 template <> inline char NamedValue::get_value<char>() const { return static_cast<char>(get_value<int>()); }
 template <> inline signed char NamedValue::get_value<signed char>() const { return static_cast<signed char>(get_value<int>()); }
@@ -295,6 +322,15 @@ template <> inline unsigned char NamedValue::get_value<unsigned char>() const { 
 template <> inline short NamedValue::get_value<short>() const { return static_cast<short>(get_value<int>()); }
 template <> inline unsigned short NamedValue::get_value<unsigned short>() const { return static_cast<unsigned short>(get_value<int>()); }
 // clang-format on
+
+// Primary set_value template — fallback for unspecialized pointer types.
+// Stores as const void* (address comparison only; use with_parameter_of_type
+// for value-equality of custom types).
+template<typename T>
+inline void NamedValue::set_value(T value)
+{
+  set_value(static_cast<const void*>(value));
+}
 
 } // namespace mock
 } // namespace tiny
