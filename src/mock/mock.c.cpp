@@ -160,6 +160,8 @@ void set_int_data(const char* name, int value);
 void set_unsigned_int_data(const char* name, unsigned int value);
 void set_long_int_data(const char* name, long int value);
 void set_unsigned_long_int_data(const char* name, unsigned long int value);
+void set_long_long_int_data(const char* name, long long value);
+void set_unsigned_long_long_int_data(const char* name, unsigned long long value);
 void set_double_data(const char* name, double value);
 void set_string_data(const char* name, const char* value);
 void set_pointer_data(const char* name, void* value);
@@ -1151,6 +1153,19 @@ void set_unsigned_long_int_data(const char* name, unsigned long int value)
   current_mock_support->set_data(name, value);
 }
 
+void set_long_long_int_data(const char* name, long long value)
+{
+  current_mock_support->set_data(name, value);
+}
+
+void set_unsigned_long_long_int_data(
+    const char* name,
+    unsigned long long value
+)
+{
+  current_mock_support->set_data(name, value);
+}
+
 void set_double_data(const char* name, double value)
 {
   current_mock_support->set_data(name, value);
@@ -1259,6 +1274,8 @@ struct MutinyMockSupport g_mock_support = {
   set_unsigned_int_data,
   set_long_int_data,
   set_unsigned_long_int_data,
+  set_long_long_int_data,
+  set_unsigned_long_long_int_data,
   set_string_data,
   set_double_data,
   set_pointer_data,

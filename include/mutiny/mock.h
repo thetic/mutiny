@@ -940,6 +940,23 @@ extern "C"
     );
 
     /**
+     * @brief Store a <tt>long long int</tt> data value.
+     * @param name Key.
+     * @param value Value.
+     */
+    void (*set_long_long_int_data)(const char* name, long long value);
+
+    /**
+     * @brief Store an <tt>unsigned long long int</tt> data value.
+     * @param name Key.
+     * @param value Value.
+     */
+    void (*set_unsigned_long_long_int_data)(
+        const char* name,
+        unsigned long long value
+    );
+
+    /**
      * @brief Store a string data value.
      * @param name Key.
      * @param value Value.
