@@ -113,7 +113,12 @@ TEST(Support, setDataFunctionPointer)
 {
   auto ptr = reinterpret_cast<void (*)()>(0x001);
   mock().set_data("data", ptr);
-  CHECK_EQUAL(ptr, mock().get_data("data").get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>());
+  CHECK_EQUAL(
+      ptr,
+      mock()
+          .get_data("data")
+          .get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>()
+  );
 }
 
 TEST(Support, setDataObject)

@@ -58,7 +58,7 @@ public:
    * @param value  Parameter value.
    * @return *this for chaining.
    */
-  template <typename T>
+  template<typename T>
   ActualCall& with_parameter(const String& name, T value)
   {
     NamedValue nv(name);
@@ -175,7 +175,7 @@ public:
    * @tparam T  The type to retrieve.
    * @return The stored return value converted to @p T.
    */
-  template <typename T>
+  template<typename T>
   T return_value()
   {
     return return_value().get_value<T>();
@@ -188,7 +188,7 @@ public:
    * @param default_value  Value returned when no return value was configured.
    * @return The stored return value or @p default_value.
    */
-  template <typename T>
+  template<typename T>
   T return_value_or_default(T default_value)
   {
     if (has_return_value())

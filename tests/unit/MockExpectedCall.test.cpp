@@ -130,7 +130,8 @@ TEST(ExpectedCall, callWithUnsignedLongIntegerParameter)
       "unsigned long int", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_value<unsigned long int>()
+      value,
+      call->get_input_parameter(param_name).get_value<unsigned long int>()
   );
   CHECK(call->has_input_parameter_with_name(param_name));
   STRCMP_CONTAINS(
@@ -235,7 +236,9 @@ TEST(ExpectedCall, callWithStringParameter)
   STRCMP_EQUAL(
       "const char*", call->get_input_parameter_type(param_name).c_str()
   );
-  STRCMP_EQUAL(value, call->get_input_parameter(param_name).get_value<const char*>());
+  STRCMP_EQUAL(
+      value, call->get_input_parameter(param_name).get_value<const char*>()
+  );
   STRCMP_CONTAINS(
       "funcName -> const char* paramName: <hello world>",
       call->call_to_string().c_str()
@@ -280,7 +283,9 @@ TEST(ExpectedCall, callWithFunctionPointerParameter)
       "void (*)()", call->get_input_parameter_type(param_name).c_str()
   );
   CHECK_EQUAL(
-      value, call->get_input_parameter(param_name).get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>()
+      value,
+      call->get_input_parameter(param_name)
+          .get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>()
   );
   STRCMP_CONTAINS(
       "funcName -> void (*)() paramName: <0xdead>",
@@ -464,7 +469,8 @@ TEST(ExpectedCall, callWithThreeDifferentParameter)
   STRCMP_EQUAL("double", call->get_input_parameter_type("double").c_str());
   CHECK_EQUAL(1, call->get_input_parameter("integer").get_value<int>());
   STRCMP_EQUAL(
-      "hello world", call->get_input_parameter("string").get_value<const char*>()
+      "hello world",
+      call->get_input_parameter("string").get_value<const char*>()
   );
   CHECK_APPROX(
       0.12, call->get_input_parameter("double").get_value<double>(), 0.05

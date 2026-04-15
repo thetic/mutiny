@@ -29,7 +29,9 @@ TEST(IgnoredActualCall, withTypedParameterReturnsSelf)
 {
   mu::tiny::mock::NamedValue nv("p");
   nv.set_value(42);
-  auto& result = ignored.with_typed_parameter(static_cast<mu::tiny::mock::NamedValue&&>(nv));
+  auto& result = ignored.with_typed_parameter(
+      static_cast<mu::tiny::mock::NamedValue&&>(nv)
+  );
   CHECK_EQUAL(&ignored, &result);
 }
 
@@ -65,12 +67,10 @@ TEST(IgnoredActualCall, withParameterOverloadsReturnSelf)
   auto& r10 = ignored.with_parameter("p", static_cast<void*>(nullptr));
   CHECK_EQUAL(&ignored, &r10);
 
-  auto& r11 =
-      ignored.with_parameter("cp", static_cast<const void*>(nullptr));
+  auto& r11 = ignored.with_parameter("cp", static_cast<const void*>(nullptr));
   CHECK_EQUAL(&ignored, &r11);
 
-  auto& r12 =
-      ignored.with_parameter("fp", static_cast<void (*)()>(nullptr));
+  auto& r12 = ignored.with_parameter("fp", static_cast<void (*)()>(nullptr));
   CHECK_EQUAL(&ignored, &r12);
 
   auto& r13 = ignored.with_parameter(
@@ -140,7 +140,9 @@ TEST(IgnoredActualCall, returnTypedValuesAreNullDefaults)
   CHECK_EQUAL(nullptr, ignored.return_value_or_default<void*>(nullptr));
   CHECK_EQUAL(nullptr, ignored.return_value_or_default<const void*>(nullptr));
   CHECK_EQUAL(
-      static_cast<void (*)()>(nullptr), ignored.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
+      static_cast<void (*)()>(nullptr),
+      ignored.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
   );
 }
 
@@ -159,6 +161,7 @@ TEST(IgnoredActualCall, returnTypedValueOrDefaultReturnsDefault)
   CHECK_EQUAL(nullptr, ignored.return_value_or_default<const void*>(nullptr));
   CHECK_EQUAL(
       static_cast<void (*)()>(nullptr),
-      ignored.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
+      ignored.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
   );
 }

@@ -69,7 +69,7 @@ public:
    * @param value  Expected parameter value.
    * @return *this for chaining.
    */
-  template <typename T>
+  template<typename T>
   ExpectedCall& with_parameter(const String& name, T value)
   {
     NamedValue nv(name);
@@ -208,7 +208,7 @@ public:
    * @param value  Value to return when this expectation is matched.
    * @return *this for chaining.
    */
-  template <typename T>
+  template<typename T>
   ExpectedCall& and_return_value(T value)
   {
     NamedValue nv("returnValue");

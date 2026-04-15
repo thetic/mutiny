@@ -175,10 +175,15 @@ TEST(CheckedActualCall, MockIgnoredActualCallWorksAsItShould)
           reinterpret_cast<const void*>(0x2)
       )
   );
-  CHECK(nullptr == actual.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr));
+  CHECK(
+      nullptr ==
+      actual.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
+  );
   CHECK(
       reinterpret_cast<void (*)()>(1) ==
-      actual.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
+      actual.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
           reinterpret_cast<void (*)()>(0x1)
       )
   );
@@ -206,9 +211,7 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
   actual.with_parameter("pointer", &value);
   actual.with_parameter("const_pointer", &const_value);
   actual.with_parameter("function_pointer", function_value);
-  actual.with_parameter(
-      "mem_buffer", mem_buffer, sizeof(mem_buffer)
-  );
+  actual.with_parameter("mem_buffer", mem_buffer, sizeof(mem_buffer));
   actual.with_parameter_of_type("int", "named_type", &const_value);
 
   mu::tiny::String expected_string("\nFunction name:func");
@@ -264,9 +267,14 @@ TEST(CheckedActualCall, remainderOfMockActualCallTraceWorksAsItShould)
                      static_cast<const void*>(nullptr)
                  )
   );
-  CHECK(nullptr == actual.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr));
   CHECK(
-      nullptr == actual.return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
+      nullptr ==
+      actual.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
+  );
+  CHECK(
+      nullptr == actual.return_value_or_default<
+                     mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(
                      static_cast<void (*)()>(nullptr)
                  )
   );
@@ -289,9 +297,7 @@ TEST(CheckedActualCall, unexpectedMemoryBufferParameterStringOverload)
   const unsigned char buf[] = { 0x01, 0x02 };
   mu::tiny::String name("mem");
   mu::tiny::mock::CheckedActualCall actual_call(1, reporter, *list);
-  actual_call.with_name("func").with_parameter(
-      name, buf, sizeof(buf)
-  );
+  actual_call.with_name("func").with_parameter(name, buf, sizeof(buf));
 
   mu::tiny::mock::NamedValue parameter(name);
   parameter.set_memory_buffer(buf, sizeof(buf));

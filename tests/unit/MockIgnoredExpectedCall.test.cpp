@@ -73,12 +73,10 @@ TEST(IgnoredExpectedCall, withParameterOverloadsReturnSelf)
   auto& r11 = ignored.with_parameter("p", static_cast<void*>(nullptr));
   CHECK_EQUAL(&ignored, &r11);
 
-  auto& r12 =
-      ignored.with_parameter("cp", static_cast<const void*>(nullptr));
+  auto& r12 = ignored.with_parameter("cp", static_cast<const void*>(nullptr));
   CHECK_EQUAL(&ignored, &r12);
 
-  auto& r13 =
-      ignored.with_parameter("fp", static_cast<void (*)()>(nullptr));
+  auto& r13 = ignored.with_parameter("fp", static_cast<void (*)()>(nullptr));
   CHECK_EQUAL(&ignored, &r13);
 
   auto& r14 = ignored.with_parameter(

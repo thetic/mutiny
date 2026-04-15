@@ -934,10 +934,7 @@ TEST(MockSupport_c, MockSupportSetLongLongIntData)
   long long i = 0x7FFFAAAAFFFFAAAALL;
   mutiny_mock()->set_long_long_int_data("long long integer", i);
   CHECK_EQUAL(
-      i,
-      mutiny_mock()
-          ->get_data("long long integer")
-          .value.long_long_int_value
+      i, mutiny_mock()->get_data("long long integer").value.long_long_int_value
   );
 }
 

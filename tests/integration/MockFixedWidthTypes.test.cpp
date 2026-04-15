@@ -188,8 +188,7 @@ TEST(MockFixedWidthTypes, returnValueOrDefaultInt8WhenSet)
 {
   int8_t expected = -1;
   mock().expect_one_call("foo").and_return_value(expected);
-  auto actual =
-      mock().actual_call("foo").return_value_or_default<int8_t>(0);
+  auto actual = mock().actual_call("foo").return_value_or_default<int8_t>(0);
   CHECK_EQUAL(expected, actual);
 }
 
@@ -197,8 +196,7 @@ TEST(MockFixedWidthTypes, returnValueOrDefaultUint16WhenSet)
 {
   uint16_t expected = 12345;
   mock().expect_one_call("foo").and_return_value(expected);
-  auto actual =
-      mock().actual_call("foo").return_value_or_default<uint16_t>(0);
+  auto actual = mock().actual_call("foo").return_value_or_default<uint16_t>(0);
   CHECK_EQUAL(expected, actual);
 }
 
@@ -206,8 +204,7 @@ TEST(MockFixedWidthTypes, returnValueOrDefaultInt64WhenSet)
 {
   int64_t expected = -4000000000LL;
   mock().expect_one_call("foo").and_return_value(expected);
-  auto actual =
-      mock().actual_call("foo").return_value_or_default<int64_t>(0);
+  auto actual = mock().actual_call("foo").return_value_or_default<int64_t>(0);
   CHECK_EQUAL(expected, actual);
 }
 
@@ -215,8 +212,7 @@ TEST(MockFixedWidthTypes, returnValueOrDefaultUint64WhenSet)
 {
   uint64_t expected = 0xDEADBEEFDEADBEEFULL;
   mock().expect_one_call("foo").and_return_value(expected);
-  auto actual =
-      mock().actual_call("foo").return_value_or_default<uint64_t>(0);
+  auto actual = mock().actual_call("foo").return_value_or_default<uint64_t>(0);
   CHECK_EQUAL(expected, actual);
 }
 
@@ -363,8 +359,7 @@ TEST(MockFixedWidthTypes, setDataUnsignedLongLong)
   unsigned long long expected = 0xFFFFAAAAFFFFAAAAULL;
   mock().set_data("data", expected);
   CHECK_EQUAL(
-      expected,
-      mock().get_data("data").get_value<unsigned long long>()
+      expected, mock().get_data("data").get_value<unsigned long long>()
   );
 }
 

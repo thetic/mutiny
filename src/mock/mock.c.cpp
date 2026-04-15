@@ -161,7 +161,10 @@ void set_unsigned_int_data(const char* name, unsigned int value);
 void set_long_int_data(const char* name, long int value);
 void set_unsigned_long_int_data(const char* name, unsigned long int value);
 void set_long_long_int_data(const char* name, long long value);
-void set_unsigned_long_long_int_data(const char* name, unsigned long long value);
+void set_unsigned_long_long_int_data(
+    const char* name,
+    unsigned long long value
+);
 void set_double_data(const char* name, double value);
 void set_string_data(const char* name, const char* value);
 void set_pointer_data(const char* name, void* value);
@@ -725,8 +728,7 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
         named_value.get_value<unsigned long int>();
   } else if (strcmp(named_value.get_type().c_str(), "long long int") == 0) {
     return_value.type = mutiny_type_long_long_integer;
-    return_value.value.long_long_int_value =
-        named_value.get_value<long long>();
+    return_value.value.long_long_int_value = named_value.get_value<long long>();
   } else if (
       strcmp(named_value.get_type().c_str(), "unsigned long long int") == 0
   ) {
@@ -749,7 +751,8 @@ struct MutinyMockValue get_mock_value_c_from_named_value(
   } else if (strcmp(named_value.get_type().c_str(), "void (*)()") == 0) {
     return_value.type = mutiny_type_functionpointer;
     return_value.value.function_pointer_value =
-        named_value.get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>();
+        named_value
+            .get_value<mu::tiny::mock::NamedValue::FunctionPointerValue>();
   } else if (
       strcmp(named_value.get_type().c_str(), "const unsigned char*") == 0
   ) {
@@ -1102,7 +1105,8 @@ const void* return_const_pointer_value_or_default(const void* default_value)
 
 void (*function_pointer_return_value())()
 {
-  return current_actual_call->return_value_or_default<mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr);
+  return current_actual_call->return_value_or_default<
+      mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr);
 }
 
 void (*return_function_pointer_value_or_default(void (*default_value)()))()
@@ -1158,10 +1162,7 @@ void set_long_long_int_data(const char* name, long long value)
   current_mock_support->set_data(name, value);
 }
 
-void set_unsigned_long_long_int_data(
-    const char* name,
-    unsigned long long value
-)
+void set_unsigned_long_long_int_data(const char* name, unsigned long long value)
 {
   current_mock_support->set_data(name, value);
 }

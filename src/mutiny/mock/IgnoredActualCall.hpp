@@ -15,13 +15,19 @@ public:
 
   ActualCall& with_typed_parameter(NamedValue) override { return *this; }
 
-  ActualCall& with_parameter_of_type(const String&, const String&, const void*)
-      override
+  ActualCall& with_parameter_of_type(
+      const String&,
+      const String&,
+      const void*
+  ) override
   {
     return *this;
   }
-  ActualCall& with_parameter_of_type(const char*, const char*, const void*)
-      override
+  ActualCall& with_parameter_of_type(
+      const char*,
+      const char*,
+      const void*
+  ) override
   {
     return *this;
   }
@@ -29,8 +35,11 @@ public:
   {
     return *this;
   }
-  ActualCall& with_output_parameter_of_type(const String&, const String&, void*)
-      override
+  ActualCall& with_output_parameter_of_type(
+      const String&,
+      const String&,
+      void*
+  ) override
   {
     return *this;
   }

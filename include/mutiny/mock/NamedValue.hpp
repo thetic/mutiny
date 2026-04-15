@@ -166,7 +166,7 @@ public:
    * @tparam T  The type to retrieve.
    * @return The stored value converted to @p T.
    */
-  template <typename T>
+  template<typename T>
   T get_value() const;
 
   /** @return The stored double tolerance. */
@@ -248,18 +248,33 @@ private:
 
 // Full-width type specializations — declared here, defined in NamedValue.cpp
 // (they use STRCMP_EQUAL for type-mismatch diagnostics).
-template <> MUTINY_EXPORT bool NamedValue::get_value<bool>() const;
-template <> MUTINY_EXPORT int NamedValue::get_value<int>() const;
-template <> MUTINY_EXPORT unsigned int NamedValue::get_value<unsigned int>() const;
-template <> MUTINY_EXPORT long int NamedValue::get_value<long int>() const;
-template <> MUTINY_EXPORT unsigned long int NamedValue::get_value<unsigned long int>() const;
-template <> MUTINY_EXPORT long long NamedValue::get_value<long long>() const;
-template <> MUTINY_EXPORT unsigned long long NamedValue::get_value<unsigned long long>() const;
-template <> MUTINY_EXPORT double NamedValue::get_value<double>() const;
-template <> MUTINY_EXPORT const char* NamedValue::get_value<const char*>() const;
-template <> MUTINY_EXPORT void* NamedValue::get_value<void*>() const;
-template <> MUTINY_EXPORT const void* NamedValue::get_value<const void*>() const;
-template <> MUTINY_EXPORT NamedValue::FunctionPointerValue NamedValue::get_value<NamedValue::FunctionPointerValue>() const;
+template<>
+MUTINY_EXPORT bool NamedValue::get_value<bool>() const;
+template<>
+MUTINY_EXPORT int NamedValue::get_value<int>() const;
+template<>
+MUTINY_EXPORT unsigned int NamedValue::get_value<unsigned int>() const;
+template<>
+MUTINY_EXPORT long int NamedValue::get_value<long int>() const;
+template<>
+MUTINY_EXPORT unsigned long int NamedValue::get_value<
+    unsigned long int>() const;
+template<>
+MUTINY_EXPORT long long NamedValue::get_value<long long>() const;
+template<>
+MUTINY_EXPORT unsigned long long NamedValue::get_value<
+    unsigned long long>() const;
+template<>
+MUTINY_EXPORT double NamedValue::get_value<double>() const;
+template<>
+MUTINY_EXPORT const char* NamedValue::get_value<const char*>() const;
+template<>
+MUTINY_EXPORT void* NamedValue::get_value<void*>() const;
+template<>
+MUTINY_EXPORT const void* NamedValue::get_value<const void*>() const;
+template<>
+MUTINY_EXPORT NamedValue::FunctionPointerValue NamedValue::get_value<
+    NamedValue::FunctionPointerValue>() const;
 
 // Sub-int type specializations — inline, delegate to the int specialization.
 // clang-format off
