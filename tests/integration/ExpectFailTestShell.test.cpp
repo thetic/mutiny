@@ -7,7 +7,7 @@ namespace {
 
 class FailingTest : public mu::tiny::test::Test
 {
-  void test_body() override { FAIL("expected failure"); }
+  void test_body() override { FAIL_TEST("expected failure"); }
 };
 
 class FailingExpectFailTestShell : public mu::tiny::test::ExpectFailShell

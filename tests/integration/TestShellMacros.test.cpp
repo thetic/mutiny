@@ -21,7 +21,7 @@ namespace {
 
 void failing_test_method_with_fail()
 {
-  FAIL("This test fails");
+  FAIL_TEST("This test fails");
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 

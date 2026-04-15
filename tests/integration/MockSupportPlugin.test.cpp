@@ -3,6 +3,7 @@
 #include "mutiny/mock/SupportPlugin.hpp"
 
 #include "mutiny/test/Output.hpp"
+#include "mutiny/test/Shell.hpp"
 #include "mutiny/test/StringBufferOutput.hpp"
 #include "mutiny/test/TestingFixture.hpp"
 
@@ -155,7 +156,7 @@ namespace {
 void fail_twice_function()
 {
   mock().expect_one_call("foobar");
-  FAIL("This failed");
+  FAIL_TEST("This failed");
 }
 } // namespace
 

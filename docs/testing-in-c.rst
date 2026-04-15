@@ -77,8 +77,6 @@ functions:
      - ``const void*``
    * - :c:macro:`CHECK_EQUAL_MEMCMP(expected, actual, size) <CHECK_EQUAL_MEMCMP>`
      - raw memory via ``memcmp``
-   * - :c:macro:`FAIL() <FAIL>`
-     - unconditional failure (no message)
    * - :c:macro:`FAIL_TEXT(text) <FAIL_TEXT>`
      - unconditional failure with message
    * - :c:macro:`TEST_PROPERTY(name, value) <TEST_PROPERTY>`

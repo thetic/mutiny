@@ -830,24 +830,8 @@ void check_approx(
 /**
  * @brief Unconditionally fail the current test with a message.
  *
- * FAIL may already be defined by another library; in that case use FAIL_TEST
- * instead. Both macros behave identically.
- *
  * @param text  Human-readable failure message.
- *
- * @see FAIL_TEST, FAIL_LOCATION
  */
-#ifndef FAIL
-#define FAIL(text) FAIL_LOCATION(text, __FILE__, __LINE__)
-
-#define FAIL_LOCATION(text, file, line)                                        \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
-  } while (0)
-#endif
-
-/** @brief Unconditionally fail the current test. Use when FAIL is already
- * defined. @see FAIL */
 #define FAIL_TEST(text) FAIL_TEST_LOCATION(text, __FILE__, __LINE__)
 
 #define FAIL_TEST_LOCATION(text, file, line)                                   \

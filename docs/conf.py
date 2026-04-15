@@ -59,7 +59,7 @@ exhale_args = {
         RECURSIVE            = YES
         # Include C headers so that C-only macros (TEST_GROUP_SETUP,
         # TEST_GROUP_TEARDOWN, CHECK_EQUAL_INT, …) are available via Breathe.
-        # Macros shared with the C++ headers (CHECK, FAIL, TEST, …) produce
+        # Macros shared with the C++ headers (CHECK, FAIL_TEST, TEST, …) produce
         # Doxygen "multiple definitions" warnings; these are harmless — the C++
         # versions in Shell.hpp / test.hpp take precedence in the rendered docs.
         FILE_PATTERNS        = *.hpp *.h

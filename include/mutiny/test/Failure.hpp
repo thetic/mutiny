@@ -326,7 +326,7 @@ public:
 };
 
 /**
- * @brief Failure for @ref FAIL / @ref FAIL_TEST.
+ * @brief Failure for @ref FAIL_TEST.
  */
 class MUTINY_EXPORT FailFailure : public Failure
 {

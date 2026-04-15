@@ -135,11 +135,8 @@ Failure and Exit
 
    * - Macro
      - Description
-   * - :c:macro:`FAIL(text) <FAIL>`
-     - Unconditional failure with message. May be shadowed by platform
-       macros — use :c:macro:`FAIL_TEST` if needed.
    * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
-     - Same as :c:macro:`FAIL` but always available
+     - Unconditional failure with message.
    * - :c:macro:`TEST_EXIT`
      - Exits the test immediately *without* marking it as failed — useful
        in assertion-faking helpers

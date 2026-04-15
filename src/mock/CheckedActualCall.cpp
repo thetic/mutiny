@@ -304,7 +304,7 @@ void CheckedActualCall::check_expectations()
   }
 
   if (potentially_matching_expectations_.has_finalized_matching_expectations())
-    FAIL(
+    FAIL_TEST(
         "Actual call is in progress, but there are finalized matching "
         "expectations when checking expectations. This cannot happen."
     );

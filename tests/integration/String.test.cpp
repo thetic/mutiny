@@ -1,5 +1,7 @@
 #include "mutiny/String.hpp"
 
+#include "mutiny/test/Shell.hpp"
+
 #include "mutiny/test.hpp"
 
 #include <limits.h>
@@ -460,7 +462,7 @@ TEST(String, StringFromFormatpointer)
   else if (h1.size() == 1)
     STRCMP_EQUAL("1", h1.c_str());
   else
-    FAIL("Off %p behavior");
+    FAIL_TEST("Off %p behavior");
 }
 
 TEST(String, StringFromFormatLarge)
