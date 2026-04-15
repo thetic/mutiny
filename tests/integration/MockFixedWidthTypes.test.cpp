@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 using mu::tiny::mock::mock;
+using mu::tiny::mock::NamedValue;
 
 TEST_GROUP(MockFixedWidthTypes)
 {
@@ -375,4 +376,72 @@ TEST(MockFixedWidthTypes, setDataUint32RetrieveViaTemplate)
   uint32_t expected = 0xDEADBEEF;
   mock().set_data("data", expected);
   CHECK_EQUAL(expected, mock().get_data("data").get_value<uint32_t>());
+}
+
+// ---------------------------------------------------------------------------
+// NamedValue::set_value<T>() for every fixed-width type
+// ---------------------------------------------------------------------------
+
+TEST(MockFixedWidthTypes, setValueInt8)
+{
+  int8_t expected = INT8_C(-42);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<int8_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueUint8)
+{
+  uint8_t expected = UINT8_C(255);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<uint8_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueInt16)
+{
+  int16_t expected = INT16_C(-32768);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<int16_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueUint16)
+{
+  uint16_t expected = UINT16_C(65535);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<uint16_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueInt32)
+{
+  int32_t expected = INT32_C(-2000000000);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<int32_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueUint32)
+{
+  uint32_t expected = UINT32_C(4000000000);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<uint32_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueInt64)
+{
+  int64_t expected = INT64_C(-4000000000);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<int64_t>());
+}
+
+TEST(MockFixedWidthTypes, setValueUint64)
+{
+  uint64_t expected = UINT64_C(0xDEADBEEFDEADBEEF);
+  NamedValue nv("x");
+  nv.set_value(expected);
+  CHECK_EQUAL(expected, nv.get_value<uint64_t>());
 }
