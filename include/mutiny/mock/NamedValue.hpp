@@ -64,6 +64,11 @@ public:
   template<typename T>
   void set_value(T value);
   /**
+   * @fn void NamedValue::set_value<FunctionPointerValue>(FunctionPointerValue
+   * value)
+   * @brief set_value() specialization for FunctionPointerValue (`void(*)()`).
+   */
+  /**
    * @brief Store a double with an explicit tolerance.
    * @param value     Value to store.
    * @param tolerance Maximum allowed difference when comparing.
@@ -265,10 +270,15 @@ template<>
 MUTINY_EXPORT void NamedValue::set_value<const void*>(const void* value);
 template<>
 MUTINY_EXPORT void NamedValue::set_value<const char*>(const char* value);
+/// @cond DOXYGEN_SKIP
+// Doxygen misclassifies this specialization as namespace-scope due to the
+// nested type alias appearing in both the parameter type and template argument.
+// Documented via the explicit \fn comment in the class body above.
 template<>
 MUTINY_EXPORT void NamedValue::set_value<NamedValue::FunctionPointerValue>(
     NamedValue::FunctionPointerValue value
 );
+/// @endcond
 
 // get_value specializations — declared here, defined in NamedValue.cpp
 // (they use STRCMP_EQUAL for type-mismatch diagnostics).
@@ -306,22 +316,66 @@ MUTINY_EXPORT NamedValue::FunctionPointerValue NamedValue::get_value<
 /// @endcond
 
 // Sub-int set_value — inline, delegate to int.
-// clang-format off
-template <> inline void NamedValue::set_value<char>(char v) { set_value<int>(v); }
-template <> inline void NamedValue::set_value<signed char>(signed char v) { set_value<int>(v); }
-template <> inline void NamedValue::set_value<unsigned char>(unsigned char v) { set_value<int>(static_cast<int>(v)); }
-template <> inline void NamedValue::set_value<short>(short v) { set_value<int>(v); }
-template <> inline void NamedValue::set_value<unsigned short>(unsigned short v) { set_value<int>(static_cast<int>(v)); }
-// clang-format on
+template<>
+inline void NamedValue::set_value<char>(char v)
+{
+  set_value<int>(v);
+}
+
+template<>
+inline void NamedValue::set_value<signed char>(signed char v)
+{
+  set_value<int>(v);
+}
+
+template<>
+inline void NamedValue::set_value<unsigned char>(unsigned char v)
+{
+  set_value<int>(static_cast<int>(v));
+}
+
+template<>
+inline void NamedValue::set_value<short>(short v)
+{
+  set_value<int>(v);
+}
+
+template<>
+inline void NamedValue::set_value<unsigned short>(unsigned short v)
+{
+  set_value<int>(static_cast<int>(v));
+}
 
 // Sub-int get_value — inline, delegate to int.
-// clang-format off
-template <> inline char NamedValue::get_value<char>() const { return static_cast<char>(get_value<int>()); }
-template <> inline signed char NamedValue::get_value<signed char>() const { return static_cast<signed char>(get_value<int>()); }
-template <> inline unsigned char NamedValue::get_value<unsigned char>() const { return static_cast<unsigned char>(get_value<int>()); }
-template <> inline short NamedValue::get_value<short>() const { return static_cast<short>(get_value<int>()); }
-template <> inline unsigned short NamedValue::get_value<unsigned short>() const { return static_cast<unsigned short>(get_value<int>()); }
-// clang-format on
+template<>
+inline char NamedValue::get_value<char>() const
+{
+  return static_cast<char>(get_value<int>());
+}
+
+template<>
+inline signed char NamedValue::get_value<signed char>() const
+{
+  return static_cast<signed char>(get_value<int>());
+}
+
+template<>
+inline unsigned char NamedValue::get_value<unsigned char>() const
+{
+  return static_cast<unsigned char>(get_value<int>());
+}
+
+template<>
+inline short NamedValue::get_value<short>() const
+{
+  return static_cast<short>(get_value<int>());
+}
+
+template<>
+inline unsigned short NamedValue::get_value<unsigned short>() const
+{
+  return static_cast<unsigned short>(get_value<int>());
+}
 
 // Primary set_value template — fallback for unspecialized pointer types.
 // Stores as const void* (address comparison only; use with_parameter_of_type
