@@ -63,7 +63,6 @@ public:
    */
   template<typename T>
   void set_value(T value);
-  /** @fn void NamedValue::set_value<FunctionPointerValue>(FunctionPointerValue value) */
   /**
    * @brief Store a double with an explicit tolerance.
    * @param value     Value to store.
@@ -269,7 +268,7 @@ MUTINY_EXPORT void NamedValue::set_value<const char*>(const char* value);
 /// @cond DOXYGEN_SKIP
 // Doxygen misclassifies this specialization as namespace-scope due to the
 // nested type alias appearing in both the parameter type and template argument.
-// Documented via the explicit \fn comment in the class body above.
+// The primary template's documentation covers it.
 template<>
 MUTINY_EXPORT void NamedValue::set_value<NamedValue::FunctionPointerValue>(
     NamedValue::FunctionPointerValue value
