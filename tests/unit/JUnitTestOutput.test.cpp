@@ -133,6 +133,7 @@ class JUnitTestOutputTestRunner
   unsigned int time_the_test_takes_{ 0 };
   unsigned int number_of_checks_in_test_{ 0 };
   mu::tiny::test::Failure* test_failure_{ nullptr };
+  const char* pending_skip_message_{ nullptr };
   PendingProperty* pending_properties_{ nullptr };
 
 public:
@@ -251,6 +252,11 @@ public:
       pending_properties_ = tmp;
     }
 
+    if (pending_skip_message_ != nullptr) {
+      result_.skip_test(pending_skip_message_);
+      pending_skip_message_ = nullptr;
+    }
+
     if (test_failure_) {
       result_.add_failure(*test_failure_);
       delete test_failure_;
@@ -305,6 +311,12 @@ public:
   {
     run_previous_test();
     result_.print(output);
+    return *this;
+  }
+
+  JUnitTestOutputTestRunner& that_is_skipped(const char* message)
+  {
+    pending_skip_message_ = message;
     return *this;
   }
 
@@ -416,7 +428,7 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlocks)
 
   output_file = file_system.file("mutiny_groupname.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"0\" "
+      "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"groupname\" tests=\"1\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -424,13 +436,16 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestOutputsTestSuiteStartAndEndBlocks)
   STRCMP_EQUAL("</testsuite>\n", output_file->line_from_the_back(1));
 }
 
-TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyPropertiesBlock)
+TEST(JUnitOutput, withOneTestGroupAndOneTestFileHasNoSuiteLevelPropertiesBlock)
 {
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   output_file = file_system.file("mutiny_groupname.xml");
-  STRCMP_EQUAL("<properties>\n", output_file->line(3));
-  STRCMP_EQUAL("</properties>\n", output_file->line(4));
+  STRCMP_EQUAL(
+      "<testcase classname=\"groupname\" name=\"testname\" "
+      "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(3)
+  );
 }
 
 TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBlock)
@@ -462,9 +477,9 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock)
   STRCMP_EQUAL(
       "<testcase classname=\"groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
 }
 
 TEST(JUnitOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndCorrectTestCaseBlock)
@@ -478,7 +493,7 @@ TEST(JUnitOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndC
   output_file = file_system.file("mutiny_twoTestsGroup.xml");
 
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"0\" "
+      "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"twoTestsGroup\" tests=\"2\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -486,15 +501,15 @@ TEST(JUnitOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndC
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"secondTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(7)
+      output_file->line(5)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(8));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 
 TEST(JUnitOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
@@ -510,7 +525,7 @@ TEST(JUnitOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
   output_file = file_system.file("mutiny_timeGroup.xml");
 
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"0\" "
+      "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"timeGroup\" tests=\"1\" time=\"0.010\" "
       "timestamp=\"2013-07-04T22:28:00\">\n",
       output_file->line(2)
@@ -531,7 +546,7 @@ TEST(JUnitOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
 
   output_file = file_system.file("mutiny_twoTestsGroup.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"0\" "
+      "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"twoTestsGroup\" tests=\"2\" time=\"0.060\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -539,15 +554,15 @@ TEST(JUnitOutput, withOneTestGroupAndMultipleTestCasesWithElapsedTime)
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"0\" time=\"0.010\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"secondTestName\" "
       "assertions=\"0\" time=\"0.050\" file=\"file\" line=\"1\">\n",
-      output_file->line(7)
+      output_file->line(5)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(8));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 
 TEST(JUnitOutput, withOneTestGroupAndOneFailingTest)
@@ -560,7 +575,7 @@ TEST(JUnitOutput, withOneTestGroupAndOneFailingTest)
 
   output_file = file_system.file("mutiny_testGroupWithFailingTest.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"1\" "
+      "<testsuite errors=\"0\" failures=\"1\" skipped=\"0\" assertions=\"0\" "
       "name=\"testGroupWithFailingTest\" tests=\"1\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -569,16 +584,16 @@ TEST(JUnitOutput, withOneTestGroupAndOneFailingTest)
       "<testcase classname=\"testGroupWithFailingTest\" "
       "name=\"FailingTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test failed\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
-  STRCMP_EQUAL("thisfile:10: Test failed\n", output_file->line(7));
-  STRCMP_EQUAL("</failure>\n", output_file->line(8));
-  STRCMP_EQUAL("</testcase>\n", output_file->line(9));
+  STRCMP_EQUAL("thisfile:10: Test failed\n", output_file->line(5));
+  STRCMP_EQUAL("</failure>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(7));
 }
 
 TEST(JUnitOutput, withTwoTestGroupAndOneFailingTest)
@@ -593,7 +608,7 @@ TEST(JUnitOutput, withTwoTestGroupAndOneFailingTest)
   output_file = file_system.file("mutiny_testGroupWithFailingTest.xml");
 
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"1\" "
+      "<testsuite errors=\"0\" failures=\"1\" skipped=\"0\" assertions=\"0\" "
       "name=\"testGroupWithFailingTest\" tests=\"2\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -602,12 +617,12 @@ TEST(JUnitOutput, withTwoTestGroupAndOneFailingTest)
       "<testcase classname=\"testGroupWithFailingTest\" "
       "name=\"FailingTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(7)
+      output_file->line(5)
   );
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test failed\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(8)
+      output_file->line(6)
   );
 }
 
@@ -624,7 +639,7 @@ TEST(JUnitOutput, testFailureWithLessThanAndGreaterThanInsideIt)
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &lt;failed&gt;\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -641,7 +656,7 @@ TEST(JUnitOutput, testFailureWithQuotesInIt)
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &quot;failed&quot;\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -658,7 +673,7 @@ TEST(JUnitOutput, testFailureWithNewlineInIt)
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &#10;failed\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -675,7 +690,7 @@ TEST(JUnitOutput, testFailureWithDifferentFileAndLine)
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: Test failed\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -692,7 +707,7 @@ TEST(JUnitOutput, testFailureWithAmpersandsAndLessThan)
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: &amp;object1 &lt; "
       "&amp;object2\" type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -709,7 +724,7 @@ TEST(JUnitOutput, testFailureWithAmpersands)
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: &amp;object1 != "
       "&amp;object2\" type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -730,12 +745,12 @@ TEST(JUnitOutput, aCoupleOfTestFailures)
 
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
-      output_file->line(8)
+      output_file->line(6)
   );
   STRCMP_EQUAL(
       "<failure message=\"anotherFile:10: otherFailure\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(17)
+      output_file->line(15)
   );
 }
 
@@ -755,14 +770,14 @@ TEST(JUnitOutput, testFailuresInSeparateGroups)
 
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
-      output_file->line(8)
+      output_file->line(6)
   );
 
   output_file = file_system.file("mutiny_AnotherGroup.xml");
   STRCMP_EQUAL(
       "<failure message=\"anotherFile:10: otherFailure\" "
       "type=\"AssertionFailedError\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
 }
 
@@ -797,9 +812,9 @@ TEST(JUnitOutput, TestCaseBlockWithAPackageName)
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
 }
 
 TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
@@ -815,10 +830,10 @@ TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("<skipped />\n", output_file->line(6));
-  STRCMP_EQUAL("</testcase>\n", output_file->line(7));
+  STRCMP_EQUAL("<skipped />\n", output_file->line(4));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(5));
 }
 
 TEST(JUnitOutput, TestCaseWithTestLocation)
@@ -836,7 +851,7 @@ TEST(JUnitOutput, TestCaseWithTestLocation)
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"MySource.c\" line=\"159\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
 }
 
@@ -858,13 +873,13 @@ TEST(JUnitOutput, MultipleTestCaseWithTestLocations)
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"MyFirstSource.c\" "
       "line=\"846\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"secondTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"MySecondSource.c\" "
       "line=\"513\">\n",
-      output_file->line(7)
+      output_file->line(5)
   );
 }
 
@@ -882,7 +897,7 @@ TEST(JUnitOutput, TestCaseBlockWithAssertions)
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"24\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
 }
 
@@ -901,12 +916,12 @@ TEST(JUnitOutput, MultipleTestCaseBlocksWithAssertions)
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"456\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"secondTestName\" "
       "assertions=\"567\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(7)
+      output_file->line(5)
   );
 }
 
@@ -926,14 +941,14 @@ TEST(JUnitOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
   STRCMP_EQUAL(
       "<testcase classname=\"groupOne\" name=\"testA\" "
       "assertions=\"456\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
 
   output_file = file_system.file("mutiny_groupTwo.xml");
   STRCMP_EQUAL(
       "<testcase classname=\"groupTwo\" name=\"testB\" "
       "assertions=\"678\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
 }
 
@@ -981,7 +996,7 @@ TEST(JUnitOutput, unexpectedExceptionCountsAsErrorNotFailure)
 
   output_file = file_system.file("mutiny_errorGroup.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"1\" failures=\"0\" "
+      "<testsuite errors=\"1\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"errorGroup\" tests=\"1\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -1000,12 +1015,12 @@ TEST(JUnitOutput, unexpectedExceptionEmitsErrorElement)
   STRCMP_EQUAL(
       "<error message=\"Unexpected exception of unknown type was thrown.\""
       " type=\"UnexpectedException\">\n",
-      output_file->line(6)
+      output_file->line(4)
   );
   STRCMP_EQUAL(
-      "Unexpected exception of unknown type was thrown.\n", output_file->line(7)
+      "Unexpected exception of unknown type was thrown.\n", output_file->line(5)
   );
-  STRCMP_EQUAL("</error>\n", output_file->line(8));
+  STRCMP_EQUAL("</error>\n", output_file->line(6));
 }
 
 TEST(JUnitOutput, errorCountResetBetweenGroups)
@@ -1020,7 +1035,7 @@ TEST(JUnitOutput, errorCountResetBetweenGroups)
 
   output_file = file_system.file("mutiny_cleanGroup.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"0\" failures=\"0\" "
+      "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"cleanGroup\" tests=\"1\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -1039,7 +1054,7 @@ TEST(JUnitOutput, mixedErrorAndFailureCountedSeparately)
 
   output_file = file_system.file("mutiny_mixedGroup.xml");
   STRCMP_EQUAL(
-      "<testsuite errors=\"1\" failures=\"1\" "
+      "<testsuite errors=\"1\" failures=\"1\" skipped=\"0\" assertions=\"0\" "
       "name=\"mixedGroup\" tests=\"2\" time=\"0.000\" "
       "timestamp=\"1978-10-03T00:00:00\">\n",
       output_file->line(2)
@@ -1059,14 +1074,14 @@ TEST(JUnitOutput, testWithOnePropertyEmitsPropertiesBlock)
   STRCMP_EQUAL(
       "<testcase classname=\"propGroup\" name=\"propTest\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+  STRCMP_EQUAL("<properties>\n", output_file->line(4));
   STRCMP_EQUAL(
-      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(7)
+      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(5)
   );
-  STRCMP_EQUAL("</properties>\n", output_file->line(8));
-  STRCMP_EQUAL("</testcase>\n", output_file->line(9));
+  STRCMP_EQUAL("</properties>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(7));
 }
 
 TEST(JUnitOutput, testWithMultiplePropertiesEmitsAllInOrder)
@@ -1079,14 +1094,14 @@ TEST(JUnitOutput, testWithMultiplePropertiesEmitsAllInOrder)
       .end();
 
   output_file = file_system.file("mutiny_propGroup.xml");
-  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+  STRCMP_EQUAL("<properties>\n", output_file->line(4));
   STRCMP_EQUAL(
-      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(7)
+      "<property name=\"ticket_id\" value=\"12345\"/>\n", output_file->line(5)
   );
   STRCMP_EQUAL(
-      "<property name=\"size\" value=\"10MB\"/>\n", output_file->line(8)
+      "<property name=\"size\" value=\"10MB\"/>\n", output_file->line(6)
   );
-  STRCMP_EQUAL("</properties>\n", output_file->line(9));
+  STRCMP_EQUAL("</properties>\n", output_file->line(7));
 }
 
 TEST(JUnitOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
@@ -1100,9 +1115,9 @@ TEST(JUnitOutput, testWithNoPropertiesEmitsNoPropertiesBlock)
   STRCMP_EQUAL(
       "<testcase classname=\"noPropGroup\" name=\"noPropTest\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
 }
 
 TEST(JUnitOutput, testPropertyNameAndValueAreXmlEncoded)
@@ -1116,7 +1131,7 @@ TEST(JUnitOutput, testPropertyNameAndValueAreXmlEncoded)
   output_file = file_system.file("mutiny_encodeGroup.xml");
   STRCMP_EQUAL(
       "<property name=\"k&amp;ey\" value=\"&lt;val&gt;\"/>\n",
-      output_file->line(7)
+      output_file->line(5)
   );
 }
 
@@ -1132,13 +1147,49 @@ TEST(JUnitOutput, propertiesAccumulateCorrectlyAcrossGroups)
       .end();
 
   output_file = file_system.file("mutiny_groupA.xml");
-  STRCMP_EQUAL("<properties>\n", output_file->line(6));
+  STRCMP_EQUAL("<properties>\n", output_file->line(4));
 
   output_file = file_system.file("mutiny_groupB.xml");
   STRCMP_EQUAL(
       "<testcase classname=\"groupB\" name=\"testB\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
-      output_file->line(5)
+      output_file->line(3)
   );
-  STRCMP_EQUAL("</testcase>\n", output_file->line(6));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
+}
+
+TEST(JUnitOutput, TestCaseBlockForSkippedTestWithMessage)
+{
+  junit_output->set_package_name("packagename");
+  test_case_runner->start()
+      .with_group("groupname")
+      .with_test("testname")
+      .that_is_skipped("not ready yet")
+      .end();
+
+  output_file = file_system.file("mutiny_packagename_groupname.xml");
+
+  STRCMP_EQUAL(
+      "<testcase classname=\"packagename.groupname\" name=\"testname\" "
+      "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(3)
+  );
+  STRCMP_EQUAL("<skipped message=\"not ready yet\" />\n", output_file->line(4));
+  STRCMP_EQUAL("</testcase>\n", output_file->line(5));
+}
+
+TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
+{
+  test_case_runner->start()
+      .with_group("groupname")
+      .with_test("testname")
+      .that_is_skipped("skip <this> & \"that\"")
+      .end();
+
+  output_file = file_system.file("mutiny_groupname.xml");
+
+  STRCMP_EQUAL(
+      "<skipped message=\"skip &lt;this&gt; &amp; &quot;that&quot;\" />\n",
+      output_file->line(4)
+  );
 }

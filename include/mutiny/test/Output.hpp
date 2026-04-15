@@ -136,6 +136,12 @@ public:
   virtual void print_test_property(const char* name, const char* value);
 
   /**
+   * @brief Mark the current test as skipped.
+   * @param message  Human-readable reason (may be empty).
+   */
+  virtual void print_skipped(const char* message);
+
+  /**
    * @brief Print the current repetition progress.
    * @param number  Current repetition (1-based).
    * @param total   Total number of repetitions.

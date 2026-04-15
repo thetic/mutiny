@@ -31,6 +31,7 @@ public:
   void print(size_t) override;
   void print_failure(const Failure& failure) override;
   void print_test_property(const char* name, const char* value) override;
+  void print_skipped(const char* message) override;
 
   bool needs_console_companion() const override { return true; }
 

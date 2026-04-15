@@ -349,6 +349,17 @@ void Shell::exit_test(const Terminator& terminator)
   terminator.exit_current_test();
 }
 
+void Shell::skip_test(
+    const char* text,
+    const char* /*file_name*/,
+    size_t /*line_number*/,
+    const Terminator& terminator
+)
+{
+  get_test_result()->skip_test(text);
+  terminator.exit_current_test();
+}
+
 void Shell::assert_true(
     bool condition,
     const char* check_string,

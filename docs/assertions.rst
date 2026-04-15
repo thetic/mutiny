@@ -137,9 +137,13 @@ Failure and Exit
      - Description
    * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
      - Unconditional failure with message.
-   * - :c:macro:`TEST_EXIT`
+   * - :c:macro:`PASS_TEST`
      - Exits the test immediately *without* marking it as failed — useful
        in assertion-faking helpers
+   * - :c:macro:`SKIP_TEST(text) <SKIP_TEST>`
+     - Marks the test as skipped and exits the body. The message appears in
+       JUnit XML as ``<skipped message="..."/>``. Tests registered with
+       :c:macro:`IGNORE_TEST` are also reported as skipped.
 
 .. code-block:: cpp
 

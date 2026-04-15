@@ -187,6 +187,8 @@ void Output::print_test_run(size_t number, size_t total)
 
 void Output::print_test_property(const char* /*name*/, const char* /*value*/) {}
 
+void Output::print_skipped(const char* /*message*/) {}
+
 void Output::print_failure(const Failure& failure)
 {
   if (failure.is_outside_test_file() || failure.is_in_helper_function())

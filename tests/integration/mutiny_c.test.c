@@ -388,7 +388,7 @@ EXPECT_FAIL_TEST(MutinyC, failText)
 EXPECT_FAIL_TEST(MutinyC, fail)
 {
   test_was_called_in_test_group_in_c++;
-  FAIL();
+  FAIL_TEXT("");
 }
 
 EXPECT_FAIL_TEST(MutinyC, checkFail)

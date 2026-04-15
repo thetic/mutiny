@@ -88,6 +88,11 @@ void Result::count_ignored()
   ignored_count_++;
 }
 
+void Result::skip_test(const char* message)
+{
+  output_.print_skipped(message);
+}
+
 void Result::tests_started()
 {
   time_started_ = get_time_in_millis();

@@ -203,9 +203,6 @@ extern "C"
  */
 #define FAIL_TEXT(text) mutiny_fail(text, __FILE__, __LINE__)
 
-/** @brief Unconditionally fail with an empty message. */
-#define FAIL() mutiny_fail("", __FILE__, __LINE__)
-
 /**
  * @brief Fail if @p condition is zero (false).
  * @param condition  Integer condition to test.
@@ -513,7 +510,7 @@ extern "C"
   );
 
   /**
-   * @brief C implementation of @ref FAIL / @ref FAIL_TEXT.
+   * @brief C implementation of @ref FAIL_TEXT.
    * @param text Message.
    * @param file_name File.
    * @param line_number Line.
