@@ -284,7 +284,7 @@ template <>
 const void* NamedValue::get_value<const void*>() const
 {
   STRCMP_EQUAL("const void*", type_.c_str());
-  return value_.pointer_value;
+  return value_.const_pointer_value;
 }
 
 template <>
