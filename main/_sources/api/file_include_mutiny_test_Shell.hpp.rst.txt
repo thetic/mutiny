@@ -123,10 +123,6 @@ Defines
 
 - :ref:`exhale_define_Shell_8hpp_1a2681dda1dbf161c98ee17cbecb63c407`
 
-- :ref:`exhale_define_Shell_8hpp_1a56e80ae972f043c0221ec0440fc2e545`
-
-- :ref:`exhale_define_Shell_8hpp_1ac79bfe9ad36265cdd6113c9e8cc1e721`
-
 - :ref:`exhale_define_Shell_8hpp_1a729507cef1cb986490fdfcaa194b84dd`
 
 - :ref:`exhale_define_Shell_8hpp_1af534f9fdbade10fe33a8ff1306df9bb3`

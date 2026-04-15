@@ -491,8 +491,6 @@
 <li class="toctree-l2"><a class="reference internal" href="define_test_8h_1a7abf801ba797d9f6e9c0607da893cf17.html">Define CHECK_EQUAL_ULONG_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_test_8h_1a9bca8904546da14f93b73e8b23dfe2bf.html">Define CHECK_EQUAL_ULONGLONG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_test_8h_1a6c3c63e90263a636fabe6ac06560f7fb.html">Define CHECK_EQUAL_ULONGLONG_TEXT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="define_Shell_8hpp_1a56e80ae972f043c0221ec0440fc2e545.html">Define CHECK_EQUAL_ZERO</a></li>
-<li class="toctree-l2"><a class="reference internal" href="define_Shell_8hpp_1ac79bfe9ad36265cdd6113c9e8cc1e721.html">Define CHECK_EQUAL_ZERO_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_Shell_8hpp_1a729507cef1cb986490fdfcaa194b84dd.html">Define CHECK_LOCATION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_test_8h_1af534f9fdbade10fe33a8ff1306df9bb3.html">Define CHECK_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="define_Shell_8hpp_1af534f9fdbade10fe33a8ff1306df9bb3.html">Define CHECK_TEXT</a></li>
@@ -606,7 +604,7 @@
 <h2>Define Documentation<a class="headerlink" href="#define-documentation" title="Link to this heading">¶</a></h2>
 <dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.CHECK_APPROX">
-<span class="target" id="Shell_8hpp_1a732aa2054d70baf885b0d313974dcc3a"></span><span class="sig-name descname"><span class="n"><span class="pre">CHECK_APPROX</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">expected</span></span>, <span class="n"><span class="pre">actual</span></span>, <span class="n"><span class="pre">threshold</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CHECK_APPROX" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/test/Shell.hpp#L755"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="target" id="Shell_8hpp_1a732aa2054d70baf885b0d313974dcc3a"></span><span class="sig-name descname"><span class="n"><span class="pre">CHECK_APPROX</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">expected</span></span>, <span class="n"><span class="pre">actual</span></span>, <span class="n"><span class="pre">threshold</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CHECK_APPROX" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/test/Shell.hpp#L747"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Fail if <code class="docutils literal notranslate"><span class="pre">expected</span></code> and <code class="docutils literal notranslate"><span class="pre">actual</span></code> differ by more than <code class="docutils literal notranslate"><span class="pre">threshold</span></code>. </p>
 <p>Accepts any numeric type (floating-point or integral); all three operands must share the same type so mismatched pairs produce a compiler diagnostic. Handles NaN correctly: a NaN operand always fails the check.</p>
 <p><div class="admonition seealso">

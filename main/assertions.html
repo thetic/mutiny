@@ -491,8 +491,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api/define_test_8h_1a7abf801ba797d9f6e9c0607da893cf17.html">Define CHECK_EQUAL_ULONG_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/define_test_8h_1a9bca8904546da14f93b73e8b23dfe2bf.html">Define CHECK_EQUAL_ULONGLONG</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/define_test_8h_1a6c3c63e90263a636fabe6ac06560f7fb.html">Define CHECK_EQUAL_ULONGLONG_TEXT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/define_Shell_8hpp_1a56e80ae972f043c0221ec0440fc2e545.html">Define CHECK_EQUAL_ZERO</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/define_Shell_8hpp_1ac79bfe9ad36265cdd6113c9e8cc1e721.html">Define CHECK_EQUAL_ZERO_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/define_Shell_8hpp_1a729507cef1cb986490fdfcaa194b84dd.html">Define CHECK_LOCATION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/define_test_8h_1af534f9fdbade10fe33a8ff1306df9bb3.html">Define CHECK_TEXT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/define_Shell_8hpp_1af534f9fdbade10fe33a8ff1306df9bb3.html">Define CHECK_TEXT</a></li>
@@ -626,8 +624,8 @@ summary.</p>
 </pre></div>
 </div>
 </section>
-<section id="equality-generic">
-<h2>Equality (generic)<a class="headerlink" href="#equality-generic" title="Link to this heading">¶</a></h2>
+<section id="equality">
+<h2>Equality<a class="headerlink" href="#equality" title="Link to this heading">¶</a></h2>
 <section id="check-equal-expected-actual">
 <h3><code class="docutils literal notranslate"><span class="pre">CHECK_EQUAL(expected,</span> <span class="pre">actual)</span></code><a class="headerlink" href="#check-equal-expected-actual" title="Link to this heading">¶</a></h3>
 <p><a class="reference internal" href="api/define_Shell_8hpp_1ad8fa79f5d491cc01af302832785e90fe.html#c.CHECK_EQUAL" title="CHECK_EQUAL"><code class="xref c c-macro docutils literal notranslate"><span class="pre">CHECK_EQUAL</span></code></a> uses <code class="docutils literal notranslate"><span class="pre">operator==</span></code> and implicit arithmetic promotion to compare
@@ -650,9 +648,16 @@ failure message</p></li>
 </pre></div>
 </div>
 </section>
-<section id="check-equal-zero-actual">
-<h3><code class="docutils literal notranslate"><span class="pre">CHECK_EQUAL_ZERO(actual)</span></code><a class="headerlink" href="#check-equal-zero-actual" title="Link to this heading">¶</a></h3>
-<p><a class="reference internal" href="api/define_Shell_8hpp_1a56e80ae972f043c0221ec0440fc2e545.html#c.CHECK_EQUAL_ZERO" title="CHECK_EQUAL_ZERO"><code class="xref c c-macro docutils literal notranslate"><span class="pre">CHECK_EQUAL_ZERO</span></code></a> is shorthand for <code class="docutils literal notranslate"><span class="pre">CHECK_EQUAL(0,</span> <span class="pre">actual)</span></code>.</p>
+<section id="check-approx-expected-actual-threshold">
+<h3><code class="docutils literal notranslate"><span class="pre">CHECK_APPROX(expected,</span> <span class="pre">actual,</span> <span class="pre">threshold)</span></code><a class="headerlink" href="#check-approx-expected-actual-threshold" title="Link to this heading">¶</a></h3>
+<p><a class="reference internal" href="api/define_Shell_8hpp_1a732aa2054d70baf885b0d313974dcc3a.html#c.CHECK_APPROX" title="CHECK_APPROX"><code class="xref c c-macro docutils literal notranslate"><span class="pre">CHECK_APPROX</span></code></a> checks that <code class="docutils literal notranslate"><span class="pre">expected</span></code> and <code class="docutils literal notranslate"><span class="pre">actual</span></code> differ by at
+most <code class="docutils literal notranslate"><span class="pre">threshold</span></code>. All three operands must share the same numeric type
+(floating-point or integral).</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span><span class="w"> </span><span class="n">compute_pi</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
+<span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">compute_float</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.01f</span><span class="p">);</span>
+<span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">compute_int</span><span class="p">(),</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="relational">
@@ -663,20 +668,6 @@ failure message</p></li>
 literal operator like <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CHECK_COMPARE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="o">&gt;=</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 <span class="n">CHECK_COMPARE</span><span class="p">(</span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="o">!=</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="approximate-equality">
-<h2>Approximate equality<a class="headerlink" href="#approximate-equality" title="Link to this heading">¶</a></h2>
-<section id="check-approx-expected-actual-threshold">
-<h3><code class="docutils literal notranslate"><span class="pre">CHECK_APPROX(expected,</span> <span class="pre">actual,</span> <span class="pre">threshold)</span></code><a class="headerlink" href="#check-approx-expected-actual-threshold" title="Link to this heading">¶</a></h3>
-<p><a class="reference internal" href="api/define_Shell_8hpp_1a732aa2054d70baf885b0d313974dcc3a.html#c.CHECK_APPROX" title="CHECK_APPROX"><code class="xref c c-macro docutils literal notranslate"><span class="pre">CHECK_APPROX</span></code></a> checks that <code class="docutils literal notranslate"><span class="pre">expected</span></code> and <code class="docutils literal notranslate"><span class="pre">actual</span></code> differ by at
-most <code class="docutils literal notranslate"><span class="pre">threshold</span></code>. All three operands must share the same numeric type
-(floating-point or integral).</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mf">3.14</span><span class="p">,</span><span class="w"> </span><span class="n">compute_pi</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.001</span><span class="p">);</span>
-<span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mf">1.0f</span><span class="p">,</span><span class="w"> </span><span class="n">compute_float</span><span class="p">(),</span><span class="w"> </span><span class="mf">0.01f</span><span class="p">);</span>
-<span class="n">CHECK_APPROX</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="n">compute_int</span><span class="p">(),</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -872,17 +863,13 @@ message to the failure output:</p>
             <ul>
 <li><a class="reference internal" href="#">Assertion Macros</a><ul>
 <li><a class="reference internal" href="#boolean">Boolean</a></li>
-<li><a class="reference internal" href="#equality-generic">Equality (generic)</a><ul>
+<li><a class="reference internal" href="#equality">Equality</a><ul>
 <li><a class="reference internal" href="#check-equal-expected-actual"><code class="docutils literal notranslate"><span class="pre">CHECK_EQUAL(expected,</span> <span class="pre">actual)</span></code></a></li>
-<li><a class="reference internal" href="#check-equal-zero-actual"><code class="docutils literal notranslate"><span class="pre">CHECK_EQUAL_ZERO(actual)</span></code></a></li>
+<li><a class="reference internal" href="#check-approx-expected-actual-threshold"><code class="docutils literal notranslate"><span class="pre">CHECK_APPROX(expected,</span> <span class="pre">actual,</span> <span class="pre">threshold)</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#relational">Relational</a><ul>
 <li><a class="reference internal" href="#check-compare-first-relop-second"><code class="docutils literal notranslate"><span class="pre">CHECK_COMPARE(first,</span> <span class="pre">relop,</span> <span class="pre">second)</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#approximate-equality">Approximate equality</a><ul>
-<li><a class="reference internal" href="#check-approx-expected-actual-threshold"><code class="docutils literal notranslate"><span class="pre">CHECK_APPROX(expected,</span> <span class="pre">actual,</span> <span class="pre">threshold)</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#string">String</a></li>

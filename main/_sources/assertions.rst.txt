@@ -25,8 +25,8 @@ Boolean
    CHECK(list.empty());
    CHECK(!error_occurred);
 
-Equality (generic)
-------------------
+Equality
+--------
 
 ``CHECK_EQUAL(expected, actual)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,10 +53,18 @@ To make :c:macro:`CHECK_EQUAL` work with your own types, provide:
        String string_from(const Colour& c) { return c.name(); }
    } }
 
-``CHECK_EQUAL_ZERO(actual)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``CHECK_APPROX(expected, actual, threshold)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`CHECK_EQUAL_ZERO` is shorthand for ``CHECK_EQUAL(0, actual)``.
+:c:macro:`CHECK_APPROX` checks that ``expected`` and ``actual`` differ by at
+most ``threshold``. All three operands must share the same numeric type
+(floating-point or integral).
+
+.. code-block:: cpp
+
+   CHECK_APPROX(3.14, compute_pi(), 0.001);
+   CHECK_APPROX(1.0f, compute_float(), 0.01f);
+   CHECK_APPROX(1000, compute_int(), 10);
 
 Relational
 ----------
@@ -71,22 +79,6 @@ literal operator like ``<``, ``>=``, ``!=``.
 
    CHECK_COMPARE(result, >=, 0);
    CHECK_COMPARE(count, !=, 0);
-
-Approximate equality
---------------------
-
-``CHECK_APPROX(expected, actual, threshold)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:c:macro:`CHECK_APPROX` checks that ``expected`` and ``actual`` differ by at
-most ``threshold``. All three operands must share the same numeric type
-(floating-point or integral).
-
-.. code-block:: cpp
-
-   CHECK_APPROX(3.14, compute_pi(), 0.001);
-   CHECK_APPROX(1.0f, compute_float(), 0.01f);
-   CHECK_APPROX(1000, compute_int(), 10);
 
 String
 ------
