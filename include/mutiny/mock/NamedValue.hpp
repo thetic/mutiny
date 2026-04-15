@@ -169,6 +169,12 @@ public:
   template<typename T>
   T get_value() const;
 
+  /**
+   * @fn FunctionPointerValue NamedValue::get_value<FunctionPointerValue>()
+   * const
+   * @brief get_value() specialization for FunctionPointerValue (`void(*)()`).
+   */
+
   /** @return The stored double tolerance. */
   double get_double_tolerance() const;
   /** @return The stored memory buffer pointer. */
@@ -272,9 +278,14 @@ template<>
 MUTINY_EXPORT void* NamedValue::get_value<void*>() const;
 template<>
 MUTINY_EXPORT const void* NamedValue::get_value<const void*>() const;
+/// @cond DOXYGEN_SKIP
+// Doxygen misclassifies this specialization as namespace-scope due to the
+// nested type alias appearing in both the return type and template argument.
+// Documented via the explicit \fn comment in the class body above.
 template<>
 MUTINY_EXPORT NamedValue::FunctionPointerValue NamedValue::get_value<
     NamedValue::FunctionPointerValue>() const;
+/// @endcond
 
 // Sub-int type specializations — inline, delegate to the int specialization.
 // clang-format off
