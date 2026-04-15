@@ -631,14 +631,6 @@ void check_approx(
 #define CHECK_EQUAL_LOCATION(expected, actual, text, file, line)               \
   mu::tiny::test::check_equal((expected), (actual), text, file, line)
 
-/** @brief Fail if @p actual != 0. Equivalent to CHECK_EQUAL(0, actual). */
-#define CHECK_EQUAL_ZERO(actual) CHECK_EQUAL(0, (actual))
-
-/** @brief CHECK_EQUAL_ZERO with a custom failure message. @see CHECK_EQUAL_ZERO
- */
-#define CHECK_EQUAL_ZERO_TEXT(actual, text)                                    \
-  CHECK_EQUAL_TEXT(0, (actual), (text))
-
 /**
  * @brief Fail if @p first relop @p second is false.
  *
