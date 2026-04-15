@@ -69,7 +69,9 @@ actual call side with the same overloads. Both accept: ``bool``,
 ``int``, ``unsigned int``, ``long``, ``unsigned long``, ``long long``,
 ``unsigned long long``, ``double``, ``const char*``, ``void*``,
 ``const void*``, ``void(*)()``, and memory buffers
-``(const unsigned char*, size_t)``.
+``(const unsigned char*, size_t)``. Fixed-width types from
+``<stdint.h>`` (``size_t``, ``uint32_t``, ``int64_t``, etc.) work
+directly because they are typedefs for these fundamental types.
 
 .. code-block:: cpp
 
@@ -161,33 +163,8 @@ Retrieve the return value in your mock stub with the template accessor
 on both :cpp:class:`ActualCall <mu::tiny::mock::ActualCall>` and
 :cpp:class:`Support <mu::tiny::mock::Support>`. They work with any type
 that has a ``NamedValue::get_value<T>()`` specialization — all fundamental
-types plus ``const char*``, ``void*``, ``const void*``, and
-``void(*)()``.
-
-Fixed-width types from ``<stdint.h>``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Because ``int32_t``, ``uint64_t``, etc. are typedefs for fundamental types,
-they work directly with the template accessors. The compiler resolves the
-typedef to the correct platform-specific type at compile time:
-
-.. code-block:: cpp
-
-   // Mock a hardware register read:
-   uint32_t read_register(uint32_t addr)
-   {
-       return mock().actual_call("read_register")
-                    .with_parameter("addr", addr)
-                    .return_value<uint32_t>();
-   }
-
-   // In the test:
-   mock().expect_one_call("read_register")
-         .with_parameter("addr", (uint32_t)0x40000000)
-         .and_return_value((uint32_t)0xDEADBEEF);
-
-This is portable across LP64, LLP64, and ILP32 platforms — no ``#ifdef``
-required.
+types plus ``const char*``, ``void*``, ``const void*``, ``void(*)()``,
+and any ``<stdint.h>`` typedef (``uint32_t``, ``int64_t``, etc.).
 
 
 Object Binding
