@@ -382,13 +382,13 @@ EXPECT_FAIL_TEST(MutinyC, memcmpTextFail)
 EXPECT_FAIL_TEST(MutinyC, failText)
 {
   test_was_called_in_test_group_in_c++;
-  FAIL_TEXT("expected failure");
+  FAIL_TEST("expected failure");
 }
 
 EXPECT_FAIL_TEST(MutinyC, fail)
 {
   test_was_called_in_test_group_in_c++;
-  FAIL_TEXT("");
+  FAIL_TEST("");
 }
 
 EXPECT_FAIL_TEST(MutinyC, checkFail)

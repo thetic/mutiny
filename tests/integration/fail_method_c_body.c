@@ -4,5 +4,5 @@
 
 void mutiny_fail_method_c_body(void)
 {
-  FAIL_TEXT("Booo");
+  FAIL_TEST("Booo");
 }

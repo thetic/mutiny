@@ -77,7 +77,7 @@ functions:
      - ``const void*``
    * - :c:macro:`CHECK_EQUAL_MEMCMP(expected, actual, size) <CHECK_EQUAL_MEMCMP>`
      - raw memory via ``memcmp``
-   * - :c:macro:`FAIL_TEXT(text) <FAIL_TEXT>`
+   * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
      - unconditional failure with message
    * - :c:macro:`TEST_PROPERTY(name, value) <TEST_PROPERTY>`
      - attaches metadata to :doc:`JUnit output <junit-output>`

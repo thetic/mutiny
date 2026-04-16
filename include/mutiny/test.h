@@ -201,7 +201,7 @@ extern "C"
  * @brief Unconditionally fail with a message.
  * @param text  Human-readable failure message.
  */
-#define FAIL_TEXT(text) mutiny_fail(text, __FILE__, __LINE__)
+#define FAIL_TEST(text) mutiny_fail(text, __FILE__, __LINE__)
 
 /**
  * @brief Fail if @p condition is zero (false).
@@ -510,7 +510,7 @@ extern "C"
   );
 
   /**
-   * @brief C implementation of @ref FAIL_TEXT.
+   * @brief C implementation of @ref FAIL_TEST.
    * @param text Message.
    * @param file_name File.
    * @param line_number Line.
