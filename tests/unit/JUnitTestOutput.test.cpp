@@ -414,12 +414,9 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
 TEST(JUnitOutput, withReservedCharactersInPackageNameUsesUnderscoresForFileName)
 {
   junit_output->set_package_name("p/a\\c?k%a*g:e|n\"a<m>e.");
-  test_case_runner->start()
-      .with_group("groupname")
-      .with_test("testname")
-      .end();
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  CHECK(file_system.file_exists("mutiny_p_a_c_k_a_g_e_n_a_m_e..xml"));
+  CHECK(file_system.file_exists("p_a_c_k_a_g_e_n_a_m_e..xml"));
 }
 
 TEST(JUnitOutput, withOneTestGroupAndOneTestOutputsValidXMLFiles)
@@ -801,7 +798,9 @@ TEST(JUnitOutput, twoTestGroupsWriteToOneFile)
 TEST(JUnitOutput, packageNameWithReservedCharsEncodedInFileName)
 {
   junit_output->set_package_name("group/weird/name");
-  STRCMP_EQUAL("mutiny_group_weird_name.xml", junit_output->create_file_name().c_str());
+  STRCMP_EQUAL(
+      "group_weird_name.xml", junit_output->create_file_name().c_str()
+  );
 }
 
 TEST(JUnitOutput, TestCaseBlockWithAPackageName)
@@ -809,7 +808,7 @@ TEST(JUnitOutput, TestCaseBlockWithAPackageName)
   junit_output->set_package_name("packagename");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
-  output_file = file_system.file("mutiny_packagename.xml");
+  output_file = file_system.file("packagename.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -827,7 +826,7 @@ TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
       .with_ignored_test("testname")
       .end();
 
-  output_file = file_system.file("mutiny_packagename.xml");
+  output_file = file_system.file("packagename.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -848,7 +847,7 @@ TEST(JUnitOutput, TestCaseWithTestLocation)
       .on_line(159)
       .end();
 
-  output_file = file_system.file("mutiny_packagename.xml");
+  output_file = file_system.file("packagename.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -894,7 +893,7 @@ TEST(JUnitOutput, TestCaseBlockWithAssertions)
       .that_has_checks(24)
       .end();
 
-  output_file = file_system.file("mutiny_packagename.xml");
+  output_file = file_system.file("packagename.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
@@ -1191,7 +1190,7 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestWithMessage)
       .that_is_skipped("not ready yet")
       .end();
 
-  output_file = file_system.file("mutiny_packagename.xml");
+  output_file = file_system.file("packagename.xml");
 
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "

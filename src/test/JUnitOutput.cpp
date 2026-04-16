@@ -194,12 +194,9 @@ void JUnitOutput::print_current_test_started(const Shell& test)
 
 String JUnitOutput::create_file_name()
 {
-  String file_name = "mutiny";
-  if (!impl_->package.empty()) {
-    file_name += "_";
-    file_name += impl_->package;
-  }
-  return encode_file_name(file_name) + ".xml";
+  if (!impl_->package.empty())
+    return encode_file_name(impl_->package) + ".xml";
+  return "mutiny.xml";
 }
 
 String JUnitOutput::encode_file_name(const String& file_name)

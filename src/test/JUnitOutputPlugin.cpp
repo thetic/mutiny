@@ -51,9 +51,8 @@ bool JUnitOutputPlugin::parse_arguments(
 
 String JUnitOutputPlugin::get_help() const
 {
-  return "  -pjunit[=<name>]  - output JUnit XML; <name> prefixes output "
-         "files\n"
-         "                      (defaults to the executable name)\n";
+  return "  -pjunit[=<name>]  - output JUnit XML as <name>.xml\n"
+         "                      (defaults to the executable basename)\n";
 }
 
 Output* JUnitOutputPlugin::create_output()

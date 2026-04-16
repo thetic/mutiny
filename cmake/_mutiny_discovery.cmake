@@ -28,12 +28,16 @@ if(NOT EXISTS "${EXECUTABLE}")
 endif()
 
 macro(add_test_to_script TEST_NAME TEST_LOCATION SELECT_ARG)
+    set(_test_args ${ARGS})
+    if(JUNIT_REPORT)
+        list(APPEND _test_args "-pjunit=${TARGET_NAME}.${TEST_NAME}")
+    endif()
     add_command(
         add_test
         "${TARGET_NAME}.${TEST_NAME}"
         ${EMULATOR}
         "${EXECUTABLE}"
-        ${ARGS}
+        ${_test_args}
         ${SELECT_ARG}
         ${TEST_NAME}
     )
