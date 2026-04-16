@@ -277,14 +277,15 @@ void JUnitOutput::write_test_cases()
 
 void JUnitOutput::write_failure(JUnitTestCaseResultNode* node)
 {
+  String file = encode_xml_text(node->failure->get_file_name());
   String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
       "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
       "%s:%d: %s\n",
-      node->failure->get_file_name().c_str(),
+      file.c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
       msg.c_str(),
-      node->failure->get_file_name().c_str(),
+      file.c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
       msg.c_str()
   );
