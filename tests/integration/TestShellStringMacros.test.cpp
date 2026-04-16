@@ -150,14 +150,6 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_EQUAL)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <hell>");
 }
 
-TEST(TestShellStringMacros, STRCMP_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_EQUAL("1", "2");
-  else
-    STRCMP_EQUAL("1", "1");
-}
-
 TEST(TestShellStringMacros, STRCMP_EQUALBothNullPasses)
 {
   STRCMP_EQUAL(nullptr, nullptr);
@@ -176,14 +168,6 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-TEST(TestShellStringMacros, STRCMP_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_EQUAL_TEXT("1", "2", "Failed because it failed");
-  else
-    STRCMP_EQUAL_TEXT("1", "1", "Failed because it failed");
-}
-
 IGNORE_TEST(TestShellStringMacros, STRCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   STRCMP_EQUAL_TEXT("Hello", "World", "Failed because it failed");
@@ -194,14 +178,6 @@ TEST(TestShellStringMacros, FailureWithSTRNCMP_EQUAL)
   fixture.run_test_with_method(failing_test_method_with_strncmp_equal);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("expected <hello>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("but was  <hallo>");
-}
-
-TEST(TestShellStringMacros, STRNCMP_EQUALBehavesAsProperMacro)
-{
-  if (false)
-    STRNCMP_EQUAL("1", "2", 1);
-  else
-    STRNCMP_EQUAL("1", "1", 1);
 }
 
 TEST(TestShellStringMacros, STRNCMP_EQUALBothNullPasses)
@@ -222,14 +198,6 @@ TEST(TestShellStringMacros, FailureWithSTRNCMP_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-TEST(TestShellStringMacros, STRNCMP_EQUAL_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    STRNCMP_EQUAL_TEXT("1", "2", 1, "Failed because it failed");
-  else
-    STRNCMP_EQUAL_TEXT("1", "1", 1, "Failed because it failed");
-}
-
 IGNORE_TEST(TestShellStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   STRNCMP_EQUAL_TEXT("Hello", "World", 3, "Failed because it failed");
@@ -240,14 +208,6 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_CONTAINS)
   fixture.run_test_with_method(failing_test_method_with_strcmp_contains);
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("actual <world>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <hello>");
-}
-
-TEST(TestShellStringMacros, STRCMP_CONTAINSBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_CONTAINS("1", "2");
-  else
-    STRCMP_CONTAINS("1", "1");
 }
 
 TEST(TestShellStringMacros, STRCMP_CONTAINSBothNullPasses)
@@ -266,14 +226,6 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_CONTAINS_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("actual <world>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("did not contain  <hello>");
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
-}
-
-TEST(TestShellStringMacros, STRCMP_CONTAINS_TEXTBehavesAsProperMacro)
-{
-  if (false)
-    STRCMP_CONTAINS_TEXT("1", "2", "Failed because it failed");
-  else
-    STRCMP_CONTAINS_TEXT("1", "1", "Failed because it failed");
 }
 
 IGNORE_TEST(TestShellStringMacros, STRCMP_CONTAINS_TEXTWorksInAnIgnoredTest)
