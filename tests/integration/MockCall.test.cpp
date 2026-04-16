@@ -501,7 +501,7 @@ TEST(MockCall, shouldReturnDefaultWhenThereIsntAnythingToReturn)
   CHECK(mock().return_value().equals(mu::tiny::mock::NamedValue("")));
 }
 
-IGNORE_TEST(MockCall, testForPerformanceProfiling)
+SKIPPED_TEST(MockCall, testForPerformanceProfiling)
 {
   /* TO fix! */
   mock().expect_n_calls(2000, "SimpleFunction");

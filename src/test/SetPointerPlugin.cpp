@@ -26,7 +26,7 @@ SetPointerPlugin::SetPointerPlugin()
 void SetPointerPlugin::store(void** function)
 {
   if (pointer_table_index >= SetPointerPlugin::max_set) {
-    FAIL("Maximum number of function pointers installed!");
+    FAIL_TEST("Maximum number of function pointers installed!");
   }
   setlist[pointer_table_index].orig_value = *function;
   setlist[pointer_table_index].orig = function;

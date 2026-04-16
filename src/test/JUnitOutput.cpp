@@ -35,6 +35,7 @@ public:
   Failure* failure{ nullptr };
   bool failure_is_error{ false };
   bool ignored{ false };
+  String skip_message;
   String file;
   size_t line_number{ 0 };
   size_t check_count{ 0 };
@@ -51,6 +52,7 @@ public:
   size_t test_count{ 0 };
   size_t failure_count{ 0 };
   size_t error_count{ 0 };
+  size_t skip_count{ 0 };
   size_t total_check_count{ 0 };
   uint_least64_t start_time{ 0 };
   uint_least64_t group_exec_time{ 0 };
@@ -84,6 +86,7 @@ void JUnitOutput::reset_test_group_result()
   impl_->results.test_count = 0;
   impl_->results.failure_count = 0;
   impl_->results.error_count = 0;
+  impl_->results.skip_count = 0;
   impl_->results.group = "";
   JUnitTestCaseResultNode* cur = impl_->results.head;
   while (cur) {
@@ -140,6 +143,7 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   impl_->results.tail->line_number = test.get_line_number();
   if (!test.will_run()) {
     impl_->results.tail->ignored = true;
+    impl_->results.skip_count++;
   }
 }
 
@@ -180,11 +184,18 @@ void JUnitOutput::write_xml_header()
 
 void JUnitOutput::write_test_suite_summary()
 {
+  size_t total_assertions = 0;
+  for (JUnitTestCaseResultNode* n = impl_->results.head; n; n = n->next)
+    total_assertions = n->check_count;
+
   String buf = string_from_format(
-      "<testsuite errors=\"%d\" failures=\"%d\" "
-      "name=\"%s\" tests=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
+      "<testsuite errors=\"%d\" failures=\"%d\" skipped=\"%d\" "
+      "assertions=\"%d\" name=\"%s\" tests=\"%d\" "
+      "time=\"%d.%03d\" timestamp=\"%s\">\n",
       static_cast<int>(impl_->results.error_count),
       static_cast<int>(impl_->results.failure_count),
+      static_cast<int>(impl_->results.skip_count),
+      static_cast<int>(total_assertions),
       impl_->results.group.c_str(),
       static_cast<int>(impl_->results.test_count),
       static_cast<int>(impl_->results.group_exec_time / 1000),
@@ -194,11 +205,7 @@ void JUnitOutput::write_test_suite_summary()
   write_to_file(buf.c_str());
 }
 
-void JUnitOutput::write_properties()
-{
-  write_to_file("<properties>\n");
-  write_to_file("</properties>\n");
-}
+void JUnitOutput::write_properties() {}
 
 String JUnitOutput::encode_xml_text(const String& textbody)
 {
@@ -253,7 +260,15 @@ void JUnitOutput::write_test_cases()
       else
         write_failure(cur);
     } else if (cur->ignored) {
-      write_to_file("<skipped />\n");
+      if (cur->skip_message.empty()) {
+        write_to_file("<skipped />\n");
+      } else {
+        write_to_file(string_from_format(
+                          "<skipped message=\"%s\" />\n",
+                          encode_xml_text(cur->skip_message).c_str()
+        )
+                          .c_str());
+      }
     }
     write_to_file("</testcase>\n");
     cur = cur->next;
@@ -335,6 +350,15 @@ void JUnitOutput::print_test_property(const char* name, const char* value)
     impl_->results.tail->properties_tail->next = prop;
     impl_->results.tail->properties_tail = prop;
   }
+}
+
+void JUnitOutput::print_skipped(const char* message)
+{
+  if (impl_->results.tail == nullptr)
+    return;
+  impl_->results.tail->ignored = true;
+  impl_->results.tail->skip_message = message;
+  impl_->results.skip_count++;
 }
 
 void JUnitOutput::print_failure(const Failure& failure)

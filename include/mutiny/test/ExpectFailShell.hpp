@@ -2,7 +2,7 @@
  * @file
  * @brief @ref mu::tiny::test::Shell subclass for tests expected to fail.
  *
- * Used by @ref EXPECT_FAIL_TEST and @ref EXPECT_FAIL_TEST_C_WRAPPER.
+ * Used by @ref XFAIL_TEST and @ref XFAIL_TEST_C_WRAPPER.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_EXPECTFAILSHELL_HPP
@@ -19,9 +19,9 @@ namespace test {
 /**
  * @brief Shell that inverts the pass/fail outcome of a test.
  *
- * Used by the @ref EXPECT_FAIL_TEST() macro. The test body is expected to
+ * Used by the @ref XFAIL_TEST() macro. The test body is expected to
  * trigger a failure; if it passes without failing, the shell marks it as
- * failed. See also @ref EXPECT_FAIL_TEST_C_WRAPPER.
+ * failed. See also @ref XFAIL_TEST_C_WRAPPER.
  */
 class MUTINY_EXPORT ExpectFailShell : public Shell
 {
@@ -47,7 +47,7 @@ public:
 
 protected:
   /** @return The macro name reported in failure messages
-   * (`"EXPECT_FAIL_TEST"`).
+   * (`"XFAIL_TEST"`).
    */
   String get_macro_name() const override;
 

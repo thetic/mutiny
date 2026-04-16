@@ -68,7 +68,7 @@ bool approx_equal(T d1, T d2, T threshold)
  * @ref run_one_test() for each registered shell.
  *
  * Users interact with Shell primarily through the assertion macros
- * (@ref CHECK, @ref CHECK_EQUAL, @ref FAIL, etc.), which forward to the
+ * (@ref CHECK, @ref CHECK_EQUAL, @ref FAIL_TEST, etc.), which forward to the
  * assert_* virtual methods. This design allows the testing framework's own
  * tests to substitute a mock shell and verify assertion behaviour.
  *
@@ -332,6 +332,21 @@ public:
    * @param test_terminator  Controls how control leaves the test body.
    */
   virtual void exit_test(
+      const Terminator& test_terminator = get_current_test_terminator()
+  );
+
+  /**
+   * @brief Mark the test as skipped and exit the test body.
+   *
+   * @param text            Human-readable reason for skipping.
+   * @param file_name       Source file (__FILE__).
+   * @param line_number     Source line (__LINE__).
+   * @param test_terminator Controls how control leaves the test body.
+   */
+  virtual void skip_test(
+      const char* text,
+      const char* file_name,
+      size_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
 
@@ -830,24 +845,8 @@ void check_approx(
 /**
  * @brief Unconditionally fail the current test with a message.
  *
- * FAIL may already be defined by another library; in that case use FAIL_TEST
- * instead. Both macros behave identically.
- *
  * @param text  Human-readable failure message.
- *
- * @see FAIL_TEST, FAIL_LOCATION
  */
-#ifndef FAIL
-#define FAIL(text) FAIL_LOCATION(text, __FILE__, __LINE__)
-
-#define FAIL_LOCATION(text, file, line)                                        \
-  do {                                                                         \
-    mu::tiny::test::Shell::get_current()->fail(text, file, line);              \
-  } while (0)
-#endif
-
-/** @brief Unconditionally fail the current test. Use when FAIL is already
- * defined. @see FAIL */
 #define FAIL_TEST(text) FAIL_TEST_LOCATION(text, __FILE__, __LINE__)
 
 #define FAIL_TEST_LOCATION(text, file, line)                                   \
@@ -859,11 +858,28 @@ void check_approx(
  * @brief Exit the current test body immediately without marking it as failed.
  *
  * Useful when a prerequisite check fails and continuing would produce
- * confusing cascading failures. Unlike FAIL, the test is counted as passed.
+ * confusing cascading failures. Unlike FAIL_TEST, the test is counted as
+ * passed.
  */
-#define TEST_EXIT                                                              \
+#define PASS_TEST()                                                            \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->exit_test();                         \
+  } while (0)
+
+/**
+ * @brief Mark the current test as skipped and exit the test body.
+ *
+ * The test is recorded as skipped in JUnit XML output with @p text as the
+ * message. Tests registered with @ref SKIPPED_TEST are also reported as
+ * skipped.
+ *
+ * @param text  Human-readable reason for skipping.
+ */
+#define SKIP_TEST(text) SKIP_TEST_LOCATION(text, __FILE__, __LINE__)
+
+#define SKIP_TEST_LOCATION(text, file, line)                                   \
+  do {                                                                         \
+    mu::tiny::test::Shell::get_current()->skip_test(text, file, line);         \
   } while (0)
 
 #if MUTINY_HAVE_EXCEPTIONS

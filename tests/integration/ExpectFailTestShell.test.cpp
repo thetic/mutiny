@@ -7,7 +7,7 @@ namespace {
 
 class FailingTest : public mu::tiny::test::Test
 {
-  void test_body() override { FAIL("expected failure"); }
+  void test_body() override { FAIL_TEST("expected failure"); }
 };
 
 class FailingExpectFailTestShell : public mu::tiny::test::ExpectFailShell
@@ -48,24 +48,23 @@ TEST(ExpectFailShell, willRun_alwaysReturnsTrue)
   CHECK(shell.will_run());
 }
 
-TEST(ExpectFailShell, getFormattedName_showsEXPECT_FAIL_TEST)
+TEST(ExpectFailShell, getFormattedName_showsXFAIL_TEST)
 {
   mu::tiny::test::ExpectFailShell shell;
   shell.set_group_name("TestGroup");
   shell.set_test_name("TestName");
   STRCMP_EQUAL(
-      "EXPECT_FAIL_TEST(TestGroup, TestName)",
-      shell.get_formatted_name().c_str()
+      "XFAIL_TEST(TestGroup, TestName)", shell.get_formatted_name().c_str()
   );
 }
 
-TEST(ExpectFailShell, verbose_printsEXPECT_FAIL_TEST)
+TEST(ExpectFailShell, verbose_printsXFAIL_TEST)
 {
   FailingExpectFailTestShell shell;
   fixture.add_test(&shell);
   fixture.set_output_verbose();
   fixture.run_all_tests();
-  fixture.assert_print_contains("EXPECT_FAIL_TEST");
+  fixture.assert_print_contains("XFAIL_TEST");
 }
 
 TEST(ExpectFailShell, fourArgConstructor_setsGroupTestFileAndLine)

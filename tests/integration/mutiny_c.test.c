@@ -22,7 +22,7 @@ TEST(MutinyC, checkThatTheTestHasRun)
   test_was_called_in_test_group_in_c++;
 }
 
-IGNORE_TEST(MutinyC, ignoreMacroForCFile)
+SKIPPED_TEST(MutinyC, ignoreMacroForCFile)
 {
   test_was_called_in_test_group_in_c++;
 }
@@ -209,195 +209,195 @@ TEST(MutinyC, checkText)
   CHECK_TEXT(true, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, boolFail)
+XFAIL_TEST(MutinyC, boolFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_BOOL(1, 0);
 }
 
-EXPECT_FAIL_TEST(MutinyC, boolTextFail)
+XFAIL_TEST(MutinyC, boolTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_BOOL_TEXT(1, 0, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, intFail)
+XFAIL_TEST(MutinyC, intFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_INT(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, intTextFail)
+XFAIL_TEST(MutinyC, intTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_INT_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, unsignedIntFail)
+XFAIL_TEST(MutinyC, unsignedIntFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_UINT(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, unsignedIntTextFail)
+XFAIL_TEST(MutinyC, unsignedIntTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_UINT_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, longFail)
+XFAIL_TEST(MutinyC, longFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_LONG(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, longTextFail)
+XFAIL_TEST(MutinyC, longTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_LONG_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, ulongFail)
+XFAIL_TEST(MutinyC, ulongFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_ULONG(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, ulongTextFail)
+XFAIL_TEST(MutinyC, ulongTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_ULONG_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, longLongFail)
+XFAIL_TEST(MutinyC, longLongFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_LONGLONG(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, longLongTextFail)
+XFAIL_TEST(MutinyC, longLongTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_LONGLONG_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, uLongLongFail)
+XFAIL_TEST(MutinyC, uLongLongFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_ULONGLONG(2, 3);
 }
 
-EXPECT_FAIL_TEST(MutinyC, uLongLongTextFail)
+XFAIL_TEST(MutinyC, uLongLongTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_ULONGLONG_TEXT(2, 3, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, realFail)
+XFAIL_TEST(MutinyC, realFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_DOUBLE(1.0, 3.0, 0.5);
 }
 
-EXPECT_FAIL_TEST(MutinyC, realTextFail)
+XFAIL_TEST(MutinyC, realTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_DOUBLE_TEXT(1.0, 3.0, 0.5, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, charFail)
+XFAIL_TEST(MutinyC, charFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_CHAR('a', 'b');
 }
 
-EXPECT_FAIL_TEST(MutinyC, charTextFail)
+XFAIL_TEST(MutinyC, charTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_CHAR_TEXT('a', 'b', "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, uByteFail)
+XFAIL_TEST(MutinyC, uByteFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_UBYTE(254, 253);
 }
 
-EXPECT_FAIL_TEST(MutinyC, uByteTextFail)
+XFAIL_TEST(MutinyC, uByteTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_UBYTE_TEXT(254, 253, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, sByteFail)
+XFAIL_TEST(MutinyC, sByteFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_SBYTE(-3, -4);
 }
 
-EXPECT_FAIL_TEST(MutinyC, sbyteTextFail)
+XFAIL_TEST(MutinyC, sbyteTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_SBYTE_TEXT(-3, -4, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, stringFail)
+XFAIL_TEST(MutinyC, stringFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_STRING("Hello", "World");
 }
 
-EXPECT_FAIL_TEST(MutinyC, stringTextFail)
+XFAIL_TEST(MutinyC, stringTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_STRING_TEXT("Hello", "World", "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, pointerFail)
+XFAIL_TEST(MutinyC, pointerFail)
 {
   int x = 0;
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_POINTER(NULL, &x);
 }
 
-EXPECT_FAIL_TEST(MutinyC, pointerTextFail)
+XFAIL_TEST(MutinyC, pointerTextFail)
 {
   int x = 0;
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_POINTER_TEXT(NULL, &x, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, memcmpFail)
+XFAIL_TEST(MutinyC, memcmpFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_MEMCMP("ABCD", "TEST", 4);
 }
 
-EXPECT_FAIL_TEST(MutinyC, memcmpTextFail)
+XFAIL_TEST(MutinyC, memcmpTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_EQUAL_MEMCMP_TEXT("ABCD", "TEST", 4, "Text");
 }
 
-EXPECT_FAIL_TEST(MutinyC, failText)
+XFAIL_TEST(MutinyC, failText)
 {
   test_was_called_in_test_group_in_c++;
-  FAIL_TEXT("expected failure");
+  FAIL_TEST("expected failure");
 }
 
-EXPECT_FAIL_TEST(MutinyC, fail)
+XFAIL_TEST(MutinyC, fail)
 {
   test_was_called_in_test_group_in_c++;
-  FAIL();
+  FAIL_TEST("");
 }
 
-EXPECT_FAIL_TEST(MutinyC, checkFail)
+XFAIL_TEST(MutinyC, checkFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK(false);
 }
 
-EXPECT_FAIL_TEST(MutinyC, checkTextFail)
+XFAIL_TEST(MutinyC, checkTextFail)
 {
   test_was_called_in_test_group_in_c++;
   CHECK_TEXT(false, "Text");

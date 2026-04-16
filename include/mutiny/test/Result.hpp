@@ -80,6 +80,12 @@ public:
   virtual void count_ignored();
 
   /**
+   * @brief Mark the current test as skipped with an optional message.
+   * @param message  Human-readable reason (may be empty).
+   */
+  virtual void skip_test(const char* message);
+
+  /**
    * @brief Record a test failure and increment the failure counter.
    * @param failure  The failure to record.
    */

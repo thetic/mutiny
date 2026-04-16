@@ -4,7 +4,7 @@
  *
  * Include this header in every C++ test file. It provides the macros needed
  * to declare test groups and individual tests: @ref TEST_GROUP, @ref TEST, @ref
- * IGNORE_TEST, @ref EXPECT_FAIL_TEST, and the C-interop wrappers. Assertion
+ * SKIPPED_TEST, @ref XFAIL_TEST, and the C-interop wrappers. Assertion
  * macros are provided by @ref Shell.hpp, which this header includes
  * transitively.
  */
@@ -100,7 +100,7 @@
  * @param testGroup  The group this test belongs to.
  * @param testName   Name of the test.
  */
-#define IGNORE_TEST(testGroup, testName)                                       \
+#define SKIPPED_TEST(testGroup, testName)                                      \
   /* External declarations for strict compilers */                             \
   class IGNORE##testGroup##_##testName##_TestShell;                            \
   extern IGNORE##testGroup##_##testName##_TestShell                            \
@@ -143,12 +143,12 @@
  * If the test body passes (no assertion failure), the outer run reports an
  * error. Use this to document known failures that must stay failing — the
  * test run breaks immediately if the code is accidentally fixed without
- * removing the @ref EXPECT_FAIL_TEST declaration.
+ * removing the @ref XFAIL_TEST declaration.
  *
  * @param testGroup  The group this test belongs to.
  * @param testName   Name of the test.
  */
-#define EXPECT_FAIL_TEST(testGroup, testName)                                  \
+#define XFAIL_TEST(testGroup, testName)                                        \
   /* External declarations for strict compilers */                             \
   class EXPECT_FAIL##testGroup##_##testName##_TestShell;                       \
   extern EXPECT_FAIL##testGroup##_##testName##_TestShell                       \
@@ -256,27 +256,27 @@
   }
 
 /**
- * @brief Bridge a C @ref IGNORE_TEST into an @ref IGNORE_TEST.
+ * @brief Bridge a C @ref SKIPPED_TEST into an @ref SKIPPED_TEST.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define IGNORE_TEST_C_WRAPPER(group_name, test_name)                           \
+#define SKIPPED_TEST_C_WRAPPER(group_name, test_name)                          \
   extern "C" void ignore_##group_name##_##test_name##_wrapper_c();             \
-  IGNORE_TEST(group_name, test_name)                                           \
+  SKIPPED_TEST(group_name, test_name)                                          \
   {                                                                            \
     ignore_##group_name##_##test_name##_wrapper_c();                           \
   }
 
 /**
- * @brief Bridge a C @ref EXPECT_FAIL_TEST into an @ref EXPECT_FAIL_TEST.
+ * @brief Bridge a C @ref XFAIL_TEST into an @ref XFAIL_TEST.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define EXPECT_FAIL_TEST_C_WRAPPER(group_name, test_name)                      \
+#define XFAIL_TEST_C_WRAPPER(group_name, test_name)                            \
   extern "C" void expect_fail_##group_name##_##test_name##_wrapper_c();        \
-  EXPECT_FAIL_TEST(group_name, test_name)                                      \
+  XFAIL_TEST(group_name, test_name)                                            \
   {                                                                            \
     expect_fail_##group_name##_##test_name##_wrapper_c();                      \
   }

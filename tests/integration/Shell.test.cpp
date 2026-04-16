@@ -46,7 +46,7 @@ TEST_GROUP(Shell)
 namespace {
 void fail_method()
 {
-  FAIL("This test fails");
+  FAIL_TEST("This test fails");
 }
 
 void simple_passing_method()
@@ -61,8 +61,8 @@ void passing_check_equal_test_method()
 
 void exit_test_method()
 {
-  TEST_EXIT;
-  FAIL("Should not get here");
+  PASS_TEST();
+  FAIL_TEST("Should not get here");
 }
 
 class PassingExecFunction : public mu::tiny::test::ExecFunction
@@ -89,7 +89,7 @@ void teardown_method()
 int stop_after_failure = 0;
 void stop_after_failure_method()
 {
-  FAIL("fail");
+  FAIL_TEST("fail");
   stop_after_failure++;
 }
 
@@ -210,7 +210,7 @@ TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
   CHECK(exec_func.has_run);
 }
 
-IGNORE_TEST(Shell, IgnoreTestAccessingFixture)
+SKIPPED_TEST(Shell, IgnoreTestAccessingFixture)
 {
   CHECK(fixture.get_check_count() == 0);
 }
@@ -545,7 +545,7 @@ void destructor_called_for_local_objects()
     ~SetBoolOnDestruct() { b = true; }
   } please_call_the_destructor{ destructor_was_called_on_failed_test };
   destructor_was_called_on_failed_test = false;
-  FAIL("fail");
+  FAIL_TEST("fail");
 }
 } // namespace
 

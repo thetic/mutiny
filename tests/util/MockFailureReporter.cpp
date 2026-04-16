@@ -1,5 +1,7 @@
 #include "MockFailureReporter.hpp"
 
+#include "mutiny/test/Shell.hpp"
+
 #include "mutiny/test.hpp"
 
 using mu::tiny::mock::mock;
@@ -79,7 +81,7 @@ void check_expected_mock_failure_string_location(
     error += expected_string;
     error += "\nActual Failure:\n\t";
     error += actual_failure_string;
-    FAIL_LOCATION(error.c_str(), file, line);
+    FAIL_TEST_LOCATION(error.c_str(), file, line);
   }
 }
 
@@ -100,7 +102,7 @@ void check_no_mock_failure_location(const char* file, size_t line)
     mu::tiny::String error = "Unexpected mock failure:\n";
     error += mock_failure_string();
     clear_mock_failure();
-    FAIL_LOCATION(error.c_str(), file, line);
+    FAIL_TEST_LOCATION(error.c_str(), file, line);
   }
   clear_mock_failure();
 }
