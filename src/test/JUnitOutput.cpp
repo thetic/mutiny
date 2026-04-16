@@ -311,7 +311,6 @@ void JUnitOutput::write_file_ending()
   write_to_file("<system-out>");
   write_to_file(encode_xml_text(impl_->std_output));
   write_to_file("</system-out>\n");
-  write_to_file("<system-err></system-err>\n");
   write_to_file("</testsuite>\n");
 }
 

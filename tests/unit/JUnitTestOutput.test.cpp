@@ -454,17 +454,7 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStdoutBlock)
 
   output_file = file_system.file("mutiny_groupname.xml");
   STRCMP_EQUAL(
-      "<system-out></system-out>\n", output_file->line_from_the_back(3)
-  );
-}
-
-TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainAnEmptyStderrBlock)
-{
-  test_case_runner->start().with_group("groupname").with_test("testname").end();
-
-  output_file = file_system.file("mutiny_groupname.xml");
-  STRCMP_EQUAL(
-      "<system-err></system-err>\n", output_file->line_from_the_back(2)
+      "<system-out></system-out>\n", output_file->line_from_the_back(2)
   );
 }
 
@@ -963,7 +953,7 @@ TEST(JUnitOutput, UTPRINTOutputInJUnitOutput)
   output_file = file_system.file("mutiny_groupname.xml");
   STRCMP_EQUAL(
       "<system-out>someoutput</system-out>\n",
-      output_file->line_from_the_back(3)
+      output_file->line_from_the_back(2)
   );
 }
 
@@ -981,7 +971,7 @@ TEST(JUnitOutput, UTPRINTOutputInJUnitOutputWithSpecials)
   STRCMP_EQUAL(
       "<system-out>The &lt;rain&gt; in &quot;Spain&quot;&#10;Goes&#13; "
       "\\mainly\\ down the Dr&amp;in&#10;</system-out>\n",
-      output_file->line_from_the_back(3)
+      output_file->line_from_the_back(2)
   );
 }
 
