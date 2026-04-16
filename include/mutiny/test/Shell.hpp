@@ -861,7 +861,7 @@ void check_approx(
  * confusing cascading failures. Unlike FAIL_TEST, the test is counted as
  * passed.
  */
-#define PASS_TEST                                                              \
+#define PASS_TEST()                                                            \
   do {                                                                         \
     mu::tiny::test::Shell::get_current()->exit_test();                         \
   } while (0)

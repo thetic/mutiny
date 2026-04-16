@@ -61,7 +61,7 @@ void passing_check_equal_test_method()
 
 void exit_test_method()
 {
-  PASS_TEST;
+  PASS_TEST();
   FAIL_TEST("Should not get here");
 }
 

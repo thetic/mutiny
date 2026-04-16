@@ -137,7 +137,7 @@ Failure and Exit
      - Description
    * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
      - Unconditional failure with message.
-   * - :c:macro:`PASS_TEST`
+   * - :c:macro:`PASS_TEST() <PASS_TEST>`
      - Exits the test immediately *without* marking it as failed — useful
        in assertion-faking helpers
    * - :c:macro:`SKIP_TEST(text) <SKIP_TEST>`
