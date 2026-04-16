@@ -49,7 +49,6 @@ protected:
 
   virtual void write_xml_header();
   virtual void write_test_suite_summary();
-  virtual void write_properties();
   virtual void write_test_cases();
   virtual String encode_xml_text(const String& textbody);
   virtual String encode_file_name(const String& file_name);

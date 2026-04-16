@@ -205,8 +205,6 @@ void JUnitOutput::write_test_suite_summary()
   write_to_file(buf.c_str());
 }
 
-void JUnitOutput::write_properties() {}
-
 String JUnitOutput::encode_xml_text(const String& textbody)
 {
   String buf = textbody.c_str();
@@ -319,7 +317,6 @@ void JUnitOutput::write_test_group_to_file()
   open_file_for_write(create_file_name(impl_->results.group));
   write_xml_header();
   write_test_suite_summary();
-  write_properties();
   write_test_cases();
   write_file_ending();
   close_file();
