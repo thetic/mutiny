@@ -510,7 +510,8 @@ TEST(String, NullParameters2)
 
 TEST(String, 64BitAddressPrintsCorrectly)
 {
-  if (sizeof(void*) < 8)
+  const bool small_pointer = sizeof(void*) < sizeof(uint64_t);
+  if (small_pointer)
     SKIP_TEST("requires 64-bit pointers");
   char* p = reinterpret_cast<char*>(0x0012345678901234LL);
   mu::tiny::String expected("0x12345678901234");
