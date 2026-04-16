@@ -21,7 +21,7 @@ ExpectFailShell::ExpectFailShell(
 
 String ExpectFailShell::get_macro_name() const
 {
-  return "EXPECT_FAIL_TEST";
+  return "XFAIL_TEST";
 }
 
 void ExpectFailShell::run_one_test(Plugin* plugin, Result& result)
@@ -36,7 +36,7 @@ void ExpectFailShell::run_one_test(Plugin* plugin, Result& result)
         this,
         get_file(),
         get_line_number(),
-        "EXPECT_FAIL_TEST: test was expected to fail but it passed"
+        "XFAIL_TEST: test was expected to fail but it passed"
     ));
   }
 }

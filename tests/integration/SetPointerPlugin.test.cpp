@@ -151,7 +151,7 @@ TEST(SetPointerPlugin, installTooMuchFunctionPointer)
   delete tst;
 }
 
-EXPECT_FAIL_TEST(SetPointerPlugin, tooManyPtrSets)
+XFAIL_TEST(SetPointerPlugin, tooManyPtrSets)
 {
   for (size_t i{ 0 }; i <= mu::tiny::test::SetPointerPlugin::max_set; ++i) {
     MUTINY_PTR_SET(fp1, stub_func1);

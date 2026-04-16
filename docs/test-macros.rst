@@ -43,15 +43,15 @@ follows is the test body.
 Skipping and Expected Failures
 -------------------------------
 
-``IGNORE_TEST(group, name)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``DISABLED_TEST(group, name)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`IGNORE_TEST` marks a test as ignored. It is registered but skipped during
+:c:macro:`DISABLED_TEST` marks a test as ignored. It is registered but skipped during
 normal runs. Use :option:`-ri` to run ignored tests anyway.
 
 .. code-block:: cpp
 
-   IGNORE_TEST(MyGroup, NotImplementedYet)
+   DISABLED_TEST(MyGroup, NotImplementedYet)
    {
        // will not run unless -ri is passed
        CHECK(false);
@@ -59,16 +59,16 @@ normal runs. Use :option:`-ri` to run ignored tests anyway.
 
 Ignored tests appear in the summary count as "ignored".
 
-``EXPECT_FAIL_TEST(group, name)``
+``XFAIL_TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`EXPECT_FAIL_TEST` declares a test that is expected to fail. The test runner
+:c:macro:`XFAIL_TEST` declares a test that is expected to fail. The test runner
 treats a failure as a pass and a pass as a failure. Useful for
 documenting known bugs that cannot yet be fixed.
 
 .. code-block:: cpp
 
-   EXPECT_FAIL_TEST(MyGroup, KnownBug)
+   XFAIL_TEST(MyGroup, KnownBug)
    {
        CHECK_EQUAL(expected, buggy_function()); // currently produces wrong result
    }
@@ -165,9 +165,9 @@ These bridge C test files into the C++ test runner. See
      - Wires C teardown into the C++ group's :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - Wires a C test function into a C++ :c:macro:`TEST`
-   * - :c:macro:`IGNORE_TEST_C_WRAPPER(group, name) <IGNORE_TEST_C_WRAPPER>`
+   * - :c:macro:`DISABLED_TEST_C_WRAPPER(group, name) <DISABLED_TEST_C_WRAPPER>`
      - Same as above but ignored
-   * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
+   * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - Same as above but expected to fail
    * - :c:macro:`TEST_ORDERED_C_WRAPPER(group, name, level) <TEST_ORDERED_C_WRAPPER>`
      - Wires a C test function into a :c:macro:`TEST_ORDERED`

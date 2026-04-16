@@ -117,8 +117,8 @@ bool CommandLineArguments::parse(Plugin* plugin)
       correct_parameters = set_shuffle(ac_, av_, i);
     else if (string_starts_with(argument, "TEST("))
       add_test_to_run_based_on_verbose_output(ac_, av_, i, "TEST(");
-    else if (string_starts_with(argument, "IGNORE_TEST("))
-      add_test_to_run_based_on_verbose_output(ac_, av_, i, "IGNORE_TEST(");
+    else if (string_starts_with(argument, "DISABLED_TEST("))
+      add_test_to_run_based_on_verbose_output(ac_, av_, i, "DISABLED_TEST(");
     else if (string_starts_with(argument, "-p"))
       correct_parameters = plugin->parse_all_arguments(ac_, av_, i);
     else

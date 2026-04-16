@@ -420,7 +420,7 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe",
-                         "IGNORE_TEST(testgroup, testname) - stuff" };
+                         "DISABLED_TEST(testgroup, testname) - stuff" };
   CHECK(new_argument_parser(argc, argv));
 
   mu::tiny::test::Filter name_filter("testname");

@@ -3,8 +3,8 @@
  * @brief C interface for writing mutiny tests in pure C.
  *
  * Include this header in C test files. Test definitions use the same macro
- * names as the C++ interface (@ref TEST, @ref IGNORE_TEST, @ref
- * EXPECT_FAIL_TEST) but expand to C function stubs that are called by
+ * names as the C++ interface (@ref TEST, @ref DISABLED_TEST, @ref
+ * XFAIL_TEST) but expand to C function stubs that are called by
  * corresponding C++ wrapper macros in the bridging C++ file.
  *
  * Assertion macros use type-specific names (@ref CHECK_EQUAL_INT, @ref
@@ -266,7 +266,7 @@ extern "C"
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define IGNORE_TEST(group_name, test_name)                                     \
+#define DISABLED_TEST(group_name, test_name)                                   \
   extern void ignore_##group_name##_##test_name##_wrapper_c(void);             \
   void ignore_##group_name##_##test_name##_wrapper_c(void)
 
@@ -276,7 +276,7 @@ extern "C"
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define EXPECT_FAIL_TEST(group_name, test_name)                                \
+#define XFAIL_TEST(group_name, test_name)                                      \
   extern void expect_fail_##group_name##_##test_name##_wrapper_c(void);        \
   void expect_fail_##group_name##_##test_name##_wrapper_c(void)
 #endif

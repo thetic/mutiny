@@ -36,7 +36,7 @@ String IgnoredShell::get_macro_name() const
   if (run_ignored_)
     return "TEST";
 
-  return "IGNORE_TEST";
+  return "DISABLED_TEST";
 }
 
 void IgnoredShell::run_one_test(Plugin* plugin, Result& result)

@@ -210,7 +210,7 @@ TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
   CHECK(exec_func.has_run);
 }
 
-IGNORE_TEST(Shell, IgnoreTestAccessingFixture)
+DISABLED_TEST(Shell, IgnoreTestAccessingFixture)
 {
   CHECK(fixture.get_check_count() == 0);
 }

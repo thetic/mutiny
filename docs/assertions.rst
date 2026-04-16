@@ -143,7 +143,7 @@ Failure and Exit
    * - :c:macro:`SKIP_TEST(text) <SKIP_TEST>`
      - Marks the test as skipped and exits the body. The message appears in
        JUnit XML as ``<skipped message="..."/>``. Tests registered with
-       :c:macro:`IGNORE_TEST` are also reported as skipped.
+       :c:macro:`DISABLED_TEST` are also reported as skipped.
 
 .. code-block:: cpp
 

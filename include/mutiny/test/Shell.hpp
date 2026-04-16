@@ -870,7 +870,7 @@ void check_approx(
  * @brief Mark the current test as skipped and exit the test body.
  *
  * The test is recorded as skipped in JUnit XML output with @p text as the
- * message. Tests registered with @ref IGNORE_TEST are also reported as
+ * message. Tests registered with @ref DISABLED_TEST are also reported as
  * skipped.
  *
  * @param text  Human-readable reason for skipping.
