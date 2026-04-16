@@ -10,10 +10,14 @@
 #   4  = ABI change (compatible, e.g. added symbols)
 #   8  = ABI incompatible change (e.g. removed/changed symbols)
 #
-# Semver rules applied:
+# Semver rules applied (stable: major >= 1):
 #   patch bump : no ABI changes allowed
 #   minor bump : compatible additions allowed, incompatible changes not allowed
 #   major bump : all ABI changes allowed (breaking changes are expected)
+#
+# Semver rule #4 (unstable: major == 0):
+#   patch bump : compatible additions allowed, incompatible changes not allowed
+#   minor bump : all ABI changes allowed (breaking changes are expected)
 
 set -e
 
@@ -48,6 +52,14 @@ if [ "$HAS_CHANGE" -eq 0 ] && [ "$HAS_INCOMPATIBLE" -eq 0 ]; then
 fi
 
 if [ "$HAS_INCOMPATIBLE" -ne 0 ]; then
+    if [ "$BASELINE_MAJOR" -eq 0 ] && [ "$CURRENT_MAJOR" -eq 0 ]; then
+        if [ "$CURRENT_MINOR" -gt "$BASELINE_MINOR" ]; then
+            echo "Minor version bump ($BASELINE_VERSION -> $CURRENT_VERSION): incompatible ABI changes are allowed under major version zero."
+            exit 0
+        fi
+        echo "Incompatible ABI change detected without a minor version bump (major version zero)."
+        exit 1
+    fi
     if [ "$CURRENT_MAJOR" -gt "$BASELINE_MAJOR" ]; then
         echo "Major version bump ($BASELINE_VERSION -> $CURRENT_VERSION): incompatible ABI changes are allowed."
         exit 0
@@ -56,6 +68,10 @@ if [ "$HAS_INCOMPATIBLE" -ne 0 ]; then
     exit 1
 fi
 
+if [ "$BASELINE_MAJOR" -eq 0 ] && [ "$CURRENT_MAJOR" -eq 0 ]; then
+    echo "Patch or minor version bump ($BASELINE_VERSION -> $CURRENT_VERSION): compatible ABI changes are allowed under major version zero."
+    exit 0
+fi
 if [ "$CURRENT_MAJOR" -gt "$BASELINE_MAJOR" ]; then
     echo "Major version bump ($BASELINE_VERSION -> $CURRENT_VERSION): compatible ABI changes are allowed."
     exit 0
