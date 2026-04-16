@@ -39,7 +39,7 @@ protected:
   JUnitTestOutputImpl* impl_;
   void reset_test_group_result();
 
-  virtual void open_file_for_write(const String& file_name);
+  virtual void open_file_for_write();
   virtual void write_test_group_to_file();
   virtual void write_to_file(const String& buffer);
   virtual void close_file();

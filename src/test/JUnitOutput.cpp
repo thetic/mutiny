@@ -342,7 +342,7 @@ void JUnitOutput::write_file_ending()
 
 void JUnitOutput::write_test_group_to_file()
 {
-  open_file_for_write(String());
+  open_file_for_write();
   write_test_suite_summary();
   write_test_cases();
   write_file_ending();
@@ -389,7 +389,7 @@ void JUnitOutput::print_failure(const Failure& failure)
   }
 }
 
-void JUnitOutput::open_file_for_write(const String& /*file_name*/)
+void JUnitOutput::open_file_for_write()
 {
   impl_->current_group_xml.clear();
 }
