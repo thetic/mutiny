@@ -951,7 +951,7 @@ TEST(JUnitOutput, MultipleTestCasesInDifferentGroupsWithAssertions)
   );
 }
 
-TEST(JUnitOutput, UTPRINTOutputInJUnitOutput)
+TEST(JUnitOutput, outputBetweenTestsAppearsInSuiteSystemOut)
 {
   test_case_runner->start()
       .with_group("groupname")
@@ -966,7 +966,7 @@ TEST(JUnitOutput, UTPRINTOutputInJUnitOutput)
   );
 }
 
-TEST(JUnitOutput, UTPRINTOutputInJUnitOutputWithSpecials)
+TEST(JUnitOutput, suiteSystemOutXmlEncodesSpecialCharacters)
 {
   test_case_runner->start()
       .with_group("groupname")
