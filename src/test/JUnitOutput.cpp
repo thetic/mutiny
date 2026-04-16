@@ -39,6 +39,7 @@ public:
   String file;
   size_t line_number{ 0 };
   size_t check_count{ 0 };
+  String output;
   TestProperty* properties{ nullptr };
   TestProperty* properties_tail{ nullptr };
   JUnitTestCaseResultNode* next{ nullptr };
@@ -54,6 +55,7 @@ public:
   size_t error_count{ 0 };
   size_t skip_count{ 0 };
   size_t total_check_count{ 0 };
+  bool in_test{ false };
   uint_least64_t start_time{ 0 };
   uint_least64_t group_exec_time{ 0 };
   String group;
@@ -114,6 +116,7 @@ void JUnitOutput::print_current_test_ended(const Result& result)
   impl_->results.tail->exec_time =
       result.get_current_test_total_execution_time();
   impl_->results.tail->check_count = result.get_check_count();
+  impl_->results.in_test = false;
 }
 
 void JUnitOutput::print_tests_ended(const Result& /*result*/) {}
@@ -141,6 +144,7 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   impl_->results.tail->name = test.get_name();
   impl_->results.tail->file = test.get_file();
   impl_->results.tail->line_number = test.get_line_number();
+  impl_->results.in_test = true;
   if (!test.will_run()) {
     impl_->results.tail->ignored = true;
     impl_->results.skip_count++;
@@ -268,6 +272,13 @@ void JUnitOutput::write_test_cases()
                           .c_str());
       }
     }
+
+    if (!cur->output.empty()) {
+      write_to_file("<system-out>");
+      write_to_file(encode_xml_text(cur->output));
+      write_to_file("</system-out>\n");
+    }
+
     write_to_file("</testcase>\n");
     cur = cur->next;
   }
@@ -326,7 +337,10 @@ void JUnitOutput::print_buffer(const char*) {}
 
 void JUnitOutput::print(const char* output)
 {
-  impl_->std_output += output;
+  if (impl_->results.in_test)
+    impl_->results.tail->output += output;
+  else
+    impl_->std_output += output;
 }
 
 void JUnitOutput::print(long) {}

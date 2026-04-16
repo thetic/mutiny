@@ -134,6 +134,7 @@ class JUnitTestOutputTestRunner
   unsigned int number_of_checks_in_test_{ 0 };
   mu::tiny::test::Failure* test_failure_{ nullptr };
   const char* pending_skip_message_{ nullptr };
+  const char* pending_output_{ nullptr };
   PendingProperty* pending_properties_{ nullptr };
 
 public:
@@ -252,6 +253,11 @@ public:
       pending_properties_ = tmp;
     }
 
+    if (pending_output_ != nullptr) {
+      result_.print(pending_output_);
+      pending_output_ = nullptr;
+    }
+
     if (pending_skip_message_ != nullptr) {
       result_.skip_test(pending_skip_message_);
       pending_skip_message_ = nullptr;
@@ -317,6 +323,12 @@ public:
   JUnitTestOutputTestRunner& that_is_skipped(const char* message)
   {
     pending_skip_message_ = message;
+    return *this;
+  }
+
+  JUnitTestOutputTestRunner& with_output(const char* output)
+  {
+    pending_output_ = output;
     return *this;
   }
 
@@ -973,6 +985,32 @@ TEST(JUnitOutput, UTPRINTOutputInJUnitOutputWithSpecials)
       "\\mainly\\ down the Dr&amp;in&#10;</system-out>\n",
       output_file->line_from_the_back(2)
   );
+}
+
+TEST(JUnitOutput, outputDuringTestAppearsInsideTestCase)
+{
+  test_case_runner->start()
+      .with_group("groupname")
+      .with_test("testname")
+      .with_output("per-test output")
+      .end();
+
+  output_file = file_system.file("mutiny_groupname.xml");
+  STRCMP_EQUAL(
+      "<system-out>per-test output</system-out>\n", output_file->line(4)
+  );
+  // suite-level system-out is empty when all output is per-test
+  STRCMP_EQUAL(
+      "<system-out></system-out>\n", output_file->line_from_the_back(2)
+  );
+}
+
+TEST(JUnitOutput, testWithNoOutputEmitsNoTestCaseSystemOut)
+{
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
+
+  output_file = file_system.file("mutiny_groupname.xml");
+  STRCMP_EQUAL("</testcase>\n", output_file->line(4));
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
