@@ -77,9 +77,7 @@ functions:
      - ``const void*``
    * - :c:macro:`CHECK_EQUAL_MEMCMP(expected, actual, size) <CHECK_EQUAL_MEMCMP>`
      - raw memory via ``memcmp``
-   * - :c:macro:`FAIL() <FAIL>`
-     - unconditional failure (no message)
-   * - :c:macro:`FAIL_TEXT(text) <FAIL_TEXT>`
+   * - :c:macro:`FAIL_TEST(text) <FAIL_TEST>`
      - unconditional failure with message
    * - :c:macro:`TEST_PROPERTY(name, value) <TEST_PROPERTY>`
      - attaches metadata to :doc:`JUnit output <junit-output>`
@@ -101,9 +99,9 @@ C Test Definition Macros
      - Defines the teardown function for group
    * - :c:macro:`TEST(group, name) <TEST>`
      - Defines a test function body
-   * - :c:macro:`IGNORE_TEST(group, name) <IGNORE_TEST>`
+   * - :c:macro:`SKIPPED_TEST(group, name) <SKIPPED_TEST>`
      - Defines an ignored test body
-   * - :c:macro:`EXPECT_FAIL_TEST(group, name) <EXPECT_FAIL_TEST>`
+   * - :c:macro:`XFAIL_TEST(group, name) <XFAIL_TEST>`
      - Defines an expected-failure test body
 
 C++ Wrapper Macros
@@ -124,10 +122,10 @@ Each C macro that defines a test body has a matching C++ wrapper:
      - Calls the C teardown function from C++ ``teardown()``
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - A :c:macro:`TEST` that calls the C test function
-   * - :c:macro:`IGNORE_TEST_C_WRAPPER(group, name) <IGNORE_TEST_C_WRAPPER>`
-     - An :c:macro:`IGNORE_TEST` that calls the C ignored function
-   * - :c:macro:`EXPECT_FAIL_TEST_C_WRAPPER(group, name) <EXPECT_FAIL_TEST_C_WRAPPER>`
-     - An :c:macro:`EXPECT_FAIL_TEST` that calls the C expected-fail function
+   * - :c:macro:`SKIPPED_TEST_C_WRAPPER(group, name) <SKIPPED_TEST_C_WRAPPER>`
+     - An :c:macro:`SKIPPED_TEST` that calls the C ignored function
+   * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
+     - An :c:macro:`XFAIL_TEST` that calls the C expected-fail function
 
 C Mock Interface (``mutiny/mock.h``)
 -------------------------------------

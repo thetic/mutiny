@@ -139,10 +139,6 @@ Defines
 
 - :ref:`exhale_define_Shell_8hpp_1a36fe72c5d7f2bf84d9e7d943d19ef7d6`
 
-- :ref:`exhale_define_Shell_8hpp_1a5b870ba9f143d10f76df4fa5aa01d58f`
-
-- :ref:`exhale_define_Shell_8hpp_1ae321c9985531a9ad6a47563f7e4b4138`
-
 - :ref:`exhale_define_Shell_8hpp_1a052944f0e69b65f45c7d49b536767dc5`
 
 - :ref:`exhale_define_Shell_8hpp_1afaad3794e9cb3251df0d40539b9dc6e5`
@@ -152,6 +148,12 @@ Defines
 - :ref:`exhale_define_Shell_8hpp_1ac2632bd3818a98d6c361bdee9bdbffb4`
 
 - :ref:`exhale_define_Shell_8hpp_1aea5d12dfaa5afd67fda54598b27d16ad`
+
+- :ref:`exhale_define_Shell_8hpp_1a483edb811180703e72bc5f4bf542b63b`
+
+- :ref:`exhale_define_Shell_8hpp_1a4e9cbfd269607f716b5ecfab126082ff`
+
+- :ref:`exhale_define_Shell_8hpp_1a5d02b853387f2fbd121717fa2691fb49`
 
 - :ref:`exhale_define_Shell_8hpp_1a13a6dd463439a53bd882a77f86550b1c`
 
@@ -170,6 +172,4 @@ Defines
 - :ref:`exhale_define_Shell_8hpp_1a857ff1670e4c8fb684fd293480d8fd0f`
 
 - :ref:`exhale_define_Shell_8hpp_1a2a0b026aed3349a3113a2dbd86c2cc6a`
-
-- :ref:`exhale_define_Shell_8hpp_1a1479c2dae511e359f2ae9c5fcb7e969c`
 

@@ -22,7 +22,7 @@ Definition (``include/mutiny/test.h``)
 Detailed Description
 --------------------
 
-Include this header in C test files. Test definitions use the same macro names as the C++ interface (:ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`, :ref:`exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f`, :ref:`exhale_define_test_8h_1a131c35b131f7ee5d66b668eb151a63fe`) but expand to C function stubs that are called by corresponding C++ wrapper macros in the bridging C++ file.
+Include this header in C test files. Test definitions use the same macro names as the C++ interface (:ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`, :ref:`exhale_define_test_8h_1a235cffa951470b7e037566c4f8f201f6`, :ref:`exhale_define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249`) but expand to C function stubs that are called by corresponding C++ wrapper macros in the bridging C++ file.
 
 Assertion macros use type-specific names (:ref:`exhale_define_test_8h_1ac458251be52dfea31740683c18d05f88`, :ref:`exhale_define_test_8h_1aa146eed388611f514d5f16239b135459`, etc.) because C has no function overloading. 
 
@@ -147,13 +147,9 @@ Defines
 
 - :ref:`exhale_define_test_8h_1af534f9fdbade10fe33a8ff1306df9bb3`
 
-- :ref:`exhale_define_test_8h_1a131c35b131f7ee5d66b668eb151a63fe`
+- :ref:`exhale_define_test_8h_1a052944f0e69b65f45c7d49b536767dc5`
 
-- :ref:`exhale_define_test_8h_1a3e26a8d27caa386ed0ea7ce9d5b7c4ed`
-
-- :ref:`exhale_define_test_8h_1a7972b37cb2ef9ead74f88d07aaece430`
-
-- :ref:`exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f`
+- :ref:`exhale_define_test_8h_1a235cffa951470b7e037566c4f8f201f6`
 
 - :ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`
 
@@ -162,4 +158,6 @@ Defines
 - :ref:`exhale_define_test_8h_1a86e1827120c7b2ce2771e9dd7995fe22`
 
 - :ref:`exhale_define_test_8h_1ab520808816db65b3eab94c6d3e54e26c`
+
+- :ref:`exhale_define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249`
 

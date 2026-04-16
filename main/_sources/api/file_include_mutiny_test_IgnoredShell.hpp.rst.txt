@@ -22,7 +22,7 @@ Definition (``include/mutiny/test/IgnoredShell.hpp``)
 Detailed Description
 --------------------
 
-Used by :ref:`exhale_define_test_8h_1a2bcb6de8c4e02b2f6f8a93de8bdf3f8f` and :ref:`exhale_define_test_8hpp_1a2876dd239ec50f387be38924f8cc901b`. 
+Used by :ref:`exhale_define_test_8h_1a235cffa951470b7e037566c4f8f201f6` and :ref:`exhale_define_test_8hpp_1aa9a57a9652aaee3afddcce59b86c1aec`. 
 
 
 
