@@ -67,9 +67,16 @@ class JUnitTestOutputImpl
 {
 public:
   JUnitTestGroupResult results;
-  Output::File file;
+  String current_group_xml;
+  String accumulated_xml;
   String package;
   String std_output;
+  size_t total_test_count{ 0 };
+  size_t total_failure_count{ 0 };
+  size_t total_error_count{ 0 };
+  size_t total_skip_count{ 0 };
+  uint_least64_t total_exec_time{ 0 };
+  String start_timestamp;
 };
 
 JUnitOutput::JUnitOutput()
@@ -105,9 +112,19 @@ void JUnitOutput::reset_test_group_result()
   }
   impl_->results.head = nullptr;
   impl_->results.tail = nullptr;
+  impl_->std_output.clear();
 }
 
-void JUnitOutput::print_tests_started() {}
+void JUnitOutput::print_tests_started()
+{
+  impl_->accumulated_xml.clear();
+  impl_->total_test_count = 0;
+  impl_->total_failure_count = 0;
+  impl_->total_error_count = 0;
+  impl_->total_skip_count = 0;
+  impl_->total_exec_time = 0;
+  impl_->start_timestamp = get_time_string();
+}
 
 void JUnitOutput::print_current_group_started(const Shell& /*test*/) {}
 
@@ -119,12 +136,36 @@ void JUnitOutput::print_current_test_ended(const Result& result)
   impl_->results.in_test = false;
 }
 
-void JUnitOutput::print_tests_ended(const Result& /*result*/) {}
+void JUnitOutput::print_tests_ended(const Result& /*result*/)
+{
+  Output::File file = fopen_(create_file_name().c_str(), "w");
+  String header = string_from_format(
+      "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+      "<testsuites tests=\"%d\" failures=\"%d\" errors=\"%d\" "
+      "skipped=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
+      static_cast<int>(impl_->total_test_count),
+      static_cast<int>(impl_->total_failure_count),
+      static_cast<int>(impl_->total_error_count),
+      static_cast<int>(impl_->total_skip_count),
+      static_cast<int>(impl_->total_exec_time / 1000),
+      static_cast<int>(impl_->total_exec_time % 1000),
+      impl_->start_timestamp.c_str()
+  );
+  fputs_(header.c_str(), file);
+  fputs_(impl_->accumulated_xml.c_str(), file);
+  fputs_("</testsuites>\n", file);
+  fclose_(file);
+}
 
 void JUnitOutput::print_current_group_ended(const Result& result)
 {
   impl_->results.group_exec_time =
       result.get_current_group_total_execution_time();
+  impl_->total_test_count += impl_->results.test_count;
+  impl_->total_failure_count += impl_->results.failure_count;
+  impl_->total_error_count += impl_->results.error_count;
+  impl_->total_skip_count += impl_->results.skip_count;
+  impl_->total_exec_time += impl_->results.group_exec_time;
   write_test_group_to_file();
   reset_test_group_result();
 }
@@ -151,14 +192,13 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   }
 }
 
-String JUnitOutput::create_file_name(const String& group)
+String JUnitOutput::create_file_name()
 {
-  String file_name = "mutiny_";
+  String file_name = "mutiny";
   if (!impl_->package.empty()) {
-    file_name += impl_->package;
     file_name += "_";
+    file_name += impl_->package;
   }
-  file_name += group;
   return encode_file_name(file_name) + ".xml";
 }
 
@@ -325,8 +365,7 @@ void JUnitOutput::write_file_ending()
 
 void JUnitOutput::write_test_group_to_file()
 {
-  open_file_for_write(create_file_name(impl_->results.group));
-  write_xml_header();
+  open_file_for_write(String());
   write_test_suite_summary();
   write_test_cases();
   write_file_ending();
@@ -385,19 +424,19 @@ void JUnitOutput::print_failure(const Failure& failure)
   }
 }
 
-void JUnitOutput::open_file_for_write(const String& file_name)
+void JUnitOutput::open_file_for_write(const String& /*file_name*/)
 {
-  impl_->file = fopen_(file_name.c_str(), "w");
+  impl_->current_group_xml.clear();
 }
 
 void JUnitOutput::write_to_file(const String& buffer)
 {
-  fputs_(buffer.c_str(), impl_->file);
+  impl_->current_group_xml += buffer;
 }
 
 void JUnitOutput::close_file()
 {
-  fclose_(impl_->file);
+  impl_->accumulated_xml += impl_->current_group_xml;
 }
 
 } // namespace test

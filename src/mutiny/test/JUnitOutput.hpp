@@ -35,7 +35,7 @@ public:
 
   bool needs_console_companion() const override { return true; }
 
-  virtual String create_file_name(const String& group);
+  virtual String create_file_name();
   void set_package_name(const String& package);
 
 protected:
