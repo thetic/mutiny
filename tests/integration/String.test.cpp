@@ -6,6 +6,7 @@
 
 #include <limits.h>
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 
 namespace {
@@ -507,59 +508,27 @@ TEST(String, NullParameters2)
   delete[] arr;
 }
 
-#if defined(__LP64__) || defined(_LP64) ||                                     \
-    (defined(__WORDSIZE) && (__WORDSIZE == 64)) || defined(__x86_64) ||        \
-    defined(_WIN64)
-
 TEST(String, 64BitAddressPrintsCorrectly)
 {
+  if (sizeof(void*) < 8)
+    SKIP_TEST("requires 64-bit pointers");
   char* p = reinterpret_cast<char*>(0x0012345678901234LL);
   mu::tiny::String expected("0x12345678901234");
   mu::tiny::String actual = mu::tiny::string_from(static_cast<void*>(p));
   STRCMP_EQUAL(expected.c_str(), actual.c_str());
 }
 
-#if !defined(_WIN64)
-
 TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
 {
   long value = -1;
+  const char* expected = sizeof(long) == sizeof(uint64_t)
+                             ? "(0xffffffffffffffff)"
+                             : "(0xffffffff)";
 
   STRCMP_EQUAL(
-      "(0xffffffffffffffff)",
-      mu::tiny::brackets_formatted_hex_string_from(value).c_str()
+      expected, mu::tiny::brackets_formatted_hex_string_from(value).c_str()
   );
 }
-
-#else
-
-TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
-{
-  long value = -1;
-
-  STRCMP_EQUAL(
-      "(0xffffffff)",
-      mu::tiny::brackets_formatted_hex_string_from(value).c_str()
-  );
-}
-
-#endif
-#else
-/*
- * This test case cannot pass on 32 bit systems.
- */
-IGNORE_TEST(String, 64BitAddressPrintsCorrectly) {}
-
-TEST(String, BracketsFormattedHexStringFromForLongOnDifferentPlatform)
-{
-  long value = -1;
-
-  STRCMP_EQUAL(
-      "(0xffffffff)",
-      mu::tiny::brackets_formatted_hex_string_from(value).c_str()
-  );
-}
-#endif
 
 TEST(String, BuildStringFromUnsignedLongInteger)
 {
@@ -589,13 +558,13 @@ TEST(String, fromStdString)
   STRCMP_EQUAL("hello", s1.c_str());
 }
 
-TEST( String, CHECK_EQUAL_unsigned_long)
+TEST(String, CHECK_EQUAL_unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
   CHECK_EQUAL(i, i);
 }
 
-TEST( String, unsigned_long)
+TEST(String, unsigned_long)
 {
   unsigned long i = 0xffffffffUL;
 
@@ -833,25 +802,16 @@ TEST(String, BracketsFormattedHexStringFromForUnsignedLong)
   );
 }
 
-#if (INT_MAX == 0x7fff)
 TEST(String, BracketsFormattedHexStringFromForInt)
 {
   int value = -1;
+  const char* expected =
+      sizeof(int) == sizeof(uint16_t) ? "(0xffff)" : "(0xffffffff)";
 
   STRCMP_EQUAL(
-      "(0xffff)", mu::tiny::brackets_formatted_hex_string_from(value).c_str()
+      expected, mu::tiny::brackets_formatted_hex_string_from(value).c_str()
   );
 }
-#else
-TEST(String, BracketsFormattedHexStringFromForInt)
-{
-  int value = -1;
-  STRCMP_EQUAL(
-      "(0xffffffff)",
-      mu::tiny::brackets_formatted_hex_string_from(value).c_str()
-  );
-}
-#endif
 
 TEST(String, BracketsFormattedHexStringFromForLong)
 {
