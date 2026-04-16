@@ -26,9 +26,11 @@ be overridden per target through the matching keyword argument of
 
 .. variable:: MUTINY_JUNIT_REPORT
 
-  Boolean option.  When ``ON``, :option:`-pjunit` is appended to
-  every discovered test invocation so the executable emits a JUnit-format XML
-  report.  Default: ``OFF``.
+  Boolean option.  When ``ON``, each discovered test invocation receives a
+  unique :option:`-pjunit=\<target\>.\<group\>` argument so the executable
+  emits a JUnit-format XML report named ``<target>.<group>.xml`` in the
+  test's working directory.  One file is produced per CTest test, avoiding
+  collisions when tests run in parallel.  Default: ``OFF``.
 
 .. variable:: MUTINY_EXTRA_ARGS
 
