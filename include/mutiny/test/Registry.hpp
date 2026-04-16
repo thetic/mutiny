@@ -185,7 +185,7 @@ public:
   /** @return The current repetition number (1-based during a multi-run). */
   int get_current_repetition();
 
-  /** @brief Enable running @ref DISABLED_TEST() tests in this registry. */
+  /** @brief Enable running @ref SKIPPED_TEST() tests in this registry. */
   void set_run_ignored();
 
 private:

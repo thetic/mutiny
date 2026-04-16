@@ -99,7 +99,7 @@ C Test Definition Macros
      - Defines the teardown function for group
    * - :c:macro:`TEST(group, name) <TEST>`
      - Defines a test function body
-   * - :c:macro:`DISABLED_TEST(group, name) <DISABLED_TEST>`
+   * - :c:macro:`SKIPPED_TEST(group, name) <SKIPPED_TEST>`
      - Defines an ignored test body
    * - :c:macro:`XFAIL_TEST(group, name) <XFAIL_TEST>`
      - Defines an expected-failure test body
@@ -122,8 +122,8 @@ Each C macro that defines a test body has a matching C++ wrapper:
      - Calls the C teardown function from C++ ``teardown()``
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - A :c:macro:`TEST` that calls the C test function
-   * - :c:macro:`DISABLED_TEST_C_WRAPPER(group, name) <DISABLED_TEST_C_WRAPPER>`
-     - An :c:macro:`DISABLED_TEST` that calls the C ignored function
+   * - :c:macro:`SKIPPED_TEST_C_WRAPPER(group, name) <SKIPPED_TEST_C_WRAPPER>`
+     - An :c:macro:`SKIPPED_TEST` that calls the C ignored function
    * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - An :c:macro:`XFAIL_TEST` that calls the C expected-fail function
 

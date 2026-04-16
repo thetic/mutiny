@@ -434,7 +434,7 @@ TEST(Registry, shuffleSingleTestIsNoOp)
   CHECK(my_registry->get_first_test() == test1);
 }
 
-DISABLED_TEST(Registry, shuffleTestList)
+SKIPPED_TEST(Registry, shuffleTestList)
 {
   MUTINY_PTR_SET(mu::tiny::test::rand, get_zero);
   my_registry->add_test(test3);

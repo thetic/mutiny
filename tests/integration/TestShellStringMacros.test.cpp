@@ -155,7 +155,7 @@ TEST(TestShellStringMacros, STRCMP_EQUALBothNullPasses)
   STRCMP_EQUAL(nullptr, nullptr);
 }
 
-DISABLED_TEST(TestShellStringMacros, STRCMP_EQUALWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRCMP_EQUALWorksInAnIgnoredTest)
 {
   STRCMP_EQUAL("Hello", "World");
 }
@@ -168,7 +168,7 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-DISABLED_TEST(TestShellStringMacros, STRCMP_EQUAL_TEXTWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   STRCMP_EQUAL_TEXT("Hello", "World", "Failed because it failed");
 }
@@ -185,7 +185,7 @@ TEST(TestShellStringMacros, STRNCMP_EQUALBothNullPasses)
   STRNCMP_EQUAL(nullptr, nullptr, 0);
 }
 
-DISABLED_TEST(TestShellStringMacros, STRNCMP_EQUALWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRNCMP_EQUALWorksInAnIgnoredTest)
 {
   STRNCMP_EQUAL("Hello", "World", 3);
 }
@@ -198,7 +198,7 @@ TEST(TestShellStringMacros, FailureWithSTRNCMP_EQUAL_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-DISABLED_TEST(TestShellStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRNCMP_EQUAL_TEXTWorksInAnIgnoredTest)
 {
   STRNCMP_EQUAL_TEXT("Hello", "World", 3, "Failed because it failed");
 }
@@ -215,7 +215,7 @@ TEST(TestShellStringMacros, STRCMP_CONTAINSBothNullPasses)
   STRCMP_CONTAINS(nullptr, nullptr);
 }
 
-DISABLED_TEST(TestShellStringMacros, STRCMP_CONTAINSWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRCMP_CONTAINSWorksInAnIgnoredTest)
 {
   STRCMP_CONTAINS("Hello", "World");
 }
@@ -228,7 +228,7 @@ TEST(TestShellStringMacros, FailureWithSTRCMP_CONTAINS_TEXT)
   CHECK_TEST_FAILS_PROPER_WITH_TEXT("Failed because it failed");
 }
 
-DISABLED_TEST(TestShellStringMacros, STRCMP_CONTAINS_TEXTWorksInAnIgnoredTest)
+SKIPPED_TEST(TestShellStringMacros, STRCMP_CONTAINS_TEXTWorksInAnIgnoredTest)
 {
   STRCMP_CONTAINS_TEXT("Hello", "World", "Failed because it failed");
 }

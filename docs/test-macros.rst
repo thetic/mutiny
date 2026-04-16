@@ -43,15 +43,15 @@ follows is the test body.
 Skipping and Expected Failures
 -------------------------------
 
-``DISABLED_TEST(group, name)``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+``SKIPPED_TEST(group, name)``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`DISABLED_TEST` marks a test as ignored. It is registered but skipped during
+:c:macro:`SKIPPED_TEST` marks a test as ignored. It is registered but skipped during
 normal runs. Use :option:`-ri` to run ignored tests anyway.
 
 .. code-block:: cpp
 
-   DISABLED_TEST(MyGroup, NotImplementedYet)
+   SKIPPED_TEST(MyGroup, NotImplementedYet)
    {
        // will not run unless -ri is passed
        CHECK(false);
@@ -165,7 +165,7 @@ These bridge C test files into the C++ test runner. See
      - Wires C teardown into the C++ group's :cpp:func:`teardown() <mu::tiny::test::Test::teardown>`
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - Wires a C test function into a C++ :c:macro:`TEST`
-   * - :c:macro:`DISABLED_TEST_C_WRAPPER(group, name) <DISABLED_TEST_C_WRAPPER>`
+   * - :c:macro:`SKIPPED_TEST_C_WRAPPER(group, name) <SKIPPED_TEST_C_WRAPPER>`
      - Same as above but ignored
    * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - Same as above but expected to fail

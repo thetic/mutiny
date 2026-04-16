@@ -23,11 +23,11 @@ TEST(IgnoredShell, doesIgnoreCount)
   CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
 }
 
-TEST(IgnoredShell, printsDISABLED_TESTwhenVerbose)
+TEST(IgnoredShell, printsSKIPPED_TESTwhenVerbose)
 {
   fixture.set_output_verbose();
   fixture.run_all_tests();
-  fixture.assert_print_contains("DISABLED_TEST");
+  fixture.assert_print_contains("SKIPPED_TEST");
 }
 
 TEST(IgnoredShell, runIgnoredOptionSpecifiedThenIncreaseRunCount)
@@ -70,7 +70,7 @@ TEST(IgnoredShell, runIgnoredOptionNotSpecifiedThenReturnIGNORETESTInFormattedNa
   ignored_test.set_test_name("TestName");
   fixture.run_all_tests();
   STRCMP_EQUAL(
-      "DISABLED_TEST(TestGroup, TestName)",
+      "SKIPPED_TEST(TestGroup, TestName)",
       ignored_test.get_formatted_name().c_str()
   );
 }

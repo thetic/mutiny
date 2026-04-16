@@ -7,7 +7,7 @@ TEST_GROUP_C_WRAPPER(MutinyC)
 };
 
 TEST_C_WRAPPER(MutinyC, checkThatTheTestHasRun)
-DISABLED_TEST_C_WRAPPER(MutinyC, ignoreMacroForCFile)
+SKIPPED_TEST_C_WRAPPER(MutinyC, ignoreMacroForCFile)
 TEST_C_WRAPPER(MutinyC, bool)
 TEST_C_WRAPPER(MutinyC, boolText)
 TEST_C_WRAPPER(MutinyC, int)

@@ -3,7 +3,7 @@
  * @brief C interface for writing mutiny tests in pure C.
  *
  * Include this header in C test files. Test definitions use the same macro
- * names as the C++ interface (@ref TEST, @ref DISABLED_TEST, @ref
+ * names as the C++ interface (@ref TEST, @ref SKIPPED_TEST, @ref
  * XFAIL_TEST) but expand to C function stubs that are called by
  * corresponding C++ wrapper macros in the bridging C++ file.
  *
@@ -266,7 +266,7 @@ extern "C"
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define DISABLED_TEST(group_name, test_name)                                   \
+#define SKIPPED_TEST(group_name, test_name)                                    \
   extern void ignore_##group_name##_##test_name##_wrapper_c(void);             \
   void ignore_##group_name##_##test_name##_wrapper_c(void)
 

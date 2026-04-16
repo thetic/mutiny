@@ -144,7 +144,7 @@ You can paste this directly on the command line to run only that test:
 .. code-block:: bash
 
    ./my_tests "TEST(Widget, CanBeSet)"
-   ./my_tests "DISABLED_TEST(Widget, Skipped)"
+   ./my_tests "SKIPPED_TEST(Widget, Skipped)"
 
 This performs an exact match on both group and name.
 
@@ -168,7 +168,7 @@ Execution Flags
 
 .. option:: -ri
 
-   Run ignored tests (:c:macro:`DISABLED_TEST`) as if they were normal tests.
+   Run ignored tests (:c:macro:`SKIPPED_TEST`) as if they were normal tests.
 
 .. option:: -f
 

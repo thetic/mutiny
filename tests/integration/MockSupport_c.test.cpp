@@ -1041,8 +1041,7 @@ TEST(MockSupport_c, WorksInCFile)
 // Silly wrapper because of a test that only fails in Visual C++ due to
 // different destructor behaviors
 #ifdef _MSC_VER
-#define MSC_SWITCHED_TEST(testGroup, testName)                                 \
-  DISABLED_TEST(testGroup, testName)
+#define MSC_SWITCHED_TEST(testGroup, testName) SKIPPED_TEST(testGroup, testName)
 #else
 #define MSC_SWITCHED_TEST(testGroup, testName) TEST(testGroup, testName)
 #endif

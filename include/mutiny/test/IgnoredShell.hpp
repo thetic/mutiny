@@ -2,7 +2,7 @@
  * @file
  * @brief @ref mu::tiny::test::Shell subclass for tests marked as ignored.
  *
- * Used by @ref DISABLED_TEST and @ref DISABLED_TEST_C_WRAPPER.
+ * Used by @ref SKIPPED_TEST and @ref SKIPPED_TEST_C_WRAPPER.
  */
 
 #ifndef INCLUDED_MUTINY_TEST_IGNOREDSHELL_HPP
@@ -19,9 +19,9 @@ namespace test {
 /**
  * @brief Shell for a test that is skipped unless `-r` (run-ignored) is set.
  *
- * Used by the @ref DISABLED_TEST() macro. The test body is still compiled and
+ * Used by the @ref SKIPPED_TEST() macro. The test body is still compiled and
  * registered, but @ref will_run() returns false until @ref set_run_ignored()
- * is called. See also @ref DISABLED_TEST_C_WRAPPER.
+ * is called. See also @ref SKIPPED_TEST_C_WRAPPER.
  */
 class MUTINY_EXPORT IgnoredShell : public Shell
 {
@@ -55,7 +55,7 @@ public:
   void set_run_ignored() override;
 
 protected:
-  /** @return The macro name reported in output (`"DISABLED_TEST"`). */
+  /** @return The macro name reported in output (`"SKIPPED_TEST"`). */
   String get_macro_name() const override;
 
   /**

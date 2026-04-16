@@ -4,7 +4,7 @@
  *
  * Include this header in every C++ test file. It provides the macros needed
  * to declare test groups and individual tests: @ref TEST_GROUP, @ref TEST, @ref
- * DISABLED_TEST, @ref XFAIL_TEST, and the C-interop wrappers. Assertion
+ * SKIPPED_TEST, @ref XFAIL_TEST, and the C-interop wrappers. Assertion
  * macros are provided by @ref Shell.hpp, which this header includes
  * transitively.
  */
@@ -100,7 +100,7 @@
  * @param testGroup  The group this test belongs to.
  * @param testName   Name of the test.
  */
-#define DISABLED_TEST(testGroup, testName)                                     \
+#define SKIPPED_TEST(testGroup, testName)                                      \
   /* External declarations for strict compilers */                             \
   class IGNORE##testGroup##_##testName##_TestShell;                            \
   extern IGNORE##testGroup##_##testName##_TestShell                            \
@@ -256,14 +256,14 @@
   }
 
 /**
- * @brief Bridge a C @ref DISABLED_TEST into an @ref DISABLED_TEST.
+ * @brief Bridge a C @ref SKIPPED_TEST into an @ref SKIPPED_TEST.
  *
  * @param group_name  Test group.
  * @param test_name   Test name.
  */
-#define DISABLED_TEST_C_WRAPPER(group_name, test_name)                         \
+#define SKIPPED_TEST_C_WRAPPER(group_name, test_name)                          \
   extern "C" void ignore_##group_name##_##test_name##_wrapper_c();             \
-  DISABLED_TEST(group_name, test_name)                                         \
+  SKIPPED_TEST(group_name, test_name)                                          \
   {                                                                            \
     ignore_##group_name##_##test_name##_wrapper_c();                           \
   }
