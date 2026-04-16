@@ -26,9 +26,6 @@ public:
   void print_current_group_ended(const Result& res) override;
 
   void print_buffer(const char*) override;
-  void print(const char*) override;
-  void print(long) override;
-  void print(size_t) override;
   void print_failure(const Failure& failure) override;
   void print_test_property(const char* name, const char* value) override;
   void print_skipped(const char* message) override;

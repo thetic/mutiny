@@ -98,7 +98,6 @@ XML Format
                  assertions="0" time="0.000" file="widget.test.cpp" line="30">
          <skipped />
        </testcase>
-       <system-out></system-out>
      </testsuite>
    </testsuites>
 
@@ -109,9 +108,6 @@ Key points:
 - ``classname`` is ``<package>.<group>`` where ``<package>`` is the name
   passed to ``-pjunit``.
 - ``file`` and ``line`` attributes locate each test in the source tree.
-- Output routed through the framework during a test appears in a
-  ``<system-out>`` element inside the relevant ``<testcase>``; output
-  emitted between tests is collected in the suite-level ``<system-out>``.
 - :c:macro:`TEST_PROPERTY` annotations appear as ``<property>`` elements
   inside a ``<properties>`` block within ``<testcase>``.
 
