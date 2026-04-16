@@ -2,6 +2,7 @@ add_executable(mutiny_unit
     main.cpp
     CompositeTestOutput.test.cpp
     IgnoredTestShell.test.cpp
+    JUnitOutputPlugin.test.cpp
     JUnitTestOutput.test.cpp
     MockCall.test.cpp
     MockCheckedActualCall.test.cpp
