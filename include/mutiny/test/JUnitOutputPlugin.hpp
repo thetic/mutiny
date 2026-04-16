@@ -63,6 +63,7 @@ public:
 
 private:
   bool active_{ false };
+  String package_name_;
 };
 
 } // namespace test
