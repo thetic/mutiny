@@ -68,6 +68,11 @@ CTest runs each test group as a separate process and gives each one a unique
 ``my_tests.Widget.xml`` and ``my_tests.Engine.xml``.  This avoids collisions
 when CTest runs tests in parallel.
 
+When :cmake:variable:`MUTINY_TESTS_DETAILED` is also enabled, non-ordered
+tests run individually and each receives ``-pjunit=<target>.<group>.<test>``,
+so every test case gets its own file (e.g. ``my_tests.Widget.CanBeSet.xml``).
+Ordered groups are still run as a unit and share one file per group.
+
 XML Format
 ----------
 
