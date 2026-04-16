@@ -44,7 +44,6 @@ protected:
   virtual void write_to_file(const String& buffer);
   virtual void close_file();
 
-  virtual void write_xml_header();
   virtual void write_test_suite_summary();
   virtual void write_test_cases();
   virtual String encode_xml_text(const String& textbody);

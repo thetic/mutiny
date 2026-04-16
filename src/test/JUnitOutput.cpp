@@ -212,11 +212,6 @@ void JUnitOutput::set_package_name(const String& package)
   }
 }
 
-void JUnitOutput::write_xml_header()
-{
-  write_to_file("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-}
-
 void JUnitOutput::write_test_suite_summary()
 {
   size_t total_assertions = 0;
