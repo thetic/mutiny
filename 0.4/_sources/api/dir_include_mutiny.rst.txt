@@ -1,0 +1,33 @@
+.. _dir_include_mutiny:
+
+
+Directory mutiny
+================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_include>` (``include``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``include/mutiny``
+
+Subdirectories
+--------------
+
+- :ref:`dir_include_mutiny_mock`
+- :ref:`dir_include_mutiny_test`
+
+
+Files
+-----
+
+- :ref:`file_include_mutiny_features.hpp`
+- :ref:`file_include_mutiny_mock.h`
+- :ref:`file_include_mutiny_mock.hpp`
+- :ref:`file_include_mutiny_String.hpp`
+- :ref:`file_include_mutiny_test.h`
+- :ref:`file_include_mutiny_test.hpp`
+- :ref:`file_include_mutiny_time.hpp`
+
+

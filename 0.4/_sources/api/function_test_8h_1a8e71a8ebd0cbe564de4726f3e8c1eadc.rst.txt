@@ -1,0 +1,14 @@
+.. _exhale_function_test_8h_1a8e71a8ebd0cbe564de4726f3e8c1eadc:
+
+Function mutiny_fail
+====================
+
+- Defined in :ref:`file_include_mutiny_test.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mutiny_fail(const char *, const char *, size_t)
+   :project: mutiny
