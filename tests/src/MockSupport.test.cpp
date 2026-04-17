@@ -231,6 +231,14 @@ TEST(Support, ignoredActualCallWithNameAndCallOrderReturnSelf)
   CHECK_EQUAL(&ignored, &ignored.with_call_order(0));
 }
 
+TEST(Support, ignoredCallReturnValueReturnsEmpty)
+{
+  mock().ignore_other_calls();
+  auto& ignored = mock().actual_call("func");
+  auto rv = ignored.return_value();
+  STRCMP_EQUAL("", rv.get_name().c_str());
+}
+
 TEST(Support, expectedCallWithMatchingObjectPasses)
 {
   void* obj = reinterpret_cast<void*>(0x001);
