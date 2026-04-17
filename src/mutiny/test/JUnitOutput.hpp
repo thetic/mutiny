@@ -32,25 +32,24 @@ public:
 
   bool needs_console_companion() const override { return true; }
 
-  virtual String create_file_name();
+  String create_file_name();
   void set_package_name(const String& package);
 
-protected:
+private:
   JUnitTestOutputImpl* impl_;
   void reset_test_group_result();
+  void open_file_for_write();
+  void write_test_group_to_file();
+  void write_to_file(const String& buffer);
+  void close_file();
 
-  virtual void open_file_for_write();
-  virtual void write_test_group_to_file();
-  virtual void write_to_file(const String& buffer);
-  virtual void close_file();
-
-  virtual void write_test_suite_summary();
-  virtual void write_test_cases();
-  virtual String encode_xml_text(const String& textbody);
-  virtual String encode_file_name(const String& file_name);
-  virtual void write_failure(JUnitTestCaseResultNode* node);
-  virtual void write_error(JUnitTestCaseResultNode* node);
-  virtual void write_file_ending();
+  void write_test_suite_summary();
+  void write_test_cases();
+  String encode_xml_text(const String& textbody);
+  String encode_file_name(const String& file_name);
+  void write_failure(JUnitTestCaseResultNode* node);
+  void write_error(JUnitTestCaseResultNode* node);
+  void write_file_ending();
 };
 
 } // namespace test

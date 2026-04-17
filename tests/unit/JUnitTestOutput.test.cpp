@@ -797,9 +797,8 @@ TEST(JUnitOutput, testsuitesSummaryAggregatesAcrossGroups)
 TEST(JUnitOutput, packageNameWithReservedCharsEncodedInFileName)
 {
   junit_output->set_package_name("group/weird/name");
-  STRCMP_EQUAL(
-      "group_weird_name.xml", junit_output->create_file_name().c_str()
-  );
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
+  CHECK(file_system.file_exists("group_weird_name.xml"));
 }
 
 TEST(JUnitOutput, TestCaseBlockWithAPackageName)
