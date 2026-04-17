@@ -17,6 +17,17 @@ Pass :option:`-pjunit` when running your test executable:
 
    ./my_tests -pjunit
 
+The output file is named after the executable: running ``./my_tests -pjunit``
+writes ``my_tests.xml``.
+
+To choose a different name, use :option:`-pjunit=\<name\>`:
+
+.. code-block:: bash
+
+   ./my_tests -pjunit=widget_suite
+
+This writes ``widget_suite.xml``.
+
 Via plugin in ``main()``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -43,10 +54,24 @@ is unchanged.
 Output File Location
 --------------------
 
-JUnit XML is written to the current working directory. One file is
-created per test group, named ``cpputest_<GroupName>.xml``.
+JUnit XML is written to the current working directory.
 
-For example, a group named ``Widget`` produces ``cpputest_Widget.xml``.
+When running the executable directly, a single file is produced for the
+entire run.  The file is named ``<name>.xml``, where ``<name>`` comes from:
+
+- the ``-pjunit=<name>`` argument if given, or
+- the executable basename (e.g. ``my_tests``) if only ``-pjunit`` is used.
+
+When using :cmake:variable:`MUTINY_JUNIT_REPORT` with :cmake:command:`mutiny_discover_tests`,
+CTest runs each test group as a separate process and gives each one a unique
+``-pjunit=<target>.<group>`` argument, producing files such as
+``my_tests.Widget.xml`` and ``my_tests.Engine.xml``.  This avoids collisions
+when CTest runs tests in parallel.
+
+When :cmake:variable:`MUTINY_TESTS_DETAILED` is also enabled, non-ordered
+tests run individually and each receives ``-pjunit=<target>.<group>.<test>``,
+so every test case gets its own file (e.g. ``my_tests.Widget.CanBeSet.xml``).
+Ordered groups are still run as a unit and share one file per group.
 
 XML Format
 ----------
@@ -54,15 +79,37 @@ XML Format
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8" ?>
-   <testsuite errors="0" failures="1" name="Widget" tests="3" time="0.001">
-     <testcase classname="Widget" name="ReturnsInitialValue" time="0.000" />
-     <testcase classname="Widget" name="CanBeSet" time="0.000">
-       <failure message="widget.test.cpp:25: expected &lt;42&gt; but was &lt;0&gt;" type="AssertionError" />
-     </testcase>
-   </testsuite>
+   <testsuites tests="3" failures="1" errors="0" skipped="0"
+               time="0.001" timestamp="2024-01-15T10:30:00">
+     <testsuite errors="0" failures="1" skipped="0" assertions="5"
+                name="Widget" tests="3" time="0.001"
+                timestamp="2024-01-15T10:30:00">
+       <testcase classname="my_tests.Widget" name="ReturnsInitialValue"
+                 assertions="2" time="0.000" file="widget.test.cpp" line="12">
+       </testcase>
+       <testcase classname="my_tests.Widget" name="CanBeSet"
+                 assertions="1" time="0.000" file="widget.test.cpp" line="20">
+         <failure message="widget.test.cpp:25: expected &lt;42&gt; but was &lt;0&gt;"
+                  type="AssertionFailedError">
+           widget.test.cpp:25: expected &lt;42&gt; but was &lt;0&gt;
+         </failure>
+       </testcase>
+       <testcase classname="my_tests.Widget" name="IgnoredTest"
+                 assertions="0" time="0.000" file="widget.test.cpp" line="30">
+         <skipped />
+       </testcase>
+     </testsuite>
+   </testsuites>
 
-:c:macro:`TEST_PROPERTY` annotations appear as ``<property>`` elements inside
-``<testcase>``.
+Key points:
+
+- The top-level ``<testsuites>`` element carries totals across all groups.
+- Each group produces one ``<testsuite>`` child.
+- ``classname`` is ``<package>.<group>`` where ``<package>`` is the name
+  passed to ``-pjunit``.
+- ``file`` and ``line`` attributes locate each test in the source tree.
+- :c:macro:`TEST_PROPERTY` annotations appear as ``<property>`` elements
+  inside a ``<properties>`` block within ``<testcase>``.
 
 CI Integration
 --------------
@@ -73,12 +120,14 @@ GitHub Actions
 .. code-block:: yaml
 
    - name: Run tests
-     run: ./build/my_tests -pjunit
+     run: cmake --build --preset defaults && ctest --preset defaults
+     env:
+       MUTINY_JUNIT_REPORT: ON
 
    - name: Publish test results
      uses: EnricoMi/publish-unit-test-result-action@v2
      with:
-       files: cpputest_*.xml
+       files: build/**/*.xml
 
 GitLab CI
 ~~~~~~~~~
@@ -87,13 +136,14 @@ GitLab CI
 
    test:
      script:
-       - ./build/my_tests -pjunit
+       - cmake --build --preset defaults
+       - ctest --preset defaults
      artifacts:
        reports:
-         junit: cpputest_*.xml
+         junit: build/**/*.xml
 
 Jenkins
 ~~~~~~~
 
 Configure the "Publish JUnit test result report" post-build step with
-the pattern ``cpputest_*.xml``.
+the pattern ``build/**/*.xml``.

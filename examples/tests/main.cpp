@@ -4,7 +4,6 @@
 #include "mutiny/mock/SupportPlugin.hpp"
 
 #include "mutiny/test/CommandLineRunner.hpp"
-#include "mutiny/test/Plugin.hpp"
 #include "mutiny/test/Registry.hpp"
 
 class MyDummyComparator : public mu::tiny::mock::NamedValueComparator
@@ -23,18 +22,20 @@ public:
 
 int main(int argc, char** argv)
 {
-  MyDummyComparator dummy_comparator;
   mu::tiny::mock::SupportPlugin mock_plugin;
-  IEEE754ExceptionsPlugin ieee754_plugin;
-  TeamCityOutputPlugin tc_plugin;
-
+  MyDummyComparator dummy_comparator;
   mock_plugin.install_comparator("MyDummyType", dummy_comparator);
   mu::tiny::test::Registry::get_current_registry()->install_plugin(
       &mock_plugin
   );
+
+  IEEE754ExceptionsPlugin ieee754_plugin;
   mu::tiny::test::Registry::get_current_registry()->install_plugin(
       &ieee754_plugin
   );
+
+  TeamCityOutputPlugin tc_plugin;
   mu::tiny::test::Registry::get_current_registry()->install_plugin(&tc_plugin);
+
   return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
 }

@@ -400,13 +400,13 @@ public:
    */
   virtual void add_test_property(const char* name, const char* value);
 
+  /** @return The macro keyword used in formatted output (e.g. "TEST"). */
+  virtual String get_macro_name() const;
+
 protected:
   /** @brief Default constructor for use by subclasses (e.g. IgnoredShell).
    */
   Shell() noexcept;
-
-  /** @return The macro keyword used in formatted output (e.g. "TEST"). */
-  virtual String get_macro_name() const;
   /** @return The Result for the current run. */
   Result* get_test_result();
 

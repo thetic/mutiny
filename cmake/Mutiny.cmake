@@ -26,9 +26,11 @@ be overridden per target through the matching keyword argument of
 
 .. variable:: MUTINY_JUNIT_REPORT
 
-  Boolean option.  When ``ON``, :option:`-pjunit` is appended to
-  every discovered test invocation so the executable emits a JUnit-format XML
-  report.  Default: ``OFF``.
+  Boolean option.  When ``ON``, each discovered test invocation receives a
+  unique :option:`-pjunit=\<target\>.\<group\>` argument so the executable
+  emits a JUnit-format XML report named ``<target>.<group>.xml`` in the
+  test's working directory.  One file is produced per CTest test, avoiding
+  collisions when tests run in parallel.  Default: ``OFF``.
 
 .. variable:: MUTINY_EXTRA_ARGS
 
@@ -148,10 +150,6 @@ function(mutiny_discover_tests target)
         set(_DETAILED ${MUTINY_TESTS_DETAILED})
     endif()
 
-    if(MUTINY_JUNIT_REPORT)
-        list(APPEND _EXTRA_ARGS -pjunit)
-    endif()
-
     set_target_properties(${target} PROPERTIES
         MUTINY_DISCOVER_ARGS    "${_EXTRA_ARGS}"
         MUTINY_DISCOVER_DETAILED "${_DETAILED}"
@@ -184,6 +182,7 @@ function(mutiny_discover_tests target)
             -D "TARGET_NAME=${target}"
             -D "EMULATOR=${emulator}"
             -D "ARGS=${_EXTRA_ARGS}"
+            -D "JUNIT_REPORT:BOOL=${MUTINY_JUNIT_REPORT}"
             -D "CTEST_FILE=${CTEST_GENERATED_FILE}"
             -P "${_MUTINY_DISCOVERY_SCRIPT}"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"

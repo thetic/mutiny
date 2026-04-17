@@ -25,9 +25,9 @@ class Output;
  *
  * Install this plugin before calling
  * @ref CommandLineRunner::run_all_tests_main() to enable the
- * `--junit <file>` command-line argument. When activated,
- * @ref create_output() returns a composite output that writes both to the
- * console and to the XML file.
+ * `-pjunit[=<name>]` command-line argument. When activated,
+ * @ref create_output() returns a JUnitOutput that writes XML alongside
+ * console output.
  */
 class MUTINY_EXPORT JUnitOutputPlugin : public Plugin
 {
@@ -36,7 +36,7 @@ public:
   JUnitOutputPlugin();
 
   /**
-   * @brief Handle the `--junit <file>` command-line argument.
+   * @brief Handle the `-pjunit[=<name>]` command-line argument.
    *
    * @param argc   Argument count.
    * @param argv   Argument vector.
@@ -46,13 +46,13 @@ public:
   bool parse_arguments(int argc, const char* const* argv, int index) override;
 
   /**
-   * @brief Return help text for the `--junit` option.
+   * @brief Return help text for the `-pjunit` option.
    * @return A String describing the argument.
    */
   String get_help() const override;
 
   /**
-   * @brief Create the JUnit XML output object when `--junit` was supplied.
+   * @brief Create the JUnit XML output object when `-pjunit` was supplied.
    * @return A new JUnitOutput, or nullptr if the plugin is not active.
    */
   Output* create_output() override;
@@ -63,6 +63,7 @@ public:
 
 private:
   bool active_{ false };
+  String package_name_;
 };
 
 } // namespace test

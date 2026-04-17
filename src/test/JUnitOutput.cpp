@@ -65,9 +65,15 @@ class JUnitTestOutputImpl
 {
 public:
   JUnitTestGroupResult results;
-  Output::File file;
+  String current_group_xml;
+  String accumulated_xml;
   String package;
-  String std_output;
+  size_t total_test_count{ 0 };
+  size_t total_failure_count{ 0 };
+  size_t total_error_count{ 0 };
+  size_t total_skip_count{ 0 };
+  uint_least64_t total_exec_time{ 0 };
+  String start_timestamp;
 };
 
 JUnitOutput::JUnitOutput()
@@ -105,7 +111,16 @@ void JUnitOutput::reset_test_group_result()
   impl_->results.tail = nullptr;
 }
 
-void JUnitOutput::print_tests_started() {}
+void JUnitOutput::print_tests_started()
+{
+  impl_->accumulated_xml.clear();
+  impl_->total_test_count = 0;
+  impl_->total_failure_count = 0;
+  impl_->total_error_count = 0;
+  impl_->total_skip_count = 0;
+  impl_->total_exec_time = 0;
+  impl_->start_timestamp = get_time_string();
+}
 
 void JUnitOutput::print_current_group_started(const Shell& /*test*/) {}
 
@@ -116,12 +131,40 @@ void JUnitOutput::print_current_test_ended(const Result& result)
   impl_->results.tail->check_count = result.get_check_count();
 }
 
-void JUnitOutput::print_tests_ended(const Result& /*result*/) {}
+void JUnitOutput::print_tests_ended(const Result& /*result*/)
+{
+  Output::File file = fopen_(create_file_name().c_str(), "w");
+  String header = string_from_format(
+      "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+      "<testsuites tests=\"%d\" failures=\"%d\" errors=\"%d\" "
+      "skipped=\"%d\" time=\"%d.%03d\" timestamp=\"%s\">\n",
+      static_cast<int>(impl_->total_test_count),
+      static_cast<int>(impl_->total_failure_count),
+      static_cast<int>(impl_->total_error_count),
+      static_cast<int>(impl_->total_skip_count),
+      static_cast<int>(impl_->total_exec_time / 1000),
+      static_cast<int>(impl_->total_exec_time % 1000),
+      impl_->start_timestamp.c_str()
+  );
+  fputs_(header.c_str(), file);
+  fputs_(impl_->accumulated_xml.c_str(), file);
+  fputs_("</testsuites>\n", file);
+  fclose_(file);
+}
 
 void JUnitOutput::print_current_group_ended(const Result& result)
 {
+  if (impl_->results.test_count == 0) {
+    reset_test_group_result();
+    return;
+  }
   impl_->results.group_exec_time =
       result.get_current_group_total_execution_time();
+  impl_->total_test_count += impl_->results.test_count;
+  impl_->total_failure_count += impl_->results.failure_count;
+  impl_->total_error_count += impl_->results.error_count;
+  impl_->total_skip_count += impl_->results.skip_count;
+  impl_->total_exec_time += impl_->results.group_exec_time;
   write_test_group_to_file();
   reset_test_group_result();
 }
@@ -143,19 +186,16 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   impl_->results.tail->line_number = test.get_line_number();
   if (!test.will_run()) {
     impl_->results.tail->ignored = true;
+    impl_->results.tail->skip_message = test.get_macro_name();
     impl_->results.skip_count++;
   }
 }
 
-String JUnitOutput::create_file_name(const String& group)
+String JUnitOutput::create_file_name()
 {
-  String file_name = "mutiny_";
-  if (!impl_->package.empty()) {
-    file_name += impl_->package;
-    file_name += "_";
-  }
-  file_name += group;
-  return encode_file_name(file_name) + ".xml";
+  if (!impl_->package.empty())
+    return encode_file_name(impl_->package) + ".xml";
+  return "mutiny.xml";
 }
 
 String JUnitOutput::encode_file_name(const String& file_name)
@@ -175,11 +215,6 @@ void JUnitOutput::set_package_name(const String& package)
   if (impl_ != nullptr) {
     impl_->package = package;
   }
-}
-
-void JUnitOutput::write_xml_header()
-{
-  write_to_file("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
 }
 
 void JUnitOutput::write_test_suite_summary()
@@ -204,8 +239,6 @@ void JUnitOutput::write_test_suite_summary()
   );
   write_to_file(buf.c_str());
 }
-
-void JUnitOutput::write_properties() {}
 
 String JUnitOutput::encode_xml_text(const String& textbody)
 {
@@ -270,6 +303,7 @@ void JUnitOutput::write_test_cases()
                           .c_str());
       }
     }
+
     write_to_file("</testcase>\n");
     cur = cur->next;
   }
@@ -277,14 +311,15 @@ void JUnitOutput::write_test_cases()
 
 void JUnitOutput::write_failure(JUnitTestCaseResultNode* node)
 {
+  String file = encode_xml_text(node->failure->get_file_name());
   String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
       "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
       "%s:%d: %s\n",
-      node->failure->get_file_name().c_str(),
+      file.c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
       msg.c_str(),
-      node->failure->get_file_name().c_str(),
+      file.c_str(),
       static_cast<int>(node->failure->get_failure_line_number()),
       msg.c_str()
   );
@@ -307,34 +342,19 @@ void JUnitOutput::write_error(JUnitTestCaseResultNode* node)
 
 void JUnitOutput::write_file_ending()
 {
-  write_to_file("<system-out>");
-  write_to_file(encode_xml_text(impl_->std_output));
-  write_to_file("</system-out>\n");
-  write_to_file("<system-err></system-err>\n");
   write_to_file("</testsuite>\n");
 }
 
 void JUnitOutput::write_test_group_to_file()
 {
-  open_file_for_write(create_file_name(impl_->results.group));
-  write_xml_header();
+  open_file_for_write();
   write_test_suite_summary();
-  write_properties();
   write_test_cases();
   write_file_ending();
   close_file();
 }
 
 void JUnitOutput::print_buffer(const char*) {}
-
-void JUnitOutput::print(const char* output)
-{
-  impl_->std_output += output;
-}
-
-void JUnitOutput::print(long) {}
-
-void JUnitOutput::print(size_t) {}
 
 void JUnitOutput::print_test_property(const char* name, const char* value)
 {
@@ -374,19 +394,19 @@ void JUnitOutput::print_failure(const Failure& failure)
   }
 }
 
-void JUnitOutput::open_file_for_write(const String& file_name)
+void JUnitOutput::open_file_for_write()
 {
-  impl_->file = fopen_(file_name.c_str(), "w");
+  impl_->current_group_xml.clear();
 }
 
 void JUnitOutput::write_to_file(const String& buffer)
 {
-  fputs_(buffer.c_str(), impl_->file);
+  impl_->current_group_xml += buffer;
 }
 
 void JUnitOutput::close_file()
 {
-  fclose_(impl_->file);
+  impl_->accumulated_xml += impl_->current_group_xml;
 }
 
 } // namespace test
