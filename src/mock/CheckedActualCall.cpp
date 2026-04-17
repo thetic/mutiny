@@ -130,17 +130,6 @@ void CheckedActualCall::set_name_and_check(String name)
   complete_call_when_match_is_found();
 }
 
-ActualCall& CheckedActualCall::with_name(const String& name)
-{
-  set_name_and_check(name);
-  return *this;
-}
-
-ActualCall& CheckedActualCall::with_call_order(unsigned int)
-{
-  return *this;
-}
-
 void CheckedActualCall::check_input_parameter(NamedValue actual_parameter)
 {
   if (has_failed()) {

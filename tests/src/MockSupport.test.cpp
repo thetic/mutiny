@@ -347,3 +347,46 @@ TEST(Support, discardingPriorMatchRemovesStillFinalizedExpectation)
   clear_mock_failure();
   mock().clear();
 }
+
+TEST(Support, parametersAfterFailedCallAreIgnored)
+{
+  void* obj = reinterpret_cast<void*>(0x001);
+  mock().actual_call("nonexistent").with_parameter("a", 1).on_object(obj);
+  clear_mock_failure();
+}
+
+TEST(Support, withParameterOfTypeStringOverloadNoComparatorFails)
+{
+  int obj = 0;
+  mock().expect_one_call("func");
+  mock().actual_call("func").with_parameter_of_type(
+      mu::tiny::String("MyType"), mu::tiny::String("param"), &obj
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, returnValueAfterFailedCallReturnsEmpty)
+{
+  auto rv = mock().actual_call("nonexistent").return_value();
+  STRCMP_EQUAL("no return value", rv.get_name().c_str());
+  clear_mock_failure();
+}
+
+TEST(Support, threeOutputParametersAllCopied)
+{
+  int a = 1, b = 2, c = 3;
+  int out_a = 0, out_b = 0, out_c = 0;
+  mock()
+      .expect_one_call("func")
+      .with_output_parameter_returning("a", &a, sizeof(a))
+      .with_output_parameter_returning("b", &b, sizeof(b))
+      .with_output_parameter_returning("c", &c, sizeof(c));
+  mock()
+      .actual_call("func")
+      .with_output_parameter("a", &out_a)
+      .with_output_parameter("b", &out_b)
+      .with_output_parameter("c", &out_c);
+  CHECK_EQUAL(1, out_a);
+  CHECK_EQUAL(2, out_b);
+  CHECK_EQUAL(3, out_c);
+}
