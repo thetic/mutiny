@@ -93,6 +93,13 @@ void stop_after_failure_method()
   stop_after_failure++;
 }
 
+int code_after_skip = 0;
+void skip_test_method()
+{
+  SKIP_TEST("skipping this test");
+  code_after_skip++;
+}
+
 #if MUTINY_HAVE_EXCEPTIONS
 // Prevents -Wunreachable-code; should always be 'true'
 bool should_throw_exception = true;
@@ -296,6 +303,15 @@ TEST(Shell, TestStopsAfterSetupFailure)
   fixture.run_all_tests();
   CHECK_EQUAL(size_t{ 2 }, fixture.get_failure_count());
   CHECK_EQUAL(0, stop_after_failure);
+}
+
+TEST(Shell, SkipTestStopsExecutionWithNoFailure)
+{
+  code_after_skip = 0;
+  fixture.set_test_function(skip_test_method);
+  fixture.run_all_tests();
+  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
+  CHECK_EQUAL(0, code_after_skip);
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
