@@ -532,6 +532,44 @@ TEST(Shell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods
   CHECK_EQUAL(size_t{ 2 }, fixture.get_test_count());
 }
 
+TEST(Shell, getIgnoreCountReturnsNumberOfIgnoredTests)
+{
+  mu::tiny::test::IgnoredShell ignored;
+  fixture.add_test(&ignored);
+  fixture.run_all_tests();
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
+}
+
+TEST(Shell, checkTestFailsWithProperTestLocationFailsWhenFailureCountIsNotOne)
+{
+  mu::tiny::test::TestingFixture inner;
+  inner.set_test_function([]() {
+    mu::tiny::test::TestingFixture f;
+    // f has 0 failures — check_test_fails_with_proper_test_location must fire
+    f.check_test_fails_with_proper_test_location("text", __FILE__, __LINE__);
+  });
+  inner.run_all_tests();
+  CHECK(inner.has_test_failed());
+}
+
+TEST(Shell, checkTestFailsWithProperTestLocationFailsWhenLineWasExecutedAfterCheck)
+{
+  mu::tiny::test::TestingFixture inner;
+  inner.set_test_function([]() {
+    mu::tiny::test::TestingFixture f;
+    f.set_test_function([]() { FAIL_TEST("deliberate"); });
+    f.run_all_tests();
+    // Simulate a check macro that didn't halt execution
+    mu::tiny::test::TestingFixture::line_executed_after_check();
+    // f has 1 failure and the flag is set — the second guard must fire
+    f.check_test_fails_with_proper_test_location(
+        "deliberate", __FILE__, __LINE__
+    );
+  });
+  inner.run_all_tests();
+  CHECK(inner.has_test_failed());
+}
+
 #if MUTINY_HAVE_EXCEPTIONS
 
 namespace {
