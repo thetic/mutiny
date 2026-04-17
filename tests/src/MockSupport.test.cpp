@@ -231,6 +231,14 @@ TEST(Support, ignoredActualCallWithNameAndCallOrderReturnSelf)
   CHECK_EQUAL(&ignored, &ignored.with_call_order(0));
 }
 
+TEST(Support, checkedActualCallWithNameAndCallOrderUseBaseClassNoOps)
+{
+  mock().expect_one_call("func");
+  auto& call = mock().actual_call("func");
+  CHECK_EQUAL(&call, &call.with_name("func"));
+  CHECK_EQUAL(&call, &call.with_call_order(1));
+}
+
 TEST(Support, ignoredCallReturnValueReturnsEmpty)
 {
   mock().ignore_other_calls();
