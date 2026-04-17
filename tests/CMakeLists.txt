@@ -1,6 +1,6 @@
 enable_language(C)
 
-add_executable(mutiny_integration
+add_executable(mutiny_test
     src/main.cpp
     src/CommandLineArguments.test.cpp
     src/CommandLineTestRunner.test.cpp
@@ -48,13 +48,13 @@ add_executable(mutiny_integration
     src/TestShellStringMacros.test.cpp
 )
 
-target_link_libraries(mutiny_integration
+target_link_libraries(mutiny_test
     PRIVATE
         mu::tiny
 )
 
 include(Mutiny)
-mutiny_discover_tests(mutiny_integration)
+mutiny_discover_tests(mutiny_test)
 
 get_cmake_property(_mutiny_is_multi_config GENERATOR_IS_MULTI_CONFIG)
 set(_mutiny_try_compile_arg "")
