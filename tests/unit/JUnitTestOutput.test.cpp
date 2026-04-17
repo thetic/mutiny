@@ -832,7 +832,7 @@ TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
       output_file->line(4)
   );
-  STRCMP_EQUAL("<skipped />\n", output_file->line(5));
+  STRCMP_EQUAL("<skipped message=\"SKIPPED_TEST\" />\n", output_file->line(5));
   STRCMP_EQUAL("</testcase>\n", output_file->line(6));
 }
 

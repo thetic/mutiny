@@ -154,6 +154,10 @@ void JUnitOutput::print_tests_ended(const Result& /*result*/)
 
 void JUnitOutput::print_current_group_ended(const Result& result)
 {
+  if (impl_->results.test_count == 0) {
+    reset_test_group_result();
+    return;
+  }
   impl_->results.group_exec_time =
       result.get_current_group_total_execution_time();
   impl_->total_test_count += impl_->results.test_count;
@@ -182,6 +186,7 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   impl_->results.tail->line_number = test.get_line_number();
   if (!test.will_run()) {
     impl_->results.tail->ignored = true;
+    impl_->results.tail->skip_message = test.get_macro_name();
     impl_->results.skip_count++;
   }
 }
