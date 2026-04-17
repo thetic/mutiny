@@ -23,14 +23,6 @@ bool ExpectedCallsList::has_calls_out_of_order() const
   return false;
 }
 
-unsigned int ExpectedCallsList::size() const
-{
-  unsigned int count = 0;
-  for (MockExpectedCallsListNode* p = head_; p; p = p->next)
-    count++;
-  return count;
-}
-
 bool ExpectedCallsList::empty() const
 {
   return head_ == nullptr;
@@ -46,15 +38,6 @@ unsigned int ExpectedCallsList::amount_of_actual_calls_fulfilled_for(
       count += p->expected_call->get_actual_calls_fulfilled();
     }
   }
-  return count;
-}
-
-unsigned int ExpectedCallsList::amount_of_unfulfilled_expectations() const
-{
-  unsigned int count = 0;
-  for (MockExpectedCallsListNode* p = head_; p; p = p->next)
-    if (!p->expected_call->is_fulfilled())
-      count++;
   return count;
 }
 

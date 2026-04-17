@@ -20,11 +20,9 @@ public:
 
   virtual void delete_all_expectations_and_clear_list();
 
-  virtual unsigned int size() const;
   virtual unsigned int amount_of_actual_calls_fulfilled_for(
       const String& name
   ) const;
-  virtual unsigned int amount_of_unfulfilled_expectations() const;
   virtual bool has_unfulfilled_expectations() const;
   virtual bool has_finalized_matching_expectations() const;
   virtual bool

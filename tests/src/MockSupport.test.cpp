@@ -320,3 +320,22 @@ TEST(Support, missingParametersToStringWithInputAndOutputParameters)
   mock().check_expectations();
   clear_mock_failure();
 }
+
+TEST(Support, actualCallOnNonMatchingObjectGeneratesFailure)
+{
+  void* obj1 = reinterpret_cast<void*>(0x001);
+  void* obj2 = reinterpret_cast<void*>(0x002);
+  mock().expect_one_call("boo").on_object(obj1);
+  mock().actual_call("boo").on_object(obj2);
+  clear_mock_failure();
+  mock().clear();
+}
+
+TEST(Support, discardingPriorMatchRemovesStillFinalizedExpectation)
+{
+  mock().expect_one_call("func").with_parameter("a", 1);
+  mock().expect_one_call("func").with_parameter("a", 1);
+  mock().actual_call("func").with_parameter("a", 1).with_parameter("b", 2);
+  clear_mock_failure();
+  mock().clear();
+}
