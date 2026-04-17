@@ -5,6 +5,7 @@ add_executable(mutiny_integration
     src/CommandLineArguments.test.cpp
     src/CommandLineTestRunner.test.cpp
     src/Compatibility.test.cpp
+    src/CompositeOutput.test.cpp
     src/mutiny_c.test.c
     src/mutiny_c.test.cpp
     src/mutiny_c_fixture.test.cpp
