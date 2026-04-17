@@ -230,3 +230,93 @@ TEST(Support, ignoredActualCallWithNameAndCallOrderReturnSelf)
   CHECK_EQUAL(&ignored, &ignored.with_name("func"));
   CHECK_EQUAL(&ignored, &ignored.with_call_order(0));
 }
+
+TEST(Support, expectedCallWithMatchingObjectPasses)
+{
+  void* obj = reinterpret_cast<void*>(0x001);
+  mock().expect_one_call("boo").on_object(obj);
+  mock().actual_call("boo").on_object(obj);
+}
+
+TEST(Support, callToStringWithRangeCallOrder)
+{
+  mock().expect_one_call("func").with_call_order(1, 3);
+  mock().check_expectations();
+  STRCMP_CONTAINS(
+      "expected calls order: <1..3>",
+      FailureReporterForTest::get_reporter()->mock_failure_string.c_str()
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, callToStringWithMultipleInputParameters)
+{
+  mock().expect_one_call("func").with_parameter("a", 1).with_parameter("b", 2);
+  mock().check_expectations();
+  STRCMP_CONTAINS(
+      "int a:",
+      FailureReporterForTest::get_reporter()->mock_failure_string.c_str()
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, callToStringWithInputAndOutputParameters)
+{
+  int val = 0;
+  mock()
+      .expect_one_call("func")
+      .with_parameter("in", 1)
+      .with_output_parameter_returning("out", &val, sizeof(val));
+  mock().check_expectations();
+  STRCMP_CONTAINS(
+      "out", FailureReporterForTest::get_reporter()->mock_failure_string.c_str()
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, callToStringWithMultipleOutputParameters)
+{
+  int val = 0;
+  mock()
+      .expect_one_call("func")
+      .with_output_parameter_returning("out1", &val, sizeof(val))
+      .with_output_parameter_returning("out2", &val, sizeof(val));
+  mock().check_expectations();
+  STRCMP_CONTAINS(
+      "out2",
+      FailureReporterForTest::get_reporter()->mock_failure_string.c_str()
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, unexpectedAdditionalCallReportsOrdinal)
+{
+  mock().expect_one_call("foo");
+  mock().actual_call("foo");
+  mock().actual_call("foo");
+  STRCMP_CONTAINS(
+      "additional",
+      FailureReporterForTest::get_reporter()->mock_failure_string.c_str()
+  );
+  clear_mock_failure();
+}
+
+TEST(Support, missingParametersToStringWithMultipleInputParameters)
+{
+  mock().expect_one_call("func").with_parameter("a", 1).with_parameter("b", 2);
+  mock().actual_call("func");
+  mock().check_expectations();
+  clear_mock_failure();
+}
+
+TEST(Support, missingParametersToStringWithInputAndOutputParameters)
+{
+  int val = 0;
+  mock()
+      .expect_one_call("func")
+      .with_parameter("a", 1)
+      .with_output_parameter_returning("out", &val, sizeof(val));
+  mock().actual_call("func");
+  mock().check_expectations();
+  clear_mock_failure();
+}

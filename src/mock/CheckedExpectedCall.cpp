@@ -22,35 +22,8 @@ String CheckedExpectedCall::get_name() const
   return function_name_;
 }
 
-CheckedExpectedCall::CheckedExpectedCall()
-  : ignore_other_parameters_(false)
-  , is_actual_call_match_finalized_(false)
-  , initial_expected_call_order_(no_expected_call_order)
-  , final_expected_call_order_(no_expected_call_order)
-  , out_of_order_(false)
-  , return_value_("")
-  , object_ptr_(nullptr)
-  , is_specific_object_expected_(false)
-  , was_passed_to_object_(true)
-  , actual_calls_(0)
-  , expected_calls_(1)
-{
-  input_parameters_ = new NamedValueList();
-  output_parameters_ = new NamedValueList();
-}
-
 CheckedExpectedCall::CheckedExpectedCall(unsigned int num_calls)
-  : ignore_other_parameters_(false)
-  , is_actual_call_match_finalized_(false)
-  , initial_expected_call_order_(no_expected_call_order)
-  , final_expected_call_order_(no_expected_call_order)
-  , out_of_order_(false)
-  , return_value_("")
-  , object_ptr_(nullptr)
-  , is_specific_object_expected_(false)
-  , was_passed_to_object_(true)
-  , actual_calls_(0)
-  , expected_calls_(num_calls)
+  : expected_calls_(num_calls)
 {
   input_parameters_ = new NamedValueList();
   output_parameters_ = new NamedValueList();
@@ -122,12 +95,6 @@ ExpectedCall& CheckedExpectedCall::with_unmodified_output_parameter(
   return with_output_parameter_returning(name, nullptr, 0);
 }
 
-String CheckedExpectedCall::get_input_parameter_type(const String& name)
-{
-  NamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? p->get_type() : string_from("");
-}
-
 bool CheckedExpectedCall::has_input_parameter_with_name(const String& name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
@@ -138,12 +105,6 @@ bool CheckedExpectedCall::has_output_parameter_with_name(const String& name)
 {
   NamedValue* p = output_parameters_->get_value_by_name(name);
   return p != nullptr;
-}
-
-NamedValue CheckedExpectedCall::get_input_parameter(const String& name)
-{
-  NamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? *p : NamedValue("");
 }
 
 NamedValue CheckedExpectedCall::get_output_parameter(const String& name)
