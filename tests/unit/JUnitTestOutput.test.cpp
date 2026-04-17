@@ -773,6 +773,27 @@ TEST(JUnitOutput, twoTestGroupsWriteToOneFile)
   CHECK(file_system.file("mutiny.xml") != nullptr);
 }
 
+TEST(JUnitOutput, testsuitesSummaryAggregatesAcrossGroups)
+{
+  test_case_runner->start()
+      .with_group("groupA")
+      .with_test("passing")
+      .with_test("failing")
+      .that_fails("boom", "a.cpp", 1)
+      .with_test("skipped")
+      .that_is_skipped("later")
+      .with_group("groupB")
+      .with_test("another")
+      .end();
+
+  output_file = file_system.file("mutiny.xml");
+  STRCMP_EQUAL(
+      "<testsuites tests=\"4\" failures=\"1\" errors=\"0\" skipped=\"1\" "
+      "time=\"0.000\" timestamp=\"1978-10-03T00:00:00\">\n",
+      output_file->line(2)
+  );
+}
+
 TEST(JUnitOutput, packageNameWithReservedCharsEncodedInFileName)
 {
   junit_output->set_package_name("group/weird/name");
