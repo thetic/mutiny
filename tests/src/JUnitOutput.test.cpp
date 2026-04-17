@@ -1161,3 +1161,17 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
       output_file->line(5)
   );
 }
+
+TEST(JUnitOutput, parseArguments_derivesBasenameFromPathInArgv0)
+{
+  mu::tiny::test::JUnitOutputPlugin p;
+  const char* argv[] = { "path/to/binary", "-pjunit" };
+  CHECK(p.parse_arguments(2, argv, 1));
+}
+
+TEST(JUnitOutput, parseArguments_pjunitWithInvalidSuffix_returnsFalse)
+{
+  mu::tiny::test::JUnitOutputPlugin p;
+  const char* argv[] = { "", "-pjunitX" };
+  CHECK(!p.parse_arguments(2, argv, 1));
+}
