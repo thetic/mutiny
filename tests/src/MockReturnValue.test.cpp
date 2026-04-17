@@ -1255,3 +1255,27 @@ TEST(MockReturnValue, whenCallingDisabledOrIgnoredActualCallsThenTheyDontReturnP
 
   CHECK(!mock().has_return_value());
 }
+
+TEST(MockReturnValue, ignoredActualCallReturnValueOrDefaultReturnsDefault)
+{
+  mock().ignore_other_calls();
+  auto& ignored = mock().actual_call("func");
+
+  CHECK(!ignored.has_return_value());
+  CHECK(ignored.return_value_or_default<bool>(true));
+  CHECK_EQUAL(1, ignored.return_value_or_default<int>(1));
+  CHECK_EQUAL(1U, ignored.return_value_or_default<unsigned int>(1U));
+  CHECK_EQUAL(1L, ignored.return_value_or_default<long int>(1L));
+  CHECK_EQUAL(1UL, ignored.return_value_or_default<unsigned long int>(1UL));
+  CHECK_EQUAL(1LL, ignored.return_value_or_default<long long>(1LL));
+  CHECK_EQUAL(1ULL, ignored.return_value_or_default<unsigned long long>(1ULL));
+  CHECK_APPROX(1.1, ignored.return_value_or_default<double>(1.1), 0.001);
+  STRCMP_EQUAL("hi", ignored.return_value_or_default<const char*>("hi"));
+  CHECK_EQUAL(nullptr, ignored.return_value_or_default<void*>(nullptr));
+  CHECK_EQUAL(nullptr, ignored.return_value_or_default<const void*>(nullptr));
+  CHECK_EQUAL(
+      static_cast<void (*)()>(nullptr),
+      ignored.return_value_or_default<
+          mu::tiny::mock::ActualCall::FunctionPointerReturnValue>(nullptr)
+  );
+}

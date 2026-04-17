@@ -882,16 +882,24 @@ TEST(MockParameter, ignoreOtherCallsIgnoresWithAllKindsOfParameters)
   mock()
       .actual_call("boo")
       .with_parameter("umm", true)
+      .with_parameter("int", 1)
       .with_parameter("bar", 1u)
       .with_parameter("foo", 1l)
       .with_parameter("hey", 1ul)
       .with_parameter("ick", 1ll)
       .with_parameter("grr", 1ull)
       .with_parameter("duh", 1.0)
+      .with_parameter("str", "hello")
       .with_parameter("yoo", static_cast<const void*>(nullptr))
+      .with_parameter("ptr", static_cast<void*>(nullptr))
       .with_parameter("func", static_cast<void (*)()>(nullptr))
       .with_parameter("mem", static_cast<const unsigned char*>(nullptr), 0)
       .with_parameter_of_type("hoo", "int", static_cast<const void*>(nullptr))
+      .with_parameter_of_type(
+          mu::tiny::String("hoo2"),
+          mu::tiny::String("int"),
+          static_cast<const void*>(nullptr)
+      )
       .with_output_parameter("gah", static_cast<void*>(nullptr))
       .with_output_parameter_of_type("goo", "int", static_cast<void*>(nullptr));
 

@@ -183,3 +183,11 @@ TEST(Support, ignoredCallAcceptsAllParameterTypes)
       .with_parameter_of_type("MyType", "t", &obj)
       .on_object(&obj);
 }
+
+TEST(Support, ignoredActualCallWithNameAndCallOrderReturnSelf)
+{
+  mock().ignore_other_calls();
+  auto& ignored = mock().actual_call("func");
+  CHECK_EQUAL(&ignored, &ignored.with_name("func"));
+  CHECK_EQUAL(&ignored, &ignored.with_call_order(0));
+}
