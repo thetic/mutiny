@@ -10,6 +10,7 @@ add_executable(mutiny_integration
     src/mutiny_c_fixture.test.cpp
     src/fail_method_c_body.c
     src/ExpectFailTestShell.test.cpp
+    src/IgnoredShell.test.cpp
     src/MockComparatorCopier.test.cpp
     src/MockFailureReporter.cpp
     src/MockFixedWidthTypes.test.cpp
