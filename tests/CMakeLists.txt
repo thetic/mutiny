@@ -1,4 +1,57 @@
-add_subdirectory(integration)
+enable_language(C)
+
+add_executable(mutiny_integration
+    src/main.cpp
+    src/CommandLineArguments.test.cpp
+    src/CommandLineTestRunner.test.cpp
+    src/Compatibility.test.cpp
+    src/mutiny_c.test.c
+    src/mutiny_c.test.cpp
+    src/mutiny_c_fixture.test.cpp
+    src/fail_method_c_body.c
+    src/ExpectFailTestShell.test.cpp
+    src/MockComparatorCopier.test.cpp
+    src/MockFailureReporter.cpp
+    src/MockFixedWidthTypes.test.cpp
+    src/MockHierarchy.test.cpp
+    src/MockNamedValue.test.cpp
+    src/MockNamedValueComparatorsAndCopiersRepository.test.cpp
+    src/MockParameter.test.cpp
+    src/MockReturnValue.test.cpp
+    src/MockStrictOrder.test.cpp
+    src/MockSupport.test.cpp
+    src/MockSupport.c
+    src/MockSupportPlugin.test.cpp
+    src/MockSupportWithFixture.test.cpp
+    src/MockSupport_c.test.cpp
+    src/OrderedTestC.test.c
+    src/Ordered.test.cpp
+    src/OrderedTestC.test.cpp
+    src/Preprocessor.test.cpp
+    src/SetPointerPlugin.test.cpp
+    src/String.test.cpp
+    src/TestFailure.test.cpp
+    src/TestFailureNaN.test.cpp
+    src/TestFilter.test.cpp
+    src/TestInstaller.test.cpp
+    src/TestOutput.test.cpp
+    src/TestPlugin.test.cpp
+    src/TestRegistry.test.cpp
+    src/TestResult.test.cpp
+    src/Shell.test.cpp
+    src/TestShellMacros.test.cpp
+    src/TestShellPointerArray.test.cpp
+    src/TestShellProperty.test.cpp
+    src/TestShellStringMacros.test.cpp
+)
+
+target_link_libraries(mutiny_integration
+    PRIVATE
+        mu::tiny
+)
+
+include(Mutiny)
+mutiny_discover_tests(mutiny_integration)
 
 get_cmake_property(_mutiny_is_multi_config GENERATOR_IS_MULTI_CONFIG)
 set(_mutiny_try_compile_arg "")
