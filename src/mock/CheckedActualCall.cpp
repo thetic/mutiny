@@ -292,12 +292,6 @@ void CheckedActualCall::check_expectations()
     return;
   }
 
-  if (potentially_matching_expectations_.has_finalized_matching_expectations())
-    FAIL_TEST(
-        "Actual call is in progress, but there are finalized matching "
-        "expectations when checking expectations. This cannot happen."
-    );
-
   matching_expectation_ =
       potentially_matching_expectations_.remove_first_matching_expectation();
   if (matching_expectation_) {

@@ -41,16 +41,6 @@ unsigned int ExpectedCallsList::amount_of_actual_calls_fulfilled_for(
   return count;
 }
 
-bool ExpectedCallsList::has_finalized_matching_expectations() const
-{
-  for (MockExpectedCallsListNode* p = head_; p; p = p->next) {
-    if (p->expected_call->is_matching_actual_call_and_finalized()) {
-      return true;
-    }
-  }
-  return false;
-}
-
 bool ExpectedCallsList::has_unfulfilled_expectations() const
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next) {
