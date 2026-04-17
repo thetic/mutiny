@@ -981,6 +981,16 @@
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv">
+<span id="_CPPv3NK2mu4tiny4test5Shell14get_macro_nameEv"></span><span id="_CPPv2NK2mu4tiny4test5Shell14get_macro_nameEv"></span><span id="mu::tiny::test::Shell::get_macro_nameC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1a543b253a31b8c37b343b0fc8ebc11143"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_macro_name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv" title="Link to this definition">¶</a><br /></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The macro keyword used in formatted output (e.g. “TEST”). </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
@@ -1079,16 +1089,6 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test5Shell5ShellEv">
 <span id="_CPPv3N2mu4tiny4test5Shell5ShellEv"></span><span id="_CPPv2N2mu4tiny4test5Shell5ShellEv"></span><span id="mu::tiny::test::Shell::Shell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1a1cdb6946debfa6fd99569139235ac3ed"></span><span class="sig-name descname"><span class="n"><span class="pre">Shell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test5Shell5ShellEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/test/Shell.hpp#L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Default constructor for use by subclasses (e.g. <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html#classmu_1_1tiny_1_1test_1_1IgnoredShell"><span class="std std-ref">IgnoredShell</span></a>). </p>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv">
-<span id="_CPPv3NK2mu4tiny4test5Shell14get_macro_nameEv"></span><span id="_CPPv2NK2mu4tiny4test5Shell14get_macro_nameEv"></span><span id="mu::tiny::test::Shell::get_macro_nameC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1a543b253a31b8c37b343b0fc8ebc11143"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_macro_name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv" title="Link to this definition">¶</a><br /></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The macro keyword used in formatted output (e.g. “TEST”). </p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="cpp function">
@@ -1214,6 +1214,7 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell31run_one_test_in_current_processEP6PluginR6Result"><code class="docutils literal notranslate"><span class="pre">run_one_test_in_current_process()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell11add_failureERK7Failure"><code class="docutils literal notranslate"><span class="pre">add_failure()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell17add_test_propertyEPKcPKc"><code class="docutils literal notranslate"><span class="pre">add_test_property()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv"><code class="docutils literal notranslate"><span class="pre">get_macro_name()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell11get_currentEv"><code class="docutils literal notranslate"><span class="pre">get_current()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell27get_current_test_terminatorEv"><code class="docutils literal notranslate"><span class="pre">get_current_test_terminator()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell46get_current_test_terminator_without_exceptionsEv"><code class="docutils literal notranslate"><span class="pre">get_current_test_terminator_without_exceptions()</span></code></a></li>
@@ -1225,7 +1226,6 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell16set_crash_methodEPFvvE"><code class="docutils literal notranslate"><span class="pre">set_crash_method()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell18reset_crash_methodEv"><code class="docutils literal notranslate"><span class="pre">reset_crash_method()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell5ShellEv"><code class="docutils literal notranslate"><span class="pre">Shell()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test5Shell14get_macro_nameEv"><code class="docutils literal notranslate"><span class="pre">get_macro_name()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell15get_test_resultEv"><code class="docutils literal notranslate"><span class="pre">get_test_result()</span></code></a></li>
 </ul>
 </li>

@@ -676,9 +676,11 @@ Default: <code class="docutils literal notranslate"><span class="pre">OFF</span>
 <dl class="cmake variable">
 <dt class="sig sig-object cmake" id="variable:MUTINY_JUNIT_REPORT">
 <span class="sig-name descname"><span class="pre">MUTINY_JUNIT_REPORT</span></span><a class="headerlink" href="#variable:MUTINY_JUNIT_REPORT" title="Link to this definition">¶</a></dt>
-<dd><p>Boolean option.  When <code class="docutils literal notranslate"><span class="pre">ON</span></code>, <a class="reference internal" href="command-line-reference.html#cmdoption-pjunit"><code class="xref std std-option docutils literal notranslate"><span class="pre">-pjunit</span></code></a> is appended to
-every discovered test invocation so the executable emits a JUnit-format XML
-report.  Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p>
+<dd><p>Boolean option.  When <code class="docutils literal notranslate"><span class="pre">ON</span></code>, each discovered test invocation receives a
+unique <a class="reference internal" href="command-line-reference.html#cmdoption-pjunit"><code class="xref std std-option docutils literal notranslate"><span class="pre">-pjunit=&lt;target&gt;.&lt;group&gt;</span></code></a> argument so the executable
+emits a JUnit-format XML report named <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;.&lt;group&gt;.xml</span></code> in the
+test’s working directory.  One file is produced per CTest test, avoiding
+collisions when tests run in parallel.  Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p>
 </dd></dl>
 
 <dl class="cmake variable">

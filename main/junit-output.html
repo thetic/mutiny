@@ -607,6 +607,13 @@ format to display test results in their dashboards.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./my_tests<span class="w"> </span>-pjunit
 </pre></div>
 </div>
+<p>The output file is named after the executable: running <code class="docutils literal notranslate"><span class="pre">./my_tests</span> <span class="pre">-pjunit</span></code>
+writes <code class="docutils literal notranslate"><span class="pre">my_tests.xml</span></code>.</p>
+<p>To choose a different name, use <a class="reference internal" href="command-line-reference.html#cmdoption-pjunit"><code class="xref std std-option docutils literal notranslate"><span class="pre">-pjunit=&lt;name&gt;</span></code></a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./my_tests<span class="w"> </span>-pjunit<span class="o">=</span>widget_suite
+</pre></div>
+</div>
+<p>This writes <code class="docutils literal notranslate"><span class="pre">widget_suite.xml</span></code>.</p>
 </section>
 <section id="via-plugin-in-main">
 <h3>Via plugin in <code class="docutils literal notranslate"><span class="pre">main()</span></code><a class="headerlink" href="#via-plugin-in-main" title="Link to this heading">¶</a></h3>
@@ -631,35 +638,73 @@ is unchanged.</p>
 </section>
 <section id="output-file-location">
 <h2>Output File Location<a class="headerlink" href="#output-file-location" title="Link to this heading">¶</a></h2>
-<p>JUnit XML is written to the current working directory. One file is
-created per test group, named <code class="docutils literal notranslate"><span class="pre">cpputest_&lt;GroupName&gt;.xml</span></code>.</p>
-<p>For example, a group named <code class="docutils literal notranslate"><span class="pre">Widget</span></code> produces <code class="docutils literal notranslate"><span class="pre">cpputest_Widget.xml</span></code>.</p>
+<p>JUnit XML is written to the current working directory.</p>
+<p>When running the executable directly, a single file is produced for the
+entire run.  The file is named <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.xml</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> comes from:</p>
+<ul class="simple">
+<li><p>the <code class="docutils literal notranslate"><span class="pre">-pjunit=&lt;name&gt;</span></code> argument if given, or</p></li>
+<li><p>the executable basename (e.g. <code class="docutils literal notranslate"><span class="pre">my_tests</span></code>) if only <code class="docutils literal notranslate"><span class="pre">-pjunit</span></code> is used.</p></li>
+</ul>
+<p>When using <span class="target" id="index-0-variable:MUTINY_JUNIT_REPORT"></span><a class="reference internal" href="cmake.html#variable:MUTINY_JUNIT_REPORT" title="MUTINY_JUNIT_REPORT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">MUTINY_JUNIT_REPORT</span></code></a> with <span class="target" id="index-0-command:mutiny_discover_tests"></span><a class="reference internal" href="cmake.html#command:mutiny_discover_tests" title="mutiny_discover_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">mutiny_discover_tests()</span></code></a>,
+CTest runs each test group as a separate process and gives each one a unique
+<code class="docutils literal notranslate"><span class="pre">-pjunit=&lt;target&gt;.&lt;group&gt;</span></code> argument, producing files such as
+<code class="docutils literal notranslate"><span class="pre">my_tests.Widget.xml</span></code> and <code class="docutils literal notranslate"><span class="pre">my_tests.Engine.xml</span></code>.  This avoids collisions
+when CTest runs tests in parallel.</p>
+<p>When <span class="target" id="index-0-variable:MUTINY_TESTS_DETAILED"></span><a class="reference internal" href="cmake.html#variable:MUTINY_TESTS_DETAILED" title="MUTINY_TESTS_DETAILED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">MUTINY_TESTS_DETAILED</span></code></a> is also enabled, non-ordered
+tests run individually and each receives <code class="docutils literal notranslate"><span class="pre">-pjunit=&lt;target&gt;.&lt;group&gt;.&lt;test&gt;</span></code>,
+so every test case gets its own file (e.g. <code class="docutils literal notranslate"><span class="pre">my_tests.Widget.CanBeSet.xml</span></code>).
+Ordered groups are still run as a unit and share one file per group.</p>
 </section>
 <section id="xml-format">
 <h2>XML Format<a class="headerlink" href="#xml-format" title="Link to this heading">¶</a></h2>
 <div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
-<span class="nt">&lt;testsuite</span><span class="w"> </span><span class="na">errors=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">failures=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Widget&quot;</span><span class="w"> </span><span class="na">tests=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.001&quot;</span><span class="nt">&gt;</span>
-<span class="w">  </span><span class="nt">&lt;testcase</span><span class="w"> </span><span class="na">classname=</span><span class="s">&quot;Widget&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;ReturnsInitialValue&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.000&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;testcase</span><span class="w"> </span><span class="na">classname=</span><span class="s">&quot;Widget&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;CanBeSet&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.000&quot;</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;failure</span><span class="w"> </span><span class="na">message=</span><span class="s">&quot;widget.test.cpp:25: expected &amp;lt;42&amp;gt; but was &amp;lt;0&amp;gt;&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;AssertionError&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">  </span><span class="nt">&lt;/testcase&gt;</span>
-<span class="nt">&lt;/testsuite&gt;</span>
+<span class="nt">&lt;testsuites</span><span class="w"> </span><span class="na">tests=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="na">failures=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">errors=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">skipped=</span><span class="s">&quot;0&quot;</span>
+<span class="w">            </span><span class="na">time=</span><span class="s">&quot;0.001&quot;</span><span class="w"> </span><span class="na">timestamp=</span><span class="s">&quot;2024-01-15T10:30:00&quot;</span><span class="nt">&gt;</span>
+<span class="w">  </span><span class="nt">&lt;testsuite</span><span class="w"> </span><span class="na">errors=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">failures=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">skipped=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">assertions=</span><span class="s">&quot;5&quot;</span>
+<span class="w">             </span><span class="na">name=</span><span class="s">&quot;Widget&quot;</span><span class="w"> </span><span class="na">tests=</span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.001&quot;</span>
+<span class="w">             </span><span class="na">timestamp=</span><span class="s">&quot;2024-01-15T10:30:00&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;testcase</span><span class="w"> </span><span class="na">classname=</span><span class="s">&quot;my_tests.Widget&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;ReturnsInitialValue&quot;</span>
+<span class="w">              </span><span class="na">assertions=</span><span class="s">&quot;2&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.000&quot;</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;widget.test.cpp&quot;</span><span class="w"> </span><span class="na">line=</span><span class="s">&quot;12&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/testcase&gt;</span>
+<span class="w">    </span><span class="nt">&lt;testcase</span><span class="w"> </span><span class="na">classname=</span><span class="s">&quot;my_tests.Widget&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;CanBeSet&quot;</span>
+<span class="w">              </span><span class="na">assertions=</span><span class="s">&quot;1&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.000&quot;</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;widget.test.cpp&quot;</span><span class="w"> </span><span class="na">line=</span><span class="s">&quot;20&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;failure</span><span class="w"> </span><span class="na">message=</span><span class="s">&quot;widget.test.cpp:25: expected &amp;lt;42&amp;gt; but was &amp;lt;0&amp;gt;&quot;</span>
+<span class="w">               </span><span class="na">type=</span><span class="s">&quot;AssertionFailedError&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span>widget.test.cpp:25:<span class="w"> </span>expected<span class="w"> </span><span class="ni">&amp;lt;</span>42<span class="ni">&amp;gt;</span><span class="w"> </span>but<span class="w"> </span>was<span class="w"> </span><span class="ni">&amp;lt;</span>0<span class="ni">&amp;gt;</span>
+<span class="w">      </span><span class="nt">&lt;/failure&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/testcase&gt;</span>
+<span class="w">    </span><span class="nt">&lt;testcase</span><span class="w"> </span><span class="na">classname=</span><span class="s">&quot;my_tests.Widget&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IgnoredTest&quot;</span>
+<span class="w">              </span><span class="na">assertions=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">time=</span><span class="s">&quot;0.000&quot;</span><span class="w"> </span><span class="na">file=</span><span class="s">&quot;widget.test.cpp&quot;</span><span class="w"> </span><span class="na">line=</span><span class="s">&quot;30&quot;</span><span class="nt">&gt;</span>
+<span class="w">      </span><span class="nt">&lt;skipped</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/testcase&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/testsuite&gt;</span>
+<span class="nt">&lt;/testsuites&gt;</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="api/define_test_8h_1ab520808816db65b3eab94c6d3e54e26c.html#c.TEST_PROPERTY" title="TEST_PROPERTY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST_PROPERTY</span></code></a> annotations appear as <code class="docutils literal notranslate"><span class="pre">&lt;property&gt;</span></code> elements inside
-<code class="docutils literal notranslate"><span class="pre">&lt;testcase&gt;</span></code>.</p>
+<p>Key points:</p>
+<ul class="simple">
+<li><p>The top-level <code class="docutils literal notranslate"><span class="pre">&lt;testsuites&gt;</span></code> element carries totals across all groups.</p></li>
+<li><p>Each group produces one <code class="docutils literal notranslate"><span class="pre">&lt;testsuite&gt;</span></code> child.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">classname</span></code> is <code class="docutils literal notranslate"><span class="pre">&lt;package&gt;.&lt;group&gt;</span></code> where <code class="docutils literal notranslate"><span class="pre">&lt;package&gt;</span></code> is the name
+passed to <code class="docutils literal notranslate"><span class="pre">-pjunit</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> and <code class="docutils literal notranslate"><span class="pre">line</span></code> attributes locate each test in the source tree.</p></li>
+<li><p><a class="reference internal" href="api/define_test_8h_1ab520808816db65b3eab94c6d3e54e26c.html#c.TEST_PROPERTY" title="TEST_PROPERTY"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST_PROPERTY</span></code></a> annotations appear as <code class="docutils literal notranslate"><span class="pre">&lt;property&gt;</span></code> elements
+inside a <code class="docutils literal notranslate"><span class="pre">&lt;properties&gt;</span></code> block within <code class="docutils literal notranslate"><span class="pre">&lt;testcase&gt;</span></code>.</p></li>
+</ul>
 </section>
 <section id="ci-integration">
 <h2>CI Integration<a class="headerlink" href="#ci-integration" title="Link to this heading">¶</a></h2>
 <section id="github-actions">
 <h3>GitHub Actions<a class="headerlink" href="#github-actions" title="Link to this heading">¶</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run tests</span>
-<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./build/my_tests -pjunit</span>
+<span class="w">  </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cmake --build --preset defaults &amp;&amp; ctest --preset defaults</span>
+<span class="w">  </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">MUTINY_JUNIT_REPORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ON</span>
 
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Publish test results</span>
 <span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EnricoMi/publish-unit-test-result-action@v2</span>
 <span class="w">  </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpputest_*.xml</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build/**/*.xml</span>
 </pre></div>
 </div>
 </section>
@@ -667,17 +712,18 @@ created per test group, named <code class="docutils literal notranslate"><span c
 <h3>GitLab CI<a class="headerlink" href="#gitlab-ci" title="Link to this heading">¶</a></h3>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">test</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">script</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./build/my_tests -pjunit</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cmake --build --preset defaults</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ctest --preset defaults</span>
 <span class="w">  </span><span class="nt">artifacts</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">reports</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">junit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpputest_*.xml</span>
+<span class="w">      </span><span class="nt">junit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">build/**/*.xml</span>
 </pre></div>
 </div>
 </section>
 <section id="jenkins">
 <h3>Jenkins<a class="headerlink" href="#jenkins" title="Link to this heading">¶</a></h3>
 <p>Configure the “Publish JUnit test result report” post-build step with
-the pattern <code class="docutils literal notranslate"><span class="pre">cpputest_*.xml</span></code>.</p>
+the pattern <code class="docutils literal notranslate"><span class="pre">build/**/*.xml</span></code>.</p>
 </section>
 </section>
 </section>

@@ -742,7 +742,6 @@ comparator alongside other plugins:</p>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/mock/SupportPlugin.hpp&quot;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/CommandLineRunner.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Plugin.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Registry.hpp&quot;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyDummyComparator</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">NamedValueComparator</span>
@@ -761,19 +760,21 @@ comparator alongside other plugins:</p>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">  </span><span class="n">MyDummyComparator</span><span class="w"> </span><span class="n">dummy_comparator</span><span class="p">;</span>
 <span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">SupportPlugin</span><span class="w"> </span><span class="n">mock_plugin</span><span class="p">;</span>
-<span class="w">  </span><span class="n">IEEE754ExceptionsPlugin</span><span class="w"> </span><span class="n">ieee754_plugin</span><span class="p">;</span>
-<span class="w">  </span><span class="n">TeamCityOutputPlugin</span><span class="w"> </span><span class="n">tc_plugin</span><span class="p">;</span>
-
+<span class="w">  </span><span class="n">MyDummyComparator</span><span class="w"> </span><span class="n">dummy_comparator</span><span class="p">;</span>
 <span class="w">  </span><span class="n">mock_plugin</span><span class="p">.</span><span class="n">install_comparator</span><span class="p">(</span><span class="s">&quot;MyDummyType&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_comparator</span><span class="p">);</span>
 <span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span>
 <span class="w">      </span><span class="o">&amp;</span><span class="n">mock_plugin</span>
 <span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">IEEE754ExceptionsPlugin</span><span class="w"> </span><span class="n">ieee754_plugin</span><span class="p">;</span>
 <span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span>
 <span class="w">      </span><span class="o">&amp;</span><span class="n">ieee754_plugin</span>
 <span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">TeamCityOutputPlugin</span><span class="w"> </span><span class="n">tc_plugin</span><span class="p">;</span>
 <span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tc_plugin</span><span class="p">);</span>
+
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
