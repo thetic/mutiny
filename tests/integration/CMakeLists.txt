@@ -11,6 +11,7 @@ add_executable(mutiny_integration
     fail_method_c_body.c
     ExpectFailTestShell.test.cpp
     MockComparatorCopier.test.cpp
+    MockFailureReporter.cpp
     MockFixedWidthTypes.test.cpp
     MockHierarchy.test.cpp
     MockNamedValue.test.cpp
@@ -47,7 +48,6 @@ add_executable(mutiny_integration
 target_link_libraries(mutiny_integration
     PRIVATE
         mu::tiny
-        mutiny_test_util
 )
 
 include(Mutiny)

@@ -1,9 +1,3 @@
-add_subdirectory(util)
-
-if(MUTINY_BUILD_UNIT_TESTING)
-    add_subdirectory(unit)
-endif()
-
 add_subdirectory(integration)
 
 get_cmake_property(_mutiny_is_multi_config GENERATOR_IS_MULTI_CONFIG)
