@@ -113,3 +113,68 @@ TEST(MockHierarchy, reporterIsInheritedInHierarchicalMocks)
 
   STRCMP_CONTAINS("differentScope::foobar", mock_failure_string().c_str());
 }
+
+TEST(MockHierarchy, ignoredExpectedCallSetupMethodsReturnSelf)
+{
+  mock().disable();
+  auto& ignored = mock().expect_one_call("func");
+  CHECK_EQUAL(&ignored, &ignored.with_name("func"));
+  CHECK_EQUAL(&ignored, &ignored.with_call_order(1));
+  CHECK_EQUAL(&ignored, &ignored.with_call_order(1, 2));
+  CHECK_EQUAL(&ignored, &ignored.on_object(static_cast<void*>(nullptr)));
+}
+
+TEST(MockHierarchy, ignoredExpectedCallParameterMethodsReturnSelf)
+{
+  mock().disable();
+  auto& ignored = mock().expect_one_call("func");
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("b", true));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("i", 1));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("u", 1U));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("l", 1L));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("ul", 1UL));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("ll", 1LL));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("ull", 1ULL));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("d", 1.0));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("d_tol", 2.1, 0.3));
+  CHECK_EQUAL(&ignored, &ignored.with_parameter("s", "hello"));
+  CHECK_EQUAL(
+      &ignored, &ignored.with_parameter("p", static_cast<void*>(nullptr))
+  );
+  CHECK_EQUAL(
+      &ignored, &ignored.with_parameter("cp", static_cast<const void*>(nullptr))
+  );
+  CHECK_EQUAL(
+      &ignored, &ignored.with_parameter("fp", static_cast<void (*)()>(nullptr))
+  );
+  CHECK_EQUAL(
+      &ignored,
+      &ignored.with_parameter(
+          "mb", static_cast<const unsigned char*>(nullptr), 0
+      )
+  );
+  CHECK_EQUAL(&ignored, &ignored.with_unmodified_output_parameter("unmod"));
+  CHECK_EQUAL(&ignored, &ignored.ignore_other_parameters());
+}
+
+TEST(MockHierarchy, ignoredExpectedCallAndReturnValueOverloadsReturnSelf)
+{
+  mock().disable();
+  auto& ignored = mock().expect_one_call("func");
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(true));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1U));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1L));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1UL));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1LL));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1ULL));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(1.0));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value("boo"));
+  CHECK_EQUAL(&ignored, &ignored.and_return_value(static_cast<void*>(nullptr)));
+  CHECK_EQUAL(
+      &ignored, &ignored.and_return_value(static_cast<const void*>(nullptr))
+  );
+  CHECK_EQUAL(
+      &ignored, &ignored.and_return_value(static_cast<void (*)()>(nullptr))
+  );
+}
