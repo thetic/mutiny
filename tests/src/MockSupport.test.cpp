@@ -363,6 +363,14 @@ TEST(Support, parametersAfterFailedCallAreIgnored)
   clear_mock_failure();
 }
 
+TEST(Support, outputParameterAfterFailedCallIsNotWritten)
+{
+  int val = 99;
+  mock().actual_call("nonexistent").with_output_parameter("out", &val);
+  CHECK_EQUAL(99, val);
+  clear_mock_failure();
+}
+
 TEST(Support, withParameterOfTypeStringOverloadNoComparatorFails)
 {
   int obj = 0;
