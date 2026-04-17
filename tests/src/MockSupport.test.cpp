@@ -170,6 +170,45 @@ TEST(Support, tracingWorksHierarchically)
   STRCMP_CONTAINS("foo", mock().get_trace_output());
 }
 
+TEST(Support, tracingWithCallOrder)
+{
+  mock().tracing(true);
+  mock().actual_call("func").with_call_order(5);
+  STRCMP_CONTAINS("withCallOrder:5", mock().get_trace_output());
+}
+
+TEST(Support, tracingWithParameterOfType)
+{
+  int obj = 0;
+  mock().tracing(true);
+  mock().actual_call("func").with_parameter_of_type("MyType", "param", &obj);
+  STRCMP_CONTAINS("MyType", mock().get_trace_output());
+  STRCMP_CONTAINS("param:", mock().get_trace_output());
+}
+
+TEST(Support, tracingOnObject)
+{
+  int obj = 0;
+  mock().tracing(true);
+  mock().actual_call("func").on_object(&obj);
+  STRCMP_CONTAINS("onObject:", mock().get_trace_output());
+}
+
+TEST(Support, tracingHasReturnValueReturnsFalse)
+{
+  mock().tracing(true);
+  auto& trace = mock().actual_call("func");
+  CHECK(!trace.has_return_value());
+}
+
+TEST(Support, tracingReturnValueReturnsEmpty)
+{
+  mock().tracing(true);
+  auto& trace = mock().actual_call("func");
+  auto rv = trace.return_value();
+  STRCMP_EQUAL("", rv.get_name().c_str());
+}
+
 TEST(Support, ignoredCallAcceptsAllParameterTypes)
 {
   int obj = 0;

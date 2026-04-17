@@ -96,11 +96,6 @@ ActualCall& ActualCallTrace::on_object(const void* object_ptr)
   return *this;
 }
 
-void ActualCallTrace::clear()
-{
-  trace_buffer_ = "";
-}
-
 const char* ActualCallTrace::get_trace_output()
 {
   return trace_buffer_.c_str();
