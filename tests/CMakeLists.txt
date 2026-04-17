@@ -33,6 +33,7 @@ add_executable(mutiny_integration
     src/TestFailure.test.cpp
     src/TestFailureNaN.test.cpp
     src/TestFilter.test.cpp
+    src/JUnitOutput.test.cpp
     src/TestInstaller.test.cpp
     src/TestOutput.test.cpp
     src/TestPlugin.test.cpp
