@@ -3,7 +3,7 @@
 Class OrderedShell
 ==================
 
-- Defined in :ref:`file_include_mutiny_test_Ordered.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Ordered.hpp`
 
 
 Inheritance Relationships

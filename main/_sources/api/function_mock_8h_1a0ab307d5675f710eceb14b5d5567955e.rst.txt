@@ -3,7 +3,7 @@
 Function mutiny_mock
 ====================
 
-- Defined in :ref:`file_include_mutiny_mock.h`
+- Defined in :ref:`file_include_mu_tiny_mock.h`
 
 
 Function Documentation

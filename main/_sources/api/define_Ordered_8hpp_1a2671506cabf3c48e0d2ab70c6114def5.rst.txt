@@ -3,7 +3,7 @@
 Define TEST_ORDERED_C_WRAPPER
 =============================
 
-- Defined in :ref:`file_include_mutiny_test_Ordered.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Ordered.hpp`
 
 
 Define Documentation

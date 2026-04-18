@@ -3,7 +3,7 @@
 Function mutiny_add_test_property
 =================================
 
-- Defined in :ref:`file_include_mutiny_test.h`
+- Defined in :ref:`file_include_mu_tiny_test.h`
 
 
 Function Documentation

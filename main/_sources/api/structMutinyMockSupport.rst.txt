@@ -3,7 +3,7 @@
 Struct MutinyMockSupport
 ========================
 
-- Defined in :ref:`file_include_mutiny_mock.h`
+- Defined in :ref:`file_include_mu_tiny_mock.h`
 
 
 Struct Documentation

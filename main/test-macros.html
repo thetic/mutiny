@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Assertion Macros" href="assertions.html"><link rel="prev" title="Getting Started with Mu::tiny" href="getting-started.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Assertion Macros" href="assertions.html"><link rel="prev" title="Getting Started with mu::tiny" href="getting-started.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -675,7 +675,7 @@ CI tagging (e.g. requirement IDs).</p>
 </section>
 <section id="ordered-tests">
 <h2>Ordered Tests<a class="headerlink" href="#ordered-tests" title="Link to this heading">¶</a></h2>
-<p>Normally <em>Mu::tiny</em> runs tests in an unspecified order (registration order,
+<p>Normally <em>mu::tiny</em> runs tests in an unspecified order (registration order,
 possibly shuffled with <a class="reference internal" href="command-line-reference.html#cmdoption-s"><code class="xref std std-option docutils literal notranslate"><span class="pre">-s</span> <span class="pre">[seed]</span></code></a>).
 <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1OrderedShell.html#_CPPv4N2mu4tiny4test12OrderedShellE" title="mu::tiny::test::OrderedShell"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">OrderedShell</span></code></a> lets you assign a
 numeric level to selected tests so they run in level order, independent of the
@@ -691,9 +691,9 @@ each other (<code class="docutils literal notranslate"><span class="pre">FirstEv
 <span class="c1">// be initialized before use and flushed on shutdown. Ordered tests let each</span>
 <span class="c1">// phase be a separate, named test rather than one monolithic test body.</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Ordered.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Ordered.hpp&quot;</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test.hpp&quot;</span>
 
 <span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
 
@@ -894,7 +894,7 @@ dependencies — ordered tests are excluded from the shuffle.</p></li>
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Getting Started with Mu::tiny</div>
+                <div class="title">Getting Started with mu::tiny</div>
                 
               </div>
             </a>
@@ -965,7 +965,7 @@ dependencies — ordered tests are excluded from the shuffle.</p></li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

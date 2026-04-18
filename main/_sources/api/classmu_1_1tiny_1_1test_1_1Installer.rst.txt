@@ -3,7 +3,7 @@
 Class Installer
 ===============
 
-- Defined in :ref:`file_include_mutiny_test_Installer.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Installer.hpp`
 
 
 Class Documentation

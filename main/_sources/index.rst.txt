@@ -1,7 +1,7 @@
-Mu::tiny
+mu::tiny
 ========
 
-*Mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded
+*mu::tiny* is a C/C++ unit testing and mocking framework suited for embedded
 and low-resource targets.
 
 .. toctree::

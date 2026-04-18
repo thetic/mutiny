@@ -10,7 +10,7 @@ Directory include
 Subdirectories
 --------------
 
-- :ref:`dir_include_mutiny`
+- :ref:`dir_include_mu`
 
 
 

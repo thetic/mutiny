@@ -3,7 +3,7 @@
 Function mu::tiny::string_from(const test::Filter&)
 ===================================================
 
-- Defined in :ref:`file_include_mutiny_test_Filter.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Filter.hpp`
 
 
 Function Documentation

@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test-macros.html">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -598,14 +598,14 @@
 <h1>CMake Integration<a class="headerlink" href="#cmake-integration" title="Link to this heading">¶</a></h1>
 <section id="build-options">
 <h2>Build Options<a class="headerlink" href="#build-options" title="Link to this heading">¶</a></h2>
-<p>These options control how <em>Mu::tiny</em> itself is built.  Pass
+<p>These options control how <em>mu::tiny</em> itself is built.  Pass
 <span class="target" id="index-0-manual:cmake:manual:cmake(1)"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake.1.html#manual:cmake(1)" title="(in CMake v4.3.1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">-D&lt;OPTION&gt;=&lt;value&gt;</span></code></a> on the command
 line or configure them in a
 <span class="target" id="index-0-manual:cmake:manual:cmake-presets(7)"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html#manual:cmake-presets(7)" title="(in CMake v4.3.1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">presets</span></code></a> file.</p>
 <dl class="cmake variable">
 <dt class="sig sig-object cmake" id="variable:MUTINY_USE_STD_CPP_LIB">
 <span class="sig-name descname"><span class="pre">MUTINY_USE_STD_CPP_LIB</span></span><a class="headerlink" href="#variable:MUTINY_USE_STD_CPP_LIB" title="Link to this definition">¶</a></dt>
-<dd><p>Boolean, default <code class="docutils literal notranslate"><span class="pre">ON</span></code>.  Build <em>Mu::tiny</em> with the C++ standard library.
+<dd><p>Boolean, default <code class="docutils literal notranslate"><span class="pre">ON</span></code>.  Build <em>mu::tiny</em> with the C++ standard library.
 Set to <code class="docutils literal notranslate"><span class="pre">OFF</span></code> for bare-metal or freestanding targets where no <code class="docutils literal notranslate"><span class="pre">&lt;std&gt;</span></code>
 headers are available.</p>
 </dd></dl>
@@ -614,7 +614,7 @@ headers are available.</p>
 <dt class="sig sig-object cmake" id="variable:MUTINY_USE_STD_STRING">
 <span class="sig-name descname"><span class="pre">MUTINY_USE_STD_STRING</span></span><a class="headerlink" href="#variable:MUTINY_USE_STD_STRING" title="Link to this definition">¶</a></dt>
 <dd><p>Boolean, default <code class="docutils literal notranslate"><span class="pre">ON</span></code>.  Use <code class="docutils literal notranslate"><span class="pre">std::string</span></code> internally instead of
-<em>Mu::tiny</em>’s own <a class="reference internal" href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">String</span></code></a> class.
+<em>mu::tiny</em>’s own <a class="reference internal" href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">String</span></code></a> class.
 Requires <span class="target" id="index-0-variable:MUTINY_USE_STD_CPP_LIB"></span><a class="reference internal" href="#variable:MUTINY_USE_STD_CPP_LIB" title="MUTINY_USE_STD_CPP_LIB"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">MUTINY_USE_STD_CPP_LIB</span></code></a>.</p>
 </dd></dl>
 
@@ -622,7 +622,7 @@ Requires <span class="target" id="index-0-variable:MUTINY_USE_STD_CPP_LIB"></spa
 <dt class="sig sig-object cmake" id="variable:MUTINY_EXAMPLES">
 <span class="sig-name descname"><span class="pre">MUTINY_EXAMPLES</span></span><a class="headerlink" href="#variable:MUTINY_EXAMPLES" title="Link to this definition">¶</a></dt>
 <dd><p>Boolean.  Build the example programs under <code class="docutils literal notranslate"><span class="pre">examples/</span></code>.  Defaults to
-<code class="docutils literal notranslate"><span class="pre">ON</span></code> when <em>Mu::tiny</em> is the top-level CMake project, <code class="docutils literal notranslate"><span class="pre">OFF</span></code> when consumed
+<code class="docutils literal notranslate"><span class="pre">ON</span></code> when <em>mu::tiny</em> is the top-level CMake project, <code class="docutils literal notranslate"><span class="pre">OFF</span></code> when consumed
 via <span class="target" id="index-0-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a> or
 <span class="target" id="index-0-command:cmake:command:add_subdirectory"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/add_subdirectory.html#command:add_subdirectory" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>.</p>
 </dd></dl>
@@ -630,8 +630,8 @@ via <span class="target" id="index-0-module:cmake:module:FetchContent"></span><a
 <dl class="cmake variable">
 <dt class="sig sig-object cmake" id="variable:MUTINY_BUILD_TESTING">
 <span class="sig-name descname"><span class="pre">MUTINY_BUILD_TESTING</span></span><a class="headerlink" href="#variable:MUTINY_BUILD_TESTING" title="Link to this definition">¶</a></dt>
-<dd><p>Boolean.  Build <em>Mu::tiny</em>’s own test suite.  Defaults to <code class="docutils literal notranslate"><span class="pre">ON</span></code> at the top
-level, <code class="docutils literal notranslate"><span class="pre">OFF</span></code> when consumed.  Relevant only for <em>Mu::tiny</em> developers.</p>
+<dd><p>Boolean.  Build <em>mu::tiny</em>’s own test suite.  Defaults to <code class="docutils literal notranslate"><span class="pre">ON</span></code> at the top
+level, <code class="docutils literal notranslate"><span class="pre">OFF</span></code> when consumed.  Relevant only for <em>mu::tiny</em> developers.</p>
 </dd></dl>
 
 </section>
@@ -652,7 +652,7 @@ without any extra setup.</p>
 <section id="ctest-integration-module">
 <h2>CTest Integration Module<a class="headerlink" href="#ctest-integration-module" title="Link to this heading">¶</a></h2>
 <p>Provides CTest integration for the mutiny unit-testing framework.</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">Mutiny</span><span class="nf">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">mu.tiny</span><span class="nf">)</span>
 </pre></div>
 </div>
 <p>After including this module the <span class="target" id="index-0-command:mutiny_discover_tests"></span><a class="reference internal" href="#command:mutiny_discover_tests" title="mutiny_discover_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">mutiny_discover_tests()</span></code></a> command is
@@ -811,7 +811,7 @@ and support multiple calls per directory.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

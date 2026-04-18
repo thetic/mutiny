@@ -3,7 +3,7 @@
 Class NamedValue
 ================
 
-- Defined in :ref:`file_include_mutiny_mock_NamedValue.hpp`
+- Defined in :ref:`file_include_mu_tiny_mock_NamedValue.hpp`
 
 
 Class Documentation

@@ -3,7 +3,7 @@
 Function mu::tiny::test::operator<<(Output&, long)
 ==================================================
 
-- Defined in :ref:`file_include_mutiny_test_Output.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Output.hpp`
 
 
 Function Documentation

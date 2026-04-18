@@ -1,0 +1,163 @@
+
+.. _file_include_mu_tiny_test.h:
+
+File test.h
+===========
+
+|exhale_lsh| :ref:`Parent directory <dir_include_mu_tiny>` (``include/mu/tiny``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+C interface for writing mutiny tests in pure C. 
+
+
+Definition (``include/mu/tiny/test.h``)
+---------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+Include this header in C test files. Test definitions use the same macro names as the C++ interface (:ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`, :ref:`exhale_define_test_8h_1a235cffa951470b7e037566c4f8f201f6`, :ref:`exhale_define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249`) but expand to C function stubs that are called by corresponding C++ wrapper macros in the bridging C++ file.
+
+Assertion macros use type-specific names (:ref:`exhale_define_test_8h_1ac458251be52dfea31740683c18d05f88`, :ref:`exhale_define_test_8h_1aa146eed388611f514d5f16239b135459`, etc.) because C has no function overloading. 
+
+
+
+
+Includes
+--------
+
+
+- ``mu/tiny/export.h``
+
+- ``stdbool.h``
+
+- ``stddef.h``
+
+
+
+
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_test_8h_1a3f1626f0ff23bcbd1e20fd820c6c35ad`
+
+- :ref:`exhale_function_test_8h_1a02e5bfcd0c28bf7ec99ba0fc0e5933c5`
+
+- :ref:`exhale_function_test_8h_1a73880c2769fc97d2b1881ee342cb1e1f`
+
+- :ref:`exhale_function_test_8h_1a3b996018465a6aa0b2724caa0a911c0f`
+
+- :ref:`exhale_function_test_8h_1ab875e43c81e379d208b1781f5598dfe1`
+
+- :ref:`exhale_function_test_8h_1a57adbfe65b82f97f4fe7c78c5c58d7ff`
+
+- :ref:`exhale_function_test_8h_1a1a11c4a1a7530eb153db329f39f65c99`
+
+- :ref:`exhale_function_test_8h_1ac0ccb08f0999ca3811d00ccc084d7fed`
+
+- :ref:`exhale_function_test_8h_1a6e1bb7ec9eac3e47aa76996cd86a9a70`
+
+- :ref:`exhale_function_test_8h_1a896b57309e2569635c9dc1dd058120ba`
+
+- :ref:`exhale_function_test_8h_1ab9841272685e9ece0b36341b5e45f821`
+
+- :ref:`exhale_function_test_8h_1a9820b85f2b722423349e58655a13df1f`
+
+- :ref:`exhale_function_test_8h_1aa68b822987a386f4ef873729cf6e3bfb`
+
+- :ref:`exhale_function_test_8h_1a5201b4080afcd8d1ca5d07ae346dd4ca`
+
+- :ref:`exhale_function_test_8h_1a30cc2999a8507b6bc6054dbe3d84d193`
+
+- :ref:`exhale_function_test_8h_1acf2a16c894e678b3f620b8d823c42141`
+
+- :ref:`exhale_function_test_8h_1a8e71a8ebd0cbe564de4726f3e8c1eadc`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_test_8h_1a3e1cfef60e774a81f30eaddf26a3a274`
+
+- :ref:`exhale_define_test_8h_1a11bdac0d57c33921592bc1fa9134c61e`
+
+- :ref:`exhale_define_test_8h_1acf20261d1589833822b5923ef440aa24`
+
+- :ref:`exhale_define_test_8h_1ada0e9ae901a7dd709a2286e5b6bf5213`
+
+- :ref:`exhale_define_test_8h_1a1299dd5db8ca9df2277b7f21ab95dbf7`
+
+- :ref:`exhale_define_test_8h_1a4009a3304234bd5aabde20c3776ad2c5`
+
+- :ref:`exhale_define_test_8h_1afbf0ed823ffc55d0830d84c965f2f0b4`
+
+- :ref:`exhale_define_test_8h_1ac458251be52dfea31740683c18d05f88`
+
+- :ref:`exhale_define_test_8h_1a4a832548475a8ec07c04ce8eb3bfd196`
+
+- :ref:`exhale_define_test_8h_1aa146eed388611f514d5f16239b135459`
+
+- :ref:`exhale_define_test_8h_1a18b9e274a5b4c8ea76a3a7eda110a827`
+
+- :ref:`exhale_define_test_8h_1ac529b6a0c3cf7f6925efe00b1eee7a42`
+
+- :ref:`exhale_define_test_8h_1a4f2206ee68112c122130faa919d7ce2e`
+
+- :ref:`exhale_define_test_8h_1aa4ddf9691ad934507aad33da69d3b0f1`
+
+- :ref:`exhale_define_test_8h_1a9e98bfc353b49e6b9fcb4ae62e296794`
+
+- :ref:`exhale_define_test_8h_1a44dda1e7e3e1eeb51024a14aa8cebde8`
+
+- :ref:`exhale_define_test_8h_1a226d17718f97a5cefcc9fb9199769758`
+
+- :ref:`exhale_define_test_8h_1ac88d18bc188a5480b8a7666fa239431d`
+
+- :ref:`exhale_define_test_8h_1a484391138468268e8fa0d9ab06e62688`
+
+- :ref:`exhale_define_test_8h_1a82b48aca9addd6271f2d917b3815c45a`
+
+- :ref:`exhale_define_test_8h_1a292e557f17cb9182c9cf5d9aa7d16731`
+
+- :ref:`exhale_define_test_8h_1add54226633abeca99fca3eb16ef6754b`
+
+- :ref:`exhale_define_test_8h_1a1e2f10ca5d0d304b053f281ba8a536bd`
+
+- :ref:`exhale_define_test_8h_1a2eabb8adadef8e1976946ca945b23f5b`
+
+- :ref:`exhale_define_test_8h_1a0f6b39d285aa801686e0ca20693b6040`
+
+- :ref:`exhale_define_test_8h_1ac526456959b8aed7830e16a9cb723885`
+
+- :ref:`exhale_define_test_8h_1a7abf801ba797d9f6e9c0607da893cf17`
+
+- :ref:`exhale_define_test_8h_1a9bca8904546da14f93b73e8b23dfe2bf`
+
+- :ref:`exhale_define_test_8h_1a6c3c63e90263a636fabe6ac06560f7fb`
+
+- :ref:`exhale_define_test_8h_1af534f9fdbade10fe33a8ff1306df9bb3`
+
+- :ref:`exhale_define_test_8h_1a052944f0e69b65f45c7d49b536767dc5`
+
+- :ref:`exhale_define_test_8h_1a235cffa951470b7e037566c4f8f201f6`
+
+- :ref:`exhale_define_test_8h_1a387737a52be7d4ade8c76832ec677100`
+
+- :ref:`exhale_define_test_8h_1ab1dbd2ab676f33284ffc35f85d157862`
+
+- :ref:`exhale_define_test_8h_1a86e1827120c7b2ce2771e9dd7995fe22`
+
+- :ref:`exhale_define_test_8h_1ab520808816db65b3eab94c6d3e54e26c`
+
+- :ref:`exhale_define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249`
+

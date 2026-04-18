@@ -3,7 +3,7 @@
 Template Function mu::tiny::test::check_enum_equal
 ==================================================
 
-- Defined in :ref:`file_include_mutiny_test_Shell.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Shell.hpp`
 
 
 Function Documentation

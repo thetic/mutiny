@@ -94,7 +94,7 @@ CI tagging (e.g. requirement IDs).
 Ordered Tests
 -------------
 
-Normally *Mu::tiny* runs tests in an unspecified order (registration order,
+Normally *mu::tiny* runs tests in an unspecified order (registration order,
 possibly shuffled with :option:`-s [seed]`).
 :cpp:class:`OrderedShell <mu::tiny::test::OrderedShell>` lets you assign a
 numeric level to selected tests so they run in level order, independent of the

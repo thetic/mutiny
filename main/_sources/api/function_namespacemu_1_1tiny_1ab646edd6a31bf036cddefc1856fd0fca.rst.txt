@@ -3,7 +3,7 @@
 Function mu::tiny::string_from(int)
 ===================================
 
-- Defined in :ref:`file_include_mutiny_String.hpp`
+- Defined in :ref:`file_include_mu_tiny_String.hpp`
 
 
 Function Documentation

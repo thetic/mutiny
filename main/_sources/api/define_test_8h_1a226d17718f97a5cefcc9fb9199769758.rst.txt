@@ -3,7 +3,7 @@
 Define CHECK_EQUAL_POINTER_TEXT
 ===============================
 
-- Defined in :ref:`file_include_mutiny_test.h`
+- Defined in :ref:`file_include_mu_tiny_test.h`
 
 
 Define Documentation

@@ -3,7 +3,7 @@
 Class NamedValueCopier
 ======================
 
-- Defined in :ref:`file_include_mutiny_mock_NamedValueCopier.hpp`
+- Defined in :ref:`file_include_mu_tiny_mock_NamedValueCopier.hpp`
 
 
 Inheritance Relationships

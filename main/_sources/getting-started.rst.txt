@@ -1,10 +1,10 @@
-Getting Started with Mu::tiny
+Getting Started with mu::tiny
 =============================
 
-Building Mu::tiny
+Building mu::tiny
 -----------------
 
-*Mu::tiny* uses CMake. Clone the repository and configure:
+*mu::tiny* uses CMake. Clone the repository and configure:
 
 .. code-block:: bash
 
@@ -12,12 +12,12 @@ Building Mu::tiny
    cmake --build build
    cmake --install build  # optional system install
 
-Adding Mu::tiny to Your Project
+Adding mu::tiny to Your Project
 -------------------------------
 
 The recommended approach uses CMake :cmake:module:`FetchContent <cmake:module:FetchContent>`
 with :cmake:variable:`FIND_PACKAGE_ARGS <cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE>`.
-This first attempts :cmake:command:`find_package <cmake:command:find_package>`; if *Mu::tiny*
+This first attempts :cmake:command:`find_package <cmake:command:find_package>`; if *mu::tiny*
 is not installed, CMake fetches and builds it from source automatically:
 
 .. code-block:: cmake
@@ -41,7 +41,7 @@ is not installed, CMake fetches and builds it from source automatically:
    include(Mutiny)
    mutiny_discover_tests(my_tests)
 
-If *Mu::tiny* is already installed and you prefer not to use
+If *mu::tiny* is already installed and you prefer not to use
 :cmake:module:`FetchContent <cmake:module:FetchContent>`, use
 :cmake:command:`find_package <cmake:command:find_package>` directly:
 

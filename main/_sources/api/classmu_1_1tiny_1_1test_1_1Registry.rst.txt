@@ -3,7 +3,7 @@
 Class Registry
 ==============
 
-- Defined in :ref:`file_include_mutiny_test_Registry.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Registry.hpp`
 
 
 Class Documentation

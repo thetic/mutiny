@@ -3,7 +3,7 @@
 Function mu::tiny::string_from(const mock::NamedValue&)
 =======================================================
 
-- Defined in :ref:`file_include_mutiny_mock_ExpectedCall.hpp`
+- Defined in :ref:`file_include_mu_tiny_mock_ExpectedCall.hpp`
 
 
 Function Documentation

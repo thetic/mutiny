@@ -3,7 +3,7 @@
 Class IgnoredShell
 ==================
 
-- Defined in :ref:`file_include_mutiny_test_IgnoredShell.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_IgnoredShell.hpp`
 
 
 Inheritance Relationships

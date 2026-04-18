@@ -3,7 +3,7 @@
 Define TEST_C_WRAPPER
 =====================
 
-- Defined in :ref:`file_include_mutiny_test.hpp`
+- Defined in :ref:`file_include_mu_tiny_test.hpp`
 
 
 Define Documentation

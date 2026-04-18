@@ -3,7 +3,7 @@
 Define MUTINY_HAVE_EXCEPTIONS
 =============================
 
-- Defined in :ref:`file_include_mutiny_features.hpp`
+- Defined in :ref:`file_include_mu_tiny_features.hpp`
 
 
 Define Documentation

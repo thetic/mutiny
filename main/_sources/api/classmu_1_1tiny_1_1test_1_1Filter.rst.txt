@@ -3,7 +3,7 @@
 Class Filter
 ============
 
-- Defined in :ref:`file_include_mutiny_test_Filter.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Filter.hpp`
 
 
 Class Documentation

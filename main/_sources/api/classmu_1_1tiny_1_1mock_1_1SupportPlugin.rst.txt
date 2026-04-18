@@ -3,7 +3,7 @@
 Class SupportPlugin
 ===================
 
-- Defined in :ref:`file_include_mutiny_mock_SupportPlugin.hpp`
+- Defined in :ref:`file_include_mu_tiny_mock_SupportPlugin.hpp`
 
 
 Inheritance Relationships

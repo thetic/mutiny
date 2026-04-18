@@ -3,7 +3,7 @@
 Define MUTINY_PTR_SET
 =====================
 
-- Defined in :ref:`file_include_mutiny_test_SetPointerPlugin.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_SetPointerPlugin.hpp`
 
 
 Define Documentation

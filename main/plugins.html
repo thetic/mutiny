@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test-macros.html">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -597,12 +597,12 @@
           <section id="plugins">
 <h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading">¶</a></h1>
 <p>Plugins let you run code before and after every test, parse custom
-command-line flags, and create additional output formatters. <em>Mu::tiny</em>
+command-line flags, and create additional output formatters. <em>mu::tiny</em>
 ships several built-in plugins; you can also write your own.</p>
 <section id="plugin-base-class">
 <h2><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Plugin</span></code></a> Base Class<a class="headerlink" href="#plugin-base-class" title="Link to this heading">¶</a></h2>
 <p>Subclass <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">mu::tiny::test::Plugin</span></code></a> to intercept the test lifecycle.</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// include/mutiny/test/Plugin.hpp</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// include/mu/tiny/test/Plugin.hpp</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Plugin</span>
 <span class="p">{</span>
 <span class="k">public</span><span class="o">:</span>
@@ -657,8 +657,8 @@ ships several built-in plugins; you can also write your own.</p>
 <h2>Installing Plugins<a class="headerlink" href="#installing-plugins" title="Link to this heading">¶</a></h2>
 <p>Install plugins via <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8RegistryE" title="mu::tiny::test::Registry"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Registry</span></code></a> in <code class="docutils literal notranslate"><span class="pre">main()</span></code>
 before calling <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner13run_all_testsEiPPCKc" title="mu::tiny::test::CommandLineRunner::run_all_tests"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">run_all_tests</span></code></a>:</p>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/CommandLineRunner.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Registry.hpp&quot;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Registry.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;MyPlugin.hpp&quot;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
@@ -675,8 +675,8 @@ before calling <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1
 <h2>Writing a Custom Plugin<a class="headerlink" href="#writing-a-custom-plugin" title="Link to this heading">¶</a></h2>
 <p>Example: a plugin that logs the name of every test that runs.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// LogPlugin.hpp</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Plugin.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Shell.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Plugin.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Shell.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">LogPlugin</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Plugin</span>
@@ -711,17 +711,17 @@ before calling <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1
 </thead>
 <tbody>
 <tr class="row-even"><td><p><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#_CPPv4N2mu4tiny4test16SetPointerPluginE" title="mu::tiny::test::SetPointerPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SetPointerPlugin</span></code></a></p></td>
-<td><p><a class="reference internal" href="api/file_include_mutiny_test_SetPointerPlugin.hpp.html#file-include-mutiny-test-setpointerplugin-hpp"><span class="std std-ref">mutiny/test/SetPointerPlugin.hpp</span></a></p></td>
+<td><p><a class="reference internal" href="api/file_include_mu_tiny_test_SetPointerPlugin.hpp.html#file-include-mu-tiny-test-setpointerplugin-hpp"><span class="std std-ref">mu/tiny/test/SetPointerPlugin.hpp</span></a></p></td>
 <td><p>Restore overwritten pointers after each test</p></td>
 <td><p><a class="reference internal" href="set-pointer-plugin.html"><span class="doc">SetPointerPlugin</span></a></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPluginE" title="mu::tiny::mock::SupportPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SupportPlugin</span></code></a></p></td>
-<td><p><a class="reference internal" href="api/file_include_mutiny_mock_SupportPlugin.hpp.html#file-include-mutiny-mock-supportplugin-hpp"><span class="std std-ref">mutiny/mock/SupportPlugin.hpp</span></a></p></td>
+<td><p><a class="reference internal" href="api/file_include_mu_tiny_mock_SupportPlugin.hpp.html#file-include-mu-tiny-mock-supportplugin-hpp"><span class="std std-ref">mu/tiny/mock/SupportPlugin.hpp</span></a></p></td>
 <td><p>Auto-verify and clear mock expectations</p></td>
 <td><p><a class="reference internal" href="mocking.html"><span class="doc">Mocking</span></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#_CPPv4N2mu4tiny4test17JUnitOutputPluginE" title="mu::tiny::test::JUnitOutputPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">JUnitOutputPlugin</span></code></a></p></td>
-<td><p><a class="reference internal" href="api/file_include_mutiny_test_JUnitOutputPlugin.hpp.html#file-include-mutiny-test-junitoutputplugin-hpp"><span class="std std-ref">mutiny/test/JUnitOutputPlugin.hpp</span></a></p></td>
+<td><p><a class="reference internal" href="api/file_include_mu_tiny_test_JUnitOutputPlugin.hpp.html#file-include-mu-tiny-test-junitoutputplugin-hpp"><span class="std std-ref">mu/tiny/test/JUnitOutputPlugin.hpp</span></a></p></td>
 <td><p>Write JUnit XML output via <a class="reference internal" href="command-line-reference.html#cmdoption-pjunit"><code class="xref std std-option docutils literal notranslate"><span class="pre">-pjunit</span></code></a></p></td>
 <td><p><a class="reference internal" href="junit-output.html"><span class="doc">JUnit XML Output</span></a></p></td>
 </tr>
@@ -739,10 +739,10 @@ comparator alongside other plugins:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;IEEE754ExceptionsPlugin.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;TeamCityOutputPlugin.hpp&quot;</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/mock/SupportPlugin.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/mock/SupportPlugin.hpp&quot;</span>
 
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/CommandLineRunner.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test/Registry.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Registry.hpp&quot;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyDummyComparator</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">NamedValueComparator</span>
 <span class="p">{</span>
@@ -859,7 +859,7 @@ comparator alongside other plugins:</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

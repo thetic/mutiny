@@ -3,7 +3,7 @@
 Function mu::tiny::string_from_binary_with_size_or_null
 =======================================================
 
-- Defined in :ref:`file_include_mutiny_String.hpp`
+- Defined in :ref:`file_include_mu_tiny_String.hpp`
 
 
 Function Documentation

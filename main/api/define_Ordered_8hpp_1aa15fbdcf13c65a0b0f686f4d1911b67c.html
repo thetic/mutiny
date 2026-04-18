@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../test-macros.html">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -597,13 +597,13 @@
           <section id="define-test-ordered">
 <span id="exhale-define-ordered-8hpp-1aa15fbdcf13c65a0b0f686f4d1911b67c"></span><h1>Define TEST_ORDERED<a class="headerlink" href="#define-test-ordered" title="Link to this heading">¶</a></h1>
 <ul class="simple">
-<li><p>Defined in <a class="reference internal" href="file_include_mutiny_test_Ordered.hpp.html#file-include-mutiny-test-ordered-hpp"><span class="std std-ref">File Ordered.hpp</span></a></p></li>
+<li><p>Defined in <a class="reference internal" href="file_include_mu_tiny_test_Ordered.hpp.html#file-include-mu-tiny-test-ordered-hpp"><span class="std std-ref">File Ordered.hpp</span></a></p></li>
 </ul>
 <section id="define-documentation">
 <h2>Define Documentation<a class="headerlink" href="#define-documentation" title="Link to this heading">¶</a></h2>
 <dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.TEST_ORDERED">
-<span class="target" id="Ordered_8hpp_1aa15fbdcf13c65a0b0f686f4d1911b67c"></span><span class="sig-name descname"><span class="n"><span class="pre">TEST_ORDERED</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">testGroup</span></span>, <span class="n"><span class="pre">testName</span></span>, <span class="n"><span class="pre">testLevel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TEST_ORDERED" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mutiny/test/Ordered.hpp#L148"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span class="target" id="Ordered_8hpp_1aa15fbdcf13c65a0b0f686f4d1911b67c"></span><span class="sig-name descname"><span class="n"><span class="pre">TEST_ORDERED</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">testGroup</span></span>, <span class="n"><span class="pre">testName</span></span>, <span class="n"><span class="pre">testLevel</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.TEST_ORDERED" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mutiny/blob/main/include/mu/tiny/test/Ordered.hpp#L148"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Define a test that runs at a specific position relative to other ordered tests. </p>
 <p>Like <a class="reference internal" href="define_test_8hpp_1a13fb650bc56807117ccc8c53d4c957c9.html#test_8h_1a387737a52be7d4ade8c76832ec677100"><span class="std std-ref">TEST()</span></a>, but execution is deferred until all unordered tests have run. Among ordered tests, those with a lower <code class="docutils literal notranslate"><span class="pre">testLevel</span></code> run first. Tests with equal levels run in an unspecified order relative to each other.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">TEST_ORDERED</span><span class="p">(</span><span class="n">Lifecycle</span><span class="p">,</span><span class="w"> </span><span class="n">init</span><span class="p">,</span><span class="w">    </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">system_init</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
@@ -701,7 +701,7 @@ Use <a class="reference internal" href="define_Ordered_8hpp_1a2671506cabf3c48e0d
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

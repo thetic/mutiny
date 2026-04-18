@@ -3,7 +3,7 @@
 Class Terminator
 ================
 
-- Defined in :ref:`file_include_mutiny_test_Terminator.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_Terminator.hpp`
 
 
 Inheritance Relationships

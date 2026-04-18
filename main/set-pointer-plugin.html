@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test-macros.html">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -599,7 +599,7 @@
 <p><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#_CPPv4N2mu4tiny4test16SetPointerPluginE" title="mu::tiny::test::SetPointerPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SetPointerPlugin</span></code></a> solves a common
 embedded-testing problem: swapping out a function pointer (or any global pointer)
 for a test stub, then automatically restoring it after the test.</p>
-<p>Include <a class="reference internal" href="api/file_include_mutiny_test.hpp.html#file-include-mutiny-test-hpp"><span class="std std-ref">“mutiny/test.hpp”</span></a> — <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#_CPPv4N2mu4tiny4test16SetPointerPluginE" title="mu::tiny::test::SetPointerPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SetPointerPlugin</span></code></a> is included
+<p>Include <a class="reference internal" href="api/file_include_mu_tiny_test.hpp.html#file-include-mu-tiny-test-hpp"><span class="std std-ref">“mu/tiny/test.hpp”</span></a> — <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#_CPPv4N2mu4tiny4test16SetPointerPluginE" title="mu::tiny::test::SetPointerPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SetPointerPlugin</span></code></a> is included
 transitively, and the <a class="reference internal" href="api/define_SetPointerPlugin_8hpp_1ab46a6c558e87a029cffe107b358a2691.html#c.MUTINY_PTR_SET" title="MUTINY_PTR_SET"><code class="xref c c-macro docutils literal notranslate"><span class="pre">MUTINY_PTR_SET</span></code></a> macro is available without any
 additional install step.</p>
 <section id="the-macro">
@@ -623,7 +623,7 @@ The macro is type-safe: it uses a template that takes <code class="docutils lite
 </pre></div>
 </div>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/* module.test.cpp */</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;module.h&quot;</span>
 
 <span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">stub_read</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
@@ -784,7 +784,7 @@ the macro, showing the underlying technique)</p></td>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

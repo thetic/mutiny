@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Test Definition Macros" href="test-macros.html"><link rel="prev" title="Mu::tiny" href="index.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Test Definition Macros" href="test-macros.html"><link rel="prev" title="mu::tiny" href="index.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Getting Started with Mu::tiny - mutiny</title>
+        <title>Getting Started with mu::tiny - mutiny</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=7cde69a9" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -264,7 +264,7 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting Started with Mu::tiny</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting Started with mu::tiny</a></li>
 <li class="toctree-l1"><a class="reference internal" href="test-macros.html">Test Definition Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="assertions.html">Assertion Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mocking.html">Mocking</a></li>
@@ -553,7 +553,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>Mu::tiny</em></a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 
 </div></div>
@@ -595,10 +595,10 @@
         </div>
         <article role="main" id="furo-main-content">
           <section id="getting-started-with-mu-tiny">
-<h1>Getting Started with Mu::tiny<a class="headerlink" href="#getting-started-with-mu-tiny" title="Link to this heading">¶</a></h1>
+<h1>Getting Started with mu::tiny<a class="headerlink" href="#getting-started-with-mu-tiny" title="Link to this heading">¶</a></h1>
 <section id="building-mu-tiny">
-<h2>Building Mu::tiny<a class="headerlink" href="#building-mu-tiny" title="Link to this heading">¶</a></h2>
-<p><em>Mu::tiny</em> uses CMake. Clone the repository and configure:</p>
+<h2>Building mu::tiny<a class="headerlink" href="#building-mu-tiny" title="Link to this heading">¶</a></h2>
+<p><em>mu::tiny</em> uses CMake. Clone the repository and configure:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-B<span class="w"> </span>build
 cmake<span class="w"> </span>--build<span class="w"> </span>build
 cmake<span class="w"> </span>--install<span class="w"> </span>build<span class="w">  </span><span class="c1"># optional system install</span>
@@ -606,10 +606,10 @@ cmake<span class="w"> </span>--install<span class="w"> </span>build<span class="
 </div>
 </section>
 <section id="adding-mu-tiny-to-your-project">
-<h2>Adding Mu::tiny to Your Project<a class="headerlink" href="#adding-mu-tiny-to-your-project" title="Link to this heading">¶</a></h2>
+<h2>Adding mu::tiny to Your Project<a class="headerlink" href="#adding-mu-tiny-to-your-project" title="Link to this heading">¶</a></h2>
 <p>The recommended approach uses CMake <span class="target" id="index-0-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>
 with <span class="target" id="index-0-variable:cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="(in CMake v4.3.1)"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code></a>.
-This first attempts <span class="target" id="index-0-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a>; if <em>Mu::tiny</em>
+This first attempts <span class="target" id="index-0-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a>; if <em>mu::tiny</em>
 is not installed, CMake fetches and builds it from source automatically:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.24</span><span class="nf">)</span>
 <span class="nf">project(</span><span class="nb">my_tests</span><span class="nf">)</span>
@@ -631,7 +631,7 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <span class="nf">mutiny_discover_tests(</span><span class="nb">my_tests</span><span class="nf">)</span>
 </pre></div>
 </div>
-<p>If <em>Mu::tiny</em> is already installed and you prefer not to use
+<p>If <em>mu::tiny</em> is already installed and you prefer not to use
 <span class="target" id="index-1-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>, use
 <span class="target" id="index-1-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a> directly:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">mutiny</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
@@ -704,7 +704,7 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 </section>
 <section id="your-first-test">
 <h2>Your First Test<a class="headerlink" href="#your-first-test" title="Link to this heading">¶</a></h2>
-<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mutiny/test.hpp&quot;</span>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test.hpp&quot;</span>
 
 <span class="k">namespace</span><span class="w"> </span><span class="p">{</span>
 <span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">real_one</span><span class="p">)();</span>
@@ -846,9 +846,9 @@ and a handful of assertion macros</p></td>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Getting Started with Mu::tiny</a><ul>
-<li><a class="reference internal" href="#building-mu-tiny">Building Mu::tiny</a></li>
-<li><a class="reference internal" href="#adding-mu-tiny-to-your-project">Adding Mu::tiny to Your Project</a><ul>
+<li><a class="reference internal" href="#">Getting Started with mu::tiny</a><ul>
+<li><a class="reference internal" href="#building-mu-tiny">Building mu::tiny</a></li>
+<li><a class="reference internal" href="#adding-mu-tiny-to-your-project">Adding mu::tiny to Your Project</a><ul>
 <li><a class="reference internal" href="#headers">Headers</a></li>
 </ul>
 </li>
@@ -867,7 +867,7 @@ and a handful of assertion macros</p></td>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

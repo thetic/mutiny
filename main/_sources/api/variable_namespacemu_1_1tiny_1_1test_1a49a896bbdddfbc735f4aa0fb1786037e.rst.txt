@@ -3,7 +3,7 @@
 Variable mu::tiny::test::rand
 =============================
 
-- Defined in :ref:`file_include_mutiny_test_ShellPointerArray.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_ShellPointerArray.hpp`
 
 
 Variable Documentation

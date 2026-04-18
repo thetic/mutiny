@@ -3,7 +3,7 @@
 Variable mu::tiny::get_time_in_millis
 =====================================
 
-- Defined in :ref:`file_include_mutiny_time.hpp`
+- Defined in :ref:`file_include_mu_tiny_time.hpp`
 
 
 Variable Documentation

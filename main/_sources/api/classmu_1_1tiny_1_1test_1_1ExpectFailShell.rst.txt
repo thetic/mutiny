@@ -3,7 +3,7 @@
 Class ExpectFailShell
 =====================
 
-- Defined in :ref:`file_include_mutiny_test_ExpectFailShell.hpp`
+- Defined in :ref:`file_include_mu_tiny_test_ExpectFailShell.hpp`
 
 
 Inheritance Relationships

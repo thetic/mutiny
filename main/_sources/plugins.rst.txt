@@ -2,7 +2,7 @@ Plugins
 =======
 
 Plugins let you run code before and after every test, parse custom
-command-line flags, and create additional output formatters. *Mu::tiny*
+command-line flags, and create additional output formatters. *mu::tiny*
 ships several built-in plugins; you can also write your own.
 
 :cpp:class:`Plugin <mu::tiny::test::Plugin>` Base Class
@@ -12,7 +12,7 @@ Subclass :cpp:class:`mu::tiny::test::Plugin` to intercept the test lifecycle.
 
 .. code-block:: cpp
 
-   // include/mutiny/test/Plugin.hpp
+   // include/mu/tiny/test/Plugin.hpp
    class Plugin
    {
    public:
@@ -60,8 +60,8 @@ before calling :cpp:func:`run_all_tests <mu::tiny::test::CommandLineRunner::run_
 
 .. code-block:: cpp
 
-   #include "mutiny/test/CommandLineRunner.hpp"
-   #include "mutiny/test/Registry.hpp"
+   #include "mu/tiny/test/CommandLineRunner.hpp"
+   #include "mu/tiny/test/Registry.hpp"
    #include "MyPlugin.hpp"
 
    int main(int argc, char** argv)
@@ -81,8 +81,8 @@ Example: a plugin that logs the name of every test that runs.
 .. code-block:: cpp
 
    // LogPlugin.hpp
-   #include "mutiny/test/Plugin.hpp"
-   #include "mutiny/test/Shell.hpp"
+   #include "mu/tiny/test/Plugin.hpp"
+   #include "mu/tiny/test/Shell.hpp"
    #include <cstdio>
 
    class LogPlugin : public mu::tiny::test::Plugin
@@ -115,15 +115,15 @@ Built-in Plugins
      - Purpose
      - Docs
    * - :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`
-     - :ref:`mutiny/test/SetPointerPlugin.hpp <file_include_mutiny_test_SetPointerPlugin.hpp>`
+     - :ref:`mu/tiny/test/SetPointerPlugin.hpp <file_include_mu_tiny_test_SetPointerPlugin.hpp>`
      - Restore overwritten pointers after each test
      - :doc:`set-pointer-plugin`
    * - :cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`
-     - :ref:`mutiny/mock/SupportPlugin.hpp <file_include_mutiny_mock_SupportPlugin.hpp>`
+     - :ref:`mu/tiny/mock/SupportPlugin.hpp <file_include_mu_tiny_mock_SupportPlugin.hpp>`
      - Auto-verify and clear mock expectations
      - :doc:`mocking`
    * - :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`
-     - :ref:`mutiny/test/JUnitOutputPlugin.hpp <file_include_mutiny_test_JUnitOutputPlugin.hpp>`
+     - :ref:`mu/tiny/test/JUnitOutputPlugin.hpp <file_include_mu_tiny_test_JUnitOutputPlugin.hpp>`
      - Write JUnit XML output via :option:`-pjunit`
      - :doc:`junit-output`
 
