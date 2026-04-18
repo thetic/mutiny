@@ -36,9 +36,9 @@ Install the plugin via :cpp:class:`Registry <mu::tiny::test::Registry>` before c
 
 .. code-block:: cpp
 
-   #include "mutiny/test/CommandLineRunner.hpp"
-   #include "mutiny/test/JUnitOutputPlugin.hpp"
-   #include "mutiny/test/Registry.hpp"
+   #include "mu/tiny/test/CommandLineRunner.hpp"
+   #include "mu/tiny/test/JUnitOutputPlugin.hpp"
+   #include "mu/tiny/test/Registry.hpp"
 
    int main(int argc, char** argv)
    {

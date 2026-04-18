@@ -129,10 +129,10 @@ Run the binary directly:
 
 .. code-block:: bash
 
-   ./build/GNU/tests/my_tests                  # run all
-   ./build/GNU/tests/my_tests -v               # verbose: print each test name
-   ./build/GNU/tests/my_tests -g CheatSheet    # only group "CheatSheet"
-   ./build/GNU/tests/my_tests -n TestName      # only tests whose name contains this
+   ./build/tests/my_tests                  # run all
+   ./build/tests/my_tests -v               # verbose: print each test name
+   ./build/tests/my_tests -g CheatSheet    # only group "CheatSheet"
+   ./build/tests/my_tests -n TestName      # only tests whose name contains this
 
 Via CTest (after :cmake:command:`mutiny_discover_tests` in CMakeLists):
 

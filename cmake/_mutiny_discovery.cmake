@@ -76,14 +76,15 @@ string(CONCAT LL_LINE_REGEX
 string(REGEX MATCHALL "[^\n]+\n" discovered_test_lines "${discovered_tests}")
 
 # Query group declaration locations (-lgl).
-# Supported since mutiny added GroupLocation; old binaries exit non-zero and we
-# fall back to inferring the location from test line numbers.
 execute_process(
     COMMAND ${EMULATOR} "${EXECUTABLE}" -lgl
     OUTPUT_VARIABLE group_locations_output
     RESULT_VARIABLE lgl_result
     ERROR_VARIABLE _lgl_error
 )
+if(NOT lgl_result EQUAL 0)
+    message(FATAL_ERROR "Error running ${EXECUTABLE} -lgl:\n${_lgl_error}")
+endif()
 string(CONCAT LGL_LINE_REGEX
     "^([^.]*)" # group name
     "\\."
@@ -92,39 +93,36 @@ string(CONCAT LGL_LINE_REGEX
     "([^.]*)"  # line number
     "\n"
 )
-if(lgl_result EQUAL 0)
-    string(REGEX MATCHALL "[^\n]+\n" group_location_lines "${group_locations_output}")
-    foreach(line IN LISTS group_location_lines)
-        string(REGEX MATCH "${LGL_LINE_REGEX}" __unused "${line}")
-        if(CMAKE_MATCH_1)
-            file(TO_CMAKE_PATH "${CMAKE_MATCH_2}" _lgl_path)
-            set(_group_loc_${CMAKE_MATCH_1}_file "${_lgl_path}")
-            set(_group_loc_${CMAKE_MATCH_1}_line "${CMAKE_MATCH_3}")
-        endif()
-    endforeach()
-endif()
+string(REGEX MATCHALL "[^\n]+\n" group_location_lines "${group_locations_output}")
+foreach(line IN LISTS group_location_lines)
+    string(REGEX MATCH "${LGL_LINE_REGEX}" __unused "${line}")
+    if(CMAKE_MATCH_1)
+        file(TO_CMAKE_PATH "${CMAKE_MATCH_2}" _lgl_path)
+        set(_group_loc_${CMAKE_MATCH_1}_file "${_lgl_path}")
+        set(_group_loc_${CMAKE_MATCH_1}_line "${CMAKE_MATCH_3}")
+    endif()
+endforeach()
 
 if(TESTS_DETAILED)
     # Identify groups containing ordered tests.
-    # -lo is supported since mutiny gained TEST_ORDERED awareness in discovery;
-    # old binaries exit non-zero and we fall back to treating all tests as individual.
     execute_process(
         COMMAND ${EMULATOR} "${EXECUTABLE}" -lo
         OUTPUT_VARIABLE ordered_locations_output
         RESULT_VARIABLE lo_result
         ERROR_VARIABLE _lo_error
     )
-    set(ordered_groups)
-    if(lo_result EQUAL 0)
-        string(REGEX MATCHALL "[^\n]+\n" ordered_lines "${ordered_locations_output}")
-        foreach(line IN LISTS ordered_lines)
-            string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")
-            if(CMAKE_MATCH_1)
-                list(APPEND ordered_groups "${CMAKE_MATCH_1}")
-            endif()
-        endforeach()
-        list(REMOVE_DUPLICATES ordered_groups)
+    if(NOT lo_result EQUAL 0)
+        message(FATAL_ERROR "Error running ${EXECUTABLE} -lo:\n${_lo_error}")
     endif()
+    set(ordered_groups)
+    string(REGEX MATCHALL "[^\n]+\n" ordered_lines "${ordered_locations_output}")
+    foreach(line IN LISTS ordered_lines)
+        string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")
+        if(CMAKE_MATCH_1)
+            list(APPEND ordered_groups "${CMAKE_MATCH_1}")
+        endif()
+    endforeach()
+    list(REMOVE_DUPLICATES ordered_groups)
 
     set(registered_ordered_groups)
     foreach(line IN LISTS discovered_test_lines)
@@ -137,15 +135,9 @@ if(TESTS_DETAILED)
             # Register the whole ordered group as one CTest test (preserves level ordering).
             if(NOT group_name IN_LIST registered_ordered_groups)
                 list(APPEND registered_ordered_groups "${group_name}")
-                # Prefer the real group declaration location; fall back to the
-                # first ordered test's location if -lgl is not available.
-                if(DEFINED _group_loc_${group_name}_file)
-                    set(group_location
-                        "${_group_loc_${group_name}_file}:${_group_loc_${group_name}_line}"
-                    )
-                else()
-                    set(group_location "${test_location}")
-                endif()
+                set(group_location
+                    "${_group_loc_${group_name}_file}:${_group_loc_${group_name}_line}"
+                )
                 add_test_to_script("${group_name}" "${group_location}" -sg)
             endif()
         else()
@@ -156,30 +148,13 @@ if(TESTS_DETAILED)
 else()
     foreach(line IN LISTS discovered_test_lines)
         string(REGEX MATCH "${LL_LINE_REGEX}" __unused "${line}")
-        set(test_name "${CMAKE_MATCH_1}")
-        file(TO_CMAKE_PATH "${CMAKE_MATCH_3}" test_file)
-        set(test_line "${CMAKE_MATCH_4}")
-        if(NOT _${test_name}_file)
-            # if the group spans two files, arbitrarily choose the first one encountered
-            set(_${test_name}_file "${test_file}")
-            set(_${test_name}_line "${test_line}")
-        elseif(test_file STREQUAL _${test_name}_file AND test_line LESS _${test_name}_line)
-            # line number will eventually be the first line of the first test in the group's file
-            set(_${test_name}_line ${test_line})
-        endif()
-        list(APPEND groups_seen ${test_name})
+        list(APPEND groups_seen "${CMAKE_MATCH_1}")
     endforeach()
     list(REMOVE_DUPLICATES groups_seen)
     foreach(test_name IN LISTS groups_seen)
-        # Prefer the real group declaration location; fall back to the lowest
-        # test line number in the group if -lgl is not available.
-        if(DEFINED _group_loc_${test_name}_file)
-            set(test_location
-                "${_group_loc_${test_name}_file}:${_group_loc_${test_name}_line}"
-            )
-        else()
-            set(test_location "${_${test_name}_file}:${_${test_name}_line}")
-        endif()
+        set(test_location
+            "${_group_loc_${test_name}_file}:${_group_loc_${test_name}_line}"
+        )
         add_test_to_script("${test_name}" "${test_location}" -sg)
     endforeach()
 endif()

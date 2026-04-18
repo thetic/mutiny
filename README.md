@@ -48,16 +48,16 @@ find_package(mu.tiny 0.1 REQUIRED)
 
 ## Headers
 
-All public headers live under `include/mutiny/`.
+All public headers live under `include/mu/tiny/`.
 The main headers you'll use:
 
-| Header                              | Purpose                                                            |
-| ----------------------------------- | ------------------------------------------------------------------ |
-| `mutiny/test.hpp`                   | Test and assertion macros (`TEST_GROUP`, `TEST`, `CHECK`, etc.)    |
-| `mutiny/mock.hpp`                   | Mock framework (`mu::tiny::mock::mock`, `mu::tiny::mock::Support`) |
-| `mutiny/test.h`                     | C interface                                                        |
-| `mutiny/test/CommandLineRunner.hpp` | `mu::tiny::test::CommandLineRunner` (`main()` runner)              |
-| `mutiny/test/Ordered.hpp`           | `TEST_ORDERED` macro                                               |
+| Header                               | Purpose                                                            |
+| ------------------------------------ | ------------------------------------------------------------------ |
+| `mu/tiny/test.hpp`                   | Test and assertion macros (`TEST_GROUP`, `TEST`, `CHECK`, etc.)    |
+| `mu/tiny/mock.hpp`                   | Mock framework (`mu::tiny::mock::mock`, `mu::tiny::mock::Support`) |
+| `mu/tiny/test.h`                     | C interface                                                        |
+| `mu/tiny/test/CommandLineRunner.hpp` | `mu::tiny::test::CommandLineRunner` (`main()` runner)              |
+| `mu/tiny/test/Ordered.hpp`           | `TEST_ORDERED` macro                                               |
 
 ## Writing `main`
 
@@ -65,7 +65,7 @@ Every test executable needs a `main()`.
 The simplest form uses `mu::tiny::test::CommandLineRunner`:
 
 ```cpp
-#include "mutiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
 
 int main(int argc, char** argv)
 {
@@ -79,10 +79,10 @@ To add plugins (e.g. `mu::tiny::test::JUnitOutputPlugin`,
 `mu::tiny::test::Registry`:
 
 ```cpp
-#include "mutiny/test/CommandLineRunner.hpp"
-#include "mutiny/test/JUnitOutputPlugin.hpp"
-#include "mutiny/mock/SupportPlugin.hpp"
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/JUnitOutputPlugin.hpp"
+#include "mu/tiny/mock/SupportPlugin.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
 int main(int argc, char** argv)
 {
@@ -111,10 +111,10 @@ See [examples/tests/CheatSheet.test.cpp](examples/tests/CheatSheet.test.cpp):
 Run the binary directly:
 
 ```sh
-./build/GNU/tests/my_tests                  # run all
-./build/GNU/tests/my_tests -v               # verbose: print each test name
-./build/GNU/tests/my_tests -g CheatSheet    # only group "CheatSheet"
-./build/GNU/tests/my_tests -n TestName      # only tests whose name contains this
+./build/tests/my_tests                  # run all
+./build/tests/my_tests -v               # verbose: print each test name
+./build/tests/my_tests -g CheatSheet    # only group "CheatSheet"
+./build/tests/my_tests -n TestName      # only tests whose name contains this
 ```
 
 Via CTest (after `mutiny_discover_tests` in CMakeLists):
