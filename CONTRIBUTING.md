@@ -21,8 +21,8 @@ Other useful presets: `Clang`, `asan`, `coverage`, `clang-tidy`, `no-std-cpp`, `
 Running a single test binary directly (supports `-v`, `-g`, `-n`):
 
 ```bash
-./build/GNU/tests/unit/mutiny_unit -v
-./build/GNU/tests/integration/mutiny_integration -g String -n Contains
+./build/GNU/tests/mutiny_test -v
+./build/GNU/tests/mutiny_test -g String -n Contains
 ```
 
 ## Code Formatting
@@ -62,9 +62,7 @@ New warning flags are checked for compiler support before being applied.
 
 ## Adding Tests
 
-All new code must have test coverage. Tests live in `tests/unit/` for testing internal framework classes, or `tests/integration/` for testing the public API. Each test file maps 1-to-1 with the header it tests (`foo.test.cpp` tests `foo.hpp`). One `TEST_GROUP` per file, named after the file's basename.
-
-Note: Unit tests are typically disabled when building `mutiny` as a shared library (`BUILD_SHARED_LIBS=ON`) because they require access to private symbols. New features should prioritize integration tests that exercise the public API.
+All new code must have test coverage. Tests live in `tests/src/`. Each test file maps 1-to-1 with the header it tests (`foo.test.cpp` tests `foo.hpp`). One `TEST_GROUP` per file, named after the file's basename.
 
 When testing framework internals (behaviors that are supposed to fail), use `TestingFixture` to run a nested test scenario rather than making your outer test fail.
 
