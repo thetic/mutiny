@@ -1,8 +1,8 @@
-#include "mutiny/mock/NamedValueComparator.hpp"
+#include "mu/tiny/mock/NamedValueComparator.hpp"
 
-#include "mutiny/mock.hpp"
-#include "mutiny/test.h"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.hpp"
+#include "mu/tiny/test.h"
+#include "mu/tiny/test.hpp"
 
 #include <stdint.h>
 

@@ -1,8 +1,8 @@
 #include "MockFailureReporter.hpp"
 
-#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mu/tiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 using mu::tiny::mock::mock;
 

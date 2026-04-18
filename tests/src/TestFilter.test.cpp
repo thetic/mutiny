@@ -1,6 +1,6 @@
-#include "mutiny/test/Filter.hpp"
+#include "mu/tiny/test/Filter.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 TEST_GROUP(Filter)
 {};

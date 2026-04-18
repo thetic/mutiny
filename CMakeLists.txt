@@ -39,14 +39,14 @@ endif()
 add_library(mutiny)
 
 configure_file(
-    include/mutiny/version.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
+    include/mu/tiny/version.h.in
+    ${CMAKE_CURRENT_BINARY_DIR}/include/mu/tiny/version.h
 )
 
 include(GenerateExportHeader)
 generate_export_header(mutiny
-    EXPORT_FILE_NAME include/mutiny/export.h
-    INCLUDE_GUARD_NAME INCLUDED_MUTINY_EXPORT_H
+    EXPORT_FILE_NAME include/mu/tiny/export.h
+    INCLUDE_GUARD_NAME INCLUDED_MU_TINY_EXPORT_H
 )
 
 target_sources(mutiny
@@ -99,63 +99,63 @@ target_sources(mutiny
             include
             "${CMAKE_CURRENT_BINARY_DIR}/include"
         FILES
-            include/mutiny/mock.h
-            include/mutiny/mock.hpp
-            include/mutiny/mock/ActualCall.hpp
-            include/mutiny/mock/ExpectedCall.hpp
-            include/mutiny/mock/Failure.hpp
-            include/mutiny/mock/NamedValue.hpp
-            include/mutiny/mock/NamedValueComparator.hpp
-            include/mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp
-            include/mutiny/mock/NamedValueCopier.hpp
-            include/mutiny/mock/SupportPlugin.hpp
-            include/mutiny/String.hpp
-            include/mutiny/test.h
-            include/mutiny/test.hpp
-            include/mutiny/test/CommandLineArguments.hpp
-            include/mutiny/test/CommandLineRunner.hpp
-            include/mutiny/test/ConsoleOutput.hpp
-            include/mutiny/test/ExecFunction.hpp
-            include/mutiny/test/ExpectFailShell.hpp
-            include/mutiny/test/Failure.hpp
-            include/mutiny/test/Filter.hpp
-            include/mutiny/test/GroupLocation.hpp
-            include/mutiny/test/IgnoredShell.hpp
-            include/mutiny/test/Installer.hpp
-            include/mutiny/test/JUnitOutputPlugin.hpp
-            include/mutiny/test/Ordered.hpp
-            include/mutiny/test/Output.hpp
-            include/mutiny/test/Plugin.hpp
-            include/mutiny/test/Registry.hpp
-            include/mutiny/test/Result.hpp
-            include/mutiny/test/SetPointerPlugin.hpp
-            include/mutiny/test/Shell.hpp
-            include/mutiny/test/ShellPointerArray.hpp
-            include/mutiny/test/StringBufferOutput.hpp
-            include/mutiny/test/Terminator.hpp
-            include/mutiny/test/Test.hpp
-            include/mutiny/test/TestingFixture.hpp
-            include/mutiny/features.hpp
-            include/mutiny/time.hpp
-            ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/version.h
-            ${CMAKE_CURRENT_BINARY_DIR}/include/mutiny/export.h
+            include/mu/tiny/mock.h
+            include/mu/tiny/mock.hpp
+            include/mu/tiny/mock/ActualCall.hpp
+            include/mu/tiny/mock/ExpectedCall.hpp
+            include/mu/tiny/mock/Failure.hpp
+            include/mu/tiny/mock/NamedValue.hpp
+            include/mu/tiny/mock/NamedValueComparator.hpp
+            include/mu/tiny/mock/NamedValueComparatorsAndCopiersRepository.hpp
+            include/mu/tiny/mock/NamedValueCopier.hpp
+            include/mu/tiny/mock/SupportPlugin.hpp
+            include/mu/tiny/String.hpp
+            include/mu/tiny/test.h
+            include/mu/tiny/test.hpp
+            include/mu/tiny/test/CommandLineArguments.hpp
+            include/mu/tiny/test/CommandLineRunner.hpp
+            include/mu/tiny/test/ConsoleOutput.hpp
+            include/mu/tiny/test/ExecFunction.hpp
+            include/mu/tiny/test/ExpectFailShell.hpp
+            include/mu/tiny/test/Failure.hpp
+            include/mu/tiny/test/Filter.hpp
+            include/mu/tiny/test/GroupLocation.hpp
+            include/mu/tiny/test/IgnoredShell.hpp
+            include/mu/tiny/test/Installer.hpp
+            include/mu/tiny/test/JUnitOutputPlugin.hpp
+            include/mu/tiny/test/Ordered.hpp
+            include/mu/tiny/test/Output.hpp
+            include/mu/tiny/test/Plugin.hpp
+            include/mu/tiny/test/Registry.hpp
+            include/mu/tiny/test/Result.hpp
+            include/mu/tiny/test/SetPointerPlugin.hpp
+            include/mu/tiny/test/Shell.hpp
+            include/mu/tiny/test/ShellPointerArray.hpp
+            include/mu/tiny/test/StringBufferOutput.hpp
+            include/mu/tiny/test/Terminator.hpp
+            include/mu/tiny/test/Test.hpp
+            include/mu/tiny/test/TestingFixture.hpp
+            include/mu/tiny/features.hpp
+            include/mu/tiny/time.hpp
+            ${CMAKE_CURRENT_BINARY_DIR}/include/mu/tiny/version.h
+            ${CMAKE_CURRENT_BINARY_DIR}/include/mu/tiny/export.h
     PRIVATE FILE_SET private_headers TYPE HEADERS
         BASE_DIRS src
         FILES
-            src/mutiny/mock/ActualCallTrace.hpp
-            src/mutiny/mock/CheckedActualCall.hpp
-            src/mutiny/mock/CheckedExpectedCall.hpp
-            src/mutiny/mock/ExpectedCallsList.hpp
-            src/mutiny/mock/IgnoredActualCall.hpp
-            src/mutiny/mock/IgnoredExpectedCall.hpp
-            src/mutiny/mock/NamedValueList.hpp
-            src/mutiny/test/CompositeOutput.hpp
-            src/mutiny/test/ExecFunctionShell.hpp
-            src/mutiny/test/JUnitOutput.hpp
-            src/mutiny/test/NullPlugin.hpp
-            src/mutiny/StringCollection.hpp
-            src/mutiny/test/jump_buffer.hpp
-            src/mutiny/math.hpp
+            src/mu/tiny/mock/ActualCallTrace.hpp
+            src/mu/tiny/mock/CheckedActualCall.hpp
+            src/mu/tiny/mock/CheckedExpectedCall.hpp
+            src/mu/tiny/mock/ExpectedCallsList.hpp
+            src/mu/tiny/mock/IgnoredActualCall.hpp
+            src/mu/tiny/mock/IgnoredExpectedCall.hpp
+            src/mu/tiny/mock/NamedValueList.hpp
+            src/mu/tiny/test/CompositeOutput.hpp
+            src/mu/tiny/test/ExecFunctionShell.hpp
+            src/mu/tiny/test/JUnitOutput.hpp
+            src/mu/tiny/test/NullPlugin.hpp
+            src/mu/tiny/StringCollection.hpp
+            src/mu/tiny/test/jump_buffer.hpp
+            src/mu/tiny/math.hpp
 )
 
 include(CheckCXXSymbolExists)

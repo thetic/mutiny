@@ -1,9 +1,9 @@
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
 
-#include "mutiny/test.hpp"
-#include "mutiny/time.hpp"
+#include "mu/tiny/test.hpp"
+#include "mu/tiny/time.hpp"
 
 namespace {
 uint_least64_t millis_time;

@@ -1,14 +1,14 @@
 #include "MockFailureReporter.hpp"
 
-#include "mutiny/mock/SupportPlugin.hpp"
+#include "mu/tiny/mock/SupportPlugin.hpp"
 
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/mock.hpp"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.hpp"
+#include "mu/tiny/test.hpp"
 
 using mu::tiny::mock::mock;
 

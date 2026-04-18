@@ -1,9 +1,9 @@
-#include "mutiny/test/Result.hpp"
+#include "mu/tiny/test/Result.hpp"
 
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Output.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Output.hpp"
 
-#include "mutiny/time.hpp"
+#include "mu/tiny/time.hpp"
 
 #include <stdint.h>
 

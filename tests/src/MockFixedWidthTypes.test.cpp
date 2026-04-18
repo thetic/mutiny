@@ -1,5 +1,5 @@
-#include "mutiny/mock.hpp"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.hpp"
+#include "mu/tiny/test.hpp"
 
 #include <stdint.h>
 

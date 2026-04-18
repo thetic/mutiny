@@ -1,8 +1,8 @@
-#include "mutiny/test/Test.hpp"
+#include "mu/tiny/test/Test.hpp"
 
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/jump_buffer.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/jump_buffer.hpp"
 
 namespace mu {
 namespace tiny {

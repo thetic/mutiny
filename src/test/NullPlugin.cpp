@@ -1,4 +1,4 @@
-#include "mutiny/test/NullPlugin.hpp"
+#include "mu/tiny/test/NullPlugin.hpp"
 
 namespace mu {
 namespace tiny {

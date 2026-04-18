@@ -13,16 +13,16 @@ IncludeCategories:
   - Regex:           '^"[^/"]*"$'
     Priority:        1
     SortPriority:    1
-  # 2. mutiny mock includes
-  - Regex:           '^"mutiny/mock/'
+  # 2. mu::tiny mock includes
+  - Regex:           '^"mu/tiny/mock/'
     Priority:        2
     SortPriority:    2
-  # 2. mutiny test includes
-  - Regex:           '^"mutiny/test/'
+  # 3. mu::tiny test includes
+  - Regex:           '^"mu/tiny/test/'
     Priority:        3
     SortPriority:    3
-  # 4. mutiny core includes
-  - Regex:           '^"mutiny/'
+  # 4. mu::tiny core includes
+  - Regex:           '^"mu/tiny/'
     Priority:        4
     SortPriority:    4
   # 5. System/POSIX headers (angle-bracket with subdirectory path)

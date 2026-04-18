@@ -12,7 +12,7 @@ The Two-File Pattern
 The C test file
 ~~~~~~~~~~~~~~~
 
-Include :ref:`"mutiny/test.h" <file_include_mutiny_test.h>` and use the C macros:
+Include :ref:`"mu/tiny/test.h" <file_include_mu_tiny_test.h>` and use the C macros:
 
 .. literalinclude:: ../examples/tests/hello.test.c
    :language: c
@@ -34,7 +34,7 @@ Both files must be compiled together into the same test executable:
    add_executable(my_tests main.cpp foo_test.c foo_test.cpp)
    target_link_libraries(my_tests PRIVATE mu::tiny)
 
-C Assertion Macros (``mutiny/test.h``)
+C Assertion Macros (``mu/tiny/test.h``)
 --------------------------------------
 
 The C header provides typed macros because C does not have overloaded
@@ -127,7 +127,7 @@ Each C macro that defines a test body has a matching C++ wrapper:
    * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - An :c:macro:`XFAIL_TEST` that calls the C expected-fail function
 
-C Mock Interface (``mutiny/mock.h``)
+C Mock Interface (``mu/tiny/mock.h``)
 -------------------------------------
 
 .. c:struct:: MutinyMockSupport
@@ -149,7 +149,7 @@ pointers. This allows chaining calls in C99:
 
 .. code-block:: c
 
-   #include "mutiny/mock.h"
+   #include "mu/tiny/mock.h"
 
    /* expect */
    mutiny_mock()->expect_one_call("send")

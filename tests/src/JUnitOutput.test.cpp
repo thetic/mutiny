@@ -1,13 +1,13 @@
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/IgnoredShell.hpp"
-#include "mutiny/test/JUnitOutputPlugin.hpp"
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/IgnoredShell.hpp"
+#include "mu/tiny/test/JUnitOutputPlugin.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/String.hpp"
-#include "mutiny/test.hpp"
-#include "mutiny/time.hpp"
+#include "mu/tiny/String.hpp"
+#include "mu/tiny/test.hpp"
+#include "mu/tiny/time.hpp"
 
 namespace {
 

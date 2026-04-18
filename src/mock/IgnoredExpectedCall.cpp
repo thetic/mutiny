@@ -1,4 +1,4 @@
-#include "mutiny/mock/IgnoredExpectedCall.hpp"
+#include "mu/tiny/mock/IgnoredExpectedCall.hpp"
 
 namespace mu {
 namespace tiny {

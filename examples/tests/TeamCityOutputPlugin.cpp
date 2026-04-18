@@ -1,8 +1,8 @@
 #include "TeamCityOutputPlugin.hpp"
 
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 TeamCityTestOutput::TeamCityTestOutput()
   : curr_group_()

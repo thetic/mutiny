@@ -1,4 +1,4 @@
-#include "mutiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
 
 int main(int argc, char** argv)
 {

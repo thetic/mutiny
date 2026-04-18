@@ -5,7 +5,7 @@ SetPointerPlugin
 embedded-testing problem: swapping out a function pointer (or any global pointer)
 for a test stub, then automatically restoring it after the test.
 
-Include :ref:`"mutiny/test.hpp" <file_include_mutiny_test.hpp>` — :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is included
+Include :ref:`"mu/tiny/test.hpp" <file_include_mu_tiny_test.hpp>` — :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is included
 transitively, and the :c:macro:`MUTINY_PTR_SET` macro is available without any
 additional install step.
 
@@ -35,7 +35,7 @@ Example: Stubbing a Function Pointer
 .. code-block:: cpp
 
    /* module.test.cpp */
-   #include "mutiny/test.hpp"
+   #include "mu/tiny/test.hpp"
    #include "module.h"
 
    static int stub_read(int, void* buf, size_t n)

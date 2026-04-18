@@ -1,9 +1,9 @@
 #include "MockSupport.h"
 
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/mock.h"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.h"
+#include "mu/tiny/test.hpp"
 
 namespace {
 void dummy_function_for_mock_c_test() {}

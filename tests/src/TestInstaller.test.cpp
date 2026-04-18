@@ -1,6 +1,6 @@
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 class TestInstallerTestShell : public mu::tiny::test::Shell
 {};

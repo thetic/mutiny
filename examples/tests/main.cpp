@@ -1,10 +1,10 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 #include "TeamCityOutputPlugin.hpp"
 
-#include "mutiny/mock/SupportPlugin.hpp"
+#include "mu/tiny/mock/SupportPlugin.hpp"
 
-#include "mutiny/test/CommandLineRunner.hpp"
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
 class MyDummyComparator : public mu::tiny::mock::NamedValueComparator
 {

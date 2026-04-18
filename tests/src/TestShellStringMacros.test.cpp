@@ -1,7 +1,7 @@
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #define CHECK_TEST_FAILS_PROPER_WITH_TEXT(text)                                \
   fixture.check_test_fails_with_proper_test_location(text, __FILE__, __LINE__)

@@ -1,4 +1,4 @@
-#include "mutiny/math.hpp"
+#include "mu/tiny/math.hpp"
 
 #include <math.h>
 

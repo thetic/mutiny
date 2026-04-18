@@ -1,6 +1,6 @@
-#include "mutiny/test/SetPointerPlugin.hpp"
+#include "mu/tiny/test/SetPointerPlugin.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

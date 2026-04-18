@@ -1,6 +1,6 @@
-#include "mutiny/mock/ExpectedCallsList.hpp"
+#include "mu/tiny/mock/ExpectedCallsList.hpp"
 
-#include "mutiny/mock/CheckedExpectedCall.hpp"
+#include "mu/tiny/mock/CheckedExpectedCall.hpp"
 
 namespace mu {
 namespace tiny {

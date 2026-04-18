@@ -1,6 +1,6 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #if MUTINY_HAVE_FENV
 #include <fenv.h>

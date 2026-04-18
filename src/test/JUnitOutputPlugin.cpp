@@ -1,8 +1,8 @@
-#include "mutiny/test/JUnitOutputPlugin.hpp"
+#include "mu/tiny/test/JUnitOutputPlugin.hpp"
 
-#include "mutiny/test/JUnitOutput.hpp"
+#include "mu/tiny/test/JUnitOutput.hpp"
 
-#include "mutiny/String.hpp"
+#include "mu/tiny/String.hpp"
 
 namespace mu {
 namespace tiny {

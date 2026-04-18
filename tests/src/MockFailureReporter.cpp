@@ -1,8 +1,8 @@
 #include "MockFailureReporter.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 using mu::tiny::mock::mock;
 

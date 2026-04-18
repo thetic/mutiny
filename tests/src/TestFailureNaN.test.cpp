@@ -1,6 +1,6 @@
-#include "mutiny/test/Output.hpp"
+#include "mu/tiny/test/Output.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #include <math.h>
 

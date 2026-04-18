@@ -1,6 +1,6 @@
-#include "mutiny/test/Ordered.hpp"
+#include "mu/tiny/test/Ordered.hpp"
 
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
 namespace mu {
 namespace tiny {

@@ -55,7 +55,7 @@ exhale_args = {
     # Only specify INPUT and extraction settings — Exhale manages all output
     # settings (GENERATE_XML, XML_OUTPUT, GENERATE_HTML, etc.) itself.
     "exhaleDoxygenStdin": textwrap.dedent("""\
-        INPUT                = ../include/mutiny
+        INPUT                = ../include/mu/tiny
         RECURSIVE            = YES
         # Include C headers so that C-only macros (TEST_GROUP_SETUP,
         # TEST_GROUP_TEARDOWN, CHECK_EQUAL_INT, …) are available via Breathe.

@@ -1,4 +1,4 @@
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 TEST_GROUP_C_WRAPPER(MutinyC)
 {

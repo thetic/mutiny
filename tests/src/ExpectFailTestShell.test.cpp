@@ -1,7 +1,7 @@
-#include "mutiny/test/ExpectFailShell.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/ExpectFailShell.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 

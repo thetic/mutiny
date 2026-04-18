@@ -1,4 +1,4 @@
-#include "mutiny/test/jump_buffer.hpp"
+#include "mu/tiny/test/jump_buffer.hpp"
 
 #include <setjmp.h>
 

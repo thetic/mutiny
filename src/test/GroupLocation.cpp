@@ -1,4 +1,4 @@
-#include "mutiny/test/GroupLocation.hpp"
+#include "mu/tiny/test/GroupLocation.hpp"
 
 namespace mu {
 namespace tiny {

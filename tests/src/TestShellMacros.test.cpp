@@ -1,7 +1,7 @@
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #include <limits.h>
 #include <math.h>

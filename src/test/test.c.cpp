@@ -1,6 +1,6 @@
-#include "mutiny/test.h"
+#include "mu/tiny/test.h"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 void mutiny_check_equal_bool(
     bool expected,

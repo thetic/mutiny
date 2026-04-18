@@ -1,6 +1,6 @@
-#include "mutiny/test/IgnoredShell.hpp"
+#include "mu/tiny/test/IgnoredShell.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 TEST_GROUP(IgnoredShell){};
 

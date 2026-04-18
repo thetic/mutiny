@@ -1,7 +1,7 @@
-#include "mutiny/test/Installer.hpp"
+#include "mu/tiny/test/Installer.hpp"
 
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

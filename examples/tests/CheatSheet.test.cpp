@@ -1,4 +1,4 @@
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 void (*real_one)();

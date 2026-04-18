@@ -1,10 +1,10 @@
-#include "mutiny/test/Ordered.hpp"
+#include "mu/tiny/test/Ordered.hpp"
 
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 class MockShell : public mu::tiny::test::Shell

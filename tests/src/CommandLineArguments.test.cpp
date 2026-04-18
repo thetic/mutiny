@@ -1,9 +1,9 @@
-#include "mutiny/test/CommandLineArguments.hpp"
+#include "mu/tiny/test/CommandLineArguments.hpp"
 
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
-#include "mutiny/String.hpp"
-#include "mutiny/test.hpp"
+#include "mu/tiny/String.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 class OptionsPlugin : public mu::tiny::test::Plugin

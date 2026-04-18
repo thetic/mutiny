@@ -1,6 +1,6 @@
-#include "mutiny/test/ShellPointerArray.hpp"
+#include "mu/tiny/test/ShellPointerArray.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 #include <stdlib.h>
 
