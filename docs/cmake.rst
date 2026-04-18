@@ -6,34 +6,34 @@ CMake Integration
 Build Options
 -------------
 
-These options control how *Mu::tiny* itself is built.  Pass
+These options control how *mu::tiny* itself is built.  Pass
 :cmake:manual:`-D<OPTION>=<value> <cmake:manual:cmake(1)>` on the command
 line or configure them in a
 :cmake:manual:`CMake presets <cmake:manual:cmake-presets(7)>` file.
 
 .. variable:: MUTINY_USE_STD_CPP_LIB
 
-   Boolean, default ``ON``.  Build *Mu::tiny* with the C++ standard library.
+   Boolean, default ``ON``.  Build *mu::tiny* with the C++ standard library.
    Set to ``OFF`` for bare-metal or freestanding targets where no ``<std>``
    headers are available.
 
 .. variable:: MUTINY_USE_STD_STRING
 
    Boolean, default ``ON``.  Use ``std::string`` internally instead of
-   *Mu::tiny*'s own :cpp:class:`String <mu::tiny::String>` class.
+   *mu::tiny*'s own :cpp:class:`String <mu::tiny::String>` class.
    Requires :variable:`MUTINY_USE_STD_CPP_LIB`.
 
 .. variable:: MUTINY_EXAMPLES
 
    Boolean.  Build the example programs under ``examples/``.  Defaults to
-   ``ON`` when *Mu::tiny* is the top-level CMake project, ``OFF`` when consumed
+   ``ON`` when *mu::tiny* is the top-level CMake project, ``OFF`` when consumed
    via :cmake:module:`FetchContent <cmake:module:FetchContent>` or
    :cmake:command:`add_subdirectory() <cmake:command:add_subdirectory>`.
 
 .. variable:: MUTINY_BUILD_TESTING
 
-   Boolean.  Build *Mu::tiny*'s own test suite.  Defaults to ``ON`` at the top
-   level, ``OFF`` when consumed.  Relevant only for *Mu::tiny* developers.
+   Boolean.  Build *mu::tiny*'s own test suite.  Defaults to ``ON`` at the top
+   level, ``OFF`` when consumed.  Relevant only for *mu::tiny* developers.
 
 Package Variables
 -----------------

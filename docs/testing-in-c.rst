@@ -1,7 +1,7 @@
 Testing C Code
 ==============
 
-*Mu::tiny* supports writing tests in pure C. Because the test runner itself
+*mu::tiny* supports writing tests in pure C. Because the test runner itself
 is C++, you need two files per test group: a C file containing
 the tests, and a C++ wrapper that registers them with the C++
 runner.
@@ -35,7 +35,7 @@ Both files must be compiled together into the same test executable:
    target_link_libraries(my_tests PRIVATE mu::tiny)
 
 C Assertion Macros (``mu/tiny/test.h``)
---------------------------------------
+---------------------------------------
 
 The C header provides typed macros because C does not have overloaded
 functions:
