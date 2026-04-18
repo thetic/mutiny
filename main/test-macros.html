@@ -200,12 +200,12 @@
 <script>
 (function () {
   // Derive the site root and current version slug from the URL.
-  // URL shape: /mutiny/<version>/path/to/page.html
+  // URL shape: /mu.tiny/<version>/path/to/page.html
   //   parts[0] = ""
-  //   parts[1] = "mutiny"   (repo name / Pages base path)
+  //   parts[1] = "mu.tiny"   (repo name / Pages base path)
   //   parts[2] = "main" | "v0.1.0" | …
   var parts = window.location.pathname.split("/");
-  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mutiny/"
+  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mu.tiny/"
   var currentSlug = parts[2] || "";                         // e.g. "main"
   var versionsUrl = siteRoot + "versions.json";
 
@@ -596,7 +596,7 @@
         <article role="main" id="furo-main-content">
           <section id="test-definition-macros">
 <h1>Test Definition Macros<a class="headerlink" href="#test-definition-macros" title="Link to this heading">¶</a></h1>
-<p>Include <code class="docutils literal notranslate"><span class="pre">&quot;mutiny/test.hpp&quot;</span></code> for all macros on this page.</p>
+<p>Include <a class="reference internal" href="api/file_include_mu_tiny_test.hpp.html#file-include-mu-tiny-test-hpp"><span class="std std-ref">mu/tiny/test.hpp</span></a> for all macros on this page.</p>
 <section id="test-group-and-lifecycle">
 <h2>Test Group and Lifecycle<a class="headerlink" href="#test-group-and-lifecycle" title="Link to this heading">¶</a></h2>
 <section id="test-group-group">

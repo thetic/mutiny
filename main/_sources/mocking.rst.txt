@@ -1,7 +1,7 @@
 Mocking
 =======
 
-Include ``"mutiny/mock.hpp"`` for the C++ mock API.
+Include :ref:`mu/tiny/mock.hpp <file_include_mu_tiny_mock.hpp>` for the C++ mock API.
 
 Accessing the Mock Object
 --------------------------

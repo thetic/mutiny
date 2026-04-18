@@ -200,12 +200,12 @@
 <script>
 (function () {
   // Derive the site root and current version slug from the URL.
-  // URL shape: /mutiny/<version>/path/to/page.html
+  // URL shape: /mu.tiny/<version>/path/to/page.html
   //   parts[0] = ""
-  //   parts[1] = "mutiny"   (repo name / Pages base path)
+  //   parts[1] = "mu.tiny"   (repo name / Pages base path)
   //   parts[2] = "main" | "v0.1.0" | …
   var parts = window.location.pathname.split("/");
-  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mutiny/"
+  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mu.tiny/"
   var currentSlug = parts[2] || "";                         // e.g. "main"
   var versionsUrl = siteRoot + "versions.json";
 
@@ -610,8 +610,8 @@ ctest<span class="w"> </span>--preset<span class="w"> </span>GNU
 </div>
 <p>Other useful presets: <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">asan</span></code>, <code class="docutils literal notranslate"><span class="pre">coverage</span></code>, <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code>, <code class="docutils literal notranslate"><span class="pre">no-std-cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">no-rtti</span></code>, <code class="docutils literal notranslate"><span class="pre">no-exceptions</span></code>.</p>
 <p>Running a single test binary directly (supports <code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">-g</span></code>, <code class="docutils literal notranslate"><span class="pre">-n</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/GNU/tests/unit/mutiny_unit<span class="w"> </span>-v
-./build/GNU/tests/integration/mutiny_integration<span class="w"> </span>-g<span class="w"> </span>String<span class="w"> </span>-n<span class="w"> </span>Contains
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/GNU/tests/mutiny_test<span class="w"> </span>-v
+./build/GNU/tests/mutiny_test<span class="w"> </span>-g<span class="w"> </span>String<span class="w"> </span>-n<span class="w"> </span>Contains
 </pre></div>
 </div>
 </section>
@@ -630,7 +630,7 @@ ctest<span class="w"> </span>--preset<span class="w"> </span>GNU
 <li><p><strong>Anonymous namespaces</strong> instead of file-scope <code class="docutils literal notranslate"><span class="pre">static</span></code> in <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> files (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rs-unnamed2">SF.22</a>).</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">using</span></code></strong> instead of <code class="docutils literal notranslate"><span class="pre">typedef</span></code> (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rt-using">T.43</a>). Function pointer form: <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">F</span> <span class="pre">=</span> <span class="pre">void</span> <span class="pre">(*)()</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">auto</span></code></strong> to avoid repeating the type when the LHS type equals the RHS constructed type (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#res-auto">ES.11</a>). Use <code class="docutils literal notranslate"><span class="pre">auto*</span></code> for pointer types; bare <code class="docutils literal notranslate"><span class="pre">auto</span></code> for function pointer casts. Skip the polymorphic base-pointer pattern (<code class="docutils literal notranslate"><span class="pre">Base*</span> <span class="pre">p</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">Derived(...)</span></code>) — that is intentional.</p></li>
-<li><p><strong>Include guards</strong>: <code class="docutils literal notranslate"><span class="pre">INCLUDED_MUTINY_&lt;NAME&gt;_HPP</span></code> / <code class="docutils literal notranslate"><span class="pre">INCLUDED_MUTINY_&lt;NAME&gt;_H</span></code>.</p></li>
+<li><p><strong>Include guards</strong>: <code class="docutils literal notranslate"><span class="pre">INCLUDED_MU_TINY_&lt;NAME&gt;_HPP</span></code> / <code class="docutils literal notranslate"><span class="pre">INCLUDED_MU_TINY_&lt;NAME&gt;_H</span></code>.</p></li>
 </ul>
 </section>
 <section id="c-standard">
@@ -639,7 +639,7 @@ ctest<span class="w"> </span>--preset<span class="w"> </span>GNU
 </section>
 <section id="standard-library-policy">
 <h2>Standard Library Policy<a class="headerlink" href="#standard-library-policy" title="Link to this heading">¶</a></h2>
-<p>Library code (anything under <code class="docutils literal notranslate"><span class="pre">include/mutiny/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/</span></code>) must compile with and without the C++ standard library.
+<p>Library code (anything under <code class="docutils literal notranslate"><span class="pre">include/mu/tiny/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/</span></code>) must compile with and without the C++ standard library.
 The <code class="docutils literal notranslate"><span class="pre">no-std-cpp</span></code> preset enforces this.
 This means <code class="docutils literal notranslate"><span class="pre">&lt;type_traits&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;utility&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">std::enable_if</span></code>, and similar are off-limits in library headers and source unless guarded by <code class="docutils literal notranslate"><span class="pre">MUTINY_USE_STD_CPP_LIB</span></code>.</p>
 </section>
@@ -651,8 +651,7 @@ New warning flags are checked for compiler support before being applied.</p>
 </section>
 <section id="adding-tests">
 <h2>Adding Tests<a class="headerlink" href="#adding-tests" title="Link to this heading">¶</a></h2>
-<p>All new code must have test coverage. Tests live in <code class="docutils literal notranslate"><span class="pre">tests/unit/</span></code> for testing internal framework classes, or <code class="docutils literal notranslate"><span class="pre">tests/integration/</span></code> for testing the public API. Each test file maps 1-to-1 with the header it tests (<code class="docutils literal notranslate"><span class="pre">foo.test.cpp</span></code> tests <code class="docutils literal notranslate"><span class="pre">foo.hpp</span></code>). One <code class="docutils literal notranslate"><span class="pre">TEST_GROUP</span></code> per file, named after the file’s basename.</p>
-<p>Note: Unit tests are typically disabled when building <code class="docutils literal notranslate"><span class="pre">mutiny</span></code> as a shared library (<code class="docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS=ON</span></code>) because they require access to private symbols. New features should prioritize integration tests that exercise the public API.</p>
+<p>All new code must have test coverage. Tests live in <code class="docutils literal notranslate"><span class="pre">tests/src/</span></code>. Each test file maps 1-to-1 with the header it tests (<code class="docutils literal notranslate"><span class="pre">foo.test.cpp</span></code> tests <code class="docutils literal notranslate"><span class="pre">foo.hpp</span></code>). One <code class="docutils literal notranslate"><span class="pre">TEST_GROUP</span></code> per file, named after the file’s basename.</p>
 <p>When testing framework internals (behaviors that are supposed to fail), use <code class="docutils literal notranslate"><span class="pre">TestingFixture</span></code> to run a nested test scenario rather than making your outer test fail.</p>
 </section>
 <section id="file-and-header-organization">
@@ -682,13 +681,13 @@ New warning flags are checked for compiler support before being applied.</p>
 <section id="semantic-versioning">
 <h2>Semantic Versioning<a class="headerlink" href="#semantic-versioning" title="Link to this heading">¶</a></h2>
 <p>This project follows <a class="reference external" href="https://semver.org/">Semantic Versioning 2.0.0</a>.
-The version is defined in the <code class="docutils literal notranslate"><span class="pre">cfg/VERSION</span></code> file and is used to generate the version header <code class="docutils literal notranslate"><span class="pre">mutiny/test/version.hpp</span></code>.</p>
+The version is defined in the <code class="docutils literal notranslate"><span class="pre">cfg/VERSION</span></code> file and is used to generate the version header <code class="docutils literal notranslate"><span class="pre">mu/tiny/test/version.hpp</span></code>.</p>
 <section id="incrementing-the-version">
 <h3>Incrementing the Version<a class="headerlink" href="#incrementing-the-version" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><strong>MAJOR</strong> version: Incompatible source API changes.</p>
 <ul>
-<li><p>Examples: Removing or renaming public headers/functions/classes, changing function signatures in <code class="docutils literal notranslate"><span class="pre">include/mutiny/</span></code>, dropping support for a C++ standard version (e.g., C++11 to C++14).</p></li>
+<li><p>Examples: Removing or renaming public headers/functions/classes, changing function signatures in <code class="docutils literal notranslate"><span class="pre">include/mu/tiny/</span></code>, dropping support for a C++ standard version (e.g., C++11 to C++14).</p></li>
 </ul>
 </li>
 <li><p><strong>MINOR</strong> version: Backwards compatible functionality.</p>

@@ -200,12 +200,12 @@
 <script>
 (function () {
   // Derive the site root and current version slug from the URL.
-  // URL shape: /mutiny/<version>/path/to/page.html
+  // URL shape: /mu.tiny/<version>/path/to/page.html
   //   parts[0] = ""
-  //   parts[1] = "mutiny"   (repo name / Pages base path)
+  //   parts[1] = "mu.tiny"   (repo name / Pages base path)
   //   parts[2] = "main" | "v0.1.0" | …
   var parts = window.location.pathname.split("/");
-  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mutiny/"
+  var siteRoot = "/" + parts.slice(1, 2).join("/") + "/";  // e.g. "/mu.tiny/"
   var currentSlug = parts[2] || "";                         // e.g. "main"
   var versionsUrl = siteRoot + "versions.json";
 
@@ -752,10 +752,10 @@ or exception).</p></li>
 <section id="running-tests">
 <h2>Running Tests<a class="headerlink" href="#running-tests" title="Link to this heading">¶</a></h2>
 <p>Run the binary directly:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/GNU/tests/my_tests<span class="w">                  </span><span class="c1"># run all</span>
-./build/GNU/tests/my_tests<span class="w"> </span>-v<span class="w">               </span><span class="c1"># verbose: print each test name</span>
-./build/GNU/tests/my_tests<span class="w"> </span>-g<span class="w"> </span>CheatSheet<span class="w">    </span><span class="c1"># only group &quot;CheatSheet&quot;</span>
-./build/GNU/tests/my_tests<span class="w"> </span>-n<span class="w"> </span>TestName<span class="w">      </span><span class="c1"># only tests whose name contains this</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/tests/my_tests<span class="w">                  </span><span class="c1"># run all</span>
+./build/tests/my_tests<span class="w"> </span>-v<span class="w">               </span><span class="c1"># verbose: print each test name</span>
+./build/tests/my_tests<span class="w"> </span>-g<span class="w"> </span>CheatSheet<span class="w">    </span><span class="c1"># only group &quot;CheatSheet&quot;</span>
+./build/tests/my_tests<span class="w"> </span>-n<span class="w"> </span>TestName<span class="w">      </span><span class="c1"># only tests whose name contains this</span>
 </pre></div>
 </div>
 <p>Via CTest (after <span class="target" id="index-0-command:mutiny_discover_tests"></span><a class="reference internal" href="cmake.html#command:mutiny_discover_tests" title="mutiny_discover_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">mutiny_discover_tests()</span></code></a> in CMakeLists):</p>

@@ -1,7 +1,7 @@
 Test Definition Macros
 ======================
 
-Include ``"mutiny/test.hpp"`` for all macros on this page.
+Include :ref:`mu/tiny/test.hpp <file_include_mu_tiny_test.hpp>` for all macros on this page.
 
 Test Group and Lifecycle
 ------------------------
