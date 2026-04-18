@@ -197,7 +197,7 @@ if(PROJECT_IS_TOP_LEVEL)
 
     install(
         TARGETS mutiny
-        EXPORT mutinyTargets
+        EXPORT mu.tiny-Targets
         RUNTIME
             DESTINATION ${CMAKE_INSTALL_BINDIR}
             COMPONENT mutiny_Runtime
@@ -220,26 +220,26 @@ if(PROJECT_IS_TOP_LEVEL)
     set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
     set(MODULES_DIR "${MUTINY_MODULE_PATH}")
 
-    set(MUTINY_CONFIG_DEST "${LIB_INSTALL_DIR}/mutiny/cmake")
+    set(MUTINY_CONFIG_DEST "${LIB_INSTALL_DIR}/mu.tiny/cmake")
 
     # CMake package config files (install tree).
-    configure_package_config_file(cfg/mutiny-config.cmake.install.in
-        ${CMAKE_CURRENT_BINARY_DIR}/install/mutiny-config.cmake
+    configure_package_config_file(cfg/mu.tiny-config.cmake.install.in
+        ${CMAKE_CURRENT_BINARY_DIR}/install/mu.tiny-config.cmake
         INSTALL_DESTINATION "${MUTINY_CONFIG_DEST}"
         PATH_VARS INCLUDE_INSTALL_DIR LIB_INSTALL_DIR
     )
     write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/install/mutiny-configVersion.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/install/mu.tiny-configVersion.cmake
         COMPATIBILITY SameMajorVersion
     )
     install(
         FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/install/mutiny-config.cmake
-            ${CMAKE_CURRENT_BINARY_DIR}/install/mutiny-configVersion.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/install/mu.tiny-config.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/install/mu.tiny-configVersion.cmake
         DESTINATION "${MUTINY_CONFIG_DEST}"
     )
     install(
-        EXPORT mutinyTargets
+        EXPORT mu.tiny-Targets
         NAMESPACE mu::
         DESTINATION "${MUTINY_CONFIG_DEST}"
     )
@@ -251,13 +251,13 @@ if(PROJECT_IS_TOP_LEVEL)
     )
 
     # CMake package config files (build tree).
-    configure_package_config_file(cfg/mutiny-config.cmake.build.in
-        ${PROJECT_BINARY_DIR}/mutiny-config.cmake
+    configure_package_config_file(cfg/mu.tiny-config.cmake.build.in
+        ${PROJECT_BINARY_DIR}/mu.tiny-config.cmake
         INSTALL_DESTINATION ${PROJECT_BINARY_DIR}
         PATH_VARS INCLUDE_DIR PROJECT_BINARY_DIR MODULES_DIR
     )
     write_basic_package_version_file(
-        ${PROJECT_BINARY_DIR}/mutiny-configVersion.cmake
+        ${PROJECT_BINARY_DIR}/mu.tiny-configVersion.cmake
         COMPATIBILITY SameMajorVersion
     )
 
