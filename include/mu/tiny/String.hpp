@@ -17,8 +17,8 @@
  * representations in assertion failure messages.
  */
 
-#ifndef INCLUDED_MU_TINY_TEST_STRING_HPP
-#define INCLUDED_MU_TINY_TEST_STRING_HPP
+#ifndef INCLUDED_MU_TINY_STRING_HPP
+#define INCLUDED_MU_TINY_STRING_HPP
 
 #include "mu/tiny/export.h"
 #include "mu/tiny/features.hpp"

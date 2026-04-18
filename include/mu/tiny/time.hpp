@@ -6,8 +6,8 @@
  * that tests can substitute a deterministic time source by reassigning them.
  */
 
-#ifndef INCLUDED_MU_TINY_TEST_TIME_HPP
-#define INCLUDED_MU_TINY_TEST_TIME_HPP
+#ifndef INCLUDED_MU_TINY_TIME_HPP
+#define INCLUDED_MU_TINY_TIME_HPP
 
 #include "mu/tiny/export.h"
 
@@ -35,4 +35,4 @@ MUTINY_EXPORT extern const char* (*get_time_string)();
 } // namespace tiny
 } // namespace mu
 
-#endif /* INCLUDED_MU_TINY_TEST_TIME_HPP */
+#endif /* INCLUDED_MU_TINY_TIME_HPP */
