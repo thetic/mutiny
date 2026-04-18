@@ -30,10 +30,18 @@ jobs:
       - name: Install Libabigail
         run: sudo apt-get update && sudo apt-get install -y abigail-tools
 
+      - name: Get Latest Release Tag
+        id: latest_release
+        run: |
+          tag=$(gh release view --repo ${{ github.repository }} --json tagName --jq .tagName)
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Checkout Base Branch
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.base_ref }}
+          ref: ${{ steps.latest_release.outputs.tag }}
           path: baseline
 
       - name: Configure Baseline Build
