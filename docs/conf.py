@@ -6,7 +6,7 @@ from pathlib import Path
 
 # -- Project information -------------------------------------------------------
 
-project = "mutiny"
+project = "mu::tiny"
 copyright = "2026, Chad Condon"
 author = "Chad Condon"
 language = "en"
@@ -35,8 +35,8 @@ intersphinx_mapping = {
 # -- Breathe -------------------------------------------------------------------
 
 # Exhale writes XML here (relative to confdir); must match exhale_args below.
-breathe_projects = {"mutiny": "./doxyoutput/xml"}
-breathe_default_project = "mutiny"
+breathe_projects = {"mu::tiny": "./doxyoutput/xml"}
+breathe_default_project = "mu::tiny"
 breathe_domain_by_extension = {"hpp": "cpp"}
 
 # -- Exhale --------------------------------------------------------------------
@@ -81,7 +81,7 @@ exhale_args = {
 
 # -- GitHub source links -------------------------------------------------------
 
-_github_root = "https://github.com/thetic/mutiny"
+_github_root = "https://github.com/thetic/mu.tiny"
 _github_branch = os.environ.get("DOCS_GITHUB_REF", "main")
 
 # :source:`filename <path/to/file>` → link into the GitHub tree
@@ -94,7 +94,7 @@ extlinks = {
 html_theme = "furo"
 html_static_path = ["_static"]
 templates_path = ["_templates"]
-html_title = "mutiny"
+html_title = "mu::tiny"
 html_logo = "_static/logo.png"
 html_theme_options = {
     "source_repository": _github_root,
