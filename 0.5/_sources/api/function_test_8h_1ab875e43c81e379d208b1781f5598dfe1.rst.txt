@@ -1,0 +1,14 @@
+.. _exhale_function_test_8h_1ab875e43c81e379d208b1781f5598dfe1:
+
+Function mutiny_check_equal_double
+==================================
+
+- Defined in :ref:`file_include_mu_tiny_test.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mutiny_check_equal_double(double, double, double, const char *, const char *, size_t)
+   :project: mutiny
