@@ -12,6 +12,12 @@ TEST_GROUP(MockReturnValue)
   }
 };
 
+TEST(MockReturnValue, returnValueWithNoActualCallReturnsEmptyNamedValue)
+{
+  auto rv = mock().return_value();
+  STRCMP_EQUAL("", rv.get_name().c_str());
+}
+
 TEST(MockReturnValue, hasReturnValue)
 {
   CHECK(!mock().has_return_value());
