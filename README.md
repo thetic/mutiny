@@ -1,7 +1,7 @@
 <img src="docs/_static/logo.png" alt="mu::tiny" width="300">
 
-[![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
-[![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
+[![Basic builds](https://github.com/thetic/mu.tiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mu.tiny/actions/workflows/basic.yml)
+[![Coverage Status](https://coveralls.io/repos/github/thetic/mu.tiny/badge.svg)](https://coveralls.io/github/thetic/mu.tiny)
 
 ---
 
@@ -24,7 +24,7 @@ project(my_tests)
 include(FetchContent)
 FetchContent_Declare(
     mutiny
-    GIT_REPOSITORY    https://github.com/thetic/mutiny.git
+    GIT_REPOSITORY    https://github.com/thetic/mu.tiny.git
     GIT_TAG           v0.1.0
     FIND_PACKAGE_ARGS 0.1
 )

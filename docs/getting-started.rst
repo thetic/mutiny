@@ -28,7 +28,7 @@ is not installed, CMake fetches and builds it from source automatically:
    include(FetchContent)
    FetchContent_Declare(
        mutiny
-       GIT_REPOSITORY https://github.com/thetic/mutiny.git
+       GIT_REPOSITORY https://github.com/thetic/mu.tiny.git
        GIT_TAG        v0.1.0
        FIND_PACKAGE_ARGS 0.1
    )
