@@ -52,4 +52,4 @@ and are available to consuming projects immediately after that call.
 CTest Integration Module
 ------------------------
 
-.. cmake-module:: ../cmake/Mutiny.cmake
+.. cmake-module:: ../cmake/mu.tiny.cmake

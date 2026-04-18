@@ -53,7 +53,7 @@ target_link_libraries(mutiny_test
         mu::tiny
 )
 
-include(Mutiny)
+include(mu.tiny)
 mutiny_discover_tests(mutiny_test)
 
 get_cmake_property(_mutiny_is_multi_config GENERATOR_IS_MULTI_CONFIG)

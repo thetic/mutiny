@@ -245,7 +245,7 @@ if(PROJECT_IS_TOP_LEVEL)
     )
     install(
         FILES
-            ${MUTINY_MODULE_PATH}/Mutiny.cmake
+            ${MUTINY_MODULE_PATH}/mu.tiny.cmake
             ${MUTINY_MODULE_PATH}/_mutiny_discovery.cmake
         DESTINATION "${MUTINY_CONFIG_DEST}/Modules"
     )

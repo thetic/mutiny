@@ -3,7 +3,7 @@ Provides CTest integration for the mutiny unit-testing framework.
 
 .. code-block:: cmake
 
-   include(Mutiny)
+   include(mu.tiny)
 
 After including this module the :command:`mutiny_discover_tests` command is
 available.  It attaches a post-build step to a test executable that enumerates
