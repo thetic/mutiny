@@ -6,7 +6,7 @@ if(PROJECT_IS_TOP_LEVEL)
     include(FetchContent)
     FetchContent_Declare(
         mu.tiny
-        GIT_REPOSITORY https://github.com/thetic/mutiny.git
+        GIT_REPOSITORY https://github.com/thetic/mu.tiny.git
         GIT_TAG v0.1.0
         FIND_PACKAGE_ARGS 0.1
     )
