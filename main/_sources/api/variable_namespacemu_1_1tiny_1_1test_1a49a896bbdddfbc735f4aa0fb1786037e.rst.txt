@@ -11,4 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: mu::tiny::test::rand
-   :project: mutiny
+   :project: mu::tiny

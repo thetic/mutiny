@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MUTINY_CHECK_FORMAT_TYPE
-   :project: mutiny
+   :project: mu::tiny

@@ -20,7 +20,7 @@ Class Documentation
 
 
 .. doxygenclass:: mu::tiny::test::ComparisonFailure
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

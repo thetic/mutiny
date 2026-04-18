@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: SKIPPED_TEST_C_WRAPPER
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::v_string_from_format(const char *, va_list)
-   :project: mutiny
+   :project: mu::tiny

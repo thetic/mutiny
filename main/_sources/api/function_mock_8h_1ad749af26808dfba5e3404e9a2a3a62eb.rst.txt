@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mutiny_mock_scope(const char *)
-   :project: mutiny
+   :project: mu::tiny

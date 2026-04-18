@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: STRCMP_EQUAL_TEXT
-   :project: mutiny
+   :project: mu::tiny

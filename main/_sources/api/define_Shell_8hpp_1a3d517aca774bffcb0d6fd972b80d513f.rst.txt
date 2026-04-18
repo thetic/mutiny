@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: ENUMS_EQUAL_TYPE_LOCATION
-   :project: mutiny
+   :project: mu::tiny

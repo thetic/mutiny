@@ -11,4 +11,4 @@ Enum Documentation
 
 
 .. doxygenenum:: MutinyMockValueType
-   :project: mutiny
+   :project: mu::tiny

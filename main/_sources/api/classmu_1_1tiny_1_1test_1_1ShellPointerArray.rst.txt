@@ -11,7 +11,7 @@ Class Documentation
 
 
 .. doxygenclass:: mu::tiny::test::ShellPointerArray
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

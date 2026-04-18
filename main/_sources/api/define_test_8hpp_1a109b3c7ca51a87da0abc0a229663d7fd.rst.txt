@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: TEST_GROUP
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MUTINY_PTR_SET
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: MutinyMockTypeEqualFunction
-   :project: mutiny
+   :project: mu::tiny

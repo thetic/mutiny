@@ -11,4 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: MutinyMockTypeCopyFunction
-   :project: mutiny
+   :project: mu::tiny

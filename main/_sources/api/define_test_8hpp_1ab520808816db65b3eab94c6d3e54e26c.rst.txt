@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: TEST_PROPERTY
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: XFAIL_TEST
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::string_from_binary_with_size(const unsigned char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

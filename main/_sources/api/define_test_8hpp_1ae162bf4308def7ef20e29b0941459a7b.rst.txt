@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: SKIPPED_TEST
-   :project: mutiny
+   :project: mu::tiny

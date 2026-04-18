@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::string_starts_with(const String&, const String&)
-   :project: mutiny
+   :project: mu::tiny

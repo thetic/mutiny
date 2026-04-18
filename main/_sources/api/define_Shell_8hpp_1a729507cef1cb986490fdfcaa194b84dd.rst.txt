@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: CHECK_LOCATION
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: SKIP_TEST_LOCATION
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mutiny_check_equal_memcmp(const void *, const void *, size_t, const char *, const char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

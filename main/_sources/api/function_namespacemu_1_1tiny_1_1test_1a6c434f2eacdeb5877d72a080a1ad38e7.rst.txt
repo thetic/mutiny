@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::test::check_compare(const T&, const U&, bool, const char *, const char *, const char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

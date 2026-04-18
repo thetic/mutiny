@@ -21,7 +21,7 @@ Class Documentation
 
 
 .. doxygenclass:: mu::tiny::mock::NamedValueComparator
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

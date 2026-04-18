@@ -26,7 +26,7 @@ Class Documentation
 
 
 .. doxygenclass:: mu::tiny::test::NormalTerminator
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

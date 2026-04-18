@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: CHECK_EQUAL_ULONG
-   :project: mutiny
+   :project: mu::tiny

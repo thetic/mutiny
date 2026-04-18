@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: CHECK_EQUAL_DOUBLE
-   :project: mutiny
+   :project: mu::tiny

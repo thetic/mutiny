@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MEMCMP_EQUAL
-   :project: mutiny
+   :project: mu::tiny

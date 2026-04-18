@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: FAIL_TEST_LOCATION
-   :project: mutiny
+   :project: mu::tiny

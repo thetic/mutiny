@@ -11,4 +11,4 @@ Typedef Documentation
 
 
 .. doxygentypedef:: MutinyMockTypeValueToStringFunction
-   :project: mutiny
+   :project: mu::tiny

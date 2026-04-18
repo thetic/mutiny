@@ -11,4 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: mu::tiny::get_time_in_millis
-   :project: mutiny
+   :project: mu::tiny

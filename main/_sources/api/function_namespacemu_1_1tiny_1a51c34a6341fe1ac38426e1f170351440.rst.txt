@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::memcmp(const void *, const void *, size_t)
-   :project: mutiny
+   :project: mu::tiny

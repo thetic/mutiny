@@ -27,18 +27,18 @@ is not installed, CMake fetches and builds it from source automatically:
 
    include(FetchContent)
    FetchContent_Declare(
-       mutiny
-       GIT_REPOSITORY https://github.com/thetic/mutiny.git
+       mu.tiny
+       GIT_REPOSITORY https://github.com/thetic/mu.tiny.git
        GIT_TAG        v0.1.0
        FIND_PACKAGE_ARGS 0.1
    )
-   FetchContent_MakeAvailable(mutiny)
+   FetchContent_MakeAvailable(mu.tiny)
 
    add_executable(my_tests main.cpp widget.test.cpp)
    target_link_libraries(my_tests PRIVATE mu::tiny)
 
    include(CTest)
-   include(Mutiny)
+   include(mu.tiny)
    mutiny_discover_tests(my_tests)
 
 If *mu::tiny* is already installed and you prefer not to use
@@ -47,27 +47,27 @@ If *mu::tiny* is already installed and you prefer not to use
 
 .. code-block:: cmake
 
-   find_package(mutiny 0.1 REQUIRED)
+   find_package(mu.tiny 0.1 REQUIRED)
 
 Headers
 ~~~~~~~
 
-All public headers live under ``include/mutiny/``. The main headers you'll use:
+All public headers live under ``include/mu/tiny/``. The main headers you'll use:
 
 .. list-table::
    :header-rows: 1
 
    * - Header
      - Purpose
-   * - ``mutiny/test.hpp``
+   * - ``mu/tiny/test.hpp``
      - Test and assertion macros (:c:macro:`TEST_GROUP`, :c:macro:`TEST`, :c:macro:`CHECK`, etc.)
-   * - ``mutiny/mock.hpp``
+   * - ``mu/tiny/mock.hpp``
      - Mock framework (:cpp:func:`mock <mu::tiny::mock::mock>`, :cpp:class:`Support <mu::tiny::mock::Support>`)
-   * - ``mutiny/test.h``
+   * - ``mu/tiny/test.h``
      - C interface (include in ``.test.c`` files)
-   * - ``mutiny/test/CommandLineRunner.hpp``
+   * - ``mu/tiny/test/CommandLineRunner.hpp``
      - :cpp:class:`CommandLineRunner <mu::tiny::test::CommandLineRunner>` (``main()`` runner)
-   * - ``mutiny/test/Ordered.hpp``
+   * - ``mu/tiny/test/Ordered.hpp``
      - :c:macro:`TEST_ORDERED` macro
 
 Writing ``main()``
@@ -78,7 +78,7 @@ Every test executable needs a ``main()``. The simplest form uses
 
 .. code-block:: cpp
 
-   #include "mutiny/test/CommandLineRunner.hpp"
+   #include "mu/tiny/test/CommandLineRunner.hpp"
 
    int main(int argc, char** argv)
    {
@@ -93,10 +93,10 @@ To add plugins (e.g.
 
 .. code-block:: cpp
 
-   #include "mutiny/test/CommandLineRunner.hpp"
-   #include "mutiny/test/JUnitOutputPlugin.hpp"
-   #include "mutiny/mock/SupportPlugin.hpp"
-   #include "mutiny/test/Registry.hpp"
+   #include "mu/tiny/test/CommandLineRunner.hpp"
+   #include "mu/tiny/test/JUnitOutputPlugin.hpp"
+   #include "mu/tiny/mock/SupportPlugin.hpp"
+   #include "mu/tiny/test/Registry.hpp"
 
    int main(int argc, char** argv)
    {

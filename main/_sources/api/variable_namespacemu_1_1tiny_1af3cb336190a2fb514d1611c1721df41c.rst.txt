@@ -11,4 +11,4 @@ Variable Documentation
 
 
 .. doxygenvariable:: mu::tiny::get_time_string
-   :project: mutiny
+   :project: mu::tiny

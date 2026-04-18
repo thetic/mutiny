@@ -11,7 +11,7 @@ Struct Documentation
 
 
 .. doxygenstruct:: MutinyMockActualCall
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

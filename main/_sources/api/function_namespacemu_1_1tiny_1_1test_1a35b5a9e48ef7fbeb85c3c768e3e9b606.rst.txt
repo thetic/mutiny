@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::test::approx_equal(T, T, T)
-   :project: mutiny
+   :project: mu::tiny

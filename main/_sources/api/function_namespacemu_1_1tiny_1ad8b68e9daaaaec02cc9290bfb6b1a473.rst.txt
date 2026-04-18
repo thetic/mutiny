@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::strtoul(const char *)
-   :project: mutiny
+   :project: mu::tiny

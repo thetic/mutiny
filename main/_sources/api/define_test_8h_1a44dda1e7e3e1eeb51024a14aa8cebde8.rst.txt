@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: CHECK_EQUAL_POINTER
-   :project: mutiny
+   :project: mu::tiny

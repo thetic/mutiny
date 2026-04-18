@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: TEST_GROUP_C_WRAPPER
-   :project: mutiny
+   :project: mu::tiny

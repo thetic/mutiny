@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: ENUMS_EQUAL_INT_TEXT
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: TEST_ORDERED
-   :project: mutiny
+   :project: mu::tiny

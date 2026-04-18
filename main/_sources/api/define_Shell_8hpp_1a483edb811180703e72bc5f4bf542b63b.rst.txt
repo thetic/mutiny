@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: PASS_TEST
-   :project: mutiny
+   :project: mu::tiny

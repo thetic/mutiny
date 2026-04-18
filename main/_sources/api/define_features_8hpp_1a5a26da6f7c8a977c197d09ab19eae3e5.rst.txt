@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MUTINY_HAVE_EXCEPTIONS
-   :project: mutiny
+   :project: mu::tiny

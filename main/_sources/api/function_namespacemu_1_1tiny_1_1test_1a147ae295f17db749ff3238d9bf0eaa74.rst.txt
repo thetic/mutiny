@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::test::check_enum_equal(ENUM_TYPE, ENUM_TYPE, const char *, const char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

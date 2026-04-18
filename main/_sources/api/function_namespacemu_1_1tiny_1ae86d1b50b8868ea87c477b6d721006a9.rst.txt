@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::string_from(unsigned char)
-   :project: mutiny
+   :project: mu::tiny

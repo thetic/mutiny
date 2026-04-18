@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mutiny_check_equal_uint(unsigned int, unsigned int, const char *, const char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MUTINY_USE_STD_CPP_LIB
-   :project: mutiny
+   :project: mu::tiny

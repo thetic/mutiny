@@ -35,7 +35,7 @@ Class Documentation
 
 
 .. doxygenclass:: mu::tiny::mock::Failure
-   :project: mutiny
+   :project: mu::tiny
    :members:
    :protected-members:
    :undoc-members:

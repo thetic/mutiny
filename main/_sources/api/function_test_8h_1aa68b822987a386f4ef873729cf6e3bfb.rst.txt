@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mutiny_check_equal_ubyte(unsigned char, unsigned char, const char *, const char *, size_t)
-   :project: mutiny
+   :project: mu::tiny

@@ -11,4 +11,4 @@ Define Documentation
 
 
 .. doxygendefine:: MUTINY_USE_STD_STRING
-   :project: mutiny
+   :project: mu::tiny

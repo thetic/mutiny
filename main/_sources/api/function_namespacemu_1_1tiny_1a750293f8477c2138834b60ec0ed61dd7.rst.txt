@@ -11,4 +11,4 @@ Function Documentation
 
 
 .. doxygenfunction:: mu::tiny::brackets_formatted_hex_string_from(signed char)
-   :project: mutiny
+   :project: mu::tiny
