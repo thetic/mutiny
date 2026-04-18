@@ -23,18 +23,18 @@ project(my_tests)
 
 include(FetchContent)
 FetchContent_Declare(
-    mutiny
+    mu.tiny
     GIT_REPOSITORY    https://github.com/thetic/mu.tiny.git
     GIT_TAG           v0.1.0
     FIND_PACKAGE_ARGS 0.1
 )
-FetchContent_MakeAvailable(mutiny)
+FetchContent_MakeAvailable(mu.tiny)
 
 add_executable(my_tests main.cpp widget.test.cpp)
 target_link_libraries(my_tests PRIVATE mu::tiny)
 
 include(CTest)
-include(mutiny)
+include(mu.tiny)
 mutiny_discover_tests(my_tests)
 ```
 
@@ -43,7 +43,7 @@ If _mu::tiny_ is already installed and you prefer not to use
 [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) directly:
 
 ```cmake
-find_package(mutiny 0.1 REQUIRED)
+find_package(mu.tiny 0.1 REQUIRED)
 ```
 
 ## Headers
