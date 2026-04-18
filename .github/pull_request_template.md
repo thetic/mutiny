@@ -17,6 +17,6 @@ If you have verified this change on hardware or a simulator not covered by CI (e
 
 ## Checklist
 - [ ] I have written/updated documentation in `docs/` for any user-facing changes.
-- [ ] My code follows the project's naming conventions (`mu::tiny` namespace, `INCLUDED_MUTINY_` guards, `mutiny_` C-prefix).
+- [ ] My code follows the project's naming conventions (`mu::tiny` namespace, `INCLUDED_MU_TINY_` guards, `mutiny_` C-prefix).
 - [ ] For new features, I have considered if a C-interface adapter (`.h` and `.c.cpp`) is required for parity.
 - [ ] I have reviewed the `CONTRIBUTING.md` file to ensure compliance with architectural guidelines.

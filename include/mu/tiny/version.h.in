@@ -3,7 +3,7 @@
  * @brief Version number macros for the mutiny framework.
  *
  * This file is a CMake template; the `@...@` placeholders are substituted
- * at configure time to produce the installed `mutiny/version.h`.
+ * at configure time to produce the installed `mu/tiny/version.h`.
  */
 
 #ifndef INCLUDED_MU_TINY_TEST_VERSION_H

@@ -28,7 +28,7 @@ Provide a minimal reproduction case. If possible, provide a snippet of a `TEST` 
 
 ```cpp
 // Example reproduction test case
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 TEST_GROUP(Reproduction)
 {

@@ -1,4 +1,4 @@
-# Contributing to *mu::tiny*
+# Contributing to _mu::tiny_
 
 ## Building for Development
 
@@ -42,7 +42,7 @@ These are enforced by CI via `clang-tidy` and code review:
 - **Anonymous namespaces** instead of file-scope `static` in `.cpp` files ([SF.22](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rs-unnamed2)).
 - **`using`** instead of `typedef` ([T.43](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rt-using)). Function pointer form: `using F = void (*)()`.
 - **`auto`** to avoid repeating the type when the LHS type equals the RHS constructed type ([ES.11](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#res-auto)). Use `auto*` for pointer types; bare `auto` for function pointer casts. Skip the polymorphic base-pointer pattern (`Base* p = new Derived(...)`) — that is intentional.
-- **Include guards**: `INCLUDED_MUTINY_<NAME>_HPP` / `INCLUDED_MUTINY_<NAME>_H`.
+- **Include guards**: `INCLUDED_MU_TINY_<NAME>_HPP` / `INCLUDED_MU_TINY_<NAME>_H`.
 
 ## C++ Standard
 
@@ -50,7 +50,7 @@ The minimum supported standard is **C++11**. Library code must compile cleanly u
 
 ## Standard Library Policy
 
-Library code (anything under `include/mutiny/` and `src/`) must compile with and without the C++ standard library.
+Library code (anything under `include/mu/tiny/` and `src/`) must compile with and without the C++ standard library.
 The `no-std-cpp` preset enforces this.
 This means `<type_traits>`, `<utility>`, `std::enable_if`, and similar are off-limits in library headers and source unless guarded by `MUTINY_USE_STD_CPP_LIB`.
 
@@ -91,12 +91,12 @@ User-facing features must be documented in `docs/`. The docs are written in reSt
 ## Semantic Versioning
 
 This project follows [Semantic Versioning 2.0.0](https://semver.org/).
-The version is defined in the `cfg/VERSION` file and is used to generate the version header `mutiny/test/version.hpp`.
+The version is defined in the `cfg/VERSION` file and is used to generate the version header `mu/tiny/test/version.hpp`.
 
 ### Incrementing the Version
 
 - **MAJOR** version: Incompatible source API changes.
-  - Examples: Removing or renaming public headers/functions/classes, changing function signatures in `include/mutiny/`, dropping support for a C++ standard version (e.g., C++11 to C++14).
+  - Examples: Removing or renaming public headers/functions/classes, changing function signatures in `include/mu/tiny/`, dropping support for a C++ standard version (e.g., C++11 to C++14).
 - **MINOR** version: Backwards compatible functionality.
   - Examples: Adding new classes/functions/macros to the public API.
 - **PATCH** version: Backwards compatible bug fixes.
