@@ -1,7 +1,7 @@
-#include "mutiny/test/IgnoredShell.hpp"
+#include "mu/tiny/test/IgnoredShell.hpp"
 
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Result.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Result.hpp"
 
 namespace mu {
 namespace tiny {

@@ -1,20 +1,20 @@
-<img src="docs/_static/logo.png" alt="Mu::tiny" width="300">
+<img src="docs/_static/logo.png" alt="mu::tiny" width="300">
 
 [![Basic builds](https://github.com/thetic/mutiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mutiny/actions/workflows/basic.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mutiny/badge.svg)](https://coveralls.io/github/thetic/mutiny)
 
 ---
 
-_Mu::tiny_ is a C/C++ unit testing and mocking framework suited for embedded and
+_mu::tiny_ is a C/C++ unit testing and mocking framework suited for embedded and
 low-resource targets.
 
-## Adding Mu::tiny to Your Project
+## Adding mu::tiny to Your Project
 
 The recommended approach uses CMake
 [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html)
 with `FIND_PACKAGE_ARGS`. This first attempts
 [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html);
-if _Mu::tiny_ is not installed, CMake fetches and builds it from source
+if _mu::tiny_ is not installed, CMake fetches and builds it from source
 automatically:
 
 ```cmake
@@ -38,7 +38,7 @@ include(mutiny)
 mutiny_discover_tests(my_tests)
 ```
 
-If _Mu::tiny_ is already installed and you prefer not to use
+If _mu::tiny_ is already installed and you prefer not to use
 [FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html), use
 [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) directly:
 
@@ -133,9 +133,9 @@ See [docs/command-line-reference.rst](docs/command-line-reference.rst) for all f
 | [CheatSheet.test.cpp](examples/tests/CheatSheet.test.cpp)         | Minimal `TEST_GROUP` + `TEST` with `setup()`, `MUTINY_PTR_SET`, and assertion macros |
 | [CircularBuffer.test.cpp](examples/tests/CircularBuffer.test.cpp) | Full group with setup/teardown, helper methods, and multiple assertion styles        |
 
-## Building Mu::tiny
+## Building mu::tiny
 
-_Mu::tiny_ uses CMake. Clone the repository and configure:
+_mu::tiny_ uses CMake. Clone the repository and configure:
 
 ```sh
 cmake -B build
@@ -145,5 +145,5 @@ cmake --install build  # optional system install
 
 ## Attribution
 
-_Mu::tiny_ is descended from [CppUTest](https://github.com/cpputest/cpputest).
+_mu::tiny_ is descended from [CppUTest](https://github.com/cpputest/cpputest).
 Users looking for more robust support of older language standards, or legacy compilers and platforms should consider using _CppUTest_ instead.

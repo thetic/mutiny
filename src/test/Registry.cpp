@@ -1,10 +1,10 @@
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
-#include "mutiny/test/GroupLocation.hpp"
-#include "mutiny/test/NullPlugin.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/ShellPointerArray.hpp"
+#include "mu/tiny/test/GroupLocation.hpp"
+#include "mu/tiny/test/NullPlugin.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/ShellPointerArray.hpp"
 
 namespace mu {
 namespace tiny {

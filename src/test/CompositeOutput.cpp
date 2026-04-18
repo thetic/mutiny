@@ -1,4 +1,4 @@
-#include "mutiny/test/CompositeOutput.hpp"
+#include "mu/tiny/test/CompositeOutput.hpp"
 
 namespace mu {
 namespace tiny {

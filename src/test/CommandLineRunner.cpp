@@ -1,13 +1,13 @@
-#include "mutiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
 
-#include "mutiny/test/CompositeOutput.hpp"
-#include "mutiny/test/ConsoleOutput.hpp"
-#include "mutiny/test/JUnitOutputPlugin.hpp"
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/SetPointerPlugin.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/CompositeOutput.hpp"
+#include "mu/tiny/test/ConsoleOutput.hpp"
+#include "mu/tiny/test/JUnitOutputPlugin.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/SetPointerPlugin.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

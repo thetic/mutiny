@@ -1,9 +1,9 @@
 #include "MockFailureReporter.hpp"
 
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/mock.hpp"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.hpp"
+#include "mu/tiny/test.hpp"
 
 using mu::tiny::mock::mock;
 

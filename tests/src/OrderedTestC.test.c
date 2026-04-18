@@ -1,6 +1,6 @@
 #include "OrderedTest.h"
 
-#include "mutiny/test.h"
+#include "mu/tiny/test.h"
 
 TEST(OrderedTestC, Test7)
 {

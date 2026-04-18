@@ -4,9 +4,9 @@
 // be initialized before use and flushed on shutdown. Ordered tests let each
 // phase be a separate, named test rather than one monolithic test body.
 
-#include "mutiny/test/Ordered.hpp"
+#include "mu/tiny/test/Ordered.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 

@@ -1,5 +1,5 @@
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 

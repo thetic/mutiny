@@ -1,10 +1,10 @@
-#include "mutiny/mock/Failure.hpp"
+#include "mu/tiny/mock/Failure.hpp"
 
-#include "mutiny/mock/ExpectedCall.hpp"
-#include "mutiny/mock/ExpectedCallsList.hpp"
-#include "mutiny/mock/NamedValue.hpp"
+#include "mu/tiny/mock/ExpectedCall.hpp"
+#include "mu/tiny/mock/ExpectedCallsList.hpp"
+#include "mu/tiny/mock/NamedValue.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

@@ -1,11 +1,11 @@
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #include <limits.h>
 #include <math.h>

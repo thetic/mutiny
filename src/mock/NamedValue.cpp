@@ -1,8 +1,8 @@
-#include "mutiny/mock/NamedValue.hpp"
+#include "mu/tiny/mock/NamedValue.hpp"
 
-#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mu/tiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

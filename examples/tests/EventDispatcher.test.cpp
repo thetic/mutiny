@@ -1,9 +1,9 @@
 #include "EventDispatcher.hpp"
 
-#include "mutiny/mock/NamedValueComparator.hpp"
+#include "mu/tiny/mock/NamedValueComparator.hpp"
 
-#include "mutiny/mock.hpp"
-#include "mutiny/test.hpp"
+#include "mu/tiny/mock.hpp"
+#include "mu/tiny/test.hpp"
 
 using mu::tiny::mock::mock;
 

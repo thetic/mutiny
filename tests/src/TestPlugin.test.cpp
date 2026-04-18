@@ -1,9 +1,9 @@
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 #define GENERIC_PLUGIN "GenericPlugin"
 #define GENERIC_PLUGIN2 "GenericPlugin2"

@@ -1,7 +1,7 @@
-#include "mutiny/test/IgnoredShell.hpp"
-#include "mutiny/test/ShellPointerArray.hpp"
+#include "mu/tiny/test/IgnoredShell.hpp"
+#include "mu/tiny/test/ShellPointerArray.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 int get_zero()

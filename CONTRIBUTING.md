@@ -1,4 +1,4 @@
-# Contributing to *Mu::tiny*
+# Contributing to *mu::tiny*
 
 ## Building for Development
 

@@ -1,4 +1,4 @@
-#include "mutiny/test.h"
+#include "mu/tiny/test.h"
 
 #include <stdbool.h>
 

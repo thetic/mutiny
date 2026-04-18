@@ -1,9 +1,9 @@
 #include "OrderedTest.h"
 
-#include "mutiny/test/Ordered.hpp"
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Ordered.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 class OrderedTestTestingFixture

@@ -1,6 +1,6 @@
-#include "mutiny/String.hpp"
+#include "mu/tiny/String.hpp"
 
-#include "mutiny/math.hpp"
+#include "mu/tiny/math.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <string>

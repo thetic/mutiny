@@ -1,12 +1,12 @@
-#include "mutiny/mock.h"
+#include "mu/tiny/mock.h"
 
-#include "mutiny/mock/Failure.hpp"
-#include "mutiny/mock/NamedValueComparator.hpp"
-#include "mutiny/mock/NamedValueCopier.hpp"
+#include "mu/tiny/mock/Failure.hpp"
+#include "mu/tiny/mock/NamedValueComparator.hpp"
+#include "mu/tiny/mock/NamedValueCopier.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/mock.hpp"
+#include "mu/tiny/mock.hpp"
 
 namespace {
 

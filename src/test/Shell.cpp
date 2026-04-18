@@ -1,15 +1,15 @@
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/test/ConsoleOutput.hpp"
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Test.hpp"
-#include "mutiny/test/jump_buffer.hpp"
+#include "mu/tiny/test/ConsoleOutput.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Test.hpp"
+#include "mu/tiny/test/jump_buffer.hpp"
 
-#include "mutiny/String.hpp"
-#include "mutiny/math.hpp"
+#include "mu/tiny/String.hpp"
+#include "mu/tiny/math.hpp"
 
 #include <math.h>
 #include <stdlib.h>

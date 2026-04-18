@@ -245,7 +245,7 @@ jobs:
       - name: Use FetchContent (source build)
         run: |
           cmake -B examples_fc_build -S examples \
-            -DFETCHCONTENT_SOURCE_DIR_MUTINY=${{ github.workspace }}
+            -DFETCHCONTENT_SOURCE_DIR_MU.TINY=${{ github.workspace }}
           cmake --build examples_fc_build -j
           ctest --test-dir examples_fc_build
         if: ${{ matrix.fetchcontent }}
@@ -351,7 +351,7 @@ jobs:
       - name: Build examples from archive
         run: |
           cmake -B examples_build -S examples \
-            -DFETCHCONTENT_SOURCE_DIR_MUTINY=${{ github.workspace }}/archive
+            -DFETCHCONTENT_SOURCE_DIR_MU.TINY=${{ github.workspace }}/archive
           cmake --build examples_build -j
           ctest --test-dir examples_build
 

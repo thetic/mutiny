@@ -1,7 +1,7 @@
-#include "mutiny/test/Plugin.hpp"
+#include "mu/tiny/test/Plugin.hpp"
 
-#include "mutiny/test/NullPlugin.hpp"
-#include "mutiny/test/Output.hpp"
+#include "mu/tiny/test/NullPlugin.hpp"
+#include "mu/tiny/test/Output.hpp"
 
 namespace mu {
 namespace tiny {

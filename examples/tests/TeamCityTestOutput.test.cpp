@@ -1,7 +1,7 @@
 #include "TeamCityOutputPlugin.hpp"
 
-#include "mutiny/test.hpp"
-#include "mutiny/time.hpp"
+#include "mu/tiny/test.hpp"
+#include "mu/tiny/time.hpp"
 
 namespace {
 class TeamCityOutputToBuffer : public TeamCityTestOutput

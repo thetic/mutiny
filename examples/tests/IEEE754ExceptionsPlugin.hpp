@@ -5,7 +5,7 @@
 #define MUTINY_HAVE_FENV 0
 #endif
 
-#include "mutiny/test/Plugin.hpp"
+#include "mu/tiny/test/Plugin.hpp"
 
 class IEEE754ExceptionsPlugin : public mu::tiny::test::Plugin
 {

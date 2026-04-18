@@ -1,9 +1,9 @@
-#include "mutiny/test/ExpectFailShell.hpp"
+#include "mu/tiny/test/ExpectFailShell.hpp"
 
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
 
 namespace mu {
 namespace tiny {

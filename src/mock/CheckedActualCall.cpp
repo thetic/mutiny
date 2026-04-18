@@ -1,10 +1,10 @@
-#include "mutiny/mock/CheckedActualCall.hpp"
+#include "mu/tiny/mock/CheckedActualCall.hpp"
 
-#include "mutiny/mock/CheckedExpectedCall.hpp"
-#include "mutiny/mock/Failure.hpp"
-#include "mutiny/mock/NamedValueCopier.hpp"
+#include "mu/tiny/mock/CheckedExpectedCall.hpp"
+#include "mu/tiny/mock/Failure.hpp"
+#include "mu/tiny/mock/NamedValueCopier.hpp"
 
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 #include <string.h>
 

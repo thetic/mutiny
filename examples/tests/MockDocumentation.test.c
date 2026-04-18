@@ -1,5 +1,5 @@
-#include "mutiny/mock.h"
-#include "mutiny/test.h"
+#include "mu/tiny/mock.h"
+#include "mu/tiny/test.h"
 
 static int equal_method(const void* object1, const void* object2)
 {

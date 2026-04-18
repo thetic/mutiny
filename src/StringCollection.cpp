@@ -1,4 +1,4 @@
-#include "mutiny/StringCollection.hpp"
+#include "mu/tiny/StringCollection.hpp"
 
 namespace mu {
 namespace tiny {

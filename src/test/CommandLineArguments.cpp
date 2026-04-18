@@ -1,11 +1,11 @@
-#include "mutiny/test/CommandLineArguments.hpp"
+#include "mu/tiny/test/CommandLineArguments.hpp"
 
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Registry.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Registry.hpp"
 
-#include "mutiny/StringCollection.hpp"
-#include "mutiny/time.hpp"
-#include "mutiny/version.h"
+#include "mu/tiny/StringCollection.hpp"
+#include "mu/tiny/time.hpp"
+#include "mu/tiny/version.h"
 
 namespace mu {
 namespace tiny {

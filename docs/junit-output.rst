@@ -1,7 +1,7 @@
 JUnit XML Output
 ================
 
-*Mu::tiny* can emit JUnit-compatible XML files via :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`. CI
+*mu::tiny* can emit JUnit-compatible XML files via :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`. CI
 systems such as Jenkins, GitHub Actions, and GitLab CI can parse this
 format to display test results in their dashboards.
 

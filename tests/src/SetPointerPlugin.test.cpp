@@ -1,10 +1,10 @@
-#include "mutiny/test/SetPointerPlugin.hpp"
+#include "mu/tiny/test/SetPointerPlugin.hpp"
 
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 void orig_func1() {}

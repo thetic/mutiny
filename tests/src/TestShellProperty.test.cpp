@@ -1,10 +1,10 @@
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.h"
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.h"
+#include "mu/tiny/test.hpp"
 
 namespace {
 

@@ -1,6 +1,6 @@
 #include "MockSupport.h"
 
-#include "mutiny/mock.h"
+#include "mu/tiny/mock.h"
 
 static int type_name_is_equal(const void* object1, const void* object2)
 {

@@ -1,6 +1,6 @@
 #include "hello.h"
 
-#include "mutiny/test.h"
+#include "mu/tiny/test.h"
 
 static const char* output_ptr;
 static int (*saved_print)(const char*, ...);

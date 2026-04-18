@@ -10,7 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Printer.hpp"
 
-#include "mutiny/String.hpp"
+#include "mu/tiny/String.hpp"
 
 #include <stdlib.h>
 

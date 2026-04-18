@@ -1,8 +1,8 @@
 #include "fail_method_c_body.h"
 
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 /*
  * These tests verify that the C failure path (longjmp-based) does not trigger

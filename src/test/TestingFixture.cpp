@@ -1,8 +1,8 @@
-#include "mutiny/test/TestingFixture.hpp"
+#include "mu/tiny/test/TestingFixture.hpp"
 
-#include "mutiny/test/ExecFunctionShell.hpp"
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/ExecFunctionShell.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 namespace mu {
 namespace tiny {

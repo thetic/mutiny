@@ -1,4 +1,4 @@
-#include "mutiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
+#include "mu/tiny/mock/NamedValueComparatorsAndCopiersRepository.hpp"
 
 namespace mu {
 namespace tiny {

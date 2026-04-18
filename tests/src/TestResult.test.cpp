@@ -1,9 +1,9 @@
-#include "mutiny/test/Failure.hpp"
-#include "mutiny/test/Output.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/Failure.hpp"
+#include "mu/tiny/test/Output.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
 
-#include "mutiny/test.hpp"
-#include "mutiny/time.hpp"
+#include "mu/tiny/test.hpp"
+#include "mu/tiny/time.hpp"
 
 namespace {
 uint_least64_t mock_get_time_in_millis()

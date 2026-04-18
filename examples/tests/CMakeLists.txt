@@ -53,5 +53,5 @@ target_link_libraries(ExampleTests
         mu::tiny
 )
 
-include(Mutiny)
+include(mu.tiny)
 mutiny_discover_tests(ExampleTests)

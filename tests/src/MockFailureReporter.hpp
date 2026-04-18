@@ -1,9 +1,9 @@
 #ifndef INCLUDED_MUTINY_MOCKFAILUREREPORTER_HPP
 #define INCLUDED_MUTINY_MOCKFAILUREREPORTER_HPP
 
-#include "mutiny/mock/Failure.hpp"
+#include "mu/tiny/mock/Failure.hpp"
 
-#include "mutiny/mock.hpp"
+#include "mu/tiny/mock.hpp"
 
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure)                           \
   check_expected_mock_failure_location(expectedFailure, __FILE__, __LINE__)

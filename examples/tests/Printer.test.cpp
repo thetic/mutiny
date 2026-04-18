@@ -2,7 +2,7 @@
 
 #include "MockPrinter.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 TEST_GROUP(Printer)
 {

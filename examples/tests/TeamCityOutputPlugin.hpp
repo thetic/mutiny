@@ -1,8 +1,8 @@
 #ifndef INCLUDED_TEAMCITYOUTPUTPLUGIN_HPP
 #define INCLUDED_TEAMCITYOUTPUTPLUGIN_HPP
 
-#include "mutiny/test/ConsoleOutput.hpp"
-#include "mutiny/test/Plugin.hpp"
+#include "mu/tiny/test/ConsoleOutput.hpp"
+#include "mu/tiny/test/Plugin.hpp"
 
 class TeamCityTestOutput : public mu::tiny::test::ConsoleOutput
 {

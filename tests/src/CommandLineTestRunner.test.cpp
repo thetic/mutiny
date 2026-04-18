@@ -1,9 +1,9 @@
-#include "mutiny/test/CommandLineRunner.hpp"
-#include "mutiny/test/Plugin.hpp"
-#include "mutiny/test/Registry.hpp"
-#include "mutiny/test/StringBufferOutput.hpp"
+#include "mu/tiny/test/CommandLineRunner.hpp"
+#include "mu/tiny/test/Plugin.hpp"
+#include "mu/tiny/test/Registry.hpp"
+#include "mu/tiny/test/StringBufferOutput.hpp"
 
-#include "mutiny/test.hpp"
+#include "mu/tiny/test.hpp"
 
 namespace {
 class DummyPluginWhichCountsThePlugins : public mu::tiny::test::Plugin

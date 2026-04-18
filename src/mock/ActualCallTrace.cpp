@@ -1,4 +1,4 @@
-#include "mutiny/mock/ActualCallTrace.hpp"
+#include "mu/tiny/mock/ActualCallTrace.hpp"
 
 namespace mu {
 namespace tiny {

@@ -1,8 +1,8 @@
 Assertion Macros
 ================
 
-Include :ref:`"mutiny/test.hpp" <file_include_mutiny_test.hpp>` (C++) or
-:ref:`"mutiny/test.h" <file_include_mutiny_test.h>` (C) for assertions.
+Include :ref:`"mu/tiny/test.hpp" <file_include_mu_tiny_test.hpp>` (C++) or
+:ref:`"mu/tiny/test.h" <file_include_mu_tiny_test.h>` (C) for assertions.
 
 A failing assertion immediately exits the current test body. Each macro
 increments an internal check counter on success, which appears in the

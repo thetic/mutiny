@@ -1,4 +1,4 @@
-#include "mutiny/test/ConsoleOutput.hpp"
+#include "mu/tiny/test/ConsoleOutput.hpp"
 
 #include <stdio.h>
 

@@ -1,11 +1,11 @@
-#include "mutiny/mock/SupportPlugin.hpp"
+#include "mu/tiny/mock/SupportPlugin.hpp"
 
-#include "mutiny/mock/Failure.hpp"
+#include "mu/tiny/mock/Failure.hpp"
 
-#include "mutiny/test/Result.hpp"
-#include "mutiny/test/Shell.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
-#include "mutiny/mock.hpp"
+#include "mu/tiny/mock.hpp"
 
 namespace mu {
 namespace tiny {
