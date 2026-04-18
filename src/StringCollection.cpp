@@ -67,11 +67,6 @@ size_t StringCollection::size() const
 
 String& StringCollection::operator[](size_t index)
 {
-  if (index >= size_) {
-    empty_ = "";
-    return empty_;
-  }
-
   return collection_[index];
 }
 

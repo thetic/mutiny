@@ -341,6 +341,13 @@ TEST(String, NegativeSignedBytes)
   );
 }
 
+TEST(String, UnsignedBytes)
+{
+  STRCMP_EQUAL(
+      "200", mu::tiny::string_from(static_cast<unsigned char>(200)).c_str()
+  );
+}
+
 TEST(String, PositiveSignedBytes)
 {
   STRCMP_EQUAL("4", mu::tiny::string_from(4).c_str());

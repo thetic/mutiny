@@ -19,8 +19,6 @@ public:
   );
   ~CheckedActualCall() override;
 
-  ActualCall& with_name(const String& name) override;
-  ActualCall& with_call_order(unsigned int) override;
   ActualCall& with_typed_parameter(NamedValue parameter) override;
   ActualCall& with_parameter_of_type(
       const String& type,

@@ -1,8 +1,11 @@
-#include "mutiny/test/JUnitOutput.hpp"
+#include "mutiny/test/Failure.hpp"
+#include "mutiny/test/IgnoredShell.hpp"
+#include "mutiny/test/JUnitOutputPlugin.hpp"
+#include "mutiny/test/Output.hpp"
 #include "mutiny/test/Result.hpp"
+#include "mutiny/test/Shell.hpp"
 
 #include "mutiny/String.hpp"
-#include "mutiny/StringCollection.hpp"
 #include "mutiny/test.hpp"
 #include "mutiny/time.hpp"
 
@@ -13,9 +16,8 @@ class FileForJUnitTestOutputs
   mu::tiny::String name_;
   bool is_open_{ true };
   mu::tiny::String buffer_;
+  mu::tiny::String line_buf_;
   FileForJUnitTestOutputs* next_;
-
-  mu::tiny::StringCollection lines_of_file_;
 
 public:
   FileForJUnitTestOutputs(
@@ -31,25 +33,39 @@ public:
 
   mu::tiny::String name() { return name_; }
 
-  void write(const mu::tiny::String& buffer) { buffer_ += buffer; }
+  void write(const char* buf) { buffer_ += buf; }
 
   void close() { is_open_ = false; }
 
-  const char* line(size_t line_number)
+  const char* line(size_t n)
   {
-    lines_of_file_.split_string(buffer_, '\n');
-    return lines_of_file_[line_number - 1].c_str();
+    const char* p = buffer_.c_str();
+    size_t count = 1;
+    while (*p && count < n) {
+      if (*p == '\n')
+        ++count;
+      ++p;
+    }
+    line_buf_ = "";
+    while (*p && *p != '\n')
+      line_buf_ += *p++;
+    if (*p == '\n')
+      line_buf_ += '\n';
+    return line_buf_.c_str();
   }
 
-  const char* line_from_the_back(size_t line_number_from_the_back)
+  const char* line_from_the_back(size_t n)
   {
-    return line(amount_of_lines() - (line_number_from_the_back - 1));
+    return line(amount_of_lines() - (n - 1));
   }
 
   size_t amount_of_lines()
   {
-    lines_of_file_.split_string(buffer_, '\n');
-    return lines_of_file_.size();
+    size_t count = 0;
+    for (const char* p = buffer_.c_str(); *p; ++p)
+      if (*p == '\n')
+        ++count;
+    return count;
   }
 
   mu::tiny::String content() { return buffer_; }
@@ -63,12 +79,12 @@ public:
   FileSystemForJUnitTestOutputTests() = default;
   ~FileSystemForJUnitTestOutputTests() { clear(); }
 
-  void clear(void)
+  void clear()
   {
     while (first_file_) {
-      FileForJUnitTestOutputs* file_to_be_deleted = first_file_;
+      FileForJUnitTestOutputs* tmp = first_file_;
       first_file_ = first_file_->next_file();
-      delete file_to_be_deleted;
+      delete tmp;
     }
   }
 
@@ -80,25 +96,19 @@ public:
 
   int amount_of_files()
   {
-    int total_amount_of_files = 0;
-    for (FileForJUnitTestOutputs* current = first_file_; current != nullptr;
-         current = current->next_file())
-      total_amount_of_files++;
-    return total_amount_of_files;
+    int count = 0;
+    for (auto* cur = first_file_; cur; cur = cur->next_file())
+      ++count;
+    return count;
   }
 
-  bool file_exists(const char* filename)
-  {
-    FileForJUnitTestOutputs* searched_file = file(filename);
-    return (searched_file != nullptr);
-  }
+  bool file_exists(const char* filename) { return file(filename) != nullptr; }
 
   FileForJUnitTestOutputs* file(const char* filename)
   {
-    for (FileForJUnitTestOutputs* current = first_file_; current != nullptr;
-         current = current->next_file())
-      if (current->name() == filename)
-        return current;
+    for (auto* cur = first_file_; cur; cur = cur->next_file())
+      if (cur->name() == filename)
+        return cur;
     return nullptr;
   }
 };
@@ -139,11 +149,9 @@ class JUnitTestOutputTestRunner
 public:
   explicit JUnitTestOutputTestRunner(const mu::tiny::test::Result& result)
     : result_(result)
-
   {
     millis_time = 0;
     the_time = "1978-10-03T00:00:00";
-
     MUTINY_PTR_SET(mu::tiny::get_time_in_millis, mock_get_time_in_millis);
     MUTINY_PTR_SET(mu::tiny::get_time_string, mock_get_time_string);
   }
@@ -177,14 +185,12 @@ public:
       result_.current_group_ended(current_test_);
       first_test_in_group_ = true;
     }
-
     current_group_name_ = nullptr;
   }
 
   JUnitTestOutputTestRunner& with_group(const char* group_name)
   {
     end_group_and_clear_test();
-
     current_group_name_ = group_name;
     return *this;
   }
@@ -193,7 +199,6 @@ public:
   {
     run_previous_test();
     delete current_test_;
-
     current_test_ =
         new mu::tiny::test::Shell(current_group_name_, test_name, "file", 1);
     return *this;
@@ -203,7 +208,6 @@ public:
   {
     run_previous_test();
     delete current_test_;
-
     current_test_ = new mu::tiny::test::IgnoredShell(
         current_group_name_, test_name, "file", 1
     );
@@ -212,17 +216,15 @@ public:
 
   JUnitTestOutputTestRunner& in_file(const char* file_name)
   {
-    if (current_test_) {
+    if (current_test_)
       current_test_->set_file_name(file_name);
-    }
     return *this;
   }
 
   JUnitTestOutputTestRunner& on_line(size_t line_number)
   {
-    if (current_test_) {
+    if (current_test_)
       current_test_->set_line_number(line_number);
-    }
     return *this;
   }
 
@@ -238,9 +240,8 @@ public:
     result_.current_test_started(current_test_);
 
     millis_time += time_the_test_takes_;
-    for (unsigned int i = 0; i < number_of_checks_in_test_; i++) {
+    for (unsigned int i = 0; i < number_of_checks_in_test_; ++i)
       result_.count_check();
-    }
     number_of_checks_in_test_ = 0;
 
     while (pending_properties_) {
@@ -266,9 +267,9 @@ public:
     result_.current_test_ended(current_test_);
   }
 
-  JUnitTestOutputTestRunner& that_has_checks(unsigned int num_of_checks)
+  JUnitTestOutputTestRunner& that_has_checks(unsigned int num)
   {
-    number_of_checks_in_test_ = num_of_checks;
+    number_of_checks_in_test_ = num;
     return *this;
   }
 
@@ -337,26 +338,23 @@ public:
 FileSystemForJUnitTestOutputTests file_system;
 FileForJUnitTestOutputs* current_file = nullptr;
 
-mu::tiny::test::JUnitOutput::File mock_f_open(const char* filename, const char*)
+mu::tiny::test::Output::File mock_f_open(const char* filename, const char*)
 {
   current_file = file_system.open_file(filename);
   return current_file;
 }
 
-void (*original_f_puts)(
-    const char* str,
-    mu::tiny::test::JUnitOutput::File file
-);
-void mock_f_puts(const char* str, mu::tiny::test::JUnitOutput::File file)
+mu::tiny::test::Output::FPutsFunc original_f_puts;
+
+void mock_f_puts(const char* str, mu::tiny::test::Output::File file)
 {
-  if (file == current_file) {
+  if (file == current_file)
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
-  } else {
+  else
     original_f_puts(str, file);
-  }
 }
 
-void mock_f_close(mu::tiny::test::JUnitOutput::File file)
+void mock_f_close(mu::tiny::test::Output::File file)
 {
   current_file = nullptr;
   static_cast<FileForJUnitTestOutputs*>(file)->close();
@@ -366,27 +364,47 @@ void mock_f_close(mu::tiny::test::JUnitOutput::File file)
 
 TEST_GROUP(JUnitOutput)
 {
-  mu::tiny::test::JUnitOutput* junit_output;
+  mu::tiny::test::JUnitOutputPlugin* plugin;
+  mu::tiny::test::Output* output;
   mu::tiny::test::Result* result;
   JUnitTestOutputTestRunner* test_case_runner;
   FileForJUnitTestOutputs* output_file;
 
+  // Recreate the JUnit output with the given -pjunit argument.
+  // Use "-pjunit" (no package) for "mutiny.xml"; "-pjunit=name" for "name.xml".
+  void init(const char* junit_arg = "-pjunit")
+  {
+    delete test_case_runner;
+    delete result;
+    delete output;
+    delete plugin;
+    plugin = new mu::tiny::test::JUnitOutputPlugin();
+    const char* argv[] = { "", junit_arg };
+    plugin->parse_arguments(2, argv, 1);
+    output = plugin->create_output();
+    result = new mu::tiny::test::Result(*output);
+    test_case_runner = new JUnitTestOutputTestRunner(*result);
+  }
+
   void setup() override
   {
-    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fopen_, mock_f_open);
-    original_f_puts = mu::tiny::test::JUnitOutput::fputs_;
-    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fputs_, mock_f_puts);
-    MUTINY_PTR_SET(mu::tiny::test::JUnitOutput::fclose_, mock_f_close);
-    junit_output = new mu::tiny::test::JUnitOutput();
-    result = new mu::tiny::test::Result(*junit_output);
-    test_case_runner = new JUnitTestOutputTestRunner(*result);
+    MUTINY_PTR_SET(mu::tiny::test::Output::fopen_, mock_f_open);
+    original_f_puts = mu::tiny::test::Output::fputs_;
+    MUTINY_PTR_SET(mu::tiny::test::Output::fputs_, mock_f_puts);
+    MUTINY_PTR_SET(mu::tiny::test::Output::fclose_, mock_f_close);
+    plugin = nullptr;
+    output = nullptr;
+    result = nullptr;
+    test_case_runner = nullptr;
+    init();
   }
 
   void teardown() override
   {
     delete test_case_runner;
     delete result;
-    delete junit_output;
+    delete output;
+    delete plugin;
     file_system.clear();
   }
 };
@@ -401,7 +419,7 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestOnlyWriteToOneFile)
 
 TEST(JUnitOutput, withReservedCharactersInPackageNameUsesUnderscoresForFileName)
 {
-  junit_output->set_package_name("p/a\\c?k%a*g:e|n\"a<m>e.");
+  init("-pjunit=p/a\\c?k%a*g:e|n\"a<m>e.");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   CHECK(file_system.file_exists("p_a_c_k_a_g_e_n_a_m_e..xml"));
@@ -454,7 +472,6 @@ TEST(JUnitOutput, withOneTestGroupAndOneTestFileShouldContainsATestCaseBlock)
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -472,7 +489,6 @@ TEST(JUnitOutput, withOneTestGroupAndTwoTestCasesCreateCorrectTestgroupBlockAndC
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"twoTestsGroup\" tests=\"2\" time=\"0.000\" "
@@ -504,7 +520,6 @@ TEST(JUnitOutput, withOneTestGroupAndTimeHasElapsedAndTimestampChanged)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testsuite errors=\"0\" failures=\"0\" skipped=\"0\" assertions=\"0\" "
       "name=\"timeGroup\" tests=\"1\" time=\"0.010\" "
@@ -587,7 +602,6 @@ TEST(JUnitOutput, withTwoTestGroupAndOneFailingTest)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testsuite errors=\"0\" failures=\"1\" skipped=\"0\" assertions=\"0\" "
       "name=\"testGroupWithFailingTest\" tests=\"2\" time=\"0.000\" "
@@ -616,7 +630,6 @@ TEST(JUnitOutput, testFailureWithLessThanAndGreaterThanInsideIt)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &lt;failed&gt;\" "
       "type=\"AssertionFailedError\">\n",
@@ -633,7 +646,6 @@ TEST(JUnitOutput, testFailureWithQuotesInIt)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &quot;failed&quot;\" "
       "type=\"AssertionFailedError\">\n",
@@ -650,7 +662,6 @@ TEST(JUnitOutput, testFailureWithNewlineInIt)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"thisfile:10: Test &#10;failed\" "
       "type=\"AssertionFailedError\">\n",
@@ -667,7 +678,6 @@ TEST(JUnitOutput, testFailureWithDifferentFileAndLine)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: Test failed\" "
       "type=\"AssertionFailedError\">\n",
@@ -684,7 +694,6 @@ TEST(JUnitOutput, testFailureWithAmpersandsAndLessThan)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: &amp;object1 &lt; "
       "&amp;object2\" type=\"AssertionFailedError\">\n",
@@ -701,7 +710,6 @@ TEST(JUnitOutput, testFailureWithAmpersands)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"importantFile:999: &amp;object1 != "
       "&amp;object2\" type=\"AssertionFailedError\">\n",
@@ -723,7 +731,6 @@ TEST(JUnitOutput, aCoupleOfTestFailures)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
       output_file->line(7)
@@ -748,7 +755,6 @@ TEST(JUnitOutput, testFailuresInSeparateGroups)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<failure message=\"file:99: Failure\" type=\"AssertionFailedError\">\n",
       output_file->line(7)
@@ -796,18 +802,17 @@ TEST(JUnitOutput, testsuitesSummaryAggregatesAcrossGroups)
 
 TEST(JUnitOutput, packageNameWithReservedCharsEncodedInFileName)
 {
-  junit_output->set_package_name("group/weird/name");
+  init("-pjunit=group/weird/name");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
   CHECK(file_system.file_exists("group_weird_name.xml"));
 }
 
 TEST(JUnitOutput, TestCaseBlockWithAPackageName)
 {
-  junit_output->set_package_name("packagename");
+  init("-pjunit=packagename");
   test_case_runner->start().with_group("groupname").with_test("testname").end();
 
   output_file = file_system.file("packagename.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -818,14 +823,13 @@ TEST(JUnitOutput, TestCaseBlockWithAPackageName)
 
 TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
 {
-  junit_output->set_package_name("packagename");
+  init("-pjunit=packagename");
   test_case_runner->start()
       .with_group("groupname")
       .with_ignored_test("testname")
       .end();
 
   output_file = file_system.file("packagename.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -837,7 +841,7 @@ TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
 
 TEST(JUnitOutput, TestCaseWithTestLocation)
 {
-  junit_output->set_package_name("packagename");
+  init("-pjunit=packagename");
   test_case_runner->start()
       .with_group("groupname")
       .with_test("testname")
@@ -846,7 +850,6 @@ TEST(JUnitOutput, TestCaseWithTestLocation)
       .end();
 
   output_file = file_system.file("packagename.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"MySource.c\" line=\"159\">\n",
@@ -867,7 +870,6 @@ TEST(JUnitOutput, MultipleTestCaseWithTestLocations)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"0\" time=\"0.000\" file=\"MyFirstSource.c\" "
@@ -884,7 +886,7 @@ TEST(JUnitOutput, MultipleTestCaseWithTestLocations)
 
 TEST(JUnitOutput, TestCaseBlockWithAssertions)
 {
-  junit_output->set_package_name("packagename");
+  init("-pjunit=packagename");
   test_case_runner->start()
       .with_group("groupname")
       .with_test("testname")
@@ -892,7 +894,6 @@ TEST(JUnitOutput, TestCaseBlockWithAssertions)
       .end();
 
   output_file = file_system.file("packagename.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"24\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -911,7 +912,6 @@ TEST(JUnitOutput, MultipleTestCaseBlocksWithAssertions)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"twoTestsGroup\" name=\"firstTestName\" "
       "assertions=\"456\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -1130,7 +1130,7 @@ TEST(JUnitOutput, propertiesAccumulateCorrectlyAcrossGroups)
 
 TEST(JUnitOutput, TestCaseBlockForSkippedTestWithMessage)
 {
-  junit_output->set_package_name("packagename");
+  init("-pjunit=packagename");
   test_case_runner->start()
       .with_group("groupname")
       .with_test("testname")
@@ -1138,7 +1138,6 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestWithMessage)
       .end();
 
   output_file = file_system.file("packagename.xml");
-
   STRCMP_EQUAL(
       "<testcase classname=\"packagename.groupname\" name=\"testname\" "
       "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
@@ -1157,9 +1156,22 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
       .end();
 
   output_file = file_system.file("mutiny.xml");
-
   STRCMP_EQUAL(
       "<skipped message=\"skip &lt;this&gt; &amp; &quot;that&quot;\" />\n",
       output_file->line(5)
   );
+}
+
+TEST(JUnitOutput, parseArguments_derivesBasenameFromPathInArgv0)
+{
+  mu::tiny::test::JUnitOutputPlugin p;
+  const char* argv[] = { "path/to/binary", "-pjunit" };
+  CHECK(p.parse_arguments(2, argv, 1));
+}
+
+TEST(JUnitOutput, parseArguments_pjunitWithInvalidSuffix_returnsFalse)
+{
+  mu::tiny::test::JUnitOutputPlugin p;
+  const char* argv[] = { "", "-pjunitX" };
+  CHECK(!p.parse_arguments(2, argv, 1));
 }

@@ -39,12 +39,12 @@ public:
   ActualCall() = default;
   virtual ~ActualCall() = default;
 
-  /** @brief Report the function name for this call (used internally). @param
-   * name Function name. @return *this. */
-  virtual ActualCall& with_name(const String& name) = 0;
-  /** @brief Set the call order index for strict-ordering checks. @param
-   * call_order Order index. @return *this. */
-  virtual ActualCall& with_call_order(unsigned int call_order) = 0;
+  /** @brief Report the function name for this call (used internally).
+   * @return *this. */
+  virtual ActualCall& with_name(const String&) { return *this; }
+  /** @brief Set the call order index for strict-ordering checks.
+   * @return *this. */
+  virtual ActualCall& with_call_order(unsigned int) { return *this; }
 
   /**
    * @brief Report a parameter of any supported type.

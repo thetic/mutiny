@@ -39,7 +39,6 @@ public:
   ActualCall& on_object(const void* object_ptr) override;
 
   const char* get_trace_output();
-  void clear();
   static ActualCallTrace& instance();
   static void clear_instance();
 

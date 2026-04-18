@@ -13,8 +13,7 @@ class CheckedExpectedCall : public ExpectedCall
 {
 
 public:
-  CheckedExpectedCall();
-  CheckedExpectedCall(unsigned int num_calls);
+  explicit CheckedExpectedCall(unsigned int num_calls = 1U);
   ~CheckedExpectedCall() override;
 
   ExpectedCall& with_name(const String& name) override;
@@ -51,9 +50,7 @@ public:
 
   ExpectedCall& on_object(void* object_ptr) override;
 
-  virtual NamedValue get_input_parameter(const String& name);
   virtual NamedValue get_output_parameter(const String& name);
-  virtual String get_input_parameter_type(const String& name);
   virtual String get_input_parameter_value_string(const String& name);
 
   virtual bool has_input_parameter_with_name(const String& name);
@@ -105,19 +102,19 @@ private:
 
   MockExpectedFunctionParameter* item(NamedValueListNode* node);
 
-  bool ignore_other_parameters_;
-  bool is_actual_call_match_finalized_;
-  unsigned int initial_expected_call_order_;
-  unsigned int final_expected_call_order_;
-  bool out_of_order_;
+  bool ignore_other_parameters_{ false };
+  bool is_actual_call_match_finalized_{ false };
+  unsigned int initial_expected_call_order_{ no_expected_call_order };
+  unsigned int final_expected_call_order_{ no_expected_call_order };
+  bool out_of_order_{ false };
   NamedValueList* input_parameters_;
   NamedValueList* output_parameters_;
-  NamedValue return_value_;
-  void* object_ptr_;
-  bool is_specific_object_expected_;
-  bool was_passed_to_object_;
-  unsigned int actual_calls_;
-  unsigned int expected_calls_;
+  NamedValue return_value_{ "" };
+  void* object_ptr_{ nullptr };
+  bool is_specific_object_expected_{ false };
+  bool was_passed_to_object_{ true };
+  unsigned int actual_calls_{ 0U };
+  unsigned int expected_calls_{ 1U };
 };
 
 } // namespace mock

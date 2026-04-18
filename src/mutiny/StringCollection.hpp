@@ -23,7 +23,6 @@ public:
 
 private:
   String* collection_{ nullptr };
-  String empty_;
   size_t size_{ 0 };
 };
 
