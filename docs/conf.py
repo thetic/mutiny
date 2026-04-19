@@ -25,8 +25,11 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx.ext.linkcode",
+    "sphinx_github_changelog",
     "sphinxcontrib.moderncmakedomain",
 ]
+
+sphinx_github_changelog_token = os.environ.get("SPHINX_GITHUB_CHANGELOG_TOKEN")
 
 intersphinx_mapping = {
     "cmake": ("https://cmake.org/cmake/help/latest/", None),

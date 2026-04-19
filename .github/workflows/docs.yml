@@ -64,6 +64,7 @@ jobs:
         run: uv run --project docs make -C docs html
         env:
           DOCS_GITHUB_REF: ${{ steps.ref.outputs.github_ref }}
+          SPHINX_GITHUB_CHANGELOG_TOKEN: ${{ secrets.SPHINX_GITHUB_CHANGELOG_TOKEN }}
 
       - name: Prepare gh-pages worktree
         run: |
