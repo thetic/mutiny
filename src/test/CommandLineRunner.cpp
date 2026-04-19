@@ -8,6 +8,7 @@
 #include "mu/tiny/test/Result.hpp"
 #include "mu/tiny/test/SetPointerPlugin.hpp"
 #include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/TapOutputPlugin.hpp"
 
 namespace mu {
 namespace tiny {
@@ -46,8 +47,10 @@ int CommandLineRunner::run_all_tests_main()
 
   SetPointerPlugin set_pointer_plugin;
   JUnitOutputPlugin junit_plugin;
+  TapOutputPlugin tap_plugin;
   registry_->install_plugin(&set_pointer_plugin);
   registry_->install_plugin(&junit_plugin);
+  registry_->install_plugin(&tap_plugin);
 
   if (parse_arguments(registry_->get_first_plugin())) {
     if (arguments_->need_help()) {
@@ -58,8 +61,9 @@ int CommandLineRunner::run_all_tests_main()
     }
   }
 
-  registry_->remove_plugin_by_name(set_pointer_plugin.name);
+  registry_->remove_plugin_by_name(tap_plugin.name);
   registry_->remove_plugin_by_name(junit_plugin.name);
+  registry_->remove_plugin_by_name(set_pointer_plugin.name);
   return test_result;
 }
 

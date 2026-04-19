@@ -377,9 +377,9 @@ TEST(TapOutput, parseArguments_ptapIsRecognised)
   mu::tiny::test::TapOutputPlugin p;
   const char* argv[] = { "", "-ptap" };
   CHECK(p.parse_arguments(2, argv, 1));
-  auto* output = p.create_output();
-  CHECK(output != nullptr);
-  delete output;
+  auto* created = p.create_output();
+  CHECK(created != nullptr);
+  delete created;
 }
 
 TEST(TapOutput, parseArguments_otherArgReturnsFalse)

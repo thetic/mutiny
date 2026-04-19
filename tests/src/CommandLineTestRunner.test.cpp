@@ -136,7 +136,7 @@ TEST_GROUP(CommandLineRunner)
   }
 };
 
-TEST(CommandLineRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
+TEST(CommandLineRunner, ThreeBuiltinPluginsAreInstalledDuringTheRunningTheTests)
 {
   const char* argv[] = { "tests.exe", "-psomething" };
 
@@ -149,7 +149,7 @@ TEST(CommandLineRunner, TwoBuiltinPluginsAreInstalledDuringTheRunningTheTests)
   registry.remove_plugin_by_name("PluginCountingPlugin");
 
   CHECK_EQUAL(0, registry.count_plugins());
-  CHECK_EQUAL(2, plugin_counting_plugin->amount_of_plugins);
+  CHECK_EQUAL(3, plugin_counting_plugin->amount_of_plugins);
 }
 
 TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)

@@ -297,6 +297,23 @@ jobs:
           name: test-results
           path: "build/defaults/**/mutiny_*.xml"
 
+  tap_validate:
+    name: TAP Output Validation
+    runs-on: ubuntu-latest
+    env:
+      CMAKE_C_COMPILER_LAUNCHER: ccache
+      CMAKE_CXX_COMPILER_LAUNCHER: ccache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - uses: hendrikmuhs/ccache-action@v1.2.22
+        with:
+          variant: ccache
+      - run: cmake --preset=defaults
+      - run: cmake --build --preset defaults
+      - name: Validate TAP output
+        run: .github/scripts/tap_validate.pl build/defaults/tests/mutiny_test
+
   cmake_msys:
     name: MSYS
     runs-on: windows-latest
