@@ -110,6 +110,15 @@ TEST(StringView, StringPlusEqualsStringView)
 
   STRCMP_EQUAL("hello world", str.c_str());
 }
+
+TEST(StringView, StringConstructFromStringView)
+{
+  mu::tiny::StringView sv("copy me");
+  mu::tiny::String str(sv);
+
+  STRCMP_EQUAL("copy me", str.c_str());
+  CHECK_EQUAL(7u, str.size());
+}
 #endif
 
 TEST(StringView, StringConstructFromPointerAndLength)
