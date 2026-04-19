@@ -341,13 +341,45 @@ TEST(TapOutput, messageNewlineIsYamlEscaped)
   STRCMP_EQUAL("  message: \"line1\\nline2\"\n", tap_buffer->line(5));
 }
 
+TEST(TapOutput, messageCarriageReturnIsYamlEscaped)
+{
+  test_case_runner->start()
+      .with_group("group")
+      .with_test("test")
+      .that_fails("line1\rline2", "file.cpp", 1)
+      .end();
+  STRCMP_EQUAL("  message: \"line1\\rline2\"\n", tap_buffer->line(5));
+}
+
+TEST(TapOutput, messageTabIsYamlEscaped)
+{
+  test_case_runner->start()
+      .with_group("group")
+      .with_test("test")
+      .that_fails("col1\tcol2", "file.cpp", 1)
+      .end();
+  STRCMP_EQUAL("  message: \"col1\\tcol2\"\n", tap_buffer->line(5));
+}
+
+TEST(TapOutput, secondRunResetsResults)
+{
+  test_case_runner->start().with_group("g").with_test("first").end();
+  tap_buffer->clear();
+  mu::tiny::test::Result second(*output);
+  TapTestOutputTestRunner runner2(second);
+  runner2.start().with_group("g").with_test("second").end();
+  STRCMP_EQUAL("1..1\n", tap_buffer->line(2));
+  STRCMP_EQUAL("ok 1 - g.second\n", tap_buffer->line(3));
+}
+
 TEST(TapOutput, parseArguments_ptapIsRecognised)
 {
   mu::tiny::test::TapOutputPlugin p;
   const char* argv[] = { "", "-ptap" };
   CHECK(p.parse_arguments(2, argv, 1));
-  CHECK(p.create_output() != nullptr);
-  delete p.create_output();
+  auto* output = p.create_output();
+  CHECK(output != nullptr);
+  delete output;
 }
 
 TEST(TapOutput, parseArguments_otherArgReturnsFalse)
@@ -367,6 +399,14 @@ TEST(TapOutput, getHelpMentionsPtap)
 TEST(TapOutput, needsNoConsoleCompanion)
 {
   CHECK(!output->needs_console_companion());
+}
+
+TEST(TapOutput, printBufferIsNoOp)
+{
+  test_case_runner->start().with_group("group").with_test("test").end();
+  tap_buffer->clear();
+  output->print_buffer("ignored text");
+  STRCMP_EQUAL("", tap_buffer->content().c_str());
 }
 
 #if MUTINY_HAVE_EXCEPTIONS
