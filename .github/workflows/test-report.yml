@@ -1,7 +1,7 @@
 ---
 name: 'Test Report'
-# This workflow must live in a separate file and be triggered by 'workflow_run' 
-# to allow it to have 'write' permissions (for creating checks and PR comments) 
+# This workflow must live in a separate file and be triggered by 'workflow_run'
+# to allow it to have 'write' permissions (for creating checks and PR comments)
 # even when the triggering workflow ('Basic builds') is run from a fork.
 "on":
   workflow_run:
@@ -17,10 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: dorny/test-reporter@v3
+      - uses: actions/download-artifact@v4
         with:
-          artifact: test-results
-          name: JUnit Tests
-          path: "**/mutiny_*.xml"
-          reporter: java-junit
-          use-actions-summary: false
+          name: test-results
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: mikepenz/action-junit-report@v4
+        with:
+          report_paths: "**/mutiny_*.xml"
+          check_name: 'JUnit Tests'
+          comment: true
+          pr_id: ${{ github.event.workflow_run.pull_requests[0].number }}
