@@ -70,7 +70,7 @@ exhale_args = {
         MACRO_EXPANSION      = YES
         INCLUDE_PATH         = ../include
         PREDEFINED           += MUTINY_EXPORT=
-        WARN_IF_UNDOCUMENTED = NO
+        WARN_IF_UNDOCUMENTED = YES
         WARN_AS_ERROR        = YES
         QUIET                = YES
         # Omit <programlisting> from XML so Exhale skips generating
