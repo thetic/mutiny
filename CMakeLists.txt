@@ -79,6 +79,8 @@ target_sources(mutiny
         src/test/JUnitOutput.cpp
         src/test/JUnitOutputPlugin.cpp
         src/test/NullPlugin.cpp
+        src/test/TapOutput.cpp
+        src/test/TapOutputPlugin.cpp
         src/test/Ordered.cpp
         src/test/Output.cpp
         src/test/Plugin.cpp
@@ -126,6 +128,7 @@ target_sources(mutiny
             include/mu/tiny/test/Installer.hpp
             include/mu/tiny/test/JUnitOutputPlugin.hpp
             include/mu/tiny/test/Ordered.hpp
+            include/mu/tiny/test/TapOutputPlugin.hpp
             include/mu/tiny/test/Output.hpp
             include/mu/tiny/test/Plugin.hpp
             include/mu/tiny/test/Registry.hpp
@@ -155,6 +158,7 @@ target_sources(mutiny
             src/mu/tiny/test/ExecFunctionShell.hpp
             src/mu/tiny/test/JUnitOutput.hpp
             src/mu/tiny/test/NullPlugin.hpp
+            src/mu/tiny/test/TapOutput.hpp
             src/mu/tiny/StringCollection.hpp
             src/mu/tiny/test/jump_buffer.hpp
             src/mu/tiny/math.hpp
