@@ -316,6 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1String.html">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -379,7 +380,9 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -401,6 +404,7 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -645,8 +649,8 @@
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a7e025e6bb54fadd02189d6e921a55f67.html#exhale-function-namespacemu-1-1tiny-1-1test-1a7e025e6bb54fadd02189d6e921a55f67"><span class="std std-ref">Function mu::tiny::test::approx_equal(double, double, double)</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a35b5a9e48ef7fbeb85c3c768e3e9b606.html#exhale-function-namespacemu-1-1tiny-1-1test-1a35b5a9e48ef7fbeb85c3c768e3e9b606"><span class="std std-ref">Template Function mu::tiny::test::approx_equal(T, T, T)</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a7e025e6bb54fadd02189d6e921a55f67.html#exhale-function-namespacemu-1-1tiny-1-1test-1a7e025e6bb54fadd02189d6e921a55f67"><span class="std std-ref">Function mu::tiny::test::approx_equal(double, double, double)</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a1560992e83aeea952b25f8cd29820df6.html#exhale-function-namespacemu-1-1tiny-1-1test-1a1560992e83aeea952b25f8cd29820df6"><span class="std std-ref">Template Function mu::tiny::test::check_approx</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a6c434f2eacdeb5877d72a080a1ad38e7.html#exhale-function-namespacemu-1-1tiny-1-1test-1a6c434f2eacdeb5877d72a080a1ad38e7"><span class="std std-ref">Template Function mu::tiny::test::check_compare</span></a></p></li>
 <li><p><a class="reference internal" href="function_namespacemu_1_1tiny_1_1test_1a147ae295f17db749ff3238d9bf0eaa74.html#exhale-function-namespacemu-1-1tiny-1-1test-1a147ae295f17db749ff3238d9bf0eaa74"><span class="std std-ref">Template Function mu::tiny::test::check_enum_equal</span></a></p></li>
@@ -755,7 +759,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

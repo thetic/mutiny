@@ -195,6 +195,11 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_include_mu_tiny_StringView.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_include_mu_tiny_mock_SupportPlugin.hpp.rst
 
 .. toctree::

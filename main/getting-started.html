@@ -316,6 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1String.html">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -379,7 +380,9 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -401,6 +404,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -618,8 +622,8 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <span class="nf">FetchContent_Declare(</span>
 <span class="w">    </span><span class="nb">mu.tiny</span>
 <span class="w">    </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/thetic/mu.tiny.git</span>
-<span class="w">    </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">v0.1.0</span>
-<span class="w">    </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="m">0.1</span>
+<span class="w">    </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">v0.6.0</span>
+<span class="w">    </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="m">0.6</span>
 <span class="nf">)</span>
 <span class="nf">FetchContent_MakeAvailable(</span><span class="nb">mu.tiny</span><span class="nf">)</span>
 
@@ -634,7 +638,7 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <p>If <em>mu::tiny</em> is already installed and you prefer not to use
 <span class="target" id="index-1-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>, use
 <span class="target" id="index-1-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a> directly:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">mu.tiny</span><span class="w"> </span><span class="m">0.1</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">mu.tiny</span><span class="w"> </span><span class="m">0.6</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
 </pre></div>
 </div>
 <section id="headers">
@@ -652,7 +656,7 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <td><p>Test and assertion macros (<a class="reference internal" href="api/define_test_8hpp_1a109b3c7ca51a87da0abc0a229663d7fd.html#c.TEST_GROUP" title="TEST_GROUP"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST_GROUP</span></code></a>, <a class="reference internal" href="api/define_test_8h_1a387737a52be7d4ade8c76832ec677100.html#c.TEST" title="TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST</span></code></a>, <a class="reference internal" href="api/define_Shell_8hpp_1a3e1cfef60e774a81f30eaddf26a3a274.html#c.CHECK" title="CHECK"><code class="xref c c-macro docutils literal notranslate"><span class="pre">CHECK</span></code></a>, etc.)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mu/tiny/mock.hpp</span></code></p></td>
-<td><p>Mock framework (<a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html#_CPPv4N2mu4tiny4mock4mockERK6StringP15FailureReporter" title="mu::tiny::mock::mock"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mock</span></code></a>, <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7SupportE" title="mu::tiny::mock::Support"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Support</span></code></a>)</p></td>
+<td><p>Mock framework (<a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html#_CPPv4N2mu4tiny4mock4mockE10StringViewP15FailureReporter" title="mu::tiny::mock::mock"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mock</span></code></a>, <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7SupportE" title="mu::tiny::mock::Support"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Support</span></code></a>)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mu/tiny/test.h</span></code></p></td>
 <td><p>C interface (include in <code class="docutils literal notranslate"><span class="pre">.test.c</span></code> files)</p></td>
@@ -867,7 +871,7 @@ and a handful of assertion macros</p></td>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

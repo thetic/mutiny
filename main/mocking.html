@@ -316,6 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1String.html">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -379,7 +380,9 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -401,6 +404,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -600,7 +604,7 @@
 <section id="accessing-the-mock-object">
 <h2>Accessing the Mock Object<a class="headerlink" href="#accessing-the-mock-object" title="Link to this heading">¶</a></h2>
 <p>The central class is <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7SupportE" title="mu::tiny::mock::Support"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">mu::tiny::mock::Support</span></code></a>, accessed via the
-<a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html#_CPPv4N2mu4tiny4mock4mockERK6StringP15FailureReporter" title="mu::tiny::mock::mock"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mu::tiny::mock::mock()</span></code></a> free function:</p>
+<a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html#_CPPv4N2mu4tiny4mock4mockE10StringViewP15FailureReporter" title="mu::tiny::mock::mock"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mu::tiny::mock::mock()</span></code></a> free function:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">mock</span><span class="p">()</span><span class="w">           </span><span class="c1">// global mock scope</span>
 <span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">mock</span><span class="p">(</span><span class="s">&quot;network&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// named scope — keeps expectations separate</span>
 </pre></div>
@@ -643,13 +647,13 @@ automatically — see <a class="reference internal" href="plugins.html"><span cl
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callERK6String" title="mu::tiny::mock::Support::expect_one_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_one_call(&quot;func&quot;)</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callE10StringView" title="mu::tiny::mock::Support::expect_one_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_one_call(&quot;func&quot;)</span></code></a></p></td>
 <td><p>Expect exactly one call to <code class="docutils literal notranslate"><span class="pre">&quot;func&quot;</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEjRK6String" title="mu::tiny::mock::Support::expect_n_calls"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_n_calls(n,</span> <span class="pre">&quot;func&quot;)</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEj10StringView" title="mu::tiny::mock::Support::expect_n_calls"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_n_calls(n,</span> <span class="pre">&quot;func&quot;)</span></code></a></p></td>
 <td><p>Expect exactly <code class="docutils literal notranslate"><span class="pre">n</span></code> calls</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callERK6String" title="mu::tiny::mock::Support::expect_no_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_no_call(&quot;func&quot;)</span></code></a></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mock().</span></code><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callE10StringView" title="mu::tiny::mock::Support::expect_no_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_no_call(&quot;func&quot;)</span></code></a></p></td>
 <td><p>Expect that <code class="docutils literal notranslate"><span class="pre">&quot;func&quot;</span></code> is never called</p></td>
 </tr>
 </tbody>
@@ -658,8 +662,8 @@ automatically — see <a class="reference internal" href="plugins.html"><span cl
 </section>
 <section id="parameter-matching">
 <h2>Parameter Matching<a class="headerlink" href="#parameter-matching" title="Link to this heading">¶</a></h2>
-<p>Chain <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCallRK6String1T" title="mu::tiny::mock::ExpectedCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">.with_parameter(name,</span> <span class="pre">value)</span></code></a> on an expected call to constrain
-parameter values; use <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCallRK6String1T" title="mu::tiny::mock::ActualCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">.with_parameter()</span></code></a> on the
+<p>Chain <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCall10StringView1T" title="mu::tiny::mock::ExpectedCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">.with_parameter(name,</span> <span class="pre">value)</span></code></a> on an expected call to constrain
+parameter values; use <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCall10StringView1T" title="mu::tiny::mock::ActualCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">.with_parameter()</span></code></a> on the
 actual call side with the same overloads. Both accept: <code class="docutils literal notranslate"><span class="pre">bool</span></code>,
 <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code>,
 <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char*</span></code>, <code class="docutils literal notranslate"><span class="pre">void*</span></code>,
@@ -680,8 +684,8 @@ directly because they are typedefs for these fundamental types.</p>
 </div>
 <section id="custom-types">
 <h3>Custom Types<a class="headerlink" href="#custom-types" title="Link to this heading">¶</a></h3>
-<p>Use <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeERK6StringRK6StringPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a> on the
-expected call and <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeERK6StringRK6StringPKv" title="mu::tiny::mock::ActualCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a>
+<p>Use <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeE10StringView10StringViewPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a> on the
+expected call and <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeE10StringView10StringViewPKv" title="mu::tiny::mock::ActualCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a>
 on the actual call side for non-native types. A comparator must be installed first — see
 <a class="reference internal" href="#custom-comparators">Custom Comparators</a> below.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">mock</span><span class="p">().</span><span class="n">expect_one_call</span><span class="p">(</span><span class="s">&quot;process&quot;</span><span class="p">)</span>
@@ -714,8 +718,8 @@ pointer parameter.</p>
 <p>The framework copies <code class="docutils literal notranslate"><span class="pre">source_data</span></code> into <code class="docutils literal notranslate"><span class="pre">output_buffer</span></code> when the
 call is matched.</p>
 <p>For custom types use
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningERK6StringRK6StringPKv" title="mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_output_parameter_of_type_returning()</span></code></a> +
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeERK6StringRK6StringPv" title="mu::tiny::mock::ActualCall::with_output_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_output_parameter_of_type()</span></code></a>
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningE10StringView10StringViewPKv" title="mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_output_parameter_of_type_returning()</span></code></a> +
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeE10StringView10StringViewPv" title="mu::tiny::mock::ActualCall::with_output_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_output_parameter_of_type()</span></code></a>
 with a registered copier.</p>
 </section>
 <section id="return-values">
@@ -794,17 +798,17 @@ and stub code without extra globals:</p>
 <span class="k">auto</span><span class="w"> </span><span class="n">cal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mock</span><span class="p">().</span><span class="n">get_data</span><span class="p">(</span><span class="s">&quot;calibration&quot;</span><span class="p">).</span><span class="n">get_value</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringb" title="mu::tiny::mock::Support::set_data"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data()</span></code></a> is overloaded for: <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>,
+<p><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewb" title="mu::tiny::mock::Support::set_data"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data()</span></code></a> is overloaded for: <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">int</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">int</span></code>,
 <code class="docutils literal notranslate"><span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">long</span></code>, <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">long</span> <span class="pre">long</span></code>,
 <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char*</span></code>, <code class="docutils literal notranslate"><span class="pre">double</span></code>, <code class="docutils literal notranslate"><span class="pre">void*</span></code>, <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">void*</span></code>, <code class="docutils literal notranslate"><span class="pre">void(*)()</span></code>.
 For object types:
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectERK6StringRK6StringPv" title="mu::tiny::mock::Support::set_data_object"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data_object()</span></code></a> /
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectERK6StringRK6StringPKv" title="mu::tiny::mock::Support::set_data_const_object"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data_const_object()</span></code></a>.</p>
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectE10StringView10StringViewPv" title="mu::tiny::mock::Support::set_data_object"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data_object()</span></code></a> /
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectE10StringView10StringViewPKv" title="mu::tiny::mock::Support::set_data_const_object"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data_const_object()</span></code></a>.</p>
 </section>
 <section id="custom-comparators">
 <h2>Custom Comparators<a class="headerlink" href="#custom-comparators" title="Link to this heading">¶</a></h2>
 <p>Install a <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparator.html#_CPPv4N2mu4tiny4mock20NamedValueComparatorE" title="mu::tiny::mock::NamedValueComparator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">NamedValueComparator</span></code></a> to make
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeERK6StringRK6StringPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a> work for your type:</p>
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeE10StringView10StringViewPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a> work for your type:</p>
 <section id="template-comparator-simplest">
 <h3>Template comparator (simplest)<a class="headerlink" href="#template-comparator-simplest" title="Link to this heading">¶</a></h3>
 <p><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1TypedMockComparator.html#_CPPv4I0EN2mu4tiny4mock19TypedMockComparatorE" title="mu::tiny::mock::TypedMockComparator"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">TypedMockComparator&lt;T&gt;</span></code></a> requires
@@ -888,9 +892,9 @@ comparator/copier lifetime:</p>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>Core mock workflow —
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callERK6String" title="mu::tiny::mock::Support::expect_one_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_one_call()</span></code></a>,
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEjRK6String" title="mu::tiny::mock::Support::expect_n_calls"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_n_calls()</span></code></a>,
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCallRK6String1T" title="mu::tiny::mock::ExpectedCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter()</span></code></a>,
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callE10StringView" title="mu::tiny::mock::Support::expect_one_call"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_one_call()</span></code></a>,
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEj10StringView" title="mu::tiny::mock::Support::expect_n_calls"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">expect_n_calls()</span></code></a>,
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCall10StringView1T" title="mu::tiny::mock::ExpectedCall::with_parameter"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter()</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall16and_return_valueER12ExpectedCall1T" title="mu::tiny::mock::ExpectedCall::and_return_value"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">and_return_value()</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall23ignore_other_parametersEv" title="mu::tiny::mock::ExpectedCall::ignore_other_parameters"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">ignore_other_parameters()</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18check_expectationsEv" title="mu::tiny::mock::Support::check_expectations"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">check_expectations()</span></code></a>,
@@ -981,13 +985,13 @@ comparator/copier lifetime:</p>
 <ul class="simple">
 <li><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/main/examples/tests/MockDocumentation.test.cpp">MockDocumentation.test.cpp</a>
 — <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall9on_objectEPv" title="mu::tiny::mock::ExpectedCall::on_object"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">on_object()</span></code></a>,
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringb" title="mu::tiny::mock::Support::set_data"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data()</span></code></a>, custom comparator, scoped mock,
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewb" title="mu::tiny::mock::Support::set_data"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">set_data()</span></code></a>, custom comparator, scoped mock,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support16crash_on_failureEb" title="mu::tiny::mock::Support::crash_on_failure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">crash_on_failure()</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7disableEv" title="mu::tiny::mock::Support::disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">disable()</span></code></a>/<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support6enableEv" title="mu::tiny::mock::Support::enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">enable()</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18ignore_other_callsEv" title="mu::tiny::mock::Support::ignore_other_calls"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">ignore_other_calls()</span></code></a></p></li>
 <li><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/main/examples/tests/EventDispatcher.test.cpp">EventDispatcher.test.cpp</a>
 — real-world example: virtual mock class, custom comparator in <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Test.html#_CPPv4N2mu4tiny4test4Test5setupEv" title="mu::tiny::test::Test::setup"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setup()</span></code></a>,
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeERK6StringRK6StringPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></p></li>
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeE10StringView10StringViewPKv" title="mu::tiny::mock::ExpectedCall::with_parameter_of_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></p></li>
 </ul>
 </section>
 </section>
@@ -1085,7 +1089,7 @@ comparator/copier lifetime:</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

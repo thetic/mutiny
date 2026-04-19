@@ -26,6 +26,7 @@ Files
 - :ref:`file_include_mu_tiny_mock.h`
 - :ref:`file_include_mu_tiny_mock.hpp`
 - :ref:`file_include_mu_tiny_String.hpp`
+- :ref:`file_include_mu_tiny_StringView.hpp`
 - :ref:`file_include_mu_tiny_test.h`
 - :ref:`file_include_mu_tiny_test.hpp`
 - :ref:`file_include_mu_tiny_time.hpp`

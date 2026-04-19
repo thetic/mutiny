@@ -316,6 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1String.html">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -379,7 +380,9 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -401,6 +404,7 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -683,6 +687,7 @@
 </dl>
 </li>
 <li><p><a class="reference internal" href="classmu_1_1tiny_1_1String.html#exhale-class-classmu-1-1tiny-1-1string"><span class="std std-ref">Class String</span></a></p></li>
+<li><p><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#exhale-class-classmu-1-1tiny-1-1stringview"><span class="std std-ref">Class StringView</span></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -754,6 +759,7 @@
 <li><p><a class="reference internal" href="file_include_mu_tiny_mock.h.html#file-include-mu-tiny-mock-h"><span class="std std-ref">File mock.h</span></a></p></li>
 <li><p><a class="reference internal" href="file_include_mu_tiny_mock.hpp.html#file-include-mu-tiny-mock-hpp"><span class="std std-ref">File mock.hpp</span></a></p></li>
 <li><p><a class="reference internal" href="file_include_mu_tiny_String.hpp.html#file-include-mu-tiny-string-hpp"><span class="std std-ref">File String.hpp</span></a></p></li>
+<li><p><a class="reference internal" href="file_include_mu_tiny_StringView.hpp.html#file-include-mu-tiny-stringview-hpp"><span class="std std-ref">File StringView.hpp</span></a></p></li>
 <li><p><a class="reference internal" href="file_include_mu_tiny_test.h.html#file-include-mu-tiny-test-h"><span class="std std-ref">File test.h</span></a></p></li>
 <li><p><a class="reference internal" href="file_include_mu_tiny_test.hpp.html#file-include-mu-tiny-test-hpp"><span class="std std-ref">File test.hpp</span></a></p></li>
 <li><p><a class="reference internal" href="file_include_mu_tiny_time.hpp.html#file-include-mu-tiny-time-hpp"><span class="std std-ref">File time.hpp</span></a></p></li>
@@ -1022,16 +1028,14 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall26FunctionPointerReturnValueE"><code class="docutils literal notranslate"><span class="pre">FunctionPointerReturnValue</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall10ActualCallEv"><code class="docutils literal notranslate"><span class="pre">ActualCall()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCallD0Ev"><code class="docutils literal notranslate"><span class="pre">~ActualCall()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall9with_nameERK6String"><code class="docutils literal notranslate"><span class="pre">with_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall9with_nameE10StringView"><code class="docutils literal notranslate"><span class="pre">with_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall15with_call_orderEj"><code class="docutils literal notranslate"><span class="pre">with_call_order()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCallRK6String1T"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterERK6StringPKh6size_t"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterEPKcPKh6size_t"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCall10StringView1T"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterE10StringViewPKh6size_t"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall20with_typed_parameterE10NamedValue"><code class="docutils literal notranslate"><span class="pre">with_typed_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeERK6StringRK6StringPKv"><code class="docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeEPKcPKcPKv"><code class="docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall21with_output_parameterERK6StringPv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeERK6StringRK6StringPv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_of_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeE10StringView10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall21with_output_parameterE10StringViewPv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeE10StringView10StringViewPv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_of_type()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall16has_return_valueEv"><code class="docutils literal notranslate"><span class="pre">has_return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall12return_valueEv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall12return_valueE1Tv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
@@ -1070,17 +1074,17 @@
 <li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCallE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::mock::ExpectedCall</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall12ExpectedCallEv"><code class="docutils literal notranslate"><span class="pre">ExpectedCall()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCallD0Ev"><code class="docutils literal notranslate"><span class="pre">~ExpectedCall()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall9with_nameERK6String"><code class="docutils literal notranslate"><span class="pre">with_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall9with_nameE10StringView"><code class="docutils literal notranslate"><span class="pre">with_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall15with_call_orderEj"><code class="docutils literal notranslate"><span class="pre">with_call_order()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall15with_call_orderEjj"><code class="docutils literal notranslate"><span class="pre">with_call_order()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCallRK6String1T"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterERK6Stringdd"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterERK6StringPKh6size_t"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCall10StringView1T"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterE10StringViewdd"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterE10StringViewPKh6size_t"><code class="docutils literal notranslate"><span class="pre">with_parameter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall20with_typed_parameterE10NamedValue"><code class="docutils literal notranslate"><span class="pre">with_typed_parameter()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeERK6StringRK6StringPKv"><code class="docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall31with_output_parameter_returningERK6StringPKv6size_t"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_returning()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningERK6StringRK6StringPKv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_of_type_returning()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall32with_unmodified_output_parameterERK6String"><code class="docutils literal notranslate"><span class="pre">with_unmodified_output_parameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeE10StringView10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">with_parameter_of_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall31with_output_parameter_returningE10StringViewPKv6size_t"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_returning()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningE10StringView10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">with_output_parameter_of_type_returning()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall32with_unmodified_output_parameterE10StringView"><code class="docutils literal notranslate"><span class="pre">with_unmodified_output_parameter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall23ignore_other_parametersEv"><code class="docutils literal notranslate"><span class="pre">ignore_other_parameters()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall16and_return_valueER12ExpectedCall1T"><code class="docutils literal notranslate"><span class="pre">and_return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22and_return_typed_valueE10NamedValue"><code class="docutils literal notranslate"><span class="pre">and_return_typed_value()</span></code></a></li>
@@ -1239,7 +1243,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#class-documentation">Class Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValueE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::mock::NamedValue</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue20FunctionPointerValueE"><code class="docutils literal notranslate"><span class="pre">FunctionPointerValue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERK6String"><code class="docutils literal notranslate"><span class="pre">NamedValue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueE10StringView"><code class="docutils literal notranslate"><span class="pre">NamedValue()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERK10NamedValue"><code class="docutils literal notranslate"><span class="pre">NamedValue()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERR10NamedValue"><code class="docutils literal notranslate"><span class="pre">NamedValue()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValueaSERR10NamedValue"><code class="docutils literal notranslate"><span class="pre">operator=()</span></code></a></li>
@@ -1247,8 +1251,8 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4I0EN2mu4tiny4mock10NamedValue9set_valueEv1T"><code class="docutils literal notranslate"><span class="pre">set_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue9set_valueEdd"><code class="docutils literal notranslate"><span class="pre">set_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue17set_memory_bufferEPKh6size_t"><code class="docutils literal notranslate"><span class="pre">set_memory_buffer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue24set_const_object_pointerERK6StringPKv"><code class="docutils literal notranslate"><span class="pre">set_const_object_pointer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue18set_object_pointerERK6StringPv"><code class="docutils literal notranslate"><span class="pre">set_object_pointer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue24set_const_object_pointerE10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">set_const_object_pointer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue18set_object_pointerE10StringViewPv"><code class="docutils literal notranslate"><span class="pre">set_object_pointer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue8set_sizeE6size_t"><code class="docutils literal notranslate"><span class="pre">set_size()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue8set_nameEPKc"><code class="docutils literal notranslate"><span class="pre">set_name()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4NK2mu4tiny4mock10NamedValue6equalsERK10NamedValue"><code class="docutils literal notranslate"><span class="pre">equals()</span></code></a></li>
@@ -1354,11 +1358,11 @@
 <li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepositoryE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository41NamedValueComparatorsAndCopiersRepositoryEv"><code class="docutils literal notranslate"><span class="pre">NamedValueComparatorsAndCopiersRepository()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepositoryD0Ev"><code class="docutils literal notranslate"><span class="pre">~NamedValueComparatorsAndCopiersRepository()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository18install_comparatorERK6StringR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository14install_copierERK6StringR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository18install_comparatorE10StringViewR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository14install_copierE10StringViewR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository31install_comparators_and_copiersERK41NamedValueComparatorsAndCopiersRepository"><code class="docutils literal notranslate"><span class="pre">install_comparators_and_copiers()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository23get_comparator_for_typeERK6String"><code class="docutils literal notranslate"><span class="pre">get_comparator_for_type()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository19get_copier_for_typeERK6String"><code class="docutils literal notranslate"><span class="pre">get_copier_for_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository23get_comparator_for_typeE10StringView"><code class="docutils literal notranslate"><span class="pre">get_comparator_for_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository19get_copier_for_typeE10StringView"><code class="docutils literal notranslate"><span class="pre">get_copier_for_type()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository5clearEv"><code class="docutils literal notranslate"><span class="pre">clear()</span></code></a></li>
 </ul>
 </li>
@@ -1430,34 +1434,34 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#class-documentation">Class Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7SupportE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::mock::Support</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE"><code class="docutils literal notranslate"><span class="pre">FunctionPointerValue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7SupportERK6String"><code class="docutils literal notranslate"><span class="pre">Support()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7SupportE10StringView"><code class="docutils literal notranslate"><span class="pre">Support()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7SupportD0Ev"><code class="docutils literal notranslate"><span class="pre">~Support()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support12strict_orderEv"><code class="docutils literal notranslate"><span class="pre">strict_order()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callERK6String"><code class="docutils literal notranslate"><span class="pre">expect_one_call()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callERK6String"><code class="docutils literal notranslate"><span class="pre">expect_no_call()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEjRK6String"><code class="docutils literal notranslate"><span class="pre">expect_n_calls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callE10StringView"><code class="docutils literal notranslate"><span class="pre">expect_one_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callE10StringView"><code class="docutils literal notranslate"><span class="pre">expect_no_call()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEj10StringView"><code class="docutils literal notranslate"><span class="pre">expect_n_calls()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support11actual_callEPKc"><code class="docutils literal notranslate"><span class="pre">actual_call()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support16has_return_valueEv"><code class="docutils literal notranslate"><span class="pre">has_return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support12return_valueEv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4I0EN2mu4tiny4mock7Support12return_valueE1Tv"><code class="docutils literal notranslate"><span class="pre">return_value()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4I0EN2mu4tiny4mock7Support23return_value_or_defaultE1T1T"><code class="docutils literal notranslate"><span class="pre">return_value_or_default()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8has_dataERK6String"><code class="docutils literal notranslate"><span class="pre">has_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringb"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringi"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringj"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringl"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringm"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPKc"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPKv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringx"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringy"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectERK6StringRK6StringPv"><code class="docutils literal notranslate"><span class="pre">set_data_object()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectERK6StringRK6StringPKv"><code class="docutils literal notranslate"><span class="pre">set_data_const_object()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8get_dataERK6String"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support22get_mock_support_scopeERK6String"><code class="docutils literal notranslate"><span class="pre">get_mock_support_scope()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8has_dataE10StringView"><code class="docutils literal notranslate"><span class="pre">has_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewb"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewi"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewj"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewl"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewm"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPKc"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewd"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewx"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewy"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringView20FunctionPointerValue"><code class="docutils literal notranslate"><span class="pre">set_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectE10StringView10StringViewPv"><code class="docutils literal notranslate"><span class="pre">set_data_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectE10StringView10StringViewPKv"><code class="docutils literal notranslate"><span class="pre">set_data_const_object()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8get_dataE10StringView"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support22get_mock_support_scopeE10StringView"><code class="docutils literal notranslate"><span class="pre">get_mock_support_scope()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support16get_trace_outputEv"><code class="docutils literal notranslate"><span class="pre">get_trace_output()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7disableEv"><code class="docutils literal notranslate"><span class="pre">disable()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support6enableEv"><code class="docutils literal notranslate"><span class="pre">enable()</span></code></a></li>
@@ -1470,11 +1474,11 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support34set_mock_failure_standard_reporterEP15FailureReporter"><code class="docutils literal notranslate"><span class="pre">set_mock_failure_standard_reporter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support19set_active_reporterEP15FailureReporter"><code class="docutils literal notranslate"><span class="pre">set_active_reporter()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv"><code class="docutils literal notranslate"><span class="pre">set_default_comparators_and_copiers_repository()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18install_comparatorERK6StringR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14install_copierERK6StringR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18install_comparatorE10StringViewR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14install_copierE10StringViewR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support31install_comparators_and_copiersERK41NamedValueComparatorsAndCopiersRepository"><code class="docutils literal notranslate"><span class="pre">install_comparators_and_copiers()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv"><code class="docutils literal notranslate"><span class="pre">remove_all_comparators_and_copiers()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support5cloneERK6String"><code class="docutils literal notranslate"><span class="pre">clone()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support5cloneE10StringView"><code class="docutils literal notranslate"><span class="pre">clone()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18create_actual_callEv"><code class="docutils literal notranslate"><span class="pre">create_actual_call()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support9fail_testER7Failure"><code class="docutils literal notranslate"><span class="pre">fail_test()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support11count_checkEv"><code class="docutils literal notranslate"><span class="pre">count_check()</span></code></a></li>
@@ -1499,8 +1503,8 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPluginD0Ev"><code class="docutils literal notranslate"><span class="pre">~SupportPlugin()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin15pre_test_actionERN4test5ShellERN4test6ResultE"><code class="docutils literal notranslate"><span class="pre">pre_test_action()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin16post_test_actionERN4test5ShellERN4test6ResultE"><code class="docutils literal notranslate"><span class="pre">post_test_action()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin18install_comparatorERK6StringR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin14install_copierERK6StringR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin18install_comparatorE10StringViewR20NamedValueComparator"><code class="docutils literal notranslate"><span class="pre">install_comparator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin14install_copierE10StringViewR16NamedValueCopier"><code class="docutils literal notranslate"><span class="pre">install_copier()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin5clearEv"><code class="docutils literal notranslate"><span class="pre">clear()</span></code></a></li>
 </ul>
 </li>
@@ -1625,6 +1629,8 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#class-documentation">Class Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::String</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringEPKc"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringEPKc6size_t"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringE10StringView"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringE6size_tc"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERK6String"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERR6String"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
@@ -1635,6 +1641,7 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLERK6String"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEPKc"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEc"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLE10StringView"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6StringixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6String4findEc6size_t"><code class="docutils literal notranslate"><span class="pre">find()</span></code></a></li>
@@ -1653,6 +1660,27 @@
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6resizeE6size_t"><code class="docutils literal notranslate"><span class="pre">resize()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String4nposE"><code class="docutils literal notranslate"><span class="pre">npos</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringltERK6StringRK6String"><code class="docutils literal notranslate"><span class="pre">operator&lt;</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html">Class StringView</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#class-documentation">Class Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringViewE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::StringView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewEPKc"><code class="docutils literal notranslate"><span class="pre">StringView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewEPKc6size_t"><code class="docutils literal notranslate"><span class="pre">StringView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewERK6String"><code class="docutils literal notranslate"><span class="pre">StringView()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView4dataEv"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView5c_strEv"><code class="docutils literal notranslate"><span class="pre">c_str()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView4sizeEv"><code class="docutils literal notranslate"><span class="pre">size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView5emptyEv"><code class="docutils literal notranslate"><span class="pre">empty()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringViewixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2977,9 +3005,31 @@
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html#function-documentation">Function Documentation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html#_CPPv4N2mu4tiny4mock4mockERK6StringP15FailureReporter"><code class="docutils literal notranslate"><span class="pre">mock()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html#_CPPv4N2mu4tiny4mock4mockE10StringViewP15FailureReporter"><code class="docutils literal notranslate"><span class="pre">mock()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html#_CPPv4N2mu4tinyneE10StringView10StringView"><code class="docutils literal notranslate"><span class="pre">operator!=()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html#_CPPv4N2mu4tinyeqE10StringView10StringView"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -3211,6 +3261,17 @@
 <li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html#function-documentation">Function Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html#_CPPv4N2mu4tiny11string_fromERK6String"><code class="docutils literal notranslate"><span class="pre">string_from()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html#_CPPv4N2mu4tiny11string_fromE10StringView"><code class="docutils literal notranslate"><span class="pre">string_from()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -4941,7 +5002,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

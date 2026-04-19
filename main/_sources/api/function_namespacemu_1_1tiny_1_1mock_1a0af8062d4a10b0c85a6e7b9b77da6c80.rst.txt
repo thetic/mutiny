@@ -1,4 +1,4 @@
-.. _exhale_function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188:
+.. _exhale_function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80:
 
 Function mu::tiny::mock::mock
 =============================
@@ -10,5 +10,5 @@ Function Documentation
 ----------------------
 
 
-.. doxygenfunction:: mu::tiny::mock::mock(const String&, FailureReporter *)
+.. doxygenfunction:: mu::tiny::mock::mock(StringView, FailureReporter *)
    :project: mu::tiny

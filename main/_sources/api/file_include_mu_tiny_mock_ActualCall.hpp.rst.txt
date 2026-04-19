@@ -31,6 +31,8 @@ Includes
 --------
 
 
+- ``mu/tiny/StringView.hpp`` (:ref:`file_include_mu_tiny_StringView.hpp`)
+
 - ``mu/tiny/export.h``
 
 - ``mu/tiny/mock/NamedValue.hpp`` (:ref:`file_include_mu_tiny_mock_NamedValue.hpp`)

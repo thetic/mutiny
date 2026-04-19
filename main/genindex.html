@@ -314,6 +314,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1String.html">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -377,7 +378,9 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -399,6 +402,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -1157,15 +1161,15 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall15with_call_orderEj">mu::tiny::mock::ActualCall::with_call_order (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall9with_nameERK6String">mu::tiny::mock::ActualCall::with_name (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall9with_nameE10StringView">mu::tiny::mock::ActualCall::with_name (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall21with_output_parameterERK6StringPv">mu::tiny::mock::ActualCall::with_output_parameter (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall21with_output_parameterE10StringViewPv">mu::tiny::mock::ActualCall::with_output_parameter (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeERK6StringRK6StringPv">mu::tiny::mock::ActualCall::with_output_parameter_of_type (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall29with_output_parameter_of_typeE10StringView10StringViewPv">mu::tiny::mock::ActualCall::with_output_parameter_of_type (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCallRK6String1T">mu::tiny::mock::ActualCall::with_parameter (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterEPKcPKh6size_t">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterERK6StringPKh6size_t">[2]</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4I0EN2mu4tiny4mock10ActualCall14with_parameterER10ActualCall10StringView1T">mu::tiny::mock::ActualCall::with_parameter (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall14with_parameterE10StringViewPKh6size_t">[1]</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeEPKcPKcPKv">mu::tiny::mock::ActualCall::with_parameter_of_type (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeERK6StringRK6StringPKv">[1]</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall22with_parameter_of_typeE10StringView10StringViewPKv">mu::tiny::mock::ActualCall::with_parameter_of_type (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1ActualCall.html#_CPPv4N2mu4tiny4mock10ActualCall20with_typed_parameterE10NamedValue">mu::tiny::mock::ActualCall::with_typed_parameter (C++ function)</a>
 </li>
@@ -1189,19 +1193,19 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall15with_call_orderEj">mu::tiny::mock::ExpectedCall::with_call_order (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall15with_call_orderEjj">[1]</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall9with_nameERK6String">mu::tiny::mock::ExpectedCall::with_name (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall9with_nameE10StringView">mu::tiny::mock::ExpectedCall::with_name (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningERK6StringRK6StringPKv">mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall39with_output_parameter_of_type_returningE10StringView10StringViewPKv">mu::tiny::mock::ExpectedCall::with_output_parameter_of_type_returning (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall31with_output_parameter_returningERK6StringPKv6size_t">mu::tiny::mock::ExpectedCall::with_output_parameter_returning (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall31with_output_parameter_returningE10StringViewPKv6size_t">mu::tiny::mock::ExpectedCall::with_output_parameter_returning (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCallRK6String1T">mu::tiny::mock::ExpectedCall::with_parameter (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterERK6StringPKh6size_t">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterERK6Stringdd">[2]</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4I0EN2mu4tiny4mock12ExpectedCall14with_parameterER12ExpectedCall10StringView1T">mu::tiny::mock::ExpectedCall::with_parameter (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterE10StringViewPKh6size_t">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall14with_parameterE10StringViewdd">[2]</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeERK6StringRK6StringPKv">mu::tiny::mock::ExpectedCall::with_parameter_of_type (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall22with_parameter_of_typeE10StringView10StringViewPKv">mu::tiny::mock::ExpectedCall::with_parameter_of_type (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall20with_typed_parameterE10NamedValue">mu::tiny::mock::ExpectedCall::with_typed_parameter (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall32with_unmodified_output_parameterERK6String">mu::tiny::mock::ExpectedCall::with_unmodified_output_parameter (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCall32with_unmodified_output_parameterE10StringView">mu::tiny::mock::ExpectedCall::with_unmodified_output_parameter (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1ExpectedCall.html#_CPPv4N2mu4tiny4mock12ExpectedCallD0Ev">mu::tiny::mock::ExpectedCall::~ExpectedCall (C++ function)</a>
 </li>
@@ -1265,7 +1269,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1FunctionCopier.html#_CPPv4N2mu4tiny4mock14FunctionCopier14FunctionCopierE12CopyFunction">mu::tiny::mock::FunctionCopier::FunctionCopier (C++ function)</a>
 </li>
-        <li><a href="api/function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html#_CPPv4N2mu4tiny4mock4mockERK6StringP15FailureReporter">mu::tiny::mock::mock (C++ function)</a>
+        <li><a href="api/function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html#_CPPv4N2mu4tiny4mock4mockE10StringViewP15FailureReporter">mu::tiny::mock::mock (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValueE">mu::tiny::mock::NamedValue (C++ class)</a>
 </li>
@@ -1319,7 +1323,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue19memory_buffer_valueE">mu::tiny::mock::NamedValue::memory_buffer_value (C++ member)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERK10NamedValue">mu::tiny::mock::NamedValue::NamedValue (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERK6String">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERR10NamedValue">[2]</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueE10StringView">mu::tiny::mock::NamedValue::NamedValue (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERK10NamedValue">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue10NamedValueERR10NamedValue">[2]</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue20object_pointer_valueE">mu::tiny::mock::NamedValue::object_pointer_value (C++ member)</a>
 </li>
@@ -1329,7 +1333,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue13pointer_valueE">mu::tiny::mock::NamedValue::pointer_value (C++ member)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue24set_const_object_pointerERK6StringPKv">mu::tiny::mock::NamedValue::set_const_object_pointer (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue24set_const_object_pointerE10StringViewPKv">mu::tiny::mock::NamedValue::set_const_object_pointer (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue46set_default_comparators_and_copiers_repositoryEP41NamedValueComparatorsAndCopiersRepository">mu::tiny::mock::NamedValue::set_default_comparators_and_copiers_repository (C++ function)</a>
 </li>
@@ -1337,7 +1341,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue8set_nameEPKc">mu::tiny::mock::NamedValue::set_name (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue18set_object_pointerERK6StringPv">mu::tiny::mock::NamedValue::set_object_pointer (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue18set_object_pointerE10StringViewPv">mu::tiny::mock::NamedValue::set_object_pointer (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValue.html#_CPPv4N2mu4tiny4mock10NamedValue8set_sizeE6size_t">mu::tiny::mock::NamedValue::set_size (C++ function)</a>
 </li>
@@ -1373,15 +1377,15 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository5clearEv">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::clear (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository23get_comparator_for_typeERK6String">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::get_comparator_for_type (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository23get_comparator_for_typeE10StringView">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::get_comparator_for_type (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository19get_copier_for_typeERK6String">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::get_copier_for_type (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository19get_copier_for_typeE10StringView">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::get_copier_for_type (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository18install_comparatorERK6StringR20NamedValueComparator">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::install_comparator (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository18install_comparatorE10StringViewR20NamedValueComparator">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::install_comparator (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository31install_comparators_and_copiersERK41NamedValueComparatorsAndCopiersRepository">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::install_comparators_and_copiers (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository14install_copierERK6StringR16NamedValueCopier">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::install_copier (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository14install_copierE10StringViewR16NamedValueCopier">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::install_copier (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1NamedValueComparatorsAndCopiersRepository.html#_CPPv4N2mu4tiny4mock41NamedValueComparatorsAndCopiersRepository41NamedValueComparatorsAndCopiersRepositoryEv">mu::tiny::mock::NamedValueComparatorsAndCopiersRepository::NamedValueComparatorsAndCopiersRepository (C++ function)</a>
 </li>
@@ -1411,7 +1415,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support5clearEv">mu::tiny::mock::Support::clear (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support5cloneERK6String">mu::tiny::mock::Support::clone (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support5cloneE10StringView">mu::tiny::mock::Support::clone (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support11count_checkEv">mu::tiny::mock::Support::count_check (C++ function)</a>
 </li>
@@ -1423,11 +1427,11 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support6enableEv">mu::tiny::mock::Support::enable (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEjRK6String">mu::tiny::mock::Support::expect_n_calls (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_n_callsEj10StringView">mu::tiny::mock::Support::expect_n_calls (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callERK6String">mu::tiny::mock::Support::expect_no_call (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14expect_no_callE10StringView">mu::tiny::mock::Support::expect_no_call (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callERK6String">mu::tiny::mock::Support::expect_one_call (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15expect_one_callE10StringView">mu::tiny::mock::Support::expect_one_call (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support19expected_calls_leftEv">mu::tiny::mock::Support::expected_calls_left (C++ function)</a>
 </li>
@@ -1435,23 +1439,23 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support20FunctionPointerValueE">mu::tiny::mock::Support::FunctionPointerValue (C++ type)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8get_dataERK6String">mu::tiny::mock::Support::get_data (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8get_dataE10StringView">mu::tiny::mock::Support::get_data (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support22get_mock_support_scopeERK6String">mu::tiny::mock::Support::get_mock_support_scope (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support22get_mock_support_scopeE10StringView">mu::tiny::mock::Support::get_mock_support_scope (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support16get_trace_outputEv">mu::tiny::mock::Support::get_trace_output (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8has_dataERK6String">mu::tiny::mock::Support::has_data (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8has_dataE10StringView">mu::tiny::mock::Support::has_data (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support16has_return_valueEv">mu::tiny::mock::Support::has_return_value (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18ignore_other_callsEv">mu::tiny::mock::Support::ignore_other_calls (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18install_comparatorERK6StringR20NamedValueComparator">mu::tiny::mock::Support::install_comparator (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support18install_comparatorE10StringViewR20NamedValueComparator">mu::tiny::mock::Support::install_comparator (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support31install_comparators_and_copiersERK41NamedValueComparatorsAndCopiersRepository">mu::tiny::mock::Support::install_comparators_and_copiers (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14install_copierERK6StringR16NamedValueCopier">mu::tiny::mock::Support::install_copier (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support14install_copierE10StringViewR16NamedValueCopier">mu::tiny::mock::Support::install_copier (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support34remove_all_comparators_and_copiersEv">mu::tiny::mock::Support::remove_all_comparators_and_copiers (C++ function)</a>
 </li>
@@ -1461,11 +1465,11 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support19set_active_reporterEP15FailureReporter">mu::tiny::mock::Support::set_active_reporter (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6String20FunctionPointerValue">mu::tiny::mock::Support::set_data (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPKc">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPKv">[2]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6StringPv">[3]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringb">[4]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringd">[5]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringi">[6]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringj">[7]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringl">[8]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringm">[9]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringx">[10]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataERK6Stringy">[11]</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringView20FunctionPointerValue">mu::tiny::mock::Support::set_data (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPKc">[1]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPKv">[2]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewPv">[3]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewb">[4]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewd">[5]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewi">[6]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewj">[7]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewl">[8]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewm">[9]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewx">[10]</a>, <a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support8set_dataE10StringViewy">[11]</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectERK6StringRK6StringPKv">mu::tiny::mock::Support::set_data_const_object (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support21set_data_const_objectE10StringView10StringViewPKv">mu::tiny::mock::Support::set_data_const_object (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectERK6StringRK6StringPv">mu::tiny::mock::Support::set_data_object (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support15set_data_objectE10StringView10StringViewPv">mu::tiny::mock::Support::set_data_object (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support46set_default_comparators_and_copiers_repositoryEv">mu::tiny::mock::Support::set_default_comparators_and_copiers_repository (C++ function)</a>
 </li>
@@ -1473,7 +1477,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support12strict_orderEv">mu::tiny::mock::Support::strict_order (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7SupportERK6String">mu::tiny::mock::Support::Support (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7SupportE10StringView">mu::tiny::mock::Support::Support (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1Support.html#_CPPv4N2mu4tiny4mock7Support7tracingEb">mu::tiny::mock::Support::tracing (C++ function)</a>
 </li>
@@ -1483,9 +1487,9 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin5clearEv">mu::tiny::mock::SupportPlugin::clear (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin18install_comparatorERK6StringR20NamedValueComparator">mu::tiny::mock::SupportPlugin::install_comparator (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin18install_comparatorE10StringViewR20NamedValueComparator">mu::tiny::mock::SupportPlugin::install_comparator (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin14install_copierERK6StringR16NamedValueCopier">mu::tiny::mock::SupportPlugin::install_copier (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin14install_copierE10StringViewR16NamedValueCopier">mu::tiny::mock::SupportPlugin::install_copier (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPlugin16post_test_actionERN4test5ShellERN4test6ResultE">mu::tiny::mock::SupportPlugin::post_test_action (C++ function)</a>
 </li>
@@ -1521,6 +1525,10 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html#_CPPv4N2mu4tiny4mock32UnexpectedOutputParameterFailure32UnexpectedOutputParameterFailureEPN4test5ShellERK6String10NamedValueRK17ExpectedCallsList">mu::tiny::mock::UnexpectedOutputParameterFailure::UnexpectedOutputParameterFailure (C++ function)</a>
 </li>
+        <li><a href="api/function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html#_CPPv4N2mu4tinyneE10StringView10StringView">mu::tiny::operator!= (C++ function)</a>
+</li>
+        <li><a href="api/function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html#_CPPv4N2mu4tinyeqE10StringView10StringView">mu::tiny::operator== (C++ function)</a>
+</li>
         <li><a href="api/function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html#_CPPv4N2mu4tiny6strcmpEPKcPKc">mu::tiny::strcmp (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE">mu::tiny::String (C++ class)</a>
@@ -1543,7 +1551,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6StringplERK6String">mu::tiny::String::operator+ (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEPKc">mu::tiny::String::operator+= (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLERK6String">[1]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEc">[2]</a>
+        <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLE10StringView">mu::tiny::String::operator+= (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEPKc">[1]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLERK6String">[2]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringpLEc">[3]</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringltERK6StringRK6String">mu::tiny::String::operator&lt; (C++ function)</a>
 </li>
@@ -1557,7 +1565,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6String4sizeEv">mu::tiny::String::size (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringE6size_tc">mu::tiny::String::String (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringEPKc">[1]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERK6String">[2]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERR6String">[3]</a>
+        <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringE10StringView">mu::tiny::String::String (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringE6size_tc">[1]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringEPKc">[2]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringEPKc6size_t">[3]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERK6String">[4]</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6String6StringERR6String">[5]</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6String6substrE6size_t">mu::tiny::String::substr (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1String.html#_CPPv4NK2mu4tiny6String6substrE6size_t6size_t">[1]</a>
 </li>
@@ -1567,7 +1575,7 @@
 </li>
         <li><a href="api/function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html#_CPPv4N2mu4tiny16string_ends_withERK6StringRK6String">mu::tiny::string_ends_with (C++ function)</a>
 </li>
-        <li><a href="api/function_namespacemu_1_1tiny_1a3af82d7d98ba9e84177b19579186464c.html#_CPPv4N2mu4tiny11string_fromEPKc">mu::tiny::string_from (C++ function)</a>, <a href="api/function_namespacemu_1_1tiny_1a4ed86e1c76fb1cdf83fde89089dfa51e.html#_CPPv4N2mu4tiny11string_fromEPFvvE">[1]</a>, <a href="api/function_namespacemu_1_1tiny_1a5a1691ff0db11b6489f1d88362417e1b.html#_CPPv4N2mu4tiny11string_fromEy">[2]</a>, <a href="api/function_namespacemu_1_1tiny_1a69592375e6b6e57d437647d551378d87.html#_CPPv4N2mu4tiny11string_fromERKN4test6FilterE">[3]</a>, <a href="api/function_namespacemu_1_1tiny_1a6a7ea65c305bad0c0bb026656990569b.html#_CPPv4N2mu4tiny11string_fromEx">[4]</a>, <a href="api/function_namespacemu_1_1tiny_1a6d7c13f5d1cb346bd551fcfe36302771.html#_CPPv4I0DpEN2mu4tiny11string_fromE6StringPF3RETDp4ARGSE">[5]</a>, <a href="api/function_namespacemu_1_1tiny_1a7145a6b87ea00d0240ab0d55a651c605.html#_CPPv4N2mu4tiny11string_fromEl">[6]</a>, <a href="api/function_namespacemu_1_1tiny_1a7b034422fdbdabf338619fdad83a5c5c.html#_CPPv4N2mu4tiny11string_fromEj">[7]</a>, <a href="api/function_namespacemu_1_1tiny_1a7cda397d4ac312cd78d1a31c20199423.html#_CPPv4N2mu4tiny11string_fromEm">[8]</a>, <a href="api/function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html#_CPPv4N2mu4tiny11string_fromEdi">[9]</a>, <a href="api/function_namespacemu_1_1tiny_1a7f4ee5d7ddb8b802bcaea8a49c8839e9.html#_CPPv4N2mu4tiny11string_fromERKN4mock10NamedValueE">[10]</a>, <a href="api/function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html#_CPPv4I0EN2mu4tiny11string_fromE6StringP1T">[11]</a>, <a href="api/function_namespacemu_1_1tiny_1a9e5aeb8f25221ede2e67ee5024322891.html#_CPPv4N2mu4tiny11string_fromEPKv">[12]</a>, <a href="api/function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html#_CPPv4N2mu4tiny11string_fromEfi">[13]</a>, <a href="api/function_namespacemu_1_1tiny_1ab646edd6a31bf036cddefc1856fd0fca.html#_CPPv4N2mu4tiny11string_fromEi">[14]</a>, <a href="api/function_namespacemu_1_1tiny_1abc5759d51a1cabd691bc9be3b0608447.html#_CPPv4N2mu4tiny11string_fromEc">[15]</a>, <a href="api/function_namespacemu_1_1tiny_1adfcaad75719bb2c8a570f098a77a4532.html#_CPPv4N2mu4tiny11string_fromEb">[16]</a>, <a href="api/function_namespacemu_1_1tiny_1ae86d1b50b8868ea87c477b6d721006a9.html#_CPPv4N2mu4tiny11string_fromEh">[17]</a>, <a href="api/function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html#_CPPv4N2mu4tiny11string_fromERK6String">[18]</a>, <a href="api/function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html#_CPPv4N2mu4tiny11string_fromEDTLDnEE">[19]</a>, <a href="api/function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html#_CPPv4N2mu4tiny11string_fromEPv">[20]</a>, <a href="api/function_namespacemu_1_1tiny_1afc24d37f6fa341e1ec48d14ee7020a91.html#_CPPv4N2mu4tiny11string_fromEa">[21]</a>
+        <li><a href="api/function_namespacemu_1_1tiny_1a3af82d7d98ba9e84177b19579186464c.html#_CPPv4N2mu4tiny11string_fromEPKc">mu::tiny::string_from (C++ function)</a>, <a href="api/function_namespacemu_1_1tiny_1a4ed86e1c76fb1cdf83fde89089dfa51e.html#_CPPv4N2mu4tiny11string_fromEPFvvE">[1]</a>, <a href="api/function_namespacemu_1_1tiny_1a5a1691ff0db11b6489f1d88362417e1b.html#_CPPv4N2mu4tiny11string_fromEy">[2]</a>, <a href="api/function_namespacemu_1_1tiny_1a69592375e6b6e57d437647d551378d87.html#_CPPv4N2mu4tiny11string_fromERKN4test6FilterE">[3]</a>, <a href="api/function_namespacemu_1_1tiny_1a6a7ea65c305bad0c0bb026656990569b.html#_CPPv4N2mu4tiny11string_fromEx">[4]</a>, <a href="api/function_namespacemu_1_1tiny_1a6d7c13f5d1cb346bd551fcfe36302771.html#_CPPv4I0DpEN2mu4tiny11string_fromE6StringPF3RETDp4ARGSE">[5]</a>, <a href="api/function_namespacemu_1_1tiny_1a7145a6b87ea00d0240ab0d55a651c605.html#_CPPv4N2mu4tiny11string_fromEl">[6]</a>, <a href="api/function_namespacemu_1_1tiny_1a7b034422fdbdabf338619fdad83a5c5c.html#_CPPv4N2mu4tiny11string_fromEj">[7]</a>, <a href="api/function_namespacemu_1_1tiny_1a7cda397d4ac312cd78d1a31c20199423.html#_CPPv4N2mu4tiny11string_fromEm">[8]</a>, <a href="api/function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html#_CPPv4N2mu4tiny11string_fromEdi">[9]</a>, <a href="api/function_namespacemu_1_1tiny_1a7f4ee5d7ddb8b802bcaea8a49c8839e9.html#_CPPv4N2mu4tiny11string_fromERKN4mock10NamedValueE">[10]</a>, <a href="api/function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html#_CPPv4I0EN2mu4tiny11string_fromE6StringP1T">[11]</a>, <a href="api/function_namespacemu_1_1tiny_1a9e5aeb8f25221ede2e67ee5024322891.html#_CPPv4N2mu4tiny11string_fromEPKv">[12]</a>, <a href="api/function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html#_CPPv4N2mu4tiny11string_fromEfi">[13]</a>, <a href="api/function_namespacemu_1_1tiny_1ab646edd6a31bf036cddefc1856fd0fca.html#_CPPv4N2mu4tiny11string_fromEi">[14]</a>, <a href="api/function_namespacemu_1_1tiny_1abc5759d51a1cabd691bc9be3b0608447.html#_CPPv4N2mu4tiny11string_fromEc">[15]</a>, <a href="api/function_namespacemu_1_1tiny_1adfcaad75719bb2c8a570f098a77a4532.html#_CPPv4N2mu4tiny11string_fromEb">[16]</a>, <a href="api/function_namespacemu_1_1tiny_1ae86d1b50b8868ea87c477b6d721006a9.html#_CPPv4N2mu4tiny11string_fromEh">[17]</a>, <a href="api/function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html#_CPPv4N2mu4tiny11string_fromERK6String">[18]</a>, <a href="api/function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html#_CPPv4N2mu4tiny11string_fromEDTLDnEE">[19]</a>, <a href="api/function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html#_CPPv4N2mu4tiny11string_fromEPv">[20]</a>, <a href="api/function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html#_CPPv4N2mu4tiny11string_fromE10StringView">[21]</a>, <a href="api/function_namespacemu_1_1tiny_1afc24d37f6fa341e1ec48d14ee7020a91.html#_CPPv4N2mu4tiny11string_fromEa">[22]</a>
 </li>
         <li><a href="api/function_namespacemu_1_1tiny_1aecd92e682283746c670d4d5c1ecd7062.html#_CPPv4N2mu4tiny18string_from_binaryEPKh6size_t">mu::tiny::string_from_binary (C++ function)</a>
 </li>
@@ -1586,6 +1594,20 @@
         <li><a href="api/function_namespacemu_1_1tiny_1a0495811ba2a07216fd5e4376f6cada18.html#_CPPv4N2mu4tiny14string_replaceER6Stringcc">mu::tiny::string_replace (C++ function)</a>, <a href="api/function_namespacemu_1_1tiny_1ac3ce989c364d775cb5d76109e93698e2.html#_CPPv4N2mu4tiny14string_replaceER6StringPKcPKc">[1]</a>
 </li>
         <li><a href="api/function_namespacemu_1_1tiny_1a812a28c32c23fe1cdd3a9e89304a0687.html#_CPPv4N2mu4tiny18string_starts_withERK6StringRK6String">mu::tiny::string_starts_with (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringViewE">mu::tiny::StringView (C++ class)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView5c_strEv">mu::tiny::StringView::c_str (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView4dataEv">mu::tiny::StringView::data (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView5emptyEv">mu::tiny::StringView::empty (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringViewixE6size_t">mu::tiny::StringView::operator[] (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4NK2mu4tiny10StringView4sizeEv">mu::tiny::StringView::size (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewEPKc">mu::tiny::StringView::StringView (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewEPKc6size_t">[1]</a>, <a href="api/classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringView10StringViewERK6String">[2]</a>
 </li>
         <li><a href="api/function_namespacemu_1_1tiny_1a53779342b125c346e054cb43240078e0.html#_CPPv4N2mu4tiny6strlenEPKc">mu::tiny::strlen (C++ function)</a>
 </li>
@@ -1975,6 +1997,8 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output61print_error_in_file_on_line_formatted_for_working_environmentERK6String6size_t">mu::tiny::test::Output::print_error_in_file_on_line_formatted_for_working_environment (C++ function)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output13print_failureERK7Failure">mu::tiny::test::Output::print_failure (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output21print_failure_in_testERK6String">mu::tiny::test::Output::print_failure_in_test (C++ function)</a>
@@ -1985,8 +2009,6 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output40print_file_and_line_for_test_and_failureERK7Failure">mu::tiny::test::Output::print_file_and_line_for_test_and_failure (C++ function)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output24print_progress_indicatorEv">mu::tiny::test::Output::print_progress_indicator (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output13print_skippedEPKc">mu::tiny::test::Output::print_skipped (C++ function)</a>
@@ -3069,7 +3091,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

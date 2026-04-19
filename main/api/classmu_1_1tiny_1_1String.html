@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Template Class ApproxEqualFailure" href="classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html"><link rel="prev" title="Class UnexpectedOutputParameterFailure" href="classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Class StringView" href="classmu_1_1tiny_1_1StringView.html"><link rel="prev" title="Class UnexpectedOutputParameterFailure" href="classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">
         <link rel="prefetch" href="../_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
@@ -316,6 +316,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedObjectFailure.html">Class UnexpectedObjectFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1UnexpectedOutputParameterFailure.html">Class UnexpectedOutputParameterFailure</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Class String</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html">Class StringView</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">Template Class ApproxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1BinaryEqualFailure.html">Class BinaryEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1CheckEqualFailure.html">Class CheckEqualFailure</a></li>
@@ -379,7 +380,9 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a5e118a4d72f9cfdd2f683306caaea06e.html">Function mu::tiny::hex_string_from(void(*)())</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1afe73ac5413e90b574aae574e7780b60e.html">Function mu::tiny::iscntrl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a51c34a6341fe1ac38426e1f170351440.html">Function mu::tiny::memcmp</a></li>
-<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0f466b1b0dbc72aa76a1f6f3d772e188.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1_1mock_1a0af8062d4a10b0c85a6e7b9b77da6c80.html">Function mu::tiny::mock::mock</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aa8605225c30f6cf65e1fe420ddb0a67c.html">Function mu::tiny::operator!=</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a74d23aa770d97ddba56dea279e64ed7b.html">Function mu::tiny::operator==</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a2d84cc2860315220cf97be95b550a899.html">Function mu::tiny::strcmp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a49869428736c6d9e6a8bf370cfe6af7b.html">Function mu::tiny::string_contains</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aedcc69cd5ee580a840185804345500a4.html">Function mu::tiny::string_ends_with</a></li>
@@ -401,6 +404,7 @@
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aaf650c6ec36c1e31eca4c4aecc1187b6.html">Function mu::tiny::string_from(float, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7.html">Function mu::tiny::string_from(double, int)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1aea35f9d8fe14d603bcc4f282bcb4e629.html">Function mu::tiny::string_from(const String&amp;)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af6c4eaebe6d98975f49e8a469d975c60.html">Function mu::tiny::string_from(StringView)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af2d8b91b625ea89bbde5b99b3bd85ef5.html">Function mu::tiny::string_from(decltype(nullptr))</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1af679e1540cf9b6c5b6259085f1bdfc9a.html">Function mu::tiny::string_from(void *)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="function_namespacemu_1_1tiny_1a8f8f5d7f2e478f0bdcbd28f9451b1f73.html">Template Function mu::tiny::string_from(T *)</a></li>
@@ -603,7 +607,7 @@
 <h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading">¶</a></h2>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6StringE">
-<span id="_CPPv3N2mu4tiny6StringE"></span><span id="_CPPv2N2mu4tiny6StringE"></span><span id="mu::tiny::String"></span><span class="target" id="classmu_1_1tiny_1_1String"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">String</span></span></span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringE" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L67"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny6StringE"></span><span id="_CPPv2N2mu4tiny6StringE"></span><span id="mu::tiny::String"></span><span class="target" id="classmu_1_1tiny_1_1String"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">String</span></span></span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringE" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L69"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Minimal string class used throughout the mutiny framework. </p>
 <p>Provides just enough string functionality for assertion messages and internal bookkeeping without depending on the C++ standard library. The interface deliberately mirrors the subset of <code class="docutils literal notranslate"><span class="pre">std::string</span></code> that the framework uses so that switching to <code class="docutils literal notranslate"><span class="pre">std::string</span></code> via <a class="reference internal" href="define_features_8hpp_1a2b5a2087ad8293d85d2612da40675a1b.html#features_8hpp_1a2b5a2087ad8293d85d2612da40675a1b"><span class="std std-ref">MUTINY_USE_STD_STRING</span></a> requires no call-site changes. </p>
 <div class="breathe-sectiondef docutils container">
@@ -612,6 +616,18 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6String6StringEPKc">
 <span id="_CPPv3N2mu4tiny6String6StringEPKc"></span><span id="_CPPv2N2mu4tiny6String6StringEPKc"></span><span id="mu::tiny::String::String__cCP"></span><span class="target" id="classmu_1_1tiny_1_1String_1abc4771560f74f8f90fb92d1771addfb8"></span><span class="sig-name descname"><span class="n"><span class="pre">String</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">value</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String6StringEPKc" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Construct from a NUL-terminated C string (default: empty). </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6String6StringEPKc6size_t">
+<span id="_CPPv3N2mu4tiny6String6StringEPKc6size_t"></span><span id="_CPPv2N2mu4tiny6String6StringEPKc6size_t"></span><span id="mu::tiny::String::String__cCP.s"></span><span class="target" id="classmu_1_1tiny_1_1String_1a9afb0d151cc07033298d1961eb7cfcd7"></span><span class="sig-name descname"><span class="n"><span class="pre">String</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">value</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String6StringEPKc6size_t" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Construct from a pointer and an explicit byte count. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6String6StringE10StringView">
+<span id="_CPPv3N2mu4tiny6String6StringE10StringView"></span><span id="_CPPv2N2mu4tiny6String6StringE10StringView"></span><span id="mu::tiny::String::String__StringView"></span><span class="target" id="classmu_1_1tiny_1_1String_1a4e5a5e3625b731150e594d5e329e0827"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">String</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringViewE" title="mu::tiny::StringView"><span class="n"><span class="pre">StringView</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String6StringE10StringView" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Construct a copy from a <a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#classmu_1_1tiny_1_1StringView"><span class="std std-ref">StringView</span></a> (explicit; allocates). </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -642,7 +658,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6StringD0Ev">
-<span id="_CPPv3N2mu4tiny6StringD0Ev"></span><span id="_CPPv2N2mu4tiny6StringD0Ev"></span><span id="mu::tiny::String::~String"></span><span class="target" id="classmu_1_1tiny_1_1String_1a048996ae7382eb9a1caa6831ab202be5"></span><span class="sig-name descname"><span class="n"><span class="pre">~String</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringD0Ev" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L86"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny6StringD0Ev"></span><span id="_CPPv2N2mu4tiny6StringD0Ev"></span><span id="mu::tiny::String::~String"></span><span class="target" id="classmu_1_1tiny_1_1String_1a048996ae7382eb9a1caa6831ab202be5"></span><span class="sig-name descname"><span class="n"><span class="pre">~String</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringD0Ev" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L92"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -679,6 +695,12 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6StringpLEc">
 <span id="_CPPv3N2mu4tiny6StringpLEc"></span><span id="_CPPv2N2mu4tiny6StringpLEc"></span><span id="mu::tiny::String::add-assign-operator__c"></span><span class="target" id="classmu_1_1tiny_1_1String_1a9fbb58cf304d44127d6376262b898d3d"></span><a class="reference internal" href="#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">+=</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ch</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringpLEc" title="Link to this definition">¶</a><br /></dt>
 <dd><p>Append a single character and return a reference to this string. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6StringpLE10StringView">
+<span id="_CPPv3N2mu4tiny6StringpLE10StringView"></span><span id="_CPPv2N2mu4tiny6StringpLE10StringView"></span><span id="mu::tiny::String::add-assign-operator__StringView"></span><span class="target" id="classmu_1_1tiny_1_1String_1ac0584dc2e07224368322dc0290d2c8a7"></span><a class="reference internal" href="#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">+=</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#_CPPv4N2mu4tiny10StringViewE" title="mu::tiny::StringView"><span class="n"><span class="pre">StringView</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">sv</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6StringpLE10StringView" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Append the contents of a <a class="reference internal" href="classmu_1_1tiny_1_1StringView.html#classmu_1_1tiny_1_1StringView"><span class="std std-ref">StringView</span></a>. </p>
 </dd></dl>
 
 <dl class="cpp function">
@@ -777,7 +799,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6String4dataEv">
-<span id="_CPPv3N2mu4tiny6String4dataEv"></span><span id="_CPPv2N2mu4tiny6String4dataEv"></span><span id="mu::tiny::String::data"></span><span class="target" id="classmu_1_1tiny_1_1String_1afe4e07109cba9d757e315cbdbcc5768e"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String4dataEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L137"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny6String4dataEv"></span><span id="_CPPv2N2mu4tiny6String4dataEv"></span><span id="mu::tiny::String::data"></span><span class="target" id="classmu_1_1tiny_1_1String_1afe4e07109cba9d757e315cbdbcc5768e"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">data</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String4dataEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L145"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Writable pointer to the character data. </p>
@@ -827,7 +849,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny6String5clearEv">
-<span id="_CPPv3N2mu4tiny6String5clearEv"></span><span id="_CPPv2N2mu4tiny6String5clearEv"></span><span id="mu::tiny::String::clear"></span><span class="target" id="classmu_1_1tiny_1_1String_1abef5d4a9898af8ef6a245b32586a4ec4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String5clearEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L149"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny6String5clearEv"></span><span id="_CPPv2N2mu4tiny6String5clearEv"></span><span id="mu::tiny::String::clear"></span><span class="target" id="classmu_1_1tiny_1_1String_1abef5d4a9898af8ef6a245b32586a4ec4"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">clear</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny6String5clearEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/String.hpp#L157"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Reset the string to empty without releasing the buffer. </p>
 </dd></dl>
 
@@ -871,12 +893,12 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="classmu_1_1tiny_1_1test_1_1ApproxEqualFailure.html">
+          <a class="next-page" href="classmu_1_1tiny_1_1StringView.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Template Class ApproxEqualFailure</div>
+                <div class="title">Class StringView</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -928,6 +950,8 @@
 <li><a class="reference internal" href="#class-documentation">Class Documentation</a><ul>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringE"><code class="docutils literal notranslate"><span class="pre">mu::tiny::String</span></code></a><ul>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringEPKc"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringEPKc6size_t"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringE10StringView"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringE6size_tc"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringERK6String"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6String6StringERR6String"><code class="docutils literal notranslate"><span class="pre">String()</span></code></a></li>
@@ -938,6 +962,7 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringpLERK6String"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringpLEPKc"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringpLEc"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringpLE10StringView"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny6StringixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny6StringixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny6String4findEc6size_t"><code class="docutils literal notranslate"><span class="pre">find()</span></code></a></li>
@@ -971,7 +996,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=1dd76d02"></script>
+</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
