@@ -291,11 +291,16 @@ jobs:
       - run: cmake --preset=defaults -DMUTINY_JUNIT_REPORT=TRUE
       - run: cmake --build --preset defaults
       - run: ctest --preset defaults
+      - name: Save PR number
+        if: github.event_name == 'pull_request'
+        run: echo ${{ github.event.pull_request.number }} > pr_number.txt
       - uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
           name: test-results
-          path: "build/defaults/**/mutiny_*.xml"
+          path: |
+            build/defaults/**/mutiny_*.xml
+            pr_number.txt
 
   tap_validate:
     name: TAP Output Validation
