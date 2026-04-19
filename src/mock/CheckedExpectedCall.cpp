@@ -95,19 +95,19 @@ ExpectedCall& CheckedExpectedCall::with_unmodified_output_parameter(
   return with_output_parameter_returning(name, nullptr, 0);
 }
 
-bool CheckedExpectedCall::has_input_parameter_with_name(const String& name)
+bool CheckedExpectedCall::has_input_parameter_with_name(StringView name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
   return p != nullptr;
 }
 
-bool CheckedExpectedCall::has_output_parameter_with_name(const String& name)
+bool CheckedExpectedCall::has_output_parameter_with_name(StringView name)
 {
   NamedValue* p = output_parameters_->get_value_by_name(name);
   return p != nullptr;
 }
 
-NamedValue CheckedExpectedCall::get_output_parameter(const String& name)
+NamedValue CheckedExpectedCall::get_output_parameter(StringView name)
 {
   NamedValue* p = output_parameters_->get_value_by_name(name);
   return (p) ? *p : NamedValue("");
@@ -188,7 +188,7 @@ void CheckedExpectedCall::reset_actual_call_matching_state()
     item(p)->set_matches_actual_call(false);
 }
 
-void CheckedExpectedCall::input_parameter_was_passed(const String& name)
+void CheckedExpectedCall::input_parameter_was_passed(StringView name)
 {
   for (NamedValueListNode* p = input_parameters_->begin(); p; p = p->next()) {
     if (p->get_name() == name)
@@ -196,7 +196,7 @@ void CheckedExpectedCall::input_parameter_was_passed(const String& name)
   }
 }
 
-void CheckedExpectedCall::output_parameter_was_passed(const String& name)
+void CheckedExpectedCall::output_parameter_was_passed(StringView name)
 {
   for (NamedValueListNode* p = output_parameters_->begin(); p; p = p->next()) {
     if (p->get_name() == name)
@@ -204,7 +204,7 @@ void CheckedExpectedCall::output_parameter_was_passed(const String& name)
   }
 }
 
-String CheckedExpectedCall::get_input_parameter_value_string(const String& name)
+String CheckedExpectedCall::get_input_parameter_value_string(StringView name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
   return (p) ? string_from(*p) : string_from("failed");
@@ -315,7 +315,7 @@ String CheckedExpectedCall::missing_parameters_to_string()
   return str;
 }
 
-bool CheckedExpectedCall::relates_to(const String& function_name)
+bool CheckedExpectedCall::relates_to(StringView function_name)
 {
   return function_name == get_name();
 }

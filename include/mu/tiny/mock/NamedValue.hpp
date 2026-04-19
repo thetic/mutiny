@@ -136,9 +136,9 @@ public:
   virtual String to_string() const;
 
   /** @return The name of this value. */
-  String get_name() const;
+  const String& get_name() const;
   /** @return The type tag string (e.g. "int", "MyClass", "const char*"). */
-  String get_type() const;
+  const String& get_type() const;
 
   /**
    * @brief Type-safe value accessor template.

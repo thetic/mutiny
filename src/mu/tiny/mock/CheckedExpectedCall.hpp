@@ -5,6 +5,8 @@
 #include "mu/tiny/mock/NamedValue.hpp"
 #include "mu/tiny/mock/NamedValueList.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -50,14 +52,14 @@ public:
 
   ExpectedCall& on_object(void* object_ptr) override;
 
-  virtual NamedValue get_output_parameter(const String& name);
-  virtual String get_input_parameter_value_string(const String& name);
+  virtual NamedValue get_output_parameter(StringView name);
+  virtual String get_input_parameter_value_string(StringView name);
 
-  virtual bool has_input_parameter_with_name(const String& name);
+  virtual bool has_input_parameter_with_name(StringView name);
   virtual bool has_input_parameter(const NamedValue& parameter);
-  virtual bool has_output_parameter_with_name(const String& name);
+  virtual bool has_output_parameter_with_name(StringView name);
   virtual bool has_output_parameter(const NamedValue& parameter);
-  virtual bool relates_to(const String& function_name);
+  virtual bool relates_to(StringView function_name);
   virtual bool relates_to_object(const void* object_ptr) const;
 
   virtual bool is_fulfilled();
@@ -68,8 +70,8 @@ public:
   virtual bool is_out_of_order() const;
 
   virtual void call_was_made(unsigned int call_order);
-  virtual void input_parameter_was_passed(const String& name);
-  virtual void output_parameter_was_passed(const String& name);
+  virtual void input_parameter_was_passed(StringView name);
+  virtual void output_parameter_was_passed(StringView name);
   virtual void finalize_actual_call_match();
   virtual void was_passed_to_object();
   virtual void reset_actual_call_matching_state();

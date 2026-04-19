@@ -178,12 +178,12 @@ void NamedValue::set_name(const char* name)
   name_ = name;
 }
 
-String NamedValue::get_name() const
+const String& NamedValue::get_name() const
 {
   return name_;
 }
 
-String NamedValue::get_type() const
+const String& NamedValue::get_type() const
 {
   return type_;
 }
