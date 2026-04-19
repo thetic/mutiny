@@ -81,18 +81,20 @@ OrderedInstaller::OrderedInstaller(
   test.set_line_number(line_number);
   test.set_level(level);
 
-  if (OrderedShell::first_ordered_test())
+  if (OrderedShell::first_ordered_test()) {
     OrderedShell::add_ordered_test_to_head(&test);
-  else
+  } else {
     add_ordered_test_in_order(&test);
+  }
 }
 
 void OrderedInstaller::add_ordered_test_in_order(OrderedShell* test)
 {
-  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level())
+  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level()) {
     OrderedShell::add_ordered_test_to_head(test);
-  else
+  } else {
     add_ordered_test_in_order_not_at_head_position(test);
+  }
 }
 
 void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(

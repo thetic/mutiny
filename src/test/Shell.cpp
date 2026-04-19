@@ -100,8 +100,9 @@ void (*please_crash_me_right_now)() = abort;
 
 bool approx_equal(double d1, double d2, double threshold)
 {
-  if (is_nan(d1) || is_nan(d2) || is_nan(threshold))
+  if (is_nan(d1) || is_nan(d2) || is_nan(threshold)) {
     return false;
+  }
 
   if (is_inf(d1) && is_inf(d2)) {
     return true;
@@ -315,12 +316,15 @@ size_t Shell::get_line_number() const
 
 bool Shell::match(const char* target, const Filter* filters) const
 {
-  if (filters == nullptr)
+  if (filters == nullptr) {
     return true;
+  }
 
-  for (; filters != nullptr; filters = filters->get_next())
-    if (filters->match(target))
+  for (; filters != nullptr; filters = filters->get_next()) {
+    if (filters->match(target)) {
       return true;
+    }
+  }
 
   return false;
 }
@@ -401,8 +405,9 @@ void Shell::assert_cstr_equal(
 )
 {
   get_test_result()->count_check();
-  if (actual == nullptr && expected == nullptr)
+  if (actual == nullptr && expected == nullptr) {
     return;
+  }
   if (actual == nullptr || expected == nullptr) {
     add_failure(
         StringEqualFailure(this, file_name, line_number, expected, actual, text)
@@ -428,8 +433,9 @@ void Shell::assert_cstr_n_equal(
 )
 {
   get_test_result()->count_check();
-  if (actual == nullptr && expected == nullptr)
+  if (actual == nullptr && expected == nullptr) {
     return;
+  }
   if (actual == nullptr || expected == nullptr) {
     add_failure(
         StringEqualFailure(this, file_name, line_number, expected, actual, text)
@@ -453,8 +459,9 @@ void Shell::assert_cstr_contains(
 )
 {
   get_test_result()->count_check();
-  if (actual == nullptr && expected == nullptr)
+  if (actual == nullptr && expected == nullptr) {
     return;
+  }
   if (actual == nullptr || expected == nullptr) {
     add_failure(ContainsFailure(
         this,
@@ -543,10 +550,12 @@ void Shell::assert_binary_equal(
 )
 {
   get_test_result()->count_check();
-  if (length == 0)
+  if (length == 0) {
     return;
-  if (actual == nullptr && expected == nullptr)
+  }
+  if (actual == nullptr && expected == nullptr) {
     return;
+  }
   if (actual == nullptr || expected == nullptr) {
     add_failure(BinaryEqualFailure(
         this,
@@ -650,15 +659,17 @@ void Shell::set_current_test(Shell* test)
 
 Result* Shell::get_test_result()
 {
-  if (test_result_ == nullptr)
+  if (test_result_ == nullptr) {
     return &OutsideTestRunnerUTest::instance().get_result();
+  }
   return test_result_;
 }
 
 Shell* Shell::get_current()
 {
-  if (current_test_ == nullptr)
+  if (current_test_ == nullptr) {
     return &OutsideTestRunnerUTest::instance();
+  }
   return current_test_;
 }
 

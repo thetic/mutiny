@@ -51,8 +51,9 @@ TestingFixture::~TestingFixture()
 
 void TestingFixture::clear_exec_function()
 {
-  if (gen_test_->test_function && owns_exec_function_)
+  if (gen_test_->test_function && owns_exec_function_) {
     delete gen_test_->test_function;
+  }
 }
 
 void TestingFixture::add_test(Shell* test)
@@ -169,7 +170,7 @@ void TestingFixture::check_test_fails_with_proper_test_location(
     size_t line
 )
 {
-  if (get_failure_count() != 1)
+  if (get_failure_count() != 1) {
     FAIL_TEST_LOCATION(
         string_from_format(
             "Expected one test failure, but got %d amount of test failures",
@@ -179,16 +180,18 @@ void TestingFixture::check_test_fails_with_proper_test_location(
         file,
         line
     );
+  }
 
   STRCMP_CONTAINS_LOCATION(text, output_->get_output().c_str(), "", file, line);
 
-  if (line_of_code_executed_after_check_)
+  if (line_of_code_executed_after_check_) {
     FAIL_TEST_LOCATION(
         "The test should jump/throw on failure and not execute the "
         "next line. However, the next line was executed.",
         file,
         line
     );
+  }
 }
 
 } // namespace test

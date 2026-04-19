@@ -42,15 +42,18 @@ public:
     const char* p = buffer_.c_str();
     size_t count = 1;
     while (*p && count < n) {
-      if (*p == '\n')
+      if (*p == '\n') {
         ++count;
+      }
       ++p;
     }
     line_buf_ = "";
-    while (*p && *p != '\n')
+    while (*p && *p != '\n') {
       line_buf_ += *p++;
-    if (*p == '\n')
+    }
+    if (*p == '\n') {
       line_buf_ += '\n';
+    }
     return line_buf_.c_str();
   }
 
@@ -62,9 +65,11 @@ public:
   size_t amount_of_lines()
   {
     size_t count = 0;
-    for (const char* p = buffer_.c_str(); *p; ++p)
-      if (*p == '\n')
+    for (const char* p = buffer_.c_str(); *p; ++p) {
+      if (*p == '\n') {
         ++count;
+      }
+    }
     return count;
   }
 
@@ -97,8 +102,9 @@ public:
   int amount_of_files()
   {
     int count = 0;
-    for (auto* cur = first_file_; cur; cur = cur->next_file())
+    for (auto* cur = first_file_; cur; cur = cur->next_file()) {
       ++count;
+    }
     return count;
   }
 
@@ -106,9 +112,11 @@ public:
 
   FileForJUnitTestOutputs* file(const char* filename)
   {
-    for (auto* cur = first_file_; cur; cur = cur->next_file())
-      if (cur->name() == filename)
+    for (auto* cur = first_file_; cur; cur = cur->next_file()) {
+      if (cur->name() == filename) {
         return cur;
+      }
+    }
     return nullptr;
   }
 };
@@ -216,22 +224,25 @@ public:
 
   JUnitTestOutputTestRunner& in_file(const char* file_name)
   {
-    if (current_test_)
+    if (current_test_) {
       current_test_->set_file_name(file_name);
+    }
     return *this;
   }
 
   JUnitTestOutputTestRunner& on_line(size_t line_number)
   {
-    if (current_test_)
+    if (current_test_) {
       current_test_->set_line_number(line_number);
+    }
     return *this;
   }
 
   void run_previous_test()
   {
-    if (current_test_ == nullptr)
+    if (current_test_ == nullptr) {
       return;
+    }
 
     if (first_test_in_group_) {
       result_.current_group_started(current_test_);
@@ -240,8 +251,9 @@ public:
     result_.current_test_started(current_test_);
 
     millis_time += time_the_test_takes_;
-    for (unsigned int i = 0; i < number_of_checks_in_test_; ++i)
+    for (unsigned int i = 0; i < number_of_checks_in_test_; ++i) {
       result_.count_check();
+    }
     number_of_checks_in_test_ = 0;
 
     while (pending_properties_) {
@@ -328,8 +340,9 @@ public:
     prop->value = value;
     prop->next = nullptr;
     PendingProperty** tail = &pending_properties_;
-    while (*tail)
+    while (*tail) {
       tail = &(*tail)->next;
+    }
     *tail = prop;
     return *this;
   }
@@ -348,10 +361,11 @@ mu::tiny::test::Output::FPutsFunc original_f_puts;
 
 void mock_f_puts(const char* str, mu::tiny::test::Output::File file)
 {
-  if (file == current_file)
+  if (file == current_file) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
-  else
+  } else {
     original_f_puts(str, file);
+  }
 }
 
 void mock_f_close(mu::tiny::test::Output::File file)

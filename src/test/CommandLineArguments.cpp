@@ -19,12 +19,14 @@ String sub_string_from_till(
 )
 {
   size_t begin_pos = str.find(start_char);
-  if (begin_pos == String::npos)
+  if (begin_pos == String::npos) {
     return "";
+  }
 
   size_t end_pos = str.find(last_excluded_char, begin_pos);
-  if (end_pos == String::npos)
+  if (end_pos == String::npos) {
     return str.substr(begin_pos);
+  }
 
   return str.substr(begin_pos, end_pos - begin_pos);
 }
@@ -59,70 +61,71 @@ bool CommandLineArguments::parse(Plugin* plugin)
 
     if (argument == "-h") {
       need_help_ = true;
-    } else if (argument == "-v")
+    } else if (argument == "-v") {
       verbose_ = true;
-    else if (argument == "-vv")
+    } else if (argument == "-vv") {
       very_verbose_ = true;
-    else if (argument == "-c")
+    } else if (argument == "-c") {
       color_ = true;
-    else if (argument == "-b")
+    } else if (argument == "-b") {
       reversing_ = true;
-    else if (argument == "-lg")
+    } else if (argument == "-lg") {
       list_test_group_names_ = true;
-    else if (argument == "-ln")
+    } else if (argument == "-ln") {
       list_test_group_and_case_names_ = true;
-    else if (argument == "-lo")
+    } else if (argument == "-lo") {
       list_ordered_test_locations_ = true;
-    else if (argument == "-lgl")
+    } else if (argument == "-lgl") {
       list_test_group_locations_ = true;
-    else if (argument == "-ll")
+    } else if (argument == "-ll") {
       list_test_locations_ = true;
-    else if (argument == "-ri")
+    } else if (argument == "-ri") {
       run_ignored_ = true;
-    else if (argument == "-f")
+    } else if (argument == "-f") {
       crash_on_fail_ = true;
-    else if (argument == "-e")
+    } else if (argument == "-e") {
       rethrow_exceptions_ = false;
-    else if (string_starts_with(argument, "-r"))
+    } else if (string_starts_with(argument, "-r")) {
       set_repeat_count(ac_, av_, i);
-    else if (string_starts_with(argument, "-g"))
+    } else if (string_starts_with(argument, "-g")) {
       add_group_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-t"))
+    } else if (string_starts_with(argument, "-t")) {
       correct_parameters =
           add_group_dot_name_filter(ac_, av_, i, "-t", false, false);
-    else if (string_starts_with(argument, "-st"))
+    } else if (string_starts_with(argument, "-st")) {
       correct_parameters =
           add_group_dot_name_filter(ac_, av_, i, "-st", true, false);
-    else if (string_starts_with(argument, "-xt"))
+    } else if (string_starts_with(argument, "-xt")) {
       correct_parameters =
           add_group_dot_name_filter(ac_, av_, i, "-xt", false, true);
-    else if (string_starts_with(argument, "-xst"))
+    } else if (string_starts_with(argument, "-xst")) {
       correct_parameters =
           add_group_dot_name_filter(ac_, av_, i, "-xst", true, true);
-    else if (string_starts_with(argument, "-sg"))
+    } else if (string_starts_with(argument, "-sg")) {
       add_strict_group_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-xg"))
+    } else if (string_starts_with(argument, "-xg")) {
       add_exclude_group_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-xsg"))
+    } else if (string_starts_with(argument, "-xsg")) {
       add_exclude_strict_group_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-n"))
+    } else if (string_starts_with(argument, "-n")) {
       add_name_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-sn"))
+    } else if (string_starts_with(argument, "-sn")) {
       add_strict_name_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-xn"))
+    } else if (string_starts_with(argument, "-xn")) {
       add_exclude_name_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-xsn"))
+    } else if (string_starts_with(argument, "-xsn")) {
       add_exclude_strict_name_filter(ac_, av_, i);
-    else if (string_starts_with(argument, "-s"))
+    } else if (string_starts_with(argument, "-s")) {
       correct_parameters = set_shuffle(ac_, av_, i);
-    else if (string_starts_with(argument, "TEST("))
+    } else if (string_starts_with(argument, "TEST(")) {
       add_test_to_run_based_on_verbose_output(ac_, av_, i, "TEST(");
-    else if (string_starts_with(argument, "SKIPPED_TEST("))
+    } else if (string_starts_with(argument, "SKIPPED_TEST(")) {
       add_test_to_run_based_on_verbose_output(ac_, av_, i, "SKIPPED_TEST(");
-    else if (string_starts_with(argument, "-p"))
+    } else if (string_starts_with(argument, "-p")) {
       correct_parameters = plugin->parse_all_arguments(ac_, av_, i);
-    else
+    } else {
       correct_parameters = false;
+    }
 
     if (correct_parameters == false) {
       return false;
@@ -307,16 +310,18 @@ void CommandLineArguments::set_repeat_count(
   repeat_ = 0;
 
   String repeat_parameter(argv[i]);
-  if (repeat_parameter.size() > 2)
+  if (repeat_parameter.size() > 2) {
     repeat_ = static_cast<size_t>(strtol(argv[i] + 2));
-  else if (i + 1 < argc) {
+  } else if (i + 1 < argc) {
     repeat_ = static_cast<size_t>(strtol(argv[i + 1]));
-    if (repeat_ != 0)
+    if (repeat_ != 0) {
       i++;
+    }
   }
 
-  if (0 == repeat_)
+  if (0 == repeat_) {
     repeat_ = 2;
+  }
 }
 
 bool CommandLineArguments::set_shuffle(
@@ -327,8 +332,9 @@ bool CommandLineArguments::set_shuffle(
 {
   shuffling_ = true;
   shuffle_seed_ = static_cast<unsigned int>(get_time_in_millis());
-  if (shuffle_seed_ == 0)
+  if (shuffle_seed_ == 0) {
     shuffle_seed_++;
+  }
 
   String shuffle_parameter = argv[i];
   if (shuffle_parameter.size() > 2) {
@@ -354,10 +360,11 @@ String CommandLineArguments::get_parameter_field(
 {
   size_t parameter_length = parameter_name.size();
   String parameter(argv[i]);
-  if (parameter.size() > parameter_length)
+  if (parameter.size() > parameter_length) {
     return argv[i] + parameter_length;
-  else if (i + 1 < argc)
+  } else if (i + 1 < argc) {
     return argv[++i];
+  }
   return "";
 }
 
@@ -383,8 +390,9 @@ bool CommandLineArguments::add_group_dot_name_filter(
   String group_dot_name = get_parameter_field(argc, argv, i, parameter_name);
   StringCollection collection(group_dot_name, '.');
 
-  if (collection.size() != 2)
+  if (collection.size() != 2) {
     return false;
+  }
 
   auto* group_filter =
       new Filter(collection[0].substr(0, collection[0].size() - 1));

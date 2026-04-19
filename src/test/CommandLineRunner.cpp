@@ -72,16 +72,21 @@ void CommandLineRunner::initialize_test_run()
   registry_->set_group_filters(arguments_->get_group_filters());
   registry_->set_name_filters(arguments_->get_name_filters());
 
-  if (arguments_->is_verbose())
+  if (arguments_->is_verbose()) {
     output_->verbose(Output::MutinyVerbosityLevel::verbose);
-  if (arguments_->is_very_verbose())
+  }
+  if (arguments_->is_very_verbose()) {
     output_->verbose(Output::MutinyVerbosityLevel::very_verbose);
-  if (arguments_->is_color())
+  }
+  if (arguments_->is_color()) {
     output_->color();
-  if (arguments_->is_run_ignored())
+  }
+  if (arguments_->is_run_ignored()) {
     registry_->set_run_ignored();
-  if (arguments_->is_crashing_on_fail())
+  }
+  if (arguments_->is_crashing_on_fail()) {
     Shell::set_crash_on_fail();
+  }
 
   Shell::set_rethrow_exceptions(arguments_->is_rethrowing_exceptions());
 }
@@ -124,8 +129,9 @@ int CommandLineRunner::run_all_tests()
     return 0;
   }
 
-  if (arguments_->is_reversing())
+  if (arguments_->is_reversing()) {
     registry_->reverse_tests();
+  }
 
   if (arguments_->is_shuffling()) {
     output_->print("Test order shuffling enabled with seed: ");
@@ -134,8 +140,9 @@ int CommandLineRunner::run_all_tests()
   }
   while (loop_count++ < repeat_count) {
 
-    if (arguments_->is_shuffling())
+    if (arguments_->is_shuffling()) {
       registry_->shuffle_tests(arguments_->get_shuffle_seed());
+    }
 
     output_->print_test_run(loop_count, repeat_count);
     Result tr(*output_);
@@ -178,8 +185,9 @@ bool CommandLineRunner::parse_arguments(Plugin* plugin)
   if (plugin_output) {
     output_ = plugin_output;
     if ((arguments_->is_verbose() || arguments_->is_very_verbose()) &&
-        plugin_output->needs_console_companion())
+        plugin_output->needs_console_companion()) {
       output_ = create_composite_output(output_, create_console_output());
+    }
   } else {
     output_ = create_console_output();
   }

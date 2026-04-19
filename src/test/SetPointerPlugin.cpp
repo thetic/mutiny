@@ -35,8 +35,9 @@ void SetPointerPlugin::store(void** function)
 
 void SetPointerPlugin::post_test_action(Shell& /*test*/, Result& /*result*/)
 {
-  for (size_t i{ pointer_table_index }; i > 0; i--)
+  for (size_t i{ pointer_table_index }; i > 0; i--) {
     *reinterpret_cast<void**>(setlist[i - 1].orig) = setlist[i - 1].orig_value;
+  }
   pointer_table_index = 0;
 }
 

@@ -73,16 +73,19 @@ void Support::set_mock_failure_standard_reporter(FailureReporter* reporter)
   impl_->standard_reporter_ =
       (reporter != nullptr) ? reporter : &impl_->default_reporter_;
 
-  if (impl_->last_actual_function_call_)
+  if (impl_->last_actual_function_call_) {
     impl_->last_actual_function_call_->set_mock_failure_reporter(
         impl_->standard_reporter_
     );
+  }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->set_mock_failure_standard_reporter(
           impl_->standard_reporter_
       );
+    }
+  }
 }
 
 void Support::set_active_reporter(FailureReporter* reporter)
@@ -106,18 +109,22 @@ void Support::install_comparator(
       type_name, comparator
   );
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->install_comparator(type_name, comparator);
+    }
+  }
 }
 
 void Support::install_copier(StringView type_name, NamedValueCopier& copier)
 {
   impl_->comparators_and_copiers_repository_.install_copier(type_name, copier);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->install_copier(type_name, copier);
+    }
+  }
 }
 
 void Support::install_comparators_and_copiers(
@@ -128,17 +135,21 @@ void Support::install_comparators_and_copiers(
       repository
   );
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->install_comparators_and_copiers(repository);
+    }
+  }
 }
 
 void Support::remove_all_comparators_and_copiers()
 {
   impl_->comparators_and_copiers_repository_.clear();
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->remove_all_comparators_and_copiers();
+    }
+  }
 }
 
 void Support::clear()
@@ -173,8 +184,9 @@ void Support::strict_order()
 
 String Support::append_scope_to_name(StringView function_name)
 {
-  if (mock_name_.empty())
+  if (mock_name_.empty()) {
     return String(function_name.data(), function_name.size());
+  }
   return mock_name_ + "::" + String(function_name.data(), function_name.size());
 }
 
@@ -193,8 +205,9 @@ ExpectedCall& Support::expect_n_calls(
     StringView function_name
 )
 {
-  if (!enabled_)
+  if (!enabled_) {
     return IgnoredExpectedCall::instance();
+  }
 
   count_check();
 
@@ -234,10 +247,12 @@ ActualCall& Support::actual_call(const char* function_name)
     impl_->last_actual_function_call_ = nullptr;
   }
 
-  if (!enabled_)
+  if (!enabled_) {
     return IgnoredActualCall::instance();
-  if (tracing_)
+  }
+  if (tracing_) {
     return ActualCallTrace::instance().with_name(scope_function_name);
+  }
 
   if (call_is_ignored(scope_function_name)) {
     return IgnoredActualCall::instance();
@@ -252,36 +267,44 @@ void Support::ignore_other_calls()
 {
   ignore_other_calls_ = true;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->ignore_other_calls();
+    }
+  }
 }
 
 void Support::disable()
 {
   enabled_ = false;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->disable();
+    }
+  }
 }
 
 void Support::enable()
 {
   enabled_ = true;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->enable();
+    }
+  }
 }
 
 void Support::tracing(bool enabled)
 {
   tracing_ = enabled;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       get_mock_support(p)->tracing(enabled);
+    }
+  }
 }
 
 const char* Support::get_trace_output()
@@ -294,9 +317,11 @@ bool Support::expected_calls_left()
   check_expectations_of_last_actual_call();
   int calls_left = impl_->expectations_.has_unfulfilled_expectations();
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       calls_left += get_mock_support(p)->expected_calls_left();
+    }
+  }
 
   return calls_left != 0;
 }
@@ -304,13 +329,16 @@ bool Support::expected_calls_left()
 bool Support::was_last_actual_call_fulfilled()
 {
   if (impl_->last_actual_function_call_ &&
-      !impl_->last_actual_function_call_->is_fulfilled())
+      !impl_->last_actual_function_call_->is_fulfilled()) {
     return false;
+  }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
     if (get_mock_support(p) &&
-        !get_mock_support(p)->was_last_actual_call_fulfilled())
+        !get_mock_support(p)->was_last_actual_call_fulfilled()) {
       return false;
+    }
+  }
 
   return true;
 }
@@ -320,11 +348,13 @@ void Support::fail_test_with_expected_calls_not_fulfilled()
   ExpectedCallsList expectations_list;
   expectations_list.add_expectations(impl_->expectations_);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       expectations_list.add_expectations(
           get_mock_support(p)->impl_->expectations_
       );
+    }
+  }
 
   ExpectedCallsDidntHappenFailure failure(
       impl_->active_reporter_->get_test_to_fail(), expectations_list
@@ -337,11 +367,13 @@ void Support::fail_test_with_out_of_order_calls()
   ExpectedCallsList expectations_list;
   expectations_list.add_expectations(impl_->expectations_);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
-    if (get_mock_support(p))
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+    if (get_mock_support(p)) {
       expectations_list.add_expectations(
           get_mock_support(p)->impl_->expectations_
       );
+    }
+  }
 
   CallOrderFailure failure(
       impl_->active_reporter_->get_test_to_fail(), expectations_list
@@ -362,14 +394,17 @@ void Support::count_check()
 
 void Support::check_expectations_of_last_actual_call()
 {
-  if (impl_->last_actual_function_call_)
+  if (impl_->last_actual_function_call_) {
     impl_->last_actual_function_call_->check_expectations();
+  }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
     if (get_mock_support(p) &&
-        get_mock_support(p)->impl_->last_actual_function_call_)
+        get_mock_support(p)->impl_->last_actual_function_call_) {
       get_mock_support(p)
           ->impl_->last_actual_function_call_->check_expectations();
+    }
+  }
 }
 
 bool Support::has_calls_out_of_order()
@@ -377,10 +412,11 @@ bool Support::has_calls_out_of_order()
   if (impl_->expectations_.has_calls_out_of_order()) {
     return true;
   }
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next())
+  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
     if (get_mock_support(p) && get_mock_support(p)->has_calls_out_of_order()) {
       return true;
     }
+  }
   return false;
 }
 
@@ -388,11 +424,13 @@ void Support::check_expectations()
 {
   check_expectations_of_last_actual_call();
 
-  if (was_last_actual_call_fulfilled() && expected_calls_left())
+  if (was_last_actual_call_fulfilled() && expected_calls_left()) {
     fail_test_with_expected_calls_not_fulfilled();
+  }
 
-  if (has_calls_out_of_order())
+  if (has_calls_out_of_order()) {
     fail_test_with_out_of_order_calls();
+  }
 }
 
 bool Support::has_data(StringView name)
@@ -501,8 +539,9 @@ void Support::set_data_const_object(
 NamedValue Support::get_data(StringView name)
 {
   NamedValue* value = impl_->data_.get_value_by_name(name);
-  if (value == nullptr)
+  if (value == nullptr) {
     return NamedValue("");
+  }
   return *value;
 }
 
@@ -510,14 +549,17 @@ Support* Support::clone(StringView mock_name)
 {
   auto* new_mock = new Support(mock_name);
   new_mock->set_mock_failure_standard_reporter(impl_->standard_reporter_);
-  if (ignore_other_calls_)
+  if (ignore_other_calls_) {
     new_mock->ignore_other_calls();
+  }
 
-  if (!enabled_)
+  if (!enabled_) {
     new_mock->disable();
+  }
 
-  if (strict_ordering_)
+  if (strict_ordering_) {
     new_mock->strict_order();
+  }
 
   new_mock->tracing(tracing_);
   new_mock->install_comparators_and_copiers(
@@ -547,22 +589,25 @@ Support* Support::get_mock_support_scope(StringView name)
 Support* Support::get_mock_support(NamedValueListNode* node)
 {
   if (node->get_type() == "Support" &&
-      string_contains(node->get_name(), MOCK_SUPPORT_SCOPE_PREFIX))
+      string_contains(node->get_name(), MOCK_SUPPORT_SCOPE_PREFIX)) {
     return static_cast<Support*>(node->item()->get_object_pointer());
+  }
   return nullptr;
 }
 
 NamedValue Support::return_value()
 {
-  if (impl_->last_actual_function_call_)
+  if (impl_->last_actual_function_call_) {
     return impl_->last_actual_function_call_->return_value();
+  }
   return NamedValue("");
 }
 
 bool Support::has_return_value()
 {
-  if (impl_->last_actual_function_call_)
+  if (impl_->last_actual_function_call_) {
     return impl_->last_actual_function_call_->has_return_value();
+  }
   return false;
 }
 

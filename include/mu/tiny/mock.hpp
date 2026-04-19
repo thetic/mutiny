@@ -144,8 +144,9 @@ public:
   template<typename T>
   T return_value_or_default(T default_value)
   {
-    if (has_return_value())
+    if (has_return_value()) {
       return return_value().get_value<T>();
+    }
     return default_value;
   }
 

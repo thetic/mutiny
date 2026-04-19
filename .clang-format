@@ -42,3 +42,4 @@ Macros:
   - TEST(x,y)=void x()
   - TEST_GROUP_C_WRAPPER(x)=class x
 FixNamespaceComments: true
+InsertBraces: true

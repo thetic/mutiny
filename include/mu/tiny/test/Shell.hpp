@@ -55,8 +55,9 @@ template<typename T>
 bool approx_equal(T d1, T d2, T threshold)
 {
   // d != d is true iff d is NaN (IEEE 754); always false for integral types.
-  if (d1 != d1 || d2 != d2 || threshold != threshold)
+  if (d1 != d1 || d2 != d2 || threshold != threshold) {
     return false;
+  }
   return (d1 >= d2 ? d1 - d2 : d2 - d1) <= threshold;
 }
 

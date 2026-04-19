@@ -27,8 +27,9 @@ char* str_n_cpy(char* s1, const char* s2, size_t n)
 {
   char* result = s1;
 
-  if ((nullptr == s1) || (0 == n))
+  if ((nullptr == s1) || (0 == n)) {
     return result;
+  }
 
   *s1 = *s2;
   while ((--n != 0) && *s1) {
@@ -41,8 +42,9 @@ char* copy_to_new_buffer(const char* buffer_to_copy, size_t buffer_size)
 {
   char* new_buffer = new char[buffer_size];
   str_n_cpy(new_buffer, buffer_to_copy, buffer_size);
-  if (buffer_size > 0)
+  if (buffer_size > 0) {
     new_buffer[buffer_size - 1] = '\0';
+  }
   return new_buffer;
 }
 #endif
@@ -106,8 +108,9 @@ void String::copy_buffer_to_new_internal_buffer(
 void String::reserve(size_t new_capacity)
 {
   size_t needed = new_capacity + 1;
-  if (needed <= buffer_size_)
+  if (needed <= buffer_size_) {
     return;
+  }
 
   char* new_buffer = new char[needed];
   str_n_cpy(new_buffer, buffer_, buffer_size_);
@@ -140,10 +143,11 @@ String::String(const char* other_buffer)
   , buffer_size_(0)
   , size_(0)
 {
-  if (other_buffer == nullptr)
+  if (other_buffer == nullptr) {
     set_internal_buffer_as_empty_string();
-  else
+  } else {
     copy_buffer_to_new_internal_buffer(other_buffer);
+  }
 }
 
 String::String(size_t count, char ch)
@@ -154,8 +158,9 @@ String::String(size_t count, char ch)
   buffer_size_ = count + 1;
   size_ = count;
   buffer_ = new char[buffer_size_];
-  for (size_t i = 0; i < count; i++)
+  for (size_t i = 0; i < count; i++) {
     buffer_[i] = ch;
+  }
   buffer_[count] = '\0';
 }
 
@@ -193,8 +198,9 @@ String& String::operator=(String&& other) noexcept
 
 String& String::operator=(const String& other)
 {
-  if (this != &other)
+  if (this != &other) {
     copy_buffer_to_new_internal_buffer(other);
+  }
   return *this;
 }
 
@@ -259,8 +265,9 @@ String& String::operator+=(const char* rhs)
     str_n_cpy(buffer_ + size_, rhs, rhs_len + 1);
   } else {
     size_t new_cap = buffer_size_ * 2;
-    if (new_cap < needed)
+    if (new_cap < needed) {
       new_cap = needed;
+    }
     char* nb = new char[new_cap];
     str_n_cpy(nb, buffer_, size_ + 1);
     str_n_cpy(nb + size_, rhs, rhs_len + 1);
@@ -312,8 +319,9 @@ void String::resize(size_t new_size)
 
 String String::substr(size_t begin_pos, size_t amount) const
 {
-  if (begin_pos > size() - 1)
+  if (begin_pos > size() - 1) {
     return "";
+  }
 
   String new_string = c_str() + begin_pos;
 
@@ -333,19 +341,23 @@ String String::substr(size_t begin_pos) const
 size_t String::find(char ch, size_t pos) const
 {
   size_t len = size();
-  for (size_t i = pos; i < len; i++)
-    if (c_str()[i] == ch)
+  for (size_t i = pos; i < len; i++) {
+    if (c_str()[i] == ch) {
       return i;
+    }
+  }
   return npos;
 }
 
 size_t String::find(const char* s, size_t pos) const
 {
-  if (pos > size())
+  if (pos > size()) {
     return npos;
+  }
   const char* found = strstr(c_str() + pos, s);
-  if (found == nullptr)
+  if (found == nullptr) {
     return npos;
+  }
   return static_cast<size_t>(found - c_str());
 }
 
@@ -362,12 +374,13 @@ bool string_contains(const String& str, const String& substr)
 
 bool string_starts_with(const String& str, const String& prefix)
 {
-  if (prefix.size() == 0)
+  if (prefix.size() == 0) {
     return true;
-  else if (str.size() == 0)
+  } else if (str.size() == 0) {
     return false;
-  else
+  } else {
     return strstr(str.c_str(), prefix.c_str()) == str.c_str();
+  }
 }
 
 bool string_ends_with(const String& str, const String& suffix)
@@ -375,12 +388,15 @@ bool string_ends_with(const String& str, const String& suffix)
   size_t len = str.size();
   size_t other_len = suffix.size();
 
-  if (other_len == 0)
+  if (other_len == 0) {
     return true;
-  if (len == 0)
+  }
+  if (len == 0) {
     return false;
-  if (len < other_len)
+  }
+  if (len < other_len) {
     return false;
+  }
 
   return strcmp(str.c_str() + len - other_len, suffix.c_str()) == 0;
 }
@@ -389,16 +405,18 @@ void string_replace(String& str, char from, char to)
 {
   size_t s = str.size();
   for (size_t i = 0; i < s; i++) {
-    if (str[i] == from)
+    if (str[i] == from) {
       str[i] = to;
+    }
   }
 }
 
 void string_replace(String& str, const char* from, const char* to)
 {
   size_t fromlen = strlen(from);
-  if (fromlen == 0)
+  if (fromlen == 0) {
     return;
+  }
 
   String result;
   size_t pos = 0;
@@ -409,8 +427,9 @@ void string_replace(String& str, const char* from, const char* to)
     pos = found + fromlen;
     found = str.find(from, pos);
   }
-  if (pos == 0)
+  if (pos == 0) {
     return;
+  }
   result += str.substr(pos);
   str = result;
 }
@@ -420,12 +439,14 @@ long strtol(const char* str)
 #if MUTINY_USE_STD_STRING
   return std::strtol(str, nullptr, 10);
 #else
-  while (is_space(*str))
+  while (is_space(*str)) {
     str++;
+  }
 
   char first_char = *str;
-  if (first_char == '-' || first_char == '+')
+  if (first_char == '-' || first_char == '+') {
     str++;
+  }
 
   long result = 0;
   for (; is_digit(*str); str++) {
@@ -441,12 +462,14 @@ unsigned long strtoul(const char* str)
 #if MUTINY_USE_STD_STRING
   return std::strtoul(str, nullptr, 10);
 #else
-  while (is_space(*str))
+  while (is_space(*str)) {
     str++;
+  }
 
   bool negative = (*str == '-');
-  if (*str == '-' || *str == '+')
+  if (*str == '-' || *str == '+') {
     str++;
+  }
 
   unsigned long result = 0;
   for (; is_digit(*str); str++) {
@@ -477,9 +500,9 @@ size_t strlen(const char* str)
   return std::strlen(str);
 #else
   auto n = static_cast<size_t>(-1);
-  do
+  do {
     n++;
-  while (*str++);
+  } while (*str++);
   return n;
 #endif
 }
@@ -505,12 +528,15 @@ const char* strstr(const char* s1, const char* s2)
 #if MUTINY_USE_STD_STRING
   return std::strstr(s1, s2);
 #else
-  if (!*s2)
+  if (!*s2) {
     return s1;
+  }
   size_t s2_len = strlen(s2);
-  for (; *s1; s1++)
-    if (strncmp(s1, s2, s2_len) == 0)
+  for (; *s1; s1++) {
+    if (strncmp(s1, s2, s2_len) == 0) {
       return s1;
+    }
+  }
   return nullptr;
 #endif
 }
@@ -533,13 +559,14 @@ int memcmp(const void* s1, const void* s2, size_t n)
   auto* p1 = static_cast<const unsigned char*>(s1);
   auto* p2 = static_cast<const unsigned char*>(s2);
 
-  while (n--)
+  while (n--) {
     if (*p1 != *p2) {
       return *p1 - *p2;
     } else {
       ++p1;
       ++p2;
     }
+  }
   return 0;
 #endif
 }
@@ -706,22 +733,24 @@ String brackets_formatted_hex_string_from(unsigned long long value)
 
 String string_from(float value, int precision)
 {
-  if (is_nan(value))
+  if (is_nan(value)) {
     return "Nan - Not a number";
-  else if (is_inf(value))
+  } else if (is_inf(value)) {
     return "Inf - Infinity";
-  else
+  } else {
     return string_from_format("%.*g", precision, value);
+  }
 }
 
 String string_from(double value, int precision)
 {
-  if (is_nan(value))
+  if (is_nan(value)) {
     return "Nan - Not a number";
-  else if (is_inf(value))
+  } else if (is_inf(value)) {
     return "Inf - Infinity";
-  else
+  } else {
     return string_from_format("%.*g", precision, value);
+  }
 }
 
 String string_from(char value)
@@ -793,12 +822,14 @@ String string_from_binary(const unsigned char* value, size_t size)
 {
   static const char hex_digits[] = "0123456789ABCDEF";
   String result;
-  if (size == 0)
+  if (size == 0) {
     return result;
+  }
   result.reserve(size * 3 - 1);
   for (size_t i = 0; i < size; i++) {
-    if (i > 0)
+    if (i > 0) {
       result += ' ';
+    }
     result += hex_digits[value[i] >> 4];
     result += hex_digits[value[i] & 0xF];
   }

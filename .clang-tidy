@@ -11,8 +11,8 @@ Checks:
   - modernize-use-equals-delete
   - modernize-use-override
   - modernize-use-using
-  - readability-identifier-naming
-  - readability-static-definition-in-anonymous-namespace
+  - readability-*
+  - -readability-identifier-length
 CheckOptions:
   - key: modernize-use-using.IgnoreExternC
     value: true

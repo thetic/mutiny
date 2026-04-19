@@ -27,8 +27,9 @@ FailureReporterForTest* FailureReporterForTest::instance_ = nullptr;
 
 FailureReporterForTest* FailureReporterForTest::get_reporter()
 {
-  if (instance_ == nullptr)
+  if (instance_ == nullptr) {
     instance_ = new FailureReporterForTest;
+  }
 
   return instance_;
 }

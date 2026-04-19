@@ -193,8 +193,9 @@ void JUnitOutput::print_current_test_started(const Shell& test)
 
 String JUnitOutput::create_file_name()
 {
-  if (!impl_->package.empty())
+  if (!impl_->package.empty()) {
     return encode_file_name(impl_->package) + ".xml";
+  }
   return "mutiny.xml";
 }
 
@@ -220,8 +221,9 @@ void JUnitOutput::set_package_name(const String& package)
 void JUnitOutput::write_test_suite_summary()
 {
   size_t total_assertions = 0;
-  for (JUnitTestCaseResultNode* n = impl_->results.head; n; n = n->next)
+  for (JUnitTestCaseResultNode* n = impl_->results.head; n; n = n->next) {
     total_assertions = n->check_count;
+  }
 
   String buf = string_from_format(
       "<testsuite errors=\"%d\" failures=\"%d\" skipped=\"%d\" "
@@ -288,10 +290,11 @@ void JUnitOutput::write_test_cases()
     }
 
     if (cur->failure) {
-      if (cur->failure_is_error)
+      if (cur->failure_is_error) {
         write_error(cur);
-      else
+      } else {
         write_failure(cur);
+      }
     } else if (cur->ignored) {
       if (cur->skip_message.empty()) {
         write_to_file("<skipped />\n");
@@ -358,8 +361,9 @@ void JUnitOutput::print_buffer(const char*) {}
 
 void JUnitOutput::print_test_property(const char* name, const char* value)
 {
-  if (impl_->results.tail == nullptr)
+  if (impl_->results.tail == nullptr) {
     return;
+  }
   auto* prop = new TestProperty;
   prop->name = name;
   prop->value = value;
@@ -374,8 +378,9 @@ void JUnitOutput::print_test_property(const char* name, const char* value)
 
 void JUnitOutput::print_skipped(const char* message)
 {
-  if (impl_->results.tail == nullptr)
+  if (impl_->results.tail == nullptr) {
     return;
+  }
   impl_->results.tail->ignored = true;
   impl_->results.tail->skip_message = message;
   impl_->results.skip_count++;

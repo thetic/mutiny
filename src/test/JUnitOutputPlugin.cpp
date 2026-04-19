@@ -12,12 +12,14 @@ namespace {
 
 String basename_from_path(const char* path)
 {
-  if (!path || !*path)
+  if (!path || !*path) {
     return "";
+  }
   const char* base = path;
   for (const char* p = path; *p; ++p) {
-    if (*p == '/' || *p == '\\')
+    if (*p == '/' || *p == '\\') {
       base = p + 1;
+    }
   }
   return base;
 }
@@ -36,11 +38,13 @@ bool JUnitOutputPlugin::parse_arguments(
 )
 {
   String arg = argv[index];
-  if (!string_starts_with(arg, "-pjunit"))
+  if (!string_starts_with(arg, "-pjunit")) {
     return false;
+  }
   if (arg.size() > 7) {
-    if (arg[7] != '=')
+    if (arg[7] != '=') {
       return false;
+    }
     package_name_ = arg.substr(8);
   } else {
     package_name_ = basename_from_path(argv[0]);
@@ -57,11 +61,13 @@ String JUnitOutputPlugin::get_help() const
 
 Output* JUnitOutputPlugin::create_output()
 {
-  if (!active_)
+  if (!active_) {
     return nullptr;
+  }
   auto* output = new JUnitOutput;
-  if (!package_name_.empty())
+  if (!package_name_.empty()) {
     output->set_package_name(package_name_);
+  }
   return output;
 }
 

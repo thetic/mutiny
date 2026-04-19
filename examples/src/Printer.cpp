@@ -4,8 +4,9 @@
 
 void Printer::print(const char* s)
 {
-  for (const char* p = s; *p; p++)
+  for (const char* p = s; *p; p++) {
     putchar(*p);
+  }
 }
 
 void Printer::print(long int n)

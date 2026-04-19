@@ -28,8 +28,9 @@ void TeamCityTestOutput::print_current_test_ended(
     const mu::tiny::test::Result& res
 )
 {
-  if (!currtest_)
+  if (!currtest_) {
     return;
+  }
 
   print("##teamcity[testFinished name='");
   print_escaped(currtest_->get_name());
@@ -53,8 +54,9 @@ void TeamCityTestOutput::print_current_group_started(
 void TeamCityTestOutput::
     print_current_group_ended(const mu::tiny::test::Result& /*res*/)
 {
-  if (curr_group_ == "")
+  if (curr_group_ == "") {
     return;
+  }
 
   print("##teamcity[testSuiteFinished name='");
   print_escaped(curr_group_.c_str());
@@ -134,7 +136,8 @@ mu::tiny::String TeamCityOutputPlugin::get_help() const
 
 mu::tiny::test::Output* TeamCityOutputPlugin::create_output()
 {
-  if (active_)
+  if (active_) {
     return new TeamCityTestOutput;
+  }
   return nullptr;
 }

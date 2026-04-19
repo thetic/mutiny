@@ -25,16 +25,18 @@ IgnoredShell::IgnoredShell(
 
 bool IgnoredShell::will_run() const
 {
-  if (run_ignored_)
+  if (run_ignored_) {
     return Shell::will_run();
+  }
 
   return false;
 }
 
 String IgnoredShell::get_macro_name() const
 {
-  if (run_ignored_)
+  if (run_ignored_) {
     return "TEST";
+  }
 
   return "SKIPPED_TEST";
 }

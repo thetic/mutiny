@@ -27,8 +27,9 @@ void Registry::run_all_tests(Result& result)
 
   result.tests_started();
   for (Shell* test = tests_; test != nullptr; test = test->get_next()) {
-    if (run_ignored_)
+    if (run_ignored_) {
       test->set_run_ignored();
+    }
 
     if (group_start) {
       result.current_group_started(test);
@@ -69,8 +70,9 @@ void Registry::list_test_group_names(Result& result)
 
   string_replace(group_list, "#", "");
 
-  if (string_ends_with(group_list, " "))
+  if (string_ends_with(group_list, " ")) {
     group_list = group_list.substr(0, group_list.size() - 1);
+  }
   result.print(group_list.c_str());
 }
 
@@ -96,9 +98,10 @@ void Registry::list_test_group_and_case_names(Result& result)
 
   string_replace(group_and_name_list, "#", "");
 
-  if (string_ends_with(group_and_name_list, " "))
+  if (string_ends_with(group_and_name_list, " ")) {
     group_and_name_list =
         group_and_name_list.substr(0, group_and_name_list.size() - 1);
+  }
   result.print(group_and_name_list.c_str());
 }
 
@@ -128,8 +131,9 @@ void Registry::list_ordered_test_locations(Result& result)
   String test_locations;
 
   for (Shell* test = tests_; test != nullptr; test = test->get_next()) {
-    if (!test->is_ordered())
+    if (!test->is_ordered()) {
       continue;
+    }
     String test_location;
     test_location += test->get_group();
     test_location += ".";
@@ -218,9 +222,9 @@ int Registry::get_current_repetition()
 
 bool Registry::test_should_run(Shell* test, Result& result)
 {
-  if (test->should_run(group_filters_, name_filters_))
+  if (test->should_run(group_filters_, name_filters_)) {
     return true;
-  else {
+  } else {
     result.count_filtered_out();
     return false;
   }
@@ -249,8 +253,9 @@ Plugin* Registry::get_plugin_by_name(const String& name)
 void Registry::remove_plugin_by_name(const String& name)
 {
   first_plugin_->remove_plugin_by_name(name);
-  if (first_plugin_->get_name() == name)
+  if (first_plugin_->get_name() == name) {
     first_plugin_ = first_plugin_->get_next();
+  }
   first_plugin_->remove_plugin_by_name(name);
 }
 
@@ -258,8 +263,9 @@ int Registry::count_plugins()
 {
   int count = 0;
   for (Plugin* plugin = first_plugin_; plugin != NullPlugin::instance();
-       plugin = plugin->get_next())
+       plugin = plugin->get_next()) {
     count++;
+  }
   return count;
 }
 
@@ -285,8 +291,9 @@ void Registry::reverse_tests()
 Shell* Registry::get_test_with_next(Shell* test)
 {
   Shell* current = tests_;
-  while (current && current->get_next() != test)
+  while (current && current->get_next() != test) {
     current = current->get_next();
+  }
   return current;
 }
 
@@ -294,8 +301,9 @@ Shell* Registry::find_test_with_name(const String& name)
 {
   Shell* current = tests_;
   while (current) {
-    if (current->get_name() == name)
+    if (current->get_name() == name) {
       return current;
+    }
     current = current->get_next();
   }
   return nullptr;
@@ -305,8 +313,9 @@ Shell* Registry::find_test_with_group(const String& group)
 {
   Shell* current = tests_;
   while (current) {
-    if (current->get_group() == group)
+    if (current->get_group() == group) {
       return current;
+    }
     current = current->get_next();
   }
   return nullptr;

@@ -305,8 +305,9 @@ void CheckedActualCall::set_state(MutinyActualCallState state)
 NamedValue CheckedActualCall::return_value()
 {
   check_expectations();
-  if (matching_expectation_)
+  if (matching_expectation_) {
     return matching_expectation_->return_value();
+  }
   return NamedValue("no return value");
 }
 
@@ -352,12 +353,13 @@ void CheckedActualCall::add_output_parameter(
 {
   auto* new_node = new MockOutputParametersListNode(name, type, ptr);
 
-  if (output_parameter_expectations_ == nullptr)
+  if (output_parameter_expectations_ == nullptr) {
     output_parameter_expectations_ = new_node;
-  else {
+  } else {
     MockOutputParametersListNode* last_node = output_parameter_expectations_;
-    while (last_node->next)
+    while (last_node->next) {
       last_node = last_node->next;
+    }
     last_node->next = new_node;
   }
 }

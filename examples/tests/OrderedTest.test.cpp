@@ -25,8 +25,9 @@ struct EventLog
 
   void append(const char* msg)
   {
-    if (count < 8)
+    if (count < 8) {
       entries[count++] = msg;
+    }
   }
 
   void flush()

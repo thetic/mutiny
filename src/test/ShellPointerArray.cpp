@@ -14,8 +14,9 @@ ShellPointerArray::ShellPointerArray(Shell* first_test)
 
 {
   count_ = (first_test) ? first_test->count_tests() : 0;
-  if (count_ == 0)
+  if (count_ == 0) {
     return;
+  }
 
   array_of_tests_ = new Shell*[count_];
 
@@ -41,8 +42,9 @@ void ShellPointerArray::swap(size_t index1, size_t index2)
 
 void ShellPointerArray::shuffle(size_t seed)
 {
-  if (count_ == 0)
+  if (count_ == 0) {
     return;
+  }
 
   srand(static_cast<unsigned int>(seed));
 
@@ -57,8 +59,9 @@ void ShellPointerArray::shuffle(size_t seed)
 
 void ShellPointerArray::reverse()
 {
-  if (count_ == 0)
+  if (count_ == 0) {
     return;
+  }
 
   size_t half_count = count_ / 2;
   for (size_t i = 0; i < half_count; i++) {
@@ -71,8 +74,9 @@ void ShellPointerArray::reverse()
 void ShellPointerArray::relink_tests_in_order()
 {
   Shell* tests = nullptr;
-  for (size_t i = 0; i < count_; i++)
+  for (size_t i = 0; i < count_; i++) {
     tests = array_of_tests_[count_ - i - 1]->add_test(tests);
+  }
 }
 
 Shell* ShellPointerArray::get_first_test() const
@@ -82,8 +86,9 @@ Shell* ShellPointerArray::get_first_test() const
 
 Shell* ShellPointerArray::get(size_t index) const
 {
-  if (index >= count_)
+  if (index >= count_) {
     return nullptr;
+  }
   return array_of_tests_[index];
 }
 

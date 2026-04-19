@@ -223,8 +223,9 @@ public:
     message_ += string_from(threshold);
     message_ += ">";
     // v != v is true iff v is NaN (IEEE 754); always false for integral T
-    if (expected != expected || actual != actual || threshold != threshold)
+    if (expected != expected || actual != actual || threshold != threshold) {
       message_ += "\n\tCannot make comparisons with Nan";
+    }
   }
 };
 

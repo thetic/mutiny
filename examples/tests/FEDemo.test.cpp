@@ -32,16 +32,18 @@ XFAIL_TEST(FEDemo, should_fail_when_FE_DIVBYZERO_is_set)
 XFAIL_TEST(FEDemo, should_fail_when_FE_UNDERFLOW_is_set)
 {
   volatile float f = 0.01f;
-  while (f > 0.0f)
+  while (f > 0.0f) {
     f = f * f;
+  }
   CHECK(f == 0.0f);
 }
 
 XFAIL_TEST(FEDemo, should_fail_when_FE_OVERFLOW_is_set)
 {
   volatile float f = 1000.0f;
-  while (f < INFINITY)
+  while (f < INFINITY) {
     f = f * f;
+  }
   CHECK(f >= INFINITY);
 }
 

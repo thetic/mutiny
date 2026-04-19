@@ -21,8 +21,9 @@ public:
 
   void exit_current_test() const override
   {
-    if (crash_on_failure_)
+    if (crash_on_failure_) {
       mu::tiny::test::Shell::crash();
+    }
 
     mu::tiny::test::Shell::get_current_test_terminator_without_exceptions()
         .exit_current_test();

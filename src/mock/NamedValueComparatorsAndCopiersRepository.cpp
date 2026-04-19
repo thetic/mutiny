@@ -84,18 +84,24 @@ void NamedValueComparatorsAndCopiersRepository::install_copier(
 NamedValueComparator* NamedValueComparatorsAndCopiersRepository::
     get_comparator_for_type(StringView name)
 {
-  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next)
-    if (p->name == name && p->comparator)
+  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+       p = p->next) {
+    if (p->name == name && p->comparator) {
       return p->comparator;
+    }
+  }
   return nullptr;
 }
 
 NamedValueCopier* NamedValueComparatorsAndCopiersRepository::
     get_copier_for_type(StringView name)
 {
-  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next)
-    if (p->name == name && p->copier)
+  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+       p = p->next) {
+    if (p->name == name && p->copier) {
       return p->copier;
+    }
+  }
   return nullptr;
 }
 
@@ -104,10 +110,11 @@ void NamedValueComparatorsAndCopiersRepository::install_comparators_and_copiers(
 )
 {
   for (NamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_; p;
-       p = p->next)
+       p = p->next) {
     head_ = new NamedValueComparatorsAndCopiersRepositoryNode(
         p->name, p->comparator, p->copier, head_
     );
+  }
 }
 
 } // namespace mock

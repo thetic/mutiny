@@ -53,8 +53,9 @@ public:
   bool parse_arguments(int argc, const char* const* argv, int index) override
   {
     mu::tiny::String argument(argv[index]);
-    if (argument == "-paccept")
+    if (argument == "-paccept") {
       return true;
+    }
     return Plugin::parse_arguments(argc, argv, index);
   }
 };

@@ -100,8 +100,9 @@ void IEEE754ExceptionsPlugin::ieee754_check(
 {
 #if MUTINY_HAVE_FENV
   result.count_check();
-  if (inexact_disabled_)
+  if (inexact_disabled_) {
     CHECK(!feclearexcept(FE_INEXACT));
+  }
   if (fetestexcept(flag)) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
     mu::tiny::test::CheckFailure failure(

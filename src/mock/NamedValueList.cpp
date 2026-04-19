@@ -55,21 +55,24 @@ void NamedValueList::clear()
 void NamedValueList::add(NamedValue* new_value)
 {
   auto* new_node = new NamedValueListNode(new_value);
-  if (head_ == nullptr)
+  if (head_ == nullptr) {
     head_ = new_node;
-  else {
+  } else {
     NamedValueListNode* last_node = head_;
-    while (last_node->next())
+    while (last_node->next()) {
       last_node = last_node->next();
+    }
     last_node->set_next(new_node);
   }
 }
 
 NamedValue* NamedValueList::get_value_by_name(StringView name)
 {
-  for (NamedValueListNode* p = head_; p; p = p->next())
-    if (p->get_name() == name)
+  for (NamedValueListNode* p = head_; p; p = p->next()) {
+    if (p->get_name() == name) {
       return p->item();
+    }
+  }
   return nullptr;
 }
 
