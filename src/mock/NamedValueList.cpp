@@ -37,7 +37,7 @@ const String& NamedValueListNode::get_name() const
   return data_->get_name();
 }
 
-const String& NamedValueListNode::get_type() const
+StringView NamedValueListNode::get_type() const
 {
   return data_->get_type();
 }

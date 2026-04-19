@@ -15,7 +15,7 @@ public:
   NamedValueListNode(NamedValue* new_value);
 
   const String& get_name() const;
-  const String& get_type() const;
+  StringView get_type() const;
 
   NamedValueListNode* next();
   NamedValue* item();

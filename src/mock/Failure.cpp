@@ -186,7 +186,7 @@ UnexpectedInputParameterFailure::UnexpectedInputParameterFailure(
   message_ += "\n";
 
   message_ += "\t\t";
-  message_ += parameter.get_type();
+  message_ += parameter.get_type().c_str();
   message_ += " ";
   message_ += parameter.get_name();
   message_ += ": <";
@@ -216,7 +216,7 @@ UnexpectedOutputParameterFailure::UnexpectedOutputParameterFailure(
     message_ += parameter.get_name();
   } else {
     message_ = "Mock Failure: Unexpected parameter type \"";
-    message_ += parameter.get_type();
+    message_ += parameter.get_type().c_str();
     message_ += "\" to output parameter \"";
     message_ += parameter.get_name();
     message_ += "\" to function \"";
@@ -232,7 +232,7 @@ UnexpectedOutputParameterFailure::UnexpectedOutputParameterFailure(
   message_ += "\n";
 
   message_ += "\t\t";
-  message_ += parameter.get_type();
+  message_ += parameter.get_type().c_str();
   message_ += " ";
   message_ += parameter.get_name();
 }

@@ -76,6 +76,8 @@ public:
   String(const char* value = "");
   /** @brief Construct from a pointer and an explicit byte count. */
   String(const char* value, size_t len);
+  /** @brief Construct a copy from a @ref StringView (explicit; allocates). */
+  explicit String(StringView value);
   /**
    * @brief Construct a string of @p count copies of character @p ch.
    *

@@ -73,7 +73,8 @@ void CheckedActualCall::copy_output_parameters(
       memcpy(p->ptr, data, size);
     } else if (output_parameter.get_name() != "") {
       fail_with(NoWayToCopyCustomTypeFailure(
-          get_test(), expected_call->get_output_parameter(p->name).get_type()
+          get_test(),
+          expected_call->get_output_parameter(p->name).get_type().c_str()
       ));
     }
   }

@@ -28,14 +28,13 @@ NamedValueComparatorsAndCopiersRepository* NamedValue::
 NamedValue::NamedValue(StringView name)
   : name_(name.data(), name.size())
   , type_("int")
-
 {
   value_.int_value = 0;
 }
 
 NamedValue::NamedValue(NamedValue&& other) noexcept
   : name_(static_cast<String&&>(other.name_))
-  , type_(static_cast<String&&>(other.type_))
+  , type_(other.type_)
   , is_const_object_(other.is_const_object_)
   , value_(other.value_)
   , size_(other.size_)
@@ -148,7 +147,7 @@ void NamedValue::set_const_object_pointer(
     const void* object_ptr
 )
 {
-  type_ = String(type.data(), type.size());
+  type_ = type;
   is_const_object_ = true;
   value_.const_object_pointer_value = object_ptr;
   if (default_repository_) {
@@ -159,7 +158,7 @@ void NamedValue::set_const_object_pointer(
 
 void NamedValue::set_object_pointer(StringView type, void* object_ptr)
 {
-  type_ = String(type.data(), type.size());
+  type_ = type;
   is_const_object_ = false;
   value_.object_pointer_value = object_ptr;
   if (default_repository_) {
@@ -183,7 +182,7 @@ const String& NamedValue::get_name() const
   return name_;
 }
 
-const String& NamedValue::get_type() const
+StringView NamedValue::get_type() const
 {
   return type_;
 }

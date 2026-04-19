@@ -139,7 +139,7 @@ public:
   /** @return The name of this value. */
   const String& get_name() const;
   /** @return The type tag string (e.g. "int", "MyClass", "const char*"). */
-  const String& get_type() const;
+  StringView get_type() const;
 
   /**
    * @brief Type-safe value accessor template.
@@ -208,7 +208,7 @@ public:
 
 private:
   String name_;
-  String type_;
+  StringView type_;
   bool is_const_object_{ false };
   union
   {

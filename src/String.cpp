@@ -298,6 +298,11 @@ String& String::operator+=(StringView sv)
   return operator+=(sv.c_str());
 }
 
+String::String(StringView value)
+  : String(value.data(), value.size())
+{
+}
+
 void String::resize(size_t new_size)
 {
   reserve(new_size);
