@@ -64,6 +64,7 @@ target_sources(mutiny
         src/mock/mock.c.cpp
         src/mock/mock.cpp
         src/String.cpp
+        src/StringView.cpp
         src/test/CommandLineArguments.cpp
         src/test/CommandLineRunner.cpp
         src/test/CompositeOutput.cpp
@@ -110,6 +111,7 @@ target_sources(mutiny
             include/mu/tiny/mock/NamedValueCopier.hpp
             include/mu/tiny/mock/SupportPlugin.hpp
             include/mu/tiny/String.hpp
+            include/mu/tiny/StringView.hpp
             include/mu/tiny/test.h
             include/mu/tiny/test.hpp
             include/mu/tiny/test/CommandLineArguments.hpp
