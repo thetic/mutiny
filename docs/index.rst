@@ -33,3 +33,9 @@ and low-resource targets.
    :caption: Contributing
 
    contributing
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Release History
+
+   changelog

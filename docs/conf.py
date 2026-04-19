@@ -25,6 +25,7 @@ extensions = [
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx.ext.linkcode",
+    "sphinx_github_changelog",
     "sphinxcontrib.moderncmakedomain",
 ]
 
