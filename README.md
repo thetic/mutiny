@@ -2,6 +2,7 @@
 
 [![Basic builds](https://github.com/thetic/mu.tiny/actions/workflows/basic.yml/badge.svg)](https://github.com/thetic/mu.tiny/actions/workflows/basic.yml)
 [![Coverage Status](https://coveralls.io/repos/github/thetic/mu.tiny/badge.svg)](https://coveralls.io/github/thetic/mu.tiny)
+[![Documentation](https://img.shields.io/badge/docs-online-blue)](https://thetic.github.io/mu.tiny/)
 
 ---
 

@@ -75,7 +75,7 @@ When testing framework internals (behaviors that are supposed to fail), use `Tes
 
 ## Documentation
 
-User-facing features must be documented in `docs/`. The docs are written in reStructuredText (`.rst`) and built with Sphinx. Run `uv run --project docs sphinx-build docs docs/_build` to preview locally.
+User-facing features must be documented in `docs/`. The docs are written in reStructuredText (`.rst`) and built with Sphinx. Run `uv run --project docs sphinx-build docs docs/_build` to preview locally ([uv](https://docs.astral.sh/uv/) is a fast Python package manager; install it first if needed).
 
 ## Submitting Changes
 
