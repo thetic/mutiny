@@ -250,6 +250,15 @@ jobs:
           ctest --test-dir examples_build
         if: ${{ matrix.install }}
 
+      - name: Validate pkg-config
+        run: |
+          pkg-config --exists mu.tiny
+          pkg-config --cflags mu.tiny
+          pkg-config --libs mu.tiny
+          printf '#include <mu/tiny/test.hpp>\nint main(){}\n' > /tmp/pctest.cpp
+          c++ $(pkg-config --cflags --libs mu.tiny) /tmp/pctest.cpp -o /tmp/pctest
+        if: ${{ matrix.install && !startswith(matrix.os, 'windows') && !startswith(matrix.os, 'macos') }}
+
       - name: Use FetchContent (source build)
         run: |
           cmake -B examples_fc_build -S examples \

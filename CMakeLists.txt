@@ -215,6 +215,13 @@ if(PROJECT_IS_TOP_LEVEL)
             COMPONENT mutiny_Development
     )
 
+    configure_file(cfg/mu.tiny.pc.in ${CMAKE_CURRENT_BINARY_DIR}/mu.tiny.pc @ONLY)
+    install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/mu.tiny.pc
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig
+        COMPONENT mutiny_Development
+    )
+
     include(CMakePackageConfigHelpers)
 
     set(INCLUDE_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}")
