@@ -12,9 +12,9 @@ String string_from(const mock::NamedValue& parameter)
 
 namespace mock {
 
-void CheckedExpectedCall::set_name(const String& name)
+void CheckedExpectedCall::set_name(StringView name)
 {
-  function_name_ = name;
+  function_name_ = String(name.data(), name.size());
 }
 
 String CheckedExpectedCall::get_name() const
@@ -37,7 +37,7 @@ CheckedExpectedCall::~CheckedExpectedCall()
   delete output_parameters_;
 }
 
-ExpectedCall& CheckedExpectedCall::with_name(const String& name)
+ExpectedCall& CheckedExpectedCall::with_name(StringView name)
 {
   set_name(name);
   return *this;
@@ -52,8 +52,8 @@ ExpectedCall& CheckedExpectedCall::with_typed_parameter(NamedValue parameter)
 }
 
 ExpectedCall& CheckedExpectedCall::with_parameter_of_type(
-    const String& type,
-    const String& name,
+    StringView type,
+    StringView name,
     const void* value
 )
 {
@@ -64,7 +64,7 @@ ExpectedCall& CheckedExpectedCall::with_parameter_of_type(
 }
 
 ExpectedCall& CheckedExpectedCall::with_output_parameter_returning(
-    const String& name,
+    StringView name,
     const void* value,
     size_t size
 )
@@ -77,8 +77,8 @@ ExpectedCall& CheckedExpectedCall::with_output_parameter_returning(
 }
 
 ExpectedCall& CheckedExpectedCall::with_output_parameter_of_type_returning(
-    const String& type,
-    const String& name,
+    StringView type,
+    StringView name,
     const void* value
 )
 {
@@ -89,7 +89,7 @@ ExpectedCall& CheckedExpectedCall::with_output_parameter_of_type_returning(
 }
 
 ExpectedCall& CheckedExpectedCall::with_unmodified_output_parameter(
-    const String& name
+    StringView name
 )
 {
   return with_output_parameter_returning(name, nullptr, 0);
@@ -333,7 +333,7 @@ CheckedExpectedCall::MockExpectedFunctionParameter* CheckedExpectedCall::item(
 }
 
 CheckedExpectedCall::MockExpectedFunctionParameter::
-    MockExpectedFunctionParameter(const String& name)
+    MockExpectedFunctionParameter(StringView name)
   : NamedValue(name)
 
 {

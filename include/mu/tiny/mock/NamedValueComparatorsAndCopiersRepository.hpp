@@ -15,6 +15,7 @@
 #include "mu/tiny/mock/NamedValueComparator.hpp"
 #include "mu/tiny/mock/NamedValueCopier.hpp"
 
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/export.h"
 
 namespace mu {
@@ -47,7 +48,7 @@ public:
    * @param comparator  Comparator to register.
    */
   virtual void install_comparator(
-      const String& name,
+      StringView name,
       NamedValueComparator& comparator
   );
 
@@ -57,7 +58,7 @@ public:
    * @param name    Type name used as the lookup key.
    * @param copier  Copier to register.
    */
-  virtual void install_copier(const String& name, NamedValueCopier& copier);
+  virtual void install_copier(StringView name, NamedValueCopier& copier);
 
   /**
    * @brief Copy all comparators and copiers from @p repository into this one.
@@ -74,7 +75,7 @@ public:
    * @param name  Type name to look up.
    * @return Pointer to the registered NamedValueComparator, or nullptr.
    */
-  virtual NamedValueComparator* get_comparator_for_type(const String& name);
+  virtual NamedValueComparator* get_comparator_for_type(StringView name);
 
   /**
    * @brief Look up the copier registered for a type.
@@ -82,7 +83,7 @@ public:
    * @param name  Type name to look up.
    * @return Pointer to the registered NamedValueCopier, or nullptr.
    */
-  virtual NamedValueCopier* get_copier_for_type(const String& name);
+  virtual NamedValueCopier* get_copier_for_type(StringView name);
 
   /** @brief Remove all installed comparators and copiers. */
   void clear();

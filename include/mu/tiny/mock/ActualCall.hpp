@@ -16,6 +16,7 @@
 
 #include "mu/tiny/mock/NamedValue.hpp"
 
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/export.h"
 
 namespace mu {
@@ -41,7 +42,7 @@ public:
 
   /** @brief Report the function name for this call (used internally).
    * @return *this. */
-  virtual ActualCall& with_name(const String&) { return *this; }
+  virtual ActualCall& with_name(StringView) { return *this; }
   /** @brief Set the call order index for strict-ordering checks.
    * @return *this. */
   virtual ActualCall& with_call_order(unsigned int) { return *this; }
@@ -59,7 +60,7 @@ public:
    * @return *this for chaining.
    */
   template<typename T>
-  ActualCall& with_parameter(const String& name, T value)
+  ActualCall& with_parameter(StringView name, T value)
   {
     NamedValue nv(name);
     nv.set_value(value);
@@ -75,7 +76,7 @@ public:
    * @return *this for chaining.
    */
   ActualCall& with_parameter(
-      const String& name,
+      StringView name,
       const unsigned char* value,
       size_t size
   )
@@ -83,15 +84,6 @@ public:
     NamedValue nv(name);
     nv.set_memory_buffer(value, size);
     return with_typed_parameter(static_cast<NamedValue&&>(nv));
-  }
-  /** @overload */
-  ActualCall& with_parameter(
-      const char* name,
-      const unsigned char* value,
-      size_t size
-  )
-  {
-    return with_parameter(String(name), value, size);
   }
 
   /**
@@ -118,14 +110,8 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& with_parameter_of_type(
-      const String& type_name,
-      const String& name,
-      const void* value
-  ) = 0;
-  /** @overload */
-  virtual ActualCall& with_parameter_of_type(
-      const char* type_name,
-      const char* name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) = 0;
 
@@ -139,10 +125,7 @@ public:
    * @param output  Pointer to the caller's output buffer.
    * @return *this for chaining.
    */
-  virtual ActualCall& with_output_parameter(
-      const String& name,
-      void* output
-  ) = 0;
+  virtual ActualCall& with_output_parameter(StringView name, void* output) = 0;
 
   /**
    * @brief Report an output parameter with a custom object type.
@@ -154,8 +137,8 @@ public:
    * @return *this for chaining.
    */
   virtual ActualCall& with_output_parameter_of_type(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       void* output
   ) = 0;
 

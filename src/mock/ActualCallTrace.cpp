@@ -6,10 +6,10 @@ namespace mock {
 
 ActualCallTrace* ActualCallTrace::instance_ = nullptr;
 
-ActualCall& ActualCallTrace::with_name(const String& name)
+ActualCall& ActualCallTrace::with_name(StringView name)
 {
   trace_buffer_ += "\nFunction name:";
-  trace_buffer_ += name;
+  trace_buffer_ += name.c_str();
   return *this;
 }
 
@@ -20,10 +20,10 @@ ActualCall& ActualCallTrace::with_call_order(unsigned int call_order)
   return *this;
 }
 
-void ActualCallTrace::add_parameter_name(const String& name)
+void ActualCallTrace::add_parameter_name(StringView name)
 {
   trace_buffer_ += " ";
-  trace_buffer_ += name;
+  trace_buffer_ += name.c_str();
   trace_buffer_ += ":";
 }
 
@@ -35,29 +35,20 @@ ActualCall& ActualCallTrace::with_typed_parameter(NamedValue parameter)
 }
 
 ActualCall& ActualCallTrace::with_parameter_of_type(
-    const String& type_name,
-    const String& name,
+    StringView type_name,
+    StringView name,
     const void* value
 )
 {
   trace_buffer_ += " ";
-  trace_buffer_ += type_name;
+  trace_buffer_ += type_name.c_str();
   add_parameter_name(name);
   trace_buffer_ += string_from(value);
   return *this;
 }
 
-ActualCall& ActualCallTrace::with_parameter_of_type(
-    const char* type_name,
-    const char* name,
-    const void* value
-)
-{
-  return with_parameter_of_type(String(type_name), String(name), value);
-}
-
 ActualCall& ActualCallTrace::with_output_parameter(
-    const String& name,
+    StringView name,
     void* output
 )
 {
@@ -67,13 +58,13 @@ ActualCall& ActualCallTrace::with_output_parameter(
 }
 
 ActualCall& ActualCallTrace::with_output_parameter_of_type(
-    const String& type_name,
-    const String& name,
+    StringView type_name,
+    StringView name,
     void* output
 )
 {
   trace_buffer_ += " ";
-  trace_buffer_ += type_name;
+  trace_buffer_ += type_name.c_str();
   add_parameter_name(name);
   trace_buffer_ += string_from(output);
   return *this;

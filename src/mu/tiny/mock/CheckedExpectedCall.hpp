@@ -18,7 +18,7 @@ public:
   explicit CheckedExpectedCall(unsigned int num_calls = 1U);
   ~CheckedExpectedCall() override;
 
-  ExpectedCall& with_name(const String& name) override;
+  ExpectedCall& with_name(StringView name) override;
   ExpectedCall& with_call_order(unsigned int call_order) override
   {
     return with_call_order(call_order, call_order);
@@ -29,21 +29,21 @@ public:
   ) override;
   ExpectedCall& with_typed_parameter(NamedValue parameter) override;
   ExpectedCall& with_parameter_of_type(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) override;
   ExpectedCall& with_output_parameter_returning(
-      const String& name,
+      StringView name,
       const void* value,
       size_t size
   ) override;
   ExpectedCall& with_output_parameter_of_type_returning(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) override;
-  ExpectedCall& with_unmodified_output_parameter(const String& name) override;
+  ExpectedCall& with_unmodified_output_parameter(StringView name) override;
   ExpectedCall& ignore_other_parameters() override;
 
   ExpectedCall& and_return_typed_value(NamedValue value) override;
@@ -84,7 +84,7 @@ public:
   virtual unsigned int get_actual_calls_fulfilled() const;
 
 protected:
-  void set_name(const String& name);
+  void set_name(StringView name);
   String get_name() const;
 
 private:
@@ -93,7 +93,7 @@ private:
   class MockExpectedFunctionParameter : public NamedValue
   {
   public:
-    MockExpectedFunctionParameter(const String& name);
+    MockExpectedFunctionParameter(StringView name);
     explicit MockExpectedFunctionParameter(NamedValue&& nv);
     void set_matches_actual_call(bool b);
     bool is_matching_actual_call() const;

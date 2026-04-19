@@ -14,6 +14,7 @@
 
 #include "mu/tiny/mock/NamedValue.hpp"
 
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/export.h"
 
 namespace mu {
@@ -34,7 +35,7 @@ public:
 
   /** @brief Set the expected function name. @param name Function name. @return
    * *this. */
-  virtual ExpectedCall& with_name(const String& name) = 0;
+  virtual ExpectedCall& with_name(StringView name) = 0;
 
   /**
    * @brief Require this call to happen at a specific position in call order.
@@ -70,7 +71,7 @@ public:
    * @return *this for chaining.
    */
   template<typename T>
-  ExpectedCall& with_parameter(const String& name, T value)
+  ExpectedCall& with_parameter(StringView name, T value)
   {
     NamedValue nv(name);
     nv.set_value(value);
@@ -85,11 +86,7 @@ public:
    * @param tolerance  Maximum allowed absolute difference from @p value.
    * @return *this for chaining.
    */
-  ExpectedCall& with_parameter(
-      const String& name,
-      double value,
-      double tolerance
-  )
+  ExpectedCall& with_parameter(StringView name, double value, double tolerance)
   {
     NamedValue nv(name);
     nv.set_value(value, tolerance);
@@ -105,7 +102,7 @@ public:
    * @return *this for chaining.
    */
   ExpectedCall& with_parameter(
-      const String& name,
+      StringView name,
       const unsigned char* value,
       size_t size
   )
@@ -140,8 +137,8 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_parameter_of_type(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) = 0;
 
@@ -155,7 +152,7 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_output_parameter_returning(
-      const String& name,
+      StringView name,
       const void* value,
       size_t size
   ) = 0;
@@ -172,8 +169,8 @@ public:
    * @return *this for chaining.
    */
   virtual ExpectedCall& with_output_parameter_of_type_returning(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) = 0;
 
@@ -184,9 +181,7 @@ public:
    * @param name  Parameter name.
    * @return *this for chaining.
    */
-  virtual ExpectedCall& with_unmodified_output_parameter(
-      const String& name
-  ) = 0;
+  virtual ExpectedCall& with_unmodified_output_parameter(StringView name) = 0;
 
   /**
    * @brief Allow the actual call to pass parameters not listed in this

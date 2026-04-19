@@ -3,6 +3,8 @@
 
 #include "mu/tiny/mock/ActualCall.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -13,23 +15,18 @@ public:
   ActualCallTrace() = default;
   ~ActualCallTrace() override = default;
 
-  ActualCall& with_name(const String& name) override;
+  ActualCall& with_name(StringView name) override;
   ActualCall& with_call_order(unsigned int) override;
   ActualCall& with_typed_parameter(NamedValue parameter) override;
   ActualCall& with_parameter_of_type(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       const void* value
   ) override;
-  ActualCall& with_parameter_of_type(
-      const char* type_name,
-      const char* name,
-      const void* value
-  ) override;
-  ActualCall& with_output_parameter(const String& name, void* output) override;
+  ActualCall& with_output_parameter(StringView name, void* output) override;
   ActualCall& with_output_parameter_of_type(
-      const String& type_name,
-      const String& name,
+      StringView type_name,
+      StringView name,
       void* output
   ) override;
 
@@ -47,7 +44,7 @@ private:
 
   static ActualCallTrace* instance_;
 
-  void add_parameter_name(const String& name);
+  void add_parameter_name(StringView name);
 };
 
 } // namespace mock

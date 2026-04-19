@@ -112,9 +112,9 @@ void CheckedActualCall::discard_currently_matching_expectations()
   potentially_matching_expectations_.only_keep_unmatching_expectations();
 }
 
-void CheckedActualCall::set_name_and_check(String name)
+void CheckedActualCall::set_name_and_check(StringView name)
 {
-  function_name_ = static_cast<String&&>(name);
+  function_name_ = String(name.data(), name.size());
   set_state(MutinyActualCallState::in_progress);
 
   potentially_matching_expectations_.only_keep_expectations_related_to(
@@ -195,8 +195,8 @@ ActualCall& CheckedActualCall::with_typed_parameter(NamedValue parameter)
 }
 
 ActualCall& CheckedActualCall::with_parameter_of_type(
-    const String& type,
-    const String& name,
+    StringView type,
+    StringView name,
     const void* value
 )
 {
@@ -207,7 +207,9 @@ ActualCall& CheckedActualCall::with_parameter_of_type(
     {
       NamedValue freed(static_cast<NamedValue&&>(actual_parameter));
     }
-    fail_with(NoWayToCompareCustomTypeFailure(get_test(), type));
+    fail_with(NoWayToCompareCustomTypeFailure(
+        get_test(), String(type.data(), type.size())
+    ));
     return *this;
   }
   check_input_parameter(static_cast<NamedValue&&>(actual_parameter));
@@ -215,7 +217,7 @@ ActualCall& CheckedActualCall::with_parameter_of_type(
 }
 
 ActualCall& CheckedActualCall::with_output_parameter(
-    const String& name,
+    StringView name,
     void* output
 )
 {
@@ -229,8 +231,8 @@ ActualCall& CheckedActualCall::with_output_parameter(
 }
 
 ActualCall& CheckedActualCall::with_output_parameter_of_type(
-    const String& type,
-    const String& name,
+    StringView type,
+    StringView name,
     void* output
 )
 {
@@ -240,29 +242,6 @@ ActualCall& CheckedActualCall::with_output_parameter_of_type(
   output_parameter.set_const_object_pointer(type, output);
   check_output_parameter(static_cast<NamedValue&&>(output_parameter));
 
-  return *this;
-}
-
-ActualCall& CheckedActualCall::with_parameter_of_type(
-    const char* type_name,
-    const char* name,
-    const void* value
-)
-{
-  NamedValue actual_parameter(name);
-  actual_parameter.set_const_object_pointer(type_name, value);
-
-  if (actual_parameter.get_comparator() == nullptr) {
-    String type = actual_parameter.get_type();
-    {
-      NamedValue freed(static_cast<NamedValue&&>(actual_parameter));
-    }
-    fail_with(
-        NoWayToCompareCustomTypeFailure(get_test(), static_cast<String&&>(type))
-    );
-    return *this;
-  }
-  check_input_parameter(static_cast<NamedValue&&>(actual_parameter));
   return *this;
 }
 
@@ -365,8 +344,8 @@ ActualCall& CheckedActualCall::on_object(const void* object_ptr)
 }
 
 void CheckedActualCall::add_output_parameter(
-    const String& name,
-    const String& type,
+    StringView name,
+    StringView type,
     void* ptr
 )
 {
