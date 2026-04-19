@@ -126,6 +126,10 @@ Built-in Plugins
      - :ref:`mu/tiny/test/JUnitOutputPlugin.hpp <file_include_mu_tiny_test_JUnitOutputPlugin.hpp>`
      - Write JUnit XML output via :option:`-pjunit`
      - :doc:`junit-output`
+   * - :cpp:class:`TapOutputPlugin <mu::tiny::test::TapOutputPlugin>`
+     - :ref:`mu/tiny/test/TapOutputPlugin.hpp <file_include_mu_tiny_test_TapOutputPlugin.hpp>`
+     - Write TAP version 13 output to stdout via :option:`-ptap`
+     - :doc:`tap-output`
 
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>` is automatically
 created and available through the :c:macro:`MUTINY_PTR_SET` macro — you do not need to
@@ -145,3 +149,4 @@ comparator alongside other plugins:
 
    set-pointer-plugin
    junit-output
+   tap-output

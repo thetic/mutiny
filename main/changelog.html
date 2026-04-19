@@ -273,6 +273,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="plugins.html">Plugins</a><input aria-label="Toggle navigation of Plugins" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="set-pointer-plugin.html">SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="junit-output.html">JUnit XML Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tap-output.html">TAP Output</a></li>
 </ul>
 </li>
 </ul>
@@ -354,6 +355,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html">Class TapOutputPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Terminator.html">Class Terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TerminatorWithoutExceptions.html">Class TerminatorWithoutExceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Test.html">Class Test</a></li>
@@ -604,6 +606,32 @@
         <article role="main" id="furo-main-content">
           <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<section id="release-v0-6-0">
+<h2>v0.6.0<a class="headerlink" href="#release-v0-6-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2026-04-19 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.6.0">GitHub</a></em></p>
+<h2>What's Changed</h2>
+<h3>Breaking Changes</h3>
+<ul>
+<li><strong>Mock API: <code>StringView</code> parameter type</strong> — <code>const String&amp;</code> parameters across <code>Support</code>, <code>ExpectedCall</code>, <code>ActualCall</code>, <code>NamedValue</code>, <code>SupportPlugin</code>, and <code>NamedValueComparatorsAndCopiersRepository</code> are now <code>StringView</code>. Callers passing <code>String</code> objects or string literals are unaffected at source level, but the ABI is incompatible — recompilation required. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289838940" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/72" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/72/hovercard" href="https://github.com/thetic/mu.tiny/pull/72">#72</a>)</li>
+</ul>
+<h3>New Features</h3>
+<ul>
+<li><strong><code>StringView</code> type</strong> — non-owning <code>const char*</code> + <code>size_t</code> wrapper in <code>mu::tiny</code> that eliminates temporary heap allocations when string literals flow through mock API parameters. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289838940" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/72" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/72/hovercard" href="https://github.com/thetic/mu.tiny/pull/72">#72</a>)</li>
+<li><strong><code>pkg-config</code> support</strong> — <code>mu.tiny.pc</code> is now installed alongside the library, enabling discovery by Meson, Make, and other non-CMake build systems via <code>pkg-config --cflags --libs mu.tiny</code>. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4291305586" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/74" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/74/hovercard" href="https://github.com/thetic/mu.tiny/pull/74">#74</a>)</li>
+<li><strong>UBSan CI preset</strong> — new <code>ubsan</code> CMake configure/build/test/workflow preset running Clang with <code>-fsanitize=undefined</code>; mirrors the existing <code>asan</code> preset and runs in CI. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4291366290" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/77" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/77/hovercard" href="https://github.com/thetic/mu.tiny/pull/77">#77</a>, fixes <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289687144" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/64" data-hovercard-type="issue" data-hovercard-url="/thetic/mu.tiny/issues/64/hovercard" href="https://github.com/thetic/mu.tiny/issues/64">#64</a>)</li>
+</ul>
+<h3>Documentation</h3>
+<ul>
+<li>Changelog page added to the Sphinx docs site, rendered from GitHub Releases via <code>sphinx-github-changelog</code>. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4291310706" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/75" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/75/hovercard" href="https://github.com/thetic/mu.tiny/pull/75">#75</a>, fixes <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289707588" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/69" data-hovercard-type="issue" data-hovercard-url="/thetic/mu.tiny/issues/69/hovercard" href="https://github.com/thetic/mu.tiny/issues/69">#69</a>)</li>
+<li>Documentation badge added to README; <code>uv</code> install link added to CONTRIBUTING. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4291360827" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/76" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/76/hovercard" href="https://github.com/thetic/mu.tiny/pull/76">#76</a>, fixes <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289688160" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/65" data-hovercard-type="issue" data-hovercard-url="/thetic/mu.tiny/issues/65/hovercard" href="https://github.com/thetic/mu.tiny/issues/65">#65</a>, <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289700261" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/68" data-hovercard-type="issue" data-hovercard-url="/thetic/mu.tiny/issues/68/hovercard" href="https://github.com/thetic/mu.tiny/issues/68">#68</a>)</li>
+<li><code>WARN_IF_UNDOCUMENTED = YES</code> in Doxygen config — missing doc comments on public symbols are now a hard build error. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4291297877" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/73" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/73/hovercard" href="https://github.com/thetic/mu.tiny/pull/73">#73</a>, fixes <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4289691603" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/66" data-hovercard-type="issue" data-hovercard-url="/thetic/mu.tiny/issues/66/hovercard" href="https://github.com/thetic/mu.tiny/issues/66">#66</a>)</li>
+</ul>
+<h3>Housekeeping</h3>
+<ul>
+<li>ABI check CI now diffs against the latest release tag instead of <code>base_ref</code>, giving the check meaningful semantics. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4286418986" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/61" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/61/hovercard" href="https://github.com/thetic/mu.tiny/pull/61">#61</a>)</li>
+<li>Stale <code>thetic/mutiny</code> → <code>thetic/mu.tiny</code> references updated in docs, examples, and Sphinx config. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4286461882" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/62" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/62/hovercard" href="https://github.com/thetic/mu.tiny/pull/62">#62</a>)</li>
+<li>Stale <code>mutiny/</code> path references and old-binary discovery fallbacks removed from <code>cmake/_mutiny_discovery.cmake</code> and docs. (<a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4286600829" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/63" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/63/hovercard" href="https://github.com/thetic/mu.tiny/pull/63">#63</a>)</li>
+</ul></section>
 <section id="release-v0-5-0">
 <h2>v0.5.0<a class="headerlink" href="#release-v0-5-0" title="Link to this heading">¶</a></h2>
 <p><em>Released on 2026-04-18 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.5.0">GitHub</a></em></p>
@@ -742,6 +770,7 @@ eliminating per-group ctest collisions</li>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#release-v0-6-0">v0.6.0</a></li>
 <li><a class="reference internal" href="#release-v0-5-0">v0.5.0</a></li>
 <li><a class="reference internal" href="#release-v0-4-0">v0.4.0</a></li>
 <li><a class="reference internal" href="#release-v0-2-0">v0.2.0</a></li>
@@ -757,7 +786,7 @@ eliminating per-group ctest collisions</li>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
+</div><script src="_static/documentation_options.js?v=2bd037f0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

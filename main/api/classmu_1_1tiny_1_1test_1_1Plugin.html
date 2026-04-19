@@ -273,6 +273,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../plugins.html">Plugins</a><input aria-label="Toggle navigation of Plugins" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../set-pointer-plugin.html">SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../junit-output.html">JUnit XML Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tap-output.html">TAP Output</a></li>
 </ul>
 </li>
 </ul>
@@ -354,6 +355,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html">Class TapOutputPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Terminator.html">Class Terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TerminatorWithoutExceptions.html">Class TerminatorWithoutExceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Test.html">Class Test</a></li>
@@ -615,6 +617,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::mock::SupportPlugin</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#exhale-class-classmu-1-1tiny-1-1mock-1-1supportplugin"><span class="std std-ref">Class SupportPlugin</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::JUnitOutputPlugin</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#exhale-class-classmu-1-1tiny-1-1test-1-1junitoutputplugin"><span class="std std-ref">Class JUnitOutputPlugin</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::SetPointerPlugin</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#exhale-class-classmu-1-1tiny-1-1test-1-1setpointerplugin"><span class="std std-ref">Class SetPointerPlugin</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::TapOutputPlugin</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#exhale-class-classmu-1-1tiny-1-1test-1-1tapoutputplugin"><span class="std std-ref">Class TapOutputPlugin</span></a>)</p></li>
 </ul>
 </section>
 </section>
@@ -625,7 +628,7 @@
 <span id="_CPPv3N2mu4tiny4test6PluginE"></span><span id="_CPPv2N2mu4tiny4test6PluginE"></span><span id="mu::tiny::test::Plugin"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Plugin"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Plugin</span></span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test6PluginE" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Plugin.hpp#L35"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Base class for test lifecycle extensions. </p>
 <p>Plugins are linked together in a chain; all <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Plugin_1ab9335d86678cc6e5c5af35aa1614b492"><span class="std std-ref">pre_test_action()</span></a>, <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Plugin_1ab7d1fb269a2114fd197edadc1a70c81f"><span class="std std-ref">post_test_action()</span></a>, and <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Plugin_1a4bf529cf6af023e8ba07461c007ad5a5"><span class="std std-ref">parse_arguments()</span></a> calls propagate through the entire chain automatically via the run_all_*() and parse_all_*() helpers. </p>
-<p>Subclassed by <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#classmu_1_1tiny_1_1mock_1_1SupportPlugin"><span class="std std-ref">mu::tiny::mock::SupportPlugin</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin"><span class="std std-ref">mu::tiny::test::JUnitOutputPlugin</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#classmu_1_1tiny_1_1test_1_1SetPointerPlugin"><span class="std std-ref">mu::tiny::test::SetPointerPlugin</span></a></p>
+<p>Subclassed by <a class="reference internal" href="classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#classmu_1_1tiny_1_1mock_1_1SupportPlugin"><span class="std std-ref">mu::tiny::mock::SupportPlugin</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin"><span class="std std-ref">mu::tiny::test::JUnitOutputPlugin</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#classmu_1_1tiny_1_1test_1_1SetPointerPlugin"><span class="std std-ref">mu::tiny::test::SetPointerPlugin</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#classmu_1_1tiny_1_1test_1_1TapOutputPlugin"><span class="std std-ref">mu::tiny::test::TapOutputPlugin</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -991,7 +994,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div><script src="../_static/documentation_options.js?v=2bd037f0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

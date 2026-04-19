@@ -70,6 +70,11 @@ Plugin flags begin with ``-p``. The plugin must be installed in
    Write JUnit XML output files (requires :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`).
    See :doc:`junit-output`.
 
+.. option:: -ptap
+
+   Write TAP version 13 output to stdout (requires :cpp:class:`TapOutputPlugin <mu::tiny::test::TapOutputPlugin>`).
+   See :doc:`tap-output`.
+
 Filter Flags
 ------------
 
