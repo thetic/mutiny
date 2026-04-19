@@ -62,14 +62,14 @@ void SupportPlugin::post_test_action(test::Shell& test, test::Result& result)
 }
 
 void SupportPlugin::install_comparator(
-    const String& name,
+    StringView name,
     NamedValueComparator& comparator
 )
 {
   repository_.install_comparator(name, comparator);
 }
 
-void SupportPlugin::install_copier(const String& name, NamedValueCopier& copier)
+void SupportPlugin::install_copier(StringView name, NamedValueCopier& copier)
 {
   repository_.install_copier(name, copier);
 }

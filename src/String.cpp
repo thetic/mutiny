@@ -1,5 +1,6 @@
 #include "mu/tiny/String.hpp"
 
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/math.hpp"
 
 #if MUTINY_USE_STD_CPP_LIB
@@ -282,6 +283,24 @@ String& String::operator+=(char ch)
   }
   char tmp[2] = { ch, '\0' };
   return operator+=(tmp);
+}
+
+String::String(const char* value, size_t len)
+  : buffer_(nullptr)
+  , buffer_size_(0)
+  , size_(0)
+{
+  copy_buffer_to_new_internal_buffer(value, len + 1);
+}
+
+String& String::operator+=(StringView sv)
+{
+  return operator+=(sv.c_str());
+}
+
+String::String(StringView value)
+  : String(value.data(), value.size())
+{
 }
 
 void String::resize(size_t new_size)
@@ -713,6 +732,11 @@ String string_from(char value)
 String string_from(const String& value)
 {
   return String(value);
+}
+
+String string_from(StringView value)
+{
+  return String(value.data(), value.size());
 }
 
 String string_from_format(const char* format, ...)

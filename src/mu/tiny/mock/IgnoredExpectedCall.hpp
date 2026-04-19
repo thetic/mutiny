@@ -3,6 +3,8 @@
 
 #include "mu/tiny/mock/ExpectedCall.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -10,7 +12,7 @@ namespace mock {
 class IgnoredExpectedCall : public ExpectedCall
 {
 public:
-  ExpectedCall& with_name(const String&) override { return *this; }
+  ExpectedCall& with_name(StringView) override { return *this; }
   ExpectedCall& with_call_order(unsigned int) override { return *this; }
   ExpectedCall& with_call_order(unsigned int, unsigned int) override
   {
@@ -18,15 +20,15 @@ public:
   }
   ExpectedCall& with_typed_parameter(NamedValue) override { return *this; }
   ExpectedCall& with_parameter_of_type(
-      const String&,
-      const String&,
+      StringView,
+      StringView,
       const void*
   ) override
   {
     return *this;
   }
   ExpectedCall& with_output_parameter_returning(
-      const String&,
+      StringView,
       const void*,
       size_t
   ) override
@@ -34,14 +36,14 @@ public:
     return *this;
   }
   ExpectedCall& with_output_parameter_of_type_returning(
-      const String&,
-      const String&,
+      StringView,
+      StringView,
       const void*
   ) override
   {
     return *this;
   }
-  ExpectedCall& with_unmodified_output_parameter(const String&) override
+  ExpectedCall& with_unmodified_output_parameter(StringView) override
   {
     return *this;
   }

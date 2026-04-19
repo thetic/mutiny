@@ -3,6 +3,8 @@
 
 #include "mu/tiny/mock/ActualCall.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -10,34 +12,26 @@ namespace mock {
 class IgnoredActualCall : public ActualCall
 {
 public:
-  ActualCall& with_name(const String&) override { return *this; }
+  ActualCall& with_name(StringView) override { return *this; }
   ActualCall& with_call_order(unsigned int) override { return *this; }
 
   ActualCall& with_typed_parameter(NamedValue) override { return *this; }
 
   ActualCall& with_parameter_of_type(
-      const String&,
-      const String&,
+      StringView,
+      StringView,
       const void*
   ) override
   {
     return *this;
   }
-  ActualCall& with_parameter_of_type(
-      const char*,
-      const char*,
-      const void*
-  ) override
-  {
-    return *this;
-  }
-  ActualCall& with_output_parameter(const String&, void*) override
+  ActualCall& with_output_parameter(StringView, void*) override
   {
     return *this;
   }
   ActualCall& with_output_parameter_of_type(
-      const String&,
-      const String&,
+      StringView,
+      StringView,
       void*
   ) override
   {

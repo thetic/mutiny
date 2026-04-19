@@ -5,6 +5,8 @@
 #include "mu/tiny/mock/ExpectedCallsList.hpp"
 #include "mu/tiny/mock/Failure.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -21,19 +23,14 @@ public:
 
   ActualCall& with_typed_parameter(NamedValue parameter) override;
   ActualCall& with_parameter_of_type(
-      const String& type,
-      const String& name,
+      StringView type,
+      StringView name,
       const void* value
   ) override;
-  ActualCall& with_parameter_of_type(
-      const char* type_name,
-      const char* name,
-      const void* value
-  ) override;
-  ActualCall& with_output_parameter(const String& name, void* output) override;
+  ActualCall& with_output_parameter(StringView name, void* output) override;
   ActualCall& with_output_parameter_of_type(
-      const String& type,
-      const String& name,
+      StringView type,
+      StringView name,
       void* output
   ) override;
 
@@ -48,7 +45,7 @@ public:
   virtual void check_expectations();
 
   virtual void set_mock_failure_reporter(FailureReporter* reporter);
-  void set_name_and_check(String name);
+  void set_name_and_check(StringView name);
 
 protected:
   const String& get_name() const;
@@ -89,9 +86,9 @@ private:
     void* ptr;
 
     MockOutputParametersListNode* next{ nullptr };
-    MockOutputParametersListNode(const String& n, const String& t, void* p)
-      : name(n)
-      , type(t)
+    MockOutputParametersListNode(StringView n, StringView t, void* p)
+      : name(n.data(), n.size())
+      , type(t.data(), t.size())
       , ptr(p)
 
     {
@@ -101,8 +98,8 @@ private:
   MockOutputParametersListNode* output_parameter_expectations_{ nullptr };
 
   virtual void add_output_parameter(
-      const String& name,
-      const String& type,
+      StringView name,
+      StringView type,
       void* ptr
   );
   void clean_up_output_parameter_list();

@@ -15,6 +15,7 @@
 #define INCLUDED_MU_TINY_MOCK_NAMEDVALUE_HPP
 
 #include "mu/tiny/String.hpp"
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/export.h"
 
 namespace mu {
@@ -44,7 +45,7 @@ public:
    *
    * @param name  The parameter or data key.
    */
-  NamedValue(const String& name);
+  NamedValue(StringView name);
   NamedValue(const NamedValue&) = default;
   NamedValue(NamedValue&&) noexcept;
   NamedValue& operator=(NamedValue&&) noexcept = default;
@@ -82,14 +83,14 @@ public:
    * @param type        Type name string, matched against comparator keys.
    * @param object_ptr  Const pointer to the object.
    */
-  void set_const_object_pointer(const String& type, const void* object_ptr);
+  void set_const_object_pointer(StringView type, const void* object_ptr);
   /**
    * @brief Store a mutable object pointer with a type name.
    *
    * @param type        Type name string.
    * @param object_ptr  Pointer to the object.
    */
-  void set_object_pointer(const String& type, void* object_ptr);
+  void set_object_pointer(StringView type, void* object_ptr);
   /**
    * @brief Set the size field (used for memory buffer parameters).
    *
@@ -136,9 +137,9 @@ public:
   virtual String to_string() const;
 
   /** @return The name of this value. */
-  String get_name() const;
+  const String& get_name() const;
   /** @return The type tag string (e.g. "int", "MyClass", "const char*"). */
-  String get_type() const;
+  StringView get_type() const;
 
   /**
    * @brief Type-safe value accessor template.
@@ -207,7 +208,7 @@ public:
 
 private:
   String name_;
-  String type_;
+  StringView type_;
   bool is_const_object_{ false };
   union
   {

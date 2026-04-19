@@ -29,7 +29,7 @@ bool ExpectedCallsList::empty() const
 }
 
 unsigned int ExpectedCallsList::amount_of_actual_calls_fulfilled_for(
-    const String& name
+    StringView name
 ) const
 {
   unsigned int count = 0;
@@ -51,7 +51,7 @@ bool ExpectedCallsList::has_unfulfilled_expectations() const
   return false;
 }
 
-bool ExpectedCallsList::has_expectation_with_name(const String& name) const
+bool ExpectedCallsList::has_expectation_with_name(StringView name) const
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
     if (p->expected_call->relates_to(name))
@@ -83,7 +83,7 @@ void ExpectedCallsList::add_potentially_matching_expectations(
 }
 
 void ExpectedCallsList::add_expectations_related_to(
-    const String& name,
+    StringView name,
     const ExpectedCallsList& list
 )
 {
@@ -98,7 +98,7 @@ void ExpectedCallsList::add_expectations(const ExpectedCallsList& list)
     add_expected_call(p->expected_call);
 }
 
-void ExpectedCallsList::only_keep_expectations_related_to(const String& name)
+void ExpectedCallsList::only_keep_expectations_related_to(StringView name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
     if (!p->expected_call->relates_to(name))
@@ -127,7 +127,7 @@ void ExpectedCallsList::only_keep_unmatching_expectations()
 }
 
 void ExpectedCallsList::only_keep_expectations_with_input_parameter_name(
-    const String& name
+    StringView name
 )
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
@@ -137,7 +137,7 @@ void ExpectedCallsList::only_keep_expectations_with_input_parameter_name(
 }
 
 void ExpectedCallsList::only_keep_expectations_with_output_parameter_name(
-    const String& name
+    StringView name
 )
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
@@ -254,15 +254,13 @@ void ExpectedCallsList::was_passed_to_object()
     p->expected_call->was_passed_to_object();
 }
 
-void ExpectedCallsList::parameter_was_passed(const String& parameter_name)
+void ExpectedCallsList::parameter_was_passed(StringView parameter_name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
     p->expected_call->input_parameter_was_passed(parameter_name);
 }
 
-void ExpectedCallsList::output_parameter_was_passed(
-    const String& parameter_name
-)
+void ExpectedCallsList::output_parameter_was_passed(StringView parameter_name)
 {
   for (MockExpectedCallsListNode* p = head_; p; p = p->next)
     p->expected_call->output_parameter_was_passed(parameter_name);

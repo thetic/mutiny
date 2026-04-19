@@ -8,22 +8,22 @@ class NamedValueComparatorsAndCopiersRepositoryNode
 {
 public:
   NamedValueComparatorsAndCopiersRepositoryNode(
-      const String& n,
+      StringView n,
       NamedValueComparator* cmp,
       NamedValueComparatorsAndCopiersRepositoryNode* nx
   )
-    : name(n)
+    : name(n.data(), n.size())
     , comparator(cmp)
     , copier(nullptr)
     , next(nx)
   {
   }
   NamedValueComparatorsAndCopiersRepositoryNode(
-      const String& n,
+      StringView n,
       NamedValueCopier* cp,
       NamedValueComparatorsAndCopiersRepositoryNode* nx
   )
-    : name(n)
+    : name(n.data(), n.size())
     , comparator(nullptr)
     , copier(cp)
     , next(nx)
@@ -63,7 +63,7 @@ void NamedValueComparatorsAndCopiersRepository::clear()
 }
 
 void NamedValueComparatorsAndCopiersRepository::install_comparator(
-    const String& name,
+    StringView name,
     NamedValueComparator& comparator
 )
 {
@@ -73,7 +73,7 @@ void NamedValueComparatorsAndCopiersRepository::install_comparator(
 }
 
 void NamedValueComparatorsAndCopiersRepository::install_copier(
-    const String& name,
+    StringView name,
     NamedValueCopier& copier
 )
 {
@@ -82,7 +82,7 @@ void NamedValueComparatorsAndCopiersRepository::install_copier(
 }
 
 NamedValueComparator* NamedValueComparatorsAndCopiersRepository::
-    get_comparator_for_type(const String& name)
+    get_comparator_for_type(StringView name)
 {
   for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next)
     if (p->name == name && p->comparator)
@@ -91,7 +91,7 @@ NamedValueComparator* NamedValueComparatorsAndCopiersRepository::
 }
 
 NamedValueCopier* NamedValueComparatorsAndCopiersRepository::
-    get_copier_for_type(const String& name)
+    get_copier_for_type(StringView name)
 {
   for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p; p = p->next)
     if (p->name == name && p->copier)

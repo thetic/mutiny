@@ -39,7 +39,7 @@ class Support::Impl
 };
 
 Support& mock(
-    const String& mock_name,
+    StringView mock_name,
     FailureReporter* failure_reporter_for_this_call
 )
 {
@@ -52,9 +52,9 @@ Support& mock(
   return mock_support;
 }
 
-Support::Support(const String& mock_name)
+Support::Support(StringView mock_name)
   : impl_(new Impl())
-  , mock_name_(mock_name)
+  , mock_name_(mock_name.data(), mock_name.size())
 {
 }
 
@@ -98,7 +98,7 @@ void Support::set_default_comparators_and_copiers_repository()
 }
 
 void Support::install_comparator(
-    const String& type_name,
+    StringView type_name,
     NamedValueComparator& comparator
 )
 {
@@ -111,7 +111,7 @@ void Support::install_comparator(
       get_mock_support(p)->install_comparator(type_name, comparator);
 }
 
-void Support::install_copier(const String& type_name, NamedValueCopier& copier)
+void Support::install_copier(StringView type_name, NamedValueCopier& copier)
 {
   impl_->comparators_and_copiers_repository_.install_copier(type_name, copier);
 
@@ -171,26 +171,26 @@ void Support::strict_order()
   strict_ordering_ = true;
 }
 
-String Support::append_scope_to_name(const String& function_name)
+String Support::append_scope_to_name(StringView function_name)
 {
   if (mock_name_.empty())
-    return function_name;
-  return mock_name_ + "::" + function_name;
+    return String(function_name.data(), function_name.size());
+  return mock_name_ + "::" + String(function_name.data(), function_name.size());
 }
 
-ExpectedCall& Support::expect_one_call(const String& function_name)
+ExpectedCall& Support::expect_one_call(StringView function_name)
 {
   return expect_n_calls(1, function_name);
 }
 
-void Support::expect_no_call(const String& function_name)
+void Support::expect_no_call(StringView function_name)
 {
   expect_n_calls(0, function_name);
 }
 
 ExpectedCall& Support::expect_n_calls(
     unsigned int amount,
-    const String& function_name
+    StringView function_name
 )
 {
   if (!enabled_)
@@ -218,7 +218,7 @@ CheckedActualCall* Support::create_actual_call()
   return impl_->last_actual_function_call_;
 }
 
-bool Support::call_is_ignored(const String& function_name)
+bool Support::call_is_ignored(StringView function_name)
 {
   return ignore_other_calls_ &&
          !impl_->expectations_.has_expectation_with_name(function_name);
@@ -395,12 +395,12 @@ void Support::check_expectations()
     fail_test_with_out_of_order_calls();
 }
 
-bool Support::has_data(const String& name)
+bool Support::has_data(StringView name)
 {
   return impl_->data_.get_value_by_name(name) != nullptr;
 }
 
-NamedValue* Support::retrieve_data_from_store(const String& name)
+NamedValue* Support::retrieve_data_from_store(StringView name)
 {
   NamedValue* new_data = impl_->data_.get_value_by_name(name);
   if (new_data == nullptr) {
@@ -410,91 +410,87 @@ NamedValue* Support::retrieve_data_from_store(const String& name)
   return new_data;
 }
 
-void Support::set_data(const String& name, bool value)
+void Support::set_data(StringView name, bool value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, unsigned int value)
+void Support::set_data(StringView name, unsigned int value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, int value)
+void Support::set_data(StringView name, int value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, long int value)
+void Support::set_data(StringView name, long int value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, unsigned long int value)
+void Support::set_data(StringView name, unsigned long int value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, const char* value)
+void Support::set_data(StringView name, const char* value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, double value)
+void Support::set_data(StringView name, double value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, void* value)
+void Support::set_data(StringView name, void* value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, const void* value)
+void Support::set_data(StringView name, const void* value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, long long value)
+void Support::set_data(StringView name, long long value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, unsigned long long value)
+void Support::set_data(StringView name, unsigned long long value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data(const String& name, FunctionPointerValue value)
+void Support::set_data(StringView name, FunctionPointerValue value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_value(value);
 }
 
-void Support::set_data_object(
-    const String& name,
-    const String& type,
-    void* value
-)
+void Support::set_data_object(StringView name, StringView type, void* value)
 {
   NamedValue* new_data = retrieve_data_from_store(name);
   new_data->set_object_pointer(type, value);
 }
 
 void Support::set_data_const_object(
-    const String& name,
-    const String& type,
+    StringView name,
+    StringView type,
     const void* value
 )
 {
@@ -502,7 +498,7 @@ void Support::set_data_const_object(
   new_data->set_const_object_pointer(type, value);
 }
 
-NamedValue Support::get_data(const String& name)
+NamedValue Support::get_data(StringView name)
 {
   NamedValue* value = impl_->data_.get_value_by_name(name);
   if (value == nullptr)
@@ -510,7 +506,7 @@ NamedValue Support::get_data(const String& name)
   return *value;
 }
 
-Support* Support::clone(const String& mock_name)
+Support* Support::clone(StringView mock_name)
 {
   auto* new_mock = new Support(mock_name);
   new_mock->set_mock_failure_standard_reporter(impl_->standard_reporter_);
@@ -530,10 +526,10 @@ Support* Support::clone(const String& mock_name)
   return new_mock;
 }
 
-Support* Support::get_mock_support_scope(const String& name)
+Support* Support::get_mock_support_scope(StringView name)
 {
   String mocking_support_name = MOCK_SUPPORT_SCOPE_PREFIX;
-  mocking_support_name += name;
+  mocking_support_name += name.c_str();
 
   if (has_data(mocking_support_name)) {
     STRCMP_EQUAL("Support", get_data(mocking_support_name).get_type().c_str());

@@ -24,6 +24,7 @@
 
 #include "mu/tiny/test/Plugin.hpp"
 
+#include "mu/tiny/StringView.hpp"
 #include "mu/tiny/export.h"
 
 namespace mu {
@@ -76,7 +77,7 @@ public:
    * @param comparator  Comparator whose lifetime must exceed this plugin.
    */
   virtual void install_comparator(
-      const String& name,
+      StringView name,
       NamedValueComparator& comparator
   );
 
@@ -86,7 +87,7 @@ public:
    * @param name    Type name key.
    * @param copier  Copier whose lifetime must exceed this plugin.
    */
-  virtual void install_copier(const String& name, NamedValueCopier& copier);
+  virtual void install_copier(StringView name, NamedValueCopier& copier);
 
   /** @brief Remove all registered comparators and copiers from this plugin. */
   void clear();

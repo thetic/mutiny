@@ -1,5 +1,7 @@
 #include "mu/tiny/mock/NamedValueList.hpp"
 
+#include "mu/tiny/StringView.hpp"
+
 namespace mu {
 namespace tiny {
 namespace mock {
@@ -30,12 +32,12 @@ NamedValueListNode::NamedValueListNode(NamedValue* new_value)
 {
 }
 
-String NamedValueListNode::get_name() const
+const String& NamedValueListNode::get_name() const
 {
   return data_->get_name();
 }
 
-String NamedValueListNode::get_type() const
+StringView NamedValueListNode::get_type() const
 {
   return data_->get_type();
 }
@@ -63,7 +65,7 @@ void NamedValueList::add(NamedValue* new_value)
   }
 }
 
-NamedValue* NamedValueList::get_value_by_name(const String& name)
+NamedValue* NamedValueList::get_value_by_name(StringView name)
 {
   for (NamedValueListNode* p = head_; p; p = p->next())
     if (p->get_name() == name)

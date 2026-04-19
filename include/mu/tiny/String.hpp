@@ -46,6 +46,8 @@
 namespace mu {
 namespace tiny {
 
+class StringView;
+
 #if MUTINY_USE_STD_STRING
 /**
  * @brief String type used throughout the mutiny framework.
@@ -72,6 +74,10 @@ class MUTINY_EXPORT String
 public:
   /** @brief Construct from a NUL-terminated C string (default: empty). */
   String(const char* value = "");
+  /** @brief Construct from a pointer and an explicit byte count. */
+  String(const char* value, size_t len);
+  /** @brief Construct a copy from a @ref StringView (explicit; allocates). */
+  explicit String(StringView value);
   /**
    * @brief Construct a string of @p count copies of character @p ch.
    *
@@ -97,6 +103,8 @@ public:
   String& operator+=(const char*);
   /** @brief Append a single character and return a reference to this string. */
   String& operator+=(char ch);
+  /** @brief Append the contents of a @ref StringView. */
+  String& operator+=(StringView sv);
 
   /** @brief Sentinel value returned by `find()` when no match is found. */
   static constexpr size_t npos = static_cast<size_t>(-1);
@@ -317,6 +325,9 @@ MUTINY_EXPORT String string_from(double value, int precision = 6);
 
 /** @brief Return a copy of @p other as a String. */
 MUTINY_EXPORT String string_from(const String& other);
+
+/** @brief Construct a String from a @ref StringView. */
+MUTINY_EXPORT String string_from(StringView value);
 
 /** @brief Return the string representation of a null pointer constant. */
 MUTINY_EXPORT String string_from(decltype(nullptr) value);

@@ -32,6 +32,7 @@ add_executable(mutiny_test
     src/Preprocessor.test.cpp
     src/SetPointerPlugin.test.cpp
     src/String.test.cpp
+    src/StringView.test.cpp
     src/TestFailure.test.cpp
     src/TestFailureNaN.test.cpp
     src/TestFilter.test.cpp

@@ -56,7 +56,7 @@ public:
    *
    * @param mock_name  Scope name; empty string means the global scope.
    */
-  Support(const String& mock_name = "");
+  Support(StringView mock_name = "");
   virtual ~Support();
 
   /**
@@ -76,7 +76,7 @@ public:
    *         mu::tiny::mock::ExpectedCall::with_parameter() and @ref
    *         mu::tiny::mock::ExpectedCall::and_return_value() constraints.
    */
-  virtual ExpectedCall& expect_one_call(const String& function_name);
+  virtual ExpectedCall& expect_one_call(StringView function_name);
 
   /**
    * @brief Assert that @p function_name is never called.
@@ -86,7 +86,7 @@ public:
    *
    * @param function_name  Function that must not be called.
    */
-  virtual void expect_no_call(const String& function_name);
+  virtual void expect_no_call(StringView function_name);
 
   /**
    * @brief Expect exactly @p amount calls to @p function_name.
@@ -98,7 +98,7 @@ public:
    */
   virtual ExpectedCall& expect_n_calls(
       unsigned int amount,
-      const String& function_name
+      StringView function_name
   );
 
   /**
@@ -155,7 +155,7 @@ public:
    * @param name  Data key.
    * @return true if set_data() was previously called with @p name.
    */
-  bool has_data(const String& name);
+  bool has_data(StringView name);
 
   /**
    * @brief Store a bool value under @p name for retrieval across mock calls.
@@ -163,84 +163,84 @@ public:
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, bool value);
+  void set_data(StringView name, bool value);
 
   /**
    * @brief Store an int value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, int value);
+  void set_data(StringView name, int value);
 
   /**
    * @brief Store an unsigned int value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, unsigned int value);
+  void set_data(StringView name, unsigned int value);
 
   /**
    * @brief Store a long int value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, long int value);
+  void set_data(StringView name, long int value);
 
   /**
    * @brief Store an unsigned long int value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, unsigned long int value);
+  void set_data(StringView name, unsigned long int value);
 
   /**
    * @brief Store a string value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, const char* value);
+  void set_data(StringView name, const char* value);
 
   /**
    * @brief Store a double value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, double value);
+  void set_data(StringView name, double value);
 
   /**
    * @brief Store a void* value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, void* value);
+  void set_data(StringView name, void* value);
 
   /**
    * @brief Store a const void* value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, const void* value);
+  void set_data(StringView name, const void* value);
 
   /**
    * @brief Store a long long value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, long long value);
+  void set_data(StringView name, long long value);
 
   /**
    * @brief Store an unsigned long long value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, unsigned long long value);
+  void set_data(StringView name, unsigned long long value);
 
   /**
    * @brief Store a function pointer value.
    * @param name Key.
    * @param value Value.
    */
-  void set_data(const String& name, FunctionPointerValue value);
+  void set_data(StringView name, FunctionPointerValue value);
 
   /**
    * @brief Store a mutable object pointer with a type name.
@@ -249,7 +249,7 @@ public:
    * @param type   Type name string (used for display on failure).
    * @param value  Pointer to the object.
    */
-  void set_data_object(const String& name, const String& type, void* value);
+  void set_data_object(StringView name, StringView type, void* value);
 
   /**
    * @brief Store a const object pointer with a type name.
@@ -259,8 +259,8 @@ public:
    * @param value  Const pointer to the object.
    */
   void set_data_const_object(
-      const String& name,
-      const String& type,
+      StringView name,
+      StringView type,
       const void* value
   );
 
@@ -271,7 +271,7 @@ public:
    * @return The stored NamedValue; type is undefined if @p name was not
    * set.
    */
-  NamedValue get_data(const String& name);
+  NamedValue get_data(StringView name);
 
   /**
    * @brief Get (or create) a named child scope.
@@ -282,7 +282,7 @@ public:
    * @param name  Scope name.
    * @return Pointer to the child Support scope.
    */
-  Support* get_mock_support_scope(const String& name);
+  Support* get_mock_support_scope(StringView name);
 
   /**
    * @return A C string containing all traced call output, or empty string if
@@ -371,7 +371,7 @@ public:
    * @param comparator  Comparator whose lifetime must exceed the test.
    */
   virtual void install_comparator(
-      const String& type_name,
+      StringView type_name,
       NamedValueComparator& comparator
   );
 
@@ -384,10 +384,7 @@ public:
    * @param type_name  Type name string.
    * @param copier     Copier whose lifetime must exceed the test.
    */
-  virtual void install_copier(
-      const String& type_name,
-      NamedValueCopier& copier
-  );
+  virtual void install_copier(StringView type_name, NamedValueCopier& copier);
 
   /**
    * @brief Install all comparators and copiers from a repository at once.
@@ -404,7 +401,7 @@ public:
 
 protected:
   /** @brief Create a child Support scope with the given name. */
-  Support* clone(const String& mock_name);
+  Support* clone(StringView mock_name);
 
   /** @brief Factory method for the actual-call object (override in tests). */
   virtual CheckedActualCall* create_actual_call();
@@ -432,14 +429,14 @@ private:
   void fail_test_with_expected_calls_not_fulfilled();
   void fail_test_with_out_of_order_calls();
 
-  NamedValue* retrieve_data_from_store(const String& name);
+  NamedValue* retrieve_data_from_store(StringView name);
 
   Support* get_mock_support(NamedValueListNode* node);
 
-  bool call_is_ignored(const String& function_name);
+  bool call_is_ignored(StringView function_name);
   bool has_calls_out_of_order();
 
-  String append_scope_to_name(const String& function_name);
+  String append_scope_to_name(StringView function_name);
 };
 
 /**
@@ -454,7 +451,7 @@ private:
  * @return Reference to the Support for the requested scope.
  */
 MUTINY_EXPORT Support& mock(
-    const String& mock_name = "",
+    StringView mock_name = "",
     FailureReporter* failure_reporter_for_this_call = nullptr
 );
 
