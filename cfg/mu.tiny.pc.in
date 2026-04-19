@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+Name: mu.tiny
+Description: mu::tiny C++ unit testing and mocking framework
+URL: https://github.com/thetic/mu.tiny
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lmutiny
+Cflags: -I${includedir}
