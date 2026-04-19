@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Changelog" href="changelog.html"><link rel="prev" title="Typedef MutinyMockTypeValueToStringFunction" href="api/typedef_mock_8h_1aaec1a1431ce09467b8f7cdd8d04e2eb7.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="prev" title="Contributing to mu::tiny" href="contributing.html">
         <link rel="prefetch" href="_static/logo.png" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Contributing to mu::tiny - mu::tiny</title>
+        <title>Changelog - mu::tiny</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=7cde69a9" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -556,12 +556,12 @@
 </li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contributing</span></p>
-<ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Contributing to <em>mu::tiny</em></a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to <em>mu::tiny</em></a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Release History</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Changelog</a></li>
 </ul>
 
 </div></div>
@@ -580,12 +580,12 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/main/docs/contributing.rst?plain=true" title="View this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/main/docs/changelog.rst?plain=true" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
 </div><div class="edit-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/main/docs/contributing.rst" rel="edit" title="Edit this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/main/docs/changelog.rst" rel="edit" title="Edit this page">
     <svg><use href="#svg-pencil"></use></svg>
     <span class="visually-hidden">Edit this page</span>
   </a>
@@ -602,129 +602,93 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="contributing-to-mu-tiny">
-<h1>Contributing to <em>mu::tiny</em><a class="headerlink" href="#contributing-to-mu-tiny" title="Link to this heading">¶</a></h1>
-<section id="building-for-development">
-<h2>Building for Development<a class="headerlink" href="#building-for-development" title="Link to this heading">¶</a></h2>
-<p>Each preset writes to its own directory (<code class="docutils literal notranslate"><span class="pre">build/&lt;preset&gt;</span></code>), so you can have multiple build trees simultaneously:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--preset<span class="w"> </span>GNU<span class="w">    </span><span class="c1"># configure</span>
-cmake<span class="w"> </span>--build<span class="w"> </span>--preset<span class="w"> </span>GNU
-ctest<span class="w"> </span>--preset<span class="w"> </span>GNU
-</pre></div>
-</div>
-<p>Or run the full configure → build → test cycle in one command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>--workflow<span class="w"> </span>--preset<span class="w"> </span>GNU
-</pre></div>
-</div>
-<p>Other useful presets: <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">asan</span></code>, <code class="docutils literal notranslate"><span class="pre">coverage</span></code>, <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code>, <code class="docutils literal notranslate"><span class="pre">no-std-cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">no-rtti</span></code>, <code class="docutils literal notranslate"><span class="pre">no-exceptions</span></code>.</p>
-<p>Running a single test binary directly (supports <code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">-g</span></code>, <code class="docutils literal notranslate"><span class="pre">-n</span></code>):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/GNU/tests/mutiny_test<span class="w"> </span>-v
-./build/GNU/tests/mutiny_test<span class="w"> </span>-g<span class="w"> </span>String<span class="w"> </span>-n<span class="w"> </span>Contains
-</pre></div>
-</div>
-</section>
-<section id="code-formatting">
-<h2>Code Formatting<a class="headerlink" href="#code-formatting" title="Link to this heading">¶</a></h2>
-<p>All C/C++ files must be formatted with <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> before committing. Format all staged files:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>ls-files<span class="w"> </span><span class="s1">&#39;*.cpp&#39;</span><span class="w"> </span><span class="s1">&#39;*.h&#39;</span><span class="w"> </span><span class="s1">&#39;*.c&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>xargs<span class="w"> </span>clang-format<span class="w"> </span>-i
-</pre></div>
-</div>
-<p>The style is <code class="docutils literal notranslate"><span class="pre">BasedOnStyle:</span> <span class="pre">Mozilla</span></code> with include-regroup and a few overrides — see <code class="docutils literal notranslate"><span class="pre">.clang-format</span></code>. <strong>Do not run <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> on <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> files</strong> — it has no CMake parser and will mangle the syntax.</p>
-</section>
-<section id="c-conventions">
-<h2>C++ Conventions<a class="headerlink" href="#c-conventions" title="Link to this heading">¶</a></h2>
-<p>These are enforced by CI via <code class="docutils literal notranslate"><span class="pre">clang-tidy</span></code> and code review:</p>
-<ul class="simple">
-<li><p><strong>Anonymous namespaces</strong> instead of file-scope <code class="docutils literal notranslate"><span class="pre">static</span></code> in <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> files (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rs-unnamed2">SF.22</a>).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">using</span></code></strong> instead of <code class="docutils literal notranslate"><span class="pre">typedef</span></code> (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#rt-using">T.43</a>). Function pointer form: <code class="docutils literal notranslate"><span class="pre">using</span> <span class="pre">F</span> <span class="pre">=</span> <span class="pre">void</span> <span class="pre">(*)()</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">auto</span></code></strong> to avoid repeating the type when the LHS type equals the RHS constructed type (<a class="reference external" href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#res-auto">ES.11</a>). Use <code class="docutils literal notranslate"><span class="pre">auto*</span></code> for pointer types; bare <code class="docutils literal notranslate"><span class="pre">auto</span></code> for function pointer casts. Skip the polymorphic base-pointer pattern (<code class="docutils literal notranslate"><span class="pre">Base*</span> <span class="pre">p</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">Derived(...)</span></code>) — that is intentional.</p></li>
-<li><p><strong>Include guards</strong>: <code class="docutils literal notranslate"><span class="pre">INCLUDED_MU_TINY_&lt;NAME&gt;_HPP</span></code> / <code class="docutils literal notranslate"><span class="pre">INCLUDED_MU_TINY_&lt;NAME&gt;_H</span></code>.</p></li>
-</ul>
-</section>
-<section id="c-standard">
-<h2>C++ Standard<a class="headerlink" href="#c-standard" title="Link to this heading">¶</a></h2>
-<p>The minimum supported standard is <strong>C++11</strong>. Library code must compile cleanly under C++11 through C++23; do not rely on features introduced after C++11 without a version guard.</p>
-</section>
-<section id="standard-library-policy">
-<h2>Standard Library Policy<a class="headerlink" href="#standard-library-policy" title="Link to this heading">¶</a></h2>
-<p>Library code (anything under <code class="docutils literal notranslate"><span class="pre">include/mu/tiny/</span></code> and <code class="docutils literal notranslate"><span class="pre">src/</span></code>) must compile with and without the C++ standard library.
-The <code class="docutils literal notranslate"><span class="pre">no-std-cpp</span></code> preset enforces this.
-This means <code class="docutils literal notranslate"><span class="pre">&lt;type_traits&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;utility&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">std::enable_if</span></code>, and similar are off-limits in library headers and source unless guarded by <code class="docutils literal notranslate"><span class="pre">MUTINY_USE_STD_CPP_LIB</span></code>.</p>
-</section>
-<section id="warnings-policy">
-<h2>Warnings Policy<a class="headerlink" href="#warnings-policy" title="Link to this heading">¶</a></h2>
-<p>The CI presets enable <code class="docutils literal notranslate"><span class="pre">-Werror</span></code>. All warnings must be clean across all presets before a change is ready.
-Warning flags are defined in <code class="docutils literal notranslate"><span class="pre">cfg/warnings.cmake</span></code>.
-New warning flags are checked for compiler support before being applied.</p>
-</section>
-<section id="adding-tests">
-<h2>Adding Tests<a class="headerlink" href="#adding-tests" title="Link to this heading">¶</a></h2>
-<p>All new code must have test coverage. Tests live in <code class="docutils literal notranslate"><span class="pre">tests/src/</span></code>. Each test file maps 1-to-1 with the header it tests (<code class="docutils literal notranslate"><span class="pre">foo.test.cpp</span></code> tests <code class="docutils literal notranslate"><span class="pre">foo.hpp</span></code>). One <code class="docutils literal notranslate"><span class="pre">TEST_GROUP</span></code> per file, named after the file’s basename.</p>
-<p>When testing framework internals (behaviors that are supposed to fail), use <code class="docutils literal notranslate"><span class="pre">TestingFixture</span></code> to run a nested test scenario rather than making your outer test fail.</p>
-</section>
-<section id="file-and-header-organization">
-<h2>File and Header Organization<a class="headerlink" href="#file-and-header-organization" title="Link to this heading">¶</a></h2>
-<ul class="simple">
-<li><p>C++ headers: <code class="docutils literal notranslate"><span class="pre">.hpp</span></code>; C interface headers: <code class="docutils literal notranslate"><span class="pre">.h</span></code></p></li>
-<li><p>Test files: <code class="docutils literal notranslate"><span class="pre">X.test.cpp</span></code> / <code class="docutils literal notranslate"><span class="pre">X.test.c</span></code></p></li>
-<li><p>One class per header unless the class is very small</p></li>
-<li><p>A single <code class="docutils literal notranslate"><span class="pre">.cpp</span></code> may implement both the C++ and C headers for the same module</p></li>
-</ul>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h2>
-<p>User-facing features must be documented in <code class="docutils literal notranslate"><span class="pre">docs/</span></code>. The docs are written in reStructuredText (<code class="docutils literal notranslate"><span class="pre">.rst</span></code>) and built with Sphinx. Run <code class="docutils literal notranslate"><span class="pre">uv</span> <span class="pre">run</span> <span class="pre">--project</span> <span class="pre">docs</span> <span class="pre">sphinx-build</span> <span class="pre">docs</span> <span class="pre">docs/_build</span></code> to preview locally (<a class="reference external" href="https://docs.astral.sh/uv/">uv</a> is a fast Python package manager; install it first if needed).</p>
-</section>
-<section id="submitting-changes">
-<h2>Submitting Changes<a class="headerlink" href="#submitting-changes" title="Link to this heading">¶</a></h2>
-<ol class="arabic simple">
-<li><p>Make sure all existing builds pass.</p></li>
-<li><p>Make sure new code is covered by tests.</p></li>
-<li><p>Document any user-facing changes in <code class="docutils literal notranslate"><span class="pre">docs/</span></code>.</p></li>
-<li><p>Format all changed files with <code class="docutils literal notranslate"><span class="pre">clang-format</span></code> (see above).</p></li>
-<li><p>Keep commits focused — one logical change per commit.</p></li>
-<li><p>Commit messages should describe <em>why</em>, not just <em>what</em>.</p></li>
-</ol>
-</section>
-<section id="semantic-versioning">
-<h2>Semantic Versioning<a class="headerlink" href="#semantic-versioning" title="Link to this heading">¶</a></h2>
-<p>This project follows <a class="reference external" href="https://semver.org/">Semantic Versioning 2.0.0</a>.
-The version is defined in the <code class="docutils literal notranslate"><span class="pre">cfg/VERSION</span></code> file and is used to generate the version header <code class="docutils literal notranslate"><span class="pre">mu/tiny/test/version.hpp</span></code>.</p>
-<section id="incrementing-the-version">
-<h3>Incrementing the Version<a class="headerlink" href="#incrementing-the-version" title="Link to this heading">¶</a></h3>
-<ul class="simple">
-<li><p><strong>MAJOR</strong> version: Incompatible source API changes.</p>
+          <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<section id="release-v0-5-0">
+<h2>v0.5.0<a class="headerlink" href="#release-v0-5-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2026-04-18 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.5.0">GitHub</a></em></p>
+<h2>Breaking Changes</h2>
 <ul>
-<li><p>Examples: Removing or renaming public headers/functions/classes, changing function signatures in <code class="docutils literal notranslate"><span class="pre">include/mu/tiny/</span></code>, dropping support for a C++ standard version (e.g., C++11 to C++14).</p></li>
+<li>Include paths renamed: <code>#include &lt;mutiny/...&gt;</code> → <code>#include &lt;mu/tiny/...&gt;</code></li>
+<li>CMake package renamed: <code>find_package(mutiny)</code> → <code>find_package(mu.tiny)</code></li>
+<li>CMake module renamed: <code>Mutiny</code> → <code>mu.tiny</code></li>
+<li>CMake export target renamed: <code>mutiny::mutiny</code> → <code>mu::tiny</code></li>
 </ul>
-</li>
-<li><p><strong>MINOR</strong> version: Backwards compatible functionality.</p>
+<h2>JUnit Output</h2>
 <ul>
-<li><p>Examples: Adding new classes/functions/macros to the public API.</p></li>
-</ul>
-</li>
-<li><p><strong>PATCH</strong> version: Backwards compatible bug fixes.</p>
+<li>All test groups now wrapped in a single <code>&lt;testsuites&gt;</code> aggregate XML file,<br>
+eliminating per-group ctest collisions</li>
+<li>File paths in failure <code>message=""</code> attributes are now XML-encoded</li>
+<li>Empty <code>&lt;testsuites&gt;</code> elements are suppressed</li>
+</ul></section>
+<section id="release-v0-4-0">
+<h2>v0.4.0<a class="headerlink" href="#release-v0-4-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2026-04-16 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.4.0">GitHub</a></em></p>
+<h2>Breaking Changes</h2>
 <ul>
-<li><p>Examples: Internal logic fixes, performance improvements, documentation.</p></li>
+<li><code>TEST_EXIT</code> renamed to <code>PASS_TEST()</code> — now requires parentheses, consistent with <code>FAIL_TEST(text)</code> and <code>SKIP_TEST(text)</code></li>
+<li><code>FAIL()</code> removed — use <code>FAIL_TEST("")</code> instead</li>
+<li><code>FAIL_TEXT(text)</code> renamed to <code>FAIL_TEST(text)</code> in the C interface — now matches the C++ name</li>
+<li><code>IGNORE_TEST</code> renamed to <code>SKIPPED_TEST</code> — reflects the actual JUnit outcome</li>
+<li><code>IGNORE_TEST_C_WRAPPER</code> renamed to <code>SKIPPED_TEST_C_WRAPPER</code></li>
+<li><code>EXPECT_FAIL_TEST</code> renamed to <code>XFAIL_TEST</code> — follows xUnit convention, removes <code>FAIL_TEST</code> substring</li>
+<li><code>EXPECT_FAIL_TEST_C_WRAPPER</code> renamed to <code>XFAIL_TEST_C_WRAPPER</code></li>
 </ul>
-</li>
+<h2>New Features</h2>
+<ul>
+<li><code>SKIP_TEST(text)</code> — new macro that marks the current test as skipped with a human-readable message, reported as <code>&lt;skipped message="..."/&gt;</code> in JUnit XML output</li>
+<li>JUnit XML <code>&lt;testsuite&gt;</code> now includes <code>skipped=""</code> and <code>assertions=""</code> attributes per spec; empty <code>&lt;properties&gt;</code> block removed</li>
+</ul></section>
+<section id="release-v0-2-0">
+<h2>v0.2.0<a class="headerlink" href="#release-v0-2-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2026-04-14 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.2.0">GitHub</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>CI: apply semver rules to ABI compatibility check by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4214958290" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/44" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/44/hovercard" href="https://github.com/thetic/mu.tiny/pull/44">#44</a></li>
+<li>Replace type-specific *_EQUAL macros with typed CHECK_EQUAL by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4209851581" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/40" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/40/hovercard" href="https://github.com/thetic/mu.tiny/pull/40">#40</a></li>
+<li>stop casting literals by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4215232424" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/45" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/45/hovercard" href="https://github.com/thetic/mu.tiny/pull/45">#45</a></li>
+<li>Readme by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208877835" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/36" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/36/hovercard" href="https://github.com/thetic/mu.tiny/pull/36">#36</a></li>
+<li>Reorganize cmake module tests into subdirectories by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4251044612" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/47" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/47/hovercard" href="https://github.com/thetic/mu.tiny/pull/47">#47</a></li>
+<li>Promote TEST_ORDERED to first-class interface by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4251064566" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/48" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/48/hovercard" href="https://github.com/thetic/mu.tiny/pull/48">#48</a></li>
+<li>Fix FE_INEXACT test on ARM: use float arithmetic to engage hardware FPU by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4258635835" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/50" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/50/hovercard" href="https://github.com/thetic/mu.tiny/pull/50">#50</a></li>
+<li>Record TEST_GROUP source locations for cmake-tools integration by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4257881957" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/49" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/49/hovercard" href="https://github.com/thetic/mu.tiny/pull/49">#49</a></li>
+<li>Templatize ApproxEqualFailure and assert_approx_equal by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4258749712" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/51" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/51/hovercard" href="https://github.com/thetic/mu.tiny/pull/51">#51</a></li>
+<li>Add versioned documentation deployment to GitHub Pages by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4259172360" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/52" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/52/hovercard" href="https://github.com/thetic/mu.tiny/pull/52">#52</a></li>
 </ul>
-</section>
-<section id="enforcement">
-<h3>Enforcement<a class="headerlink" href="#enforcement" title="Link to this heading">¶</a></h3>
-<p>Before submitting a pull request, please consider if your changes require a version bump.
-Reviewers will check for breaking changes to ensure the MAJOR version is incremented if necessary.</p>
-</section>
-</section>
-<section id="creating-a-release">
-<h2>Creating a Release<a class="headerlink" href="#creating-a-release" title="Link to this heading">¶</a></h2>
-<ol class="arabic simple">
-<li><p>Update the <code class="docutils literal notranslate"><span class="pre">cfg/VERSION</span></code> file with the new version number.</p></li>
-<li><p>Merge to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
-<li><p>Create a GitHub release tagged <code class="docutils literal notranslate"><span class="pre">v&lt;version&gt;</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">v1.2.3</span></code>).</p></li>
-</ol>
-<p>CI will automatically generate a source archive and attach it to the release.</p>
-</section>
+<p><strong>Full Changelog</strong>: <a class="commit-link" href="https://github.com/thetic/mu.tiny/compare/v0.1.0...v0.2.0"><tt>v0.1.0...v0.2.0</tt></a></p></section>
+<section id="release-v0-1-0">
+<h2>v0.1.0<a class="headerlink" href="#release-v0-1-0" title="Link to this heading">¶</a></h2>
+<p><em>Released on 2026-04-07 - <a class="reference external" href="https://github.com/thetic/mu.tiny/releases/tag/v0.1.0">GitHub</a></em></p>
+<h2>What's Changed</h2>
+<ul>
+<li>Build: shared library support by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4162970470" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/15" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/15/hovercard" href="https://github.com/thetic/mu.tiny/pull/15">#15</a></li>
+<li>CI: configure CPack source archive and release workflow by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4163078044" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/16" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/16/hovercard" href="https://github.com/thetic/mu.tiny/pull/16">#16</a></li>
+<li>Bump sphinx from 8.2.3 to 9.1.0 in /docs by <a class="user-mention notranslate" data-hovercard-type="organization" data-hovercard-url="/orgs/dependabot/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/dependabot">@dependabot</a>[bot] in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4162089064" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/6" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/6/hovercard" href="https://github.com/thetic/mu.tiny/pull/6">#6</a></li>
+<li>CI: move C naming-convention checks into src/.clang-tidy by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4166102925" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/22" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/22/hovercard" href="https://github.com/thetic/mu.tiny/pull/22">#22</a></li>
+<li>Eliminate reliance on -funwind-tables by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4163237735" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/18" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/18/hovercard" href="https://github.com/thetic/mu.tiny/pull/18">#18</a></li>
+<li>Resolve bugprone-throwing-static-initialization warnings by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4165625185" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/20" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/20/hovercard" href="https://github.com/thetic/mu.tiny/pull/20">#20</a></li>
+<li>Fix CI failures and warnings by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208322945" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/27" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/27/hovercard" href="https://github.com/thetic/mu.tiny/pull/27">#27</a></li>
+<li>Adopt stdint.h types for portability by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4206164210" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/25" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/25/hovercard" href="https://github.com/thetic/mu.tiny/pull/25">#25</a></li>
+<li>Delete vestigial macros by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4166589274" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/23" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/23/hovercard" href="https://github.com/thetic/mu.tiny/pull/23">#23</a></li>
+<li>Bump astral-sh/setup-uv from 5 to 7 by <a class="user-mention notranslate" data-hovercard-type="organization" data-hovercard-url="/orgs/dependabot/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/dependabot">@dependabot</a>[bot] in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4162088561" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/1" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/1/hovercard" href="https://github.com/thetic/mu.tiny/pull/1">#1</a></li>
+<li>Bump jidicula/clang-format-action from 4.17.0 to 4.18.0 by <a class="user-mention notranslate" data-hovercard-type="organization" data-hovercard-url="/orgs/dependabot/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/dependabot">@dependabot</a>[bot] in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4162088632" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/2" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/2/hovercard" href="https://github.com/thetic/mu.tiny/pull/2">#2</a></li>
+<li>Fix duplicate CI runs on branches with open PRs by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208393750" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/28" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/28/hovercard" href="https://github.com/thetic/mu.tiny/pull/28">#28</a></li>
+<li>CI: use cmake --workflow presets where possible by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4163092706" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/17" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/17/hovercard" href="https://github.com/thetic/mu.tiny/pull/17">#17</a></li>
+<li>Docs: Doxygen annotations, RST cross-references, and linkcode source buttons by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4165625625" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/21" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/21/hovercard" href="https://github.com/thetic/mu.tiny/pull/21">#21</a></li>
+<li>Add badges to README by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208534321" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/32" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/32/hovercard" href="https://github.com/thetic/mu.tiny/pull/32">#32</a></li>
+<li>Remove redundant issue name prefixes by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208876083" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/35" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/35/hovercard" href="https://github.com/thetic/mu.tiny/pull/35">#35</a></li>
+<li>cmake: support FetchContent + find_package consumption by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208805039" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/34" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/34/hovercard" href="https://github.com/thetic/mu.tiny/pull/34">#34</a></li>
+<li>Style project name as italic Mu::tiny in documentation by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4208781914" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/33" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/33/hovercard" href="https://github.com/thetic/mu.tiny/pull/33">#33</a></li>
+<li>Skip check_source_runs when binaries can't run by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4209184902" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/37" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/37/hovercard" href="https://github.com/thetic/mu.tiny/pull/37">#37</a></li>
+<li>Actually run FEDemo tests by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4209268121" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/38" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/38/hovercard" href="https://github.com/thetic/mu.tiny/pull/38">#38</a></li>
+<li>Cfg by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4209389755" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/39" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/39/hovercard" href="https://github.com/thetic/mu.tiny/pull/39">#39</a></li>
+<li>CPack: CI test and git revision embedding for source archives by <a class="user-mention notranslate" data-hovercard-type="user" data-hovercard-url="/users/thetic/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/thetic">@thetic</a> in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4214931005" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/43" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/43/hovercard" href="https://github.com/thetic/mu.tiny/pull/43">#43</a></li>
+</ul>
+<h2>New Contributors</h2>
+<ul>
+<li><a class="user-mention notranslate" data-hovercard-type="organization" data-hovercard-url="/orgs/dependabot/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/dependabot">@dependabot</a>[bot] made their first contribution in <a class="issue-link js-issue-link" data-error-text="Failed to load title" data-id="4162089064" data-permission-text="Title is private" data-url="https://github.com/thetic/mu.tiny/issues/6" data-hovercard-type="pull_request" data-hovercard-url="/thetic/mu.tiny/pull/6/hovercard" href="https://github.com/thetic/mu.tiny/pull/6">#6</a></li>
+</ul>
+<p><strong>Full Changelog</strong>: <a href="https://github.com/thetic/mutiny/commits/v0.1.0">https://github.com/thetic/mutiny/commits/v0.1.0</a></p></section>
 </section>
 
         </article>
@@ -732,23 +696,15 @@ Reviewers will check for breaking changes to ensure the MAJOR version is increme
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="changelog.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Changelog</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="api/typedef_mock_8h_1aaec1a1431ce09467b8f7cdd8d04e2eb7.html">
+          
+          <a class="prev-page" href="contributing.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Typedef MutinyMockTypeValueToStringFunction</div>
+                <div class="title">Contributing to <em>mu::tiny</em></div>
                 
               </div>
             </a>
@@ -785,23 +741,11 @@ Reviewers will check for breaking changes to ensure the MAJOR version is increme
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Contributing to <em>mu::tiny</em></a><ul>
-<li><a class="reference internal" href="#building-for-development">Building for Development</a></li>
-<li><a class="reference internal" href="#code-formatting">Code Formatting</a></li>
-<li><a class="reference internal" href="#c-conventions">C++ Conventions</a></li>
-<li><a class="reference internal" href="#c-standard">C++ Standard</a></li>
-<li><a class="reference internal" href="#standard-library-policy">Standard Library Policy</a></li>
-<li><a class="reference internal" href="#warnings-policy">Warnings Policy</a></li>
-<li><a class="reference internal" href="#adding-tests">Adding Tests</a></li>
-<li><a class="reference internal" href="#file-and-header-organization">File and Header Organization</a></li>
-<li><a class="reference internal" href="#documentation">Documentation</a></li>
-<li><a class="reference internal" href="#submitting-changes">Submitting Changes</a></li>
-<li><a class="reference internal" href="#semantic-versioning">Semantic Versioning</a><ul>
-<li><a class="reference internal" href="#incrementing-the-version">Incrementing the Version</a></li>
-<li><a class="reference internal" href="#enforcement">Enforcement</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#creating-a-release">Creating a Release</a></li>
+<li><a class="reference internal" href="#">Changelog</a><ul>
+<li><a class="reference internal" href="#release-v0-5-0">v0.5.0</a></li>
+<li><a class="reference internal" href="#release-v0-4-0">v0.4.0</a></li>
+<li><a class="reference internal" href="#release-v0-2-0">v0.2.0</a></li>
+<li><a class="reference internal" href="#release-v0-1-0">v0.1.0</a></li>
 </ul>
 </li>
 </ul>
