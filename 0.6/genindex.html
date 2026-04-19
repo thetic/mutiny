@@ -271,6 +271,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="plugins.html">Plugins</a><input aria-label="Toggle navigation of Plugins" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="set-pointer-plugin.html">SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="junit-output.html">JUnit XML Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tap-output.html">TAP Output</a></li>
 </ul>
 </li>
 </ul>
@@ -352,6 +353,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html">Class TapOutputPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Terminator.html">Class Terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TerminatorWithoutExceptions.html">Class TerminatorWithoutExceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Test.html">Class Test</a></li>
@@ -698,14 +700,21 @@
 </li>
         </ul></li>
         <li>
+    -ptap
+
+        <ul>
+          <li><a href="command-line-reference.html#cmdoption-ptap">command line option</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
     -r[#]
 
         <ul>
           <li><a href="command-line-reference.html#cmdoption-r">command line option</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     -ri
 
@@ -922,8 +931,6 @@
           <li><a href="cmake.html#index-0-manual:cmake:manual:cmake-presets(7)">manual</a>
 </li>
         </ul></li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cmake:module:FetchContent
 
@@ -931,6 +938,8 @@
           <li><a href="cmake.html#index-0-module:cmake:module:FetchContent">module</a>, <a href="getting-started.html#index-0-module:cmake:module:FetchContent">[1]</a>, <a href="getting-started.html#index-1-module:cmake:module:FetchContent">[2]</a>
 </li>
         </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li>
     cmake:prop_dir:TEST_INCLUDE_FILE
 
@@ -1022,6 +1031,8 @@
           <li><a href="command-line-reference.html#cmdoption-p-plugin">-p&lt;plugin&gt;</a>
 </li>
           <li><a href="command-line-reference.html#cmdoption-pjunit">-pjunit</a>
+</li>
+          <li><a href="command-line-reference.html#cmdoption-ptap">-ptap</a>
 </li>
           <li><a href="command-line-reference.html#cmdoption-r">-r[#]</a>
 </li>
@@ -2001,14 +2012,14 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output61print_error_in_file_on_line_formatted_for_working_environmentERK6String6size_t">mu::tiny::test::Output::print_error_in_file_on_line_formatted_for_working_environment (C++ function)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output13print_failureERK7Failure">mu::tiny::test::Output::print_failure (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output21print_failure_in_testERK6String">mu::tiny::test::Output::print_failure_in_test (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output21print_failure_messageERK6String">mu::tiny::test::Output::print_failure_message (C++ function)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output31print_file_and_line_for_failureERK7Failure">mu::tiny::test::Output::print_file_and_line_for_failure (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output40print_file_and_line_for_test_and_failureERK7Failure">mu::tiny::test::Output::print_file_and_line_for_test_and_failure (C++ function)</a>
@@ -2362,6 +2373,18 @@
         <li><a href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html#_CPPv4N2mu4tiny4test24StringEqualNoCaseFailureE">mu::tiny::test::StringEqualNoCaseFailure (C++ class)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html#_CPPv4N2mu4tiny4test24StringEqualNoCaseFailure24StringEqualNoCaseFailureEP5ShellPKc6size_tPKcPKcRK6String">mu::tiny::test::StringEqualNoCaseFailure::StringEqualNoCaseFailure (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4N2mu4tiny4test15TapOutputPluginE">mu::tiny::test::TapOutputPlugin (C++ class)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4N2mu4tiny4test15TapOutputPlugin13create_outputEv">mu::tiny::test::TapOutputPlugin::create_output (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4NK2mu4tiny4test15TapOutputPlugin8get_helpEv">mu::tiny::test::TapOutputPlugin::get_help (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4N2mu4tiny4test15TapOutputPlugin4nameE">mu::tiny::test::TapOutputPlugin::name (C++ member)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4N2mu4tiny4test15TapOutputPlugin15parse_argumentsEiPPCKci">mu::tiny::test::TapOutputPlugin::parse_arguments (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html#_CPPv4N2mu4tiny4test15TapOutputPlugin15TapOutputPluginEv">mu::tiny::test::TapOutputPlugin::TapOutputPlugin (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Terminator.html#_CPPv4N2mu4tiny4test10TerminatorE">mu::tiny::test::Terminator (C++ class)</a>
 </li>
@@ -3095,7 +3118,7 @@
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
+</div><script src="_static/documentation_options.js?v=2bd037f0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

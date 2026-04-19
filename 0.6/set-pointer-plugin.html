@@ -273,6 +273,7 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="plugins.html">Plugins</a><input aria-label="Toggle navigation of Plugins" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="junit-output.html">JUnit XML Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tap-output.html">TAP Output</a></li>
 </ul>
 </li>
 </ul>
@@ -354,6 +355,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html">Class TapOutputPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Terminator.html">Class Terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1TerminatorWithoutExceptions.html">Class TerminatorWithoutExceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Test.html">Class Test</a></li>
@@ -580,12 +582,12 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/docs/set-pointer-plugin.rst?plain=true" title="View this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/docs/set-pointer-plugin.rst?plain=true" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
 </div><div class="edit-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/v0.6.0/docs/set-pointer-plugin.rst" rel="edit" title="Edit this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/v0.6.1/docs/set-pointer-plugin.rst" rel="edit" title="Edit this page">
     <svg><use href="#svg-pencil"></use></svg>
     <span class="visually-hidden">Edit this page</span>
   </a>
@@ -701,11 +703,11 @@ which is safe even in environments without <code class="docutils literal notrans
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.0/examples/tests/CheatSheet.test.cpp">CheatSheet.test.cpp</a></p></td>
+<tr class="row-even"><td><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.1/examples/tests/CheatSheet.test.cpp">CheatSheet.test.cpp</a></p></td>
 <td><p><a class="reference internal" href="api/define_SetPointerPlugin_8hpp_1ab46a6c558e87a029cffe107b358a2691.html#c.MUTINY_PTR_SET" title="MUTINY_PTR_SET"><code class="xref c c-macro docutils literal notranslate"><span class="pre">MUTINY_PTR_SET</span></code></a> swapping a function pointer in <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Test.html#_CPPv4N2mu4tiny4test4Test5setupEv" title="mu::tiny::test::Test::setup"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">setup()</span></code></a></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.0/examples/tests/hello.test.c">hello.test.c</a> +
-<a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.0/examples/tests/hello.test.cpp">hello.test.cpp</a></p></td>
+<tr class="row-odd"><td><p><a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.1/examples/tests/hello.test.c">hello.test.c</a> +
+<a class="extlink-source reference external" href="https://github.com/thetic/mu.tiny/tree/v0.6.1/examples/tests/hello.test.cpp">hello.test.cpp</a></p></td>
 <td><p>Function pointer stub pattern in C (manual save/restore instead of
 the macro, showing the underlying technique)</p></td>
 </tr>
@@ -792,7 +794,7 @@ the macro, showing the underlying technique)</p></td>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=8fa8b3e9"></script>
+</div><script src="_static/documentation_options.js?v=2bd037f0"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

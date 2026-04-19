@@ -205,6 +205,11 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_include_mu_tiny_test_TapOutputPlugin.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_include_mu_tiny_test_Terminator.hpp.rst
 
 .. toctree::

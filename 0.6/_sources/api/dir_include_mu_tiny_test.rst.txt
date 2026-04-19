@@ -36,6 +36,7 @@ Files
 - :ref:`file_include_mu_tiny_test_Shell.hpp`
 - :ref:`file_include_mu_tiny_test_ShellPointerArray.hpp`
 - :ref:`file_include_mu_tiny_test_StringBufferOutput.hpp`
+- :ref:`file_include_mu_tiny_test_TapOutputPlugin.hpp`
 - :ref:`file_include_mu_tiny_test_Terminator.hpp`
 - :ref:`file_include_mu_tiny_test_Test.hpp`
 - :ref:`file_include_mu_tiny_test_TestingFixture.hpp`

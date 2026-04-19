@@ -49,6 +49,8 @@ Included By
 
 - :ref:`file_include_mu_tiny_test_SetPointerPlugin.hpp`
 
+- :ref:`file_include_mu_tiny_test_TapOutputPlugin.hpp`
+
 
 
 

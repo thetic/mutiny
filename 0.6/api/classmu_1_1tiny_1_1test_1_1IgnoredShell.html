@@ -273,6 +273,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../plugins.html">Plugins</a><input aria-label="Toggle navigation of Plugins" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../set-pointer-plugin.html">SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../junit-output.html">JUnit XML Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tap-output.html">TAP Output</a></li>
 </ul>
 </li>
 </ul>
@@ -354,6 +355,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TapOutputPlugin.html">Class TapOutputPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Terminator.html">Class Terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1TerminatorWithoutExceptions.html">Class TerminatorWithoutExceptions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Test.html">Class Test</a></li>
@@ -580,12 +582,12 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/docs/api/classmu_1_1tiny_1_1test_1_1IgnoredShell.rst?plain=true" title="View this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/docs/api/classmu_1_1tiny_1_1test_1_1IgnoredShell.rst?plain=true" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
 </div><div class="edit-this-page">
-  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/v0.6.0/docs/api/classmu_1_1tiny_1_1test_1_1IgnoredShell.rst" rel="edit" title="Edit this page">
+  <a class="muted-link" href="https://github.com/thetic/mu.tiny/edit/v0.6.1/docs/api/classmu_1_1tiny_1_1test_1_1IgnoredShell.rst" rel="edit" title="Edit this page">
     <svg><use href="#svg-pencil"></use></svg>
     <span class="visually-hidden">Edit this page</span>
   </a>
@@ -620,20 +622,20 @@
 <h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading">¶</a></h2>
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test12IgnoredShellE">
-<span id="_CPPv3N2mu4tiny4test12IgnoredShellE"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShellE"></span><span id="mu::tiny::test::IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IgnoredShell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tiny</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">test</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5ShellE" title="mu::tiny::test::Shell"><span class="n"><span class="pre">Shell</span></span></a><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShellE" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/include/mu/tiny/test/IgnoredShell.hpp#L26"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test12IgnoredShellE"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShellE"></span><span id="mu::tiny::test::IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IgnoredShell</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">tiny</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">test</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5ShellE" title="mu::tiny::test::Shell"><span class="n"><span class="pre">Shell</span></span></a><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShellE" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/include/mu/tiny/test/IgnoredShell.hpp#L26"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html#classmu_1_1tiny_1_1test_1_1Shell"><span class="std std-ref">Shell</span></a> for a test that is skipped unless <code class="docutils literal notranslate"><span class="pre">-r</span></code> (run-ignored) is set. </p>
 <p>Used by the <a class="reference internal" href="define_test_8hpp_1ae162bf4308def7ef20e29b0941459a7b.html#test_8h_1a235cffa951470b7e037566c4f8f201f6"><span class="std std-ref">SKIPPED_TEST()</span></a> macro. The test body is still compiled and registered, but <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1IgnoredShell_1aaa73ddec56f5e491fdc75c38c65383e4"><span class="std std-ref">will_run()</span></a> returns false until <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1IgnoredShell_1af75a9f5a59d15dcb9f1dc04f1c0ab400"><span class="std std-ref">set_run_ignored()</span></a> is called. See also <a class="reference internal" href="define_test_8hpp_1aa9a57a9652aaee3afddcce59b86c1aec.html#test_8hpp_1aa9a57a9652aaee3afddcce59b86c1aec"><span class="std std-ref">SKIPPED_TEST_C_WRAPPER</span></a>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellEv">
-<span id="_CPPv3N2mu4tiny4test12IgnoredShell12IgnoredShellEv"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShell12IgnoredShellEv"></span><span id="mu::tiny::test::IgnoredShell::IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1a6b49c49e618093cf257d4592378449c4"></span><span class="sig-name descname"><span class="n"><span class="pre">IgnoredShell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/include/mu/tiny/test/IgnoredShell.hpp#L30"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test12IgnoredShell12IgnoredShellEv"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShell12IgnoredShellEv"></span><span id="mu::tiny::test::IgnoredShell::IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1a6b49c49e618093cf257d4592378449c4"></span><span class="sig-name descname"><span class="n"><span class="pre">IgnoredShell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/include/mu/tiny/test/IgnoredShell.hpp#L30"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Construct an empty ignored shell (not yet registered). </p>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test12IgnoredShellD0Ev">
-<span id="_CPPv3N2mu4tiny4test12IgnoredShellD0Ev"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShellD0Ev"></span><span id="mu::tiny::test::IgnoredShell::~IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1a664932af985ce3b9b71927df2d0ce721"></span><span class="sig-name descname"><span class="n"><span class="pre">~IgnoredShell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShellD0Ev" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/include/mu/tiny/test/IgnoredShell.hpp#L31"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test12IgnoredShellD0Ev"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShellD0Ev"></span><span id="mu::tiny::test::IgnoredShell::~IgnoredShell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1a664932af985ce3b9b71927df2d0ce721"></span><span class="sig-name descname"><span class="n"><span class="pre">~IgnoredShell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShellD0Ev" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/include/mu/tiny/test/IgnoredShell.hpp#L31"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd></dd></dl>
 
 <dl class="cpp function">
@@ -674,7 +676,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test12IgnoredShell15set_run_ignoredEv">
-<span id="_CPPv3N2mu4tiny4test12IgnoredShell15set_run_ignoredEv"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShell15set_run_ignoredEv"></span><span id="mu::tiny::test::IgnoredShell::set_run_ignored"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1af75a9f5a59d15dcb9f1dc04f1c0ab400"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_ignored</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShell15set_run_ignoredEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.0/include/mu/tiny/test/IgnoredShell.hpp#L55"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test12IgnoredShell15set_run_ignoredEv"></span><span id="_CPPv2N2mu4tiny4test12IgnoredShell15set_run_ignoredEv"></span><span id="mu::tiny::test::IgnoredShell::set_run_ignored"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1IgnoredShell_1af75a9f5a59d15dcb9f1dc04f1c0ab400"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_ignored</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test12IgnoredShell15set_run_ignoredEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/v0.6.1/include/mu/tiny/test/IgnoredShell.hpp#L55"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Enable running this test (triggered by the <code class="docutils literal notranslate"><span class="pre">-r</span></code> flag). </p>
 </dd></dl>
 
@@ -800,7 +802,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=8fa8b3e9"></script>
+</div><script src="../_static/documentation_options.js?v=2bd037f0"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
