@@ -152,6 +152,19 @@
       }
     },
     {
+      "name": "ubsan",
+      "inherits": ["Clang"],
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "MUTINY_USE_STD_STRING": false
+      },
+      "environment": {
+        "CFLAGS": "-fsanitize=undefined -fno-omit-frame-pointer",
+        "CXXFLAGS": "-fsanitize=undefined -fno-omit-frame-pointer",
+        "LDFLAGS": "-fsanitize=undefined"
+      }
+    },
+    {
       "name": "detailed",
       "inherits": ["defaults"],
       "cacheVariables": {
@@ -181,6 +194,7 @@
     { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
     { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
     { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
+    { "name": "ubsan",         "inherits": "base", "configurePreset": "ubsan" },
     { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
   "testPresets": [
@@ -209,6 +223,7 @@
     { "name": "no-exceptions", "inherits": "base", "configurePreset": "no-exceptions" },
     { "name": "asan",          "inherits": "base", "configurePreset": "asan" },
     { "name": "msan",          "inherits": "base", "configurePreset": "msan" },
+    { "name": "ubsan",         "inherits": "base", "configurePreset": "ubsan" },
     { "name": "detailed",      "inherits": "base", "configurePreset": "detailed" }
   ],
   "packagePresets": [
@@ -337,6 +352,14 @@
         { "type": "configure", "name": "msan" },
         { "type": "build",     "name": "msan" },
         { "type": "test",      "name": "msan" }
+      ]
+    },
+    {
+      "name": "ubsan",
+      "steps": [
+        { "type": "configure", "name": "ubsan" },
+        { "type": "build",     "name": "ubsan" },
+        { "type": "test",      "name": "ubsan" }
       ]
     },
     {

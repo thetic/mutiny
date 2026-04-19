@@ -163,6 +163,9 @@ jobs:
           - name: Address Sanitizer
             os: ubuntu-latest
             preset: asan
+          - name: Undefined Behavior Sanitizer
+            os: ubuntu-latest
+            preset: ubsan
           - name: Linux Shared Library
             os: ubuntu-latest
             preset: shared
