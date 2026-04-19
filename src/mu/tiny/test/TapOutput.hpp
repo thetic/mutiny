@@ -29,6 +29,8 @@ public:
   bool needs_console_companion() const override { return false; }
 
 private:
+  void clear_nodes();
+
   TapOutputImpl* impl_;
 };
 

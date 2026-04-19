@@ -23,7 +23,7 @@ class Output;
  * @brief @ref Plugin that produces TAP version 13 output on stdout.
  *
  * Install this plugin before calling
- * @ref CommandLineRunner::run_all_tests_main() to enable the @c -ptap
+ * @ref CommandLineRunner::run_all_tests() to enable the @c -ptap
  * command-line argument. When activated, @ref create_output() returns a
  * TapOutput that writes TAP to stdout, replacing the normal console output.
  * SKIP directives are emitted for ignored and skipped tests; YAML diagnostic

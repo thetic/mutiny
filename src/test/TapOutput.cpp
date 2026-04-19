@@ -72,19 +72,12 @@ TapOutput::TapOutput()
 
 TapOutput::~TapOutput()
 {
-  TapTestResultNode* cur = impl_->head;
-  while (cur) {
-    TapTestResultNode* tmp = cur->next;
-    delete cur->failure;
-    delete cur;
-    cur = tmp;
-  }
+  clear_nodes();
   delete impl_;
 }
 
-void TapOutput::print_tests_started()
+void TapOutput::clear_nodes()
 {
-  impl_->test_count = 0;
   TapTestResultNode* cur = impl_->head;
   while (cur) {
     TapTestResultNode* tmp = cur->next;
@@ -94,6 +87,12 @@ void TapOutput::print_tests_started()
   }
   impl_->head = nullptr;
   impl_->tail = nullptr;
+}
+
+void TapOutput::print_tests_started()
+{
+  impl_->test_count = 0;
+  clear_nodes();
 }
 
 void TapOutput::print_current_group_started(const Shell& /*test*/) {}
