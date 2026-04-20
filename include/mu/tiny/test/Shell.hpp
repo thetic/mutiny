@@ -418,13 +418,6 @@ private:
   Shell* next_;
   bool has_failed_;
 
-  static void set_test_result(Result* result);
-  static void set_current_test(Shell* test);
-  static bool match(const char* target, const Filter* filters);
-
-  static Shell* current_test_;
-  static Result* test_result_;
-
   static const Terminator* current_test_terminator_;
   static const Terminator* current_test_terminator_without_exceptions_;
   static bool rethrow_exceptions_;

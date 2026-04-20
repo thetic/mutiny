@@ -186,8 +186,6 @@ private:
   char* buffer_;
   size_t buffer_size_;
   size_t size_;
-
-  static char* get_empty_string();
 };
 #endif
 

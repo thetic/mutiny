@@ -116,12 +116,6 @@ private:
   size_t shuffle_seed_{ 0 };
   Filter* group_filters_{ nullptr };
   Filter* name_filters_{ nullptr };
-  static String get_parameter_field(
-      int argc,
-      const char* const* argv,
-      int& i,
-      const String& parameter_name
-  );
   void set_repeat_count(int argc, const char* const* argv, int& index);
   bool set_shuffle(int argc, const char* const* argv, int& index);
   void add_group_filter(int argc, const char* const* argv, int& index);

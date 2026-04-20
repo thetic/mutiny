@@ -10,6 +10,16 @@ namespace mu {
 namespace tiny {
 namespace test {
 
+namespace {
+bool end_of_group(Shell* test)
+{
+  return (
+      (test == nullptr) || (test->get_next() == nullptr) ||
+      test->get_group() != test->get_next()->get_group()
+  );
+}
+} // namespace
+
 Registry::Registry()
   : first_plugin_(NullPlugin::instance())
 
@@ -167,14 +177,6 @@ void Registry::list_test_group_locations(Result& result)
   }
 
   result.print(group_locations.c_str());
-}
-
-bool Registry::end_of_group(Shell* test)
-{
-  return (
-      (test == nullptr) || (test->get_next() == nullptr) ||
-      test->get_group() != test->get_next()->get_group()
-  );
 }
 
 size_t Registry::count_tests()
