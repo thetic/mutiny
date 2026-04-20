@@ -12,6 +12,24 @@ namespace tiny {
 namespace test {
 
 namespace {
+String get_parameter_field(
+    int argc,
+    const char* const* argv,
+    int& i,
+    const String& parameter_name
+)
+{
+  size_t parameter_length = parameter_name.size();
+  String parameter(argv[i]);
+  if (parameter.size() > parameter_length) {
+    return argv[i] + parameter_length;
+  }
+  if (i + 1 < argc) {
+    return argv[++i];
+  }
+  return "";
+}
+
 String sub_string_from_till(
     const String& str,
     char start_char,
@@ -418,24 +436,6 @@ bool CommandLineArguments::set_shuffle(
     }
   }
   return (shuffle_seed_ != 0);
-}
-
-String CommandLineArguments::get_parameter_field(
-    int argc,
-    const char* const* argv,
-    int& i,
-    const String& parameter_name
-)
-{
-  size_t parameter_length = parameter_name.size();
-  String parameter(argv[i]);
-  if (parameter.size() > parameter_length) {
-    return argv[i] + parameter_length;
-  }
-  if (i + 1 < argc) {
-    return argv[++i];
-  }
-  return "";
 }
 
 void CommandLineArguments::add_group_filter(

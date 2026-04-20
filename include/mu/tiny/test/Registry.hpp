@@ -190,7 +190,6 @@ public:
 
 private:
   bool test_should_run(Shell* test, Result& result);
-  static bool end_of_group(Shell* test);
 
   Shell* tests_{ nullptr };
   const Filter* name_filters_{ nullptr };

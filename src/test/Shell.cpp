@@ -96,6 +96,34 @@ const CrashingTerminatorWithoutExceptions
         CrashingTerminatorWithoutExceptions();
 
 void (*please_crash_me_right_now)() = abort;
+
+Result* test_result = nullptr;
+Shell* current_test = nullptr;
+
+bool match(const char* target, const Filter* filters)
+{
+  if (filters == nullptr) {
+    return true;
+  }
+
+  for (; filters != nullptr; filters = filters->get_next()) {
+    if (filters->match(target)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void set_test_result(Result* result)
+{
+  test_result = result;
+}
+
+void set_current_test(Shell* test)
+{
+  current_test = test;
+}
 } // namespace
 
 bool approx_equal(double d1, double d2, double threshold)
@@ -185,8 +213,8 @@ void Shell::run_one_test_in_current_process(Plugin* plugin, Result& result)
   Shell* saved_test = Shell::get_current();
   Result* saved_result = Shell::get_test_result();
 
-  Shell::set_test_result(&result);
-  Shell::set_current_test(this);
+  set_test_result(&result);
+  set_current_test(this);
 
   Test* test_to_run = nullptr;
 
@@ -201,8 +229,8 @@ void Shell::run_one_test_in_current_process(Plugin* plugin, Result& result)
     test_to_run->run();
     result.print_very_verbose("\n------ after runTest: ");
 
-    Shell::set_current_test(saved_test);
-    Shell::set_test_result(saved_result);
+    set_current_test(saved_test);
+    set_test_result(saved_result);
 #if MUTINY_HAVE_EXCEPTIONS
   } catch (...) {
     destroy_test(test_to_run);
@@ -312,21 +340,6 @@ const char* Shell::get_file() const
 size_t Shell::get_line_number() const
 {
   return line_number_;
-}
-
-bool Shell::match(const char* target, const Filter* filters)
-{
-  if (filters == nullptr) {
-    return true;
-  }
-
-  for (; filters != nullptr; filters = filters->get_next()) {
-    if (filters->match(target)) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 bool Shell::should_run(
@@ -649,33 +662,20 @@ void Shell::print_very_verbose(const char* text)
   get_test_result()->print_very_verbose(text);
 }
 
-Result* Shell::test_result_ = nullptr;
-Shell* Shell::current_test_ = nullptr;
-
-void Shell::set_test_result(Result* result)
-{
-  test_result_ = result;
-}
-
-void Shell::set_current_test(Shell* test)
-{
-  current_test_ = test;
-}
-
 Result* Shell::get_test_result()
 {
-  if (test_result_ == nullptr) {
+  if (test_result == nullptr) {
     return &OutsideTestRunnerUTest::instance().get_result();
   }
-  return test_result_;
+  return test_result;
 }
 
 Shell* Shell::get_current()
 {
-  if (current_test_ == nullptr) {
+  if (current_test == nullptr) {
     return &OutsideTestRunnerUTest::instance();
   }
-  return current_test_;
+  return current_test;
 }
 
 const Terminator& Shell::get_current_test_terminator()

@@ -114,12 +114,6 @@ public:
       int level
   ) noexcept;
   virtual ~OrderedInstaller() = default;
-
-private:
-  static void add_ordered_test_in_order(OrderedShell* test);
-  static void add_ordered_test_in_order_not_at_head_position(
-      OrderedShell* test
-  );
 };
 
 } // namespace test

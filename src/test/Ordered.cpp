@@ -6,6 +6,35 @@ namespace mu {
 namespace tiny {
 namespace test {
 
+namespace {
+void add_ordered_test_in_order_not_at_head_position(OrderedShell* test);
+
+void add_ordered_test_in_order(OrderedShell* test)
+{
+  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level()) {
+    OrderedShell::add_ordered_test_to_head(test);
+  } else {
+    add_ordered_test_in_order_not_at_head_position(test);
+  }
+}
+
+void add_ordered_test_in_order_not_at_head_position(OrderedShell* test)
+{
+  OrderedShell* current = OrderedShell::get_ordered_test_head();
+  while (current->get_next_ordered_test() != nullptr) {
+
+    if (current->get_next_ordered_test()->get_level() > test->get_level()) {
+      test->add_ordered_test(current->get_next_ordered_test());
+      current->add_ordered_test(test);
+      return;
+    }
+    current = current->get_next_ordered_test();
+  }
+  test->add_ordered_test(current->get_next_ordered_test());
+  current->add_ordered_test(test);
+}
+} // namespace
+
 OrderedShell* OrderedShell::ordered_tests_head_ = nullptr;
 
 bool OrderedShell::is_ordered() const
@@ -86,33 +115,6 @@ OrderedInstaller::OrderedInstaller(
   } else {
     add_ordered_test_in_order(&test);
   }
-}
-
-void OrderedInstaller::add_ordered_test_in_order(OrderedShell* test)
-{
-  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level()) {
-    OrderedShell::add_ordered_test_to_head(test);
-  } else {
-    add_ordered_test_in_order_not_at_head_position(test);
-  }
-}
-
-void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(
-    OrderedShell* test
-)
-{
-  OrderedShell* current = OrderedShell::get_ordered_test_head();
-  while (current->get_next_ordered_test() != nullptr) {
-
-    if (current->get_next_ordered_test()->get_level() > test->get_level()) {
-      test->add_ordered_test(current->get_next_ordered_test());
-      current->add_ordered_test(test);
-      return;
-    }
-    current = current->get_next_ordered_test();
-  }
-  test->add_ordered_test(current->get_next_ordered_test());
-  current->add_ordered_test(test);
 }
 
 } // namespace test

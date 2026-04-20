@@ -68,17 +68,17 @@ bool is_upper(char ch)
 {
   return 'A' <= ch && 'Z' >= ch;
 }
-#endif
-} // namespace
 
-#if !MUTINY_USE_STD_STRING
-char* String::get_empty_string()
+char* get_empty_string()
 {
   char* buf = new char[1];
   buf[0] = '\0';
   return buf;
 }
+#endif
+} // namespace
 
+#if !MUTINY_USE_STD_STRING
 void String::deallocate_internal_buffer()
 {
   if (buffer_ != nullptr) {
