@@ -503,7 +503,7 @@ TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
       "PluginCountingPlugin", &ignored_registry
   );
 
-  const char* argv[] = { "tests.exe", "-ri" };
+  const char* argv[] = { "tests.exe", "-rs" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &ignored_registry
   );

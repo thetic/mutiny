@@ -113,7 +113,7 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     list_test_locations_ = true;
     return true;
   }
-  if (argument == "-ri") {
+  if (argument == "-rs") {
     run_ignored_ = true;
     return true;
   }
@@ -289,7 +289,7 @@ String CommandLineArguments::help()
       "optional, must be greater than 0)\n"
       "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is "
       "not specified)\n"
-      "  -ri               - run ignored tests as if they are not ignored\n"
+      "  -rs               - run skipped tests as if they are not skipped\n"
       "  -f                - Cause the tests to crash on failure (to allow "
       "the test to be debugged if necessary)\n"
       "  -e                - do not rethrow unexpected exceptions on "

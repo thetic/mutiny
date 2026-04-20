@@ -46,14 +46,14 @@ Skipping and Expected Failures
 ``SKIPPED_TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:c:macro:`SKIPPED_TEST` marks a test as ignored. It is registered but skipped during
-normal runs. Use :option:`-ri` to run ignored tests anyway.
+:c:macro:`SKIPPED_TEST` marks a test as skipped. It is registered but skipped during
+normal runs. Use :option:`-rs` to run skipped tests anyway.
 
 .. code-block:: cpp
 
    SKIPPED_TEST(MyGroup, NotImplementedYet)
    {
-       // will not run unless -ri is passed
+       // will not run unless -rs is passed
        CHECK(false);
    }
 

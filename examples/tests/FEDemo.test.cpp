@@ -9,7 +9,7 @@
 /*
  * To see a demonstration of tests failing as a result of
  * IEEE754ExceptionsPlugin picking up floating point errors, run the test
- * executable with the -ri option.
+ * executable with the -rs option.
  *
  */
 
