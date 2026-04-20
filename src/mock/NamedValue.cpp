@@ -612,6 +612,7 @@ bool NamedValue::equals(const NamedValue& p) const
            p.value_.unsigned_long_long_int_value;
   }
   if (type_ == "const char*") {
+    // NOLINTNEXTLINE(readability-container-size-empty)
     return String(value_.string_value) == String(p.value_.string_value);
   }
   if (type_ == "void*") {
