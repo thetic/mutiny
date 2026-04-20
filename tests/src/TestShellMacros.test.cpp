@@ -587,13 +587,13 @@ TEST(TestShellMacros, MEMCMP_EQUALNullExpectedNullActual)
   MEMCMP_EQUAL(nullptr, nullptr, 1024);
 }
 
-TEST(TestShellMacros, MEMCMP_EQUALNullPointerIgnoredInExpectationWhenSize0)
+TEST(TestShellMacros, MEMCMP_EQUALNullPointerSkippedInExpectationWhenSize0)
 {
   unsigned char actual_data[] = { 0x00, 0x01, 0x03, 0x03 };
   MEMCMP_EQUAL(nullptr, actual_data, 0);
 }
 
-TEST(TestShellMacros, MEMCMP_EQUALNullPointerIgnoredInActualWhenSize0)
+TEST(TestShellMacros, MEMCMP_EQUALNullPointerSkippedInActualWhenSize0)
 {
   unsigned char expected_data[] = { 0x00, 0x01, 0x02, 0x03 };
   MEMCMP_EQUAL(expected_data, nullptr, 0);

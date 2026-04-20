@@ -120,7 +120,7 @@ TEST(Output, PrintTestALotAndSimulateRepeatRun)
   }
   STRCMP_EQUAL(
       "..................................................\n.........."
-      "\nOK (60 tests, 60 ran, 0 checks, 0 ignored, 0 filtered out, 10 ms)\n\n"
+      "\nOK (60 tests, 60 ran, 0 checks, 0 skipped, 0 filtered out, 10 ms)\n\n"
       "..................................................\n..........",
       mock->get_output().c_str()
   );
@@ -160,7 +160,7 @@ TEST(Output, printColorWithSuccess)
   run_one_test();
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
-      "\n\033[32;1mOK (1 tests, 1 ran, 0 checks, 0 ignored, 0 "
+      "\n\033[32;1mOK (1 tests, 1 ran, 0 checks, 0 skipped, 0 "
       "filtered out, 10 ms)\033[m\n\n",
       mock->get_output().c_str()
   );
@@ -175,7 +175,7 @@ TEST(Output, printColorWithFailures)
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
       "\n\033[31;1mErrors (1 failures, 1 tests, 1 ran, 0 checks, 0 "
-      "ignored, 0 filtered out, 10 ms)"
+      "skipped, 0 filtered out, 10 ms)"
       "\033[m\n\n",
       mock->get_output().c_str()
   );
@@ -228,14 +228,14 @@ TEST(Output, printTestsEnded)
 {
   result->count_test();
   result->count_check();
-  result->count_ignored();
-  result->count_ignored();
+  result->count_skipped();
+  result->count_skipped();
   result->count_run();
   result->count_run();
   result->count_run();
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
-      "\nOK (1 tests, 3 ran, 1 checks, 2 ignored, 0 filtered out, 10 ms)\n\n",
+      "\nOK (1 tests, 3 ran, 1 checks, 2 skipped, 0 filtered out, 10 ms)\n\n",
       mock->get_output().c_str()
   );
 }
@@ -246,21 +246,21 @@ TEST(Output, printTestsEndedWithFailures)
   printer->flush();
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
-      "\nErrors (1 failures, 0 tests, 0 ran, 0 checks, 0 ignored, 0 "
+      "\nErrors (1 failures, 0 tests, 0 ran, 0 checks, 0 skipped, 0 "
       "filtered out, 10 ms)\n\n",
       mock->get_output().c_str()
   );
 }
 
-TEST(Output, printTestsEndedWithNoTestsRunOrIgnored)
+TEST(Output, printTestsEndedWithNoTestsRunOrSkipped)
 {
   result->count_test();
   printer->flush();
   printer->print_tests_ended(*result);
   STRCMP_EQUAL(
-      "\nErrors (ran nothing, 1 tests, 0 ran, 0 checks, 0 ignored, 0 filtered "
+      "\nErrors (ran nothing, 1 tests, 0 ran, 0 checks, 0 skipped, 0 filtered "
       "out, 10 ms)\n"
-      "Note: test run failed because no tests were run or ignored. Assuming "
+      "Note: test run failed because no tests were run or skipped. Assuming "
       "something went wrong. "
       "This often happens because of linking errors or typos in test "
       "filter.\n\n",

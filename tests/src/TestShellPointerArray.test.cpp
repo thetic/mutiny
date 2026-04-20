@@ -1,5 +1,5 @@
-#include "mu/tiny/test/IgnoredShell.hpp"
 #include "mu/tiny/test/ShellPointerArray.hpp"
+#include "mu/tiny/test/SkippedShell.hpp"
 
 #include "mu/tiny/test.hpp"
 
@@ -23,9 +23,9 @@ TEST_GROUP(ShellPointerArray)
 
   void setup() override
   {
-    test0 = new mu::tiny::test::IgnoredShell();
-    test1 = new mu::tiny::test::IgnoredShell();
-    test2 = new mu::tiny::test::IgnoredShell();
+    test0 = new mu::tiny::test::SkippedShell();
+    test1 = new mu::tiny::test::SkippedShell();
+    test2 = new mu::tiny::test::SkippedShell();
 
     test0->add_test(test1);
     test1->add_test(test2);

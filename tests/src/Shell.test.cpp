@@ -217,7 +217,7 @@ TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
   CHECK(exec_func.has_run);
 }
 
-SKIPPED_TEST(Shell, IgnoreTestAccessingFixture)
+SKIPPED_TEST(Shell, SkipTestAccessingFixture)
 {
   CHECK(fixture.get_check_count() == 0);
 }
@@ -548,12 +548,12 @@ TEST(Shell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods
   CHECK_EQUAL(size_t{ 2 }, fixture.get_test_count());
 }
 
-TEST(Shell, getIgnoreCountReturnsNumberOfIgnoredTests)
+TEST(Shell, getSkipCountReturnsNumberOfSkippedTests)
 {
-  mu::tiny::test::IgnoredShell ignored;
-  fixture.add_test(&ignored);
+  mu::tiny::test::SkippedShell skipped;
+  fixture.add_test(&skipped);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_ignore_count());
+  CHECK_EQUAL(size_t{ 1 }, fixture.get_skip_count());
 }
 
 TEST(Shell, checkTestFailsWithProperTestLocationFailsWhenFailureCountIsNotOne)

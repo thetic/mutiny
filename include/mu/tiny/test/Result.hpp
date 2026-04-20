@@ -77,7 +77,7 @@ public:
   /** @brief Increment the filtered-out counter. */
   virtual void count_filtered_out();
   /** @brief Increment the ignored-test counter. */
-  virtual void count_ignored();
+  virtual void count_skipped();
 
   /**
    * @brief Mark the current test as skipped with an optional message.
@@ -119,7 +119,7 @@ public:
   /** @return Number of tests filtered out. */
   size_t get_filtered_out_count() const { return filtered_out_count_; }
   /** @return Number of ignored tests. */
-  size_t get_ignored_count() const { return ignored_count_; }
+  size_t get_skipped_count() const { return skipped_count_; }
   /** @return Number of test failures. */
   size_t get_failure_count() const { return failure_count_; }
 
@@ -130,7 +130,7 @@ public:
   bool is_failure() const
   {
     return (get_failure_count() != 0) ||
-           (get_run_count() + get_ignored_count() == 0);
+           (get_run_count() + get_skipped_count() == 0);
   }
 
   /** @return Total elapsed time (ms) for the entire run. */
@@ -153,7 +153,7 @@ private:
   size_t check_count_{ 0 };
   size_t failure_count_{ 0 };
   size_t filtered_out_count_{ 0 };
-  size_t ignored_count_{ 0 };
+  size_t skipped_count_{ 0 };
   uint_least64_t total_execution_time_{ 0 };
   uint_least64_t time_started_{ 0 };
   uint_least64_t current_test_time_started_{ 0 };

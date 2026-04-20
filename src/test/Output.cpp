@@ -154,8 +154,8 @@ void Output::print_tests_ended(const Result& result)
   print(" ran, ");
   print(result.get_check_count());
   print(" checks, ");
-  print(result.get_ignored_count());
-  print(" ignored, ");
+  print(result.get_skipped_count());
+  print(" skipped, ");
   print(result.get_filtered_out_count());
   print(" filtered out, ");
   print(string_from(result.get_total_execution_time()).c_str());
@@ -165,7 +165,7 @@ void Output::print_tests_ended(const Result& result)
   }
   if (is_failure && failure_count == 0) {
     print(
-        "\nNote: test run failed because no tests were run or ignored. "
+        "\nNote: test run failed because no tests were run or skipped. "
         "Assuming "
         "something went wrong. "
         "This often happens because of linking errors or typos in test "

@@ -61,28 +61,28 @@ public:
   }
 };
 
-class RunIgnoredTest : public mu::tiny::test::Test
+class RunSkippedTest : public mu::tiny::test::Test
 {
 public:
   static bool checker_;
   void test_body() override { checker_ = true; }
 };
 
-bool RunIgnoredTest::checker_ = false;
+bool RunSkippedTest::checker_ = false;
 
-class RunIgnoredShell : public mu::tiny::test::IgnoredShell
+class RunSkippedShell : public mu::tiny::test::SkippedShell
 {
 public:
-  RunIgnoredShell(
+  RunSkippedShell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   )
-    : IgnoredShell(group_name, test_name, file_name, line_number)
+    : SkippedShell(group_name, test_name, file_name, line_number)
   {
   }
-  mu::tiny::test::Test* create_test() override { return new RunIgnoredTest; }
+  mu::tiny::test::Test* create_test() override { return new RunSkippedTest; }
 };
 
 class TestExecutionVerifier : public mu::tiny::test::Test
@@ -466,23 +466,23 @@ TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());
 }
 
-TEST(CommandLineRunner, IgnoreTestWillBeIgnoredIfNoOptionSpecified)
+TEST(CommandLineRunner, SkippedTestWillBeSkippedIfNoOptionSpecified)
 {
-  mu::tiny::test::Registry ignored_registry;
-  RunIgnoredShell run_ignored_test("group", "test", "file", 1);
-  ignored_registry.add_test(&run_ignored_test);
-  DummyPluginWhichCountsThePlugins ignored_plugin(
-      "PluginCountingPlugin", &ignored_registry
+  mu::tiny::test::Registry skipped_registry;
+  RunSkippedShell run_skipped_test("group", "test", "file", 1);
+  skipped_registry.add_test(&run_skipped_test);
+  DummyPluginWhichCountsThePlugins skipped_plugin(
+      "PluginCountingPlugin", &skipped_registry
   );
 
   const char* argv[] = { "tests.exe" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
-      1, argv, &ignored_registry
+      1, argv, &skipped_registry
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK(!RunIgnoredTest::checker_);
-  RunIgnoredTest::checker_ = false;
+  CHECK(!RunSkippedTest::checker_);
+  RunSkippedTest::checker_ = false;
 }
 
 TEST(CommandLineRunner, listOrderedTestLocations)
@@ -494,21 +494,21 @@ TEST(CommandLineRunner, listOrderedTestLocations)
   CHECK_EQUAL(0, command_line_test_runner.run_all_tests_main());
 }
 
-TEST(CommandLineRunner, IgnoreTestWillGetRunIfOptionSpecified)
+TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
 {
-  mu::tiny::test::Registry ignored_registry;
-  RunIgnoredShell run_ignored_test("group", "test", "file", 1);
-  ignored_registry.add_test(&run_ignored_test);
-  DummyPluginWhichCountsThePlugins ignored_plugin(
-      "PluginCountingPlugin", &ignored_registry
+  mu::tiny::test::Registry skipped_registry;
+  RunSkippedShell run_skipped_test("group", "test", "file", 1);
+  skipped_registry.add_test(&run_skipped_test);
+  DummyPluginWhichCountsThePlugins skipped_plugin(
+      "PluginCountingPlugin", &skipped_registry
   );
 
-  const char* argv[] = { "tests.exe", "-ri" };
+  const char* argv[] = { "tests.exe", "-rs" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
-      2, argv, &ignored_registry
+      2, argv, &skipped_registry
   );
   command_line_test_runner.run_all_tests_main();
 
-  CHECK(RunIgnoredTest::checker_);
-  RunIgnoredTest::checker_ = false;
+  CHECK(RunSkippedTest::checker_);
+  RunSkippedTest::checker_ = false;
 }

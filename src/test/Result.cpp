@@ -83,9 +83,9 @@ void Result::count_filtered_out()
   filtered_out_count_++;
 }
 
-void Result::count_ignored()
+void Result::count_skipped()
 {
-  ignored_count_++;
+  skipped_count_++;
 }
 
 void Result::skip_test(const char* message)

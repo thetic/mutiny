@@ -376,7 +376,7 @@ public:
   static void reset_crash_method();
 
   /** @brief Mark this test to run even though it is an ignored test. */
-  virtual void set_run_ignored();
+  virtual void set_run_skipped();
 
   /** @brief Allocate the Test object for this shell's test group. */
   virtual class Test* create_test();
@@ -404,7 +404,7 @@ public:
   virtual String get_macro_name() const;
 
 protected:
-  /** @brief Default constructor for use by subclasses (e.g. IgnoredShell).
+  /** @brief Default constructor for use by subclasses.
    */
   Shell() noexcept;
   /** @return The Result for the current run. */

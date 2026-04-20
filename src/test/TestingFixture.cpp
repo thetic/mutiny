@@ -124,9 +124,9 @@ size_t TestingFixture::get_test_count()
   return result_->get_test_count();
 }
 
-size_t TestingFixture::get_ignore_count()
+size_t TestingFixture::get_skip_count()
 {
-  return result_->get_ignored_count();
+  return result_->get_skipped_count();
 }
 
 Registry* TestingFixture::get_registry()

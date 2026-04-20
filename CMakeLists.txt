@@ -74,7 +74,7 @@ target_sources(mutiny
         src/test/Failure.cpp
         src/test/Filter.cpp
         src/test/GroupLocation.cpp
-        src/test/IgnoredShell.cpp
+        src/test/SkippedShell.cpp
         src/test/Installer.cpp
         src/test/JUnitOutput.cpp
         src/test/JUnitOutputPlugin.cpp
@@ -124,7 +124,7 @@ target_sources(mutiny
             include/mu/tiny/test/Failure.hpp
             include/mu/tiny/test/Filter.hpp
             include/mu/tiny/test/GroupLocation.hpp
-            include/mu/tiny/test/IgnoredShell.hpp
+            include/mu/tiny/test/SkippedShell.hpp
             include/mu/tiny/test/Installer.hpp
             include/mu/tiny/test/JUnitOutputPlugin.hpp
             include/mu/tiny/test/Ordered.hpp

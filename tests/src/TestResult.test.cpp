@@ -49,7 +49,7 @@ TEST(Result, ResultIsOkIfTestIsRunWithNoFailures)
 TEST(Result, ResultIsOkIfTestIsIgnored)
 {
   res->count_test();
-  res->count_ignored();
+  res->count_skipped();
   CHECK(!res->is_failure());
 }
 

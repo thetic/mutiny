@@ -134,7 +134,7 @@ TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)
     fixture.assert_print_contains("Unexpected call to function: unexpected");
     fixture.assert_print_contains(
         "Errors (1 failures, 1 tests, 1 ran, 0 checks, "
-        "0 ignored, 0 filtered out"
+        "0 skipped, 0 filtered out"
     );
     fixture.flush_output_and_reset_result();
   }

@@ -5,8 +5,8 @@
  * Used by @ref SKIPPED_TEST and @ref SKIPPED_TEST_C_WRAPPER.
  */
 
-#ifndef INCLUDED_MU_TINY_TEST_IGNOREDSHELL_HPP
-#define INCLUDED_MU_TINY_TEST_IGNOREDSHELL_HPP
+#ifndef INCLUDED_MU_TINY_TEST_SKIPPEDSHELL_HPP
+#define INCLUDED_MU_TINY_TEST_SKIPPEDSHELL_HPP
 
 #include "mu/tiny/test/Shell.hpp"
 
@@ -20,15 +20,15 @@ namespace test {
  * @brief Shell for a test that is skipped unless `-r` (run-ignored) is set.
  *
  * Used by the @ref SKIPPED_TEST() macro. The test body is still compiled and
- * registered, but @ref will_run() returns false until @ref set_run_ignored()
+ * registered, but @ref will_run() returns false until @ref set_run_skipped()
  * is called. See also @ref SKIPPED_TEST_C_WRAPPER.
  */
-class MUTINY_EXPORT IgnoredShell : public Shell
+class MUTINY_EXPORT SkippedShell : public Shell
 {
 public:
   /** @brief Construct an empty ignored shell (not yet registered). */
-  IgnoredShell() noexcept;
-  ~IgnoredShell() override = default;
+  SkippedShell() noexcept;
+  ~SkippedShell() override = default;
   /**
    * @brief Construct and register an ignored test.
    *
@@ -37,14 +37,14 @@ public:
    * @param file_name    Source file where the test is defined.
    * @param line_number  Line number of the test definition.
    */
-  explicit IgnoredShell(
+  explicit SkippedShell(
       const char* group_name,
       const char* test_name,
       const char* file_name,
       size_t line_number
   ) noexcept;
-  IgnoredShell(const IgnoredShell&) = delete;
-  IgnoredShell& operator=(const IgnoredShell&) = delete;
+  SkippedShell(const SkippedShell&) = delete;
+  SkippedShell& operator=(const SkippedShell&) = delete;
 
   /**
    * @return false unless set_run_ignored() has been called.
@@ -52,7 +52,7 @@ public:
   bool will_run() const override;
 
   /** @brief Enable running this test (triggered by the `-r` flag). */
-  void set_run_ignored() override;
+  void set_run_skipped() override;
 
 protected:
   /** @return The macro name reported in output (`"SKIPPED_TEST"`). */

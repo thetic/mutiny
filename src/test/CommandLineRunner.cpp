@@ -81,8 +81,8 @@ void CommandLineRunner::initialize_test_run()
   if (arguments_->is_color()) {
     output_->color();
   }
-  if (arguments_->is_run_ignored()) {
-    registry_->set_run_ignored();
+  if (arguments_->is_run_skipped()) {
+    registry_->set_run_skipped();
   }
   if (arguments_->is_crashing_on_fail()) {
     Shell::set_crash_on_fail();

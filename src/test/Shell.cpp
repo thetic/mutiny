@@ -310,7 +310,7 @@ bool Shell::is_ordered() const
   return false;
 }
 
-void Shell::set_run_ignored() {}
+void Shell::set_run_skipped() {}
 
 void Shell::set_file_name(const char* file_name)
 {

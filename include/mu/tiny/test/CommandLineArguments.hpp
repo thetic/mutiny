@@ -72,8 +72,8 @@ public:
   bool is_listing_ordered_test_locations() const;
   /** @return true if `-lgl` (list group locations) was passed. */
   bool is_listing_test_group_locations() const;
-  /** @return true if `-r` (run ignored tests) was passed. */
-  bool is_run_ignored() const;
+  /** @return true if `-rs` (run skipped tests) was passed. */
+  bool is_run_skipped() const;
   /** @return The number of times to repeat the full test suite (`-r N`). */
   size_t get_repeat_count() const;
   /** @return true if `-s` (shuffle) was passed. */
@@ -106,7 +106,7 @@ private:
   bool list_test_locations_{ false };
   bool list_ordered_test_locations_{ false };
   bool list_test_group_locations_{ false };
-  bool run_ignored_{ false };
+  bool run_skipped_{ false };
   bool reversing_{ false };
   bool crash_on_fail_{ false };
   bool rethrow_exceptions_{ true };
