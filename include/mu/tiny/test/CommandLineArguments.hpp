@@ -154,6 +154,9 @@ private:
       int& index,
       const char* parameter_name
   );
+  bool parse_simple_flag(const String& argument);
+  bool parse_prefix_arg(const String& argument, Plugin* plugin, int& index);
+  bool parse_argument(const String& argument, Plugin* plugin, int& index);
 };
 
 } // namespace test

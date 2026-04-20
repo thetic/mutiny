@@ -53,81 +53,150 @@ CommandLineArguments::~CommandLineArguments()
   }
 }
 
+bool CommandLineArguments::parse_simple_flag(const String& argument)
+{
+  if (argument == "-h") {
+    need_help_ = true;
+    return true;
+  }
+  if (argument == "-v") {
+    verbose_ = true;
+    return true;
+  }
+  if (argument == "-vv") {
+    very_verbose_ = true;
+    return true;
+  }
+  if (argument == "-c") {
+    color_ = true;
+    return true;
+  }
+  if (argument == "-b") {
+    reversing_ = true;
+    return true;
+  }
+  if (argument == "-lg") {
+    list_test_group_names_ = true;
+    return true;
+  }
+  if (argument == "-ln") {
+    list_test_group_and_case_names_ = true;
+    return true;
+  }
+  if (argument == "-lo") {
+    list_ordered_test_locations_ = true;
+    return true;
+  }
+  if (argument == "-lgl") {
+    list_test_group_locations_ = true;
+    return true;
+  }
+  if (argument == "-ll") {
+    list_test_locations_ = true;
+    return true;
+  }
+  if (argument == "-ri") {
+    run_ignored_ = true;
+    return true;
+  }
+  if (argument == "-f") {
+    crash_on_fail_ = true;
+    return true;
+  }
+  if (argument == "-e") {
+    rethrow_exceptions_ = false;
+    return true;
+  }
+  return false;
+}
+
+bool CommandLineArguments::parse_prefix_arg(
+    const String& argument,
+    Plugin* plugin,
+    int& index
+)
+{
+  if (string_starts_with(argument, "-r")) {
+    set_repeat_count(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-g")) {
+    add_group_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-t")) {
+    return add_group_dot_name_filter(ac_, av_, index, "-t", false, false);
+  }
+  if (string_starts_with(argument, "-st")) {
+    return add_group_dot_name_filter(ac_, av_, index, "-st", true, false);
+  }
+  if (string_starts_with(argument, "-xt")) {
+    return add_group_dot_name_filter(ac_, av_, index, "-xt", false, true);
+  }
+  if (string_starts_with(argument, "-xst")) {
+    return add_group_dot_name_filter(ac_, av_, index, "-xst", true, true);
+  }
+  if (string_starts_with(argument, "-sg")) {
+    add_strict_group_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-xg")) {
+    add_exclude_group_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-xsg")) {
+    add_exclude_strict_group_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-n")) {
+    add_name_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-sn")) {
+    add_strict_name_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-xn")) {
+    add_exclude_name_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-xsn")) {
+    add_exclude_strict_name_filter(ac_, av_, index);
+    return true;
+  }
+  if (string_starts_with(argument, "-s")) {
+    return set_shuffle(ac_, av_, index);
+  }
+  if (string_starts_with(argument, "TEST(")) {
+    add_test_to_run_based_on_verbose_output(ac_, av_, index, "TEST(");
+    return true;
+  }
+  if (string_starts_with(argument, "SKIPPED_TEST(")) {
+    add_test_to_run_based_on_verbose_output(ac_, av_, index, "SKIPPED_TEST(");
+    return true;
+  }
+  if (string_starts_with(argument, "-p")) {
+    return plugin->parse_all_arguments(ac_, av_, index);
+  }
+  return false;
+}
+
+bool CommandLineArguments::parse_argument(
+    const String& argument,
+    Plugin* plugin,
+    int& index
+)
+{
+  if (parse_simple_flag(argument)) {
+    return true;
+  }
+  return parse_prefix_arg(argument, plugin, index);
+}
+
 bool CommandLineArguments::parse(Plugin* plugin)
 {
-  bool correct_parameters = true;
   for (int i = 1; i < ac_; i++) {
-    String argument = av_[i];
-
-    if (argument == "-h") {
-      need_help_ = true;
-    } else if (argument == "-v") {
-      verbose_ = true;
-    } else if (argument == "-vv") {
-      very_verbose_ = true;
-    } else if (argument == "-c") {
-      color_ = true;
-    } else if (argument == "-b") {
-      reversing_ = true;
-    } else if (argument == "-lg") {
-      list_test_group_names_ = true;
-    } else if (argument == "-ln") {
-      list_test_group_and_case_names_ = true;
-    } else if (argument == "-lo") {
-      list_ordered_test_locations_ = true;
-    } else if (argument == "-lgl") {
-      list_test_group_locations_ = true;
-    } else if (argument == "-ll") {
-      list_test_locations_ = true;
-    } else if (argument == "-ri") {
-      run_ignored_ = true;
-    } else if (argument == "-f") {
-      crash_on_fail_ = true;
-    } else if (argument == "-e") {
-      rethrow_exceptions_ = false;
-    } else if (string_starts_with(argument, "-r")) {
-      set_repeat_count(ac_, av_, i);
-    } else if (string_starts_with(argument, "-g")) {
-      add_group_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-t")) {
-      correct_parameters =
-          add_group_dot_name_filter(ac_, av_, i, "-t", false, false);
-    } else if (string_starts_with(argument, "-st")) {
-      correct_parameters =
-          add_group_dot_name_filter(ac_, av_, i, "-st", true, false);
-    } else if (string_starts_with(argument, "-xt")) {
-      correct_parameters =
-          add_group_dot_name_filter(ac_, av_, i, "-xt", false, true);
-    } else if (string_starts_with(argument, "-xst")) {
-      correct_parameters =
-          add_group_dot_name_filter(ac_, av_, i, "-xst", true, true);
-    } else if (string_starts_with(argument, "-sg")) {
-      add_strict_group_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-xg")) {
-      add_exclude_group_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-xsg")) {
-      add_exclude_strict_group_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-n")) {
-      add_name_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-sn")) {
-      add_strict_name_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-xn")) {
-      add_exclude_name_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-xsn")) {
-      add_exclude_strict_name_filter(ac_, av_, i);
-    } else if (string_starts_with(argument, "-s")) {
-      correct_parameters = set_shuffle(ac_, av_, i);
-    } else if (string_starts_with(argument, "TEST(")) {
-      add_test_to_run_based_on_verbose_output(ac_, av_, i, "TEST(");
-    } else if (string_starts_with(argument, "SKIPPED_TEST(")) {
-      add_test_to_run_based_on_verbose_output(ac_, av_, i, "SKIPPED_TEST(");
-    } else if (string_starts_with(argument, "-p")) {
-      correct_parameters = plugin->parse_all_arguments(ac_, av_, i);
-    } else {
-      correct_parameters = false;
-    }
-
-    if (!correct_parameters) {
+    if (!parse_argument(av_[i], plugin, i)) {
       return false;
     }
   }

@@ -15,8 +15,6 @@ Checks:
   - -readability-identifier-length
   - -readability-use-std-min-max
   - -readability-static-accessed-through-instance
-  # TEMPORARY:
-  - -readability-function-cognitive-complexity
 CheckOptions:
   - key: modernize-use-using.IgnoreExternC
     value: true

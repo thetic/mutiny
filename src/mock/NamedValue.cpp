@@ -359,135 +359,230 @@ NamedValueCopier* NamedValue::get_copier() const
   return copier_;
 }
 
+bool NamedValue::equals_cross_int_long(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long int") && (b.type_ == "int")) {
+    result = a.value_.long_int_value == b.value_.int_value;
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "long int")) {
+    result = a.value_.int_value == b.value_.long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned int>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned int>(a.value_.int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_long_unsigned(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "unsigned int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned long>(b.value_.long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.long_int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "unsigned long int")) {
+    result = a.value_.unsigned_int_value == b.value_.unsigned_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "unsigned int")) {
+    result = a.value_.unsigned_long_int_value == b.value_.unsigned_int_value;
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.long_int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long>(b.value_.long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ll_narrow(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long long int") && (b.type_ == "int")) {
+    result = a.value_.long_long_int_value == b.value_.int_value;
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "long long int")) {
+    result = a.value_.int_value == b.value_.long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "long int")) {
+    result = a.value_.long_long_int_value == b.value_.long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "long long int")) {
+    result = a.value_.long_int_value == b.value_.long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ll_wide(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ull(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "unsigned int")) {
+    result =
+        a.value_.unsigned_long_long_int_value == b.value_.unsigned_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "unsigned long long int")) {
+    result =
+        a.value_.unsigned_int_value == b.value_.unsigned_long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") &&
+      (b.type_ == "unsigned long int")) {
+    result = a.value_.unsigned_long_long_int_value ==
+             b.value_.unsigned_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") &&
+      (b.type_ == "unsigned long long int")) {
+    result = a.value_.unsigned_long_int_value ==
+             b.value_.unsigned_long_long_int_value;
+    return true;
+  }
+  return false;
+}
+
 bool NamedValue::equals(const NamedValue& p) const
 {
-  if ((type_ == "long int") && (p.type_ == "int")) {
-    return value_.long_int_value == p.value_.int_value;
+  bool eq = false;
+  if (equals_cross_int_long(*this, p, eq)) {
+    return eq;
   }
-  if ((type_ == "int") && (p.type_ == "long int")) {
-    return value_.int_value == p.value_.long_int_value;
+  if (equals_cross_long_unsigned(*this, p, eq)) {
+    return eq;
   }
-  if ((type_ == "unsigned int") && (p.type_ == "int")) {
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned int>(p.value_.int_value));
+  if (equals_cross_ll_narrow(*this, p, eq)) {
+    return eq;
   }
-  if ((type_ == "int") && (p.type_ == "unsigned int")) {
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned int>(value_.int_value) ==
-            p.value_.unsigned_int_value);
+  if (equals_cross_ll_wide(*this, p, eq)) {
+    return eq;
   }
-  if ((type_ == "unsigned long int") && (p.type_ == "int")) {
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long>(p.value_.int_value));
-  }
-  if ((type_ == "int") && (p.type_ == "unsigned long int")) {
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned long>(value_.int_value) ==
-            p.value_.unsigned_long_int_value);
-  }
-  if ((type_ == "unsigned int") && (p.type_ == "long int")) {
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned long>(p.value_.long_int_value));
-  }
-  if ((type_ == "long int") && (p.type_ == "unsigned int")) {
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long>(value_.long_int_value) ==
-            p.value_.unsigned_int_value);
-  }
-  if ((type_ == "unsigned int") && (p.type_ == "unsigned long int")) {
-    return value_.unsigned_int_value == p.value_.unsigned_long_int_value;
-  }
-  if ((type_ == "unsigned long int") && (p.type_ == "unsigned int")) {
-    return value_.unsigned_long_int_value == p.value_.unsigned_int_value;
-  }
-  if ((type_ == "long int") && (p.type_ == "unsigned long int")) {
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long>(value_.long_int_value) ==
-            p.value_.unsigned_long_int_value);
-  }
-  if ((type_ == "unsigned long int") && (p.type_ == "long int")) {
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long>(p.value_.long_int_value));
-  }
-  if ((type_ == "long long int") && (p.type_ == "int")) {
-    return value_.long_long_int_value == p.value_.int_value;
-  }
-  if ((type_ == "int") && (p.type_ == "long long int")) {
-    return value_.int_value == p.value_.long_long_int_value;
-  }
-  if ((type_ == "long long int") && (p.type_ == "long int")) {
-    return value_.long_long_int_value == p.value_.long_int_value;
-  }
-  if ((type_ == "long int") && (p.type_ == "long long int")) {
-    return value_.long_int_value == p.value_.long_long_int_value;
-  }
-  if ((type_ == "long long int") && (p.type_ == "unsigned int")) {
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_int_value);
-  }
-  if ((type_ == "unsigned int") && (p.type_ == "long long int")) {
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  }
-  if ((type_ == "long long int") && (p.type_ == "unsigned long int")) {
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_long_int_value);
-  }
-  if ((type_ == "unsigned long int") && (p.type_ == "long long int")) {
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  }
-  if ((type_ == "long long int") && (p.type_ == "unsigned long long int")) {
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  }
-  if ((type_ == "unsigned long long int") && (p.type_ == "long long int")) {
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  }
-  if ((type_ == "unsigned long long int") && (p.type_ == "int")) {
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.int_value));
-  }
-  if ((type_ == "int") && (p.type_ == "unsigned long long int")) {
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  }
-  if ((type_ == "unsigned long long int") && (p.type_ == "unsigned int")) {
-    return value_.unsigned_long_long_int_value == p.value_.unsigned_int_value;
-  }
-  if ((type_ == "unsigned int") && (p.type_ == "unsigned long long int")) {
-    return value_.unsigned_int_value == p.value_.unsigned_long_long_int_value;
-  }
-  if ((type_ == "unsigned long long int") && (p.type_ == "long int")) {
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_int_value));
-  }
-  if ((type_ == "long int") && (p.type_ == "unsigned long long int")) {
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  }
-  if ((type_ == "unsigned long long int") && (p.type_ == "unsigned long int")) {
-    return value_.unsigned_long_long_int_value ==
-           p.value_.unsigned_long_int_value;
-  }
-  if ((type_ == "unsigned long int") && (p.type_ == "unsigned long long int")) {
-    return value_.unsigned_long_int_value ==
-           p.value_.unsigned_long_long_int_value;
+  if (equals_cross_ull(*this, p, eq)) {
+    return eq;
   }
 
   if (type_ != p.type_) {

@@ -233,6 +233,23 @@ bool CheckedExpectedCall::has_output_parameter(const NamedValue& parameter)
                         : ignore_other_parameters_;
 }
 
+String CheckedExpectedCall::order_to_string() const
+{
+  if (initial_expected_call_order_ == no_expected_call_order) {
+    return {};
+  }
+  if (initial_expected_call_order_ == final_expected_call_order_) {
+    return string_from_format(
+        "expected call order: <%u> -> ", initial_expected_call_order_
+    );
+  }
+  return string_from_format(
+      "expected calls order: <%u..%u> -> ",
+      initial_expected_call_order_,
+      final_expected_call_order_
+  );
+}
+
 String CheckedExpectedCall::call_to_string()
 {
   String str;
@@ -242,19 +259,7 @@ String CheckedExpectedCall::call_to_string()
 
   str += get_name();
   str += " -> ";
-  if (initial_expected_call_order_ != no_expected_call_order) {
-    if (initial_expected_call_order_ == final_expected_call_order_) {
-      str += string_from_format(
-          "expected call order: <%u> -> ", initial_expected_call_order_
-      );
-    } else {
-      str += string_from_format(
-          "expected calls order: <%u..%u> -> ",
-          initial_expected_call_order_,
-          final_expected_call_order_
-      );
-    }
-  }
+  str += order_to_string();
 
   if (input_parameters_->begin() == nullptr &&
       output_parameters_->begin() == nullptr) {

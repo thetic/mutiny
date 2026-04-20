@@ -103,6 +103,7 @@ private:
   };
 
   static MockExpectedFunctionParameter* item(NamedValueListNode* node);
+  String order_to_string() const;
 
   bool ignore_other_parameters_{ false };
   bool is_actual_call_match_finalized_{ false };
