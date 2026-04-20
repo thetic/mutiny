@@ -1,0 +1,14 @@
+.. _exhale_function_test_8h_1a5201b4080afcd8d1ca5d07ae346dd4ca:
+
+Function mutiny_check_equal_uint
+================================
+
+- Defined in :ref:`file_include_mu_tiny_test.h`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: mutiny_check_equal_uint(unsigned int, unsigned int, const char *, const char *, size_t)
+   :project: mu::tiny
