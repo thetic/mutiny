@@ -7,7 +7,7 @@
 
 #if MUTINY_USE_STD_CPP_LIB
 #include <typeinfo>
-#if defined(__GNUC__)
+#ifdef __GNUC__
 #include <memory>
 
 #include <cxxabi.h>
@@ -75,7 +75,8 @@ String printable(String const& str)
 
 String printable_string_from_or_null(const char* expected)
 {
-  return (expected) ? printable(string_from(expected)) : string_from("(null)");
+  return (expected != nullptr) ? printable(string_from(expected))
+                               : string_from("(null)");
 }
 } // namespace
 
@@ -117,14 +118,14 @@ Failure::Failure(Shell* test, const char* file_name, size_t line_num)
 {
 }
 
-Failure::Failure(Failure&& f) noexcept
-  : test_name_(static_cast<String&&>(f.test_name_))
-  , test_name_only_(static_cast<String&&>(f.test_name_only_))
-  , file_name_(static_cast<String&&>(f.file_name_))
-  , line_number_(f.line_number_)
-  , test_file_name_(static_cast<String&&>(f.test_file_name_))
-  , test_line_number_(f.test_line_number_)
-  , message_(static_cast<String&&>(f.message_))
+Failure::Failure(Failure&& other) noexcept
+  : test_name_(static_cast<String&&>(other.test_name_))
+  , test_name_only_(static_cast<String&&>(other.test_name_only_))
+  , file_name_(static_cast<String&&>(other.file_name_))
+  , line_number_(other.line_number_)
+  , test_file_name_(static_cast<String&&>(other.test_file_name_))
+  , test_line_number_(other.test_line_number_)
+  , message_(static_cast<String&&>(other.message_))
 {
 }
 
@@ -279,13 +280,14 @@ CheckEqualFailure::CheckEqualFailure(
   message_ += create_but_was_string(printable_expected, printable_actual);
 
   size_t fail_start;
-  for (fail_start = 0; actual[fail_start] == expected[fail_start]; fail_start++)
-    ;
+  for (fail_start = 0; actual[fail_start] == expected[fail_start];
+       fail_start++) {
+  }
   size_t fail_start_printable;
   for (fail_start_printable = 0; printable_actual[fail_start_printable] ==
                                  printable_expected[fail_start_printable];
-       fail_start_printable++)
-    ;
+       fail_start_printable++) {
+  }
   message_ += create_difference_at_pos_string(
       printable_actual, fail_start_printable, fail_start
   );
@@ -418,16 +420,16 @@ StringEqualFailure::StringEqualFailure(
   String printable_actual = printable_string_from_or_null(actual);
 
   message_ += create_but_was_string(printable_expected, printable_actual);
-  if ((expected) && (actual)) {
+  if ((expected != nullptr) && (actual != nullptr)) {
     size_t fail_start;
     for (fail_start = 0; actual[fail_start] == expected[fail_start];
-         fail_start++)
-      ;
+         fail_start++) {
+    }
     size_t fail_start_printable;
     for (fail_start_printable = 0; printable_actual[fail_start_printable] ==
                                    printable_expected[fail_start_printable];
-         fail_start_printable++)
-      ;
+         fail_start_printable++) {
+    }
     message_ += create_difference_at_pos_string(
         printable_actual, fail_start_printable, fail_start
     );
@@ -450,18 +452,18 @@ StringEqualNoCaseFailure::StringEqualNoCaseFailure(
   String printable_actual = printable_string_from_or_null(actual);
 
   message_ += create_but_was_string(printable_expected, printable_actual);
-  if ((expected) && (actual)) {
+  if ((expected != nullptr) && (actual != nullptr)) {
     size_t fail_start;
     for (fail_start = 0;
          tolower(actual[fail_start]) == tolower(expected[fail_start]);
-         fail_start++)
-      ;
+         fail_start++) {
+    }
     size_t fail_start_printable;
     for (fail_start_printable = 0;
          tolower(printable_actual[fail_start_printable]) ==
          tolower(printable_expected[fail_start_printable]);
-         fail_start_printable++)
-      ;
+         fail_start_printable++) {
+    }
     message_ += create_difference_at_pos_string(
         printable_actual, fail_start_printable, fail_start
     );
@@ -486,13 +488,13 @@ BinaryEqualFailure::BinaryEqualFailure(
   message_ += create_but_was_string(
       string_from_binary_or_null(expected, size), actual_hex
   );
-  if ((expected) && (actual)) {
+  if ((expected != nullptr) && (actual != nullptr)) {
     size_t fail_start;
     for (fail_start = 0; actual[fail_start] == expected[fail_start];
-         fail_start++)
-      ;
+         fail_start++) {
+    }
     message_ += create_difference_at_pos_string(
-        actual_hex, (fail_start * 3 + 1), fail_start
+        actual_hex, ((fail_start * 3) + 1), fail_start
     );
   }
 }
@@ -527,7 +529,7 @@ namespace {
 String get_exception_type_name(const std::exception& e)
 {
   const char* name = typeid(e).name();
-#if defined(__GNUC__)
+#ifdef __GNUC__
   int status = -1;
 
   std::unique_ptr<char, void (*)(void*)> demangled_name(

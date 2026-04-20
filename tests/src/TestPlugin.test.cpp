@@ -21,15 +21,18 @@ public:
   {
   }
 
-  void pre_test_action(mu::tiny::test::Shell&, mu::tiny::test::Result&) override
+  void pre_test_action(
+      mu::tiny::test::Shell& /*test*/,
+      mu::tiny::test::Result& /*result*/
+  ) override
   {
     pre_action++;
     pre_action_sequence = sequence_number++;
   }
 
   void post_test_action(
-      mu::tiny::test::Shell&,
-      mu::tiny::test::Result&
+      mu::tiny::test::Shell& /*test*/,
+      mu::tiny::test::Result& /*result*/
   ) override
   {
     post_action++;
@@ -53,8 +56,9 @@ public:
   bool parse_arguments(int argc, const char* const* argv, int index) override
   {
     mu::tiny::String argument(argv[index]);
-    if (argument == "-paccept")
+    if (argument == "-paccept") {
       return true;
+    }
     return Plugin::parse_arguments(argc, argv, index);
   }
 };

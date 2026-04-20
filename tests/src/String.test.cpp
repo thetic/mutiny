@@ -381,7 +381,7 @@ TEST(String, UnsignedLongLongInts)
 
 TEST(String, Floats)
 {
-  mu::tiny::String s(mu::tiny::string_from(1.2f));
+  mu::tiny::String s(mu::tiny::string_from(1.2F));
   STRCMP_EQUAL("1.2", s.c_str());
 }
 
@@ -459,18 +459,19 @@ TEST(String, StringFromFormatpointer)
   // Solaris.
   mu::tiny::String h1 =
       mu::tiny::string_from_format("%p", reinterpret_cast<void*>(1));
-  if (h1.size() == 3)
+  if (h1.size() == 3) {
     STRCMP_EQUAL("0x1", h1.c_str());
-  else if (h1.size() == 8)
+  } else if (h1.size() == 8) {
     STRCMP_EQUAL("00000001", h1.c_str());
-  else if (h1.size() == 9)
+  } else if (h1.size() == 9) {
     STRCMP_EQUAL("0000:0001", h1.c_str());
-  else if (h1.size() == 16)
+  } else if (h1.size() == 16) {
     STRCMP_EQUAL("0000000000000001", h1.c_str());
-  else if (h1.size() == 1)
+  } else if (h1.size() == 1) {
     STRCMP_EQUAL("1", h1.c_str());
-  else
+  } else {
     FAIL_TEST("Off %p behavior");
+  }
 }
 
 TEST(String, StringFromFormatLarge)
@@ -518,8 +519,9 @@ TEST(String, NullParameters2)
 TEST(String, 64BitAddressPrintsCorrectly)
 {
   const bool small_pointer = sizeof(void*) < sizeof(uint64_t);
-  if (small_pointer)
+  if (small_pointer) {
     SKIP_TEST("requires 64-bit pointers");
+  }
   char* p = reinterpret_cast<char*>(0x0012345678901234LL);
   mu::tiny::String expected("0x12345678901234");
   mu::tiny::String actual = mu::tiny::string_from(static_cast<void*>(p));

@@ -207,11 +207,11 @@ protected:
 
 /** @brief Stream-style helper: print a string to an output sink; returns the
  * sink for chaining. */
-MUTINY_EXPORT Output& operator<<(Output&, const char*);
+MUTINY_EXPORT Output& operator<<(Output& lhs, const char* rhs);
 
 /** @brief Stream-style helper: print a long integer to an output sink; returns
  * the sink for chaining. */
-MUTINY_EXPORT Output& operator<<(Output&, long);
+MUTINY_EXPORT Output& operator<<(Output& lhs, long rhs);
 
 } // namespace test
 } // namespace tiny

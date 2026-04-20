@@ -21,8 +21,9 @@ public:
 
   void exit_current_test() const override
   {
-    if (crash_on_failure_)
+    if (crash_on_failure_) {
       mu::tiny::test::Shell::crash();
+    }
 
     mu::tiny::test::Shell::get_current_test_terminator_without_exceptions()
         .exit_current_test();
@@ -131,12 +132,12 @@ void install_copier(const char* type_name, MutinyMockTypeCopyFunction copier)
 
 void remove_all_comparators_and_copiers()
 {
-  while (comparator_list) {
+  while (comparator_list != nullptr) {
     MockCFunctionComparatorNode* next = comparator_list->next;
     delete comparator_list;
     comparator_list = next;
   }
-  while (copier_list) {
+  while (copier_list != nullptr) {
     MockCFunctionCopierNode* next = copier_list->next;
     delete copier_list;
     copier_list = next;
@@ -147,7 +148,7 @@ void remove_all_comparators_and_copiers()
 struct MutinyMockExpectedCall* expect_one_call(const char* name);
 void expect_no_call(const char* name);
 struct MutinyMockExpectedCall* expect_n_calls(
-    const unsigned int number,
+    unsigned int number,
     const char* name
 );
 
@@ -963,7 +964,7 @@ int bool_return_value()
 
 int return_bool_value_or_default(int default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return bool_return_value();
@@ -976,7 +977,7 @@ int int_return_value()
 
 int return_int_value_or_default(int default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return int_return_value();
@@ -989,7 +990,7 @@ unsigned int unsigned_int_return_value()
 
 unsigned int return_unsigned_int_value_or_default(unsigned int default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return unsigned_int_return_value();
@@ -1002,7 +1003,7 @@ long int long_int_return_value()
 
 long int return_long_int_value_or_default(long int default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return long_int_return_value();
@@ -1017,7 +1018,7 @@ unsigned long int return_unsigned_long_int_value_or_default(
     unsigned long int default_value
 )
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return unsigned_long_int_return_value();
@@ -1030,7 +1031,7 @@ long long long_long_int_return_value()
 
 long long return_long_long_int_value_or_default(long long default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return long_long_int_return_value();
@@ -1045,7 +1046,7 @@ unsigned long long return_unsigned_long_long_int_value_or_default(
     unsigned long long default_value
 )
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return unsigned_long_long_int_return_value();
@@ -1058,7 +1059,7 @@ const char* string_return_value()
 
 const char* return_string_value_or_default(const char* default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return string_return_value();
@@ -1071,7 +1072,7 @@ double double_return_value()
 
 double return_double_value_or_default(double default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return double_return_value();
@@ -1084,7 +1085,7 @@ void* pointer_return_value()
 
 void* return_pointer_value_or_default(void* default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return pointer_return_value();
@@ -1097,7 +1098,7 @@ const void* const_pointer_return_value()
 
 const void* return_const_pointer_value_or_default(const void* default_value)
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return const_pointer_return_value();
@@ -1111,7 +1112,7 @@ void (*function_pointer_return_value())()
 
 void (*return_function_pointer_value_or_default(void (*default_value)()))()
 {
-  if (!has_return_value()) {
+  if (has_return_value() == 0) {
     return default_value;
   }
   return function_pointer_return_value();
@@ -1215,7 +1216,7 @@ struct MutinyMockValue get_data(const char* name)
 
 int has_return_value()
 {
-  return current_mock_support->has_return_value();
+  return static_cast<int>(current_mock_support->has_return_value());
 }
 
 void check_expectations()
@@ -1225,7 +1226,7 @@ void check_expectations()
 
 int expected_calls_left()
 {
-  return current_mock_support->expected_calls_left();
+  return static_cast<int>(current_mock_support->expected_calls_left());
 }
 
 void clear()

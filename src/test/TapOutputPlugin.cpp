@@ -18,8 +18,9 @@ bool TapOutputPlugin::parse_arguments(
 )
 {
   String arg = argv[index];
-  if (arg != "-ptap")
+  if (arg != "-ptap") {
     return false;
+  }
   active_ = true;
   return true;
 }
@@ -31,8 +32,9 @@ String TapOutputPlugin::get_help() const
 
 Output* TapOutputPlugin::create_output()
 {
-  if (!active_)
+  if (!active_) {
     return nullptr;
+  }
   return new TapOutput;
 }
 

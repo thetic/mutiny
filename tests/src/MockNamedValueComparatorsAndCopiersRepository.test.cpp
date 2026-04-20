@@ -18,15 +18,16 @@ class TypeForTestingExpectedFunctionCallComparator
 public:
   bool is_equal(const void* object1, const void* object2) override
   {
-    auto* obj1 =
+    const auto* obj1 =
         static_cast<const TypeForTestingExpectedFunctionCall*>(object1);
-    auto* obj2 =
+    const auto* obj2 =
         static_cast<const TypeForTestingExpectedFunctionCall*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
   mu::tiny::String value_to_string(const void* object) override
   {
-    auto* obj = static_cast<const TypeForTestingExpectedFunctionCall*>(object);
+    const auto* obj =
+        static_cast<const TypeForTestingExpectedFunctionCall*>(object);
     return mu::tiny::string_from(*(obj->value));
   }
 };
@@ -38,7 +39,7 @@ public:
   void copy(void* dst, const void* src) override
   {
     auto* typed_dst = static_cast<TypeForTestingExpectedFunctionCall*>(dst);
-    auto* typed_src =
+    const auto* typed_src =
         static_cast<const TypeForTestingExpectedFunctionCall*>(src);
     *(typed_dst->value) = *(typed_src->value);
   }
@@ -50,8 +51,14 @@ public:
   MyComparator() = default;
   ~MyComparator() override = default;
 
-  bool is_equal(const void*, const void*) override { return false; }
-  mu::tiny::String value_to_string(const void*) override { return ""; }
+  bool is_equal(const void* /*object1*/, const void* /*object2*/) override
+  {
+    return false;
+  }
+  mu::tiny::String value_to_string(const void* /*object*/) override
+  {
+    return "";
+  }
 };
 
 class MyCopier : public mu::tiny::mock::NamedValueCopier
@@ -60,7 +67,7 @@ public:
   MyCopier() = default;
   ~MyCopier() override = default;
 
-  void copy(void*, const void*) override {}
+  void copy(void* /*out*/, const void* /*in*/) override {}
 };
 
 TEST_GROUP(NamedValueComparatorsAndCopiersRepository)
@@ -88,12 +95,17 @@ TEST(NamedValueComparatorsAndCopiersRepository, installComparator)
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleComparators)
 {
-  TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
-      comparator3;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+
+  TypeForTestingExpectedFunctionCallComparator comparator1;
   repository.install_comparator("type1", comparator1);
+
+  TypeForTestingExpectedFunctionCallComparator comparator2;
   repository.install_comparator("type2", comparator2);
+
+  TypeForTestingExpectedFunctionCallComparator comparator3;
   repository.install_comparator("type3", comparator3);
+
   CHECK_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
   CHECK_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
   CHECK_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));
@@ -115,11 +127,17 @@ TEST(NamedValueComparatorsAndCopiersRepository, installCopier)
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleCopiers)
 {
-  TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+
+  TypeForTestingExpectedFunctionCallCopier copier1;
   repository.install_copier("type1", copier1);
+
+  TypeForTestingExpectedFunctionCallCopier copier2;
   repository.install_copier("type2", copier2);
+
+  TypeForTestingExpectedFunctionCallCopier copier3;
   repository.install_copier("type3", copier3);
+
   CHECK_EQUAL(&copier3, repository.get_copier_for_type("type3"));
   CHECK_EQUAL(&copier2, repository.get_copier_for_type("type2"));
   CHECK_EQUAL(&copier1, repository.get_copier_for_type("type1"));
@@ -127,16 +145,23 @@ TEST(NamedValueComparatorsAndCopiersRepository, installMultipleCopiers)
 
 TEST(NamedValueComparatorsAndCopiersRepository, installMultipleHandlers)
 {
-  TypeForTestingExpectedFunctionCallCopier copier1, copier2, copier3;
-  TypeForTestingExpectedFunctionCallComparator comparator1, comparator2,
-      comparator3;
   mu::tiny::mock::NamedValueComparatorsAndCopiersRepository repository;
+
+  TypeForTestingExpectedFunctionCallCopier copier1;
+  TypeForTestingExpectedFunctionCallComparator comparator1;
   repository.install_copier("type1", copier1);
   repository.install_comparator("type1", comparator1);
+
+  TypeForTestingExpectedFunctionCallCopier copier2;
+  TypeForTestingExpectedFunctionCallComparator comparator2;
   repository.install_copier("type2", copier2);
-  repository.install_copier("type3", copier3);
   repository.install_comparator("type2", comparator2);
+
+  TypeForTestingExpectedFunctionCallCopier copier3;
+  TypeForTestingExpectedFunctionCallComparator comparator3;
+  repository.install_copier("type3", copier3);
   repository.install_comparator("type3", comparator3);
+
   CHECK_EQUAL(&comparator3, repository.get_comparator_for_type("type3"));
   CHECK_EQUAL(&comparator2, repository.get_comparator_for_type("type2"));
   CHECK_EQUAL(&comparator1, repository.get_comparator_for_type("type1"));

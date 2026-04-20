@@ -1,6 +1,7 @@
 #include "IEEE754ExceptionsPlugin.hpp"
 
-#include "mu/tiny/test.hpp"
+#include "mu/tiny/test/Result.hpp"
+#include "mu/tiny/test/Shell.hpp"
 
 #if MUTINY_HAVE_FENV
 #include <fenv.h>
@@ -17,8 +18,8 @@ IEEE754ExceptionsPlugin::IEEE754ExceptionsPlugin(const mu::tiny::String& name)
 }
 
 void IEEE754ExceptionsPlugin::pre_test_action(
-    mu::tiny::test::Shell&,
-    mu::tiny::test::Result&
+    mu::tiny::test::Shell& /*test*/,
+    mu::tiny::test::Result& /*result*/
 )
 {
 #if MUTINY_HAVE_FENV
@@ -100,9 +101,10 @@ void IEEE754ExceptionsPlugin::ieee754_check(
 {
 #if MUTINY_HAVE_FENV
   result.count_check();
-  if (inexact_disabled_)
+  if (inexact_disabled_) {
     CHECK(!feclearexcept(FE_INEXACT));
-  if (fetestexcept(flag)) {
+  }
+  if (fetestexcept(flag) != 0) {
     CHECK(!feclearexcept(FE_ALL_EXCEPT));
     mu::tiny::test::CheckFailure failure(
         &test, __FILE__, __LINE__, "IEEE754_CHECK_CLEAR", text

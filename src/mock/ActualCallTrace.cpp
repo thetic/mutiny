@@ -94,8 +94,9 @@ const char* ActualCallTrace::get_trace_output()
 
 ActualCallTrace& ActualCallTrace::instance()
 {
-  if (instance_ == nullptr)
+  if (instance_ == nullptr) {
     instance_ = new ActualCallTrace;
+  }
   return *instance_;
 }
 

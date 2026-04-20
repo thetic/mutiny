@@ -7,7 +7,7 @@
 class TeamCityTestOutput : public mu::tiny::test::ConsoleOutput
 {
 public:
-  TeamCityTestOutput();
+  TeamCityTestOutput() = default;
   ~TeamCityTestOutput() override = default;
 
   void print_current_test_started(const mu::tiny::test::Shell& test) override;

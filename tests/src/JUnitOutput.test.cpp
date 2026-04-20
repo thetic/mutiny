@@ -41,16 +41,19 @@ public:
   {
     const char* p = buffer_.c_str();
     size_t count = 1;
-    while (*p && count < n) {
-      if (*p == '\n')
+    while ((*p != 0) && count < n) {
+      if (*p == '\n') {
         ++count;
+      }
       ++p;
     }
     line_buf_ = "";
-    while (*p && *p != '\n')
+    while ((*p != 0) && *p != '\n') {
       line_buf_ += *p++;
-    if (*p == '\n')
+    }
+    if (*p == '\n') {
       line_buf_ += '\n';
+    }
     return line_buf_.c_str();
   }
 
@@ -62,9 +65,11 @@ public:
   size_t amount_of_lines()
   {
     size_t count = 0;
-    for (const char* p = buffer_.c_str(); *p; ++p)
-      if (*p == '\n')
+    for (const char* p = buffer_.c_str(); *p != 0; ++p) {
+      if (*p == '\n') {
         ++count;
+      }
+    }
     return count;
   }
 
@@ -81,7 +86,7 @@ public:
 
   void clear()
   {
-    while (first_file_) {
+    while (first_file_ != nullptr) {
       FileForJUnitTestOutputs* tmp = first_file_;
       first_file_ = first_file_->next_file();
       delete tmp;
@@ -97,8 +102,9 @@ public:
   int amount_of_files()
   {
     int count = 0;
-    for (auto* cur = first_file_; cur; cur = cur->next_file())
+    for (auto* cur = first_file_; cur != nullptr; cur = cur->next_file()) {
       ++count;
+    }
     return count;
   }
 
@@ -106,9 +112,11 @@ public:
 
   FileForJUnitTestOutputs* file(const char* filename)
   {
-    for (auto* cur = first_file_; cur; cur = cur->next_file())
-      if (cur->name() == filename)
+    for (auto* cur = first_file_; cur != nullptr; cur = cur->next_file()) {
+      if (cur->name() == filename) {
         return cur;
+      }
+    }
     return nullptr;
   }
 };
@@ -181,7 +189,7 @@ public:
   void end_of_previous_test_group()
   {
     run_previous_test();
-    if (current_test_) {
+    if (current_test_ != nullptr) {
       result_.current_group_ended(current_test_);
       first_test_in_group_ = true;
     }
@@ -216,22 +224,25 @@ public:
 
   JUnitTestOutputTestRunner& in_file(const char* file_name)
   {
-    if (current_test_)
+    if (current_test_ != nullptr) {
       current_test_->set_file_name(file_name);
+    }
     return *this;
   }
 
   JUnitTestOutputTestRunner& on_line(size_t line_number)
   {
-    if (current_test_)
+    if (current_test_ != nullptr) {
       current_test_->set_line_number(line_number);
+    }
     return *this;
   }
 
   void run_previous_test()
   {
-    if (current_test_ == nullptr)
+    if (current_test_ == nullptr) {
       return;
+    }
 
     if (first_test_in_group_) {
       result_.current_group_started(current_test_);
@@ -240,11 +251,12 @@ public:
     result_.current_test_started(current_test_);
 
     millis_time += time_the_test_takes_;
-    for (unsigned int i = 0; i < number_of_checks_in_test_; ++i)
+    for (unsigned int i = 0; i < number_of_checks_in_test_; ++i) {
       result_.count_check();
+    }
     number_of_checks_in_test_ = 0;
 
-    while (pending_properties_) {
+    while (pending_properties_ != nullptr) {
       result_.add_test_property(
           pending_properties_->name, pending_properties_->value
       );
@@ -258,7 +270,7 @@ public:
       pending_skip_message_ = nullptr;
     }
 
-    if (test_failure_) {
+    if (test_failure_ != nullptr) {
       result_.add_failure(*test_failure_);
       delete test_failure_;
       test_failure_ = nullptr;
@@ -328,8 +340,9 @@ public:
     prop->value = value;
     prop->next = nullptr;
     PendingProperty** tail = &pending_properties_;
-    while (*tail)
+    while (*tail != nullptr) {
       tail = &(*tail)->next;
+    }
     *tail = prop;
     return *this;
   }
@@ -338,7 +351,10 @@ public:
 FileSystemForJUnitTestOutputTests file_system;
 FileForJUnitTestOutputs* current_file = nullptr;
 
-mu::tiny::test::Output::File mock_f_open(const char* filename, const char*)
+mu::tiny::test::Output::File mock_f_open(
+    const char* filename,
+    const char* /*flag*/
+)
 {
   current_file = file_system.open_file(filename);
   return current_file;
@@ -348,10 +364,11 @@ mu::tiny::test::Output::FPutsFunc original_f_puts;
 
 void mock_f_puts(const char* str, mu::tiny::test::Output::File file)
 {
-  if (file == current_file)
+  if (file == current_file) {
     static_cast<FileForJUnitTestOutputs*>(file)->write(str);
-  else
+  } else {
     original_f_puts(str, file);
+  }
 }
 
 void mock_f_close(mu::tiny::test::Output::File file)

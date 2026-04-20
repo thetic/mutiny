@@ -26,25 +26,30 @@ public:
   {
     const char* p = content_.c_str();
     size_t count = 1;
-    while (*p && count < n) {
-      if (*p == '\n')
+    while ((*p != 0) && count < n) {
+      if (*p == '\n') {
         ++count;
+      }
       ++p;
     }
     line_buf_ = "";
-    while (*p && *p != '\n')
+    while ((*p != 0) && *p != '\n') {
       line_buf_ += *p++;
-    if (*p == '\n')
+    }
+    if (*p == '\n') {
       line_buf_ += '\n';
+    }
     return line_buf_.c_str();
   }
 
   size_t amount_of_lines() const
   {
     size_t count = 0;
-    for (const char* p = content_.c_str(); *p; ++p)
-      if (*p == '\n')
+    for (const char* p = content_.c_str(); *p != 0; ++p) {
+      if (*p == '\n') {
         ++count;
+      }
+    }
     return count;
   }
 
@@ -90,7 +95,7 @@ public:
   void end_of_previous_test_group()
   {
     run_previous_test();
-    if (current_test_) {
+    if (current_test_ != nullptr) {
       result_.current_group_ended(current_test_);
       first_test_in_group_ = true;
     }
@@ -127,8 +132,9 @@ public:
 
   void run_previous_test()
   {
-    if (current_test_ == nullptr)
+    if (current_test_ == nullptr) {
       return;
+    }
 
     if (first_test_in_group_) {
       result_.current_group_started(current_test_);
@@ -141,7 +147,7 @@ public:
       pending_skip_message_ = nullptr;
     }
 
-    if (test_failure_) {
+    if (test_failure_ != nullptr) {
       result_.add_failure(*test_failure_);
       delete test_failure_;
       test_failure_ = nullptr;
@@ -182,8 +188,9 @@ TapOutputBuffer* tap_buffer = nullptr;
 
 void mock_tap_fputs(const char* str, mu::tiny::test::Output::File file)
 {
-  if (file == mu::tiny::test::Output::stdout_ && tap_buffer != nullptr)
+  if (file == mu::tiny::test::Output::stdout_ && tap_buffer != nullptr) {
     tap_buffer->write(str);
+  }
 }
 
 } // namespace

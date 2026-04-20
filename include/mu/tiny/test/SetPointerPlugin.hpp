@@ -62,12 +62,12 @@ public:
   template<typename T>
   static void set_pointer(T*& a, T* b)
   {
-    store(reinterpret_cast<void**>(&(a)));
+    store(reinterpret_cast<void**>(&a));
     a = b;
   }
 
 private:
-  static void store(void** location);
+  static void store(void** function);
 };
 
 } // namespace test

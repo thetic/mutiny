@@ -150,7 +150,7 @@ void NamedValue::set_const_object_pointer(
   type_ = type;
   is_const_object_ = true;
   value_.const_object_pointer_value = object_ptr;
-  if (default_repository_) {
+  if (default_repository_ != nullptr) {
     comparator_ = default_repository_->get_comparator_for_type(type);
     copier_ = default_repository_->get_copier_for_type(type);
   }
@@ -161,7 +161,7 @@ void NamedValue::set_object_pointer(StringView type, void* object_ptr)
   type_ = type;
   is_const_object_ = false;
   value_.object_pointer_value = object_ptr;
-  if (default_repository_) {
+  if (default_repository_ != nullptr) {
     comparator_ = default_repository_->get_comparator_for_type(type);
     copier_ = default_repository_->get_copier_for_type(type);
   }
@@ -204,8 +204,9 @@ int NamedValue::get_value<int>() const
 template<>
 unsigned int NamedValue::get_value<unsigned int>() const
 {
-  if (type_ == "int" && value_.int_value >= 0)
+  if (type_ == "int" && value_.int_value >= 0) {
     return static_cast<unsigned int>(value_.int_value);
+  }
   STRCMP_EQUAL("unsigned int", type_.c_str());
   return value_.unsigned_int_value;
 }
@@ -213,10 +214,12 @@ unsigned int NamedValue::get_value<unsigned int>() const
 template<>
 long int NamedValue::get_value<long int>() const
 {
-  if (type_ == "int")
+  if (type_ == "int") {
     return value_.int_value;
-  else if (type_ == "unsigned int")
+  }
+  if (type_ == "unsigned int") {
     return static_cast<long int>(value_.unsigned_int_value);
+  }
   STRCMP_EQUAL("long int", type_.c_str());
   return value_.long_int_value;
 }
@@ -224,12 +227,15 @@ long int NamedValue::get_value<long int>() const
 template<>
 unsigned long int NamedValue::get_value<unsigned long int>() const
 {
-  if (type_ == "unsigned int")
+  if (type_ == "unsigned int") {
     return value_.unsigned_int_value;
-  else if (type_ == "int" && value_.int_value >= 0)
+  }
+  if (type_ == "int" && value_.int_value >= 0) {
     return static_cast<unsigned long int>(value_.int_value);
-  else if (type_ == "long int" && value_.long_int_value >= 0)
+  }
+  if (type_ == "long int" && value_.long_int_value >= 0) {
     return static_cast<unsigned long int>(value_.long_int_value);
+  }
   STRCMP_EQUAL("unsigned long int", type_.c_str());
   return value_.unsigned_long_int_value;
 }
@@ -237,14 +243,18 @@ unsigned long int NamedValue::get_value<unsigned long int>() const
 template<>
 long long NamedValue::get_value<long long>() const
 {
-  if (type_ == "int")
+  if (type_ == "int") {
     return value_.int_value;
-  else if (type_ == "unsigned int")
+  }
+  if (type_ == "unsigned int") {
     return static_cast<long long int>(value_.unsigned_int_value);
-  else if (type_ == "long int")
+  }
+  if (type_ == "long int") {
     return value_.long_int_value;
-  else if (type_ == "unsigned long int")
+  }
+  if (type_ == "unsigned long int") {
     return static_cast<long long int>(value_.unsigned_long_int_value);
+  }
   STRCMP_EQUAL("long long int", type_.c_str());
   return value_.long_long_int_value;
 }
@@ -252,16 +262,21 @@ long long NamedValue::get_value<long long>() const
 template<>
 unsigned long long NamedValue::get_value<unsigned long long>() const
 {
-  if (type_ == "unsigned int")
+  if (type_ == "unsigned int") {
     return value_.unsigned_int_value;
-  else if (type_ == "int" && value_.int_value >= 0)
+  }
+  if (type_ == "int" && value_.int_value >= 0) {
     return static_cast<unsigned long long int>(value_.int_value);
-  else if (type_ == "long int" && value_.long_int_value >= 0)
+  }
+  if (type_ == "long int" && value_.long_int_value >= 0) {
     return static_cast<unsigned long long int>(value_.long_int_value);
-  else if (type_ == "unsigned long int")
+  }
+  if (type_ == "unsigned long int") {
     return value_.unsigned_long_int_value;
-  else if (type_ == "long long int" && value_.long_long_int_value >= 0)
+  }
+  if (type_ == "long long int" && value_.long_long_int_value >= 0) {
     return static_cast<unsigned long long int>(value_.long_long_int_value);
+  }
   STRCMP_EQUAL("unsigned long long int", type_.c_str());
   return value_.unsigned_long_long_int_value;
 }
@@ -344,144 +359,279 @@ NamedValueCopier* NamedValue::get_copier() const
   return copier_;
 }
 
+bool NamedValue::equals_cross_int_long(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long int") && (b.type_ == "int")) {
+    result = a.value_.long_int_value == b.value_.int_value;
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "long int")) {
+    result = a.value_.int_value == b.value_.long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned int>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned int>(a.value_.int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_long_unsigned(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "unsigned int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned long>(b.value_.long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.long_int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "unsigned long int")) {
+    result = a.value_.unsigned_int_value == b.value_.unsigned_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "unsigned int")) {
+    result = a.value_.unsigned_long_int_value == b.value_.unsigned_int_value;
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long>(a.value_.long_int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long>(b.value_.long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ll_narrow(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long long int") && (b.type_ == "int")) {
+    result = a.value_.long_long_int_value == b.value_.int_value;
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "long long int")) {
+    result = a.value_.int_value == b.value_.long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "long int")) {
+    result = a.value_.long_long_int_value == b.value_.long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "long long int")) {
+    result = a.value_.long_int_value == b.value_.long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ll_wide(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned long int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long long int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.long_long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_long_int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "long long int")) {
+    result = (b.value_.long_long_int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_long_int_value));
+    return true;
+  }
+  return false;
+}
+
+bool NamedValue::equals_cross_ull(
+    const NamedValue& a,
+    const NamedValue& b,
+    bool& result
+)
+{
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "int")) {
+    result = (b.value_.int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.int_value));
+    return true;
+  }
+  if ((a.type_ == "int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "unsigned int")) {
+    result =
+        a.value_.unsigned_long_long_int_value == b.value_.unsigned_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned int") && (b.type_ == "unsigned long long int")) {
+    result =
+        a.value_.unsigned_int_value == b.value_.unsigned_long_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") && (b.type_ == "long int")) {
+    result = (b.value_.long_int_value >= 0) &&
+             (a.value_.unsigned_long_long_int_value ==
+              static_cast<unsigned long long>(b.value_.long_int_value));
+    return true;
+  }
+  if ((a.type_ == "long int") && (b.type_ == "unsigned long long int")) {
+    result = (a.value_.long_int_value >= 0) &&
+             (static_cast<unsigned long long>(a.value_.long_int_value) ==
+              b.value_.unsigned_long_long_int_value);
+    return true;
+  }
+  if ((a.type_ == "unsigned long long int") &&
+      (b.type_ == "unsigned long int")) {
+    result = a.value_.unsigned_long_long_int_value ==
+             b.value_.unsigned_long_int_value;
+    return true;
+  }
+  if ((a.type_ == "unsigned long int") &&
+      (b.type_ == "unsigned long long int")) {
+    result = a.value_.unsigned_long_int_value ==
+             b.value_.unsigned_long_long_int_value;
+    return true;
+  }
+  return false;
+}
+
 bool NamedValue::equals(const NamedValue& p) const
 {
-  if ((type_ == "long int") && (p.type_ == "int"))
-    return value_.long_int_value == p.value_.int_value;
-  else if ((type_ == "int") && (p.type_ == "long int"))
-    return value_.int_value == p.value_.long_int_value;
-  else if ((type_ == "unsigned int") && (p.type_ == "int"))
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned int>(p.value_.int_value));
-  else if ((type_ == "int") && (p.type_ == "unsigned int"))
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned int>(value_.int_value) ==
-            p.value_.unsigned_int_value);
-  else if ((type_ == "unsigned long int") && (p.type_ == "int"))
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long>(p.value_.int_value));
-  else if ((type_ == "int") && (p.type_ == "unsigned long int"))
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned long>(value_.int_value) ==
-            p.value_.unsigned_long_int_value);
-  else if ((type_ == "unsigned int") && (p.type_ == "long int"))
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned long>(p.value_.long_int_value));
-  else if ((type_ == "long int") && (p.type_ == "unsigned int"))
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long>(value_.long_int_value) ==
-            p.value_.unsigned_int_value);
-  else if ((type_ == "unsigned int") && (p.type_ == "unsigned long int"))
-    return value_.unsigned_int_value == p.value_.unsigned_long_int_value;
-  else if ((type_ == "unsigned long int") && (p.type_ == "unsigned int"))
-    return value_.unsigned_long_int_value == p.value_.unsigned_int_value;
-  else if ((type_ == "long int") && (p.type_ == "unsigned long int"))
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long>(value_.long_int_value) ==
-            p.value_.unsigned_long_int_value);
-  else if ((type_ == "unsigned long int") && (p.type_ == "long int"))
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long>(p.value_.long_int_value));
-  else if ((type_ == "long long int") && (p.type_ == "int"))
-    return value_.long_long_int_value == p.value_.int_value;
-  else if ((type_ == "int") && (p.type_ == "long long int"))
-    return value_.int_value == p.value_.long_long_int_value;
-  else if ((type_ == "long long int") && (p.type_ == "long int"))
-    return value_.long_long_int_value == p.value_.long_int_value;
-  else if ((type_ == "long int") && (p.type_ == "long long int"))
-    return value_.long_int_value == p.value_.long_long_int_value;
-  else if ((type_ == "long long int") && (p.type_ == "unsigned int"))
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_int_value);
-  else if ((type_ == "unsigned int") && (p.type_ == "long long int"))
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  else if ((type_ == "long long int") && (p.type_ == "unsigned long int"))
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_long_int_value);
-  else if ((type_ == "unsigned long int") && (p.type_ == "long long int"))
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  else if ((type_ == "long long int") && (p.type_ == "unsigned long long int"))
-    return (value_.long_long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_long_int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  else if ((type_ == "unsigned long long int") && (p.type_ == "long long int"))
-    return (p.value_.long_long_int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_long_int_value));
-  else if ((type_ == "unsigned long long int") && (p.type_ == "int"))
-    return (p.value_.int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.int_value));
-  else if ((type_ == "int") && (p.type_ == "unsigned long long int"))
-    return (value_.int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  else if ((type_ == "unsigned long long int") && (p.type_ == "unsigned int"))
-    return value_.unsigned_long_long_int_value == p.value_.unsigned_int_value;
-  else if ((type_ == "unsigned int") && (p.type_ == "unsigned long long int"))
-    return value_.unsigned_int_value == p.value_.unsigned_long_long_int_value;
-  else if ((type_ == "unsigned long long int") && (p.type_ == "long int"))
-    return (p.value_.long_int_value >= 0) &&
-           (value_.unsigned_long_long_int_value ==
-            static_cast<unsigned long long>(p.value_.long_int_value));
-  else if ((type_ == "long int") && (p.type_ == "unsigned long long int"))
-    return (value_.long_int_value >= 0) &&
-           (static_cast<unsigned long long>(value_.long_int_value) ==
-            p.value_.unsigned_long_long_int_value);
-  else if (
-      (type_ == "unsigned long long int") && (p.type_ == "unsigned long int")
-  )
-    return value_.unsigned_long_long_int_value ==
-           p.value_.unsigned_long_int_value;
-  else if (
-      (type_ == "unsigned long int") && (p.type_ == "unsigned long long int")
-  )
-    return value_.unsigned_long_int_value ==
-           p.value_.unsigned_long_long_int_value;
+  bool eq = false;
+  if (equals_cross_int_long(*this, p, eq)) {
+    return eq;
+  }
+  if (equals_cross_long_unsigned(*this, p, eq)) {
+    return eq;
+  }
+  if (equals_cross_ll_narrow(*this, p, eq)) {
+    return eq;
+  }
+  if (equals_cross_ll_wide(*this, p, eq)) {
+    return eq;
+  }
+  if (equals_cross_ull(*this, p, eq)) {
+    return eq;
+  }
 
-  if (type_ != p.type_)
+  if (type_ != p.type_) {
     return false;
+  }
 
-  if (type_ == "bool")
+  if (type_ == "bool") {
     return value_.bool_value == p.value_.bool_value;
-  else if (type_ == "int")
+  }
+  if (type_ == "int") {
     return value_.int_value == p.value_.int_value;
-  else if (type_ == "unsigned int")
+  }
+  if (type_ == "unsigned int") {
     return value_.unsigned_int_value == p.value_.unsigned_int_value;
-  else if (type_ == "long int")
+  }
+  if (type_ == "long int") {
     return value_.long_int_value == p.value_.long_int_value;
-  else if (type_ == "unsigned long int")
+  }
+  if (type_ == "unsigned long int") {
     return value_.unsigned_long_int_value == p.value_.unsigned_long_int_value;
-  else if (type_ == "long long int")
+  }
+  if (type_ == "long long int") {
     return value_.long_long_int_value == p.value_.long_long_int_value;
-  else if (type_ == "unsigned long long int")
+  }
+  if (type_ == "unsigned long long int") {
     return value_.unsigned_long_long_int_value ==
            p.value_.unsigned_long_long_int_value;
-  else if (type_ == "const char*")
+  }
+  if (type_ == "const char*") {
+    // NOLINTNEXTLINE(readability-container-size-empty)
     return String(value_.string_value) == String(p.value_.string_value);
-  else if (type_ == "void*")
+  }
+  if (type_ == "void*") {
     return value_.pointer_value == p.value_.pointer_value;
-  else if (type_ == "const void*")
+  }
+  if (type_ == "const void*") {
     return value_.const_pointer_value == p.value_.const_pointer_value;
-  else if (type_ == "void (*)()")
+  }
+  if (type_ == "void (*)()") {
     return value_.function_pointer_value == p.value_.function_pointer_value;
-  else if (type_ == "double")
+  }
+  if (type_ == "double") {
     return (test::approx_equal(
         value_.double_value.value,
         p.value_.double_value.value,
         value_.double_value.tolerance
     ));
-  else if (type_ == "const unsigned char*") {
+  }
+  if (type_ == "const unsigned char*") {
     if (size_ != p.size_) {
       return false;
     }
@@ -490,66 +640,83 @@ bool NamedValue::equals(const NamedValue& p) const
            ) == 0;
   }
 
-  if (comparator_)
+  if (comparator_ != nullptr) {
     return comparator_->is_equal(
         value_.const_object_pointer_value, p.value_.const_object_pointer_value
     );
+  }
 
   return false;
 }
 
 bool NamedValue::compatible_for_copying(const NamedValue& p) const
 {
-  if (type_ == p.type_)
+  if (type_ == p.type_) {
     return true;
+  }
 
-  if ((type_ == "const void*") && (p.type_ == "void*"))
+  if ((type_ == "const void*") && (p.type_ == "void*")) {
     return true;
+  }
 
   return false;
 }
 
 String NamedValue::to_string() const
 {
-  if (type_ == "bool")
+  if (type_ == "bool") {
     return string_from(value_.bool_value);
-  else if (type_ == "int")
+  }
+  if (type_ == "int") {
     return string_from(value_.int_value) + " " +
            brackets_formatted_hex_string_from(value_.int_value);
-  else if (type_ == "unsigned int")
+  }
+  if (type_ == "unsigned int") {
     return string_from(value_.unsigned_int_value) + " " +
            brackets_formatted_hex_string_from(value_.unsigned_int_value);
-  else if (type_ == "long int")
+  }
+  if (type_ == "long int") {
     return string_from(value_.long_int_value) + " " +
            brackets_formatted_hex_string_from(value_.long_int_value);
-  else if (type_ == "unsigned long int")
+  }
+  if (type_ == "unsigned long int") {
     return string_from(value_.unsigned_long_int_value) + " " +
            brackets_formatted_hex_string_from(value_.unsigned_long_int_value);
-  else if (type_ == "long long int")
+  }
+  if (type_ == "long long int") {
     return string_from(value_.long_long_int_value) + " " +
            brackets_formatted_hex_string_from(value_.long_long_int_value);
-  else if (type_ == "unsigned long long int")
+  }
+  if (type_ == "unsigned long long int") {
     return string_from(value_.unsigned_long_long_int_value) + " " +
            brackets_formatted_hex_string_from(
                value_.unsigned_long_long_int_value
            );
-  else if (type_ == "const char*")
+  }
+  if (type_ == "const char*") {
     return value_.string_value;
-  else if (type_ == "void*")
+  }
+  if (type_ == "void*") {
     return string_from(value_.pointer_value);
-  else if (type_ == "void (*)()")
+  }
+  if (type_ == "void (*)()") {
     return string_from(value_.function_pointer_value);
-  else if (type_ == "const void*")
+  }
+  if (type_ == "const void*") {
     return string_from(value_.const_pointer_value);
-  else if (type_ == "double")
+  }
+  if (type_ == "double") {
     return string_from(value_.double_value.value);
-  else if (type_ == "const unsigned char*")
+  }
+  if (type_ == "const unsigned char*") {
     return string_from_binary_with_size_or_null(
         value_.memory_buffer_value, size_
     );
+  }
 
-  if (comparator_)
+  if (comparator_ != nullptr) {
     return comparator_->value_to_string(value_.const_object_pointer_value);
+  }
 
   return string_from_format(
       "No comparator found for type: \"%s\"", type_.c_str()

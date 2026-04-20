@@ -170,16 +170,16 @@ TEST(Shell, compareDoublesInf)
 
 TEST(Shell, compareFloats)
 {
-  CHECK(mu::tiny::test::approx_equal(1.0f, 1.001f, 0.01f));
-  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.1f, 0.05f));
+  CHECK(mu::tiny::test::approx_equal(1.0F, 1.001F, 0.01F));
+  CHECK(!mu::tiny::test::approx_equal(1.0F, 1.1F, 0.05F));
 }
 
 #ifdef NAN
 TEST(Shell, compareFloatsNaN)
 {
-  CHECK(!mu::tiny::test::approx_equal(NAN, 1.0f, 0.01f));
-  CHECK(!mu::tiny::test::approx_equal(1.0f, NAN, 0.01f));
-  CHECK(!mu::tiny::test::approx_equal(1.0f, 1.001f, NAN));
+  CHECK(!mu::tiny::test::approx_equal(NAN, 1.0F, 0.01F));
+  CHECK(!mu::tiny::test::approx_equal(1.0F, NAN, 0.01F));
+  CHECK(!mu::tiny::test::approx_equal(1.0F, 1.001F, NAN));
 }
 #endif
 
@@ -189,10 +189,10 @@ TEST(Shell, compareIntegers)
   CHECK(!mu::tiny::test::approx_equal(1000, 1020, 10));
   CHECK(mu::tiny::test::approx_equal(-5, 5, 10));
   CHECK(!mu::tiny::test::approx_equal(-5, 6, 10));
-  CHECK(mu::tiny::test::approx_equal(3u, 5u, 10u));
-  CHECK(!mu::tiny::test::approx_equal(3u, 5u, 1u));
-  CHECK(mu::tiny::test::approx_equal(5u, 3u, 10u));
-  CHECK(!mu::tiny::test::approx_equal(5u, 3u, 1u));
+  CHECK(mu::tiny::test::approx_equal(3U, 5U, 10U));
+  CHECK(!mu::tiny::test::approx_equal(3U, 5U, 1U));
+  CHECK(mu::tiny::test::approx_equal(5U, 3U, 10U));
+  CHECK(!mu::tiny::test::approx_equal(5U, 3U, 1U));
 }
 
 TEST(Shell, FailWillIncreaseTheAmountOfChecks)

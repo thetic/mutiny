@@ -50,7 +50,7 @@ public:
   Installer& operator=(const Installer&) = delete;
 
   /** @brief Remove the associated shell from the Registry. */
-  void un_do();
+  static void un_do();
 };
 
 } // namespace test

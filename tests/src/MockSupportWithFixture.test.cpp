@@ -129,7 +129,7 @@ TEST(MockSupportWithFixture, failedMockShouldFailAgainWhenRepeated)
 {
   fixture.set_test_function(unexpected_call_test_function);
   int repeat_count = 2;
-  while (repeat_count--) {
+  while (repeat_count-- != 0) {
     fixture.run_all_tests();
     fixture.assert_print_contains("Unexpected call to function: unexpected");
     fixture.assert_print_contains(

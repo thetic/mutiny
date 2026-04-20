@@ -45,14 +45,16 @@ void failing_test_method_with_check_equal()
 
 void failing_test_method_with_check_compare()
 {
-  double small = 0.5, big = 0.8;
+  double small = 0.5;
+  double big = 0.8;
   CHECK_COMPARE(small, >=, big);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
 void failing_test_method_with_check_compare_text()
 {
-  double small = 0.5, big = 0.8;
+  double small = 0.5;
+  double big = 0.8;
   CHECK_COMPARE_TEXT(small, >=, big, "small bigger than big");
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
@@ -129,7 +131,7 @@ void failing_test_method_with_check_equal_function_pointer_text()
 
 void failing_test_method_with_check_equal_float()
 {
-  CHECK_EQUAL(1.5f, 2.5f);
+  CHECK_EQUAL(1.5F, 2.5F);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -147,7 +149,7 @@ void failing_test_method_with_check_approx_text()
 
 void failing_test_method_with_check_approx_float()
 {
-  CHECK_APPROX(1.0f, 3.0f, 0.5f);
+  CHECK_APPROX(1.0F, 3.0F, 0.5F);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -167,7 +169,7 @@ void failing_test_method_with_check_approx_int_reversed()
 // unsigned: actual < expected — guards against unsigned wrap-around
 void failing_test_method_with_check_approx_unsigned()
 {
-  CHECK_APPROX(5u, 3u, 1u);
+  CHECK_APPROX(5U, 3U, 1U);
   mu::tiny::test::TestingFixture::line_executed_after_check();
 }
 
@@ -203,13 +205,13 @@ int function_that_returns_a_value()
   STRCMP_EQUAL("THIS", "THIS");
   STRCMP_EQUAL_TEXT("THIS", "THIS", "Shouldn't fail");
   CHECK_COMPARE(1, <, 2);
-  CHECK_EQUAL(1.0f, 1.0f);
+  CHECK_EQUAL(1.0F, 1.0F);
   CHECK_APPROX(1.0, 1.0, .01);
   CHECK_APPROX_TEXT(1.0, 1.0, .01, "Shouldn't fail");
-  CHECK_APPROX(1.0f, 1.0f, .01f);
+  CHECK_APPROX(1.0F, 1.0F, .01f);
   CHECK_APPROX(1000, 1000, 10);
   CHECK_APPROX(1000, 1010, 10); // exactly at threshold — must pass
-  CHECK_APPROX(5u, 5u, 1u);     // unsigned pass
+  CHECK_APPROX(5U, 5U, 1U);     // unsigned pass
   CHECK_EQUAL(nullptr, nullptr);
   CHECK_EQUAL_TEXT(nullptr, nullptr, "Shouldn't fail");
   MEMCMP_EQUAL("THIS", "THIS", 5);

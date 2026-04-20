@@ -16,7 +16,7 @@ public:
   ~ActualCallTrace() override = default;
 
   ActualCall& with_name(StringView name) override;
-  ActualCall& with_call_order(unsigned int) override;
+  ActualCall& with_call_order(unsigned int /*call_order*/) override;
   ActualCall& with_typed_parameter(NamedValue parameter) override;
   ActualCall& with_parameter_of_type(
       StringView type_name,

@@ -31,7 +31,7 @@ public:
   static bool check_ieee754_div_by_zero_exception_flag();
 
 private:
-  void ieee754_check(
+  static void ieee754_check(
       mu::tiny::test::Shell& test,
       mu::tiny::test::Result& result,
       int flag,

@@ -45,7 +45,8 @@ void SupportPlugin::clear()
   repository_.clear();
 }
 
-void SupportPlugin::pre_test_action(test::Shell&, test::Result&)
+void SupportPlugin::
+    pre_test_action(test::Shell& /*test*/, test::Result& /*result*/)
 {
   mock().install_comparators_and_copiers(repository_);
 }
@@ -54,8 +55,9 @@ void SupportPlugin::post_test_action(test::Shell& test, test::Result& result)
 {
   MockSupportPluginReporter reporter(test, result);
   mock().set_mock_failure_standard_reporter(&reporter);
-  if (!test.has_failed())
+  if (!test.has_failed()) {
     mock().check_expectations();
+  }
   mock().clear();
   mock().set_mock_failure_standard_reporter(nullptr);
   mock().remove_all_comparators_and_copiers();

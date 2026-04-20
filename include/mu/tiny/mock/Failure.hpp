@@ -99,11 +99,11 @@ protected:
   /**
    * @brief Append history filtered to a specific function name.
    *
-   * @param function      Name of the function whose history to include.
+   * @param name          Name of the function whose history to include.
    * @param expectations  The full expected-calls list.
    */
   void add_expectations_and_call_history_related_to(
-      const String& function,
+      const String& name,
       const ExpectedCallsList& expectations
   );
 };
@@ -269,13 +269,13 @@ public:
   /**
    * @param test          The failing test.
    * @param function_name Name of the mock function.
-   * @param expected      The object pointer that was expected.
+   * @param actual        The actual object pointer.
    * @param expectations  The current expected-calls list.
    */
   UnexpectedObjectFailure(
       test::Shell* test,
       const String& function_name,
-      const void* expected,
+      const void* actual,
       const ExpectedCallsList& expectations
   );
 };

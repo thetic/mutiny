@@ -20,8 +20,9 @@ public:
 
   void exit_current_test() const override
   {
-    if (crash_on_failure_)
+    if (crash_on_failure_) {
       test::Shell::crash();
+    }
 
     test::Shell::get_current_test_terminator().exit_current_test();
   }
@@ -34,8 +35,9 @@ private:
 
 void FailureReporter::report_failure(const Failure& failure)
 {
-  if (!get_test_to_fail()->has_failed())
+  if (!get_test_to_fail()->has_failed()) {
     get_test_to_fail()->add_failure(failure);
+  }
 }
 
 void FailureReporter::exit_test()

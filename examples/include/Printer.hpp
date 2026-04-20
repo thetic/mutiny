@@ -16,11 +16,11 @@ public:
   Printer(const Printer&) = delete;
   Printer& operator=(const Printer&) = delete;
 
-  virtual void print(const char*);
-  virtual void print(long int);
+  virtual void print(const char* s);
+  virtual void print(long int n);
 };
 
-Printer& operator<<(Printer&, const char*);
-Printer& operator<<(Printer&, long int);
+Printer& operator<<(Printer& p, const char* s);
+Printer& operator<<(Printer& p, long int i);
 
 #endif // INCLUDED_PRINTER_HPP

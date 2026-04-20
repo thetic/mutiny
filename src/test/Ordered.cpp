@@ -13,7 +13,7 @@ bool OrderedShell::is_ordered() const
   return true;
 }
 
-int OrderedShell::get_level()
+int OrderedShell::get_level() const
 {
   return level_;
 }
@@ -81,18 +81,20 @@ OrderedInstaller::OrderedInstaller(
   test.set_line_number(line_number);
   test.set_level(level);
 
-  if (OrderedShell::first_ordered_test())
+  if (OrderedShell::first_ordered_test()) {
     OrderedShell::add_ordered_test_to_head(&test);
-  else
+  } else {
     add_ordered_test_in_order(&test);
+  }
 }
 
 void OrderedInstaller::add_ordered_test_in_order(OrderedShell* test)
 {
-  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level())
+  if (test->get_level() < OrderedShell::get_ordered_test_head()->get_level()) {
     OrderedShell::add_ordered_test_to_head(test);
-  else
+  } else {
     add_ordered_test_in_order_not_at_head_position(test);
+  }
 }
 
 void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(
@@ -100,7 +102,7 @@ void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(
 )
 {
   OrderedShell* current = OrderedShell::get_ordered_test_head();
-  while (current->get_next_ordered_test()) {
+  while (current->get_next_ordered_test() != nullptr) {
 
     if (current->get_next_ordered_test()->get_level() > test->get_level()) {
       test->add_ordered_test(current->get_next_ordered_test());

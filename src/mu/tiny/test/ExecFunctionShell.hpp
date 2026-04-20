@@ -28,7 +28,7 @@ class ExecFunctionWithoutParameters : public ExecFunction
 public:
   void (*test_function)();
 
-  ExecFunctionWithoutParameters(void (*test_function)());
+  ExecFunctionWithoutParameters(void (*fn)());
   ~ExecFunctionWithoutParameters() override = default;
 
   void exec() override;

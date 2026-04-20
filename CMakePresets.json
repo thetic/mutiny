@@ -46,7 +46,8 @@
       "inherits": ["Clang"],
       "cacheVariables": {
         "CMAKE_CXX_CLANG_TIDY": "clang-tidy;-header-filter=.*",
-        "CMAKE_C_CLANG_TIDY": "clang-tidy;-header-filter=.*"
+        "CMAKE_C_CLANG_TIDY": "clang-tidy;-header-filter=.*",
+        "MUTINY_USE_STD_STRING": false
       }
     },
     {

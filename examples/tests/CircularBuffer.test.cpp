@@ -11,15 +11,17 @@ TEST_GROUP(CircularBuffer)
   void setup() override { buffer = new CircularBuffer(); }
   void teardown() override { delete buffer; }
 
-  void fill_the_queue(int seed, int how_many)
+  void fill_the_queue(int seed, int how_many) const
   {
-    for (int i = 0; i < how_many; i++)
+    for (int i = 0; i < how_many; i++) {
       buffer->put(seed + i);
+    }
   }
-  void remove_from_queue(int how_many)
+  void remove_from_queue(int how_many) const
   {
-    for (int i = 0; i < how_many; i++)
+    for (int i = 0; i < how_many; i++) {
       buffer->get();
+    }
   }
 };
 
@@ -103,8 +105,9 @@ TEST(CircularBuffer, PutToFull)
   fill_the_queue(900, capacity);
   buffer->put(9999);
 
-  for (int i = 0; i < buffer->capacity() - 1; i++)
+  for (int i = 0; i < buffer->capacity() - 1; i++) {
     CHECK_EQUAL(i + 900 + 1, buffer->get());
+  }
 
   CHECK_EQUAL(9999, buffer->get());
   CHECK(buffer->is_empty());

@@ -70,22 +70,23 @@ void Output::print_double(double d)
   print(string_from(d).c_str());
 }
 
-Output& operator<<(Output& p, const char* s)
+Output& operator<<(Output& lhs, const char* rhs)
 {
-  p.print(s);
-  return p;
+  lhs.print(rhs);
+  return lhs;
 }
 
-Output& operator<<(Output& p, long int i)
+Output& operator<<(Output& lhs, long int rhs)
 {
-  p.print(i);
-  return p;
+  lhs.print(rhs);
+  return lhs;
 }
 
 void Output::print_current_test_started(const Shell& test)
 {
-  if (verbose_ > MutinyVerbosityLevel::quiet)
+  if (verbose_ > MutinyVerbosityLevel::quiet) {
     print(test.get_formatted_name().c_str());
+  }
 
   if (test.will_run()) {
     set_progress_indicator(".");
@@ -107,9 +108,11 @@ void Output::print_current_test_ended(const Result& res)
 
 void Output::print_progress_indicator()
 {
+  constexpr int dots_per_line{ 50 };
   print(progress_indication_);
-  if (++dot_count_ % 50 == 0)
+  if (++dot_count_ % dots_per_line == 0) {
     print("\n");
+  }
 }
 
 void Output::set_progress_indicator(const char* indicator)
@@ -191,10 +194,11 @@ void Output::print_skipped(const char* /*message*/) {}
 
 void Output::print_failure(const Failure& failure)
 {
-  if (failure.is_outside_test_file() || failure.is_in_helper_function())
+  if (failure.is_outside_test_file() || failure.is_in_helper_function()) {
     print_file_and_line_for_test_and_failure(failure);
-  else
+  } else {
     print_file_and_line_for_failure(failure);
+  }
 
   print_failure_message(failure.get_message());
 }
@@ -247,8 +251,9 @@ void Output::print_error_in_file_on_line_formatted_for_working_environment(
 
 void Output::print_very_verbose(const char* str)
 {
-  if (verbose_ == MutinyVerbosityLevel::very_verbose)
+  if (verbose_ == MutinyVerbosityLevel::very_verbose) {
     print_buffer(str);
+  }
 }
 
 } // namespace test

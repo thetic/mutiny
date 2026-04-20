@@ -21,7 +21,11 @@ public:
   {
   }
 
-  bool parse_arguments(int, const char* const*, int) override
+  bool parse_arguments(
+      int /*argc*/,
+      const char* const* /*argv*/,
+      int /*index*/
+  ) override
   {
     /* Remove ourselves from the count */
     amount_of_plugins = registry_->count_plugins() - 1;
@@ -385,7 +389,7 @@ struct FakeOutput
     restore_originals();
   }
 
-  void install_fakes()
+  static void install_fakes()
   {
     mu::tiny::test::Output::fopen_ = fopen_fake;
     mu::tiny::test::Output::fputs_ = fputs_fake;
@@ -399,7 +403,10 @@ struct FakeOutput
     mu::tiny::test::Output::fclose_ = save_f_close_;
   }
 
-  static mu::tiny::test::Output::File fopen_fake(const char*, const char*)
+  static mu::tiny::test::Output::File fopen_fake(
+      const char* /*filename*/,
+      const char* /*flag*/
+  )
   {
     return static_cast<mu::tiny::test::Output::File>(nullptr);
   }
@@ -413,7 +420,7 @@ struct FakeOutput
     }
   }
 
-  static void fclose_fake(mu::tiny::test::Output::File) {}
+  static void fclose_fake(mu::tiny::test::Output::File /*file*/) {}
 
   mu::tiny::String file;
   mu::tiny::String console;

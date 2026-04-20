@@ -2,8 +2,6 @@
 
 #include "mu/tiny/test/Shell.hpp"
 
-#include "mu/tiny/test.hpp"
-
 using mu::tiny::mock::mock;
 
 void FailureReporterForTest::fail_test(mu::tiny::mock::Failure failure)
@@ -27,8 +25,9 @@ FailureReporterForTest* FailureReporterForTest::instance_ = nullptr;
 
 FailureReporterForTest* FailureReporterForTest::get_reporter()
 {
-  if (instance_ == nullptr)
+  if (instance_ == nullptr) {
     instance_ = new FailureReporterForTest;
+  }
 
   return instance_;
 }
@@ -98,7 +97,7 @@ void check_expected_mock_failure_location(
 
 void check_no_mock_failure_location(const char* file, size_t line)
 {
-  if (mock_failure_string() != "") {
+  if (!mock_failure_string().empty()) {
     mu::tiny::String error = "Unexpected mock failure:\n";
     error += mock_failure_string();
     clear_mock_failure();

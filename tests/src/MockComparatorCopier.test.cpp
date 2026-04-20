@@ -30,14 +30,14 @@ class MyTypeForTestingComparator : public mu::tiny::mock::NamedValueComparator
 public:
   bool is_equal(const void* object1, const void* object2) override
   {
-    auto* obj1 = static_cast<const MyTypeForTesting*>(object1);
-    auto* obj2 = static_cast<const MyTypeForTesting*>(object2);
+    const auto* obj1 = static_cast<const MyTypeForTesting*>(object1);
+    const auto* obj2 = static_cast<const MyTypeForTesting*>(object2);
     return *(obj1->value) == *(obj2->value);
   }
 
   mu::tiny::String value_to_string(const void* object) override
   {
-    auto* obj = static_cast<const MyTypeForTesting*>(object);
+    const auto* obj = static_cast<const MyTypeForTesting*>(object);
     return mu::tiny::string_from(*(obj->value));
   }
 };
@@ -48,7 +48,7 @@ public:
   void copy(void* dst, const void* src) override
   {
     auto* typed_dst = static_cast<MyTypeForTesting*>(dst);
-    auto* typed_src = static_cast<const MyTypeForTesting*>(src);
+    const auto* typed_src = static_cast<const MyTypeForTesting*>(src);
     *(typed_dst->value) = *(typed_src->value);
   }
 };
@@ -559,7 +559,7 @@ namespace {
 void my_type_copy(void* dst, const void* src)
 {
   auto* typed_dst = static_cast<MyTypeForTesting*>(dst);
-  auto* typed_src = static_cast<const MyTypeForTesting*>(src);
+  const auto* typed_src = static_cast<const MyTypeForTesting*>(src);
   *(typed_dst->value) = *(typed_src->value);
 }
 } // namespace
@@ -703,8 +703,14 @@ namespace {
 class StubComparator : public MyTypeForTestingComparator::NamedValueComparator
 {
 public:
-  bool is_equal(const void*, const void*) override { return true; }
-  mu::tiny::String value_to_string(const void*) override { return ""; }
+  bool is_equal(const void* /*object1*/, const void* /*object2*/) override
+  {
+    return true;
+  }
+  mu::tiny::String value_to_string(const void* /*object*/) override
+  {
+    return "";
+  }
 };
 
 struct SomeClass

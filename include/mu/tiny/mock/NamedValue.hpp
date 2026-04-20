@@ -47,7 +47,7 @@ public:
    */
   NamedValue(StringView name);
   NamedValue(const NamedValue&) = default;
-  NamedValue(NamedValue&&) noexcept;
+  NamedValue(NamedValue&& /*other*/) noexcept;
   NamedValue& operator=(NamedValue&&) noexcept = default;
   virtual ~NamedValue() = default;
 
@@ -237,6 +237,31 @@ private:
   NamedValueComparator* comparator_{ nullptr };
   NamedValueCopier* copier_{ nullptr };
   static NamedValueComparatorsAndCopiersRepository* default_repository_;
+  static bool equals_cross_int_long(
+      const NamedValue& a,
+      const NamedValue& b,
+      bool& result
+  );
+  static bool equals_cross_long_unsigned(
+      const NamedValue& a,
+      const NamedValue& b,
+      bool& result
+  );
+  static bool equals_cross_ll_narrow(
+      const NamedValue& a,
+      const NamedValue& b,
+      bool& result
+  );
+  static bool equals_cross_ll_wide(
+      const NamedValue& a,
+      const NamedValue& b,
+      bool& result
+  );
+  static bool equals_cross_ull(
+      const NamedValue& a,
+      const NamedValue& b,
+      bool& result
+  );
 };
 
 // set_value specializations — declared here, defined in NamedValue.cpp.

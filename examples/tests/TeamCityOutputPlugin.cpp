@@ -4,11 +4,6 @@
 #include "mu/tiny/test/Result.hpp"
 #include "mu/tiny/test/Shell.hpp"
 
-TeamCityTestOutput::TeamCityTestOutput()
-  : curr_group_()
-{
-}
-
 void TeamCityTestOutput::print_current_test_started(
     const mu::tiny::test::Shell& test
 )
@@ -28,8 +23,9 @@ void TeamCityTestOutput::print_current_test_ended(
     const mu::tiny::test::Result& res
 )
 {
-  if (!currtest_)
+  if (currtest_ == nullptr) {
     return;
+  }
 
   print("##teamcity[testFinished name='");
   print_escaped(currtest_->get_name());
@@ -53,8 +49,9 @@ void TeamCityTestOutput::print_current_group_started(
 void TeamCityTestOutput::
     print_current_group_ended(const mu::tiny::test::Result& /*res*/)
 {
-  if (curr_group_ == "")
+  if (curr_group_.empty()) {
     return;
+  }
 
   print("##teamcity[testSuiteFinished name='");
   print_escaped(curr_group_.c_str());
@@ -63,7 +60,7 @@ void TeamCityTestOutput::
 
 void TeamCityTestOutput::print_escaped(const char* s)
 {
-  while (*s) {
+  while (*s != '\0') {
     char str[3];
     if ((*s == '\'') || (*s == '|') || (*s == '[') || (*s == ']')) {
       str[0] = '|';
@@ -134,7 +131,8 @@ mu::tiny::String TeamCityOutputPlugin::get_help() const
 
 mu::tiny::test::Output* TeamCityOutputPlugin::create_output()
 {
-  if (active_)
+  if (active_) {
     return new TeamCityTestOutput;
+  }
   return nullptr;
 }
