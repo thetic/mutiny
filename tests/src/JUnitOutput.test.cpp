@@ -1,9 +1,9 @@
 #include "mu/tiny/test/Failure.hpp"
-#include "mu/tiny/test/IgnoredShell.hpp"
 #include "mu/tiny/test/JUnitOutputPlugin.hpp"
 #include "mu/tiny/test/Output.hpp"
 #include "mu/tiny/test/Result.hpp"
 #include "mu/tiny/test/Shell.hpp"
+#include "mu/tiny/test/SkippedShell.hpp"
 
 #include "mu/tiny/String.hpp"
 #include "mu/tiny/test.hpp"

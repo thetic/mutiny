@@ -15,7 +15,6 @@
 #include "mu/tiny/test/ExpectFailShell.hpp"
 #include "mu/tiny/test/Failure.hpp"
 #include "mu/tiny/test/GroupLocation.hpp"
-#include "mu/tiny/test/IgnoredShell.hpp"
 #include "mu/tiny/test/Installer.hpp"
 #include "mu/tiny/test/Ordered.hpp"
 #include "mu/tiny/test/Plugin.hpp"
@@ -23,6 +22,7 @@
 #include "mu/tiny/test/SetPointerPlugin.hpp"
 #include "mu/tiny/test/Shell.hpp"
 #include "mu/tiny/test/ShellPointerArray.hpp"
+#include "mu/tiny/test/SkippedShell.hpp"
 #include "mu/tiny/test/Test.hpp"
 
 /**

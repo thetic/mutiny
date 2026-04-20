@@ -1,4 +1,4 @@
-#include "mu/tiny/test/IgnoredShell.hpp"
+#include "mu/tiny/test/SkippedShell.hpp"
 
 #include "mu/tiny/test/Plugin.hpp"
 #include "mu/tiny/test/Result.hpp"
