@@ -1,4 +1,4 @@
-.. _exhale_function_namespacemu_1_1tiny_1a7e7abd08b0b58c59d01ef79411fc33a7:
+.. _exhale_function_namespacemu_1_1tiny_1ab9a0f27d880a8a4cedc5a629c6d3efc8:
 
 Function mu::tiny::string_from(double, int)
 ===========================================

@@ -74,7 +74,7 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a7161237acb850de0dea239ec2a2e396f`
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a08c94524a3ad99555020bfd43bc80e3e`
 
-- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1a966d457ff3e52fd1549b167c96adb3a8`
+- :ref:`exhale_function_namespacemu_1_1tiny_1_1test_1aa7e77cc87ecb9424da7d4a4c5a461d89`
 
