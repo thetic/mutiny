@@ -14,7 +14,7 @@ namespace {
 String yaml_escape(const String& text)
 {
   String result;
-  for (const char* p = text.c_str(); *p; ++p) {
+  for (const char* p = text.c_str(); *p != 0; ++p) {
     switch (*p) {
       case '\\':
         result += "\\\\";
@@ -79,7 +79,7 @@ TapOutput::~TapOutput()
 void TapOutput::clear_nodes()
 {
   TapTestResultNode* cur = impl_->head;
-  while (cur) {
+  while (cur != nullptr) {
     TapTestResultNode* tmp = cur->next;
     delete cur->failure;
     delete cur;
@@ -127,13 +127,13 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
   fputs_(header.c_str(), stdout_);
 
   size_t n = 0;
-  for (TapTestResultNode* cur = impl_->head; cur; cur = cur->next) {
+  for (TapTestResultNode* cur = impl_->head; cur != nullptr; cur = cur->next) {
     ++n;
     String test_id = cur->group;
     test_id += ".";
     test_id += cur->name;
 
-    if (cur->failure) {
+    if (cur->failure != nullptr) {
       String line = string_from_format(
           "not ok %d - %s\n", static_cast<int>(n), test_id.c_str()
       );
@@ -171,7 +171,7 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
   }
 }
 
-void TapOutput::print_buffer(const char*) {}
+void TapOutput::print_buffer(const char* /*buffer*/) {}
 
 void TapOutput::print_failure(const Failure& failure)
 {

@@ -13,7 +13,7 @@ int (*rand)() = ::rand;
 ShellPointerArray::ShellPointerArray(Shell* first_test)
 
 {
-  count_ = (first_test) ? first_test->count_tests() : 0;
+  count_ = (first_test != nullptr) ? first_test->count_tests() : 0;
   if (count_ == 0) {
     return;
   }

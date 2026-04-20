@@ -22,7 +22,7 @@ public:
   void print_current_group_started(const Shell& test) override;
   void print_current_group_ended(const Result& res) override;
 
-  void print_buffer(const char*) override;
+  void print_buffer(const char* buffer) override;
   void print_failure(const Failure& failure) override;
   void print_skipped(const char* message) override;
 

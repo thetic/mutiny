@@ -14,7 +14,14 @@ public:
   {
   }
   ~OptionsPlugin() override = default;
-  bool parse_arguments(int, const char* const*, int) override { return true; }
+  bool parse_arguments(
+      int /*argc*/,
+      const char* const* /*argv*/,
+      int /*index*/
+  ) override
+  {
+    return true;
+  }
 };
 
 class HelpPlugin : public mu::tiny::test::Plugin

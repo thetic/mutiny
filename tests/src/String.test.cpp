@@ -381,7 +381,7 @@ TEST(String, UnsignedLongLongInts)
 
 TEST(String, Floats)
 {
-  mu::tiny::String s(mu::tiny::string_from(1.2f));
+  mu::tiny::String s(mu::tiny::string_from(1.2F));
   STRCMP_EQUAL("1.2", s.c_str());
 }
 

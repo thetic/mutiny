@@ -44,7 +44,7 @@ StringView NamedValueListNode::get_type() const
 
 void NamedValueList::clear()
 {
-  while (head_) {
+  while (head_ != nullptr) {
     NamedValueListNode* n = head_->next();
     head_->destroy();
     delete head_;
@@ -59,7 +59,7 @@ void NamedValueList::add(NamedValue* new_value)
     head_ = new_node;
   } else {
     NamedValueListNode* last_node = head_;
-    while (last_node->next()) {
+    while (last_node->next() != nullptr) {
       last_node = last_node->next();
     }
     last_node->set_next(new_node);
@@ -68,7 +68,7 @@ void NamedValueList::add(NamedValue* new_value)
 
 NamedValue* NamedValueList::get_value_by_name(StringView name)
 {
-  for (NamedValueListNode* p = head_; p; p = p->next()) {
+  for (NamedValueListNode* p = head_; p != nullptr; p = p->next()) {
     if (p->get_name() == name) {
       return p->item();
     }

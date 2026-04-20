@@ -44,26 +44,32 @@ TEST_GROUP(Ordered)
     mu::tiny::test::OrderedShell::set_ordered_test_head(ordered_test_cache);
   }
 
-  void install_ordered_test(mu::tiny::test::OrderedShell& test, int level)
+  static void install_ordered_test(
+      mu::tiny::test::OrderedShell& test,
+      int level
+  )
   {
     mu::tiny::test::OrderedInstaller(
         test, "testgroup", "testname", __FILE__, __LINE__, level
     );
   }
 
-  void install_normal_test(mu::tiny::test::Shell& test)
+  static void install_normal_test(mu::tiny::test::Shell& test)
   {
     mu::tiny::test::Installer(
         test, "testgroup", "testname", __FILE__, __LINE__
     );
   }
 
-  mu::tiny::test::Shell* first_test()
+  mu::tiny::test::Shell* first_test() const
   {
     return fixture->get_registry()->get_first_test();
   }
 
-  mu::tiny::test::Shell* second_test() { return first_test()->get_next(); }
+  mu::tiny::test::Shell* second_test() const
+  {
+    return first_test()->get_next();
+  }
 };
 
 TEST(Ordered, TestInstallerSetsFields)

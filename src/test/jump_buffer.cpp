@@ -1,13 +1,15 @@
 #include "mu/tiny/test/jump_buffer.hpp"
 
 #include <setjmp.h>
+#include <stddef.h>
 
 namespace mu {
 namespace tiny {
 namespace test {
 
 namespace {
-jmp_buf mutiny_jmp_buf[10];
+constexpr size_t max_jmp_buf_depth{ 10 };
+jmp_buf mutiny_jmp_buf[max_jmp_buf_depth];
 int mutiny_jmp_buf_depth = 0;
 } // namespace
 

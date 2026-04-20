@@ -41,12 +41,12 @@ CommandLineArguments::CommandLineArguments(int argc, const char* const* argv)
 
 CommandLineArguments::~CommandLineArguments()
 {
-  while (group_filters_) {
+  while (group_filters_ != nullptr) {
     Filter* current = group_filters_;
     group_filters_ = group_filters_->get_next();
     delete current;
   }
-  while (name_filters_) {
+  while (name_filters_ != nullptr) {
     Filter* current = name_filters_;
     name_filters_ = name_filters_->get_next();
     delete current;
@@ -127,14 +127,14 @@ bool CommandLineArguments::parse(Plugin* plugin)
       correct_parameters = false;
     }
 
-    if (correct_parameters == false) {
+    if (!correct_parameters) {
       return false;
     }
   }
   return true;
 }
 
-String CommandLineArguments::help() const
+String CommandLineArguments::help()
 {
   String help_str =
       "mutiny v" MUTINY_VERSION_STRING "\n\n"
@@ -161,7 +161,7 @@ String CommandLineArguments::help() const
   Plugin* plugin = Registry::get_current_registry()->get_first_plugin();
   String plugin_help = plugin->get_all_help();
 
-  if (plugin_help != "") {
+  if (!plugin_help.empty()) {
     help_str += "\nOptions that are provided by plugins:\n";
     help_str += plugin_help;
   }
@@ -362,7 +362,8 @@ String CommandLineArguments::get_parameter_field(
   String parameter(argv[i]);
   if (parameter.size() > parameter_length) {
     return argv[i] + parameter_length;
-  } else if (i + 1 < argc) {
+  }
+  if (i + 1 < argc) {
     return argv[++i];
   }
   return "";

@@ -289,7 +289,7 @@ public:
    * @return A C string containing all traced call output, or empty string if
    *         tracing was not enabled.
    */
-  const char* get_trace_output();
+  static const char* get_trace_output();
 
   /** @brief Disable this scope; all @ref actual_call() invocations become
    * no-ops. */
@@ -339,9 +339,9 @@ public:
   /**
    * @brief Choose whether unexpected call failures crash the process.
    *
-   * @param should_fail  true to crash on mock failure (useful with a debugger).
+   * @param should_crash true to crash on mock failure (useful with a debugger).
    */
-  virtual void crash_on_failure(bool should_fail = true);
+  virtual void crash_on_failure(bool should_crash = true);
 
   /**
    * @brief Replace the standard failure reporter.
@@ -411,7 +411,7 @@ protected:
   virtual void fail_test(Failure& failure);
 
   /** @brief Increment the assertion-check count in the active Result. */
-  void count_check();
+  static void count_check();
 
 private:
   class Impl;
@@ -432,7 +432,7 @@ private:
 
   NamedValue* retrieve_data_from_store(StringView name);
 
-  Support* get_mock_support(NamedValueListNode* node);
+  static Support* get_mock_support(NamedValueListNode* node);
 
   bool call_is_ignored(StringView function_name);
   bool has_calls_out_of_order();

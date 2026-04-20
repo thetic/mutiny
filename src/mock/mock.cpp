@@ -44,7 +44,7 @@ Support& mock(
 )
 {
   static Support global_mock;
-  Support& mock_support = (mock_name != "")
+  Support& mock_support = (!mock_name.empty())
                               ? *global_mock.get_mock_support_scope(mock_name)
                               : global_mock;
   mock_support.set_active_reporter(failure_reporter_for_this_call);
@@ -73,14 +73,15 @@ void Support::set_mock_failure_standard_reporter(FailureReporter* reporter)
   impl_->standard_reporter_ =
       (reporter != nullptr) ? reporter : &impl_->default_reporter_;
 
-  if (impl_->last_actual_function_call_) {
+  if (impl_->last_actual_function_call_ != nullptr) {
     impl_->last_actual_function_call_->set_mock_failure_reporter(
         impl_->standard_reporter_
     );
   }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->set_mock_failure_standard_reporter(
           impl_->standard_reporter_
       );
@@ -90,7 +91,8 @@ void Support::set_mock_failure_standard_reporter(FailureReporter* reporter)
 
 void Support::set_active_reporter(FailureReporter* reporter)
 {
-  impl_->active_reporter_ = (reporter) ? reporter : impl_->standard_reporter_;
+  impl_->active_reporter_ =
+      (reporter != nullptr) ? reporter : impl_->standard_reporter_;
 }
 
 void Support::set_default_comparators_and_copiers_repository()
@@ -109,8 +111,9 @@ void Support::install_comparator(
       type_name, comparator
   );
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->install_comparator(type_name, comparator);
     }
   }
@@ -120,8 +123,9 @@ void Support::install_copier(StringView type_name, NamedValueCopier& copier)
 {
   impl_->comparators_and_copiers_repository_.install_copier(type_name, copier);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->install_copier(type_name, copier);
     }
   }
@@ -135,8 +139,9 @@ void Support::install_comparators_and_copiers(
       repository
   );
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->install_comparators_and_copiers(repository);
     }
   }
@@ -145,8 +150,9 @@ void Support::install_comparators_and_copiers(
 void Support::remove_all_comparators_and_copiers()
 {
   impl_->comparators_and_copiers_repository_.clear();
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->remove_all_comparators_and_copiers();
     }
   }
@@ -167,9 +173,10 @@ void Support::clear()
   expected_call_order_ = 0;
   strict_ordering_ = false;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
     Support* support = get_mock_support(p);
-    if (support) {
+    if (support != nullptr) {
       support->clear();
       delete support;
     }
@@ -241,7 +248,7 @@ ActualCall& Support::actual_call(const char* function_name)
 {
   String scope_function_name = append_scope_to_name(function_name);
 
-  if (impl_->last_actual_function_call_) {
+  if (impl_->last_actual_function_call_ != nullptr) {
     impl_->last_actual_function_call_->check_expectations();
     delete impl_->last_actual_function_call_;
     impl_->last_actual_function_call_ = nullptr;
@@ -267,8 +274,9 @@ void Support::ignore_other_calls()
 {
   ignore_other_calls_ = true;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->ignore_other_calls();
     }
   }
@@ -278,8 +286,9 @@ void Support::disable()
 {
   enabled_ = false;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->disable();
     }
   }
@@ -289,8 +298,9 @@ void Support::enable()
 {
   enabled_ = true;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->enable();
     }
   }
@@ -300,8 +310,9 @@ void Support::tracing(bool enabled)
 {
   tracing_ = enabled;
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       get_mock_support(p)->tracing(enabled);
     }
   }
@@ -315,11 +326,14 @@ const char* Support::get_trace_output()
 bool Support::expected_calls_left()
 {
   check_expectations_of_last_actual_call();
-  int calls_left = impl_->expectations_.has_unfulfilled_expectations();
+  int calls_left =
+      static_cast<int>(impl_->expectations_.has_unfulfilled_expectations());
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
-      calls_left += get_mock_support(p)->expected_calls_left();
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
+      calls_left +=
+          static_cast<int>(get_mock_support(p)->expected_calls_left());
     }
   }
 
@@ -328,13 +342,14 @@ bool Support::expected_calls_left()
 
 bool Support::was_last_actual_call_fulfilled()
 {
-  if (impl_->last_actual_function_call_ &&
+  if ((impl_->last_actual_function_call_ != nullptr) &&
       !impl_->last_actual_function_call_->is_fulfilled()) {
     return false;
   }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p) &&
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if ((get_mock_support(p) != nullptr) &&
         !get_mock_support(p)->was_last_actual_call_fulfilled()) {
       return false;
     }
@@ -348,8 +363,9 @@ void Support::fail_test_with_expected_calls_not_fulfilled()
   ExpectedCallsList expectations_list;
   expectations_list.add_expectations(impl_->expectations_);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       expectations_list.add_expectations(
           get_mock_support(p)->impl_->expectations_
       );
@@ -367,8 +383,9 @@ void Support::fail_test_with_out_of_order_calls()
   ExpectedCallsList expectations_list;
   expectations_list.add_expectations(impl_->expectations_);
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p)) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if (get_mock_support(p) != nullptr) {
       expectations_list.add_expectations(
           get_mock_support(p)->impl_->expectations_
       );
@@ -394,13 +411,14 @@ void Support::count_check()
 
 void Support::check_expectations_of_last_actual_call()
 {
-  if (impl_->last_actual_function_call_) {
+  if (impl_->last_actual_function_call_ != nullptr) {
     impl_->last_actual_function_call_->check_expectations();
   }
 
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p) &&
-        get_mock_support(p)->impl_->last_actual_function_call_) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if ((get_mock_support(p) != nullptr) &&
+        (get_mock_support(p)->impl_->last_actual_function_call_ != nullptr)) {
       get_mock_support(p)
           ->impl_->last_actual_function_call_->check_expectations();
     }
@@ -412,8 +430,10 @@ bool Support::has_calls_out_of_order()
   if (impl_->expectations_.has_calls_out_of_order()) {
     return true;
   }
-  for (NamedValueListNode* p = impl_->data_.begin(); p; p = p->next()) {
-    if (get_mock_support(p) && get_mock_support(p)->has_calls_out_of_order()) {
+  for (NamedValueListNode* p = impl_->data_.begin(); p != nullptr;
+       p = p->next()) {
+    if ((get_mock_support(p) != nullptr) &&
+        get_mock_support(p)->has_calls_out_of_order()) {
       return true;
     }
   }
@@ -597,7 +617,7 @@ Support* Support::get_mock_support(NamedValueListNode* node)
 
 NamedValue Support::return_value()
 {
-  if (impl_->last_actual_function_call_) {
+  if (impl_->last_actual_function_call_ != nullptr) {
     return impl_->last_actual_function_call_->return_value();
   }
   return NamedValue("");
@@ -605,7 +625,7 @@ NamedValue Support::return_value()
 
 bool Support::has_return_value()
 {
-  if (impl_->last_actual_function_call_) {
+  if (impl_->last_actual_function_call_ != nullptr) {
     return impl_->last_actual_function_call_->has_return_value();
   }
   return false;

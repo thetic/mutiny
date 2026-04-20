@@ -51,7 +51,7 @@ TestingFixture::~TestingFixture()
 
 void TestingFixture::clear_exec_function()
 {
-  if (gen_test_->test_function && owns_exec_function_) {
+  if ((gen_test_->test_function != nullptr) && owns_exec_function_) {
     delete gen_test_->test_function;
   }
 }

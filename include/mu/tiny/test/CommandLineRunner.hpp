@@ -109,7 +109,7 @@ private:
   CommandLineArguments* arguments_{ nullptr };
   Registry* registry_;
 
-  bool parse_arguments(Plugin*);
+  bool parse_arguments(Plugin* plugin);
   int run_all_tests();
   void initialize_test_run();
 };

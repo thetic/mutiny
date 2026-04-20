@@ -25,7 +25,7 @@ public:
   void print_current_group_started(const Shell& test) override;
   void print_current_group_ended(const Result& res) override;
 
-  void print_buffer(const char*) override;
+  void print_buffer(const char* buffer) override;
   void print_failure(const Failure& failure) override;
   void print_test_property(const char* name, const char* value) override;
   void print_skipped(const char* message) override;
@@ -45,8 +45,8 @@ private:
 
   void write_test_suite_summary();
   void write_test_cases();
-  String encode_xml_text(const String& textbody);
-  String encode_file_name(const String& file_name);
+  static String encode_xml_text(const String& textbody);
+  static String encode_file_name(const String& file_name);
   void write_failure(JUnitTestCaseResultNode* node);
   void write_error(JUnitTestCaseResultNode* node);
   void write_file_ending();

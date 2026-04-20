@@ -42,10 +42,13 @@ public:
 
   /** @brief Report the function name for this call (used internally).
    * @return *this. */
-  virtual ActualCall& with_name(StringView) { return *this; }
+  virtual ActualCall& with_name(StringView /*name*/) { return *this; }
   /** @brief Set the call order index for strict-ordering checks.
    * @return *this. */
-  virtual ActualCall& with_call_order(unsigned int) { return *this; }
+  virtual ActualCall& with_call_order(unsigned int /*call_order*/)
+  {
+    return *this;
+  }
 
   /**
    * @brief Report a parameter of any supported type.

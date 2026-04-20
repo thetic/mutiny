@@ -162,7 +162,7 @@ void mutiny_check_equal_char(
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
-      ((expected) != (actual)),
+      (expected != actual),
       mu::tiny::string_from(expected),
       mu::tiny::string_from(actual),
       text,
@@ -181,7 +181,7 @@ void mutiny_check_equal_ubyte(
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
-      ((expected) != (actual)),
+      (expected != actual),
       mu::tiny::string_from(static_cast<int>(expected)),
       mu::tiny::string_from(static_cast<int>(actual)),
       text,
@@ -200,7 +200,7 @@ void mutiny_check_equal_sbyte(
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
-      ((expected) != (actual)),
+      (expected != actual),
       mu::tiny::string_from(static_cast<int>(expected)),
       mu::tiny::string_from(static_cast<int>(actual)),
       text,

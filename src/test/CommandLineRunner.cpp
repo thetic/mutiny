@@ -182,7 +182,7 @@ bool CommandLineRunner::parse_arguments(Plugin* plugin)
   }
 
   Output* plugin_output = registry_->get_first_plugin()->create_all_outputs();
-  if (plugin_output) {
+  if (plugin_output != nullptr) {
     output_ = plugin_output;
     if ((arguments_->is_verbose() || arguments_->is_very_verbose()) &&
         plugin_output->needs_console_companion()) {

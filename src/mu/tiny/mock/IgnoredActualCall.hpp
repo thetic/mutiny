@@ -12,27 +12,36 @@ namespace mock {
 class IgnoredActualCall : public ActualCall
 {
 public:
-  ActualCall& with_name(StringView) override { return *this; }
-  ActualCall& with_call_order(unsigned int) override { return *this; }
+  ActualCall& with_name(StringView /*name*/) override { return *this; }
+  ActualCall& with_call_order(unsigned int /*call_order*/) override
+  {
+    return *this;
+  }
 
-  ActualCall& with_typed_parameter(NamedValue) override { return *this; }
+  ActualCall& with_typed_parameter(NamedValue /*parameter*/) override
+  {
+    return *this;
+  }
 
   ActualCall& with_parameter_of_type(
-      StringView,
-      StringView,
-      const void*
+      StringView /*type_name*/,
+      StringView /*name*/,
+      const void* /*value*/
   ) override
   {
     return *this;
   }
-  ActualCall& with_output_parameter(StringView, void*) override
+  ActualCall& with_output_parameter(
+      StringView /*name*/,
+      void* /*output*/
+  ) override
   {
     return *this;
   }
   ActualCall& with_output_parameter_of_type(
-      StringView,
-      StringView,
-      void*
+      StringView /*type_name*/,
+      StringView /*name*/,
+      void* /*output*/
   ) override
   {
     return *this;
@@ -41,7 +50,7 @@ public:
   bool has_return_value() override { return false; }
   NamedValue return_value() override { return NamedValue(""); }
 
-  ActualCall& on_object(const void*) override { return *this; }
+  ActualCall& on_object(const void* /*object_ptr*/) override { return *this; }
 
   static IgnoredActualCall& instance()
   {

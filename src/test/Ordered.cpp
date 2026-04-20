@@ -13,7 +13,7 @@ bool OrderedShell::is_ordered() const
   return true;
 }
 
-int OrderedShell::get_level()
+int OrderedShell::get_level() const
 {
   return level_;
 }
@@ -102,7 +102,7 @@ void OrderedInstaller::add_ordered_test_in_order_not_at_head_position(
 )
 {
   OrderedShell* current = OrderedShell::get_ordered_test_head();
-  while (current->get_next_ordered_test()) {
+  while (current->get_next_ordered_test() != nullptr) {
 
     if (current->get_next_ordered_test()->get_level() > test->get_level()) {
       test->add_ordered_test(current->get_next_ordered_test());

@@ -48,7 +48,7 @@ TEST_GROUP(Output)
     delete result;
   }
 
-  void run_one_test()
+  void run_one_test() const
   {
     result->count_test();
     result->count_run();

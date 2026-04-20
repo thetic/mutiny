@@ -4,7 +4,7 @@
 
 void Printer::print(const char* s)
 {
-  for (const char* p = s; *p; p++) {
+  for (const char* p = s; *p != 0; p++) {
     putchar(*p);
   }
 }

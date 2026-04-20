@@ -15,9 +15,11 @@ NullPlugin* NullPlugin::instance()
   return &instance;
 }
 
-void NullPlugin::run_all_pre_test_action(Shell&, Result&) {}
+void NullPlugin::run_all_pre_test_action(Shell& /*test*/, Result& /*result*/) {}
 
-void NullPlugin::run_all_post_test_action(Shell&, Result&) {}
+void NullPlugin::run_all_post_test_action(Shell& /*test*/, Result& /*result*/)
+{
+}
 
 } // namespace test
 } // namespace tiny

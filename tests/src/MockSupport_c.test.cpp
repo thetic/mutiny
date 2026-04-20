@@ -12,7 +12,7 @@ void dummy_function_for_mock_c_test_two() {}
 
 int type_name_is_equal(const void* object1, const void* object2)
 {
-  return object1 == object2;
+  return static_cast<int>(object1 == object2);
 }
 
 const char* type_name_value_to_string(const void* /*object*/)
@@ -1063,7 +1063,7 @@ TEST(MockSupport_c, shouldCrashOnFailure)
   mutiny_has_crashed = false;
   mu::tiny::test::TestingFixture fixture;
   mu::tiny::test::Shell::set_crash_method(crash_method);
-  mutiny_mock()->crash_on_failure(true);
+  mutiny_mock()->crash_on_failure(1U);
   fixture.set_test_function(failed_call_to_mock_c);
 
   fixture.run_all_tests();
@@ -1071,12 +1071,12 @@ TEST(MockSupport_c, shouldCrashOnFailure)
   CHECK(mutiny_has_crashed);
 
   mu::tiny::test::Shell::reset_crash_method();
-  mutiny_mock()->crash_on_failure(false);
+  mutiny_mock()->crash_on_failure(0U);
 }
 
 TEST(MockSupport_c, nextTestShouldNotCrashOnFailure)
 {
-  mutiny_mock()->crash_on_failure(false);
+  mutiny_mock()->crash_on_failure(0U);
   mutiny_has_crashed = false;
   mu::tiny::test::TestingFixture fixture;
   mu::tiny::test::Shell::set_crash_method(crash_method);

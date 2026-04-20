@@ -55,7 +55,7 @@ NamedValueComparatorsAndCopiersRepository::
 
 void NamedValueComparatorsAndCopiersRepository::clear()
 {
-  while (head_) {
+  while (head_ != nullptr) {
     NamedValueComparatorsAndCopiersRepositoryNode* next = head_->next;
     delete head_;
     head_ = next;
@@ -84,9 +84,9 @@ void NamedValueComparatorsAndCopiersRepository::install_copier(
 NamedValueComparator* NamedValueComparatorsAndCopiersRepository::
     get_comparator_for_type(StringView name)
 {
-  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p != nullptr;
        p = p->next) {
-    if (p->name == name && p->comparator) {
+    if (p->name == name && (p->comparator != nullptr)) {
       return p->comparator;
     }
   }
@@ -96,9 +96,9 @@ NamedValueComparator* NamedValueComparatorsAndCopiersRepository::
 NamedValueCopier* NamedValueComparatorsAndCopiersRepository::
     get_copier_for_type(StringView name)
 {
-  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p;
+  for (NamedValueComparatorsAndCopiersRepositoryNode* p = head_; p != nullptr;
        p = p->next) {
-    if (p->name == name && p->copier) {
+    if (p->name == name && (p->copier != nullptr)) {
       return p->copier;
     }
   }
@@ -109,7 +109,8 @@ void NamedValueComparatorsAndCopiersRepository::install_comparators_and_copiers(
     const NamedValueComparatorsAndCopiersRepository& repository
 )
 {
-  for (NamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_; p;
+  for (NamedValueComparatorsAndCopiersRepositoryNode* p = repository.head_;
+       p != nullptr;
        p = p->next) {
     head_ = new NamedValueComparatorsAndCopiersRepositoryNode(
         p->name, p->comparator, p->copier, head_

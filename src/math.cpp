@@ -2,7 +2,7 @@
 
 #include <math.h>
 
-#if defined(_WIN32)
+#ifdef _WIN32
 #include <float.h>
 #endif
 
@@ -12,19 +12,19 @@ namespace {
 
 int is_nan_impl(double d)
 {
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
   return _isnan(d);
 #else
-  return isnan(d);
+  return static_cast<int>(isnan(d));
 #endif
 }
 
 int is_inf_impl(double d)
 {
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
   return !_finite(d);
 #else
-  return isinf(d);
+  return static_cast<int>(isinf(d));
 #endif
 }
 

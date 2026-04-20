@@ -70,7 +70,7 @@ public:
    */
   Failure(Shell* test, const char* file_name, size_t line_number);
   Failure(const Failure&) = default;
-  Failure(Failure&&) noexcept;
+  Failure(Failure&& other) noexcept;
   virtual ~Failure() = default;
 
   /** @return Source file of the failing assertion. */
@@ -107,7 +107,10 @@ protected:
    * @param actual    Actual value as a string.
    * @return Formatted comparison string.
    */
-  String create_but_was_string(const String& expected, const String& actual);
+  static String create_but_was_string(
+      const String& expected,
+      const String& actual
+  );
 
   /**
    * @brief Format a `difference starts at position N` string.
@@ -117,7 +120,7 @@ protected:
    * @param reported_position  1-based position to report to the user.
    * @return Formatted difference-position string.
    */
-  String create_difference_at_pos_string(
+  static String create_difference_at_pos_string(
       const String& actual,
       size_t offset,
       size_t reported_position
@@ -130,7 +133,7 @@ protected:
    * @param text  User text from the `_TEXT` variant of an assertion.
    * @return Formatted user-text string, or empty if @p text is empty.
    */
-  String create_user_text(const String& text);
+  static String create_user_text(const String& text);
 
   String test_name_;
   String test_name_only_;

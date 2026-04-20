@@ -11,8 +11,8 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-Result::Result(Output& p)
-  : output_(p)
+Result::Result(Output& output)
+  : output_(output)
 {
 }
 

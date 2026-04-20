@@ -14,6 +14,7 @@ namespace tiny {
 namespace test {
 
 namespace {
+constexpr uint_least64_t ms_per_s{ 1000 };
 
 class TestProperty
 {
@@ -95,11 +96,11 @@ void JUnitOutput::reset_test_group_result()
   impl_->results.skip_count = 0;
   impl_->results.group = "";
   JUnitTestCaseResultNode* cur = impl_->results.head;
-  while (cur) {
+  while (cur != nullptr) {
     JUnitTestCaseResultNode* tmp = cur->next;
     delete cur->failure;
     TestProperty* prop = cur->properties;
-    while (prop) {
+    while (prop != nullptr) {
       TestProperty* prop_tmp = prop->next;
       delete prop;
       prop = prop_tmp;
@@ -142,8 +143,8 @@ void JUnitOutput::print_tests_ended(const Result& /*result*/)
       static_cast<int>(impl_->total_failure_count),
       static_cast<int>(impl_->total_error_count),
       static_cast<int>(impl_->total_skip_count),
-      static_cast<int>(impl_->total_exec_time / 1000),
-      static_cast<int>(impl_->total_exec_time % 1000),
+      static_cast<int>(impl_->total_exec_time / ms_per_s),
+      static_cast<int>(impl_->total_exec_time % ms_per_s),
       impl_->start_timestamp.c_str()
   );
   fputs_(header.c_str(), file);
@@ -205,7 +206,7 @@ String JUnitOutput::encode_file_name(const String& file_name)
   static const char* const forbidden_characters = "/\\?%*:|\"<>";
 
   String result = file_name;
-  for (const char* sym = forbidden_characters; *sym; ++sym) {
+  for (const char* sym = forbidden_characters; *sym != 0; ++sym) {
     string_replace(result, *sym, '_');
   }
   return result;
@@ -221,7 +222,8 @@ void JUnitOutput::set_package_name(const String& package)
 void JUnitOutput::write_test_suite_summary()
 {
   size_t total_assertions = 0;
-  for (JUnitTestCaseResultNode* n = impl_->results.head; n; n = n->next) {
+  for (JUnitTestCaseResultNode* n = impl_->results.head; n != nullptr;
+       n = n->next) {
     total_assertions = n->check_count;
   }
 
@@ -235,8 +237,8 @@ void JUnitOutput::write_test_suite_summary()
       static_cast<int>(total_assertions),
       impl_->results.group.c_str(),
       static_cast<int>(impl_->results.test_count),
-      static_cast<int>(impl_->results.group_exec_time / 1000),
-      static_cast<int>(impl_->results.group_exec_time % 1000),
+      static_cast<int>(impl_->results.group_exec_time / ms_per_s),
+      static_cast<int>(impl_->results.group_exec_time % ms_per_s),
       get_time_string()
   );
   write_to_file(buf.c_str());
@@ -258,7 +260,7 @@ void JUnitOutput::write_test_cases()
 {
   JUnitTestCaseResultNode* cur = impl_->results.head;
 
-  while (cur) {
+  while (cur != nullptr) {
     String buf = string_from_format(
         "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
         "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
@@ -267,8 +269,8 @@ void JUnitOutput::write_test_cases()
         impl_->results.group.c_str(),
         cur->name.c_str(),
         static_cast<int>(cur->check_count - impl_->results.total_check_count),
-        static_cast<int>(cur->exec_time / 1000),
-        static_cast<int>(cur->exec_time % 1000),
+        static_cast<int>(cur->exec_time / ms_per_s),
+        static_cast<int>(cur->exec_time % ms_per_s),
         cur->file.c_str(),
         static_cast<int>(cur->line_number)
     );
@@ -276,9 +278,10 @@ void JUnitOutput::write_test_cases()
 
     impl_->results.total_check_count = cur->check_count;
 
-    if (cur->properties) {
+    if (cur->properties != nullptr) {
       write_to_file("<properties>\n");
-      for (TestProperty* prop = cur->properties; prop; prop = prop->next) {
+      for (TestProperty* prop = cur->properties; prop != nullptr;
+           prop = prop->next) {
         String prop_buf = string_from_format(
             "<property name=\"%s\" value=\"%s\"/>\n",
             encode_xml_text(prop->name).c_str(),
@@ -289,7 +292,7 @@ void JUnitOutput::write_test_cases()
       write_to_file("</properties>\n");
     }
 
-    if (cur->failure) {
+    if (cur->failure != nullptr) {
       if (cur->failure_is_error) {
         write_error(cur);
       } else {
@@ -357,7 +360,7 @@ void JUnitOutput::write_test_group_to_file()
   close_file();
 }
 
-void JUnitOutput::print_buffer(const char*) {}
+void JUnitOutput::print_buffer(const char* /*buffer*/) {}
 
 void JUnitOutput::print_test_property(const char* name, const char* value)
 {

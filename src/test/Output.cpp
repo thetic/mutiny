@@ -70,16 +70,16 @@ void Output::print_double(double d)
   print(string_from(d).c_str());
 }
 
-Output& operator<<(Output& p, const char* s)
+Output& operator<<(Output& lhs, const char* rhs)
 {
-  p.print(s);
-  return p;
+  lhs.print(rhs);
+  return lhs;
 }
 
-Output& operator<<(Output& p, long int i)
+Output& operator<<(Output& lhs, long int rhs)
 {
-  p.print(i);
-  return p;
+  lhs.print(rhs);
+  return lhs;
 }
 
 void Output::print_current_test_started(const Shell& test)
@@ -108,8 +108,9 @@ void Output::print_current_test_ended(const Result& res)
 
 void Output::print_progress_indicator()
 {
+  constexpr int dots_per_line{ 50 };
   print(progress_indication_);
-  if (++dot_count_ % 50 == 0) {
+  if (++dot_count_ % dots_per_line == 0) {
     print("\n");
   }
 }

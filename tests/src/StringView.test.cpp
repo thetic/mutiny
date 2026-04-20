@@ -10,14 +10,14 @@ TEST(StringView, ConstructFromLiteral)
   mu::tiny::StringView sv("hello");
 
   STRCMP_EQUAL("hello", sv.data());
-  CHECK_EQUAL(5u, sv.size());
+  CHECK_EQUAL(5U, sv.size());
 }
 
 TEST(StringView, ConstructFromPointerAndLength)
 {
   mu::tiny::StringView sv("hello world", 5);
 
-  CHECK_EQUAL(5u, sv.size());
+  CHECK_EQUAL(5U, sv.size());
   CHECK_EQUAL('h', sv[0]);
   CHECK_EQUAL('o', sv[4]);
 }
@@ -36,7 +36,7 @@ TEST(StringView, EmptyLiteral)
   mu::tiny::StringView sv("");
 
   CHECK(sv.empty());
-  CHECK_EQUAL(0u, sv.size());
+  CHECK_EQUAL(0U, sv.size());
 }
 
 TEST(StringView, NonEmpty)
@@ -117,7 +117,7 @@ TEST(StringView, StringConstructFromStringView)
   mu::tiny::String str(sv);
 
   STRCMP_EQUAL("copy me", str.c_str());
-  CHECK_EQUAL(7u, str.size());
+  CHECK_EQUAL(7U, str.size());
 }
 #endif
 
@@ -126,5 +126,5 @@ TEST(StringView, StringConstructFromPointerAndLength)
   mu::tiny::String str("hello", 5);
 
   STRCMP_EQUAL("hello", str.c_str());
-  CHECK_EQUAL(5u, str.size());
+  CHECK_EQUAL(5U, str.size());
 }

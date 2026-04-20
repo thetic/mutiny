@@ -59,11 +59,12 @@ void CheckedActualCall::copy_output_parameters(
     CheckedExpectedCall* expected_call
 )
 {
-  for (MockOutputParametersListNode* p = output_parameter_expectations_; p;
+  for (MockOutputParametersListNode* p = output_parameter_expectations_;
+       p != nullptr;
        p = p->next) {
     NamedValue output_parameter = expected_call->get_output_parameter(p->name);
     NamedValueCopier* copier = output_parameter.get_copier();
-    if (copier) {
+    if (copier != nullptr) {
       copier->copy(p->ptr, output_parameter.get_const_object_pointer());
     } else if (
         (output_parameter.get_type() == "const void*") && (p->type == "void*")
@@ -71,7 +72,7 @@ void CheckedActualCall::copy_output_parameters(
       const void* data = output_parameter.get_value<const void*>();
       size_t size = output_parameter.get_size();
       memcpy(p->ptr, data, size);
-    } else if (output_parameter.get_name() != "") {
+    } else if (!output_parameter.get_name().empty()) {
       fail_with(NoWayToCopyCustomTypeFailure(
           get_test(),
           expected_call->get_output_parameter(p->name).get_type().c_str()
@@ -87,13 +88,13 @@ void CheckedActualCall::complete_call_when_match_is_found()
 
   matching_expectation_ = potentially_matching_expectations_
                               .remove_first_finalized_matching_expectation();
-  if (matching_expectation_) {
+  if (matching_expectation_ != nullptr) {
     copy_output_parameters(matching_expectation_);
     call_has_succeeded();
   } else {
     CheckedExpectedCall* matching_expectation_with_ignored_parameters =
         potentially_matching_expectations_.get_first_matching_expectation();
-    if (matching_expectation_with_ignored_parameters) {
+    if (matching_expectation_with_ignored_parameters != nullptr) {
       copy_output_parameters(matching_expectation_with_ignored_parameters);
     }
   }
@@ -106,7 +107,7 @@ void CheckedActualCall::call_has_succeeded()
 
 void CheckedActualCall::discard_currently_matching_expectations()
 {
-  if (matching_expectation_) {
+  if (matching_expectation_ != nullptr) {
     matching_expectation_->reset_actual_call_matching_state();
     matching_expectation_ = nullptr;
   }
@@ -274,7 +275,7 @@ void CheckedActualCall::check_expectations()
 
   matching_expectation_ =
       potentially_matching_expectations_.remove_first_matching_expectation();
-  if (matching_expectation_) {
+  if (matching_expectation_ != nullptr) {
     matching_expectation_->finalize_actual_call_match();
     call_has_succeeded();
     matching_expectation_->call_was_made(call_order_);
@@ -305,7 +306,7 @@ void CheckedActualCall::set_state(MutinyActualCallState state)
 NamedValue CheckedActualCall::return_value()
 {
   check_expectations();
-  if (matching_expectation_) {
+  if (matching_expectation_ != nullptr) {
     return matching_expectation_->return_value();
   }
   return NamedValue("no return value");
@@ -329,7 +330,8 @@ ActualCall& CheckedActualCall::on_object(const void* object_ptr)
       object_ptr
   );
 
-  if ((!matching_expectation_) && potentially_matching_expectations_.empty()) {
+  if ((matching_expectation_ == nullptr) &&
+      potentially_matching_expectations_.empty()) {
     fail_with(UnexpectedObjectFailure(
         get_test(), get_name(), object_ptr, all_expectations_
     ));
@@ -338,7 +340,7 @@ ActualCall& CheckedActualCall::on_object(const void* object_ptr)
 
   potentially_matching_expectations_.was_passed_to_object();
 
-  if (!matching_expectation_) {
+  if (matching_expectation_ == nullptr) {
     complete_call_when_match_is_found();
   }
 
@@ -357,7 +359,7 @@ void CheckedActualCall::add_output_parameter(
     output_parameter_expectations_ = new_node;
   } else {
     MockOutputParametersListNode* last_node = output_parameter_expectations_;
-    while (last_node->next) {
+    while (last_node->next != nullptr) {
       last_node = last_node->next;
     }
     last_node->next = new_node;
@@ -369,7 +371,7 @@ void CheckedActualCall::clean_up_output_parameter_list()
   MockOutputParametersListNode* current = output_parameter_expectations_;
   MockOutputParametersListNode* to_be_deleted = nullptr;
 
-  while (current) {
+  while (current != nullptr) {
     to_be_deleted = current;
     output_parameter_expectations_ = current = current->next;
     delete to_be_deleted;

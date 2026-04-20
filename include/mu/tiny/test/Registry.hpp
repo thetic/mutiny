@@ -183,14 +183,14 @@ public:
   virtual void set_current_registry(Registry* registry);
 
   /** @return The current repetition number (1-based during a multi-run). */
-  int get_current_repetition();
+  int get_current_repetition() const { return current_repetition_; }
 
   /** @brief Enable running @ref SKIPPED_TEST() tests in this registry. */
   void set_run_ignored();
 
 private:
   bool test_should_run(Shell* test, Result& result);
-  bool end_of_group(Shell* test);
+  static bool end_of_group(Shell* test);
 
   Shell* tests_{ nullptr };
   const Filter* name_filters_{ nullptr };

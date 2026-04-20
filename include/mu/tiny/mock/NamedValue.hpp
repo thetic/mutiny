@@ -47,7 +47,7 @@ public:
    */
   NamedValue(StringView name);
   NamedValue(const NamedValue&) = default;
-  NamedValue(NamedValue&&) noexcept;
+  NamedValue(NamedValue&& /*other*/) noexcept;
   NamedValue& operator=(NamedValue&&) noexcept = default;
   virtual ~NamedValue() = default;
 

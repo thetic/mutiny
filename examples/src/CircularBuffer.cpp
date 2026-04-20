@@ -16,12 +16,12 @@ CircularBuffer::~CircularBuffer()
   delete[] buffer_;
 }
 
-bool CircularBuffer::is_empty()
+bool CircularBuffer::is_empty() const
 {
   return empty_;
 }
 
-bool CircularBuffer::is_full()
+bool CircularBuffer::is_full() const
 {
   return full_;
 }
@@ -53,12 +53,12 @@ int CircularBuffer::get()
   return result;
 }
 
-int CircularBuffer::capacity()
+int CircularBuffer::capacity() const
 {
   return capacity_;
 }
 
-int CircularBuffer::next(int i)
+int CircularBuffer::next(int i) const
 {
   if (++i >= capacity_) {
     i = 0;

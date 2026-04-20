@@ -1,7 +1,5 @@
 #include "MockFailureReporter.hpp"
 
-#include "mu/tiny/test/TestingFixture.hpp"
-
 #include "mu/tiny/mock.hpp"
 #include "mu/tiny/test.hpp"
 
@@ -390,18 +388,24 @@ TEST(Support, returnValueAfterFailedCallReturnsEmpty)
 
 TEST(Support, threeOutputParametersAllCopied)
 {
-  int a = 1, b = 2, c = 3;
-  int out_a = 0, out_b = 0, out_c = 0;
+  int a = 1;
+  int b = 2;
+  int c = 3;
   mock()
       .expect_one_call("func")
       .with_output_parameter_returning("a", &a, sizeof(a))
       .with_output_parameter_returning("b", &b, sizeof(b))
       .with_output_parameter_returning("c", &c, sizeof(c));
+
+  int out_a = 0;
+  int out_b = 0;
+  int out_c = 0;
   mock()
       .actual_call("func")
       .with_output_parameter("a", &out_a)
       .with_output_parameter("b", &out_b)
       .with_output_parameter("c", &out_c);
+
   CHECK_EQUAL(1, out_a);
   CHECK_EQUAL(2, out_b);
   CHECK_EQUAL(3, out_c);

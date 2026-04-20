@@ -11,13 +11,13 @@ TEST_GROUP(CircularBuffer)
   void setup() override { buffer = new CircularBuffer(); }
   void teardown() override { delete buffer; }
 
-  void fill_the_queue(int seed, int how_many)
+  void fill_the_queue(int seed, int how_many) const
   {
     for (int i = 0; i < how_many; i++) {
       buffer->put(seed + i);
     }
   }
-  void remove_from_queue(int how_many)
+  void remove_from_queue(int how_many) const
   {
     for (int i = 0; i < how_many; i++) {
       buffer->get();

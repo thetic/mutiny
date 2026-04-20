@@ -110,18 +110,18 @@ bool CheckedExpectedCall::has_output_parameter_with_name(StringView name)
 NamedValue CheckedExpectedCall::get_output_parameter(StringView name)
 {
   NamedValue* p = output_parameters_->get_value_by_name(name);
-  return (p) ? *p : NamedValue("");
+  return (p != nullptr) ? *p : NamedValue("");
 }
 
 bool CheckedExpectedCall::are_parameters_matching_actual_call()
 {
   NamedValueListNode* p;
-  for (p = input_parameters_->begin(); p; p = p->next()) {
+  for (p = input_parameters_->begin(); p != nullptr; p = p->next()) {
     if (!item(p)->is_matching_actual_call()) {
       return false;
     }
   }
-  for (p = output_parameters_->begin(); p; p = p->next()) {
+  for (p = output_parameters_->begin(); p != nullptr; p = p->next()) {
     if (!item(p)->is_matching_actual_call()) {
       return false;
     }
@@ -186,17 +186,18 @@ void CheckedExpectedCall::reset_actual_call_matching_state()
 
   NamedValueListNode* p;
 
-  for (p = input_parameters_->begin(); p; p = p->next()) {
+  for (p = input_parameters_->begin(); p != nullptr; p = p->next()) {
     item(p)->set_matches_actual_call(false);
   }
-  for (p = output_parameters_->begin(); p; p = p->next()) {
+  for (p = output_parameters_->begin(); p != nullptr; p = p->next()) {
     item(p)->set_matches_actual_call(false);
   }
 }
 
 void CheckedExpectedCall::input_parameter_was_passed(StringView name)
 {
-  for (NamedValueListNode* p = input_parameters_->begin(); p; p = p->next()) {
+  for (NamedValueListNode* p = input_parameters_->begin(); p != nullptr;
+       p = p->next()) {
     if (p->get_name() == name) {
       item(p)->set_matches_actual_call(true);
     }
@@ -205,7 +206,8 @@ void CheckedExpectedCall::input_parameter_was_passed(StringView name)
 
 void CheckedExpectedCall::output_parameter_was_passed(StringView name)
 {
-  for (NamedValueListNode* p = output_parameters_->begin(); p; p = p->next()) {
+  for (NamedValueListNode* p = output_parameters_->begin(); p != nullptr;
+       p = p->next()) {
     if (p->get_name() == name) {
       item(p)->set_matches_actual_call(true);
     }
@@ -215,19 +217,20 @@ void CheckedExpectedCall::output_parameter_was_passed(StringView name)
 String CheckedExpectedCall::get_input_parameter_value_string(StringView name)
 {
   NamedValue* p = input_parameters_->get_value_by_name(name);
-  return (p) ? string_from(*p) : string_from("failed");
+  return (p != nullptr) ? string_from(*p) : string_from("failed");
 }
 
 bool CheckedExpectedCall::has_input_parameter(const NamedValue& parameter)
 {
   NamedValue* p = input_parameters_->get_value_by_name(parameter.get_name());
-  return (p) ? p->equals(parameter) : ignore_other_parameters_;
+  return (p != nullptr) ? p->equals(parameter) : ignore_other_parameters_;
 }
 
 bool CheckedExpectedCall::has_output_parameter(const NamedValue& parameter)
 {
   NamedValue* p = output_parameters_->get_value_by_name(parameter.get_name());
-  return (p) ? p->compatible_for_copying(parameter) : ignore_other_parameters_;
+  return (p != nullptr) ? p->compatible_for_copying(parameter)
+                        : ignore_other_parameters_;
 }
 
 String CheckedExpectedCall::call_to_string()
@@ -260,27 +263,28 @@ String CheckedExpectedCall::call_to_string()
   } else {
     NamedValueListNode* p;
 
-    for (p = input_parameters_->begin(); p; p = p->next()) {
+    for (p = input_parameters_->begin(); nullptr != p; p = p->next()) {
       str += string_from_format(
           "%s %s: <%s>",
           p->get_type().c_str(),
           p->get_name().c_str(),
           get_input_parameter_value_string(p->get_name()).c_str()
       );
-      if (p->next()) {
+      if (p->next() != nullptr) {
         str += ", ";
       }
     }
 
-    if (input_parameters_->begin() && output_parameters_->begin()) {
+    if ((input_parameters_->begin() != nullptr) &&
+        (output_parameters_->begin() != nullptr)) {
       str += ", ";
     }
 
-    for (p = output_parameters_->begin(); p; p = p->next()) {
+    for (p = output_parameters_->begin(); p != nullptr; p = p->next()) {
       str += string_from_format(
           "%s %s: <output>", p->get_type().c_str(), p->get_name().c_str()
       );
-      if (p->next()) {
+      if (p->next() != nullptr) {
         str += ", ";
       }
     }
@@ -306,9 +310,9 @@ String CheckedExpectedCall::missing_parameters_to_string()
   String str;
   NamedValueListNode* p;
 
-  for (p = input_parameters_->begin(); p; p = p->next()) {
+  for (p = input_parameters_->begin(); p != nullptr; p = p->next()) {
     if (!item(p)->is_matching_actual_call()) {
-      if (str != "") {
+      if (!str.empty()) {
         str += ", ";
       }
       str += string_from_format(
@@ -316,9 +320,9 @@ String CheckedExpectedCall::missing_parameters_to_string()
       );
     }
   }
-  for (p = output_parameters_->begin(); p; p = p->next()) {
+  for (p = output_parameters_->begin(); p != nullptr; p = p->next()) {
     if (!item(p)->is_matching_actual_call()) {
-      if (str != "") {
+      if (!str.empty()) {
         str += ", ";
       }
       str += string_from_format(

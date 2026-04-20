@@ -45,7 +45,8 @@ void SupportPlugin::clear()
   repository_.clear();
 }
 
-void SupportPlugin::pre_test_action(test::Shell&, test::Result&)
+void SupportPlugin::
+    pre_test_action(test::Shell& /*test*/, test::Result& /*result*/)
 {
   mock().install_comparators_and_copiers(repository_);
 }

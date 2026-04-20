@@ -48,7 +48,7 @@ public:
   bool is_ordered() const override;
 
   /** @return This shell's execution level. */
-  int get_level();
+  int get_level() const;
 
   /**
    * @brief Set this shell's execution level.
@@ -116,8 +116,10 @@ public:
   virtual ~OrderedInstaller() = default;
 
 private:
-  void add_ordered_test_in_order(OrderedShell* test);
-  void add_ordered_test_in_order_not_at_head_position(OrderedShell* test);
+  static void add_ordered_test_in_order(OrderedShell* test);
+  static void add_ordered_test_in_order_not_at_head_position(
+      OrderedShell* test
+  );
 };
 
 } // namespace test

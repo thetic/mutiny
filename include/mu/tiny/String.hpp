@@ -37,7 +37,7 @@
 #define MUTINY_HAS_ATTRIBUTE(x) __has_attribute(x)
 #endif
 
-#if defined(__MINGW32__)
+#ifdef __MINGW32__
 #define MUTINY_CHECK_FORMAT_TYPE __MINGW_PRINTF_FORMAT
 #else
 #define MUTINY_CHECK_FORMAT_TYPE printf
@@ -96,11 +96,11 @@ public:
   /** @brief Move-assignment operator. */
   String& operator=(String&& other) noexcept;
   /** @brief Return the concatenation of this string and @p rhs. */
-  String operator+(const String&) const;
+  String operator+(const String& rhs) const;
   /** @brief Append @p rhs and return a reference to this string. */
-  String& operator+=(const String&);
+  String& operator+=(const String& rhs);
   /** @brief Append a C string and return a reference to this string. */
-  String& operator+=(const char*);
+  String& operator+=(const char* rhs);
   /** @brief Append a single character and return a reference to this string. */
   String& operator+=(char ch);
   /** @brief Append the contents of a @ref StringView. */
@@ -149,8 +149,13 @@ public:
   size_t size() const;
   /** @return Number of characters; synonym for `size()`. */
   size_t length() const { return size(); }
+
   /** @return Number of characters that fit without reallocation. */
-  size_t capacity() const { return buffer_size_ ? buffer_size_ - 1 : 0; }
+  size_t capacity() const
+  {
+    return (buffer_size_ != 0U) ? buffer_size_ - 1 : 0;
+  }
+
   /** @return true if the string has zero characters. */
   bool empty() const;
   /** @brief Reset the string to empty without releasing the buffer. */
@@ -182,7 +187,7 @@ private:
   size_t buffer_size_;
   size_t size_;
 
-  char* get_empty_string() const;
+  static char* get_empty_string();
 };
 #endif
 
@@ -284,11 +289,14 @@ MUTINY_EXPORT String string_from(long long value);
 /** @brief Return the decimal string representation of @p value. */
 MUTINY_EXPORT String string_from(unsigned long long value);
 
+constexpr int default_precision{ 6 };
+
 /**
  * @brief Return the decimal string representation of @p value with the given
  *        @p precision.
  */
-MUTINY_EXPORT String string_from(float value, int precision = 6);
+MUTINY_EXPORT String
+string_from(float value, int precision = default_precision);
 
 /** @brief Return @p value as a `0x`-prefixed hexadecimal string. */
 MUTINY_EXPORT String hex_string_from(unsigned int value);
@@ -321,7 +329,8 @@ MUTINY_EXPORT String hex_string_from(void (*value)());
  * @brief Return the decimal string representation of @p value with the given
  *        @p precision.
  */
-MUTINY_EXPORT String string_from(double value, int precision = 6);
+MUTINY_EXPORT String
+string_from(double value, int precision = default_precision);
 
 /** @brief Return a copy of @p other as a String. */
 MUTINY_EXPORT String string_from(const String& other);
@@ -365,7 +374,7 @@ inline String string_from(T* value)
 template<
     typename T,
     typename std::enable_if<std::is_class<T>::value, int>::type = 0>
-String string_from(const T&)
+String string_from(const T& /*val*/)
 {
   static_assert(
       sizeof(T) == 0,

@@ -13,7 +13,7 @@ ExecFunctionWithoutParameters::ExecFunctionWithoutParameters(void (*fn)())
 
 void ExecFunctionWithoutParameters::exec()
 {
-  if (test_function) {
+  if (test_function != nullptr) {
     test_function();
   }
 }
@@ -27,21 +27,21 @@ ExecFunctionTest::ExecFunctionTest(ExecFunctionShell* shell)
 
 void ExecFunctionTest::test_body()
 {
-  if (shell_->test_function) {
+  if (shell_->test_function != nullptr) {
     shell_->test_function->exec();
   }
 }
 
 void ExecFunctionTest::setup()
 {
-  if (shell_->setup) {
+  if (shell_->setup != nullptr) {
     shell_->setup();
   }
 }
 
 void ExecFunctionTest::teardown()
 {
-  if (shell_->teardown) {
+  if (shell_->teardown != nullptr) {
     shell_->teardown();
   }
 }

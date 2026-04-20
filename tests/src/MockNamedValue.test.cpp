@@ -687,12 +687,17 @@ TEST(NamedValueRepository, EqualsObjectTypeWithComparator)
   );
 
   int obj1 = 5;
-  int obj2 = 5;
-  int obj3 = 6;
-  mu::tiny::mock::NamedValue v1("v1"), v2("v2"), v3("v3");
+  mu::tiny::mock::NamedValue v1("v1");
   v1.set_const_object_pointer("int_obj", &obj1);
+
+  int obj2 = 5;
+  mu::tiny::mock::NamedValue v2("v2");
   v2.set_const_object_pointer("int_obj", &obj2);
+
+  int obj3 = 6;
+  mu::tiny::mock::NamedValue v3("v3");
   v3.set_const_object_pointer("int_obj", &obj3);
+
   CHECK(v1.equals(v2));
   CHECK(!v1.equals(v3));
 }

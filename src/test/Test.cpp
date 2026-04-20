@@ -30,7 +30,7 @@ void helper_do_test_teardown(void* data)
 void Test::run()
 {
   Shell* current = Shell::get_current();
-  int jump_result = 0;
+  bool jump_result = false;
   try {
     current->print_very_verbose("\n-------- before setup: ");
     jump_result = set_jump(helper_do_test_setup, this);

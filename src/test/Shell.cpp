@@ -100,11 +100,11 @@ void (*please_crash_me_right_now)() = abort;
 
 bool approx_equal(double d1, double d2, double threshold)
 {
-  if (is_nan(d1) || is_nan(d2) || is_nan(threshold)) {
+  if ((0 != is_nan(d1)) || (is_nan(d2) != 0) || (is_nan(threshold) != 0)) {
     return false;
   }
 
-  if (is_inf(d1) && is_inf(d2)) {
+  if ((is_inf(d1) != 0) && (is_inf(d2) != 0)) {
     return true;
   }
 
@@ -232,7 +232,7 @@ Shell* Shell::add_test(Shell* test)
 
 size_t Shell::count_tests()
 {
-  return next_ ? next_->count_tests() + 1 : 1;
+  return (next_ != nullptr) ? next_->count_tests() + 1 : 1;
 }
 
 String Shell::get_macro_name() const
@@ -314,7 +314,7 @@ size_t Shell::get_line_number() const
   return line_number_;
 }
 
-bool Shell::match(const char* target, const Filter* filters) const
+bool Shell::match(const char* target, const Filter* filters)
 {
   if (filters == nullptr) {
     return true;
@@ -469,12 +469,17 @@ void Shell::assert_cstr_contains(
         line_number,
         string_from_or_null(expected),
         string_from_or_null(actual),
-        text ? text : ""
+        (text != nullptr) ? text : ""
     ));
     exit_test(get_current_test_terminator());
   } else if (!string_contains(actual, expected)) {
     add_failure(ContainsFailure(
-        this, file_name, line_number, expected, actual, text ? text : ""
+        this,
+        file_name,
+        line_number,
+        expected,
+        actual,
+        (text != nullptr) ? text : ""
     ));
     exit_test(get_current_test_terminator());
   }

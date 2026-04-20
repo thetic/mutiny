@@ -22,7 +22,10 @@ public:
 
   {
   }
-  void run_one_test(mu::tiny::test::Plugin*, mu::tiny::test::Result&) override
+  void run_one_test(
+      mu::tiny::test::Plugin* /*plugin*/,
+      mu::tiny::test::Result& /*result*/
+  ) override
   {
     has_run = true;
   }
@@ -33,7 +36,10 @@ public:
 class MockOrderedTest : public mu::tiny::test::OrderedShell
 {
 public:
-  void run_one_test(mu::tiny::test::Plugin*, mu::tiny::test::Result&) override
+  void run_one_test(
+      mu::tiny::test::Plugin* /*plugin*/,
+      mu::tiny::test::Result& /*result*/
+  ) override
   {
   }
 };
@@ -95,14 +101,14 @@ public:
   }
   ~MyTestPluginDummy() override = default;
   void run_all_pre_test_action(
-      mu::tiny::test::Shell&,
-      mu::tiny::test::Result&
+      mu::tiny::test::Shell& /*test*/,
+      mu::tiny::test::Result& /*result*/
   ) override
   {
   }
   void run_all_post_test_action(
-      mu::tiny::test::Shell&,
-      mu::tiny::test::Result&
+      mu::tiny::test::Shell& /*test*/,
+      mu::tiny::test::Result& /*result*/
   ) override
   {
   }
@@ -148,7 +154,7 @@ TEST_GROUP(Registry)
     delete output;
   }
 
-  void add_and_run_all_tests()
+  void add_and_run_all_tests() const
   {
     my_registry->add_test(test1);
     my_registry->add_test(test2);

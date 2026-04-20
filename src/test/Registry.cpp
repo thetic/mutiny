@@ -172,14 +172,14 @@ void Registry::list_test_group_locations(Result& result)
 bool Registry::end_of_group(Shell* test)
 {
   return (
-      !test || !test->get_next() ||
+      (test == nullptr) || (test->get_next() == nullptr) ||
       test->get_group() != test->get_next()->get_group()
   );
 }
 
 size_t Registry::count_tests()
 {
-  return tests_ ? tests_->count_tests() : 0;
+  return (tests_ != nullptr) ? tests_->count_tests() : 0;
 }
 
 Registry* Registry::current_registry_ = nullptr;
@@ -197,7 +197,7 @@ void Registry::set_current_registry(Registry* registry)
 
 void Registry::un_do_last_add_test()
 {
-  tests_ = tests_ ? tests_->get_next() : nullptr;
+  tests_ = (tests_ != nullptr) ? tests_->get_next() : nullptr;
 }
 
 void Registry::set_name_filters(const Filter* filters)
@@ -215,19 +215,13 @@ void Registry::set_run_ignored()
   run_ignored_ = true;
 }
 
-int Registry::get_current_repetition()
-{
-  return current_repetition_;
-}
-
 bool Registry::test_should_run(Shell* test, Result& result)
 {
   if (test->should_run(group_filters_, name_filters_)) {
     return true;
-  } else {
-    result.count_filtered_out();
-    return false;
   }
+  result.count_filtered_out();
+  return false;
 }
 
 void Registry::reset_plugins()
@@ -291,7 +285,7 @@ void Registry::reverse_tests()
 Shell* Registry::get_test_with_next(Shell* test)
 {
   Shell* current = tests_;
-  while (current && current->get_next() != test) {
+  while ((current != nullptr) && current->get_next() != test) {
     current = current->get_next();
   }
   return current;
@@ -300,7 +294,7 @@ Shell* Registry::get_test_with_next(Shell* test)
 Shell* Registry::find_test_with_name(const String& name)
 {
   Shell* current = tests_;
-  while (current) {
+  while (current != nullptr) {
     if (current->get_name() == name) {
       return current;
     }
@@ -309,11 +303,11 @@ Shell* Registry::find_test_with_name(const String& name)
   return nullptr;
 }
 
-Shell* Registry::find_test_with_group(const String& group)
+Shell* Registry::find_test_with_group(const String& name)
 {
   Shell* current = tests_;
-  while (current) {
-    if (current->get_group() == group) {
+  while (current != nullptr) {
+    if (current->get_group() == name) {
       return current;
     }
     current = current->get_next();

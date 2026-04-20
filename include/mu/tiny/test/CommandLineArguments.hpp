@@ -91,7 +91,7 @@ public:
   /** @return The head of the name filter chain, or nullptr. */
   const Filter* get_name_filters() const;
   /** @return A formatted help string describing all supported arguments. */
-  String help() const;
+  static String help();
 
 private:
   int ac_;
@@ -116,7 +116,7 @@ private:
   size_t shuffle_seed_{ 0 };
   Filter* group_filters_{ nullptr };
   Filter* name_filters_{ nullptr };
-  String get_parameter_field(
+  static String get_parameter_field(
       int argc,
       const char* const* argv,
       int& i,

@@ -22,6 +22,8 @@ namespace mu {
 namespace tiny {
 
 namespace {
+constexpr int decimal_base{ 10 };
+
 #if !MUTINY_USE_STD_STRING
 char* str_n_cpy(char* s1, const char* s2, size_t n)
 {
@@ -32,7 +34,7 @@ char* str_n_cpy(char* s1, const char* s2, size_t n)
   }
 
   *s1 = *s2;
-  while ((--n != 0) && *s1) {
+  while ((--n != 0) && (*s1 != 0)) {
     *++s1 = *++s2;
   }
   return result;
@@ -57,7 +59,9 @@ bool is_digit(char ch)
 
 bool is_space(char ch)
 {
-  return (ch == ' ') || (0x08 < ch && 0x0E > ch);
+  constexpr char bs{ 0x08 };
+  constexpr char so{ 0x0E };
+  return (ch == ' ') || ((bs < ch) && (so > ch));
 }
 
 bool is_upper(char ch)
@@ -68,7 +72,7 @@ bool is_upper(char ch)
 } // namespace
 
 #if !MUTINY_USE_STD_STRING
-char* String::get_empty_string() const
+char* String::get_empty_string()
 {
   char* buf = new char[1];
   buf[0] = '\0';
@@ -77,7 +81,7 @@ char* String::get_empty_string() const
 
 void String::deallocate_internal_buffer()
 {
-  if (buffer_) {
+  if (buffer_ != nullptr) {
     delete[] buffer_;
     buffer_ = nullptr;
     buffer_size_ = 0;
@@ -138,15 +142,15 @@ void String::copy_buffer_to_new_internal_buffer(const char* other_buffer)
   copy_buffer_to_new_internal_buffer(other_buffer, strlen(other_buffer) + 1);
 }
 
-String::String(const char* other_buffer)
+String::String(const char* value)
   : buffer_(nullptr)
   , buffer_size_(0)
   , size_(0)
 {
-  if (other_buffer == nullptr) {
+  if (value == nullptr) {
     set_internal_buffer_as_empty_string();
   } else {
-    copy_buffer_to_new_internal_buffer(other_buffer);
+    copy_buffer_to_new_internal_buffer(value);
   }
 }
 
@@ -374,13 +378,13 @@ bool string_contains(const String& str, const String& substr)
 
 bool string_starts_with(const String& str, const String& prefix)
 {
-  if (prefix.size() == 0) {
+  if (prefix.empty()) {
     return true;
-  } else if (str.size() == 0) {
-    return false;
-  } else {
-    return strstr(str.c_str(), prefix.c_str()) == str.c_str();
   }
+  if (str.empty()) {
+    return false;
+  }
+  return strstr(str.c_str(), prefix.c_str()) == str.c_str();
 }
 
 bool string_ends_with(const String& str, const String& suffix)
@@ -437,7 +441,7 @@ void string_replace(String& str, const char* from, const char* to)
 long strtol(const char* str)
 {
 #if MUTINY_USE_STD_STRING
-  return std::strtol(str, nullptr, 10);
+  return std::strtol(str, nullptr, decimal_base);
 #else
   while (is_space(*str)) {
     str++;
@@ -450,7 +454,7 @@ long strtol(const char* str)
 
   long result = 0;
   for (; is_digit(*str); str++) {
-    result *= 10;
+    result *= decimal_base;
     result += *str - '0';
   }
   return (first_char == '-') ? -result : result;
@@ -460,7 +464,7 @@ long strtol(const char* str)
 unsigned long strtoul(const char* str)
 {
 #if MUTINY_USE_STD_STRING
-  return std::strtoul(str, nullptr, 10);
+  return std::strtoul(str, nullptr, decimal_base);
 #else
   while (is_space(*str)) {
     str++;
@@ -473,7 +477,7 @@ unsigned long strtoul(const char* str)
 
   unsigned long result = 0;
   for (; is_digit(*str); str++) {
-    result *= 10;
+    result *= decimal_base;
     result += static_cast<unsigned long>(*str - '0');
   }
   return negative ? -result : result;
@@ -485,7 +489,7 @@ int strcmp(const char* s1, const char* s2)
 #if MUTINY_USE_STD_STRING
   return std::strcmp(s1, s2);
 #else
-  while (*s1 && *s1 == *s2) {
+  while ((*s1 != 0) && *s1 == *s2) {
     ++s1;
     ++s2;
   }
@@ -502,7 +506,7 @@ size_t strlen(const char* str)
   auto n = static_cast<size_t>(-1);
   do {
     n++;
-  } while (*str++);
+  } while (*str++ != 0);
   return n;
 #endif
 }
@@ -512,14 +516,14 @@ int strncmp(const char* s1, const char* s2, size_t n)
 #if MUTINY_USE_STD_STRING
   return std::strncmp(s1, s2, n);
 #else
-  while (n && *s1 && *s1 == *s2) {
+  while ((n != 0U) && ((*s1) != 0) && *s1 == *s2) {
     --n;
     ++s1;
     ++s2;
   }
-  return n ? *reinterpret_cast<const unsigned char*>(s1) -
-                 *reinterpret_cast<const unsigned char*>(s2)
-           : 0;
+  return (n != 0U) ? *reinterpret_cast<const unsigned char*>(s1) -
+                         *reinterpret_cast<const unsigned char*>(s2)
+                   : 0;
 #endif
 }
 
@@ -528,11 +532,11 @@ const char* strstr(const char* s1, const char* s2)
 #if MUTINY_USE_STD_STRING
   return std::strstr(s1, s2);
 #else
-  if (!*s2) {
+  if (*s2 == 0) {
     return s1;
   }
   size_t s2_len = strlen(s2);
-  for (; *s1; s1++) {
+  for (; *s1 != 0; s1++) {
     if (strncmp(s1, s2, s2_len) == 0) {
       return s1;
     }
@@ -556,16 +560,15 @@ int memcmp(const void* s1, const void* s2, size_t n)
 #if MUTINY_USE_STD_STRING
   return std::memcmp(s1, s2, n);
 #else
-  auto* p1 = static_cast<const unsigned char*>(s1);
-  auto* p2 = static_cast<const unsigned char*>(s2);
+  const auto* p1 = static_cast<const unsigned char*>(s1);
+  const auto* p2 = static_cast<const unsigned char*>(s2);
 
-  while (n--) {
+  while (n-- != 0U) {
     if (*p1 != *p2) {
       return *p1 - *p2;
-    } else {
-      ++p1;
-      ++p2;
     }
+    ++p1;
+    ++p2;
   }
   return 0;
 #endif
@@ -576,7 +579,8 @@ bool iscntrl(char ch)
 #if MUTINY_USE_STD_STRING
   return std::iscntrl(static_cast<unsigned char>(ch)) != 0;
 #else
-  return ch < ' ' || ch == char(0x7F);
+  constexpr char del{ 0x7F };
+  return ch < ' ' || ch == del;
 #endif
 }
 
@@ -590,9 +594,9 @@ String string_from(const char* value)
   return String(value);
 }
 
-String string_from_or_null(const char* expected)
+String string_from_or_null(const char* value)
 {
-  return (expected) ? string_from(expected) : string_from("(null)");
+  return (value != nullptr) ? string_from(value) : string_from("(null)");
 }
 
 String string_from(int value)
@@ -733,24 +737,24 @@ String brackets_formatted_hex_string_from(unsigned long long value)
 
 String string_from(float value, int precision)
 {
-  if (is_nan(value)) {
+  if (is_nan(value) != 0) {
     return "Nan - Not a number";
-  } else if (is_inf(value)) {
-    return "Inf - Infinity";
-  } else {
-    return string_from_format("%.*g", precision, value);
   }
+  if (is_inf(value) != 0) {
+    return "Inf - Infinity";
+  }
+  return string_from_format("%.*g", precision, value);
 }
 
 String string_from(double value, int precision)
 {
-  if (is_nan(value)) {
+  if (is_nan(value) != 0) {
     return "Nan - Not a number";
-  } else if (is_inf(value)) {
-    return "Inf - Infinity";
-  } else {
-    return string_from_format("%.*g", precision, value);
   }
+  if (is_inf(value) != 0) {
+    return "Inf - Infinity";
+  }
+  return string_from_format("%.*g", precision, value);
 }
 
 String string_from(char value)
@@ -758,9 +762,9 @@ String string_from(char value)
   return String(1, value);
 }
 
-String string_from(const String& value)
+String string_from(const String& other)
 {
-  return String(value);
+  return String(other);
 }
 
 String string_from(StringView value)
@@ -779,14 +783,14 @@ String string_from_format(const char* format, ...)
   return result_string;
 }
 
-String string_from(unsigned int i)
+String string_from(unsigned int value)
 {
-  return string_from_format("%u", i);
+  return string_from_format("%u", value);
 }
 
-String string_from(unsigned long i)
+String string_from(unsigned long value)
 {
-  return string_from_format("%lu", i);
+  return string_from_format("%lu", value);
 }
 
 String v_string_from_format(const char* format, va_list args)
@@ -825,20 +829,22 @@ String string_from_binary(const unsigned char* value, size_t size)
   if (size == 0) {
     return result;
   }
-  result.reserve(size * 3 - 1);
+  result.reserve((size * 3) - 1);
   for (size_t i = 0; i < size; i++) {
+    constexpr char nibble_mask{ 0xF };
     if (i > 0) {
       result += ' ';
     }
     result += hex_digits[value[i] >> 4];
-    result += hex_digits[value[i] & 0xF];
+    result += hex_digits[value[i] & nibble_mask];
   }
   return result;
 }
 
 String string_from_binary_or_null(const unsigned char* value, size_t size)
 {
-  return (value) ? string_from_binary(value, size) : string_from("(null)");
+  return (value != nullptr) ? string_from_binary(value, size)
+                            : string_from("(null)");
 }
 
 String string_from_binary_with_size(const unsigned char* value, size_t size)
@@ -846,7 +852,8 @@ String string_from_binary_with_size(const unsigned char* value, size_t size)
   String result = string_from_format(
       "Size = %u | HexContents = ", static_cast<unsigned>(size)
   );
-  size_t displayed_size = ((size > 128) ? 128 : size);
+  constexpr size_t max_display_size{ 128U };
+  size_t displayed_size = ((size > max_display_size) ? max_display_size : size);
   result += string_from_binary_or_null(value, displayed_size);
   if (size > displayed_size) {
     result += " ...";
@@ -859,16 +866,18 @@ String string_from_binary_with_size_or_null(
     size_t size
 )
 {
-  return (value) ? string_from_binary_with_size(value, size)
-                 : string_from("(null)");
+  return (value != nullptr) ? string_from_binary_with_size(value, size)
+                            : string_from("(null)");
 }
 
 String string_from_ordinal_number(unsigned int number)
 {
   const char* suffix = "th";
 
-  if ((number < 11) || (number > 13)) {
-    unsigned int const ones_digit = number % 10;
+  constexpr unsigned int eleven{ 11 };
+  constexpr unsigned int thirteen{ 13 };
+  if ((number < eleven) || (number > thirteen)) {
+    unsigned int const ones_digit = number % decimal_base;
     if (3 == ones_digit) {
       suffix = "rd";
     } else if (2 == ones_digit) {

@@ -116,7 +116,6 @@ public:
   /** @return true if unexpected exceptions are currently re-thrown. */
   static bool is_rethrowing_exceptions();
 
-public:
   /**
    * @brief Construct a Shell with source-location metadata.
    *
@@ -170,7 +169,7 @@ public:
   /** @return true if this is an ordered test. */
   virtual bool is_ordered() const;
   /** @brief Increment the assertion-check count in the active Result. */
-  void count_check();
+  static void count_check();
 
   /** @brief Macro backend: assert @p condition is true. */
   virtual void assert_true(
@@ -409,7 +408,7 @@ protected:
    */
   Shell() noexcept;
   /** @return The Result for the current run. */
-  Result* get_test_result();
+  static Result* get_test_result();
 
 private:
   const char* group_;
@@ -419,9 +418,9 @@ private:
   Shell* next_;
   bool has_failed_;
 
-  void set_test_result(Result* result);
-  void set_current_test(Shell* test);
-  bool match(const char* target, const Filter* filters) const;
+  static void set_test_result(Result* result);
+  static void set_current_test(Shell* test);
+  static bool match(const char* target, const Filter* filters);
 
   static Shell* current_test_;
   static Result* test_result_;

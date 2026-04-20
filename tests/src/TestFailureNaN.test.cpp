@@ -141,13 +141,7 @@ TEST(TestFailureNaN, DoublesEqualThresholdIsInf)
 TEST(TestFailureNaN, FloatsEqualExpectedIsNaN)
 {
   mu::tiny::test::ApproxEqualFailure<float> f(
-      test,
-      fail_file_name,
-      fail_line_number,
-      static_cast<float>(NAN),
-      2.0f,
-      3.0f,
-      ""
+      test, fail_file_name, fail_line_number, NAN, 2.0F, 3.0F, ""
   );
   FAILURE_EQUAL(
       "expected <Nan - Not a number>\n"
@@ -160,13 +154,7 @@ TEST(TestFailureNaN, FloatsEqualExpectedIsNaN)
 TEST(TestFailureNaN, FloatsEqualActualIsNaN)
 {
   mu::tiny::test::ApproxEqualFailure<float> f(
-      test,
-      fail_file_name,
-      fail_line_number,
-      1.0f,
-      static_cast<float>(NAN),
-      3.0f,
-      ""
+      test, fail_file_name, fail_line_number, 1.0F, NAN, 3.0F, ""
   );
   FAILURE_EQUAL(
       "expected <1>\n"
@@ -179,13 +167,7 @@ TEST(TestFailureNaN, FloatsEqualActualIsNaN)
 TEST(TestFailureNaN, FloatsEqualThresholdIsNaN)
 {
   mu::tiny::test::ApproxEqualFailure<float> f(
-      test,
-      fail_file_name,
-      fail_line_number,
-      1.0f,
-      2.0f,
-      static_cast<float>(NAN),
-      ""
+      test, fail_file_name, fail_line_number, 1.0F, 2.0F, NAN, ""
   );
   FAILURE_EQUAL(
       "expected <1>\n"
