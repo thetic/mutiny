@@ -100,7 +100,7 @@ C Test Definition Macros
    * - :c:macro:`TEST(group, name) <TEST>`
      - Defines a test function body
    * - :c:macro:`SKIPPED_TEST(group, name) <SKIPPED_TEST>`
-     - Defines an ignored test body
+     - Defines an skipped test body
    * - :c:macro:`XFAIL_TEST(group, name) <XFAIL_TEST>`
      - Defines an expected-failure test body
 
@@ -123,7 +123,7 @@ Each C macro that defines a test body has a matching C++ wrapper:
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - A :c:macro:`TEST` that calls the C test function
    * - :c:macro:`SKIPPED_TEST_C_WRAPPER(group, name) <SKIPPED_TEST_C_WRAPPER>`
-     - An :c:macro:`SKIPPED_TEST` that calls the C ignored function
+     - An :c:macro:`SKIPPED_TEST` that calls the C skipped function
    * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - An :c:macro:`XFAIL_TEST` that calls the C expected-fail function
 

@@ -22,7 +22,7 @@ TEST(MutinyC, checkThatTheTestHasRun)
   test_was_called_in_test_group_in_c++;
 }
 
-SKIPPED_TEST(MutinyC, ignoreMacroForCFile)
+SKIPPED_TEST(MutinyC, skipMacroForCFile)
 {
   test_was_called_in_test_group_in_c++;
 }

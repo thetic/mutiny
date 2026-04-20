@@ -7,12 +7,12 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-IgnoredShell::IgnoredShell() noexcept
+SkippedShell::SkippedShell() noexcept
   : run_ignored_(false)
 {
 }
 
-IgnoredShell::IgnoredShell(
+SkippedShell::SkippedShell(
     const char* group_name,
     const char* test_name,
     const char* file_name,
@@ -23,7 +23,7 @@ IgnoredShell::IgnoredShell(
 {
 }
 
-bool IgnoredShell::will_run() const
+bool SkippedShell::will_run() const
 {
   if (run_ignored_) {
     return Shell::will_run();
@@ -32,7 +32,7 @@ bool IgnoredShell::will_run() const
   return false;
 }
 
-String IgnoredShell::get_macro_name() const
+String SkippedShell::get_macro_name() const
 {
   if (run_ignored_) {
     return "TEST";
@@ -41,17 +41,17 @@ String IgnoredShell::get_macro_name() const
   return "SKIPPED_TEST";
 }
 
-void IgnoredShell::run_one_test(Plugin* plugin, Result& result)
+void SkippedShell::run_one_test(Plugin* plugin, Result& result)
 {
   if (run_ignored_) {
     Shell::run_one_test(plugin, result);
     return;
   }
 
-  result.count_ignored();
+  result.count_skipped();
 }
 
-void IgnoredShell::set_run_ignored()
+void SkippedShell::set_run_skipped()
 {
   run_ignored_ = true;
 }

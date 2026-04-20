@@ -64,7 +64,7 @@ The output follows `TAP version 13
        file: widget.test.cpp
        line: 25
      ...
-   ok 3 - Widget.IgnoredTest # SKIP SKIPPED_TEST
+   ok 3 - Widget.SkippedTest # SKIP SKIPPED_TEST
 
 Key points:
 
@@ -77,8 +77,8 @@ Key points:
   with ``message``, ``severity``, and ``at`` (file and line).
 - ``severity`` is ``fail`` for assertion failures and ``comment`` for
   unexpected exceptions.
-- Ignored (:c:macro:`SKIPPED_TEST`) and dynamically skipped tests use the
-  ``# SKIP <reason>`` directive.
+- Skipped (:c:macro:`SKIPPED_TEST`) and dynamically skipped
+  (:c:macro:`SKIP_TEST`) tests use the ``# SKIP <reason>`` directive.
 
 CI Integration
 --------------

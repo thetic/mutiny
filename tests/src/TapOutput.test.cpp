@@ -120,11 +120,11 @@ public:
     return *this;
   }
 
-  TapTestOutputTestRunner& with_ignored_test(const char* test_name)
+  TapTestOutputTestRunner& with_skipped_test(const char* test_name)
   {
     run_previous_test();
     delete current_test_;
-    current_test_ = new mu::tiny::test::IgnoredShell(
+    current_test_ = new mu::tiny::test::SkippedShell(
         current_group_name_, test_name, "file", 1
     );
     return *this;
@@ -293,7 +293,7 @@ TEST(TapOutput, ignoredTestEmitsOkWithSkipDirective)
 {
   test_case_runner->start()
       .with_group("group")
-      .with_ignored_test("skipped")
+      .with_skipped_test("skipped")
       .end();
   STRCMP_EQUAL(
       "ok 1 - group.skipped # SKIP SKIPPED_TEST\n", tap_buffer->line(3)

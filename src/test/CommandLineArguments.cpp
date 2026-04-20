@@ -114,7 +114,7 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     return true;
   }
   if (argument == "-rs") {
-    run_ignored_ = true;
+    run_skipped_ = true;
     return true;
   }
   if (argument == "-f") {
@@ -276,7 +276,7 @@ String CommandLineArguments::help()
       "<name>\n"
       "  -xst <grp>.<name> - exclude tests whose group and name exactly "
       "match <grp> and <name>\n"
-      "  \"[IGNORE_]TEST(<group>, <name>)\"\n"
+      "  \"[SKIPPED_]TEST(<group>, <name>)\"\n"
       "                    - only run tests whose group and name exactly "
       "match <group> and <name>\n"
       "                      (this can be used to copy-paste output from "
@@ -343,9 +343,9 @@ bool CommandLineArguments::is_listing_test_group_locations() const
   return list_test_group_locations_;
 }
 
-bool CommandLineArguments::is_run_ignored() const
+bool CommandLineArguments::is_run_skipped() const
 {
-  return run_ignored_;
+  return run_skipped_;
 }
 
 size_t CommandLineArguments::get_repeat_count() const

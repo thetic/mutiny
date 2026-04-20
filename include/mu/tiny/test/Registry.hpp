@@ -186,7 +186,7 @@ public:
   int get_current_repetition() const { return current_repetition_; }
 
   /** @brief Enable running @ref SKIPPED_TEST() tests in this registry. */
-  void set_run_ignored();
+  void set_run_skipped();
 
 private:
   bool test_should_run(Shell* test, Result& result);
@@ -197,7 +197,7 @@ private:
   Plugin* first_plugin_;
   static Registry* current_registry_;
   int current_repetition_{ 0 };
-  bool run_ignored_{ false };
+  bool run_skipped_{ false };
 };
 
 } // namespace test

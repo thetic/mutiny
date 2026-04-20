@@ -96,7 +96,7 @@ public:
   /** @return Number of assertions checked so far. */
   size_t get_check_count();
   /** @return Number of ignored tests. */
-  size_t get_ignore_count();
+  size_t get_skip_count();
   /** @return Number of tests that actually ran. */
   size_t get_run_count();
   /** @return Total number of registered tests. */

@@ -102,15 +102,15 @@
  */
 #define SKIPPED_TEST(testGroup, testName)                                      \
   /* External declarations for strict compilers */                             \
-  class IGNORE##testGroup##_##testName##_TestShell;                            \
-  extern IGNORE##testGroup##_##testName##_TestShell                            \
-      IGNORE##testGroup##_##testName##_TestShell_instance;                     \
+  class SKIP##testGroup##_##testName##_TestShell;                              \
+  extern SKIP##testGroup##_##testName##_TestShell                              \
+      SKIP##testGroup##_##testName##_TestShell_instance;                       \
                                                                                \
-  class IGNORE##testGroup##_##testName##_Test                                  \
+  class SKIP##testGroup##_##testName##_Test                                    \
     : public TEST_GROUP_##MutinyGroup##testGroup                               \
   {                                                                            \
   public:                                                                      \
-    IGNORE##testGroup##_##testName##_Test() noexcept                           \
+    SKIP##testGroup##_##testName##_Test() noexcept                             \
       : TEST_GROUP_##MutinyGroup##testGroup()                                  \
     {                                                                          \
     }                                                                          \
@@ -118,24 +118,24 @@
   public:                                                                      \
     void test_body() override;                                                 \
   };                                                                           \
-  class IGNORE##testGroup##_##testName##_TestShell                             \
-    : public mu::tiny::test::IgnoredShell                                      \
+  class SKIP##testGroup##_##testName##_TestShell                               \
+    : public mu::tiny::test::SkippedShell                                      \
   {                                                                            \
     virtual mu::tiny::test::Test* create_test() override                       \
     {                                                                          \
-      return new IGNORE##testGroup##_##testName##_Test;                        \
+      return new SKIP##testGroup##_##testName##_Test;                          \
     }                                                                          \
-  } IGNORE##testGroup##_##testName##_TestShell_instance;                       \
+  } SKIP##testGroup##_##testName##_TestShell_instance;                         \
   namespace {                                                                  \
   mu::tiny::test::Installer TEST_##testGroup##testName##_Installer(            \
-      IGNORE##testGroup##_##testName##_TestShell_instance,                     \
+      SKIP##testGroup##_##testName##_TestShell_instance,                       \
       #testGroup,                                                              \
       #testName,                                                               \
       __FILE__,                                                                \
       __LINE__                                                                 \
   );                                                                           \
   } /* namespace */                                                            \
-  void IGNORE##testGroup##_##testName##_Test::test_body()
+  void SKIP##testGroup##_##testName##_Test::test_body()
 
 /**
  * @brief Define a test that is expected to fail.

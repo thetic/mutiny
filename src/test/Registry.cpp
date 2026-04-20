@@ -37,8 +37,8 @@ void Registry::run_all_tests(Result& result)
 
   result.tests_started();
   for (Shell* test = tests_; test != nullptr; test = test->get_next()) {
-    if (run_ignored_) {
-      test->set_run_ignored();
+    if (run_skipped_) {
+      test->set_run_skipped();
     }
 
     if (group_start) {
@@ -212,9 +212,9 @@ void Registry::set_group_filters(const Filter* filters)
   group_filters_ = filters;
 }
 
-void Registry::set_run_ignored()
+void Registry::set_run_skipped()
 {
-  run_ignored_ = true;
+  run_skipped_ = true;
 }
 
 bool Registry::test_should_run(Shell* test, Result& result)

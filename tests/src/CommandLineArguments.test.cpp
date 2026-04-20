@@ -546,7 +546,7 @@ TEST(CommandLineArguments, setOptRun)
   int argc = 2;
   const char* argv[] = { "tests.exe", "-rs" };
   CHECK(new_argument_parser(argc, argv));
-  CHECK(args->is_run_ignored());
+  CHECK(args->is_run_skipped());
 }
 
 TEST(CommandLineArguments, setOptCrashOnFail)

@@ -212,11 +212,11 @@ public:
     return *this;
   }
 
-  JUnitTestOutputTestRunner& with_ignored_test(const char* test_name)
+  JUnitTestOutputTestRunner& with_skipped_test(const char* test_name)
   {
     run_previous_test();
     delete current_test_;
-    current_test_ = new mu::tiny::test::IgnoredShell(
+    current_test_ = new mu::tiny::test::SkippedShell(
         current_group_name_, test_name, "file", 1
     );
     return *this;
@@ -838,12 +838,12 @@ TEST(JUnitOutput, TestCaseBlockWithAPackageName)
   STRCMP_EQUAL("</testcase>\n", output_file->line(5));
 }
 
-TEST(JUnitOutput, TestCaseBlockForIgnoredTest)
+TEST(JUnitOutput, TestCaseBlockForSkippedTest)
 {
   init("-pjunit=packagename");
   test_case_runner->start()
       .with_group("groupname")
-      .with_ignored_test("testname")
+      .with_skipped_test("testname")
       .end();
 
   output_file = file_system.file("packagename.xml");

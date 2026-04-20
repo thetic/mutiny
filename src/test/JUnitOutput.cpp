@@ -35,7 +35,7 @@ public:
   uint_least64_t exec_time{ 0 };
   Failure* failure{ nullptr };
   bool failure_is_error{ false };
-  bool ignored{ false };
+  bool skipped{ false };
   String skip_message;
   String file;
   size_t line_number{ 0 };
@@ -186,7 +186,7 @@ void JUnitOutput::print_current_test_started(const Shell& test)
   impl_->results.tail->file = test.get_file();
   impl_->results.tail->line_number = test.get_line_number();
   if (!test.will_run()) {
-    impl_->results.tail->ignored = true;
+    impl_->results.tail->skipped = true;
     impl_->results.tail->skip_message = test.get_macro_name();
     impl_->results.skip_count++;
   }
@@ -298,7 +298,7 @@ void JUnitOutput::write_test_cases()
       } else {
         write_failure(cur);
       }
-    } else if (cur->ignored) {
+    } else if (cur->skipped) {
       if (cur->skip_message.empty()) {
         write_to_file("<skipped />\n");
       } else {
@@ -384,7 +384,7 @@ void JUnitOutput::print_skipped(const char* message)
   if (impl_->results.tail == nullptr) {
     return;
   }
-  impl_->results.tail->ignored = true;
+  impl_->results.tail->skipped = true;
   impl_->results.tail->skip_message = message;
   impl_->results.skip_count++;
 }

@@ -57,7 +57,7 @@ normal runs. Use :option:`-rs` to run skipped tests anyway.
        CHECK(false);
    }
 
-Ignored tests appear in the summary count as "ignored".
+Skipped tests appear in the summary count as "skipped".
 
 ``XFAIL_TEST(group, name)``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -166,7 +166,7 @@ These bridge C test files into the C++ test runner. See
    * - :c:macro:`TEST_C_WRAPPER(group, name) <TEST_C_WRAPPER>`
      - Wires a C test function into a C++ :c:macro:`TEST`
    * - :c:macro:`SKIPPED_TEST_C_WRAPPER(group, name) <SKIPPED_TEST_C_WRAPPER>`
-     - Same as above but ignored
+     - Same as above but skipped
    * - :c:macro:`XFAIL_TEST_C_WRAPPER(group, name) <XFAIL_TEST_C_WRAPPER>`
      - Same as above but expected to fail
    * - :c:macro:`TEST_ORDERED_C_WRAPPER(group, name, level) <TEST_ORDERED_C_WRAPPER>`

@@ -119,7 +119,7 @@ TEST(TeamCityTestOutput, PrintTestIgnored)
                          "##teamcity[testIgnored name='test']\n"
                          "##teamcity[testFinished name='test' duration='41']\n";
 
-  auto* itst = new mu::tiny::test::IgnoredShell("group", "test", "file", 10);
+  auto* itst = new mu::tiny::test::SkippedShell("group", "test", "file", 10);
   result->current_test_started(itst);
   millis_time = 41;
   result->current_test_ended(itst);
@@ -192,7 +192,7 @@ TEST(TeamCityTestOutput, TestNameEscaped_End)
 
 TEST(TeamCityTestOutput, TestNameEscaped_Ignore)
 {
-  mu::tiny::test::IgnoredShell itst("group", "'[]\n\r", "file", 10);
+  mu::tiny::test::SkippedShell itst("group", "'[]\n\r", "file", 10);
   result->current_test_started(&itst);
   const char* expected = "##teamcity[testStarted name='|'|[|]|n|r']\n"
                          "##teamcity[testIgnored name='|'|[|]|n|r']\n";
