@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -753,11 +753,11 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv">
-<span id="_CPPv3NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv"></span><span id="_CPPv2NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv"></span><span id="mu::tiny::test::CommandLineArguments::is_run_ignoredC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1CommandLineArguments_1a0c0d2d0f02815a9dd79999a7b9ee94e7"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_run_ignored</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv" title="Link to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv">
+<span id="_CPPv3NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv"></span><span id="_CPPv2NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv"></span><span id="mu::tiny::test::CommandLineArguments::is_run_skippedC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1CommandLineArguments_1afa7bc301880042ae4109c9bf5ac3191d"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_run_skipped</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv" title="Link to this definition">¶</a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>true if <code class="docutils literal notranslate"><span class="pre">-r</span></code> (run ignored tests) was passed. </p>
+<dd class="field-odd"><p>true if <code class="docutils literal notranslate"><span class="pre">-rs</span></code> (run skipped tests) was passed. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -936,7 +936,7 @@
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments25is_listing_test_locationsEv"><code class="docutils literal notranslate"><span class="pre">is_listing_test_locations()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments33is_listing_ordered_test_locationsEv"><code class="docutils literal notranslate"><span class="pre">is_listing_ordered_test_locations()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments31is_listing_test_group_locationsEv"><code class="docutils literal notranslate"><span class="pre">is_listing_test_group_locations()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv"><code class="docutils literal notranslate"><span class="pre">is_run_ignored()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv"><code class="docutils literal notranslate"><span class="pre">is_run_skipped()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments16get_repeat_countEv"><code class="docutils literal notranslate"><span class="pre">get_repeat_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments12is_shufflingEv"><code class="docutils literal notranslate"><span class="pre">is_shuffling()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test20CommandLineArguments12is_reversingEv"><code class="docutils literal notranslate"><span class="pre">is_reversing()</span></code></a></li>

@@ -100,11 +100,6 @@ Files
 .. toctree::
    :maxdepth: 5
 
-   file_include_mu_tiny_test_IgnoredShell.hpp.rst
-
-.. toctree::
-   :maxdepth: 5
-
    file_include_mu_tiny_test_Installer.hpp.rst
 
 .. toctree::
@@ -181,6 +176,11 @@ Files
    :maxdepth: 5
 
    file_include_mu_tiny_test_ShellPointerArray.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_include_mu_tiny_test_SkippedShell.hpp.rst
 
 .. toctree::
    :maxdepth: 5

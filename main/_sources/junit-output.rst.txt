@@ -94,7 +94,7 @@ XML Format
            widget.test.cpp:25: expected &lt;42&gt; but was &lt;0&gt;
          </failure>
        </testcase>
-       <testcase classname="my_tests.Widget" name="IgnoredTest"
+       <testcase classname="my_tests.Widget" name="SkippedTest"
                  assertions="0" time="0.000" file="widget.test.cpp" line="30">
          <skipped />
        </testcase>

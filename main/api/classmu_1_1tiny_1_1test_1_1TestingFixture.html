@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -746,8 +746,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test14TestingFixture16get_ignore_countEv">
-<span id="_CPPv3N2mu4tiny4test14TestingFixture16get_ignore_countEv"></span><span id="_CPPv2N2mu4tiny4test14TestingFixture16get_ignore_countEv"></span><span id="mu::tiny::test::TestingFixture::get_ignore_count"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1TestingFixture_1a9ec86f40974b07d0ee10173819eb60e5"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_ignore_count</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test14TestingFixture16get_ignore_countEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/TestingFixture.hpp#L99"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test14TestingFixture14get_skip_countEv">
+<span id="_CPPv3N2mu4tiny4test14TestingFixture14get_skip_countEv"></span><span id="_CPPv2N2mu4tiny4test14TestingFixture14get_skip_countEv"></span><span id="mu::tiny::test::TestingFixture::get_skip_count"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1TestingFixture_1a7da89d59dd0417aedb55e0b43b5738ea"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_skip_count</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test14TestingFixture14get_skip_countEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/TestingFixture.hpp#L99"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Number of ignored tests. </p>
@@ -947,7 +947,7 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture13run_all_testsEv"><code class="docutils literal notranslate"><span class="pre">run_all_tests()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture17get_failure_countEv"><code class="docutils literal notranslate"><span class="pre">get_failure_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture15get_check_countEv"><code class="docutils literal notranslate"><span class="pre">get_check_count()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture16get_ignore_countEv"><code class="docutils literal notranslate"><span class="pre">get_ignore_count()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture14get_skip_countEv"><code class="docutils literal notranslate"><span class="pre">get_skip_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture13get_run_countEv"><code class="docutils literal notranslate"><span class="pre">get_run_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture14get_test_countEv"><code class="docutils literal notranslate"><span class="pre">get_test_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test14TestingFixture10get_outputEv"><code class="docutils literal notranslate"><span class="pre">get_output()</span></code></a></li>

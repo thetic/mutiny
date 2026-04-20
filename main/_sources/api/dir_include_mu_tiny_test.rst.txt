@@ -24,7 +24,6 @@ Files
 - :ref:`file_include_mu_tiny_test_Failure.hpp`
 - :ref:`file_include_mu_tiny_test_Filter.hpp`
 - :ref:`file_include_mu_tiny_test_GroupLocation.hpp`
-- :ref:`file_include_mu_tiny_test_IgnoredShell.hpp`
 - :ref:`file_include_mu_tiny_test_Installer.hpp`
 - :ref:`file_include_mu_tiny_test_JUnitOutputPlugin.hpp`
 - :ref:`file_include_mu_tiny_test_Ordered.hpp`
@@ -35,6 +34,7 @@ Files
 - :ref:`file_include_mu_tiny_test_SetPointerPlugin.hpp`
 - :ref:`file_include_mu_tiny_test_Shell.hpp`
 - :ref:`file_include_mu_tiny_test_ShellPointerArray.hpp`
+- :ref:`file_include_mu_tiny_test_SkippedShell.hpp`
 - :ref:`file_include_mu_tiny_test_StringBufferOutput.hpp`
 - :ref:`file_include_mu_tiny_test_TapOutputPlugin.hpp`
 - :ref:`file_include_mu_tiny_test_Terminator.hpp`

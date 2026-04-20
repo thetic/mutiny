@@ -336,7 +336,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -350,6 +349,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -717,10 +717,10 @@
 </li>
         </ul></li>
         <li>
-    -ri
+    -rs
 
         <ul>
-          <li><a href="command-line-reference.html#cmdoption-ri">command line option</a>
+          <li><a href="command-line-reference.html#cmdoption-rs">command line option</a>
 </li>
         </ul></li>
         <li>
@@ -1037,7 +1037,7 @@
 </li>
           <li><a href="command-line-reference.html#cmdoption-r">-r[#]</a>
 </li>
-          <li><a href="command-line-reference.html#cmdoption-ri">-ri</a>
+          <li><a href="command-line-reference.html#cmdoption-rs">-rs</a>
 </li>
           <li><a href="command-line-reference.html#cmdoption-s">-s</a>
 </li>
@@ -1695,7 +1695,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1CommandLineArguments.html#_CPPv4NK2mu4tiny4test20CommandLineArguments12is_reversingEv">mu::tiny::test::CommandLineArguments::is_reversing (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1CommandLineArguments.html#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_ignoredEv">mu::tiny::test::CommandLineArguments::is_run_ignored (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1CommandLineArguments.html#_CPPv4NK2mu4tiny4test20CommandLineArguments14is_run_skippedEv">mu::tiny::test::CommandLineArguments::is_run_skipped (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1CommandLineArguments.html#_CPPv4NK2mu4tiny4test20CommandLineArguments12is_shufflingEv">mu::tiny::test::CommandLineArguments::is_shuffling (C++ function)</a>
 </li>
@@ -1881,22 +1881,6 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1GroupLocation.html#_CPPv4N2mu4tiny4test13GroupLocation8set_headEP13GroupLocation">mu::tiny::test::GroupLocation::set_head (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShellE">mu::tiny::test::IgnoredShell (C++ class)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4NK2mu4tiny4test12IgnoredShell14get_macro_nameEv">mu::tiny::test::IgnoredShell::get_macro_name (C++ function)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellEPKcPKcPKc6size_t">mu::tiny::test::IgnoredShell::IgnoredShell (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellERK12IgnoredShell">[1]</a>, <a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShell12IgnoredShellEv">[2]</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShellaSERK12IgnoredShell">mu::tiny::test::IgnoredShell::operator= (C++ function)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShell12run_one_testEP6PluginR6Result">mu::tiny::test::IgnoredShell::run_one_test (C++ function)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShell15set_run_ignoredEv">mu::tiny::test::IgnoredShell::set_run_ignored (C++ function)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4NK2mu4tiny4test12IgnoredShell8will_runEv">mu::tiny::test::IgnoredShell::will_run (C++ function)</a>
-</li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html#_CPPv4N2mu4tiny4test12IgnoredShellD0Ev">mu::tiny::test::IgnoredShell::~IgnoredShell (C++ function)</a>
-</li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Installer.html#_CPPv4N2mu4tiny4test9InstallerE">mu::tiny::test::Installer (C++ class)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Installer.html#_CPPv4N2mu4tiny4test9Installer9InstallerER5ShellPKcPKcPKc6size_t">mu::tiny::test::Installer::Installer (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1test_1_1Installer.html#_CPPv4N2mu4tiny4test9Installer9InstallerERK9Installer">[1]</a>
@@ -2021,8 +2005,6 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output21print_failure_messageERK6String">mu::tiny::test::Output::print_failure_message (C++ function)</a>
 </li>
-    </ul></td>
-    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output31print_file_and_line_for_failureERK7Failure">mu::tiny::test::Output::print_file_and_line_for_failure (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output40print_file_and_line_for_test_and_failureERK7Failure">mu::tiny::test::Output::print_file_and_line_for_test_and_failure (C++ function)</a>
@@ -2039,6 +2021,8 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output19print_tests_startedEv">mu::tiny::test::Output::print_tests_started (C++ function)</a>
 </li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output18print_very_verboseEPKc">mu::tiny::test::Output::print_very_verbose (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Output.html#_CPPv4N2mu4tiny4test6Output20progress_indication_E">mu::tiny::test::Output::progress_indication_ (C++ member)</a>
@@ -2149,7 +2133,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8Registry16set_name_filtersEPK6Filter">mu::tiny::test::Registry::set_name_filters (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8Registry15set_run_ignoredEv">mu::tiny::test::Registry::set_run_ignored (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8Registry15set_run_skippedEv">mu::tiny::test::Registry::set_run_skipped (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8Registry13shuffle_testsE6size_t">mu::tiny::test::Registry::shuffle_tests (C++ function)</a>
 </li>
@@ -2167,9 +2151,9 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4N2mu4tiny4test6Result18count_filtered_outEv">mu::tiny::test::Result::count_filtered_out (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4N2mu4tiny4test6Result13count_ignoredEv">mu::tiny::test::Result::count_ignored (C++ function)</a>
-</li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4N2mu4tiny4test6Result9count_runEv">mu::tiny::test::Result::count_run (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4N2mu4tiny4test6Result13count_skippedEv">mu::tiny::test::Result::count_skipped (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4N2mu4tiny4test6Result10count_testEv">mu::tiny::test::Result::count_test (C++ function)</a>
 </li>
@@ -2191,9 +2175,9 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4NK2mu4tiny4test6Result22get_filtered_out_countEv">mu::tiny::test::Result::get_filtered_out_count (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4NK2mu4tiny4test6Result17get_ignored_countEv">mu::tiny::test::Result::get_ignored_count (C++ function)</a>
-</li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4NK2mu4tiny4test6Result13get_run_countEv">mu::tiny::test::Result::get_run_count (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4NK2mu4tiny4test6Result17get_skipped_countEv">mu::tiny::test::Result::get_skipped_count (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Result.html#_CPPv4NK2mu4tiny4test6Result14get_test_countEv">mu::tiny::test::Result::get_test_count (C++ function)</a>
 </li>
@@ -2323,7 +2307,7 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5Shell22set_rethrow_exceptionsEb">mu::tiny::test::Shell::set_rethrow_exceptions (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5Shell15set_run_ignoredEv">mu::tiny::test::Shell::set_run_ignored (C++ function)</a>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5Shell15set_run_skippedEv">mu::tiny::test::Shell::set_run_skipped (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5Shell13set_test_nameEPKc">mu::tiny::test::Shell::set_test_name (C++ function)</a>
 </li>
@@ -2352,6 +2336,22 @@
         <li><a href="api/classmu_1_1tiny_1_1test_1_1ShellPointerArray.html#_CPPv4N2mu4tiny4test17ShellPointerArray7shuffleE6size_t">mu::tiny::test::ShellPointerArray::shuffle (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1ShellPointerArray.html#_CPPv4N2mu4tiny4test17ShellPointerArrayD0Ev">mu::tiny::test::ShellPointerArray::~ShellPointerArray (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShellE">mu::tiny::test::SkippedShell (C++ class)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4NK2mu4tiny4test12SkippedShell14get_macro_nameEv">mu::tiny::test::SkippedShell::get_macro_name (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShellaSERK12SkippedShell">mu::tiny::test::SkippedShell::operator= (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShell12run_one_testEP6PluginR6Result">mu::tiny::test::SkippedShell::run_one_test (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShell15set_run_skippedEv">mu::tiny::test::SkippedShell::set_run_skipped (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShell12SkippedShellEPKcPKcPKc6size_t">mu::tiny::test::SkippedShell::SkippedShell (C++ function)</a>, <a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShell12SkippedShellERK12SkippedShell">[1]</a>, <a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShell12SkippedShellEv">[2]</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4NK2mu4tiny4test12SkippedShell8will_runEv">mu::tiny::test::SkippedShell::will_run (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html#_CPPv4N2mu4tiny4test12SkippedShellD0Ev">mu::tiny::test::SkippedShell::~SkippedShell (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html#_CPPv4N2mu4tiny4test18StringBufferOutputE">mu::tiny::test::StringBufferOutput (C++ class)</a>
 </li>
@@ -2431,13 +2431,13 @@
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture17get_failure_countEv">mu::tiny::test::TestingFixture::get_failure_count (C++ function)</a>
 </li>
-        <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture16get_ignore_countEv">mu::tiny::test::TestingFixture::get_ignore_count (C++ function)</a>
-</li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture10get_outputEv">mu::tiny::test::TestingFixture::get_output (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture12get_registryEv">mu::tiny::test::TestingFixture::get_registry (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture13get_run_countEv">mu::tiny::test::TestingFixture::get_run_count (C++ function)</a>
+</li>
+        <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture14get_skip_countEv">mu::tiny::test::TestingFixture::get_skip_count (C++ function)</a>
 </li>
         <li><a href="api/classmu_1_1tiny_1_1test_1_1TestingFixture.html#_CPPv4N2mu4tiny4test14TestingFixture14get_test_countEv">mu::tiny::test::TestingFixture::get_test_count (C++ function)</a>
 </li>

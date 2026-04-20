@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -764,7 +764,7 @@ string.</p>
 <td><p>Defines a test function body</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/define_test_8h_1a235cffa951470b7e037566c4f8f201f6.html#c.SKIPPED_TEST" title="SKIPPED_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST(group,</span> <span class="pre">name)</span></code></a></p></td>
-<td><p>Defines an ignored test body</p></td>
+<td><p>Defines an skipped test body</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249.html#c.XFAIL_TEST" title="XFAIL_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">XFAIL_TEST(group,</span> <span class="pre">name)</span></code></a></p></td>
 <td><p>Defines an expected-failure test body</p></td>
@@ -797,7 +797,7 @@ string.</p>
 <td><p>A <a class="reference internal" href="api/define_test_8h_1a387737a52be7d4ade8c76832ec677100.html#c.TEST" title="TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST</span></code></a> that calls the C test function</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/define_test_8hpp_1aa9a57a9652aaee3afddcce59b86c1aec.html#c.SKIPPED_TEST_C_WRAPPER" title="SKIPPED_TEST_C_WRAPPER"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST_C_WRAPPER(group,</span> <span class="pre">name)</span></code></a></p></td>
-<td><p>An <a class="reference internal" href="api/define_test_8h_1a235cffa951470b7e037566c4f8f201f6.html#c.SKIPPED_TEST" title="SKIPPED_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST</span></code></a> that calls the C ignored function</p></td>
+<td><p>An <a class="reference internal" href="api/define_test_8h_1a235cffa951470b7e037566c4f8f201f6.html#c.SKIPPED_TEST" title="SKIPPED_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST</span></code></a> that calls the C skipped function</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/define_test_8hpp_1a9be9c68fe88fa13774a2912f4dacb377.html#c.XFAIL_TEST_C_WRAPPER" title="XFAIL_TEST_C_WRAPPER"><code class="xref c c-macro docutils literal notranslate"><span class="pre">XFAIL_TEST_C_WRAPPER(group,</span> <span class="pre">name)</span></code></a></p></td>
 <td><p>An <a class="reference internal" href="api/define_test_8h_1acb496fa2cbcfaf0cb310ee4d264bf249.html#c.XFAIL_TEST" title="XFAIL_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">XFAIL_TEST</span></code></a> that calls the C expected-fail function</p></td>

@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -616,8 +616,8 @@
 <h3>Derived Types<a class="headerlink" href="#derived-types" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::ExpectFailShell</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ExpectFailShell.html#exhale-class-classmu-1-1tiny-1-1test-1-1expectfailshell"><span class="std std-ref">Class ExpectFailShell</span></a>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::IgnoredShell</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html#exhale-class-classmu-1-1tiny-1-1test-1-1ignoredshell"><span class="std std-ref">Class IgnoredShell</span></a>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::OrderedShell</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1OrderedShell.html#exhale-class-classmu-1-1tiny-1-1test-1-1orderedshell"><span class="std std-ref">Class OrderedShell</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">mu::tiny::test::SkippedShell</span></code> (<a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html#exhale-class-classmu-1-1tiny-1-1test-1-1skippedshell"><span class="std std-ref">Class SkippedShell</span></a>)</p></li>
 </ul>
 </section>
 </section>
@@ -630,7 +630,7 @@
 <p>Each <a class="reference internal" href="define_test_8hpp_1a13fb650bc56807117ccc8c53d4c957c9.html#test_8h_1a387737a52be7d4ade8c76832ec677100"><span class="std std-ref">TEST()</span></a> macro instantiates a <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Shell"><span class="std std-ref">Shell</span></a> subclass and registers it with the <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Registry.html#classmu_1_1tiny_1_1test_1_1Registry"><span class="std std-ref">Registry</span></a> at static initialisation time. The test runner then calls <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Shell_1a84c96352d43ebc1da42a6778c2d46b12"><span class="std std-ref">run_one_test()</span></a> for each registered shell.</p>
 <p>Users interact with <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Shell"><span class="std std-ref">Shell</span></a> primarily through the assertion macros (<a class="reference internal" href="define_test_8h_1a3e1cfef60e774a81f30eaddf26a3a274.html#test_8h_1a3e1cfef60e774a81f30eaddf26a3a274"><span class="std std-ref">CHECK</span></a>, <a class="reference internal" href="define_Shell_8hpp_1ad8fa79f5d491cc01af302832785e90fe.html#Shell_8hpp_1ad8fa79f5d491cc01af302832785e90fe"><span class="std std-ref">CHECK_EQUAL</span></a>, <a class="reference internal" href="define_test_8h_1a052944f0e69b65f45c7d49b536767dc5.html#test_8h_1a052944f0e69b65f45c7d49b536767dc5"><span class="std std-ref">FAIL_TEST</span></a>, etc.), which forward to the assert_* virtual methods. This design allows the testing framework’s own tests to substitute a mock shell and verify assertion behaviour.</p>
 <p>The static methods control global runner state: the currently running test, the active <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Terminator.html#classmu_1_1tiny_1_1test_1_1Terminator"><span class="std std-ref">Terminator</span></a>, and crash-on-failure mode. </p>
-<p>Subclassed by <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ExpectFailShell.html#classmu_1_1tiny_1_1test_1_1ExpectFailShell"><span class="std std-ref">mu::tiny::test::ExpectFailShell</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html#classmu_1_1tiny_1_1test_1_1IgnoredShell"><span class="std std-ref">mu::tiny::test::IgnoredShell</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1OrderedShell.html#classmu_1_1tiny_1_1test_1_1OrderedShell"><span class="std std-ref">mu::tiny::test::OrderedShell</span></a></p>
+<p>Subclassed by <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ExpectFailShell.html#classmu_1_1tiny_1_1test_1_1ExpectFailShell"><span class="std std-ref">mu::tiny::test::ExpectFailShell</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1OrderedShell.html#classmu_1_1tiny_1_1test_1_1OrderedShell"><span class="std std-ref">mu::tiny::test::OrderedShell</span></a>, <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html#classmu_1_1tiny_1_1test_1_1SkippedShell"><span class="std std-ref">mu::tiny::test::SkippedShell</span></a></p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -936,8 +936,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test5Shell15set_run_ignoredEv">
-<span id="_CPPv3N2mu4tiny4test5Shell15set_run_ignoredEv"></span><span id="_CPPv2N2mu4tiny4test5Shell15set_run_ignoredEv"></span><span id="mu::tiny::test::Shell::set_run_ignored"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1a1795847f56d50213b810f4b6e3707152"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_ignored</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test5Shell15set_run_ignoredEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Shell.hpp#L379"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test5Shell15set_run_skippedEv">
+<span id="_CPPv3N2mu4tiny4test5Shell15set_run_skippedEv"></span><span id="_CPPv2N2mu4tiny4test5Shell15set_run_skippedEv"></span><span id="mu::tiny::test::Shell::set_run_skipped"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1aa86adda3ccda8fa8eb1132895cf0a3b0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_skipped</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test5Shell15set_run_skippedEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Shell.hpp#L379"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Mark this test to run even though it is an ignored test. </p>
 </dd></dl>
 
@@ -1099,7 +1099,7 @@
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test5Shell5ShellEv">
 <span id="_CPPv3N2mu4tiny4test5Shell5ShellEv"></span><span id="_CPPv2N2mu4tiny4test5Shell5ShellEv"></span><span id="mu::tiny::test::Shell::Shell"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Shell_1a1cdb6946debfa6fd99569139235ac3ed"></span><span class="sig-name descname"><span class="n"><span class="pre">Shell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><a class="headerlink" href="#_CPPv4N2mu4tiny4test5Shell5ShellEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Shell.hpp#L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Default constructor for use by subclasses (e.g. <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html#classmu_1_1tiny_1_1test_1_1IgnoredShell"><span class="std std-ref">IgnoredShell</span></a>). </p>
+<dd><p>Default constructor for use by subclasses. </p>
 </dd></dl>
 
 </div>
@@ -1220,7 +1220,7 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell15set_line_numberE6size_t"><code class="docutils literal notranslate"><span class="pre">set_line_number()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell14set_group_nameEPKc"><code class="docutils literal notranslate"><span class="pre">set_group_name()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell13set_test_nameEPKc"><code class="docutils literal notranslate"><span class="pre">set_test_name()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell15set_run_ignoredEv"><code class="docutils literal notranslate"><span class="pre">set_run_ignored()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell15set_run_skippedEv"><code class="docutils literal notranslate"><span class="pre">set_run_skipped()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell11create_testEv"><code class="docutils literal notranslate"><span class="pre">create_test()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell12destroy_testEP4Test"><code class="docutils literal notranslate"><span class="pre">destroy_test()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test5Shell12run_one_testEP6PluginR6Result"><code class="docutils literal notranslate"><span class="pre">run_one_test()</span></code></a></li>

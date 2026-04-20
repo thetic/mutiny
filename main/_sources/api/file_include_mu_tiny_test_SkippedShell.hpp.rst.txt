@@ -1,7 +1,7 @@
 
-.. _file_include_mu_tiny_test_IgnoredShell.hpp:
+.. _file_include_mu_tiny_test_SkippedShell.hpp:
 
-File IgnoredShell.hpp
+File SkippedShell.hpp
 =====================
 
 |exhale_lsh| :ref:`Parent directory <dir_include_mu_tiny_test>` (``include/mu/tiny/test``)
@@ -13,7 +13,7 @@ File IgnoredShell.hpp
 :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1Shell` subclass for tests marked as ignored. 
 
 
-Definition (``include/mu/tiny/test/IgnoredShell.hpp``)
+Definition (``include/mu/tiny/test/SkippedShell.hpp``)
 ------------------------------------------------------
 
 
@@ -61,5 +61,5 @@ Classes
 -------
 
 
-- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1IgnoredShell`
+- :ref:`exhale_class_classmu_1_1tiny_1_1test_1_1SkippedShell`
 

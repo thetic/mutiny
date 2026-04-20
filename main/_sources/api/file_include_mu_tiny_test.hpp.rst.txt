@@ -37,8 +37,6 @@ Includes
 
 - ``mu/tiny/test/GroupLocation.hpp`` (:ref:`file_include_mu_tiny_test_GroupLocation.hpp`)
 
-- ``mu/tiny/test/IgnoredShell.hpp`` (:ref:`file_include_mu_tiny_test_IgnoredShell.hpp`)
-
 - ``mu/tiny/test/Installer.hpp`` (:ref:`file_include_mu_tiny_test_Installer.hpp`)
 
 - ``mu/tiny/test/Ordered.hpp`` (:ref:`file_include_mu_tiny_test_Ordered.hpp`)
@@ -52,6 +50,8 @@ Includes
 - ``mu/tiny/test/Shell.hpp`` (:ref:`file_include_mu_tiny_test_Shell.hpp`)
 
 - ``mu/tiny/test/ShellPointerArray.hpp`` (:ref:`file_include_mu_tiny_test_ShellPointerArray.hpp`)
+
+- ``mu/tiny/test/SkippedShell.hpp`` (:ref:`file_include_mu_tiny_test_SkippedShell.hpp`)
 
 - ``mu/tiny/test/Test.hpp`` (:ref:`file_include_mu_tiny_test_Test.hpp`)
 

@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -644,16 +644,16 @@ follows is the test body.</p>
 <h2>Skipping and Expected Failures<a class="headerlink" href="#skipping-and-expected-failures" title="Link to this heading">¶</a></h2>
 <section id="skipped-test-group-name">
 <h3><code class="docutils literal notranslate"><span class="pre">SKIPPED_TEST(group,</span> <span class="pre">name)</span></code><a class="headerlink" href="#skipped-test-group-name" title="Link to this heading">¶</a></h3>
-<p><a class="reference internal" href="api/define_test_8h_1a235cffa951470b7e037566c4f8f201f6.html#c.SKIPPED_TEST" title="SKIPPED_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST</span></code></a> marks a test as ignored. It is registered but skipped during
-normal runs. Use <a class="reference internal" href="command-line-reference.html#cmdoption-ri"><code class="xref std std-option docutils literal notranslate"><span class="pre">-ri</span></code></a> to run ignored tests anyway.</p>
+<p><a class="reference internal" href="api/define_test_8h_1a235cffa951470b7e037566c4f8f201f6.html#c.SKIPPED_TEST" title="SKIPPED_TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST</span></code></a> marks a test as skipped. It is registered but skipped during
+normal runs. Use <a class="reference internal" href="command-line-reference.html#cmdoption-rs"><code class="xref std std-option docutils literal notranslate"><span class="pre">-rs</span></code></a> to run skipped tests anyway.</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">SKIPPED_TEST</span><span class="p">(</span><span class="n">MyGroup</span><span class="p">,</span><span class="w"> </span><span class="n">NotImplementedYet</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="c1">// will not run unless -ri is passed</span>
+<span class="w">    </span><span class="c1">// will not run unless -rs is passed</span>
 <span class="w">    </span><span class="n">CHECK</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Ignored tests appear in the summary count as “ignored”.</p>
+<p>Skipped tests appear in the summary count as “skipped”.</p>
 </section>
 <section id="xfail-test-group-name">
 <h3><code class="docutils literal notranslate"><span class="pre">XFAIL_TEST(group,</span> <span class="pre">name)</span></code><a class="headerlink" href="#xfail-test-group-name" title="Link to this heading">¶</a></h3>
@@ -847,7 +847,7 @@ dependencies — ordered tests are excluded from the shuffle.</p></li>
 <td><p>Wires a C test function into a C++ <a class="reference internal" href="api/define_test_8h_1a387737a52be7d4ade8c76832ec677100.html#c.TEST" title="TEST"><code class="xref c c-macro docutils literal notranslate"><span class="pre">TEST</span></code></a></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/define_test_8hpp_1aa9a57a9652aaee3afddcce59b86c1aec.html#c.SKIPPED_TEST_C_WRAPPER" title="SKIPPED_TEST_C_WRAPPER"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SKIPPED_TEST_C_WRAPPER(group,</span> <span class="pre">name)</span></code></a></p></td>
-<td><p>Same as above but ignored</p></td>
+<td><p>Same as above but skipped</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/define_test_8hpp_1a9be9c68fe88fa13774a2912f4dacb377.html#c.XFAIL_TEST_C_WRAPPER" title="XFAIL_TEST_C_WRAPPER"><code class="xref c c-macro docutils literal notranslate"><span class="pre">XFAIL_TEST_C_WRAPPER(group,</span> <span class="pre">name)</span></code></a></p></td>
 <td><p>Same as above but expected to fail</p></td>

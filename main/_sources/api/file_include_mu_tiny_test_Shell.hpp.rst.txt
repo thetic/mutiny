@@ -53,9 +53,9 @@ Included By
 
 - :ref:`file_include_mu_tiny_test_ExpectFailShell.hpp`
 
-- :ref:`file_include_mu_tiny_test_IgnoredShell.hpp`
-
 - :ref:`file_include_mu_tiny_test_Ordered.hpp`
+
+- :ref:`file_include_mu_tiny_test_SkippedShell.hpp`
 
 - :ref:`file_include_mu_tiny_test_TestingFixture.hpp`
 

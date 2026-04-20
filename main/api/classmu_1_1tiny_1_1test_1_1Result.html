@@ -338,7 +338,6 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1FeatureUnsupportedFailure.html">Class FeatureUnsupportedFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Filter.html">Class Filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1GroupLocation.html">Class GroupLocation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IgnoredShell.html">Class IgnoredShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Installer.html">Class Installer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1IntMaxEqualFailure.html">Class IntMaxEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html">Class JUnitOutputPlugin</a></li>
@@ -352,6 +351,7 @@
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html">Class SetPointerPlugin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html">Class Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1ShellPointerArray.html">Class ShellPointerArray</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1SkippedShell.html">Class SkippedShell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringBufferOutput.html">Class StringBufferOutput</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualFailure.html">Class StringEqualFailure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1StringEqualNoCaseFailure.html">Class StringEqualNoCaseFailure</a></li>
@@ -721,8 +721,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test6Result13count_ignoredEv">
-<span id="_CPPv3N2mu4tiny4test6Result13count_ignoredEv"></span><span id="_CPPv2N2mu4tiny4test6Result13count_ignoredEv"></span><span id="mu::tiny::test::Result::count_ignored"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Result_1ad456b1b88e3b5b4aae81a364e1077c06"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_ignored</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test6Result13count_ignoredEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Result.hpp#L80"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test6Result13count_skippedEv">
+<span id="_CPPv3N2mu4tiny4test6Result13count_skippedEv"></span><span id="_CPPv2N2mu4tiny4test6Result13count_skippedEv"></span><span id="mu::tiny::test::Result::count_skipped"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Result_1acefd0bb6c26984b3693a43db0360692b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_skipped</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test6Result13count_skippedEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Result.hpp#L80"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Increment the ignored-test counter. </p>
 </dd></dl>
 
@@ -825,8 +825,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test6Result17get_ignored_countEv">
-<span id="_CPPv3NK2mu4tiny4test6Result17get_ignored_countEv"></span><span id="_CPPv2NK2mu4tiny4test6Result17get_ignored_countEv"></span><span id="mu::tiny::test::Result::get_ignored_countC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Result_1a5f2e259cbb0c2f54840df786f1bceb4f"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_ignored_count</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test6Result17get_ignored_countEv" title="Link to this definition">¶</a><br /></dt>
+<dt class="sig sig-object cpp" id="_CPPv4NK2mu4tiny4test6Result17get_skipped_countEv">
+<span id="_CPPv3NK2mu4tiny4test6Result17get_skipped_countEv"></span><span id="_CPPv2NK2mu4tiny4test6Result17get_skipped_countEv"></span><span id="mu::tiny::test::Result::get_skipped_countC"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Result_1ae00823ec7e9ee01ed92e554081ab7838"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_skipped_count</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2mu4tiny4test6Result17get_skipped_countEv" title="Link to this definition">¶</a><br /></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Number of ignored tests. </p>
@@ -975,7 +975,7 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result9count_runEv"><code class="docutils literal notranslate"><span class="pre">count_run()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result11count_checkEv"><code class="docutils literal notranslate"><span class="pre">count_check()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result18count_filtered_outEv"><code class="docutils literal notranslate"><span class="pre">count_filtered_out()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result13count_ignoredEv"><code class="docutils literal notranslate"><span class="pre">count_ignored()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result13count_skippedEv"><code class="docutils literal notranslate"><span class="pre">count_skipped()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result9skip_testEPKc"><code class="docutils literal notranslate"><span class="pre">skip_test()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result11add_failureERK7Failure"><code class="docutils literal notranslate"><span class="pre">add_failure()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test6Result17add_test_propertyEPKcPKc"><code class="docutils literal notranslate"><span class="pre">add_test_property()</span></code></a></li>
@@ -985,7 +985,7 @@
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result13get_run_countEv"><code class="docutils literal notranslate"><span class="pre">get_run_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result15get_check_countEv"><code class="docutils literal notranslate"><span class="pre">get_check_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result22get_filtered_out_countEv"><code class="docutils literal notranslate"><span class="pre">get_filtered_out_count()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result17get_ignored_countEv"><code class="docutils literal notranslate"><span class="pre">get_ignored_count()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result17get_skipped_countEv"><code class="docutils literal notranslate"><span class="pre">get_skipped_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result17get_failure_countEv"><code class="docutils literal notranslate"><span class="pre">get_failure_count()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result10is_failureEv"><code class="docutils literal notranslate"><span class="pre">is_failure()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4NK2mu4tiny4test6Result24get_total_execution_timeEv"><code class="docutils literal notranslate"><span class="pre">get_total_execution_time()</span></code></a></li>

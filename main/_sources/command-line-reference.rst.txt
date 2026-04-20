@@ -171,9 +171,9 @@ Execution Flags
    Repeat the full test suite ``#`` times. If ``#`` is omitted, repeats
    twice. Useful for detecting order-dependent failures.
 
-.. option:: -ri
+.. option:: -rs
 
-   Run ignored tests (:c:macro:`SKIPPED_TEST`) as if they were normal tests.
+   Run skipped tests (:c:macro:`SKIPPED_TEST`) as if they were normal tests.
 
 .. option:: -f
 
