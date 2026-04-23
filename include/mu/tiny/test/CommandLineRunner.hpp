@@ -22,6 +22,7 @@ namespace mu {
 namespace tiny {
 namespace test {
 
+class Plugin;
 class Registry;
 
 /**
@@ -59,6 +60,20 @@ public:
    * @return 0 if all tests passed, non-zero otherwise.
    */
   static int run_all_tests(int argc, char** argv);
+
+  /**
+   * @brief Install @p plugin into the current registry before running tests.
+   *
+   * Equivalent to
+   * @code
+   * Registry::get_current_registry()->install_plugin(&plugin);
+   * @endcode
+   * but does not require including @ref mu/tiny/test/Registry.hpp.
+   * Call this before @ref run_all_tests().
+   *
+   * @param plugin  Plugin to install; must outlive the test run.
+   */
+  static void install_plugin(Plugin& plugin);
 
   /**
    * @brief Construct a runner bound to a specific registry.

@@ -76,22 +76,20 @@ int main(int argc, char** argv)
 
 To add plugins (e.g. `mu::tiny::test::JUnitOutputPlugin`,
 `mu::tiny::test::SetPointerPlugin`,
-`mu::tiny::mock::SupportPlugin`), install them via
-`mu::tiny::test::Registry`:
+`mu::tiny::mock::SupportPlugin`), call
+`CommandLineRunner::install_plugin()` before `run_all_tests()`:
 
 ```cpp
 #include "mu/tiny/test/CommandLineRunner.hpp"
 #include "mu/tiny/test/JUnitOutputPlugin.hpp"
 #include "mu/tiny/mock/SupportPlugin.hpp"
-#include "mu/tiny/test/Registry.hpp"
 
 int main(int argc, char** argv)
 {
     mu::tiny::test::JUnitOutputPlugin junit;
     mu::tiny::mock::SupportPlugin mock_plugin;
-    auto* reg = mu::tiny::test::Registry::get_current_registry();
-    reg->install_plugin(&junit);
-    reg->install_plugin(&mock_plugin);
+    mu::tiny::test::CommandLineRunner::install_plugin(junit);
+    mu::tiny::test::CommandLineRunner::install_plugin(mock_plugin);
     return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
 }
 ```

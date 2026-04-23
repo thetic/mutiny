@@ -88,23 +88,22 @@ Every test executable needs a ``main()``. The simplest form uses
 To add plugins (e.g.
 :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`,
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`,
-:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), install them via
-:cpp:class:`Registry <mu::tiny::test::Registry>`:
+:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), call
+:cpp:func:`CommandLineRunner::install_plugin() <mu::tiny::test::CommandLineRunner::install_plugin>`
+before :cpp:func:`run_all_tests() <mu::tiny::test::CommandLineRunner::run_all_tests>`:
 
 .. code-block:: cpp
 
    #include "mu/tiny/test/CommandLineRunner.hpp"
    #include "mu/tiny/test/JUnitOutputPlugin.hpp"
    #include "mu/tiny/mock/SupportPlugin.hpp"
-   #include "mu/tiny/test/Registry.hpp"
 
    int main(int argc, char** argv)
    {
        mu::tiny::test::JUnitOutputPlugin junit;
        mu::tiny::mock::SupportPlugin mock_plugin;
-       auto* reg = mu::tiny::test::Registry::get_current_registry();
-       reg->install_plugin(&junit);
-       reg->install_plugin(&mock_plugin);
+       mu::tiny::test::CommandLineRunner::install_plugin(junit);
+       mu::tiny::test::CommandLineRunner::install_plugin(mock_plugin);
        return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 

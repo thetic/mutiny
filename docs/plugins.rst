@@ -55,19 +55,18 @@ Override the methods you need:
 Installing Plugins
 ------------------
 
-Install plugins via :cpp:class:`Registry <mu::tiny::test::Registry>` in ``main()``
-before calling :cpp:func:`run_all_tests <mu::tiny::test::CommandLineRunner::run_all_tests>`:
+Call :cpp:func:`CommandLineRunner::install_plugin() <mu::tiny::test::CommandLineRunner::install_plugin>`
+in ``main()`` before :cpp:func:`run_all_tests() <mu::tiny::test::CommandLineRunner::run_all_tests>`:
 
 .. code-block:: cpp
 
    #include "mu/tiny/test/CommandLineRunner.hpp"
-   #include "mu/tiny/test/Registry.hpp"
    #include "MyPlugin.hpp"
 
    int main(int argc, char** argv)
    {
        MyPlugin my_plugin;
-       mu::tiny::test::Registry::get_current_registry()->install_plugin(&my_plugin);
+       mu::tiny::test::CommandLineRunner::install_plugin(my_plugin);
        return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
 
@@ -102,7 +101,7 @@ Use it in ``main()``:
 .. code-block:: cpp
 
    LogPlugin log;
-   mu::tiny::test::Registry::get_current_registry()->install_plugin(&log);
+   mu::tiny::test::CommandLineRunner::install_plugin(log);
 
 Built-in Plugins
 ----------------
