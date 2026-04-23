@@ -231,6 +231,11 @@ void Registry::reset_plugins()
   first_plugin_ = NullPlugin::instance();
 }
 
+void Registry::restore_plugins(Plugin* head)
+{
+  first_plugin_ = head;
+}
+
 void Registry::install_plugin(Plugin* plugin)
 {
   first_plugin_ = plugin->add_plugin(first_plugin_);
@@ -239,20 +244,6 @@ void Registry::install_plugin(Plugin* plugin)
 Plugin* Registry::get_first_plugin()
 {
   return first_plugin_;
-}
-
-Plugin* Registry::get_plugin_by_name(const String& name)
-{
-  return first_plugin_->get_plugin_by_name(name);
-}
-
-void Registry::remove_plugin_by_name(const String& name)
-{
-  first_plugin_->remove_plugin_by_name(name);
-  if (first_plugin_->get_name() == name) {
-    first_plugin_ = first_plugin_->get_next();
-  }
-  first_plugin_->remove_plugin_by_name(name);
 }
 
 int Registry::count_plugins()

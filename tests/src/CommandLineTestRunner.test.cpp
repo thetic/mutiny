@@ -150,10 +150,10 @@ TEST(CommandLineRunner, ThreeBuiltinPluginsAreInstalledDuringTheRunningTheTests)
       2, argv, &registry
   );
   command_line_test_runner.run_all_tests_main();
-  registry.remove_plugin_by_name("PluginCountingPlugin");
 
-  CHECK_EQUAL(0, registry.count_plugins());
+  CHECK_EQUAL(1, registry.count_plugins());
   CHECK_EQUAL(3, plugin_counting_plugin->amount_of_plugins);
+  registry.reset_plugins();
 }
 
 TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)

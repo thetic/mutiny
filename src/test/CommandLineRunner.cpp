@@ -45,6 +45,8 @@ int CommandLineRunner::run_all_tests_main()
 {
   int test_result = 1;
 
+  Plugin* const user_plugins = registry_->get_first_plugin();
+
   SetPointerPlugin set_pointer_plugin;
   JUnitOutputPlugin junit_plugin;
   TapOutputPlugin tap_plugin;
@@ -61,9 +63,7 @@ int CommandLineRunner::run_all_tests_main()
     }
   }
 
-  registry_->remove_plugin_by_name(tap_plugin.name);
-  registry_->remove_plugin_by_name(junit_plugin.name);
-  registry_->remove_plugin_by_name(set_pointer_plugin.name);
+  registry_->restore_plugins(user_plugins);
   return test_result;
 }
 

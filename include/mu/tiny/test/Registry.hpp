@@ -127,21 +127,18 @@ public:
   /** @brief Remove all plugins from the chain. */
   virtual void reset_plugins();
 
+  /**
+   * @brief Restore the plugin chain to a previously saved head.
+   *
+   * Intended for use with @ref get_first_plugin(): save the head before
+   * installing temporary plugins, then call this to undo those installations.
+   *
+   * @param head  Plugin to make the new head of the chain.
+   */
+  virtual void restore_plugins(Plugin* head);
+
   /** @return The first plugin in the chain, or nullptr. */
   virtual Plugin* get_first_plugin();
-
-  /**
-   * @brief Find a plugin by name.
-   * @param name  Name to search for.
-   * @return The matching plugin, or nullptr.
-   */
-  virtual Plugin* get_plugin_by_name(const String& name);
-
-  /**
-   * @brief Remove the first plugin with the given name.
-   * @param name  Name to search for and remove.
-   */
-  virtual void remove_plugin_by_name(const String& name);
 
   /** @return Number of installed plugins. */
   virtual int count_plugins();

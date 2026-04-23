@@ -1,9 +1,6 @@
 /**
  * @file
  * @brief @ref mu::tiny::test::Plugin that writes TAP version 13 output.
- *
- * See @ref mu::tiny::test::TapOutputPlugin::name for the canonical plugin
- * identifier.
  */
 
 #ifndef INCLUDED_MU_TINY_TEST_TAPOUTPUTPLUGIN_HPP
@@ -56,10 +53,6 @@ public:
    * @return A new TapOutput, or nullptr if the plugin is not active.
    */
   Output* create_output() override;
-
-  /** @brief Canonical plugin name; used for look-up by
-   * @ref Registry::get_plugin_by_name(). */
-  static constexpr const char* name{ "TapOutputPlugin" };
 
 private:
   bool active_{ false };

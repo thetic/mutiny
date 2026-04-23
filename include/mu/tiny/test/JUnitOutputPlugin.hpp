@@ -1,9 +1,6 @@
 /**
  * @file
  * @brief @ref mu::tiny::test::Plugin that writes JUnit-compatible XML output.
- *
- * See @ref mu::tiny::test::JUnitOutputPlugin::name for the canonical plugin
- * identifier.
  */
 
 #ifndef INCLUDED_MU_TINY_TEST_JUNITOUTPUTPLUGIN_HPP
@@ -56,10 +53,6 @@ public:
    * @return A new JUnitOutput, or nullptr if the plugin is not active.
    */
   Output* create_output() override;
-
-  /** @brief Canonical plugin name; used for look-up by
-   * @ref Registry::get_plugin_by_name(). */
-  static constexpr const char* name{ "JUnitOutputPlugin" };
 
 private:
   bool active_{ false };

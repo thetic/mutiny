@@ -103,16 +103,14 @@ TEST(Plugin, PluginHasName)
 TEST(Plugin, InstallPlugin)
 {
   CHECK_EQUAL(first_plugin, registry->get_first_plugin());
-  CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
   CHECK_EQUAL(1, registry->count_plugins());
 }
 
 TEST(Plugin, InstallMultiplePlugins)
 {
   registry->install_plugin(third_plugin);
-  CHECK_EQUAL(first_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN));
-  CHECK_EQUAL(third_plugin, registry->get_plugin_by_name(GENERIC_PLUGIN3));
-  CHECK_EQUAL(nullptr, registry->get_plugin_by_name("I do not exist"));
+  CHECK_EQUAL(third_plugin, registry->get_first_plugin());
+  CHECK_EQUAL(2, registry->count_plugins());
 }
 
 TEST(Plugin, ActionsAllRun)
@@ -131,15 +129,6 @@ TEST(Plugin, Sequence)
   CHECK_EQUAL(2, first_plugin->pre_action_sequence);
   CHECK_EQUAL(3, first_plugin->post_action_sequence);
   CHECK_EQUAL(4, third_plugin->post_action_sequence);
-  CHECK_EQUAL(2, registry->count_plugins());
-}
-
-TEST(Plugin, RemovePluginByName)
-{
-  registry->install_plugin(second_plugin);
-  registry->install_plugin(third_plugin);
-  CHECK_EQUAL(3, registry->count_plugins());
-  registry->remove_plugin_by_name(GENERIC_PLUGIN2);
   CHECK_EQUAL(2, registry->count_plugins());
 }
 

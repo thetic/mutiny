@@ -95,29 +95,9 @@ const String& Plugin::get_name()
   return name_;
 }
 
-Plugin* Plugin::get_plugin_by_name(const String& name)
-{
-  if (name == name_) {
-    return this;
-  }
-  if (next_ != nullptr) {
-    return next_->get_plugin_by_name(name);
-  }
-  return (next_);
-}
-
 Plugin* Plugin::get_next()
 {
   return next_;
-}
-Plugin* Plugin::remove_plugin_by_name(const String& name)
-{
-  Plugin* removed = nullptr;
-  if ((next_ != nullptr) && next_->get_name() == name) {
-    removed = next_;
-    next_ = next_->next_;
-  }
-  return removed;
 }
 
 void Plugin::disable()

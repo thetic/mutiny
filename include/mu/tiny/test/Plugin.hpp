@@ -140,14 +140,6 @@ public:
    */
   virtual Plugin* add_plugin(Plugin* plugin);
 
-  /**
-   * @brief Remove the first plugin with the given @p name from the chain.
-   *
-   * @param name  Name to search for.
-   * @return The removed plugin, or nullptr if not found.
-   */
-  virtual Plugin* remove_plugin_by_name(const String& name);
-
   /** @return The next plugin in the chain, or nullptr. */
   virtual Plugin* get_next();
 
@@ -161,14 +153,6 @@ public:
 
   /** @return This plugin's name. */
   const String& get_name();
-
-  /**
-   * @brief Find a plugin by name in this chain.
-   *
-   * @param name  Name to search for.
-   * @return Pointer to the matching plugin, or nullptr.
-   */
-  Plugin* get_plugin_by_name(const String& name);
 
 protected:
   /**
