@@ -159,7 +159,7 @@ public:
   TapTestOutputTestRunner& that_fails(
       const char* message,
       const char* file,
-      int line
+      int_least32_t line
   )
   {
     test_failure_ =

@@ -14,6 +14,8 @@
 #include "mu/tiny/String.hpp"
 #include "mu/tiny/export.h"
 
+#include <stdint.h>
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -194,7 +196,7 @@ protected:
   void print_failure_message(const String& reason);
   void print_error_in_file_on_line_formatted_for_working_environment(
       const String& test_file,
-      int line_number
+      int_least32_t line_number
   );
 
   Output(const Output&);

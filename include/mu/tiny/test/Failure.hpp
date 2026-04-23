@@ -15,6 +15,8 @@
 #include "mu/tiny/export.h"
 #include "mu/tiny/features.hpp"
 
+#include <stdint.h>
+
 #if MUTINY_USE_STD_CPP_LIB
 #include <stdexcept>
 #endif
@@ -48,7 +50,7 @@ public:
   Failure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& the_message
   );
 
@@ -68,7 +70,7 @@ public:
    * @param file_name    Source file of the failing assertion.
    * @param line_number  Line number of the failing assertion.
    */
-  Failure(Shell* test, const char* file_name, int line_number);
+  Failure(Shell* test, const char* file_name, int_least32_t line_number);
   Failure(const Failure&) = default;
   Failure(Failure&& other) noexcept;
   virtual ~Failure() = default;
@@ -163,7 +165,7 @@ public:
   EqualsFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const char* expected,
       const char* actual,
       const String& text
@@ -179,7 +181,7 @@ public:
   EqualsFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& expected,
       const String& actual,
       const String& text
@@ -211,7 +213,7 @@ public:
   ApproxEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       T expected,
       T actual,
       T threshold,
@@ -249,7 +251,7 @@ public:
   CheckEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& expected,
       const String& actual,
       const String& text
@@ -273,7 +275,7 @@ public:
   ComparisonFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& check_string,
       const String& comparison_string,
       const String& text
@@ -298,7 +300,7 @@ public:
   ContainsFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& expected,
       const String& actual,
       const String& text
@@ -322,7 +324,7 @@ public:
   CheckFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& check_string,
       const String& condition_string,
       const String& text_string = ""
@@ -344,7 +346,7 @@ public:
   FailFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& message
   );
 };
@@ -370,7 +372,7 @@ public:
   IntMaxEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       long long expected,
       long long actual,
       const String& text
@@ -397,7 +399,7 @@ public:
   UintMaxEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       unsigned long long expected,
       unsigned long long actual,
       const String& text
@@ -421,7 +423,7 @@ public:
   StringEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const char* expected,
       const char* actual,
       const String& text
@@ -445,7 +447,7 @@ public:
   StringEqualNoCaseFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const char* expected,
       const char* actual,
       const String& text
@@ -470,7 +472,7 @@ public:
   BinaryEqualFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const unsigned char* expected,
       const unsigned char* actual,
       size_t size,
@@ -494,7 +496,7 @@ public:
   FeatureUnsupportedFailure(
       Shell* test,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const String& feature_name,
       const String& text
   );

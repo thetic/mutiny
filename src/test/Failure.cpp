@@ -83,7 +83,7 @@ String printable_string_from_or_null(const char* expected)
 Failure::Failure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& the_message
 )
   : test_name_(test->get_formatted_name())
@@ -107,7 +107,7 @@ Failure::Failure(Shell* test, const String& the_message)
 {
 }
 
-Failure::Failure(Shell* test, const char* file_name, int line_num)
+Failure::Failure(Shell* test, const char* file_name, int_least32_t line_num)
   : test_name_(test->get_formatted_name())
   , test_name_only_(test->get_name())
   , file_name_(file_name)
@@ -149,12 +149,12 @@ const String& Failure::get_test_name_only() const
   return test_name_only_;
 }
 
-int Failure::get_failure_line_number() const
+int_least32_t Failure::get_failure_line_number() const
 {
   return line_number_;
 }
 
-int Failure::get_test_line_number() const
+int_least32_t Failure::get_test_line_number() const
 {
   return test_line_number_;
 }
@@ -233,7 +233,7 @@ String Failure::create_user_text(const String& text)
 EqualsFailure::EqualsFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const char* expected,
     const char* actual,
     const String& text
@@ -250,7 +250,7 @@ EqualsFailure::EqualsFailure(
 EqualsFailure::EqualsFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& expected,
     const String& actual,
     const String& text
@@ -265,7 +265,7 @@ EqualsFailure::EqualsFailure(
 CheckEqualFailure::CheckEqualFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& expected,
     const String& actual,
     const String& text
@@ -296,7 +296,7 @@ CheckEqualFailure::CheckEqualFailure(
 ComparisonFailure::ComparisonFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& check_string,
     const String& comparison_string,
     const String& text
@@ -313,7 +313,7 @@ ComparisonFailure::ComparisonFailure(
 ContainsFailure::ContainsFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& expected,
     const String& actual,
     const String& text
@@ -330,7 +330,7 @@ ContainsFailure::ContainsFailure(
 CheckFailure::CheckFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& check_string,
     const String& condition_string,
     const String& text
@@ -348,7 +348,7 @@ CheckFailure::CheckFailure(
 FailFailure::FailFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& message
 )
   : Failure(test, file_name, line_number)
@@ -359,7 +359,7 @@ FailFailure::FailFailure(
 IntMaxEqualFailure::IntMaxEqualFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     long long expected,
     long long actual,
     const String& text
@@ -383,7 +383,7 @@ IntMaxEqualFailure::IntMaxEqualFailure(
 UintMaxEqualFailure::UintMaxEqualFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     unsigned long long expected,
     unsigned long long actual,
     const String& text
@@ -407,7 +407,7 @@ UintMaxEqualFailure::UintMaxEqualFailure(
 StringEqualFailure::StringEqualFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const char* expected,
     const char* actual,
     const String& text
@@ -439,7 +439,7 @@ StringEqualFailure::StringEqualFailure(
 StringEqualNoCaseFailure::StringEqualNoCaseFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const char* expected,
     const char* actual,
     const String& text
@@ -473,7 +473,7 @@ StringEqualNoCaseFailure::StringEqualNoCaseFailure(
 BinaryEqualFailure::BinaryEqualFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const unsigned char* expected,
     const unsigned char* actual,
     size_t size,
@@ -502,7 +502,7 @@ BinaryEqualFailure::BinaryEqualFailure(
 FeatureUnsupportedFailure::FeatureUnsupportedFailure(
     Shell* test,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     const String& feature_name,
     const String& text
 )

@@ -243,7 +243,7 @@ void Output::print_failure_message(const String& reason)
 
 void Output::print_error_in_file_on_line_formatted_for_working_environment(
     const String& file,
-    int line_number
+    int_least32_t line_number
 )
 {
   print("\n");

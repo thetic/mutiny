@@ -131,7 +131,7 @@ public:
   void check_test_fails_with_proper_test_location(
       const char* text,
       const char* file,
-      int line
+      int_least32_t line
   );
 
   /**

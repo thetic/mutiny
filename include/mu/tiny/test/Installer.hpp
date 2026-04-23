@@ -10,6 +10,7 @@
 #include "mu/tiny/export.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 namespace mu {
 namespace tiny {
@@ -43,7 +44,7 @@ public:
       const char* group_name,
       const char* test_name,
       const char* file_name,
-      int line_number
+      int_least32_t line_number
   ) noexcept;
   virtual ~Installer() = default;
   Installer(const Installer&) = delete;

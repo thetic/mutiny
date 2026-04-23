@@ -230,7 +230,7 @@ public:
     return *this;
   }
 
-  JUnitTestOutputTestRunner& on_line(int line_number)
+  JUnitTestOutputTestRunner& on_line(int_least32_t line_number)
   {
     if (current_test_ != nullptr) {
       current_test_->set_line_number(line_number);
@@ -296,7 +296,7 @@ public:
   JUnitTestOutputTestRunner& that_fails(
       const char* message,
       const char* file,
-      int line
+      int_least32_t line
   )
   {
     test_failure_ =

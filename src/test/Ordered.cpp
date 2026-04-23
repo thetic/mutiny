@@ -100,7 +100,7 @@ OrderedInstaller::OrderedInstaller(
     const char* group_name,
     const char* test_name,
     const char* file_name,
-    int line_number,
+    int_least32_t line_number,
     int level
 ) noexcept
 {

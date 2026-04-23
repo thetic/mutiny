@@ -130,7 +130,7 @@ public:
       const char* group_name,
       const char* test_name,
       const char* file_name,
-      int line_number
+      int_least32_t line_number
   ) noexcept;
   virtual ~Shell() = default;
 
@@ -178,7 +178,7 @@ public:
       const char* condition_string,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two C strings are equal (strcmp). */
@@ -187,7 +187,7 @@ public:
       const char* actual,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert first @p length bytes of two C strings match.
@@ -198,7 +198,7 @@ public:
       size_t length,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert @p actual contains the substring @p expected.
@@ -208,7 +208,7 @@ public:
       const char* actual,
       const char* text,
       const char* file_name,
-      int line_number
+      int_least32_t line_number
   );
   /**
    * @brief C-interface backend: assert two signed integer values are equal.
@@ -221,7 +221,7 @@ public:
       intmax_t actual,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
@@ -235,7 +235,7 @@ public:
       uintmax_t actual,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert two pointers are equal. */
@@ -244,7 +244,7 @@ public:
       const void* actual,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
@@ -259,7 +259,7 @@ public:
       T threshold,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   )
   {
@@ -278,7 +278,7 @@ public:
       const char* actual,
       const char* text,
       const char* file,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: generic equality failure with String arguments. */
@@ -288,7 +288,7 @@ public:
       String actual,
       const char* text,
       const char* file,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert @p length bytes of two memory regions match.
@@ -299,7 +299,7 @@ public:
       size_t length,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /** @brief Macro backend: assert a relational comparison holds. */
@@ -309,7 +309,7 @@ public:
       const char* comparison_string,
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
@@ -323,7 +323,7 @@ public:
   virtual void fail(
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
   /**
@@ -346,7 +346,7 @@ public:
   virtual void skip_test(
       const char* text,
       const char* file_name,
-      int line_number,
+      int_least32_t line_number,
       const Terminator& test_terminator = get_current_test_terminator()
   );
 
@@ -357,7 +357,7 @@ public:
    * tests). */
   void set_file_name(const char* file_name);
   /** @brief Update the source line stored in this shell. */
-  void set_line_number(int line_number);
+  void set_line_number(int_least32_t line_number);
   /** @brief Update the group name stored in this shell. */
   void set_group_name(const char* group_name);
   /** @brief Update the test name stored in this shell. */
@@ -455,7 +455,7 @@ void check_equal(
     const U& actual,
     const char* text,
     const char* file,
-    int line
+    int_least32_t line
 )
 {
   // Compare with the natural types so that mixed signed/unsigned comparisons
@@ -497,7 +497,7 @@ void check_compare(
     const char* relop_str,
     const char* text,
     const char* file,
-    int line
+    int_least32_t line
 )
 {
   // The bool result of the relop is pre-computed at the call site (in the
@@ -538,7 +538,7 @@ void check_enum_equal(
     ENUM_TYPE actual,
     const char* text,
     const char* file,
-    int line
+    int_least32_t line
 )
 {
   auto e = static_cast<UNDERLYING_TYPE>(expected);
@@ -573,7 +573,7 @@ void check_approx(
     T threshold,
     const char* text,
     const char* file,
-    int line
+    int_least32_t line
 )
 {
   if (!approx_equal(expected, actual, threshold)) {

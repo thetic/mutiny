@@ -5,6 +5,8 @@
 
 #include "mu/tiny/mock.hpp"
 
+#include <stdint.h>
+
 #define CHECK_EXPECTED_MOCK_FAILURE(expectedFailure)                           \
   check_expected_mock_failure_location(expectedFailure, __FILE__, __LINE__)
 #define CHECK_EXPECTED_MOCK_FAILURE_STRING(expectedString)                     \
@@ -49,6 +51,6 @@ void check_expected_mock_failure_location(
     const char* file,
     int line
 );
-void check_no_mock_failure_location(const char* file, int line);
+void check_no_mock_failure_location(const char* file, int_least32_t line);
 
 #endif

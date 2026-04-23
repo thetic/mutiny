@@ -7,7 +7,7 @@ void mutiny_check_equal_bool(
     bool actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
@@ -26,7 +26,7 @@ void mutiny_check_equal_int(
     int actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_intmax_equal(
@@ -44,7 +44,7 @@ void mutiny_check_equal_uint(
     unsigned int actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
@@ -62,7 +62,7 @@ void mutiny_check_equal_long(
     long actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_intmax_equal(
@@ -80,7 +80,7 @@ void mutiny_check_equal_ulong(
     unsigned long actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
@@ -98,7 +98,7 @@ void mutiny_check_equal_longlong(
     long long actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_intmax_equal(
@@ -116,7 +116,7 @@ void mutiny_check_equal_ulonglong(
     unsigned long long actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_uintmax_equal(
@@ -135,7 +135,7 @@ void mutiny_check_equal_double(
     double threshold,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   if (!mu::tiny::test::approx_equal(expected, actual, threshold)) {
@@ -158,7 +158,7 @@ void mutiny_check_equal_char(
     char actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
@@ -177,7 +177,7 @@ void mutiny_check_equal_ubyte(
     unsigned char actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
@@ -196,7 +196,7 @@ void mutiny_check_equal_sbyte(
     signed char actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_equals(
@@ -215,7 +215,7 @@ void mutiny_check_equal_string(
     const char* actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_cstr_equal(
@@ -233,7 +233,7 @@ void mutiny_check_equal_pointer(
     const void* actual,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_pointers_equal(
@@ -252,7 +252,7 @@ void mutiny_check_equal_memcmp(
     size_t size,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_binary_equal(
@@ -266,7 +266,11 @@ void mutiny_check_equal_memcmp(
   );
 }
 
-void mutiny_fail(const char* text, const char* file_name, int line_number)
+void mutiny_fail(
+    const char* text,
+    const char* file_name,
+    int_least32_t line_number
+)
 {
   mu::tiny::test::Shell::get_current()->fail(
       text,
@@ -281,7 +285,7 @@ void mutiny_check(
     const char* condition_string,
     const char* text,
     const char* file_name,
-    int line_number
+    int_least32_t line_number
 )
 {
   mu::tiny::test::Shell::get_current()->assert_true(

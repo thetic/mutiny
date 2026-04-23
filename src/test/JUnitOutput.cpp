@@ -38,7 +38,7 @@ public:
   bool skipped{ false };
   String skip_message;
   String file;
-  int line_number{ 0 };
+  int_least32_t line_number{ 0 };
   unsigned int check_count{ 0 };
   TestProperty* properties{ nullptr };
   TestProperty* properties_tail{ nullptr };
