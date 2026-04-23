@@ -167,7 +167,7 @@ void TestingFixture::line_executed_after_check()
 void TestingFixture::check_test_fails_with_proper_test_location(
     const char* text,
     const char* file,
-    int line
+    int_least32_t line
 )
 {
   if (get_failure_count() != 1) {

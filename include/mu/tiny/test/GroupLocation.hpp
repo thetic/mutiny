@@ -53,7 +53,7 @@ public:
   /** @return The source file path. */
   const char* get_file() const;
   /** @return The source line number. */
-  int get_line_number() const;
+  int_least32_t get_line_number() const;
   /** @return The next entry in the registration list, or nullptr. */
   GroupLocation* get_next() const;
 

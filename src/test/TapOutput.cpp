@@ -5,6 +5,8 @@
 #include "mu/tiny/test/Result.hpp"
 #include "mu/tiny/test/Shell.hpp"
 
+#include <inttypes.h>
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -149,7 +151,8 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
           "    file: %s\n", cur->failure->get_file_name().c_str()
       );
       line += string_from_format(
-          "    line: %d\n", cur->failure->get_failure_line_number()
+          "    line: %" PRIdLEAST32 "\n",
+          cur->failure->get_failure_line_number()
       );
       line += "  ...\n";
       fputs_(line.c_str(), stdout_);

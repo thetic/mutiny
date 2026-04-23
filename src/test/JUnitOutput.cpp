@@ -7,7 +7,7 @@
 
 #include "mu/tiny/time.hpp"
 
-#include <stdint.h>
+#include <inttypes.h>
 
 namespace mu {
 namespace tiny {
@@ -263,7 +263,7 @@ void JUnitOutput::write_test_cases()
   while (cur != nullptr) {
     String buf = string_from_format(
         "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
-        "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
+        "time=\"%d.%03d\" file=\"%s\" line=\"%" PRIdLEAST32 "\">\n",
         impl_->package.c_str(),
         impl_->package.empty() ? "" : ".",
         impl_->results.group.c_str(),
@@ -320,8 +320,9 @@ void JUnitOutput::write_failure(JUnitTestCaseResultNode* node)
   String file = encode_xml_text(node->failure->get_file_name());
   String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
-      "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
-      "%s:%d: %s\n",
+      "<failure message=\"%s:%" PRIdLEAST32
+      ": %s\" type=\"AssertionFailedError\">\n"
+      "%s:%" PRIdLEAST32 ": %s\n",
       file.c_str(),
       node->failure->get_failure_line_number(),
       msg.c_str(),

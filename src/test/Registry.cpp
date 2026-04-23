@@ -6,6 +6,8 @@
 #include "mu/tiny/test/Shell.hpp"
 #include "mu/tiny/test/ShellPointerArray.hpp"
 
+#include <inttypes.h>
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -127,7 +129,8 @@ void Registry::list_test_locations(Result& result)
     test_location += ".";
     test_location += test->get_file();
     test_location += ".";
-    test_location += string_from_format("%d\n", test->get_line_number());
+    test_location +=
+        string_from_format("%" PRIdLEAST32 "\n", test->get_line_number());
 
     test_locations += test_location;
   }
@@ -150,7 +153,8 @@ void Registry::list_ordered_test_locations(Result& result)
     test_location += ".";
     test_location += test->get_file();
     test_location += ".";
-    test_location += string_from_format("%d\n", test->get_line_number());
+    test_location +=
+        string_from_format("%" PRIdLEAST32 "\n", test->get_line_number());
 
     test_locations += test_location;
   }
@@ -169,7 +173,7 @@ void Registry::list_test_group_locations(Result& result)
     entry += ".";
     entry += g->get_file();
     entry += ".";
-    entry += string_from_format("%d\n", g->get_line_number());
+    entry += string_from_format("%" PRIdLEAST32 "\n", g->get_line_number());
 
     group_locations += entry;
   }

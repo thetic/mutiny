@@ -369,7 +369,7 @@ void Shell::exit_test(const Terminator& terminator)
 void Shell::skip_test(
     const char* text,
     const char* /*file_name*/,
-    int /*line_number*/,
+    int_least32_t /*line_number*/,
     const Terminator& terminator
 )
 {

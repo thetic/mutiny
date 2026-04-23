@@ -82,13 +82,13 @@ public:
   /** @return Test case name without the group prefix. */
   virtual const String& get_test_name_only() const;
   /** @return Line number of the failing assertion. */
-  virtual int get_failure_line_number() const;
+  virtual int_least32_t get_failure_line_number() const;
   /** @return Human-readable failure description. */
   virtual const String& get_message() const;
   /** @return Source file in which the test is defined. */
   virtual const String& get_test_file_name() const;
   /** @return Line number of the TEST() macro for the failing test. */
-  virtual int get_test_line_number() const;
+  virtual int_least32_t get_test_line_number() const;
 
   /**
    * @return true if this failure represents an error (e.g. unexpected

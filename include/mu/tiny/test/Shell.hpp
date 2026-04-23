@@ -161,7 +161,7 @@ public:
   /** @return The source file path for this test. */
   const char* get_file() const;
   /** @return The source line number for this test. */
-  int get_line_number() const;
+  int_least32_t get_line_number() const;
   /** @return true if the test will actually run (not ignored). */
   virtual bool will_run() const;
   /** @return true if the test has recorded at least one failure. */
