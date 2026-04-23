@@ -512,3 +512,12 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
   CHECK(RunSkippedTest::checker_);
   RunSkippedTest::checker_ = false;
 }
+
+TEST(CommandLineRunner, StaticInstallPluginAddsPluginToCurrentRegistry)
+{
+  registry.set_current_registry(&registry);
+  mu::tiny::test::CommandLineRunner::install_plugin(*plugin_counting_plugin);
+  CHECK_EQUAL(1, registry.count_plugins());
+  registry.set_current_registry(nullptr);
+  registry.reset_plugins();
+}
