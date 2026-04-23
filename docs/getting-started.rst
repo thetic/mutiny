@@ -80,9 +80,11 @@ Every test executable needs a ``main()``. The simplest form uses
 
    #include "mu/tiny/test/CommandLineRunner.hpp"
 
+   using mu::tiny::test::CommandLineRunner;
+
    int main(int argc, char** argv)
    {
-       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+       return CommandLineRunner::run_all_tests(argc, argv);
    }
 
 To add plugins (e.g.
@@ -98,13 +100,15 @@ before :cpp:func:`run_all_tests() <mu::tiny::test::CommandLineRunner::run_all_te
    #include "mu/tiny/test/JUnitOutputPlugin.hpp"
    #include "mu/tiny/mock/SupportPlugin.hpp"
 
+   using mu::tiny::test::CommandLineRunner;
+
    int main(int argc, char** argv)
    {
        mu::tiny::test::JUnitOutputPlugin junit;
        mu::tiny::mock::SupportPlugin mock_plugin;
-       mu::tiny::test::CommandLineRunner::install_plugin(junit);
-       mu::tiny::test::CommandLineRunner::install_plugin(mock_plugin);
-       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+       CommandLineRunner::install_plugin(junit);
+       CommandLineRunner::install_plugin(mock_plugin);
+       return CommandLineRunner::run_all_tests(argc, argv);
    }
 
 Your First Test

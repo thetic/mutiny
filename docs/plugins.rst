@@ -63,11 +63,13 @@ in ``main()`` before :cpp:func:`run_all_tests() <mu::tiny::test::CommandLineRunn
    #include "mu/tiny/test/CommandLineRunner.hpp"
    #include "MyPlugin.hpp"
 
+   using mu::tiny::test::CommandLineRunner;
+
    int main(int argc, char** argv)
    {
        MyPlugin my_plugin;
-       mu::tiny::test::CommandLineRunner::install_plugin(my_plugin);
-       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+       CommandLineRunner::install_plugin(my_plugin);
+       return CommandLineRunner::run_all_tests(argc, argv);
    }
 
 Plugins form a linked list; they run in installation order.
@@ -101,7 +103,7 @@ Use it in ``main()``:
 .. code-block:: cpp
 
    LogPlugin log;
-   mu::tiny::test::CommandLineRunner::install_plugin(log);
+   CommandLineRunner::install_plugin(log);
 
 Built-in Plugins
 ----------------
