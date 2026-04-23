@@ -28,8 +28,8 @@ TEST(ExpectFailShell, innerTestFails_outerCountsRunNotFailure)
   fixture.add_test(&shell);
   fixture.run_all_tests();
   // 2 runs: fixture's built-in genTest_ + shell
-  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
-  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
+  CHECK_EQUAL(2U, fixture.get_run_count());
+  CHECK_EQUAL(0U, fixture.get_failure_count());
 }
 
 TEST(ExpectFailShell, innerTestPasses_outerCountsRunAndFailure)
@@ -38,8 +38,8 @@ TEST(ExpectFailShell, innerTestPasses_outerCountsRunAndFailure)
   fixture.add_test(&shell);
   fixture.run_all_tests();
   // 2 runs: fixture's built-in genTest_ + shell
-  CHECK_EQUAL(size_t{ 2 }, fixture.get_run_count());
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(2U, fixture.get_run_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
 }
 
 TEST(ExpectFailShell, willRun_alwaysReturnsTrue)

@@ -11,15 +11,15 @@ TEST_GROUP(CircularBuffer)
   void setup() override { buffer = new CircularBuffer(); }
   void teardown() override { delete buffer; }
 
-  void fill_the_queue(int seed, int how_many) const
+  void fill_the_queue(int seed, size_t how_many) const
   {
-    for (int i = 0; i < how_many; i++) {
-      buffer->put(seed + i);
+    for (size_t i = 0; i < how_many; i++) {
+      buffer->put(seed + static_cast<int>(i));
     }
   }
-  void remove_from_queue(int how_many) const
+  void remove_from_queue(size_t how_many) const
   {
-    for (int i = 0; i < how_many; i++) {
+    for (size_t i = 0; i < how_many; i++) {
       buffer->get();
     }
   }
@@ -62,8 +62,8 @@ TEST(CircularBuffer, GetPutAFew)
 
 TEST(CircularBuffer, Capacity)
 {
-  CircularBuffer b(2);
-  CHECK_EQUAL(2, b.capacity());
+  CircularBuffer b(2U);
+  CHECK_EQUAL(2U, b.capacity());
 }
 
 TEST(CircularBuffer, IsFull)
@@ -101,12 +101,12 @@ TEST(CircularBuffer, WrapAround)
 
 TEST(CircularBuffer, PutToFull)
 {
-  int capacity = buffer->capacity();
+  size_t capacity = buffer->capacity();
   fill_the_queue(900, capacity);
   buffer->put(9999);
 
-  for (int i = 0; i < buffer->capacity() - 1; i++) {
-    CHECK_EQUAL(i + 900 + 1, buffer->get());
+  for (size_t i = 0; i < buffer->capacity() - 1; i++) {
+    CHECK_EQUAL(static_cast<int>(i) + 900 + 1, buffer->get());
   }
 
   CHECK_EQUAL(9999, buffer->get());

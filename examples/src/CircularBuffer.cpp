@@ -4,11 +4,11 @@
 
 #include <stddef.h>
 
-CircularBuffer::CircularBuffer(int capacity)
+CircularBuffer::CircularBuffer(size_t capacity)
   : capacity_(capacity)
 
 {
-  buffer_ = new int[static_cast<size_t>(this->capacity_)];
+  buffer_ = new int[this->capacity_];
 }
 
 CircularBuffer::~CircularBuffer()
@@ -53,12 +53,12 @@ int CircularBuffer::get()
   return result;
 }
 
-int CircularBuffer::capacity() const
+size_t CircularBuffer::capacity() const
 {
   return capacity_;
 }
 
-int CircularBuffer::next(int i) const
+size_t CircularBuffer::next(size_t i) const
 {
   if (++i >= capacity_) {
     i = 0;
@@ -70,14 +70,14 @@ void CircularBuffer::print(Printer* p)
 {
   p->print("Circular buffer content:\n<");
 
-  int print_index = outdex_;
-  int count = index_ - outdex_;
+  size_t print_index = outdex_;
+  size_t count = index_ - outdex_;
 
   if (!empty_ && (index_ <= outdex_)) {
     count = capacity_ - (outdex_ - index_);
   }
 
-  for (int i = 0; i < count; i++) {
+  for (size_t i = 0; i < count; i++) {
     p->print(buffer_[print_index]);
     print_index = next(print_index);
     if (i + 1 != count) {
