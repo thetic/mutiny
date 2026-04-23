@@ -39,7 +39,7 @@ public:
   String skip_message;
   String file;
   int line_number{ 0 };
-  size_t check_count{ 0 };
+  unsigned int check_count{ 0 };
   TestProperty* properties{ nullptr };
   TestProperty* properties_tail{ nullptr };
   JUnitTestCaseResultNode* next{ nullptr };
@@ -50,11 +50,11 @@ class JUnitTestGroupResult
 public:
   JUnitTestGroupResult() = default;
 
-  size_t test_count{ 0 };
-  size_t failure_count{ 0 };
-  size_t error_count{ 0 };
-  size_t skip_count{ 0 };
-  size_t total_check_count{ 0 };
+  unsigned int test_count{ 0 };
+  unsigned int failure_count{ 0 };
+  unsigned int error_count{ 0 };
+  unsigned int skip_count{ 0 };
+  unsigned int total_check_count{ 0 };
   uint_least64_t start_time{ 0 };
   uint_least64_t group_exec_time{ 0 };
   String group;
@@ -69,10 +69,10 @@ public:
   String current_group_xml;
   String accumulated_xml;
   String package;
-  size_t total_test_count{ 0 };
-  size_t total_failure_count{ 0 };
-  size_t total_error_count{ 0 };
-  size_t total_skip_count{ 0 };
+  unsigned int total_test_count{ 0 };
+  unsigned int total_failure_count{ 0 };
+  unsigned int total_error_count{ 0 };
+  unsigned int total_skip_count{ 0 };
   uint_least64_t total_exec_time{ 0 };
   String start_timestamp;
 };
@@ -221,7 +221,7 @@ void JUnitOutput::set_package_name(const String& package)
 
 void JUnitOutput::write_test_suite_summary()
 {
-  size_t total_assertions = 0;
+  unsigned int total_assertions = 0;
   for (JUnitTestCaseResultNode* n = impl_->results.head; n != nullptr;
        n = n->next) {
     total_assertions = n->check_count;

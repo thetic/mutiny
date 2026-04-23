@@ -150,7 +150,7 @@ TEST(SupportPlugin, preTestActionWillEnableMultipleComparatorsToTheGlobalMockSup
   );
 
   mock().check_expectations();
-  CHECK_EQUAL(size_t{ 0 }, result->get_failure_count());
+  CHECK_EQUAL(0U, result->get_failure_count());
 
   plugin.clear();
 }

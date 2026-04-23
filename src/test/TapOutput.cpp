@@ -60,7 +60,7 @@ class TapOutputImpl
 public:
   TapOutputImpl() = default;
 
-  size_t test_count{ 0 };
+  unsigned int test_count{ 0 };
   TapTestResultNode* head{ nullptr };
   TapTestResultNode* tail{ nullptr };
 };
@@ -126,7 +126,7 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
   );
   fputs_(header.c_str(), stdout_);
 
-  size_t n = 0;
+  unsigned int n = 0;
   for (TapTestResultNode* cur = impl_->head; cur != nullptr; cur = cur->next) {
     ++n;
     String test_id = cur->group;
@@ -162,9 +162,7 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
       );
       fputs_(line.c_str(), stdout_);
     } else {
-      String line = string_from_format(
-          "ok %d - %s\n", static_cast<int>(n), test_id.c_str()
-      );
+      String line = string_from_format("ok %u - %s\n", n, test_id.c_str());
       fputs_(line.c_str(), stdout_);
     }
   }
