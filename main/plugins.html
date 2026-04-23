@@ -666,17 +666,18 @@ ships several built-in plugins; you can also write your own.</p>
 </section>
 <section id="installing-plugins">
 <h2>Installing Plugins<a class="headerlink" href="#installing-plugins" title="Link to this heading">¶</a></h2>
-<p>Install plugins via <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8RegistryE" title="mu::tiny::test::Registry"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Registry</span></code></a> in <code class="docutils literal notranslate"><span class="pre">main()</span></code>
-before calling <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner13run_all_testsEiPPCKc" title="mu::tiny::test::CommandLineRunner::run_all_tests"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">run_all_tests</span></code></a>:</p>
+<p>Call <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner14install_pluginER6Plugin" title="mu::tiny::test::CommandLineRunner::install_plugin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">CommandLineRunner::install_plugin()</span></code></a>
+in <code class="docutils literal notranslate"><span class="pre">main()</span></code> before <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner13run_all_testsEiPPCKc" title="mu::tiny::test::CommandLineRunner::run_all_tests"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">run_all_tests()</span></code></a>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Registry.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;MyPlugin.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="p">;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">MyPlugin</span><span class="w"> </span><span class="n">my_plugin</span><span class="p">;</span>
-<span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_plugin</span><span class="p">);</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">    </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">my_plugin</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -705,7 +706,7 @@ before calling <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1
 </div>
 <p>Use it in <code class="docutils literal notranslate"><span class="pre">main()</span></code>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">LogPlugin</span><span class="w"> </span><span class="n">log</span><span class="p">;</span>
-<span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">log</span><span class="p">);</span>
+<span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">log</span><span class="p">);</span>
 </pre></div>
 </div>
 </section>
@@ -758,7 +759,8 @@ comparator alongside other plugins:</p>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/mock/SupportPlugin.hpp&quot;</span>
 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Registry.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="p">;</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyDummyComparator</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">NamedValueComparator</span>
 <span class="p">{</span>
@@ -779,17 +781,13 @@ comparator alongside other plugins:</p>
 <span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">SupportPlugin</span><span class="w"> </span><span class="n">mock_plugin</span><span class="p">;</span>
 <span class="w">  </span><span class="n">MyDummyComparator</span><span class="w"> </span><span class="n">dummy_comparator</span><span class="p">;</span>
 <span class="w">  </span><span class="n">mock_plugin</span><span class="p">.</span><span class="n">install_comparator</span><span class="p">(</span><span class="s">&quot;MyDummyType&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_comparator</span><span class="p">);</span>
-<span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span>
-<span class="w">      </span><span class="o">&amp;</span><span class="n">mock_plugin</span>
-<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">mock_plugin</span><span class="p">);</span>
 
 <span class="w">  </span><span class="n">IEEE754ExceptionsPlugin</span><span class="w"> </span><span class="n">ieee754_plugin</span><span class="p">;</span>
-<span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span>
-<span class="w">      </span><span class="o">&amp;</span><span class="n">ieee754_plugin</span>
-<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">ieee754_plugin</span><span class="p">);</span>
 
 <span class="w">  </span><span class="n">TeamCityOutputPlugin</span><span class="w"> </span><span class="n">tc_plugin</span><span class="p">;</span>
-<span class="w">  </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tc_plugin</span><span class="p">);</span>
+<span class="w">  </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">tc_plugin</span><span class="p">);</span>
 
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
@@ -875,7 +873,7 @@ comparator alongside other plugins:</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=fe7df9b0"></script>
+</div><script src="_static/documentation_options.js?v=486e5634"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

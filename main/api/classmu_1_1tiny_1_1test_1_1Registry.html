@@ -781,8 +781,20 @@
 </dd></dl>
 
 <dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry15restore_pluginsEP6Plugin">
+<span id="_CPPv3N2mu4tiny4test8Registry15restore_pluginsEP6Plugin"></span><span id="_CPPv2N2mu4tiny4test8Registry15restore_pluginsEP6Plugin"></span><span id="mu::tiny::test::Registry::restore_plugins__PluginP"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a219da80e639e946b520d3c1b4a6a8f0e"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">restore_plugins</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><span class="n"><span class="pre">Plugin</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">head</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry15restore_pluginsEP6Plugin" title="Link to this definition">¶</a><br /></dt>
+<dd><p>Restore the plugin chain to a previously saved head. </p>
+<p>Intended for use with <a class="reference internal" href="#classmu_1_1tiny_1_1test_1_1Registry_1a41c61b121e50d86d63bc0f3625225ade"><span class="std std-ref">get_first_plugin()</span></a>: save the head before installing temporary plugins, then call this to undo those installations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>head</strong> – <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Plugin.html#classmu_1_1tiny_1_1test_1_1Plugin"><span class="std std-ref">Plugin</span></a> to make the new head of the chain. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry16get_first_pluginEv">
-<span id="_CPPv3N2mu4tiny4test8Registry16get_first_pluginEv"></span><span id="_CPPv2N2mu4tiny4test8Registry16get_first_pluginEv"></span><span id="mu::tiny::test::Registry::get_first_plugin"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a41c61b121e50d86d63bc0f3625225ade"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><span class="n"><span class="pre">Plugin</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_first_plugin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry16get_first_pluginEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L131"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test8Registry16get_first_pluginEv"></span><span id="_CPPv2N2mu4tiny4test8Registry16get_first_pluginEv"></span><span id="mu::tiny::test::Registry::get_first_plugin"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a41c61b121e50d86d63bc0f3625225ade"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><span class="n"><span class="pre">Plugin</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_first_plugin</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry16get_first_pluginEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L141"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The first plugin in the chain, or nullptr. </p>
@@ -791,33 +803,8 @@
 </dd></dl>
 
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry18get_plugin_by_nameERK6String">
-<span id="_CPPv3N2mu4tiny4test8Registry18get_plugin_by_nameERK6String"></span><span id="_CPPv2N2mu4tiny4test8Registry18get_plugin_by_nameERK6String"></span><span id="mu::tiny::test::Registry::get_plugin_by_name__StringCR"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a386bbb6406776950d2117b3a8ff7679d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Plugin.html#_CPPv4N2mu4tiny4test6PluginE" title="mu::tiny::test::Plugin"><span class="n"><span class="pre">Plugin</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_plugin_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry18get_plugin_by_nameERK6String" title="Link to this definition">¶</a><br /></dt>
-<dd><p>Find a plugin by name. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> – Name to search for. </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The matching plugin, or nullptr. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry21remove_plugin_by_nameERK6String">
-<span id="_CPPv3N2mu4tiny4test8Registry21remove_plugin_by_nameERK6String"></span><span id="_CPPv2N2mu4tiny4test8Registry21remove_plugin_by_nameERK6String"></span><span id="mu::tiny::test::Registry::remove_plugin_by_name__StringCR"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a02c87186e292b21c45a5d4e608fe859a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">remove_plugin_by_name</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1String.html#_CPPv4N2mu4tiny6StringE" title="mu::tiny::String"><span class="n"><span class="pre">String</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry21remove_plugin_by_nameERK6String" title="Link to this definition">¶</a><br /></dt>
-<dd><p>Remove the first plugin with the given name. </p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> – Name to search for and remove. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry13count_pluginsEv">
-<span id="_CPPv3N2mu4tiny4test8Registry13count_pluginsEv"></span><span id="_CPPv2N2mu4tiny4test8Registry13count_pluginsEv"></span><span id="mu::tiny::test::Registry::count_plugins"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a42e5d4ea87d4721ff86f89a2474051e8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_plugins</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry13count_pluginsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test8Registry13count_pluginsEv"></span><span id="_CPPv2N2mu4tiny4test8Registry13count_pluginsEv"></span><span id="mu::tiny::test::Registry::count_plugins"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a42e5d4ea87d4721ff86f89a2474051e8"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">count_plugins</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry13count_pluginsEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L144"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Number of installed plugins. </p>
@@ -827,7 +814,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry14get_first_testEv">
-<span id="_CPPv3N2mu4tiny4test8Registry14get_first_testEv"></span><span id="_CPPv2N2mu4tiny4test8Registry14get_first_testEv"></span><span id="mu::tiny::test::Registry::get_first_test"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a462a8159692b708f542160e0a9a5ce0d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5ShellE" title="mu::tiny::test::Shell"><span class="n"><span class="pre">Shell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_first_test</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry14get_first_testEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L150"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test8Registry14get_first_testEv"></span><span id="_CPPv2N2mu4tiny4test8Registry14get_first_testEv"></span><span id="mu::tiny::test::Registry::get_first_test"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a462a8159692b708f542160e0a9a5ce0d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="classmu_1_1tiny_1_1test_1_1Shell.html#_CPPv4N2mu4tiny4test5ShellE" title="mu::tiny::test::Shell"><span class="n"><span class="pre">Shell</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_first_test</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry14get_first_testEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L147"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The first registered test, or nullptr. </p>
@@ -900,7 +887,7 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry15set_run_skippedEv">
-<span id="_CPPv3N2mu4tiny4test8Registry15set_run_skippedEv"></span><span id="_CPPv2N2mu4tiny4test8Registry15set_run_skippedEv"></span><span id="mu::tiny::test::Registry::set_run_skipped"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a1527a817b4782cf259a728a995fb97f8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_skipped</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry15set_run_skippedEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L189"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test8Registry15set_run_skippedEv"></span><span id="_CPPv2N2mu4tiny4test8Registry15set_run_skippedEv"></span><span id="mu::tiny::test::Registry::set_run_skipped"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a1527a817b4782cf259a728a995fb97f8"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_run_skipped</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry15set_run_skippedEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L186"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Enable running <a class="reference internal" href="define_test_8hpp_1ae162bf4308def7ef20e29b0941459a7b.html#test_8h_1a235cffa951470b7e037566c4f8f201f6"><span class="std std-ref">SKIPPED_TEST()</span></a> tests in this registry. </p>
 </dd></dl>
 
@@ -909,7 +896,7 @@
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2mu4tiny4test8Registry20get_current_registryEv">
-<span id="_CPPv3N2mu4tiny4test8Registry20get_current_registryEv"></span><span id="_CPPv2N2mu4tiny4test8Registry20get_current_registryEv"></span><span id="mu::tiny::test::Registry::get_current_registry"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a26e4f9cd79b5ab7f1da164258f468b20"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2mu4tiny4test8RegistryE" title="mu::tiny::test::Registry"><span class="n"><span class="pre">Registry</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_current_registry</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry20get_current_registryEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L177"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<span id="_CPPv3N2mu4tiny4test8Registry20get_current_registryEv"></span><span id="_CPPv2N2mu4tiny4test8Registry20get_current_registryEv"></span><span id="mu::tiny::test::Registry::get_current_registry"></span><span class="target" id="classmu_1_1tiny_1_1test_1_1Registry_1a26e4f9cd79b5ab7f1da164258f468b20"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2mu4tiny4test8RegistryE" title="mu::tiny::test::Registry"><span class="n"><span class="pre">Registry</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_current_registry</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2mu4tiny4test8Registry20get_current_registryEv" title="Link to this definition">¶</a><br /><a class="reference external" href="https://github.com/thetic/mu.tiny/blob/main/include/mu/tiny/test/Registry.hpp#L174"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The process-wide current registry (used by the <a class="reference internal" href="define_test_8hpp_1a13fb650bc56807117ccc8c53d4c957c9.html#test_8h_1a387737a52be7d4ade8c76832ec677100"><span class="std std-ref">TEST()</span></a> macro and <a class="reference internal" href="classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#classmu_1_1tiny_1_1test_1_1CommandLineRunner"><span class="std std-ref">CommandLineRunner</span></a>). </p>
@@ -1001,9 +988,8 @@
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry17set_group_filtersEPK6Filter"><code class="docutils literal notranslate"><span class="pre">set_group_filters()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry14install_pluginEP6Plugin"><code class="docutils literal notranslate"><span class="pre">install_plugin()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry13reset_pluginsEv"><code class="docutils literal notranslate"><span class="pre">reset_plugins()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry15restore_pluginsEP6Plugin"><code class="docutils literal notranslate"><span class="pre">restore_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry16get_first_pluginEv"><code class="docutils literal notranslate"><span class="pre">get_first_plugin()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry18get_plugin_by_nameERK6String"><code class="docutils literal notranslate"><span class="pre">get_plugin_by_name()</span></code></a></li>
-<li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry21remove_plugin_by_nameERK6String"><code class="docutils literal notranslate"><span class="pre">remove_plugin_by_name()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry13count_pluginsEv"><code class="docutils literal notranslate"><span class="pre">count_plugins()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry14get_first_testEv"><code class="docutils literal notranslate"><span class="pre">get_first_test()</span></code></a></li>
 <li><a class="reference internal" href="#_CPPv4N2mu4tiny4test8Registry18get_test_with_nextEP5Shell"><code class="docutils literal notranslate"><span class="pre">get_test_with_next()</span></code></a></li>
@@ -1028,7 +1014,7 @@
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=fe7df9b0"></script>
+</div><script src="../_static/documentation_options.js?v=486e5634"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

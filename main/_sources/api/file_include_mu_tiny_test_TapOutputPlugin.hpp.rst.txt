@@ -19,12 +19,6 @@ Definition (``include/mu/tiny/test/TapOutputPlugin.hpp``)
 
 
 
-Detailed Description
---------------------
-
-See mu::tiny::test::TapOutputPlugin::name for the canonical plugin identifier. 
-
-
 
 
 Includes

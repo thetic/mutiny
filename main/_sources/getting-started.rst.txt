@@ -29,8 +29,8 @@ is not installed, CMake fetches and builds it from source automatically:
    FetchContent_Declare(
        mu.tiny
        GIT_REPOSITORY https://github.com/thetic/mu.tiny.git
-       GIT_TAG        v0.7.0
-       FIND_PACKAGE_ARGS 0.7
+       GIT_TAG        v0.8.0
+       FIND_PACKAGE_ARGS 0.8
    )
    FetchContent_MakeAvailable(mu.tiny)
 
@@ -47,7 +47,7 @@ If *mu::tiny* is already installed and you prefer not to use
 
 .. code-block:: cmake
 
-   find_package(mu.tiny 0.7 REQUIRED)
+   find_package(mu.tiny 0.8 REQUIRED)
 
 Headers
 ~~~~~~~
@@ -80,32 +80,35 @@ Every test executable needs a ``main()``. The simplest form uses
 
    #include "mu/tiny/test/CommandLineRunner.hpp"
 
+   using mu::tiny::test::CommandLineRunner;
+
    int main(int argc, char** argv)
    {
-       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+       return CommandLineRunner::run_all_tests(argc, argv);
    }
 
 To add plugins (e.g.
 :cpp:class:`JUnitOutputPlugin <mu::tiny::test::JUnitOutputPlugin>`,
 :cpp:class:`SetPointerPlugin <mu::tiny::test::SetPointerPlugin>`,
-:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), install them via
-:cpp:class:`Registry <mu::tiny::test::Registry>`:
+:cpp:class:`SupportPlugin <mu::tiny::mock::SupportPlugin>`), call
+:cpp:func:`CommandLineRunner::install_plugin() <mu::tiny::test::CommandLineRunner::install_plugin>`
+before :cpp:func:`run_all_tests() <mu::tiny::test::CommandLineRunner::run_all_tests>`:
 
 .. code-block:: cpp
 
    #include "mu/tiny/test/CommandLineRunner.hpp"
    #include "mu/tiny/test/JUnitOutputPlugin.hpp"
    #include "mu/tiny/mock/SupportPlugin.hpp"
-   #include "mu/tiny/test/Registry.hpp"
+
+   using mu::tiny::test::CommandLineRunner;
 
    int main(int argc, char** argv)
    {
        mu::tiny::test::JUnitOutputPlugin junit;
        mu::tiny::mock::SupportPlugin mock_plugin;
-       auto* reg = mu::tiny::test::Registry::get_current_registry();
-       reg->install_plugin(&junit);
-       reg->install_plugin(&mock_plugin);
-       return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+       CommandLineRunner::install_plugin(junit);
+       CommandLineRunner::install_plugin(mock_plugin);
+       return CommandLineRunner::run_all_tests(argc, argv);
    }
 
 Your First Test

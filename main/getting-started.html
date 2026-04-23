@@ -618,9 +618,9 @@ cmake<span class="w"> </span>--install<span class="w"> </span>build<span class="
 </section>
 <section id="adding-mu-tiny-to-your-project">
 <h2>Adding mu::tiny to Your Project<a class="headerlink" href="#adding-mu-tiny-to-your-project" title="Link to this heading">¶</a></h2>
-<p>The recommended approach uses CMake <span class="target" id="index-0-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>
-with <span class="target" id="index-0-variable:cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="(in CMake v4.3.1)"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code></a>.
-This first attempts <span class="target" id="index-0-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a>; if <em>mu::tiny</em>
+<p>The recommended approach uses CMake <span class="target" id="index-0-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.2)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>
+with <span class="target" id="index-0-variable:cmake:variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="(in CMake v4.3.2)"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code></a>.
+This first attempts <span class="target" id="index-0-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.2)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a>; if <em>mu::tiny</em>
 is not installed, CMake fetches and builds it from source automatically:</p>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.24</span><span class="nf">)</span>
 <span class="nf">project(</span><span class="nb">my_tests</span><span class="nf">)</span>
@@ -629,8 +629,8 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <span class="nf">FetchContent_Declare(</span>
 <span class="w">    </span><span class="nb">mu.tiny</span>
 <span class="w">    </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/thetic/mu.tiny.git</span>
-<span class="w">    </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">v0.7.0</span>
-<span class="w">    </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="m">0.7</span>
+<span class="w">    </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">v0.8.0</span>
+<span class="w">    </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="m">0.8</span>
 <span class="nf">)</span>
 <span class="nf">FetchContent_MakeAvailable(</span><span class="nb">mu.tiny</span><span class="nf">)</span>
 
@@ -643,9 +643,9 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 </pre></div>
 </div>
 <p>If <em>mu::tiny</em> is already installed and you prefer not to use
-<span class="target" id="index-1-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.1)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>, use
-<span class="target" id="index-1-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.1)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a> directly:</p>
-<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">mu.tiny</span><span class="w"> </span><span class="m">0.7</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
+<span class="target" id="index-1-module:cmake:module:FetchContent"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/module/FetchContent.html#module:FetchContent" title="(in CMake v4.3.2)"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>, use
+<span class="target" id="index-1-command:cmake:command:find_package"></span><a class="reference external" href="https://cmake.org/cmake/help/latest/command/find_package.html#command:find_package" title="(in CMake v4.3.2)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package</span></code></a> directly:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">find_package(</span><span class="nb">mu.tiny</span><span class="w"> </span><span class="m">0.8</span><span class="w"> </span><span class="no">REQUIRED</span><span class="nf">)</span>
 </pre></div>
 </div>
 <section id="headers">
@@ -685,30 +685,33 @@ is not installed, CMake fetches and builds it from source automatically:</p>
 <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunnerE" title="mu::tiny::test::CommandLineRunner"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">CommandLineRunner</span></code></a>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
 
+<span class="k">using</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="p">;</span>
+
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>To add plugins (e.g.
 <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#_CPPv4N2mu4tiny4test17JUnitOutputPluginE" title="mu::tiny::test::JUnitOutputPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">JUnitOutputPlugin</span></code></a>,
 <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1SetPointerPlugin.html#_CPPv4N2mu4tiny4test16SetPointerPluginE" title="mu::tiny::test::SetPointerPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SetPointerPlugin</span></code></a>,
-<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPluginE" title="mu::tiny::mock::SupportPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SupportPlugin</span></code></a>), install them via
-<a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1Registry.html#_CPPv4N2mu4tiny4test8RegistryE" title="mu::tiny::test::Registry"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Registry</span></code></a>:</p>
+<a class="reference internal" href="api/classmu_1_1tiny_1_1mock_1_1SupportPlugin.html#_CPPv4N2mu4tiny4mock13SupportPluginE" title="mu::tiny::mock::SupportPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">SupportPlugin</span></code></a>), call
+<a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner14install_pluginER6Plugin" title="mu::tiny::test::CommandLineRunner::install_plugin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">CommandLineRunner::install_plugin()</span></code></a>
+before <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner13run_all_testsEiPPCKc" title="mu::tiny::test::CommandLineRunner::run_all_tests"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">run_all_tests()</span></code></a>:</p>
 <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/CommandLineRunner.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/JUnitOutputPlugin.hpp&quot;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/mock/SupportPlugin.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;mu/tiny/test/Registry.hpp&quot;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="p">;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">JUnitOutputPlugin</span><span class="w"> </span><span class="n">junit</span><span class="p">;</span>
 <span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">mock</span><span class="o">::</span><span class="n">SupportPlugin</span><span class="w"> </span><span class="n">mock_plugin</span><span class="p">;</span>
-<span class="w">    </span><span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">();</span>
-<span class="w">    </span><span class="n">reg</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">junit</span><span class="p">);</span>
-<span class="w">    </span><span class="n">reg</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mock_plugin</span><span class="p">);</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="w">    </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">junit</span><span class="p">);</span>
+<span class="w">    </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">install_plugin</span><span class="p">(</span><span class="n">mock_plugin</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -878,7 +881,7 @@ and a handful of assertion macros</p></td>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=fe7df9b0"></script>
+</div><script src="_static/documentation_options.js?v=486e5634"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>

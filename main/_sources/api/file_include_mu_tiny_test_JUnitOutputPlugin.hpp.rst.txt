@@ -19,12 +19,6 @@ Definition (``include/mu/tiny/test/JUnitOutputPlugin.hpp``)
 
 
 
-Detailed Description
---------------------
-
-See mu::tiny::test::JUnitOutputPlugin::name for the canonical plugin identifier. 
-
-
 
 
 Includes
