@@ -111,17 +111,17 @@ public:
   virtual void print_very_verbose(const char* text);
 
   /** @return Total number of registered tests. */
-  size_t get_test_count() const { return test_count_; }
+  unsigned int get_test_count() const { return test_count_; }
   /** @return Number of tests that actually ran. */
-  size_t get_run_count() const { return run_count_; }
+  unsigned int get_run_count() const { return run_count_; }
   /** @return Number of assertions checked. */
-  size_t get_check_count() const { return check_count_; }
+  unsigned int get_check_count() const { return check_count_; }
   /** @return Number of tests filtered out. */
-  size_t get_filtered_out_count() const { return filtered_out_count_; }
+  unsigned int get_filtered_out_count() const { return filtered_out_count_; }
   /** @return Number of ignored tests. */
-  size_t get_skipped_count() const { return skipped_count_; }
+  unsigned int get_skipped_count() const { return skipped_count_; }
   /** @return Number of test failures. */
-  size_t get_failure_count() const { return failure_count_; }
+  unsigned int get_failure_count() const { return failure_count_; }
 
   /**
    * @return true if there were any failures, or if no tests ran and none were
@@ -148,12 +148,12 @@ public:
 
 private:
   Output& output_;
-  size_t test_count_{ 0 };
-  size_t run_count_{ 0 };
-  size_t check_count_{ 0 };
-  size_t failure_count_{ 0 };
-  size_t filtered_out_count_{ 0 };
-  size_t skipped_count_{ 0 };
+  unsigned int test_count_{ 0 };
+  unsigned int run_count_{ 0 };
+  unsigned int check_count_{ 0 };
+  unsigned int failure_count_{ 0 };
+  unsigned int filtered_out_count_{ 0 };
+  unsigned int skipped_count_{ 0 };
   uint_least64_t total_execution_time_{ 0 };
   uint_least64_t time_started_{ 0 };
   uint_least64_t current_test_time_started_{ 0 };

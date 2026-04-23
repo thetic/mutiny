@@ -141,11 +141,17 @@ TEST(CompositeOutput, printLong)
   STRCMP_CONTAINS("42", runner->console->get_output().c_str());
 }
 
-TEST(CompositeOutput, printSizeT)
+TEST(CompositeOutput, printInt)
 {
   runner->console->flush();
-  size_t n = 7;
-  runner->composite->print(n);
+  runner->composite->print(7);
+  STRCMP_CONTAINS("7", runner->console->get_output().c_str());
+}
+
+TEST(CompositeOutput, printUnsigned)
+{
+  runner->console->flush();
+  runner->composite->print(7U);
   STRCMP_CONTAINS("7", runner->console->get_output().c_str());
 }
 

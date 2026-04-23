@@ -60,12 +60,12 @@ void Output::print(int n)
   print(static_cast<long>(n));
 }
 
-void Output::print(long n)
+void Output::print(unsigned int n)
 {
-  print(string_from(n).c_str());
+  print(static_cast<long>(n));
 }
 
-void Output::print(size_t n)
+void Output::print(long n)
 {
   print(string_from(n).c_str());
 }
@@ -135,7 +135,7 @@ void Output::print_tests_ended(const Result& result)
 {
   print("\n");
   const bool is_failure = result.is_failure();
-  const size_t failure_count = result.get_failure_count();
+  const unsigned int failure_count = result.get_failure_count();
   if (is_failure) {
     if (color_) {
       print("\033[31;1m");
@@ -182,7 +182,7 @@ void Output::print_tests_ended(const Result& result)
   dot_count_ = 0;
 }
 
-void Output::print_test_run(size_t number, size_t total)
+void Output::print_test_run(unsigned int number, unsigned int total)
 {
   if (total > 1) {
     print("Test run ");

@@ -132,7 +132,17 @@ void CompositeOutput::print(long number)
   }
 }
 
-void CompositeOutput::print(size_t number)
+void CompositeOutput::print(int number)
+{
+  if (output_one_ != nullptr) {
+    output_one_->print(number);
+  }
+  if (output_two_ != nullptr) {
+    output_two_->print(number);
+  }
+}
+
+void CompositeOutput::print(unsigned int number)
 {
   if (output_one_ != nullptr) {
     output_one_->print(number);

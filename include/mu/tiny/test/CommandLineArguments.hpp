@@ -75,7 +75,7 @@ public:
   /** @return true if `-rs` (run skipped tests) was passed. */
   bool is_run_skipped() const;
   /** @return The number of times to repeat the full test suite (`-r N`). */
-  size_t get_repeat_count() const;
+  unsigned int get_repeat_count() const;
   /** @return true if `-s` (shuffle) was passed. */
   bool is_shuffling() const;
   /** @return true if tests should run in reverse order (`-rv`). */
@@ -85,7 +85,7 @@ public:
   /** @return true if exceptions should be re-thrown after being caught. */
   bool is_rethrowing_exceptions() const;
   /** @return The seed used when shuffling (0 means time-seeded). */
-  size_t get_shuffle_seed() const;
+  unsigned int get_shuffle_seed() const;
   /** @return The head of the group filter chain, or nullptr. */
   const Filter* get_group_filters() const;
   /** @return The head of the name filter chain, or nullptr. */
@@ -112,8 +112,8 @@ private:
   bool rethrow_exceptions_{ true };
   bool shuffling_{ false };
   bool shuffling_pre_seeded_{ false };
-  size_t repeat_{ 1 };
-  size_t shuffle_seed_{ 0 };
+  unsigned int repeat_{ 1 };
+  unsigned int shuffle_seed_{ 0 };
   Filter* group_filters_{ nullptr };
   Filter* name_filters_{ nullptr };
   void set_repeat_count(int argc, const char* const* argv, int& index);

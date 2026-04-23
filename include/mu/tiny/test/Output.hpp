@@ -108,19 +108,14 @@ public:
    * @brief Print a signed integer.
    * @param n  Value to print.
    */
-  void print(int n);
+  virtual void print(int n);
 
+  virtual void print(unsigned int n);
   /**
    * @brief Print a signed integer.
    * @param n  Value to print.
    */
   virtual void print(long n);
-
-  /**
-   * @brief Print an unsigned integer.
-   * @param n  Value to print.
-   */
-  virtual void print(size_t n);
 
   /**
    * @brief Print a floating-point value.
@@ -152,7 +147,7 @@ public:
    * @param number  Current repetition (1-based).
    * @param total   Total number of repetitions.
    */
-  virtual void print_test_run(size_t number, size_t total);
+  virtual void print_test_run(unsigned int number, unsigned int total);
 
   /**
    * @brief Override the per-test progress indicator character.
