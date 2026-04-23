@@ -149,8 +149,7 @@ void TapOutput::print_tests_ended(const Result& /*result*/)
           "    file: %s\n", cur->failure->get_file_name().c_str()
       );
       line += string_from_format(
-          "    line: %d\n",
-          static_cast<int>(cur->failure->get_failure_line_number())
+          "    line: %d\n", cur->failure->get_failure_line_number()
       );
       line += "  ...\n";
       fputs_(line.c_str(), stdout_);

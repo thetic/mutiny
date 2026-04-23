@@ -294,7 +294,7 @@ extern "C"
       bool actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -310,7 +310,7 @@ extern "C"
       int actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -326,7 +326,7 @@ extern "C"
       unsigned int actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -342,7 +342,7 @@ extern "C"
       long actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -358,7 +358,7 @@ extern "C"
       unsigned long actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -374,7 +374,7 @@ extern "C"
       long long actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -390,7 +390,7 @@ extern "C"
       unsigned long long actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -408,7 +408,7 @@ extern "C"
       double threshold,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -424,7 +424,7 @@ extern "C"
       char actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -440,7 +440,7 @@ extern "C"
       unsigned char actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -456,7 +456,7 @@ extern "C"
       signed char actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -472,7 +472,7 @@ extern "C"
       const char* actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -488,7 +488,7 @@ extern "C"
       const void* actual,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -506,7 +506,7 @@ extern "C"
       size_t size,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -518,7 +518,7 @@ extern "C"
   MUTINY_EXPORT void mutiny_fail(
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**
@@ -534,7 +534,7 @@ extern "C"
       const char* condition_string,
       const char* text,
       const char* file_name,
-      size_t line_number
+      int line_number
   );
 
   /**

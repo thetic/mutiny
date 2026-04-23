@@ -73,5 +73,5 @@ TEST(ExpectFailShell, fourArgConstructor_setsGroupTestFileAndLine)
   STRCMP_EQUAL("MyGroup", shell.get_group());
   STRCMP_EQUAL("MyTest", shell.get_name());
   STRCMP_EQUAL("myfile.cpp", shell.get_file());
-  CHECK_EQUAL(size_t{ 42 }, shell.get_line_number());
+  CHECK_EQUAL(42, shell.get_line_number());
 }

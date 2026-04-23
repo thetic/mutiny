@@ -39,7 +39,7 @@ TEST(Failure, GetTestFileAndLineFromFailure)
       test, fail_file_name, fail_line_number, "the failure message"
   );
   STRCMP_EQUAL(fail_file_name, f1.get_test_file_name().c_str());
-  CHECK_EQUAL(size_t{ 1 }, f1.get_test_line_number());
+  CHECK_EQUAL(1, f1.get_test_line_number());
 }
 
 TEST(Failure, EqualsFailureWithText)

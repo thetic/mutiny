@@ -38,7 +38,7 @@ public:
   bool skipped{ false };
   String skip_message;
   String file;
-  size_t line_number{ 0 };
+  int line_number{ 0 };
   size_t check_count{ 0 };
   TestProperty* properties{ nullptr };
   TestProperty* properties_tail{ nullptr };
@@ -272,7 +272,7 @@ void JUnitOutput::write_test_cases()
         static_cast<int>(cur->exec_time / ms_per_s),
         static_cast<int>(cur->exec_time % ms_per_s),
         cur->file.c_str(),
-        static_cast<int>(cur->line_number)
+        cur->line_number
     );
     write_to_file(buf.c_str());
 
@@ -323,10 +323,10 @@ void JUnitOutput::write_failure(JUnitTestCaseResultNode* node)
       "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
       "%s:%d: %s\n",
       file.c_str(),
-      static_cast<int>(node->failure->get_failure_line_number()),
+      node->failure->get_failure_line_number(),
       msg.c_str(),
       file.c_str(),
-      static_cast<int>(node->failure->get_failure_line_number()),
+      node->failure->get_failure_line_number(),
       msg.c_str()
   );
   write_to_file(buf.c_str());

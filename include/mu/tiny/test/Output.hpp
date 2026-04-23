@@ -108,6 +108,12 @@ public:
    * @brief Print a signed integer.
    * @param n  Value to print.
    */
+  void print(int n);
+
+  /**
+   * @brief Print a signed integer.
+   * @param n  Value to print.
+   */
   virtual void print(long n);
 
   /**
@@ -193,7 +199,7 @@ protected:
   void print_failure_message(const String& reason);
   void print_error_in_file_on_line_formatted_for_working_environment(
       const String& test_file,
-      size_t line_number
+      int line_number
   );
 
   Output(const Output&);
