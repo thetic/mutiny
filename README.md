@@ -26,8 +26,8 @@ include(FetchContent)
 FetchContent_Declare(
     mu.tiny
     GIT_REPOSITORY    https://github.com/thetic/mu.tiny.git
-    GIT_TAG           v0.7.0
-    FIND_PACKAGE_ARGS 0.7
+    GIT_TAG           v0.8.0
+    FIND_PACKAGE_ARGS 0.8
 )
 FetchContent_MakeAvailable(mu.tiny)
 
@@ -44,7 +44,7 @@ If _mu::tiny_ is already installed and you prefer not to use
 [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) directly:
 
 ```cmake
-find_package(mu.tiny 0.7 REQUIRED)
+find_package(mu.tiny 0.8 REQUIRED)
 ```
 
 ## Headers
@@ -68,31 +68,33 @@ The simplest form uses `mu::tiny::test::CommandLineRunner`:
 ```cpp
 #include "mu/tiny/test/CommandLineRunner.hpp"
 
+using mu::tiny::test::CommandLineRunner;
+
 int main(int argc, char** argv)
 {
-    return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+    return CommandLineRunner::run_all_tests(argc, argv);
 }
 ```
 
 To add plugins (e.g. `mu::tiny::test::JUnitOutputPlugin`,
 `mu::tiny::test::SetPointerPlugin`,
-`mu::tiny::mock::SupportPlugin`), install them via
-`mu::tiny::test::Registry`:
+`mu::tiny::mock::SupportPlugin`), call
+`CommandLineRunner::install_plugin()` before `run_all_tests()`:
 
 ```cpp
 #include "mu/tiny/test/CommandLineRunner.hpp"
 #include "mu/tiny/test/JUnitOutputPlugin.hpp"
 #include "mu/tiny/mock/SupportPlugin.hpp"
-#include "mu/tiny/test/Registry.hpp"
+
+using mu::tiny::test::CommandLineRunner;
 
 int main(int argc, char** argv)
 {
     mu::tiny::test::JUnitOutputPlugin junit;
     mu::tiny::mock::SupportPlugin mock_plugin;
-    auto* reg = mu::tiny::test::Registry::get_current_registry();
-    reg->install_plugin(&junit);
-    reg->install_plugin(&mock_plugin);
-    return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
+    CommandLineRunner::install_plugin(junit);
+    CommandLineRunner::install_plugin(mock_plugin);
+    return CommandLineRunner::run_all_tests(argc, argv);
 }
 ```
 

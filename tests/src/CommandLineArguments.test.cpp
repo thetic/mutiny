@@ -479,11 +479,12 @@ TEST(CommandLineArguments, helpPrintsTheHelp)
 
 TEST(CommandLineArguments, pluginHelp)
 {
+  mu::tiny::test::Registry local_reg;
+  local_reg.set_current_registry(&local_reg);
   HelpPlugin help_plugin;
-  mu::tiny::test::Registry::get_current_registry()->install_plugin(
-      &help_plugin
-  );
-  mu::tiny::String help_str = args->help();
+  local_reg.install_plugin(&help_plugin);
+  mu::tiny::String help_str = mu::tiny::test::CommandLineArguments::help();
+  local_reg.set_current_registry(nullptr);
   CHECK(
       help_str.find("Options that are provided by plugins:") !=
       mu::tiny::String::npos
@@ -491,20 +492,13 @@ TEST(CommandLineArguments, pluginHelp)
   CHECK(
       help_str.find("-phelp             - help text") != mu::tiny::String::npos
   );
-  mu::tiny::test::Registry::get_current_registry()->remove_plugin_by_name(
-      "help"
-  );
 }
 
 TEST(CommandLineArguments, pluginKnowsOption)
 {
   int argc = 2;
   const char* argv[] = { "tests.exe", "-pPluginOption" };
-  mu::tiny::test::Registry::get_current_registry()->install_plugin(plugin);
   CHECK(new_argument_parser(argc, argv));
-  mu::tiny::test::Registry::get_current_registry()->remove_plugin_by_name(
-      "options"
-  );
 }
 
 TEST(CommandLineArguments, checkDefaultArguments)

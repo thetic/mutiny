@@ -19,6 +19,11 @@ int CommandLineRunner::run_all_tests(int argc, char** argv)
   return run_all_tests(argc, reinterpret_cast<const char* const*>(argv));
 }
 
+void CommandLineRunner::install_plugin(Plugin& plugin)
+{
+  Registry::get_current_registry()->install_plugin(&plugin);
+}
+
 int CommandLineRunner::run_all_tests(int argc, const char* const* argv)
 {
   CommandLineRunner runner(argc, argv, Registry::get_current_registry());
@@ -45,6 +50,8 @@ int CommandLineRunner::run_all_tests_main()
 {
   int test_result = 1;
 
+  Plugin* const user_plugins = registry_->get_first_plugin();
+
   SetPointerPlugin set_pointer_plugin;
   JUnitOutputPlugin junit_plugin;
   TapOutputPlugin tap_plugin;
@@ -61,9 +68,7 @@ int CommandLineRunner::run_all_tests_main()
     }
   }
 
-  registry_->remove_plugin_by_name(tap_plugin.name);
-  registry_->remove_plugin_by_name(junit_plugin.name);
-  registry_->remove_plugin_by_name(set_pointer_plugin.name);
+  registry_->restore_plugins(user_plugins);
   return test_result;
 }
 

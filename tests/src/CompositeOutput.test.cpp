@@ -104,7 +104,7 @@ TEST_GROUP(CompositeOutput)
   void teardown() override
   {
     delete runner;
-    registry.remove_plugin_by_name("CompanionPlugin");
+    registry.reset_plugins();
     delete shell;
     delete plugin;
   }

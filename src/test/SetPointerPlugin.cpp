@@ -18,7 +18,7 @@ MutinyPair setlist[SetPointerPlugin::max_set];
 } // namespace
 
 SetPointerPlugin::SetPointerPlugin()
-  : Plugin(name)
+  : Plugin("SetPointerPlugin")
 {
   pointer_table_index = 0;
 }

@@ -150,10 +150,10 @@ TEST(CommandLineRunner, ThreeBuiltinPluginsAreInstalledDuringTheRunningTheTests)
       2, argv, &registry
   );
   command_line_test_runner.run_all_tests_main();
-  registry.remove_plugin_by_name("PluginCountingPlugin");
 
-  CHECK_EQUAL(0, registry.count_plugins());
+  CHECK_EQUAL(1, registry.count_plugins());
   CHECK_EQUAL(3, plugin_counting_plugin->amount_of_plugins);
+  registry.reset_plugins();
 }
 
 TEST(CommandLineRunner, NoPluginsAreInstalledAtTheEndOfARunWhenTheArgumentsAreInvalid)
@@ -511,4 +511,13 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
 
   CHECK(RunSkippedTest::checker_);
   RunSkippedTest::checker_ = false;
+}
+
+TEST(CommandLineRunner, StaticInstallPluginAddsPluginToCurrentRegistry)
+{
+  registry.set_current_registry(&registry);
+  mu::tiny::test::CommandLineRunner::install_plugin(*plugin_counting_plugin);
+  CHECK_EQUAL(1, registry.count_plugins());
+  registry.set_current_registry(nullptr);
+  registry.reset_plugins();
 }

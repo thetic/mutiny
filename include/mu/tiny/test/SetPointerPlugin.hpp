@@ -46,8 +46,6 @@ public:
 
   /** @brief Maximum number of pointers that can be registered per test. */
   static constexpr size_t max_set = 32;
-  /** @brief Plugin name used for identification in the plugin chain. */
-  static constexpr const char* name{ "SetPointerPlugin" };
 
   /**
    * @brief Save the original value of @p a, then set @p a = @p b.
