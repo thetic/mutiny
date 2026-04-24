@@ -62,7 +62,7 @@ void Output::print(int n)
 
 void Output::print(unsigned int n)
 {
-  print(static_cast<long>(n));
+  print(string_from(n).c_str());
 }
 
 void Output::print(long n)
