@@ -44,12 +44,12 @@ void clear_mock_failure();
 void check_expected_mock_failure_string_location(
     const mu::tiny::String& expected_string,
     const char* file,
-    int line
+    int_least32_t line
 );
 void check_expected_mock_failure_location(
     const mu::tiny::mock::Failure& expected_failure,
     const char* file,
-    int line
+    int_least32_t line
 );
 void check_no_mock_failure_location(const char* file, int_least32_t line);
 
