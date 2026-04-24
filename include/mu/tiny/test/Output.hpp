@@ -112,7 +112,12 @@ public:
    */
   virtual void print(int n);
 
+  /**
+   * @brief Print an unsigned integer.
+   * @param n  Value to print.
+   */
   virtual void print(unsigned int n);
+
   /**
    * @brief Print a signed integer.
    * @param n  Value to print.
