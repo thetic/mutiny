@@ -152,13 +152,13 @@ void CompositeOutput::print(unsigned int number)
   }
 }
 
-void CompositeOutput::print_double(double number)
+void CompositeOutput::print(double number)
 {
   if (output_one_ != nullptr) {
-    output_one_->print_double(number);
+    output_one_->print(number);
   }
   if (output_two_ != nullptr) {
-    output_two_->print_double(number);
+    output_two_->print(number);
   }
 }
 

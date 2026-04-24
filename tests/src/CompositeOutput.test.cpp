@@ -158,7 +158,7 @@ TEST(CompositeOutput, printUnsigned)
 TEST(CompositeOutput, printDouble)
 {
   runner->console->flush();
-  runner->composite->print_double(2.5);
+  runner->composite->print(2.5);
   STRCMP_CONTAINS("2.5", runner->console->get_output().c_str());
 }
 

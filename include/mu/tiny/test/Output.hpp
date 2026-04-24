@@ -128,7 +128,7 @@ public:
    * @brief Print a floating-point value.
    * @param d  Value to print.
    */
-  virtual void print_double(double d);
+  virtual void print(double d);
 
   /**
    * @brief Print a test failure message.

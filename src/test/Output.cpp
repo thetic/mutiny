@@ -70,7 +70,7 @@ void Output::print(long n)
   print(string_from(n).c_str());
 }
 
-void Output::print_double(double d)
+void Output::print(double d)
 {
   print(string_from(d).c_str());
 }

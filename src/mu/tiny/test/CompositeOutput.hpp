@@ -31,7 +31,7 @@ public:
   void print(long number) override;
   void print(int number) override;
   void print(unsigned int number) override;
-  void print_double(double number) override;
+  void print(double number) override;
   void print_failure(const Failure& failure) override;
   void set_progress_indicator(const char* indicator) override;
 

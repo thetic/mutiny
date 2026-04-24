@@ -76,7 +76,7 @@ TEST(Output, PrintUnsigned)
 
 TEST(Output, PrintDouble)
 {
-  printer->print_double(12.34);
+  printer->print(12.34);
   STRCMP_EQUAL("12.34", mock->get_output().c_str());
 }
 
