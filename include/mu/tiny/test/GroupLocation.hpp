@@ -73,7 +73,7 @@ public:
 private:
   const char* group_;
   const char* file_;
-  int line_number_;
+  int_least32_t line_number_;
   GroupLocation* next_;
 
   static GroupLocation* head_;

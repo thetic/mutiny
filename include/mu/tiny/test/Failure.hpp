@@ -140,9 +140,9 @@ protected:
   String test_name_;
   String test_name_only_;
   String file_name_;
-  int line_number_;
+  int_least32_t line_number_;
   String test_file_name_;
-  int test_line_number_;
+  int_least32_t test_line_number_;
   String message_;
 
   Failure& operator=(const Failure&);

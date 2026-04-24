@@ -414,7 +414,7 @@ private:
   const char* group_;
   const char* name_;
   const char* file_;
-  int line_number_;
+  int_least32_t line_number_;
   Shell* next_;
   bool has_failed_;
 
