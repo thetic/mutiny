@@ -267,17 +267,7 @@ String CommandLineArguments::help()
       "  -v, --verbose[=1]          - verbose, print each test name as it "
       "runs\n"
       "  -vv, --verbose=2           - very verbose, print internal information "
-      "during test run\n";
-
-  Plugin* plugin = Registry::get_current_registry()->get_first_plugin();
-  String plugin_help = plugin->get_all_help();
-
-  if (!plugin_help.empty()) {
-    help_str += "\nOptions that are provided by plugins:\n";
-    help_str += plugin_help;
-  }
-
-  help_str +=
+      "during test run\n"
       "\n"
       "Options that control which tests are run:\n"
       "  -g, --group <group>           - only run tests whose group contains "
@@ -324,6 +314,14 @@ String CommandLineArguments::help()
       "(to allow the test to be debugged if necessary)\n"
       "  -e, --no-rethrow            - do not rethrow unexpected exceptions on "
       "failure\n";
+
+  Plugin* plugin = Registry::get_current_registry()->get_first_plugin();
+  String plugin_help = plugin->get_all_help();
+
+  if (!plugin_help.empty()) {
+    help_str += "\nOptions that are provided by plugins:\n";
+    help_str += plugin_help;
+  }
 
   return help_str;
 }
