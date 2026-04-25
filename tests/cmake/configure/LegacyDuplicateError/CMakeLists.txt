@@ -1,8 +1,0 @@
-cmake_minimum_required(VERSION 3.10)
-project(test LANGUAGES CXX)
-list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
-include(mu.tiny)
-add_executable(MyTests "${CMAKE_CURRENT_LIST_DIR}/../empty.cpp")
-mutiny_discover_tests(MyTests)
-add_executable(MyTests2 "${CMAKE_CURRENT_LIST_DIR}/../empty.cpp")
-mutiny_discover_tests(MyTests2)

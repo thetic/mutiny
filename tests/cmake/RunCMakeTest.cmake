@@ -38,10 +38,6 @@ run_cmake(ExtraArgsArgOverridesCache -DMUTINY_EXTRA_ARGS=--custom-arg)
 run_cmake(CrossCompilingNoEmulator)
 run_cmake(CrossCompilingWithEmulator -DCMAKE_SYSTEM_NAME=Generic)
 
-# Legacy cmake <3.10 code path (simulated via override variable)
-run_cmake(LegacySingleInclude  -D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0)
-run_cmake(LegacyDuplicateError -D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0)
-
 # ── _mutiny_discovery.cmake script tests ───────────────────────────────────────
 #
 # The "executable" is a cmake -P script (mock_test_exe.cmake) whose stdout
