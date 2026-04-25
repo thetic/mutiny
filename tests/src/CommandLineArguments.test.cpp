@@ -4,6 +4,7 @@
 
 #include "mu/tiny/String.hpp"
 #include "mu/tiny/test.hpp"
+#include "mu/tiny/version.h"
 
 namespace {
 class OptionsPlugin : public mu::tiny::test::Plugin
@@ -584,6 +585,22 @@ TEST(CommandLineArguments, longFormHelp)
   const char* argv[] = { "tests.exe", "--help" };
   CHECK(new_argument_parser(2, argv));
   CHECK(args->need_help());
+}
+
+TEST(CommandLineArguments, version)
+{
+  const char* argv[] = { "tests.exe", "--version" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->need_version());
+}
+
+TEST(CommandLineArguments, versionStringContainsVersion)
+{
+  CHECK(
+      mu::tiny::test::CommandLineArguments::version_string().find(
+          MUTINY_VERSION_STRING
+      ) != mu::tiny::String::npos
+  );
 }
 
 TEST(CommandLineArguments, longFormColor)

@@ -56,6 +56,8 @@ public:
 
   /** @return true if `-h` / `--help` was passed. */
   bool need_help() const;
+  /** @return true if `--version` was passed. */
+  bool need_version() const;
   /** @return true if verbose output was requested (`-v` / `--verbose`). */
   bool is_verbose() const;
   /**
@@ -100,12 +102,15 @@ public:
   const Filter* get_name_filters() const;
   /** @return A formatted help string describing all supported arguments. */
   static String help();
+  /** @return A version string suitable for `--version` output. */
+  static String version_string();
 
 private:
   int ac_;
   const char* const* av_;
 
   bool need_help_{ false };
+  bool need_version_{ false };
   bool verbose_{ false };
   bool very_verbose_{ false };
   bool color_{ false };

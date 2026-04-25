@@ -17,6 +17,10 @@ Query Flags (do not run tests)
 
    Print help screen and exit.
 
+.. option:: --version
+
+   Print the mutiny version string and exit.
+
 .. option:: --list-groups
 
    Print all group names, space-separated.

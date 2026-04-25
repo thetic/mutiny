@@ -90,6 +90,10 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     need_help_ = true;
     return true;
   }
+  if (argument == "--version") {
+    need_version_ = true;
+    return true;
+  }
   if ((argument == "-v") || (argument == "--verbose") ||
       (argument == "--verbose=1")) {
     verbose_ = true;
@@ -249,7 +253,8 @@ String CommandLineArguments::help()
   String help_str =
       "mutiny v" MUTINY_VERSION_STRING "\n\n"
       "Options that do not run tests but query:\n"
-      "  -h, --help                 - this wonderful help screen. Joy!\n"
+      "  -h, --help                 - display this help and exit\n"
+      "  --version                  - output version information and exit\n"
       "  --list-groups              - print a list of group names, separated "
       "by spaces\n"
       "  --list-tests               - print a list of test names in the form "
@@ -329,6 +334,16 @@ String CommandLineArguments::help()
 bool CommandLineArguments::need_help() const
 {
   return need_help_;
+}
+
+bool CommandLineArguments::need_version() const
+{
+  return need_version_;
+}
+
+String CommandLineArguments::version_string()
+{
+  return "mutiny v" MUTINY_VERSION_STRING "\n";
 }
 
 bool CommandLineArguments::is_verbose() const
