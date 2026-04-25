@@ -14,11 +14,7 @@ public:
   {
   }
   ~OptionsPlugin() override = default;
-  bool parse_arguments(
-      int /*argc*/,
-      const char* const* /*argv*/,
-      int /*index*/
-  ) override
+  bool parse_arguments(int /*argc*/, const char* const* /*argv*/) override
   {
     return true;
   }
@@ -181,6 +177,14 @@ TEST(CommandLineArguments, setGroupFilter)
   const char* argv[] = { "tests.exe", "-g", "group" };
   CHECK(new_argument_parser(argc, argv));
   CHECK_EQUAL(mu::tiny::test::Filter("group"), *args->get_group_filters());
+}
+
+TEST(CommandLineArguments, setGroupFilterWithNoValueUsesEmptyFilter)
+{
+  int argc = 2;
+  const char* argv[] = { "tests.exe", "-g" };
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter(""), *args->get_group_filters());
 }
 
 TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)

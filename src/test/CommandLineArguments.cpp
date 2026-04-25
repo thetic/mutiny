@@ -12,22 +12,31 @@ namespace tiny {
 namespace test {
 
 namespace {
-String get_parameter_field(
+class ParsedField
+{
+public:
+  String value;
+  int extra;
+};
+
+ParsedField get_parameter_field(
     int argc,
     const char* const* argv,
-    int& i,
     const String& parameter_name
 )
 {
   size_t parameter_length = parameter_name.size();
-  String parameter(argv[i]);
+  String parameter(argv[0]);
   if (parameter.size() > parameter_length) {
-    return argv[i] + parameter_length;
+    ParsedField result = { String(argv[0] + parameter_length), 0 };
+    return result;
   }
-  if (i + 1 < argc) {
-    return argv[++i];
+  if (argc > 1) {
+    ParsedField result = { String(argv[1]), 1 };
+    return result;
   }
-  return "";
+  ParsedField result = { String(""), 0 };
+  return result;
 }
 
 String sub_string_from_till(
@@ -128,95 +137,87 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
   return false;
 }
 
-bool CommandLineArguments::parse_prefix_arg(
-    const String& argument,
-    Plugin* plugin,
-    int& index
+int CommandLineArguments::parse_prefix_arg(
+    int argc,
+    const char* const* argv,
+    Plugin* plugin
 )
 {
+  String argument(argv[0]);
   if (string_starts_with(argument, "-r")) {
-    set_repeat_count(ac_, av_, index);
-    return true;
+    return set_repeat_count(argc, argv);
   }
   if (string_starts_with(argument, "-g")) {
-    add_group_filter(ac_, av_, index);
-    return true;
+    return add_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-t")) {
-    return add_group_dot_name_filter(ac_, av_, index, "-t", false, false);
+    return add_group_dot_name_filter(argc, argv, "-t", false, false);
   }
   if (string_starts_with(argument, "-st")) {
-    return add_group_dot_name_filter(ac_, av_, index, "-st", true, false);
+    return add_group_dot_name_filter(argc, argv, "-st", true, false);
   }
   if (string_starts_with(argument, "-xt")) {
-    return add_group_dot_name_filter(ac_, av_, index, "-xt", false, true);
+    return add_group_dot_name_filter(argc, argv, "-xt", false, true);
   }
   if (string_starts_with(argument, "-xst")) {
-    return add_group_dot_name_filter(ac_, av_, index, "-xst", true, true);
+    return add_group_dot_name_filter(argc, argv, "-xst", true, true);
   }
   if (string_starts_with(argument, "-sg")) {
-    add_strict_group_filter(ac_, av_, index);
-    return true;
+    return add_strict_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xg")) {
-    add_exclude_group_filter(ac_, av_, index);
-    return true;
+    return add_exclude_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xsg")) {
-    add_exclude_strict_group_filter(ac_, av_, index);
-    return true;
+    return add_exclude_strict_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-n")) {
-    add_name_filter(ac_, av_, index);
-    return true;
+    return add_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-sn")) {
-    add_strict_name_filter(ac_, av_, index);
-    return true;
+    return add_strict_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xn")) {
-    add_exclude_name_filter(ac_, av_, index);
-    return true;
+    return add_exclude_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xsn")) {
-    add_exclude_strict_name_filter(ac_, av_, index);
-    return true;
+    return add_exclude_strict_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-s")) {
-    return set_shuffle(ac_, av_, index);
+    return set_shuffle(argc, argv);
   }
   if (string_starts_with(argument, "TEST(")) {
-    add_test_to_run_based_on_verbose_output(ac_, av_, index, "TEST(");
-    return true;
+    return add_test_to_run_based_on_verbose_output(argc, argv, "TEST(");
   }
   if (string_starts_with(argument, "SKIPPED_TEST(")) {
-    add_test_to_run_based_on_verbose_output(ac_, av_, index, "SKIPPED_TEST(");
-    return true;
+    return add_test_to_run_based_on_verbose_output(argc, argv, "SKIPPED_TEST(");
   }
   if (string_starts_with(argument, "-p")) {
-    return plugin->parse_all_arguments(ac_, av_, index);
+    return plugin->parse_all_arguments(argc, argv) ? 0 : -1;
   }
-  return false;
+  return -1;
 }
 
-bool CommandLineArguments::parse_argument(
-    const String& argument,
-    Plugin* plugin,
-    int& index
+int CommandLineArguments::parse_argument(
+    int argc,
+    const char* const* argv,
+    Plugin* plugin
 )
 {
-  if (parse_simple_flag(argument)) {
-    return true;
+  if (parse_simple_flag(String(argv[0]))) {
+    return 0;
   }
-  return parse_prefix_arg(argument, plugin, index);
+  return parse_prefix_arg(argc, argv, plugin);
 }
 
 bool CommandLineArguments::parse(Plugin* plugin)
 {
   for (int i = 1; i < ac_; i++) {
-    if (!parse_argument(av_[i], plugin, i)) {
+    int extra = parse_argument(ac_ - i, av_ + i, plugin);
+    if (extra < 0) {
       return false;
     }
+    i += extra;
   }
   return true;
 }
@@ -388,34 +389,28 @@ const Filter* CommandLineArguments::get_name_filters() const
   return name_filters_;
 }
 
-void CommandLineArguments::set_repeat_count(
-    int argc,
-    const char* const* argv,
-    int& i
-)
+int CommandLineArguments::set_repeat_count(int argc, const char* const* argv)
 {
   repeat_ = 0;
+  int extra = 0;
 
-  String repeat_parameter(argv[i]);
+  String repeat_parameter(argv[0]);
   if (repeat_parameter.size() > 2) {
-    repeat_ = static_cast<unsigned int>(strtoul(argv[i] + 2));
-  } else if (i + 1 < argc) {
-    repeat_ = static_cast<unsigned int>(strtoul(argv[i + 1]));
+    repeat_ = static_cast<unsigned int>(strtoul(argv[0] + 2));
+  } else if (argc > 1) {
+    repeat_ = static_cast<unsigned int>(strtoul(argv[1]));
     if (repeat_ != 0) {
-      i++;
+      extra = 1;
     }
   }
 
   if (0 == repeat_) {
     repeat_ = 2;
   }
+  return extra;
 }
 
-bool CommandLineArguments::set_shuffle(
-    int argc,
-    const char* const* argv,
-    int& i
-)
+int CommandLineArguments::set_shuffle(int argc, const char* const* argv)
 {
   shuffling_ = true;
   shuffle_seed_ = static_cast<unsigned int>(get_time_in_millis());
@@ -423,45 +418,43 @@ bool CommandLineArguments::set_shuffle(
     shuffle_seed_++;
   }
 
-  String shuffle_parameter = argv[i];
+  int extra = 0;
+  String shuffle_parameter = argv[0];
   if (shuffle_parameter.size() > 2) {
     shuffling_pre_seeded_ = true;
-    shuffle_seed_ = static_cast<unsigned>(strtoul(argv[i] + 2));
-  } else if (i + 1 < argc) {
-    auto parsed_parameter = static_cast<unsigned>(strtoul(argv[i + 1]));
+    shuffle_seed_ = static_cast<unsigned>(strtoul(argv[0] + 2));
+  } else if (argc > 1) {
+    auto parsed_parameter = static_cast<unsigned>(strtoul(argv[1]));
     if (parsed_parameter != 0) {
       shuffling_pre_seeded_ = true;
       shuffle_seed_ = parsed_parameter;
-      i++;
+      extra = 1;
     }
   }
-  return (shuffle_seed_ != 0);
+  return (shuffle_seed_ != 0) ? extra : -1;
 }
 
-void CommandLineArguments::add_group_filter(
-    int argc,
-    const char* const* argv,
-    int& i
-)
+int CommandLineArguments::add_group_filter(int argc, const char* const* argv)
 {
-  auto* group_filter = new Filter(get_parameter_field(argc, argv, i, "-g"));
+  ParsedField field = get_parameter_field(argc, argv, "-g");
+  auto* group_filter = new Filter(field.value);
   group_filters_ = group_filter->add(group_filters_);
+  return field.extra;
 }
 
-bool CommandLineArguments::add_group_dot_name_filter(
+int CommandLineArguments::add_group_dot_name_filter(
     int argc,
     const char* const* argv,
-    int& i,
     const String& parameter_name,
     bool strict,
     bool exclude
 )
 {
-  String group_dot_name = get_parameter_field(argc, argv, i, parameter_name);
-  StringCollection collection(group_dot_name, '.');
+  ParsedField field = get_parameter_field(argc, argv, parameter_name);
+  StringCollection collection(field.value, '.');
 
   if (collection.size() != 2) {
-    return false;
+    return -1;
   }
 
   auto* group_filter =
@@ -477,105 +470,108 @@ bool CommandLineArguments::add_group_dot_name_filter(
   }
   group_filters_ = group_filter->add(group_filters_);
   name_filters_ = name_filter->add(name_filters_);
-  return true;
+  return field.extra;
 }
 
-void CommandLineArguments::add_strict_group_filter(
+int CommandLineArguments::add_strict_group_filter(
     int argc,
-    const char* const* argv,
-    int& i
+    const char* const* argv
 )
 {
-  auto* group_filter = new Filter(get_parameter_field(argc, argv, i, "-sg"));
+  ParsedField field = get_parameter_field(argc, argv, "-sg");
+  auto* group_filter = new Filter(field.value);
   group_filter->strict_matching();
   group_filters_ = group_filter->add(group_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_exclude_group_filter(
+int CommandLineArguments::add_exclude_group_filter(
     int argc,
-    const char* const* argv,
-    int& i
+    const char* const* argv
 )
 {
-  auto* group_filter = new Filter(get_parameter_field(argc, argv, i, "-xg"));
+  ParsedField field = get_parameter_field(argc, argv, "-xg");
+  auto* group_filter = new Filter(field.value);
   group_filter->invert_matching();
   group_filters_ = group_filter->add(group_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_exclude_strict_group_filter(
+int CommandLineArguments::add_exclude_strict_group_filter(
     int argc,
-    const char* const* argv,
-    int& i
+    const char* const* argv
 )
 {
-  auto* group_filter = new Filter(get_parameter_field(argc, argv, i, "-xsg"));
+  ParsedField field = get_parameter_field(argc, argv, "-xsg");
+  auto* group_filter = new Filter(field.value);
   group_filter->strict_matching();
   group_filter->invert_matching();
   group_filters_ = group_filter->add(group_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_name_filter(
-    int argc,
-    const char* const* argv,
-    int& i
-)
+int CommandLineArguments::add_name_filter(int argc, const char* const* argv)
 {
-  auto* name_filter = new Filter(get_parameter_field(argc, argv, i, "-n"));
+  ParsedField field = get_parameter_field(argc, argv, "-n");
+  auto* name_filter = new Filter(field.value);
   name_filters_ = name_filter->add(name_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_strict_name_filter(
+int CommandLineArguments::add_strict_name_filter(
     int argc,
-    const char* const* argv,
-    int& index
+    const char* const* argv
 )
 {
-  auto* name_filter = new Filter(get_parameter_field(argc, argv, index, "-sn"));
+  ParsedField field = get_parameter_field(argc, argv, "-sn");
+  auto* name_filter = new Filter(field.value);
   name_filter->strict_matching();
   name_filters_ = name_filter->add(name_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_exclude_name_filter(
+int CommandLineArguments::add_exclude_name_filter(
     int argc,
-    const char* const* argv,
-    int& index
+    const char* const* argv
 )
 {
-  auto* name_filter = new Filter(get_parameter_field(argc, argv, index, "-xn"));
+  ParsedField field = get_parameter_field(argc, argv, "-xn");
+  auto* name_filter = new Filter(field.value);
   name_filter->invert_matching();
   name_filters_ = name_filter->add(name_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_exclude_strict_name_filter(
+int CommandLineArguments::add_exclude_strict_name_filter(
     int argc,
-    const char* const* argv,
-    int& index
+    const char* const* argv
 )
 {
-  auto* name_filter =
-      new Filter(get_parameter_field(argc, argv, index, "-xsn"));
+  ParsedField field = get_parameter_field(argc, argv, "-xsn");
+  auto* name_filter = new Filter(field.value);
   name_filter->invert_matching();
   name_filter->strict_matching();
   name_filters_ = name_filter->add(name_filters_);
+  return field.extra;
 }
 
-void CommandLineArguments::add_test_to_run_based_on_verbose_output(
+int CommandLineArguments::add_test_to_run_based_on_verbose_output(
     int argc,
     const char* const* argv,
-    int& index,
     const char* parameter_name
 )
 {
-  String wholename = get_parameter_field(argc, argv, index, parameter_name);
-  String testname = sub_string_from_till(wholename, ',', ')');
+  ParsedField field = get_parameter_field(argc, argv, parameter_name);
+  String testname = sub_string_from_till(field.value, ',', ')');
   testname = testname.substr(2);
   auto* namefilter = new Filter(testname);
   auto* groupfilter =
-      new Filter(sub_string_from_till(wholename, wholename[0], ','));
+      new Filter(sub_string_from_till(field.value, field.value[0], ','));
   namefilter->strict_matching();
   groupfilter->strict_matching();
   group_filters_ = groupfilter->add(group_filters_);
   name_filters_ = namefilter->add(name_filters_);
+  return field.extra;
 }
 
 } // namespace test

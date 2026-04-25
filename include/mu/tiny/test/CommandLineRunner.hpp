@@ -123,6 +123,7 @@ protected:
 private:
   CommandLineArguments* arguments_{ nullptr };
   Registry* registry_;
+  String program_name_;
 
   bool parse_arguments(Plugin* plugin);
   int run_all_tests();

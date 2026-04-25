@@ -28,7 +28,7 @@ class TeamCityOutputPlugin : public mu::tiny::test::Plugin
 public:
   TeamCityOutputPlugin();
 
-  bool parse_arguments(int argc, const char* const* argv, int index) override;
+  bool parse_arguments(int argc, const char* const* argv) override;
   mu::tiny::String get_help() const override;
   mu::tiny::test::Output* create_output() override;
 

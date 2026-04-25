@@ -53,13 +53,13 @@ public:
   {
   }
 
-  bool parse_arguments(int argc, const char* const* argv, int index) override
+  bool parse_arguments(int argc, const char* const* argv) override
   {
-    mu::tiny::String argument(argv[index]);
+    mu::tiny::String argument(argv[0]);
     if (argument == "-paccept") {
       return true;
     }
-    return Plugin::parse_arguments(argc, argv, index);
+    return Plugin::parse_arguments(argc, argv);
   }
 };
 
@@ -166,7 +166,7 @@ TEST(Plugin, ParseArgumentsForUnknownArgumentsFails)
   const char* cmd_line[] = { "nonsense", "andmorenonsense" };
   CHECK(
       registry->get_first_plugin()->parse_all_arguments(
-          2, const_cast<char**>(cmd_line), 0
+          2, const_cast<char**>(cmd_line)
       ) == false
   ); /* cover non-const wrapper, too */
 }
@@ -176,6 +176,6 @@ TEST(Plugin, ParseArgumentsContinuesAndSucceedsWhenAPluginCanParse)
   registry->install_plugin(second_plugin);
   const char* cmd_line[] = { "-paccept", "andmorenonsense" };
   CHECK(registry->get_first_plugin()->parse_all_arguments(
-      2, const_cast<char**>(cmd_line), 0
+      2, const_cast<char**>(cmd_line)
   )); /* cover non-const wrapper, too */
 }

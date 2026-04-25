@@ -14,6 +14,22 @@ namespace mu {
 namespace tiny {
 namespace test {
 
+namespace {
+String basename_from_path(const char* path)
+{
+  if ((path == nullptr) || (*path == 0)) {
+    return "";
+  }
+  const char* base = path;
+  for (const char* p = path; *p != 0; ++p) {
+    if (*p == '/' || *p == '\\') {
+      base = p + 1;
+    }
+  }
+  return base;
+}
+} // namespace
+
 int CommandLineRunner::run_all_tests(int argc, char** argv)
 {
   return run_all_tests(argc, reinterpret_cast<const char* const*>(argv));
@@ -36,6 +52,7 @@ CommandLineRunner::CommandLineRunner(
     Registry* registry
 )
   : registry_(registry)
+  , program_name_(argc > 0 ? basename_from_path(argv[0]) : "")
 {
   arguments_ = new CommandLineArguments(argc, argv);
 }
@@ -53,7 +70,7 @@ int CommandLineRunner::run_all_tests_main()
   Plugin* const user_plugins = registry_->get_first_plugin();
 
   SetPointerPlugin set_pointer_plugin;
-  JUnitOutputPlugin junit_plugin;
+  JUnitOutputPlugin junit_plugin(program_name_);
   TapOutputPlugin tap_plugin;
   registry_->install_plugin(&set_pointer_plugin);
   registry_->install_plugin(&junit_plugin);

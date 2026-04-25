@@ -11,13 +11,9 @@ TapOutputPlugin::TapOutputPlugin()
 {
 }
 
-bool TapOutputPlugin::parse_arguments(
-    int /*argc*/,
-    const char* const* argv,
-    int index
-)
+bool TapOutputPlugin::parse_arguments(int /*argc*/, const char* const* argv)
 {
-  String arg = argv[index];
+  String arg = argv[0];
   if (arg != "-ptap") {
     return false;
   }

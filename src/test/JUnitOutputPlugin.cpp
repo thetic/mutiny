@@ -8,36 +8,15 @@ namespace mu {
 namespace tiny {
 namespace test {
 
-namespace {
-
-String basename_from_path(const char* path)
-{
-  if ((path == nullptr) || (*path == 0)) {
-    return "";
-  }
-  const char* base = path;
-  for (const char* p = path; *p != 0; ++p) {
-    if (*p == '/' || *p == '\\') {
-      base = p + 1;
-    }
-  }
-  return base;
-}
-
-} // namespace
-
-JUnitOutputPlugin::JUnitOutputPlugin()
+JUnitOutputPlugin::JUnitOutputPlugin(const String& default_package_name)
   : Plugin("JUnitOutputPlugin")
+  , default_package_name_(default_package_name)
 {
 }
 
-bool JUnitOutputPlugin::parse_arguments(
-    int /*argc*/,
-    const char* const* argv,
-    int index
-)
+bool JUnitOutputPlugin::parse_arguments(int /*argc*/, const char* const* argv)
 {
-  String arg = argv[index];
+  String arg = argv[0];
   constexpr char flag[] = "-pjunit";
   constexpr size_t flag_len = sizeof(flag) / sizeof(flag[0]);
 
@@ -50,7 +29,7 @@ bool JUnitOutputPlugin::parse_arguments(
     }
     package_name_ = arg.substr(flag_len);
   } else {
-    package_name_ = basename_from_path(argv[0]);
+    package_name_ = default_package_name_;
   }
   active_ = true;
   return true;

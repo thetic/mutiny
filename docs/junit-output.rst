@@ -42,10 +42,18 @@ Install the plugin via :cpp:class:`Registry <mu::tiny::test::Registry>` before c
 
    int main(int argc, char** argv)
    {
-       mu::tiny::test::JUnitOutputPlugin junit;
+       // Pass the executable basename so that bare -pjunit writes
+       // <basename>.xml rather than mutiny.xml.
+       mu::tiny::test::JUnitOutputPlugin junit("my_suite");
        mu::tiny::test::Registry::get_current_registry()->install_plugin(&junit);
        return mu::tiny::test::CommandLineRunner::run_all_tests(argc, argv);
    }
+
+The string passed to the constructor is used as the package name when
+``-pjunit`` is given without an explicit ``=<name>`` suffix. It can be
+overridden at runtime with ``-pjunit=<name>``. Passing an empty string
+(the default) makes bare ``-pjunit`` write to ``mutiny.xml`` with no
+package prefix in classnames.
 
 With the plugin installed, ``-pjunit`` on the command line enables the
 XML output. Without the flag, no XML is written and the console output
@@ -60,7 +68,11 @@ When running the executable directly, a single file is produced for the
 entire run.  The file is named ``<name>.xml``, where ``<name>`` comes from:
 
 - the ``-pjunit=<name>`` argument if given, or
-- the executable basename (e.g. ``my_tests``) if only ``-pjunit`` is used.
+- the default package name supplied to the :cpp:class:`JUnitOutputPlugin
+  <mu::tiny::test::JUnitOutputPlugin>` constructor (the executable basename
+  when going through :cpp:func:`CommandLineRunner::run_all_tests
+  <mu::tiny::test::CommandLineRunner::run_all_tests>`), or
+- ``mutiny`` if no default was provided.
 
 When using :cmake:variable:`MUTINY_JUNIT_REPORT` with :cmake:command:`mutiny_discover_tests`,
 CTest runs each test group as a separate process and gives each one a unique

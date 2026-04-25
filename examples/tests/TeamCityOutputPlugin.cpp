@@ -112,11 +112,10 @@ TeamCityOutputPlugin::TeamCityOutputPlugin()
 
 bool TeamCityOutputPlugin::parse_arguments(
     int /*argc*/,
-    const char* const* argv,
-    int index
+    const char* const* argv
 )
 {
-  mu::tiny::String arg = argv[index];
+  mu::tiny::String arg = argv[0];
   if (arg.size() > 2 && mu::tiny::String(arg.c_str() + 2) == "teamcity") {
     active_ = true;
     return true;
