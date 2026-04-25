@@ -21,7 +21,7 @@ Subclass :cpp:class:`mu::tiny::test::Plugin` to intercept the test lifecycle.
        virtual void pre_test_action(Shell&, Result&)  {}
        virtual void post_test_action(Shell&, Result&) {}
 
-       virtual bool parse_arguments(int argc, const char* const* argv, int index)
+       virtual bool parse_arguments(int argc, const char* const* argv)
        { return false; }
 
        virtual String get_help() const { return ""; }
@@ -44,7 +44,7 @@ Override the methods you need:
      - Restore pointers, verify mock expectations
    * - :cpp:func:`parse_arguments() <mu::tiny::test::Plugin::parse_arguments>`
      - During argument parsing
-     - Activate plugin via a :option:`-p\<plugin\>` argument
+     - Inspect ``argv[0]``; activate plugin via a :option:`-p\<plugin\>` argument
    * - :cpp:func:`get_help() <mu::tiny::test::Plugin::get_help>`
      - When :option:`-h` is printed
      - Show plugin's flag description

@@ -635,12 +635,19 @@ writes <code class="docutils literal notranslate"><span class="pre">my_tests.xml
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
 <span class="p">{</span>
-<span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">JUnitOutputPlugin</span><span class="w"> </span><span class="n">junit</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Pass the executable basename so that bare -pjunit writes</span>
+<span class="w">    </span><span class="c1">// &lt;basename&gt;.xml rather than mutiny.xml.</span>
+<span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">JUnitOutputPlugin</span><span class="w"> </span><span class="n">junit</span><span class="p">(</span><span class="s">&quot;my_suite&quot;</span><span class="p">);</span>
 <span class="w">    </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">Registry</span><span class="o">::</span><span class="n">get_current_registry</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">install_plugin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">junit</span><span class="p">);</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">mu</span><span class="o">::</span><span class="n">tiny</span><span class="o">::</span><span class="n">test</span><span class="o">::</span><span class="n">CommandLineRunner</span><span class="o">::</span><span class="n">run_all_tests</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>The string passed to the constructor is used as the package name when
+<code class="docutils literal notranslate"><span class="pre">-pjunit</span></code> is given without an explicit <code class="docutils literal notranslate"><span class="pre">=&lt;name&gt;</span></code> suffix. It can be
+overridden at runtime with <code class="docutils literal notranslate"><span class="pre">-pjunit=&lt;name&gt;</span></code>. Passing an empty string
+(the default) makes bare <code class="docutils literal notranslate"><span class="pre">-pjunit</span></code> write to <code class="docutils literal notranslate"><span class="pre">mutiny.xml</span></code> with no
+package prefix in classnames.</p>
 <p>With the plugin installed, <code class="docutils literal notranslate"><span class="pre">-pjunit</span></code> on the command line enables the
 XML output. Without the flag, no XML is written and the console output
 is unchanged.</p>
@@ -653,7 +660,9 @@ is unchanged.</p>
 entire run.  The file is named <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;.xml</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> comes from:</p>
 <ul class="simple">
 <li><p>the <code class="docutils literal notranslate"><span class="pre">-pjunit=&lt;name&gt;</span></code> argument if given, or</p></li>
-<li><p>the executable basename (e.g. <code class="docutils literal notranslate"><span class="pre">my_tests</span></code>) if only <code class="docutils literal notranslate"><span class="pre">-pjunit</span></code> is used.</p></li>
+<li><p>the default package name supplied to the <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1JUnitOutputPlugin.html#_CPPv4N2mu4tiny4test17JUnitOutputPluginE" title="mu::tiny::test::JUnitOutputPlugin"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">JUnitOutputPlugin</span></code></a> constructor (the executable basename
+when going through <a class="reference internal" href="api/classmu_1_1tiny_1_1test_1_1CommandLineRunner.html#_CPPv4N2mu4tiny4test17CommandLineRunner13run_all_testsEiPPCKc" title="mu::tiny::test::CommandLineRunner::run_all_tests"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">CommandLineRunner::run_all_tests</span></code></a>), or</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mutiny</span></code> if no default was provided.</p></li>
 </ul>
 <p>When using <span class="target" id="index-0-variable:MUTINY_JUNIT_REPORT"></span><a class="reference internal" href="cmake.html#variable:MUTINY_JUNIT_REPORT" title="MUTINY_JUNIT_REPORT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">MUTINY_JUNIT_REPORT</span></code></a> with <span class="target" id="index-0-command:mutiny_discover_tests"></span><a class="reference internal" href="cmake.html#command:mutiny_discover_tests" title="mutiny_discover_tests"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">mutiny_discover_tests()</span></code></a>,
 CTest runs each test group as a separate process and gives each one a unique
