@@ -92,15 +92,15 @@ public:
   void run_all_tests();
 
   /** @return Number of failures recorded so far. */
-  size_t get_failure_count();
+  unsigned int get_failure_count();
   /** @return Number of assertions checked so far. */
-  size_t get_check_count();
+  unsigned int get_check_count();
   /** @return Number of ignored tests. */
-  size_t get_skip_count();
+  unsigned int get_skip_count();
   /** @return Number of tests that actually ran. */
-  size_t get_run_count();
+  unsigned int get_run_count();
   /** @return Total number of registered tests. */
-  size_t get_test_count();
+  unsigned int get_test_count();
   /** @return The accumulated output string. */
   const String& get_output();
   /** @return The private Registry. */
@@ -131,7 +131,7 @@ public:
   void check_test_fails_with_proper_test_location(
       const char* text,
       const char* file,
-      size_t line
+      int_least32_t line
   );
 
   /**

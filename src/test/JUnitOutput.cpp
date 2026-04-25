@@ -7,7 +7,7 @@
 
 #include "mu/tiny/time.hpp"
 
-#include <stdint.h>
+#include <inttypes.h>
 
 namespace mu {
 namespace tiny {
@@ -38,8 +38,8 @@ public:
   bool skipped{ false };
   String skip_message;
   String file;
-  size_t line_number{ 0 };
-  size_t check_count{ 0 };
+  int_least32_t line_number{ 0 };
+  unsigned int check_count{ 0 };
   TestProperty* properties{ nullptr };
   TestProperty* properties_tail{ nullptr };
   JUnitTestCaseResultNode* next{ nullptr };
@@ -50,11 +50,11 @@ class JUnitTestGroupResult
 public:
   JUnitTestGroupResult() = default;
 
-  size_t test_count{ 0 };
-  size_t failure_count{ 0 };
-  size_t error_count{ 0 };
-  size_t skip_count{ 0 };
-  size_t total_check_count{ 0 };
+  unsigned int test_count{ 0 };
+  unsigned int failure_count{ 0 };
+  unsigned int error_count{ 0 };
+  unsigned int skip_count{ 0 };
+  unsigned int total_check_count{ 0 };
   uint_least64_t start_time{ 0 };
   uint_least64_t group_exec_time{ 0 };
   String group;
@@ -69,10 +69,10 @@ public:
   String current_group_xml;
   String accumulated_xml;
   String package;
-  size_t total_test_count{ 0 };
-  size_t total_failure_count{ 0 };
-  size_t total_error_count{ 0 };
-  size_t total_skip_count{ 0 };
+  unsigned int total_test_count{ 0 };
+  unsigned int total_failure_count{ 0 };
+  unsigned int total_error_count{ 0 };
+  unsigned int total_skip_count{ 0 };
   uint_least64_t total_exec_time{ 0 };
   String start_timestamp;
 };
@@ -221,7 +221,7 @@ void JUnitOutput::set_package_name(const String& package)
 
 void JUnitOutput::write_test_suite_summary()
 {
-  size_t total_assertions = 0;
+  unsigned int total_assertions = 0;
   for (JUnitTestCaseResultNode* n = impl_->results.head; n != nullptr;
        n = n->next) {
     total_assertions = n->check_count;
@@ -263,7 +263,7 @@ void JUnitOutput::write_test_cases()
   while (cur != nullptr) {
     String buf = string_from_format(
         "<testcase classname=\"%s%s%s\" name=\"%s\" assertions=\"%d\" "
-        "time=\"%d.%03d\" file=\"%s\" line=\"%d\">\n",
+        "time=\"%d.%03d\" file=\"%s\" line=\"%" PRIdLEAST32 "\">\n",
         impl_->package.c_str(),
         impl_->package.empty() ? "" : ".",
         impl_->results.group.c_str(),
@@ -272,7 +272,7 @@ void JUnitOutput::write_test_cases()
         static_cast<int>(cur->exec_time / ms_per_s),
         static_cast<int>(cur->exec_time % ms_per_s),
         cur->file.c_str(),
-        static_cast<int>(cur->line_number)
+        cur->line_number
     );
     write_to_file(buf.c_str());
 
@@ -320,13 +320,14 @@ void JUnitOutput::write_failure(JUnitTestCaseResultNode* node)
   String file = encode_xml_text(node->failure->get_file_name());
   String msg = encode_xml_text(node->failure->get_message());
   String buf = string_from_format(
-      "<failure message=\"%s:%d: %s\" type=\"AssertionFailedError\">\n"
-      "%s:%d: %s\n",
+      "<failure message=\"%s:%" PRIdLEAST32
+      ": %s\" type=\"AssertionFailedError\">\n"
+      "%s:%" PRIdLEAST32 ": %s\n",
       file.c_str(),
-      static_cast<int>(node->failure->get_failure_line_number()),
+      node->failure->get_failure_line_number(),
       msg.c_str(),
       file.c_str(),
-      static_cast<int>(node->failure->get_failure_line_number()),
+      node->failure->get_failure_line_number(),
       msg.c_str()
   );
   write_to_file(buf.c_str());

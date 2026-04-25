@@ -14,6 +14,8 @@
 #include "mu/tiny/String.hpp"
 #include "mu/tiny/export.h"
 
+#include <stdint.h>
+
 namespace mu {
 namespace tiny {
 namespace test {
@@ -108,19 +110,25 @@ public:
    * @brief Print a signed integer.
    * @param n  Value to print.
    */
-  virtual void print(long n);
+  virtual void print(int n);
 
   /**
    * @brief Print an unsigned integer.
    * @param n  Value to print.
    */
-  virtual void print(size_t n);
+  virtual void print(unsigned int n);
+
+  /**
+   * @brief Print a signed integer.
+   * @param n  Value to print.
+   */
+  virtual void print(long n);
 
   /**
    * @brief Print a floating-point value.
    * @param d  Value to print.
    */
-  virtual void print_double(double d);
+  virtual void print(double d);
 
   /**
    * @brief Print a test failure message.
@@ -146,7 +154,7 @@ public:
    * @param number  Current repetition (1-based).
    * @param total   Total number of repetitions.
    */
-  virtual void print_test_run(size_t number, size_t total);
+  virtual void print_test_run(unsigned int number, unsigned int total);
 
   /**
    * @brief Override the per-test progress indicator character.
@@ -193,7 +201,7 @@ protected:
   void print_failure_message(const String& reason);
   void print_error_in_file_on_line_formatted_for_working_environment(
       const String& test_file,
-      size_t line_number
+      int_least32_t line_number
   );
 
   Output(const Output&);

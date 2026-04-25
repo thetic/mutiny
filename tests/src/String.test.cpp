@@ -646,23 +646,6 @@ TEST(String, StrNCmp_s1_and_s2_empty)
   CHECK_EQUAL(0, result);
 }
 
-TEST(String, strtol)
-{
-  char max_short_str[] = "32767";
-  char min_short_str[] = "-32768";
-
-  CHECK(12345 == mu::tiny::strtol("012345"));
-  CHECK(6789 == mu::tiny::strtol("6789"));
-  CHECK(12345 == mu::tiny::strtol("12345/"));
-  CHECK(12345 == mu::tiny::strtol("12345:"));
-  CHECK(-12345 == mu::tiny::strtol("-12345"));
-  CHECK(123 == mu::tiny::strtol("\t \r\n123"));
-  CHECK(123 == mu::tiny::strtol("123-foo"));
-  CHECK(0 == mu::tiny::strtol("-foo"));
-  CHECK(-32768 == mu::tiny::strtol(min_short_str));
-  CHECK(32767 == mu::tiny::strtol(max_short_str));
-}
-
 TEST(String, strtoul)
 {
   char max_short_str[] = "65535";

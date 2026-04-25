@@ -159,7 +159,7 @@ Shell::Shell(
     const char* group_name,
     const char* test_name,
     const char* file_name,
-    size_t line_number
+    int_least32_t line_number
 ) noexcept
   : group_(group_name)
   , name_(test_name)
@@ -317,7 +317,7 @@ void Shell::set_file_name(const char* file_name)
   file_ = file_name;
 }
 
-void Shell::set_line_number(size_t line_number)
+void Shell::set_line_number(int_least32_t line_number)
 {
   line_number_ = line_number;
 }
@@ -337,7 +337,7 @@ const char* Shell::get_file() const
   return file_;
 }
 
-size_t Shell::get_line_number() const
+int_least32_t Shell::get_line_number() const
 {
   return line_number_;
 }
@@ -369,7 +369,7 @@ void Shell::exit_test(const Terminator& terminator)
 void Shell::skip_test(
     const char* text,
     const char* /*file_name*/,
-    size_t /*line_number*/,
+    int_least32_t /*line_number*/,
     const Terminator& terminator
 )
 {
@@ -383,7 +383,7 @@ void Shell::assert_true(
     const char* condition_string,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -399,7 +399,7 @@ void Shell::assert_true(
 void Shell::fail(
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -413,7 +413,7 @@ void Shell::assert_cstr_equal(
     const char* actual,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -441,7 +441,7 @@ void Shell::assert_cstr_n_equal(
     size_t length,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -468,7 +468,7 @@ void Shell::assert_cstr_contains(
     const char* actual,
     const char* text,
     const char* file_name,
-    size_t line_number
+    int_least32_t line_number
 )
 {
   get_test_result()->count_check();
@@ -503,7 +503,7 @@ void Shell::assert_intmax_equal(
     intmax_t actual,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -521,7 +521,7 @@ void Shell::assert_uintmax_equal(
     uintmax_t actual,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -539,7 +539,7 @@ void Shell::assert_pointers_equal(
     const void* actual,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -563,7 +563,7 @@ void Shell::assert_binary_equal(
     size_t length,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {
@@ -606,7 +606,7 @@ void Shell::assert_equals(
     const char* actual,
     const char* text,
     const char* file,
-    size_t line,
+    int_least32_t line,
     const Terminator& test_terminator
 )
 {
@@ -623,7 +623,7 @@ void Shell::assert_equals(
     String actual,
     const char* text,
     const char* file,
-    size_t line,
+    int_least32_t line,
     const Terminator& test_terminator
 )
 {
@@ -644,7 +644,7 @@ void Shell::assert_compare(
     const char* comparison_string,
     const char* text,
     const char* file_name,
-    size_t line_number,
+    int_least32_t line_number,
     const Terminator& test_terminator
 )
 {

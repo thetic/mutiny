@@ -99,10 +99,10 @@ void CommandLineRunner::initialize_test_run()
 int CommandLineRunner::run_all_tests()
 {
   initialize_test_run();
-  size_t loop_count = 0;
-  size_t failed_test_count = 0;
-  size_t failed_execution_count = 0;
-  size_t repeat_count = arguments_->get_repeat_count();
+  unsigned int loop_count = 0;
+  unsigned int failed_test_count = 0;
+  unsigned int failed_execution_count = 0;
+  auto repeat_count = arguments_->get_repeat_count();
 
   if (arguments_->is_listing_test_group_names()) {
     Result tr(*output_);

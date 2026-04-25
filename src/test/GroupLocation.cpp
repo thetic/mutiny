@@ -9,7 +9,7 @@ GroupLocation* GroupLocation::head_ = nullptr;
 GroupLocation::GroupLocation(
     const char* group_name,
     const char* file_name,
-    size_t line_number
+    int_least32_t line_number
 ) noexcept
   : group_(group_name)
   , file_(file_name)
@@ -29,7 +29,7 @@ const char* GroupLocation::get_file() const
   return file_;
 }
 
-size_t GroupLocation::get_line_number() const
+int_least32_t GroupLocation::get_line_number() const
 {
   return line_number_;
 }

@@ -55,17 +55,22 @@ void Output::print(const char* str)
   print_buffer(str);
 }
 
+void Output::print(int n)
+{
+  print(static_cast<long>(n));
+}
+
+void Output::print(unsigned int n)
+{
+  print(string_from(n).c_str());
+}
+
 void Output::print(long n)
 {
   print(string_from(n).c_str());
 }
 
-void Output::print(size_t n)
-{
-  print(string_from(n).c_str());
-}
-
-void Output::print_double(double d)
+void Output::print(double d)
 {
   print(string_from(d).c_str());
 }
@@ -130,7 +135,7 @@ void Output::print_tests_ended(const Result& result)
 {
   print("\n");
   const bool is_failure = result.is_failure();
-  const size_t failure_count = result.get_failure_count();
+  const unsigned int failure_count = result.get_failure_count();
   if (is_failure) {
     if (color_) {
       print("\033[31;1m");
@@ -177,7 +182,7 @@ void Output::print_tests_ended(const Result& result)
   dot_count_ = 0;
 }
 
-void Output::print_test_run(size_t number, size_t total)
+void Output::print_test_run(unsigned int number, unsigned int total)
 {
   if (total > 1) {
     print("Test run ");
@@ -238,7 +243,7 @@ void Output::print_failure_message(const String& reason)
 
 void Output::print_error_in_file_on_line_formatted_for_working_environment(
     const String& file,
-    size_t line_number
+    int_least32_t line_number
 )
 {
   print("\n");

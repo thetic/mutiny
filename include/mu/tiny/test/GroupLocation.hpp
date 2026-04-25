@@ -17,6 +17,7 @@
 #include "mu/tiny/export.h"
 
 #include <stddef.h>
+#include <stdint.h>
 
 namespace mu {
 namespace tiny {
@@ -41,7 +42,7 @@ public:
   GroupLocation(
       const char* group_name,
       const char* file_name,
-      size_t line_number
+      int_least32_t line_number
   ) noexcept;
 
   GroupLocation(const GroupLocation&) = delete;
@@ -52,7 +53,7 @@ public:
   /** @return The source file path. */
   const char* get_file() const;
   /** @return The source line number. */
-  size_t get_line_number() const;
+  int_least32_t get_line_number() const;
   /** @return The next entry in the registration list, or nullptr. */
   GroupLocation* get_next() const;
 
@@ -72,7 +73,7 @@ public:
 private:
   const char* group_;
   const char* file_;
-  size_t line_number_;
+  int_least32_t line_number_;
   GroupLocation* next_;
 
   static GroupLocation* head_;

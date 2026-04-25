@@ -64,21 +64,19 @@ TEST(Output, PrintConstCharStar)
 
 TEST(Output, PrintLong)
 {
-  long number = 1234;
-  printer->print(number);
+  printer->print(1234L);
   STRCMP_EQUAL("1234", mock->get_output().c_str());
 }
 
-TEST(Output, PrintSize)
+TEST(Output, PrintUnsigned)
 {
-  size_t ten = 10;
-  printer->print(ten);
+  printer->print(10U);
   STRCMP_EQUAL("10", mock->get_output().c_str());
 }
 
 TEST(Output, PrintDouble)
 {
-  printer->print_double(12.34);
+  printer->print(12.34);
   STRCMP_EQUAL("12.34", mock->get_output().c_str());
 }
 

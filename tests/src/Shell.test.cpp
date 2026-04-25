@@ -199,14 +199,14 @@ TEST(Shell, FailWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
+  CHECK_EQUAL(1U, fixture.get_check_count());
 }
 
 TEST(Shell, PassedCheckEqualWillIncreaseTheAmountOfChecks)
 {
   fixture.set_test_function(passing_check_equal_test_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_check_count());
+  CHECK_EQUAL(1U, fixture.get_check_count());
 }
 
 TEST(Shell, SetTestFunctionExecFunctionOverloadRunsTheFunction)
@@ -227,7 +227,7 @@ TEST(Shell, MacrosUsedInSetup)
   fixture.set_setup(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
 }
 
 TEST(Shell, MacrosUsedInTearDown)
@@ -235,14 +235,14 @@ TEST(Shell, MacrosUsedInTearDown)
   fixture.set_teardown(fail_method);
   fixture.set_test_function(simple_passing_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
 }
 
 TEST(Shell, ExitLeavesQuietly)
 {
   fixture.set_test_function(exit_test_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 0 }, fixture.get_failure_count());
+  CHECK_EQUAL(0U, fixture.get_failure_count());
 }
 
 TEST(Shell, FailWillNotCrashIfNotEnabled)
@@ -254,7 +254,7 @@ TEST(Shell, FailWillNotCrashIfNotEnabled)
   fixture.run_all_tests();
 
   CHECK(!mutiny_has_crashed);
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
 
   mu::tiny::test::Shell::reset_crash_method();
 }
@@ -280,7 +280,7 @@ TEST(Shell, TeardownCalledAfterTestFailure)
   fixture.set_teardown(teardown_method);
   fixture.set_test_function(fail_method);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
   CHECK_EQUAL(1, teardown_called);
 }
 
@@ -290,7 +290,7 @@ TEST(Shell, TestStopsAfterTestFailure)
   fixture.set_test_function(stop_after_failure_method);
   fixture.run_all_tests();
   CHECK(fixture.has_test_failed());
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_failure_count());
+  CHECK_EQUAL(1U, fixture.get_failure_count());
   CHECK_EQUAL(0, stop_after_failure);
 }
 
@@ -545,7 +545,7 @@ TEST(Shell, this_test_covers_the_TestShell_createTest_and_Utest_testBody_methods
   DefaultTestShell shell;
   fixture.add_test(&shell);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 2 }, fixture.get_test_count());
+  CHECK_EQUAL(2U, fixture.get_test_count());
 }
 
 TEST(Shell, getSkipCountReturnsNumberOfSkippedTests)
@@ -553,7 +553,7 @@ TEST(Shell, getSkipCountReturnsNumberOfSkippedTests)
   mu::tiny::test::SkippedShell skipped;
   fixture.add_test(&skipped);
   fixture.run_all_tests();
-  CHECK_EQUAL(size_t{ 1 }, fixture.get_skip_count());
+  CHECK_EQUAL(1U, fixture.get_skip_count());
 }
 
 TEST(Shell, checkTestFailsWithProperTestLocationFailsWhenFailureCountIsNotOne)

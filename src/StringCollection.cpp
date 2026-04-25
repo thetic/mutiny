@@ -3,9 +3,9 @@
 namespace mu {
 namespace tiny {
 namespace {
-size_t count_substr(const String& string, const String& substr)
+unsigned int count_substr(const String& string, const String& substr)
 {
-  size_t num = 0;
+  unsigned int num = 0;
   const char* str = string.c_str();
   const char* strpart = nullptr;
   if (*str != 0) {
@@ -36,8 +36,8 @@ void StringCollection::split_string(String const& string, char d)
 {
   auto delimiter = string_from(d);
 
-  size_t num = count_substr(string, delimiter);
-  size_t extra_end_token = (string_ends_with(string, delimiter)) ? 0 : 1U;
+  unsigned int num = count_substr(string, delimiter);
+  unsigned int extra_end_token = (string_ends_with(string, delimiter)) ? 0 : 1U;
   allocate(num + extra_end_token);
 
   const char* str = string.c_str();

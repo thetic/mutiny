@@ -69,7 +69,7 @@ void clear_mock_failure()
 void check_expected_mock_failure_string_location(
     const mu::tiny::String& expected_string,
     const char* file,
-    size_t line
+    int_least32_t line
 )
 {
   mu::tiny::String actual_failure_string = mock_failure_string();
@@ -87,7 +87,7 @@ void check_expected_mock_failure_string_location(
 void check_expected_mock_failure_location(
     const mu::tiny::mock::Failure& expected_failure,
     const char* file,
-    size_t line
+    int_least32_t line
 )
 {
   check_expected_mock_failure_string_location(
@@ -95,7 +95,7 @@ void check_expected_mock_failure_location(
   );
 }
 
-void check_no_mock_failure_location(const char* file, size_t line)
+void check_no_mock_failure_location(const char* file, int_least32_t line)
 {
   if (!mock_failure_string().empty()) {
     mu::tiny::String error = "Unexpected mock failure:\n";

@@ -109,22 +109,22 @@ void TestingFixture::run_all_tests()
   registry_->run_all_tests(*result_);
 }
 
-size_t TestingFixture::get_failure_count()
+unsigned int TestingFixture::get_failure_count()
 {
   return result_->get_failure_count();
 }
 
-size_t TestingFixture::get_check_count()
+unsigned int TestingFixture::get_check_count()
 {
   return result_->get_check_count();
 }
 
-size_t TestingFixture::get_test_count()
+unsigned int TestingFixture::get_test_count()
 {
   return result_->get_test_count();
 }
 
-size_t TestingFixture::get_skip_count()
+unsigned int TestingFixture::get_skip_count()
 {
   return result_->get_skipped_count();
 }
@@ -154,7 +154,7 @@ const String& TestingFixture::get_output()
   return output_->get_output();
 }
 
-size_t TestingFixture::get_run_count()
+unsigned int TestingFixture::get_run_count()
 {
   return result_->get_run_count();
 }
@@ -167,7 +167,7 @@ void TestingFixture::line_executed_after_check()
 void TestingFixture::check_test_fails_with_proper_test_location(
     const char* text,
     const char* file,
-    size_t line
+    int_least32_t line
 )
 {
   if (get_failure_count() != 1) {
