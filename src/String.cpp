@@ -438,29 +438,6 @@ void string_replace(String& str, const char* from, const char* to)
   str = result;
 }
 
-long strtol(const char* str)
-{
-#if MUTINY_USE_STD_STRING
-  return std::strtol(str, nullptr, decimal_base);
-#else
-  while (is_space(*str)) {
-    str++;
-  }
-
-  char first_char = *str;
-  if (first_char == '-' || first_char == '+') {
-    str++;
-  }
-
-  long result = 0;
-  for (; is_digit(*str); str++) {
-    result *= decimal_base;
-    result += *str - '0';
-  }
-  return (first_char == '-') ? -result : result;
-#endif
-}
-
 unsigned long strtoul(const char* str)
 {
 #if MUTINY_USE_STD_STRING

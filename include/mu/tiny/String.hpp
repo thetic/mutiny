@@ -219,8 +219,6 @@ MUTINY_EXPORT size_t strlen(const char* str);
 /** @brief Return a pointer to the first @p s2 in @p s1, or null. */
 MUTINY_EXPORT const char* strstr(const char* s1, const char* s2);
 
-/** @brief Parse @p str as a signed long integer. */
-MUTINY_EXPORT long strtol(const char* str);
 /** @brief Parse @p str as an unsigned long integer. */
 MUTINY_EXPORT unsigned long strtoul(const char* str);
 /** @brief Compare @p s1 and @p s2; return negative, zero, or positive. */

@@ -398,9 +398,9 @@ void CommandLineArguments::set_repeat_count(
 
   String repeat_parameter(argv[i]);
   if (repeat_parameter.size() > 2) {
-    repeat_ = static_cast<unsigned int>(strtol(argv[i] + 2));
+    repeat_ = static_cast<unsigned int>(strtoul(argv[i] + 2));
   } else if (i + 1 < argc) {
-    repeat_ = static_cast<unsigned int>(strtol(argv[i + 1]));
+    repeat_ = static_cast<unsigned int>(strtoul(argv[i + 1]));
     if (repeat_ != 0) {
       i++;
     }
