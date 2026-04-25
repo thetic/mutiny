@@ -47,13 +47,13 @@ Skipping and Expected Failures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :c:macro:`SKIPPED_TEST` marks a test as skipped. It is registered but skipped during
-normal runs. Use :option:`-rs` to run skipped tests anyway.
+normal runs. Use :option:`--run-skipped` to run skipped tests anyway.
 
 .. code-block:: cpp
 
    SKIPPED_TEST(MyGroup, NotImplementedYet)
    {
-       // will not run unless -rs is passed
+       // will not run unless --run-skipped is passed
        CHECK(false);
    }
 
@@ -117,12 +117,12 @@ tests by default.
 Listing Ordered Tests
 ~~~~~~~~~~~~~~~~~~~~~
 
-Pass :option:`-lo` to print each ordered test's location as
+Pass :option:`--list-ordered-locations` to print each ordered test's location as
 ``group.name.file.line``:
 
 .. code-block:: console
 
-   $ ./my_tests -lo
+   $ ./my_tests --list-ordered-locations
    OrderedDemo.Init.examples/tests/OrderedTest.test.cpp.53
    OrderedDemo.FirstEvent.examples/tests/OrderedTest.test.cpp.62
    OrderedDemo.SecondEvent.examples/tests/OrderedTest.test.cpp.68

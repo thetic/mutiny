@@ -4,6 +4,7 @@
 #include "mu/tiny/test/StringBufferOutput.hpp"
 
 #include "mu/tiny/test.hpp"
+#include "mu/tiny/version.h"
 
 namespace {
 class DummyPluginWhichCountsThePlugins : public mu::tiny::test::Plugin
@@ -300,7 +301,7 @@ TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
 
 TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-lg" };
+  const char* argv[] = { "tests.exe", "--list-groups" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -317,7 +318,7 @@ TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)
 
 TEST(CommandLineRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-ln" };
+  const char* argv[] = { "tests.exe", "--list-tests" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -334,7 +335,7 @@ TEST(CommandLineRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 
 TEST(CommandLineRunner, listTestLocationsShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-ll" };
+  const char* argv[] = { "tests.exe", "--list-locations" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -504,7 +505,7 @@ TEST(CommandLineRunner, SkippedTestWillBeSkippedIfNoOptionSpecified)
 
 TEST(CommandLineRunner, listOrderedTestLocations)
 {
-  const char* argv[] = { "tests.exe", "-lo" };
+  const char* argv[] = { "tests.exe", "--list-ordered-locations" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
   );
@@ -520,7 +521,7 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
       "PluginCountingPlugin", &skipped_registry
   );
 
-  const char* argv[] = { "tests.exe", "-rs" };
+  const char* argv[] = { "tests.exe", "--run-skipped" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &skipped_registry
   );
@@ -528,6 +529,28 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
 
   CHECK(RunSkippedTest::checker_);
   RunSkippedTest::checker_ = false;
+}
+
+TEST(CommandLineRunner, ReturnsZeroPrintsVersionOnVersion)
+{
+  const char* argv[] = { "tests.exe", "--version" };
+  TestExecutionVerifierShell verifier_test;
+  registry.add_test(&verifier_test);
+  TestExecutionVerifier::was_run_ = false;
+
+  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
+      2, argv, &registry
+  );
+  int returned = command_line_test_runner.run_all_tests_main();
+
+  CHECK_EQUAL(0, returned);
+  STRCMP_CONTAINS(
+      MUTINY_VERSION_STRING,
+      command_line_test_runner.fake_console_output_which_is_really_a_buffer
+          ->get_output()
+          .c_str()
+  );
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, StaticInstallPluginAddsPluginToCurrentRegistry)

@@ -77,7 +77,10 @@ int CommandLineRunner::run_all_tests_main()
   registry_->install_plugin(&tap_plugin);
 
   if (parse_arguments(registry_->get_first_plugin())) {
-    if (arguments_->need_help()) {
+    if (arguments_->need_version()) {
+      output_->print(CommandLineArguments::version_string().c_str());
+      test_result = 0;
+    } else if (arguments_->need_help()) {
       output_->print(arguments_->help().c_str());
       test_result = 0;
     } else {

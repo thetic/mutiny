@@ -1,5 +1,5 @@
 # Verify the generated CTest file for group-mode discovery (TESTS_DETAILED=OFF).
-# Each group becomes a single add_test(-sg <group>) entry.
+# Each group becomes a single add_test(--exact-group <group>) entry.
 
 set(generated_file "${RunCMake_BINARY_DIR}/Discovery-generated.cmake")
 if(NOT EXISTS "${generated_file}")
@@ -10,11 +10,11 @@ endif()
 file(READ "${generated_file}" content)
 
 set(patterns
-    "add_test\\( MyTests\\.Group1 .* -sg Group1\\)"
+    "add_test\\( MyTests\\.Group1 .* --exact-group Group1\\)"
     "set_tests_properties\\( MyTests\\.Group1 PROPERTIES DEF_SOURCE_LINE file1\\.cpp:5\\)"
-    "add_test\\( MyTests\\.Group2 .* -sg Group2\\)"
+    "add_test\\( MyTests\\.Group2 .* --exact-group Group2\\)"
     "set_tests_properties\\( MyTests\\.Group2 PROPERTIES DEF_SOURCE_LINE file2\\.cpp:25\\)"
-    "add_test\\( MyTests\\.OrderedGroup .* -sg OrderedGroup\\)"
+    "add_test\\( MyTests\\.OrderedGroup .* --exact-group OrderedGroup\\)"
     "set_tests_properties\\( MyTests\\.OrderedGroup PROPERTIES DEF_SOURCE_LINE file3\\.cpp:35\\)"
 )
 
