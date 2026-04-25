@@ -389,13 +389,16 @@ TEST_GROUP(JUnitOutput)
 
   // Recreate the JUnit output with the given -pjunit argument.
   // Use "-pjunit" (no package) for "mutiny.xml"; "-pjunit=name" for "name.xml".
-  void init(const char* junit_arg = "-pjunit")
+  void init(
+      const char* junit_arg = "-pjunit",
+      const char* default_package_name = ""
+  )
   {
     delete test_case_runner;
     delete result;
     delete output;
     delete plugin;
-    plugin = new mu::tiny::test::JUnitOutputPlugin();
+    plugin = new mu::tiny::test::JUnitOutputPlugin(default_package_name);
     const char* argv[] = { junit_arg };
     plugin->parse_arguments(1, argv);
     output = plugin->create_output();
@@ -838,6 +841,45 @@ TEST(JUnitOutput, TestCaseBlockWithAPackageName)
   STRCMP_EQUAL("</testcase>\n", output_file->line(5));
 }
 
+TEST(JUnitOutput, defaultPackageName_usedWhenNoPjunitSuffix)
+{
+  init("-pjunit", "mypackage");
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
+
+  output_file = file_system.file("mypackage.xml");
+  STRCMP_EQUAL(
+      "<testcase classname=\"mypackage.groupname\" name=\"testname\" "
+      "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(4)
+  );
+}
+
+TEST(JUnitOutput, defaultPackageName_overriddenByExplicitSuffix)
+{
+  init("-pjunit=explicit", "mydefault");
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
+
+  output_file = file_system.file("explicit.xml");
+  STRCMP_EQUAL(
+      "<testcase classname=\"explicit.groupname\" name=\"testname\" "
+      "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(4)
+  );
+}
+
+TEST(JUnitOutput, emptyDefaultPackageName_producesNoPrefix)
+{
+  init("-pjunit");
+  test_case_runner->start().with_group("groupname").with_test("testname").end();
+
+  output_file = file_system.file("mutiny.xml");
+  STRCMP_EQUAL(
+      "<testcase classname=\"groupname\" name=\"testname\" "
+      "assertions=\"0\" time=\"0.000\" file=\"file\" line=\"1\">\n",
+      output_file->line(4)
+  );
+}
+
 TEST(JUnitOutput, TestCaseBlockForSkippedTest)
 {
   init("-pjunit=packagename");
@@ -1179,14 +1221,11 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
   );
 }
 
-TEST(JUnitOutput, parseArguments_pjunitWithoutName_usesDefault)
+TEST(JUnitOutput, parseArguments_pjunitWithoutName_succeeds)
 {
-  mu::tiny::test::JUnitOutputPlugin p("mypackage");
+  mu::tiny::test::JUnitOutputPlugin p;
   const char* argv[] = { "-pjunit" };
   CHECK(p.parse_arguments(1, argv));
-  auto* created = p.create_output();
-  CHECK(created != nullptr);
-  delete created;
 }
 
 TEST(JUnitOutput, parseArguments_pjunitWithInvalidSuffix_returnsFalse)
