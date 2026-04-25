@@ -179,6 +179,14 @@ TEST(CommandLineArguments, setGroupFilter)
   CHECK_EQUAL(mu::tiny::test::Filter("group"), *args->get_group_filters());
 }
 
+TEST(CommandLineArguments, setGroupFilterWithNoValueUsesEmptyFilter)
+{
+  int argc = 2;
+  const char* argv[] = { "tests.exe", "-g" };
+  CHECK(new_argument_parser(argc, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter(""), *args->get_group_filters());
+}
+
 TEST(CommandLineArguments, setCompleteGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;

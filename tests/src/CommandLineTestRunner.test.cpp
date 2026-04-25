@@ -462,6 +462,27 @@ TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());
 }
 
+TEST(CommandLineRunner, junitPackageNameEmptyWhenArgvZeroIsEmpty)
+{
+  const char* argv[] = {
+    "",
+    "-pjunit",
+  };
+
+  FakeOutput fake_output; /* MUTINY_PTR_SET() is not reentrant */
+
+  mu::tiny::test::CommandLineRunner command_line_test_runner(
+      2, argv, &registry
+  );
+  command_line_test_runner.run_all_tests_main();
+
+  fake_output.restore_originals();
+
+  STRCMP_CONTAINS(
+      "<testcase classname=\"group1\" name=\"test1\"", fake_output.file.c_str()
+  );
+}
+
 TEST(CommandLineRunner, SkippedTestWillBeSkippedIfNoOptionSpecified)
 {
   mu::tiny::test::Registry skipped_registry;
