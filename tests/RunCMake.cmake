@@ -66,10 +66,10 @@ function(run_cmake test)
     execute_process(
         COMMAND ${CMAKE_COMMAND}
             ${gen_opts}
-            -S "${RunCMake_SOURCE_DIR}"
+            -S "${RunCMake_SOURCE_DIR}/${test}"
             -B "${RunCMake_BINARY_DIR}/${test}"
-            -D "RunCMake_TEST=${test}"
             ${RunCMake_TEST_OPTIONS}
+            ${ARGN}
         RESULT_VARIABLE result
         OUTPUT_VARIABLE stdout
         ERROR_VARIABLE stderr

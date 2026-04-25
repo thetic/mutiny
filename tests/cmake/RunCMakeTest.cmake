@@ -19,50 +19,28 @@ set(RunCMake_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/configure")
 run_cmake(NotATarget)
 run_cmake(NotAnExecutable)
 
-# Happy path — single-config generator
+# Happy path — single-config and multi-config generators
 run_cmake(ValidTarget)
-
-# Multi-configuration generator (CMAKE_CONFIGURATION_TYPES is non-empty)
-list(APPEND RunCMake_TEST_OPTIONS "-DCMAKE_CONFIGURATION_TYPES=Debug")
-run_cmake(MultiConfig)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-DCMAKE_CONFIGURATION_TYPES=Debug")
+run_cmake(MultiConfig -DCMAKE_CONFIGURATION_TYPES=Debug)
 
 # Per-call function arguments
 run_cmake(DetailedArgOn)
 run_cmake(ExtraArgsArg)
 
-# Cache-variable defaults
-list(APPEND RunCMake_TEST_OPTIONS "-DMUTINY_TESTS_DETAILED:BOOL=ON")
-run_cmake(CacheDetailedVar)
-# Interaction: DETAILED OFF arg must take precedence over MUTINY_TESTS_DETAILED=ON
-run_cmake(DetailedArgOffOverridesCache)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-DMUTINY_TESTS_DETAILED:BOOL=ON")
+# Cache-variable defaults and override interactions
+run_cmake(CacheDetailedVar          -DMUTINY_TESTS_DETAILED:BOOL=ON)
+run_cmake(DetailedArgOffOverridesCache -DMUTINY_TESTS_DETAILED:BOOL=ON)
+run_cmake(CacheJUnitVar             -DMUTINY_JUNIT_REPORT:BOOL=ON)
+run_cmake(CacheExtraArgs            -DMUTINY_EXTRA_ARGS=--custom-arg)
+run_cmake(ExtraArgsArgOverridesCache -DMUTINY_EXTRA_ARGS=--custom-arg)
 
-list(APPEND RunCMake_TEST_OPTIONS "-DMUTINY_JUNIT_REPORT:BOOL=ON")
-run_cmake(CacheJUnitVar)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-DMUTINY_JUNIT_REPORT:BOOL=ON")
-
-list(APPEND RunCMake_TEST_OPTIONS "-DMUTINY_EXTRA_ARGS=--custom-arg")
-run_cmake(CacheExtraArgs)
-# Interaction: EXTRA_ARGS function argument must take precedence over MUTINY_EXTRA_ARGS
-run_cmake(ExtraArgsArgOverridesCache)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-DMUTINY_EXTRA_ARGS=--custom-arg")
-
-# No emulator: LANGUAGES NONE skips toolchain detection, so CMAKE_CROSSCOMPILING is set
-# explicitly inside CMakeLists.txt after project() — no extra -D option needed here.
+# Cross-compilation
 run_cmake(CrossCompilingNoEmulator)
-
-# With emulator: enable_language(CXX) runs full detection; CMAKE_SYSTEM_NAME=Generic
-# causes CMake to derive CMAKE_CROSSCOMPILING=TRUE automatically.
-list(APPEND RunCMake_TEST_OPTIONS "-DCMAKE_SYSTEM_NAME=Generic")
-run_cmake(CrossCompilingWithEmulator)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-DCMAKE_SYSTEM_NAME=Generic")
+run_cmake(CrossCompilingWithEmulator -DCMAKE_SYSTEM_NAME=Generic)
 
 # Legacy cmake <3.10 code path (simulated via override variable)
-list(APPEND RunCMake_TEST_OPTIONS "-D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0")
-run_cmake(LegacySingleInclude)
-run_cmake(LegacyDuplicateError)
-list(REMOVE_ITEM RunCMake_TEST_OPTIONS "-D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0")
+run_cmake(LegacySingleInclude  -D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0)
+run_cmake(LegacyDuplicateError -D_MUTINY_CMAKE_VERSION_OVERRIDE=3.9.0)
 
 # ── _mutiny_discovery.cmake script tests ───────────────────────────────────────
 #

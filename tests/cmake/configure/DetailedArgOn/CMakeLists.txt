@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.10)
+project(test LANGUAGES CXX)
+list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
+include(mu.tiny)
+add_executable(MyTests "${CMAKE_CURRENT_LIST_DIR}/../empty.cpp")
+mutiny_discover_tests(MyTests DETAILED ON)
+get_property(p DIRECTORY PROPERTY TEST_INCLUDE_FILES)
+message(STATUS "TEST_INCLUDE_FILES: ${p}")

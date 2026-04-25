@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.10)
+project(test LANGUAGES NONE)
+list(APPEND CMAKE_MODULE_PATH "${MUTINY_MODULE_PATH}")
+include(mu.tiny)
+add_library(MyLib INTERFACE)
+mutiny_discover_tests(MyLib)
