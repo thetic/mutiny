@@ -4,6 +4,7 @@
 #include "mu/tiny/test/StringBufferOutput.hpp"
 
 #include "mu/tiny/test.hpp"
+#include "mu/tiny/version.h"
 
 namespace {
 class DummyPluginWhichCountsThePlugins : public mu::tiny::test::Plugin
@@ -528,6 +529,28 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
 
   CHECK(RunSkippedTest::checker_);
   RunSkippedTest::checker_ = false;
+}
+
+TEST(CommandLineRunner, ReturnsZeroPrintsVersionOnVersion)
+{
+  const char* argv[] = { "tests.exe", "--version" };
+  TestExecutionVerifierShell verifier_test;
+  registry.add_test(&verifier_test);
+  TestExecutionVerifier::was_run_ = false;
+
+  CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
+      2, argv, &registry
+  );
+  int returned = command_line_test_runner.run_all_tests_main();
+
+  CHECK_EQUAL(0, returned);
+  STRCMP_CONTAINS(
+      MUTINY_VERSION_STRING,
+      command_line_test_runner.fake_console_output_which_is_really_a_buffer
+          ->get_output()
+          .c_str()
+  );
+  CHECK(!TestExecutionVerifier::was_run_);
 }
 
 TEST(CommandLineRunner, StaticInstallPluginAddsPluginToCurrentRegistry)
