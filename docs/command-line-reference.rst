@@ -17,23 +17,23 @@ Query Flags (do not run tests)
 
    Print help screen and exit.
 
-.. option:: -lg
+.. option:: --list-groups
 
    Print all group names, space-separated.
 
-.. option:: -ln
+.. option:: --list-tests
 
    Print all test names as ``group.name``, space-separated.
 
-.. option:: -ll
+.. option:: --list-locations
 
    Print test locations as ``group.name.file.line``.
 
-.. option:: -lo
+.. option:: --list-ordered-locations
 
    Print ordered test locations as ``group.name.file.line``.
 
-.. option:: -lgl
+.. option:: --list-group-locations
 
    Print group source locations as ``group.file.line``.  Each entry points to
    the :c:macro:`TEST_GROUP` declaration rather than an individual test.
@@ -98,47 +98,56 @@ Include filters (substring match by default)
 Include filters (exact match)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. option:: -sg <group>
+.. option:: --exact-group <group>
 
-   Run tests whose group *exactly equals* ``<group>``.
+   Run tests whose group *exactly equals* ``<group>``.  Also accepts
+   ``--exact-group=<group>``.
 
-.. option:: -sn <name>
+.. option:: --exact-name <name>
 
-   Run tests whose test name *exactly equals* ``<name>``.
+   Run tests whose test name *exactly equals* ``<name>``.  Also accepts
+   ``--exact-name=<name>``.
 
-.. option:: -st <group>.<name>
+.. option:: --exact-test <group>.<name>
 
-   Run tests where both group and name exactly equal the given values.
+   Run tests where both group and name exactly equal the given values.  Also
+   accepts ``--exact-test=<group>.<name>``.
 
 Exclude filters (substring match)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. option:: -xg <group>
+.. option:: --exclude-group <group>
 
-   Exclude tests whose group contains ``<group>``.
+   Exclude tests whose group contains ``<group>``.  Also accepts
+   ``--exclude-group=<group>``.
 
-.. option:: -xn <name>
+.. option:: --exclude-name <name>
 
-   Exclude tests whose name contains ``<name>``.
+   Exclude tests whose name contains ``<name>``.  Also accepts
+   ``--exclude-name=<name>``.
 
-.. option:: -xt <group>.<name>
+.. option:: --exclude-test <group>.<name>
 
    Exclude tests whose group and name both contain the respective substrings.
+   Also accepts ``--exclude-test=<group>.<name>``.
 
 Exclude filters (exact match)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. option:: -xsg <group>
+.. option:: --exclude-exact-group <group>
 
-   Exclude tests whose group exactly equals ``<group>``.
+   Exclude tests whose group exactly equals ``<group>``.  Also accepts
+   ``--exclude-exact-group=<group>``.
 
-.. option:: -xsn <name>
+.. option:: --exclude-exact-name <name>
 
-   Exclude tests whose name exactly equals ``<name>``.
+   Exclude tests whose name exactly equals ``<name>``.  Also accepts
+   ``--exclude-exact-name=<name>``.
 
-.. option:: -xst <group>.<name>
+.. option:: --exclude-exact-test <group>.<name>
 
    Exclude tests where both group and name exactly equal the given values.
+   Also accepts ``--exclude-exact-test=<group>.<name>``.
 
 Copy-paste filter
 ~~~~~~~~~~~~~~~~~
@@ -171,7 +180,7 @@ Execution Flags
    Repeat the full test suite ``#`` times. If ``#`` is omitted, repeats
    twice. Useful for detecting order-dependent failures.
 
-.. option:: -rs
+.. option:: --run-skipped
 
    Run skipped tests (:c:macro:`SKIPPED_TEST`) as if they were normal tests.
 

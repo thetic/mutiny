@@ -163,7 +163,7 @@ TEST(CommandLineArguments, shuffleEnabledSpecificSeedCase3)
 TEST(CommandLineArguments, shuffleBeforeDoesNotDisturbOtherSwitch)
 {
   int argc = 4;
-  const char* argv[] = { "tests.exe", "-s", "-sg", "group" };
+  const char* argv[] = { "tests.exe", "-s", "--exact-group", "group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
@@ -206,14 +206,14 @@ TEST(CommandLineArguments, setCompleteGroupDotNameFilter)
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-st", "groupname" };
+  const char* argv[] = { "tests.exe", "--exact-test", "groupname" };
   CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-st", "group.name" };
+  const char* argv[] = { "tests.exe", "--exact-test", "group.name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
@@ -226,14 +226,14 @@ TEST(CommandLineArguments, setCompleteStrictGroupDotNameFilter)
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xt", "groupname" };
+  const char* argv[] = { "tests.exe", "--exclude-test", "groupname" };
   CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xt", "group.name" };
+  const char* argv[] = { "tests.exe", "--exclude-test", "group.name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.invert_matching();
@@ -246,14 +246,14 @@ TEST(CommandLineArguments, setCompleteExcludeGroupDotNameFilter)
 TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilterInvalidArgument)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xst", "groupname" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-test", "groupname" };
   CHECK(!new_argument_parser(argc, argv));
 }
 
 TEST(CommandLineArguments, setCompleteExcludeStrictGroupDotNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xst", "group.name" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-test", "group.name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
@@ -276,17 +276,17 @@ TEST(CommandLineArguments, setGroupFilterSameParameter)
 TEST(CommandLineArguments, setStrictGroupFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-sg", "group" };
+  const char* argv[] = { "tests.exe", "--exact-group", "group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
-TEST(CommandLineArguments, setStrictGroupFilterSameParameter)
+TEST(CommandLineArguments, setStrictGroupFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-sggroup" };
+  const char* argv[] = { "tests.exe", "--exact-group=group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.strict_matching();
@@ -296,17 +296,17 @@ TEST(CommandLineArguments, setStrictGroupFilterSameParameter)
 TEST(CommandLineArguments, setExcludeGroupFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xg", "group" };
+  const char* argv[] = { "tests.exe", "--exclude-group", "group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.invert_matching();
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
-TEST(CommandLineArguments, setExcludeGroupFilterSameParameter)
+TEST(CommandLineArguments, setExcludeGroupFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-xggroup" };
+  const char* argv[] = { "tests.exe", "--exclude-group=group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.invert_matching();
@@ -316,7 +316,7 @@ TEST(CommandLineArguments, setExcludeGroupFilterSameParameter)
 TEST(CommandLineArguments, setExcludeStrictGroupFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xsg", "group" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-group", "group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.invert_matching();
@@ -324,10 +324,10 @@ TEST(CommandLineArguments, setExcludeStrictGroupFilter)
   CHECK_EQUAL(group_filter, *args->get_group_filters());
 }
 
-TEST(CommandLineArguments, setExcludeStrictGroupFilterSameParameter)
+TEST(CommandLineArguments, setExcludeStrictGroupFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-xsggroup" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-group=group" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter group_filter("group");
   group_filter.invert_matching();
@@ -354,17 +354,17 @@ TEST(CommandLineArguments, setNameFilterSameParameter)
 TEST(CommandLineArguments, setStrictNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-sn", "name" };
+  const char* argv[] = { "tests.exe", "--exact-name", "name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.strict_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
-TEST(CommandLineArguments, setStrictNameFilterSameParameter)
+TEST(CommandLineArguments, setStrictNameFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-snname" };
+  const char* argv[] = { "tests.exe", "--exact-name=name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.strict_matching();
@@ -374,17 +374,17 @@ TEST(CommandLineArguments, setStrictNameFilterSameParameter)
 TEST(CommandLineArguments, setExcludeNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xn", "name" };
+  const char* argv[] = { "tests.exe", "--exclude-name", "name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.invert_matching();
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
-TEST(CommandLineArguments, setExcludeNameFilterSameParameter)
+TEST(CommandLineArguments, setExcludeNameFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-xnname" };
+  const char* argv[] = { "tests.exe", "--exclude-name=name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.invert_matching();
@@ -394,7 +394,7 @@ TEST(CommandLineArguments, setExcludeNameFilterSameParameter)
 TEST(CommandLineArguments, setExcludeStrictNameFilter)
 {
   int argc = 3;
-  const char* argv[] = { "tests.exe", "-xsn", "name" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-name", "name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.invert_matching();
@@ -402,10 +402,10 @@ TEST(CommandLineArguments, setExcludeStrictNameFilter)
   CHECK_EQUAL(name_filter, *args->get_name_filters());
 }
 
-TEST(CommandLineArguments, setExcludeStrictNameFilterSameParameter)
+TEST(CommandLineArguments, setExcludeStrictNameFilterEqualsSyntax)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-xsnname" };
+  const char* argv[] = { "tests.exe", "--exclude-exact-name=name" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("name");
   name_filter.invert_matching();
@@ -445,7 +445,7 @@ TEST(CommandLineArguments, setTestToRunUsingVerboseOutputOfIgnoreTest)
 TEST(CommandLineArguments, setPrintGroups)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-lg" };
+  const char* argv[] = { "tests.exe", "--list-groups" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(args->is_listing_test_group_names());
 }
@@ -453,7 +453,7 @@ TEST(CommandLineArguments, setPrintGroups)
 TEST(CommandLineArguments, setPrintGroupsAndNames)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-ln" };
+  const char* argv[] = { "tests.exe", "--list-tests" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(args->is_listing_test_group_and_case_names());
 }
@@ -461,7 +461,7 @@ TEST(CommandLineArguments, setPrintGroupsAndNames)
 TEST(CommandLineArguments, setPrintGroupLocations)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-lgl" };
+  const char* argv[] = { "tests.exe", "--list-group-locations" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(args->is_listing_test_group_locations());
 }
@@ -521,9 +521,16 @@ TEST(CommandLineArguments, checkDefaultArguments)
 TEST(CommandLineArguments, lotsOfGroupsAndTests)
 {
   int argc = 10;
-  const char* argv[] = { "tests.exe", "-sggroup1", "-xntest1",  "-sggroup2",
-                         "-sntest2",  "-sntest3",  "-sggroup3", "-sntest4",
-                         "-sggroup4", "-sntest5" };
+  const char* argv[] = { "tests.exe",
+                         "--exact-group=group1",
+                         "--exclude-name=test1",
+                         "--exact-group=group2",
+                         "--exact-name=test2",
+                         "--exact-name=test3",
+                         "--exact-group=group3",
+                         "--exact-name=test4",
+                         "--exact-group=group4",
+                         "--exact-name=test5" };
   CHECK(new_argument_parser(argc, argv));
   mu::tiny::test::Filter name_filter("test1");
   name_filter.invert_matching();
@@ -542,7 +549,7 @@ TEST(CommandLineArguments, lotsOfGroupsAndTests)
 TEST(CommandLineArguments, setOptRun)
 {
   int argc = 2;
-  const char* argv[] = { "tests.exe", "-rs" };
+  const char* argv[] = { "tests.exe", "--run-skipped" };
   CHECK(new_argument_parser(argc, argv));
   CHECK(args->is_run_skipped());
 }

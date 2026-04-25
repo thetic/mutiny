@@ -300,7 +300,7 @@ TEST(CommandLineRunner, testsCanBeRunInReverseOrder)
 
 TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-lg" };
+  const char* argv[] = { "tests.exe", "--list-groups" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -317,7 +317,7 @@ TEST(CommandLineRunner, listTestGroupNamesShouldWorkProperly)
 
 TEST(CommandLineRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-ln" };
+  const char* argv[] = { "tests.exe", "--list-tests" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -334,7 +334,7 @@ TEST(CommandLineRunner, listTestGroupAndCaseNamesShouldWorkProperly)
 
 TEST(CommandLineRunner, listTestLocationsShouldWorkProperly)
 {
-  const char* argv[] = { "tests.exe", "-ll" };
+  const char* argv[] = { "tests.exe", "--list-locations" };
 
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
@@ -504,7 +504,7 @@ TEST(CommandLineRunner, SkippedTestWillBeSkippedIfNoOptionSpecified)
 
 TEST(CommandLineRunner, listOrderedTestLocations)
 {
-  const char* argv[] = { "tests.exe", "-lo" };
+  const char* argv[] = { "tests.exe", "--list-ordered-locations" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &registry
   );
@@ -520,7 +520,7 @@ TEST(CommandLineRunner, SkippedTestWillGetRunIfOptionSpecified)
       "PluginCountingPlugin", &skipped_registry
   );
 
-  const char* argv[] = { "tests.exe", "-rs" };
+  const char* argv[] = { "tests.exe", "--run-skipped" };
   CommandLineTestRunnerWithStringBufferOutput command_line_test_runner(
       2, argv, &skipped_registry
   );

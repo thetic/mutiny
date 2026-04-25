@@ -9,9 +9,9 @@ endif()
 file(READ "${generated_file}" content)
 
 set(patterns
-    "add_test\\( MyTests\\.Group1 .* -pjunit -sg Group1\\)"
-    "add_test\\( MyTests\\.Group2 .* -pjunit -sg Group2\\)"
-    "add_test\\( MyTests\\.OrderedGroup .* -pjunit -sg OrderedGroup\\)"
+    "add_test\\( MyTests\\.Group1 .* -pjunit --exact-group Group1\\)"
+    "add_test\\( MyTests\\.Group2 .* -pjunit --exact-group Group2\\)"
+    "add_test\\( MyTests\\.OrderedGroup .* -pjunit --exact-group OrderedGroup\\)"
 )
 
 foreach(p IN LISTS patterns)

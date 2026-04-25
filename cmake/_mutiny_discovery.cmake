@@ -51,7 +51,7 @@ macro(add_test_to_script TEST_NAME TEST_LOCATION SELECT_ARG)
 endmacro()
 
 execute_process(
-    COMMAND ${EMULATOR} "${EXECUTABLE}" -ll
+    COMMAND ${EMULATOR} "${EXECUTABLE}" --list-locations
     OUTPUT_VARIABLE discovered_tests
     RESULT_VARIABLE result
     ERROR_VARIABLE error
@@ -75,15 +75,15 @@ string(CONCAT LL_LINE_REGEX
 )
 string(REGEX MATCHALL "[^\n]+\n" discovered_test_lines "${discovered_tests}")
 
-# Query group declaration locations (-lgl).
+# Query group declaration locations (--list-group-locations).
 execute_process(
-    COMMAND ${EMULATOR} "${EXECUTABLE}" -lgl
+    COMMAND ${EMULATOR} "${EXECUTABLE}" --list-group-locations
     OUTPUT_VARIABLE group_locations_output
     RESULT_VARIABLE lgl_result
     ERROR_VARIABLE _lgl_error
 )
 if(NOT lgl_result EQUAL 0)
-    message(FATAL_ERROR "Error running ${EXECUTABLE} -lgl:\n${_lgl_error}")
+    message(FATAL_ERROR "Error running ${EXECUTABLE} --list-group-locations:\n${_lgl_error}")
 endif()
 string(CONCAT LGL_LINE_REGEX
     "^([^.]*)" # group name
@@ -106,13 +106,13 @@ endforeach()
 if(TESTS_DETAILED)
     # Identify groups containing ordered tests.
     execute_process(
-        COMMAND ${EMULATOR} "${EXECUTABLE}" -lo
+        COMMAND ${EMULATOR} "${EXECUTABLE}" --list-ordered-locations
         OUTPUT_VARIABLE ordered_locations_output
         RESULT_VARIABLE lo_result
         ERROR_VARIABLE _lo_error
     )
     if(NOT lo_result EQUAL 0)
-        message(FATAL_ERROR "Error running ${EXECUTABLE} -lo:\n${_lo_error}")
+        message(FATAL_ERROR "Error running ${EXECUTABLE} --list-ordered-locations:\n${_lo_error}")
     endif()
     set(ordered_groups)
     string(REGEX MATCHALL "[^\n]+\n" ordered_lines "${ordered_locations_output}")
@@ -138,11 +138,11 @@ if(TESTS_DETAILED)
                 set(group_location
                     "${_group_loc_${group_name}_file}:${_group_loc_${group_name}_line}"
                 )
-                add_test_to_script("${group_name}" "${group_location}" -sg)
+                add_test_to_script("${group_name}" "${group_location}" --exact-group)
             endif()
         else()
             set(test_name "${group_name}.${CMAKE_MATCH_2}")
-            add_test_to_script("${test_name}" "${test_location}" -st)
+            add_test_to_script("${test_name}" "${test_location}" --exact-test)
         endif()
     endforeach()
 else()
@@ -155,7 +155,7 @@ else()
         set(test_location
             "${_group_loc_${test_name}_file}:${_group_loc_${test_name}_line}"
         )
-        add_test_to_script("${test_name}" "${test_location}" -sg)
+        add_test_to_script("${test_name}" "${test_location}" --exact-group)
     endforeach()
 endif()
 

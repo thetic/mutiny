@@ -62,17 +62,17 @@ public:
   bool is_very_verbose() const;
   /** @return true if coloured output was requested (`-c`). */
   bool is_color() const;
-  /** @return true if `-lg` (list group names) was passed. */
+  /** @return true if `--list-groups` was passed. */
   bool is_listing_test_group_names() const;
-  /** @return true if `-ln` (list group.case names) was passed. */
+  /** @return true if `--list-tests` was passed. */
   bool is_listing_test_group_and_case_names() const;
-  /** @return true if `-ll` (list test locations) was passed. */
+  /** @return true if `--list-locations` was passed. */
   bool is_listing_test_locations() const;
-  /** @return true if `-lo` (list ordered test locations) was passed. */
+  /** @return true if `--list-ordered-locations` was passed. */
   bool is_listing_ordered_test_locations() const;
-  /** @return true if `-lgl` (list group locations) was passed. */
+  /** @return true if `--list-group-locations` was passed. */
   bool is_listing_test_group_locations() const;
-  /** @return true if `-rs` (run skipped tests) was passed. */
+  /** @return true if `--run-skipped` was passed. */
   bool is_run_skipped() const;
   /** @return The number of times to repeat the full test suite (`-r N`). */
   unsigned int get_repeat_count() const;

@@ -28,7 +28,11 @@ ParsedField get_parameter_field(
   size_t parameter_length = parameter_name.size();
   String parameter(argv[0]);
   if (parameter.size() > parameter_length) {
-    ParsedField result = { String(argv[0] + parameter_length), 0 };
+    size_t offset = parameter_length;
+    if (argv[0][offset] == '=') {
+      offset++;
+    }
+    ParsedField result = { String(argv[0] + offset), 0 };
     return result;
   }
   if (argc > 1) {
@@ -102,27 +106,27 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     reversing_ = true;
     return true;
   }
-  if (argument == "-lg") {
+  if (argument == "--list-groups") {
     list_test_group_names_ = true;
     return true;
   }
-  if (argument == "-ln") {
+  if (argument == "--list-tests") {
     list_test_group_and_case_names_ = true;
     return true;
   }
-  if (argument == "-lo") {
+  if (argument == "--list-ordered-locations") {
     list_ordered_test_locations_ = true;
     return true;
   }
-  if (argument == "-lgl") {
+  if (argument == "--list-group-locations") {
     list_test_group_locations_ = true;
     return true;
   }
-  if (argument == "-ll") {
+  if (argument == "--list-locations") {
     list_test_locations_ = true;
     return true;
   }
-  if (argument == "-rs") {
+  if (argument == "--run-skipped") {
     run_skipped_ = true;
     return true;
   }
@@ -147,41 +151,43 @@ int CommandLineArguments::parse_prefix_arg(
   if (string_starts_with(argument, "-r")) {
     return set_repeat_count(argc, argv);
   }
+  if (string_starts_with(argument, "--exact-group")) {
+    return add_strict_group_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exclude-exact-group")) {
+    return add_exclude_strict_group_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exclude-group")) {
+    return add_exclude_group_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exact-name")) {
+    return add_strict_name_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exclude-exact-name")) {
+    return add_exclude_strict_name_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exclude-name")) {
+    return add_exclude_name_filter(argc, argv);
+  }
+  if (string_starts_with(argument, "--exact-test")) {
+    return add_group_dot_name_filter(argc, argv, "--exact-test", true, false);
+  }
+  if (string_starts_with(argument, "--exclude-exact-test")) {
+    return add_group_dot_name_filter(
+        argc, argv, "--exclude-exact-test", true, true
+    );
+  }
+  if (string_starts_with(argument, "--exclude-test")) {
+    return add_group_dot_name_filter(argc, argv, "--exclude-test", false, true);
+  }
   if (string_starts_with(argument, "-g")) {
     return add_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-t")) {
     return add_group_dot_name_filter(argc, argv, "-t", false, false);
   }
-  if (string_starts_with(argument, "-st")) {
-    return add_group_dot_name_filter(argc, argv, "-st", true, false);
-  }
-  if (string_starts_with(argument, "-xt")) {
-    return add_group_dot_name_filter(argc, argv, "-xt", false, true);
-  }
-  if (string_starts_with(argument, "-xst")) {
-    return add_group_dot_name_filter(argc, argv, "-xst", true, true);
-  }
-  if (string_starts_with(argument, "-sg")) {
-    return add_strict_group_filter(argc, argv);
-  }
-  if (string_starts_with(argument, "-xg")) {
-    return add_exclude_group_filter(argc, argv);
-  }
-  if (string_starts_with(argument, "-xsg")) {
-    return add_exclude_strict_group_filter(argc, argv);
-  }
   if (string_starts_with(argument, "-n")) {
     return add_name_filter(argc, argv);
-  }
-  if (string_starts_with(argument, "-sn")) {
-    return add_strict_name_filter(argc, argv);
-  }
-  if (string_starts_with(argument, "-xn")) {
-    return add_exclude_name_filter(argc, argv);
-  }
-  if (string_starts_with(argument, "-xsn")) {
-    return add_exclude_strict_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-s")) {
     return set_shuffle(argc, argv);
@@ -227,23 +233,24 @@ String CommandLineArguments::help()
   String help_str =
       "mutiny v" MUTINY_VERSION_STRING "\n\n"
       "Options that do not run tests but query:\n"
-      "  -h                - this wonderful help screen. Joy!\n"
-      "  -lg               - print a list of group names, separated by "
-      "spaces\n"
-      "  -ln               - print a list of test names in the form of "
-      "group.name, separated by spaces\n"
-      "  -ll               - print a list of test names in the form of "
-      "group.name.test_file_path.line\n"
-      "  -lo               - print a list of ordered test names in the form "
+      "  -h                         - this wonderful help screen. Joy!\n"
+      "  --list-groups              - print a list of group names, separated "
+      "by spaces\n"
+      "  --list-tests               - print a list of test names in the form "
+      "of group.name, separated by spaces\n"
+      "  --list-locations           - print a list of test names in the form "
       "of group.name.test_file_path.line\n"
-      "  -lgl              - print a list of group locations in the form of "
-      "group.file_path.line\n"
+      "  --list-ordered-locations   - print a list of ordered test names in "
+      "the form of group.name.test_file_path.line\n"
+      "  --list-group-locations     - print a list of group locations in the "
+      "form of group.file_path.line\n"
       "\n"
       "Options that change the output format:\n"
-      "  -c                - colorize output, print green if OK, or red if "
-      "failed\n"
-      "  -v                - verbose, print each test name as it runs\n"
-      "  -vv               - very verbose, print internal information "
+      "  -c                         - colorize output, print green if OK, or "
+      "red if failed\n"
+      "  -v                         - verbose, print each test name as it "
+      "runs\n"
+      "  -vv                        - very verbose, print internal information "
       "during test run\n";
 
   Plugin* plugin = Registry::get_current_registry()->get_first_plugin();
@@ -257,26 +264,31 @@ String CommandLineArguments::help()
   help_str +=
       "\n"
       "Options that control which tests are run:\n"
-      "  -g <group>        - only run tests whose group contains <group>\n"
-      "  -n <name>         - only run tests whose name contains <name>\n"
-      "  -t <group>.<name> - only run tests whose group and name contain "
-      "<group> and <name>\n"
-      "  -sg <group>       - only run tests whose group exactly matches "
+      "  -g <group>                    - only run tests whose group contains "
       "<group>\n"
-      "  -sn <name>        - only run tests whose name exactly matches "
+      "  -n <name>                     - only run tests whose name contains "
       "<name>\n"
-      "  -st <grp>.<name>  - only run tests whose group and name exactly "
-      "match <grp> and <name>\n"
-      "  -xg <group>       - exclude tests whose group contains <group>\n"
-      "  -xn <name>        - exclude tests whose name contains <name>\n"
-      "  -xt <grp>.<name>  - exclude tests whose group and name contain "
-      "<grp> and <name>\n"
-      "  -xsg <group>      - exclude tests whose group exactly matches "
+      "  -t <group>.<name>             - only run tests whose group and name "
+      "contain <group> and <name>\n"
+      "  --exact-group <group>         - only run tests whose group exactly "
+      "matches <group>\n"
+      "  --exact-name <name>           - only run tests whose name exactly "
+      "matches <name>\n"
+      "  --exact-test <grp>.<name>     - only run tests whose group and name "
+      "exactly match <grp> and <name>\n"
+      "  --exclude-group <group>       - exclude tests whose group contains "
       "<group>\n"
-      "  -xsn <name>       - exclude tests whose name exactly matches "
+      "  --exclude-name <name>         - exclude tests whose name contains "
       "<name>\n"
-      "  -xst <grp>.<name> - exclude tests whose group and name exactly "
-      "match <grp> and <name>\n"
+      "  --exclude-test <grp>.<name>   - exclude tests whose group and name "
+      "contain <grp> and <name>\n"
+      "  --exclude-exact-group <group> - exclude tests whose group exactly "
+      "matches <group>\n"
+      "  --exclude-exact-name <name>   - exclude tests whose name exactly "
+      "matches <name>\n"
+      "  --exclude-exact-test <grp>.<name>\n"
+      "                                - exclude tests whose group and name "
+      "exactly match <grp> and <name>\n"
       "  \"[SKIPPED_]TEST(<group>, <name>)\"\n"
       "                    - only run tests whose group and name exactly "
       "match <group> and <name>\n"
@@ -290,7 +302,7 @@ String CommandLineArguments::help()
       "optional, must be greater than 0)\n"
       "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is "
       "not specified)\n"
-      "  -rs               - run skipped tests as if they are not skipped\n"
+      "  --run-skipped     - run skipped tests as if they are not skipped\n"
       "  -f                - Cause the tests to crash on failure (to allow "
       "the test to be debugged if necessary)\n"
       "  -e                - do not rethrow unexpected exceptions on "
@@ -478,7 +490,7 @@ int CommandLineArguments::add_strict_group_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-sg");
+  ParsedField field = get_parameter_field(argc, argv, "--exact-group");
   auto* group_filter = new Filter(field.value);
   group_filter->strict_matching();
   group_filters_ = group_filter->add(group_filters_);
@@ -490,7 +502,7 @@ int CommandLineArguments::add_exclude_group_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-xg");
+  ParsedField field = get_parameter_field(argc, argv, "--exclude-group");
   auto* group_filter = new Filter(field.value);
   group_filter->invert_matching();
   group_filters_ = group_filter->add(group_filters_);
@@ -502,7 +514,7 @@ int CommandLineArguments::add_exclude_strict_group_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-xsg");
+  ParsedField field = get_parameter_field(argc, argv, "--exclude-exact-group");
   auto* group_filter = new Filter(field.value);
   group_filter->strict_matching();
   group_filter->invert_matching();
@@ -523,7 +535,7 @@ int CommandLineArguments::add_strict_name_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-sn");
+  ParsedField field = get_parameter_field(argc, argv, "--exact-name");
   auto* name_filter = new Filter(field.value);
   name_filter->strict_matching();
   name_filters_ = name_filter->add(name_filters_);
@@ -535,7 +547,7 @@ int CommandLineArguments::add_exclude_name_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-xn");
+  ParsedField field = get_parameter_field(argc, argv, "--exclude-name");
   auto* name_filter = new Filter(field.value);
   name_filter->invert_matching();
   name_filters_ = name_filter->add(name_filters_);
@@ -547,7 +559,7 @@ int CommandLineArguments::add_exclude_strict_name_filter(
     const char* const* argv
 )
 {
-  ParsedField field = get_parameter_field(argc, argv, "-xsn");
+  ParsedField field = get_parameter_field(argc, argv, "--exclude-exact-name");
   auto* name_filter = new Filter(field.value);
   name_filter->invert_matching();
   name_filter->strict_matching();
