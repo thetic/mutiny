@@ -86,24 +86,24 @@ CommandLineArguments::~CommandLineArguments()
 
 bool CommandLineArguments::parse_simple_flag(const String& argument)
 {
-  if (argument == "-h" || argument == "--help") {
+  if ((argument == "-h") || (argument == "--help")) {
     need_help_ = true;
     return true;
   }
-  if (argument == "-v" || argument == "--verbose" ||
-      argument == "--verbose=1") {
+  if ((argument == "-v") || (argument == "--verbose") ||
+      (argument == "--verbose=1")) {
     verbose_ = true;
     return true;
   }
-  if (argument == "-vv" || argument == "--verbose=2") {
+  if ((argument == "-vv") || (argument == "--verbose=2")) {
     very_verbose_ = true;
     return true;
   }
-  if (argument == "-c" || argument == "--color") {
+  if ((argument == "-c") || (argument == "--color")) {
     color_ = true;
     return true;
   }
-  if (argument == "-b" || argument == "--reverse") {
+  if ((argument == "-b") || (argument == "--reverse")) {
     reversing_ = true;
     return true;
   }
@@ -131,11 +131,11 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     run_skipped_ = true;
     return true;
   }
-  if (argument == "-f" || argument == "--crash-on-fail") {
+  if ((argument == "-f") || (argument == "--crash-on-fail")) {
     crash_on_fail_ = true;
     return true;
   }
-  if (argument == "-e" || argument == "--no-rethrow") {
+  if ((argument == "-e") || (argument == "--no-rethrow")) {
     rethrow_exceptions_ = false;
     return true;
   }
