@@ -37,6 +37,8 @@ Includes
 
 - ``mu/tiny/features.hpp`` (:ref:`file_include_mu_tiny_features.hpp`)
 
+- ``stdint.h``
+
 
 
 Included By

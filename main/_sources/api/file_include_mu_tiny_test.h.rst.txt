@@ -39,6 +39,8 @@ Includes
 
 - ``stddef.h``
 
+- ``stdint.h``
+
 
 
 
@@ -50,37 +52,37 @@ Functions
 
 - :ref:`exhale_function_test_8h_1a3f1626f0ff23bcbd1e20fd820c6c35ad`
 
-- :ref:`exhale_function_test_8h_1a02e5bfcd0c28bf7ec99ba0fc0e5933c5`
+- :ref:`exhale_function_test_8h_1a5243e55a28247dd9e9989ccfafd93491`
 
-- :ref:`exhale_function_test_8h_1a73880c2769fc97d2b1881ee342cb1e1f`
+- :ref:`exhale_function_test_8h_1a087d6b66d0c52f58d47956ddb0be2a6d`
 
-- :ref:`exhale_function_test_8h_1a3b996018465a6aa0b2724caa0a911c0f`
+- :ref:`exhale_function_test_8h_1af7161a14ee0c1b43b438962380910528`
 
-- :ref:`exhale_function_test_8h_1ab875e43c81e379d208b1781f5598dfe1`
+- :ref:`exhale_function_test_8h_1a433a33f766d4804b615503323845b153`
 
-- :ref:`exhale_function_test_8h_1a57adbfe65b82f97f4fe7c78c5c58d7ff`
+- :ref:`exhale_function_test_8h_1a5a02dde4d9ab8ebb87129e9441d2d5e7`
 
-- :ref:`exhale_function_test_8h_1a1a11c4a1a7530eb153db329f39f65c99`
+- :ref:`exhale_function_test_8h_1a1ed0fd0396ef55238d938dfd1cc8550b`
 
-- :ref:`exhale_function_test_8h_1ac0ccb08f0999ca3811d00ccc084d7fed`
+- :ref:`exhale_function_test_8h_1aa6501ce4097dd55c560d8a7275564e54`
 
-- :ref:`exhale_function_test_8h_1a6e1bb7ec9eac3e47aa76996cd86a9a70`
+- :ref:`exhale_function_test_8h_1acb4b8141b2d43c7db68970669fe9cc33`
 
-- :ref:`exhale_function_test_8h_1a896b57309e2569635c9dc1dd058120ba`
+- :ref:`exhale_function_test_8h_1a6c49e2e7383748cd093fb4b55c9121a6`
 
-- :ref:`exhale_function_test_8h_1ab9841272685e9ece0b36341b5e45f821`
+- :ref:`exhale_function_test_8h_1a9aac610dd1d80f5dff72da3427431fe5`
 
-- :ref:`exhale_function_test_8h_1a9820b85f2b722423349e58655a13df1f`
+- :ref:`exhale_function_test_8h_1aa3e5ec1a03d76d4247b3044b2945e763`
 
-- :ref:`exhale_function_test_8h_1aa68b822987a386f4ef873729cf6e3bfb`
+- :ref:`exhale_function_test_8h_1a3b102d9012626a980de76fe0210cd48f`
 
-- :ref:`exhale_function_test_8h_1a5201b4080afcd8d1ca5d07ae346dd4ca`
+- :ref:`exhale_function_test_8h_1af111693d0c3cb41219a51aef5f07a0ca`
 
-- :ref:`exhale_function_test_8h_1a30cc2999a8507b6bc6054dbe3d84d193`
+- :ref:`exhale_function_test_8h_1a7e104986c23559a2c62d1c8ad936137b`
 
-- :ref:`exhale_function_test_8h_1acf2a16c894e678b3f620b8d823c42141`
+- :ref:`exhale_function_test_8h_1ad5a4920e736a4fa8746556f5d1c7bf92`
 
-- :ref:`exhale_function_test_8h_1a8e71a8ebd0cbe564de4726f3e8c1eadc`
+- :ref:`exhale_function_test_8h_1abe37cdab2e524831617982d6dca5be2b`
 
 
 Defines

@@ -35,6 +35,8 @@ Includes
 
 - ``mu/tiny/export.h``
 
+- ``stdint.h``
+
 
 
 Included By
