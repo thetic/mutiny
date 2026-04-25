@@ -73,13 +73,6 @@ Commands
   :prop_tgt:`CROSSCOMPILING_EMULATOR <cmake:prop_tgt:CROSSCOMPILING_EMULATOR>`
   defined; if absent, discovery is skipped with a warning.
 
-  **CMake version compatibility:** CMake older than 3.10 supports only one
-  ``mutiny_discover_tests()`` call per directory because
-  :prop_dir:`TEST_INCLUDE_FILE <cmake:prop_dir:TEST_INCLUDE_FILE>` accepts a
-  single value.  CMake 3.10 and later use the list-capable
-  :prop_dir:`TEST_INCLUDE_FILES <cmake:prop_dir:TEST_INCLUDE_FILES>` property
-  and support multiple calls per directory.
-
 #]=======================================================================]
 
 set(_MUTINY_DISCOVERY_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/_mutiny_discovery.cmake
@@ -91,11 +84,6 @@ option(MUTINY_JUNIT_REPORT "Output JUnit test reports")
 set(MUTINY_EXTRA_ARGS "-v" CACHE STRING
     "Default extra arguments passed to each discovered test run"
 )
-# _MUTINY_CMAKE_VERSION_OVERRIDE lets tests exercise the legacy code path.
-set(_MUTINY_CMAKE_VERSION_OVERRIDE "" CACHE STRING
-    "Override the cmake version used by mutiny_discover_tests (for testing only)"
-)
-mark_as_advanced(_MUTINY_CMAKE_VERSION_OVERRIDE)
 
 function(mutiny_discover_tests target)
     if(DEFINED BUILD_TESTING AND NOT BUILD_TESTING)
@@ -189,33 +177,9 @@ function(mutiny_discover_tests target)
         VERBATIM
     )
 
-    if(_MUTINY_CMAKE_VERSION_OVERRIDE)
-        set(_mutiny_cmake_version "${_MUTINY_CMAKE_VERSION_OVERRIDE}")
-    else()
-        set(_mutiny_cmake_version "${CMAKE_VERSION}")
-    endif()
-
-    if(_mutiny_cmake_version VERSION_LESS "3.10")
-        # We can only set one.
-        get_property(already_set
-            DIRECTORY
-            PROPERTY TEST_INCLUDE_FILE
-            SET
-        )
-        if(${already_set})
-            message(FATAL_ERROR
-                "Cannot discover multiple tests from the same file"
-            )
-        endif()
-        set_property(
-            DIRECTORY
-            PROPERTY TEST_INCLUDE_FILE "${CTEST_INCLUDE_FILE}"
-        )
-    else()
-        set_property(
-            DIRECTORY APPEND
-            PROPERTY TEST_INCLUDE_FILES "${CTEST_INCLUDE_FILE}"
-        )
-    endif()
+    set_property(
+        DIRECTORY APPEND
+        PROPERTY TEST_INCLUDE_FILES "${CTEST_INCLUDE_FILE}"
+    )
 
 endfunction()
