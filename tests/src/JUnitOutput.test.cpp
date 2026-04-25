@@ -1179,11 +1179,14 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
   );
 }
 
-TEST(JUnitOutput, parseArguments_pjunitWithoutName_succeeds)
+TEST(JUnitOutput, parseArguments_pjunitWithoutName_usesDefault)
 {
-  mu::tiny::test::JUnitOutputPlugin p;
+  mu::tiny::test::JUnitOutputPlugin p("mypackage");
   const char* argv[] = { "-pjunit" };
   CHECK(p.parse_arguments(1, argv));
+  auto* created = p.create_output();
+  CHECK(created != nullptr);
+  delete created;
 }
 
 TEST(JUnitOutput, parseArguments_pjunitWithInvalidSuffix_returnsFalse)

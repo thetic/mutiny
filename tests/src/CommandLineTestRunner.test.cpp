@@ -456,7 +456,7 @@ TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   fake_output.restore_originals();
 
   STRCMP_CONTAINS(
-      "<testcase classname=\"group1\" name=\"test1\"",
+      "<testcase classname=\"tests.exe.group1\" name=\"test1\"",
       fake_output.file.c_str()
   );
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());

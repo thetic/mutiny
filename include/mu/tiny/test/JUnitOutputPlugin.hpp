@@ -29,8 +29,15 @@ class Output;
 class MUTINY_EXPORT JUnitOutputPlugin : public Plugin
 {
 public:
-  /** @brief Construct and name the plugin. */
-  JUnitOutputPlugin();
+  /**
+   * @brief Construct the plugin with an optional default package name.
+   *
+   * @param default_package_name  Used as the JUnit package name when
+   *   @c -pjunit is given without an explicit @c =<name> suffix.
+   *   Pass the executable basename to reproduce the standard behaviour.
+   *   Defaults to empty, which leaves the package name unset.
+   */
+  explicit JUnitOutputPlugin(const String& default_package_name = "");
 
   /**
    * @brief Handle the `-pjunit[=<name>]` command-line argument.
@@ -55,6 +62,7 @@ public:
 
 private:
   bool active_{ false };
+  String default_package_name_;
   String package_name_;
 };
 
