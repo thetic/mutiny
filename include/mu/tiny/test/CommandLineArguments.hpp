@@ -116,41 +116,31 @@ private:
   unsigned int shuffle_seed_{ 0 };
   Filter* group_filters_{ nullptr };
   Filter* name_filters_{ nullptr };
-  void set_repeat_count(int argc, const char* const* argv, int& index);
-  bool set_shuffle(int argc, const char* const* argv, int& index);
-  void add_group_filter(int argc, const char* const* argv, int& index);
-  bool add_group_dot_name_filter(
+  int set_repeat_count(int argc, const char* const* argv);
+  int set_shuffle(int argc, const char* const* argv);
+  int add_group_filter(int argc, const char* const* argv);
+  int add_group_dot_name_filter(
       int argc,
       const char* const* argv,
-      int& index,
       const String& parameter_name,
       bool strict,
       bool exclude
   );
-  void add_strict_group_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_group_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_strict_group_filter(
+  int add_strict_group_filter(int argc, const char* const* argv);
+  int add_exclude_group_filter(int argc, const char* const* argv);
+  int add_exclude_strict_group_filter(int argc, const char* const* argv);
+  int add_name_filter(int argc, const char* const* argv);
+  int add_strict_name_filter(int argc, const char* const* argv);
+  int add_exclude_name_filter(int argc, const char* const* argv);
+  int add_exclude_strict_name_filter(int argc, const char* const* argv);
+  int add_test_to_run_based_on_verbose_output(
       int argc,
       const char* const* argv,
-      int& index
-  );
-  void add_name_filter(int argc, const char* const* argv, int& index);
-  void add_strict_name_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_name_filter(int argc, const char* const* argv, int& index);
-  void add_exclude_strict_name_filter(
-      int argc,
-      const char* const* argv,
-      int& index
-  );
-  void add_test_to_run_based_on_verbose_output(
-      int argc,
-      const char* const* argv,
-      int& index,
       const char* parameter_name
   );
   bool parse_simple_flag(const String& argument);
-  bool parse_prefix_arg(const String& argument, Plugin* plugin, int& index);
-  bool parse_argument(const String& argument, Plugin* plugin, int& index);
+  int parse_prefix_arg(const String& argument, Plugin* plugin, int index);
+  int parse_argument(const String& argument, Plugin* plugin, int index);
 };
 
 } // namespace test
