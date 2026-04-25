@@ -13,7 +13,7 @@ plugin-provided flags).
 Query Flags (do not run tests)
 -------------------------------
 
-.. option:: -h
+.. option:: -h, --help
 
    Print help screen and exit.
 
@@ -41,15 +41,15 @@ Query Flags (do not run tests)
 Output Flags
 ------------
 
-.. option:: -c
+.. option:: -c, --color
 
    Colorize output: green for pass, red for fail.
 
-.. option:: -v
+.. option:: -v, --verbose, --verbose=1
 
    Verbose: print each test name as it runs.
 
-.. option:: -vv
+.. option:: -vv, --verbose=2
 
    Very verbose: print internal framework state.
 
@@ -83,17 +83,20 @@ Multiple filter flags can be combined; all must match for a test to run.
 Include filters (substring match by default)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. option:: -g <group>
+.. option:: -g <group>, --group <group>
 
-   Run tests whose group name *contains* ``<group>``.
+   Run tests whose group name *contains* ``<group>``.  Also accepts
+   ``--group=<group>``.
 
-.. option:: -n <name>
+.. option:: -n <name>, --name <name>
 
-   Run tests whose test name *contains* ``<name>``.
+   Run tests whose test name *contains* ``<name>``.  Also accepts
+   ``--name=<name>``.
 
-.. option:: -t <group>.<name>
+.. option:: -t <group>.<name>, --test <group>.<name>
 
    Run tests whose group contains ``<group>`` **and** name contains ``<name>``.
+   Also accepts ``--test=<group>.<name>``.
 
 Include filters (exact match)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -165,29 +168,30 @@ This performs an exact match on both group and name.
 Execution Flags
 ---------------
 
-.. option:: -b
+.. option:: -b, --reverse
 
    Run tests in reverse registration order.
 
-.. option:: -s [seed]
+.. option:: -s [seed], --shuffle [seed]
 
    Shuffle test execution order randomly. Optional ``seed`` (integer > 0)
    makes the order reproducible; if omitted, seed is time-based and
-   printed to console.
+   printed to console.  Also accepts ``--shuffle=<seed>``.
 
-.. option:: -r[#]
+.. option:: -r[#], --repeat [#]
 
    Repeat the full test suite ``#`` times. If ``#`` is omitted, repeats
-   twice. Useful for detecting order-dependent failures.
+   twice. Useful for detecting order-dependent failures.  Also accepts
+   ``--repeat=<#>``.
 
 .. option:: --run-skipped
 
    Run skipped tests (:c:macro:`SKIPPED_TEST`) as if they were normal tests.
 
-.. option:: -f
+.. option:: -f, --crash-on-fail
 
    Crash on first failure instead of continuing (useful with a debugger).
 
-.. option:: -e
+.. option:: -e, --no-rethrow
 
    Do not rethrow unexpected exceptions as failures (catch and continue).

@@ -54,13 +54,15 @@ public:
    */
   bool parse(Plugin* plugin);
 
-  /** @return true if `-h` was passed. */
+  /** @return true if `-h` / `--help` was passed. */
   bool need_help() const;
-  /** @return true if verbose output was requested (`-v`). */
+  /** @return true if verbose output was requested (`-v` / `--verbose`). */
   bool is_verbose() const;
-  /** @return true if very-verbose output was requested (`-vv`). */
+  /**
+   * @return true if very-verbose output was requested (`-vv` / `--verbose=2`).
+   */
   bool is_very_verbose() const;
-  /** @return true if coloured output was requested (`-c`). */
+  /** @return true if coloured output was requested (`-c` / `--color`). */
   bool is_color() const;
   /** @return true if `--list-groups` was passed. */
   bool is_listing_test_group_names() const;
@@ -80,9 +82,15 @@ public:
   bool is_shuffling() const;
   /** @return true if tests should run in reverse order (`-rv`). */
   bool is_reversing() const;
-  /** @return true if the process should crash on first failure (`-p`). */
+  /**
+   * @return true if the process should crash on first failure (`-f` /
+   * `--crash-on-fail`).
+   */
   bool is_crashing_on_fail() const;
-  /** @return true if exceptions should be re-thrown after being caught. */
+  /**
+   * @return true if exceptions should be re-thrown after being caught
+   * (`--no-rethrow` disables).
+   */
   bool is_rethrowing_exceptions() const;
   /** @return The seed used when shuffling (0 means time-seeded). */
   unsigned int get_shuffle_seed() const;
@@ -116,9 +124,17 @@ private:
   unsigned int shuffle_seed_{ 0 };
   Filter* group_filters_{ nullptr };
   Filter* name_filters_{ nullptr };
-  int set_repeat_count(int argc, const char* const* argv);
-  int set_shuffle(int argc, const char* const* argv);
-  int add_group_filter(int argc, const char* const* argv);
+  int set_repeat_count(
+      int argc,
+      const char* const* argv,
+      const String& flag = "-r"
+  );
+  int set_shuffle(int argc, const char* const* argv, const String& flag = "-s");
+  int add_group_filter(
+      int argc,
+      const char* const* argv,
+      const String& flag = "-g"
+  );
   int add_group_dot_name_filter(
       int argc,
       const char* const* argv,
@@ -129,7 +145,11 @@ private:
   int add_strict_group_filter(int argc, const char* const* argv);
   int add_exclude_group_filter(int argc, const char* const* argv);
   int add_exclude_strict_group_filter(int argc, const char* const* argv);
-  int add_name_filter(int argc, const char* const* argv);
+  int add_name_filter(
+      int argc,
+      const char* const* argv,
+      const String& flag = "-n"
+  );
   int add_strict_name_filter(int argc, const char* const* argv);
   int add_exclude_name_filter(int argc, const char* const* argv);
   int add_exclude_strict_name_filter(int argc, const char* const* argv);

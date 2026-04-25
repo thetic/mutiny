@@ -576,3 +576,141 @@ TEST(CommandLineArguments, setOptRethrowExceptions)
   CHECK(new_argument_parser(argc, argv));
   CHECK(!args->is_rethrowing_exceptions());
 }
+
+// Long-form aliases for single-letter flags
+
+TEST(CommandLineArguments, longFormHelp)
+{
+  const char* argv[] = { "tests.exe", "--help" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->need_help());
+}
+
+TEST(CommandLineArguments, longFormColor)
+{
+  const char* argv[] = { "tests.exe", "--color" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_color());
+}
+
+TEST(CommandLineArguments, longFormReverse)
+{
+  const char* argv[] = { "tests.exe", "--reverse" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_reversing());
+}
+
+TEST(CommandLineArguments, longFormCrashOnFail)
+{
+  const char* argv[] = { "tests.exe", "--crash-on-fail" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_crashing_on_fail());
+}
+
+TEST(CommandLineArguments, longFormNoRethrow)
+{
+  const char* argv[] = { "tests.exe", "--no-rethrow" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(!args->is_rethrowing_exceptions());
+}
+
+TEST(CommandLineArguments, longFormVerbose)
+{
+  const char* argv[] = { "tests.exe", "--verbose" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_verbose());
+  CHECK(!args->is_very_verbose());
+}
+
+TEST(CommandLineArguments, longFormVerboseLevel1)
+{
+  const char* argv[] = { "tests.exe", "--verbose=1" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_verbose());
+  CHECK(!args->is_very_verbose());
+}
+
+TEST(CommandLineArguments, longFormVerboseLevel2)
+{
+  const char* argv[] = { "tests.exe", "--verbose=2" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_very_verbose());
+}
+
+TEST(CommandLineArguments, longFormVerboseInvalidLevel)
+{
+  const char* argv[] = { "tests.exe", "--verbose=3" };
+  CHECK(!new_argument_parser(2, argv));
+}
+
+TEST(CommandLineArguments, longFormGroup)
+{
+  const char* argv[] = { "tests.exe", "--group", "mygroup" };
+  CHECK(new_argument_parser(3, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter("mygroup"), *args->get_group_filters());
+}
+
+TEST(CommandLineArguments, longFormGroupEqualsSyntax)
+{
+  const char* argv[] = { "tests.exe", "--group=mygroup" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter("mygroup"), *args->get_group_filters());
+}
+
+TEST(CommandLineArguments, longFormName)
+{
+  const char* argv[] = { "tests.exe", "--name", "mytest" };
+  CHECK(new_argument_parser(3, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter("mytest"), *args->get_name_filters());
+}
+
+TEST(CommandLineArguments, longFormNameEqualsSyntax)
+{
+  const char* argv[] = { "tests.exe", "--name=mytest" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter("mytest"), *args->get_name_filters());
+}
+
+TEST(CommandLineArguments, longFormTest)
+{
+  const char* argv[] = { "tests.exe", "--test", "group.name" };
+  CHECK(new_argument_parser(3, argv));
+  CHECK_EQUAL(mu::tiny::test::Filter("group"), *args->get_group_filters());
+  CHECK_EQUAL(mu::tiny::test::Filter("name"), *args->get_name_filters());
+}
+
+TEST(CommandLineArguments, longFormRepeat)
+{
+  const char* argv[] = { "tests.exe", "--repeat", "5" };
+  CHECK(new_argument_parser(3, argv));
+  CHECK_EQUAL(5U, args->get_repeat_count());
+}
+
+TEST(CommandLineArguments, longFormRepeatEqualsSyntax)
+{
+  const char* argv[] = { "tests.exe", "--repeat=5" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK_EQUAL(5U, args->get_repeat_count());
+}
+
+TEST(CommandLineArguments, longFormRepeatDefaultsToTwo)
+{
+  const char* argv[] = { "tests.exe", "--repeat" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK_EQUAL(2U, args->get_repeat_count());
+}
+
+TEST(CommandLineArguments, longFormShuffle)
+{
+  const char* argv[] = { "tests.exe", "--shuffle" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_shuffling());
+}
+
+TEST(CommandLineArguments, longFormShuffleWithSeed)
+{
+  const char* argv[] = { "tests.exe", "--shuffle=42" };
+  CHECK(new_argument_parser(2, argv));
+  CHECK(args->is_shuffling());
+  CHECK_EQUAL(42U, args->get_shuffle_seed());
+}

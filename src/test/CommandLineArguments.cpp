@@ -86,23 +86,24 @@ CommandLineArguments::~CommandLineArguments()
 
 bool CommandLineArguments::parse_simple_flag(const String& argument)
 {
-  if (argument == "-h") {
+  if (argument == "-h" || argument == "--help") {
     need_help_ = true;
     return true;
   }
-  if (argument == "-v") {
+  if (argument == "-v" || argument == "--verbose" ||
+      argument == "--verbose=1") {
     verbose_ = true;
     return true;
   }
-  if (argument == "-vv") {
+  if (argument == "-vv" || argument == "--verbose=2") {
     very_verbose_ = true;
     return true;
   }
-  if (argument == "-c") {
+  if (argument == "-c" || argument == "--color") {
     color_ = true;
     return true;
   }
-  if (argument == "-b") {
+  if (argument == "-b" || argument == "--reverse") {
     reversing_ = true;
     return true;
   }
@@ -130,11 +131,11 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
     run_skipped_ = true;
     return true;
   }
-  if (argument == "-f") {
+  if (argument == "-f" || argument == "--crash-on-fail") {
     crash_on_fail_ = true;
     return true;
   }
-  if (argument == "-e") {
+  if (argument == "-e" || argument == "--no-rethrow") {
     rethrow_exceptions_ = false;
     return true;
   }
@@ -148,6 +149,12 @@ int CommandLineArguments::parse_prefix_arg(
 )
 {
   String argument(argv[0]);
+  if (string_starts_with(argument, "--repeat")) {
+    return set_repeat_count(argc, argv, "--repeat");
+  }
+  if (string_starts_with(argument, "--shuffle")) {
+    return set_shuffle(argc, argv, "--shuffle");
+  }
   if (string_starts_with(argument, "-r")) {
     return set_repeat_count(argc, argv);
   }
@@ -179,6 +186,15 @@ int CommandLineArguments::parse_prefix_arg(
   }
   if (string_starts_with(argument, "--exclude-test")) {
     return add_group_dot_name_filter(argc, argv, "--exclude-test", false, true);
+  }
+  if (string_starts_with(argument, "--group")) {
+    return add_group_filter(argc, argv, "--group");
+  }
+  if (string_starts_with(argument, "--name")) {
+    return add_name_filter(argc, argv, "--name");
+  }
+  if (string_starts_with(argument, "--test")) {
+    return add_group_dot_name_filter(argc, argv, "--test", false, false);
   }
   if (string_starts_with(argument, "-g")) {
     return add_group_filter(argc, argv);
@@ -233,7 +249,7 @@ String CommandLineArguments::help()
   String help_str =
       "mutiny v" MUTINY_VERSION_STRING "\n\n"
       "Options that do not run tests but query:\n"
-      "  -h                         - this wonderful help screen. Joy!\n"
+      "  -h, --help                 - this wonderful help screen. Joy!\n"
       "  --list-groups              - print a list of group names, separated "
       "by spaces\n"
       "  --list-tests               - print a list of test names in the form "
@@ -246,11 +262,11 @@ String CommandLineArguments::help()
       "form of group.file_path.line\n"
       "\n"
       "Options that change the output format:\n"
-      "  -c                         - colorize output, print green if OK, or "
+      "  -c, --color                - colorize output, print green if OK, or "
       "red if failed\n"
-      "  -v                         - verbose, print each test name as it "
+      "  -v, --verbose[=1]          - verbose, print each test name as it "
       "runs\n"
-      "  -vv                        - very verbose, print internal information "
+      "  -vv, --verbose=2           - very verbose, print internal information "
       "during test run\n";
 
   Plugin* plugin = Registry::get_current_registry()->get_first_plugin();
@@ -264,11 +280,11 @@ String CommandLineArguments::help()
   help_str +=
       "\n"
       "Options that control which tests are run:\n"
-      "  -g <group>                    - only run tests whose group contains "
+      "  -g, --group <group>           - only run tests whose group contains "
       "<group>\n"
-      "  -n <name>                     - only run tests whose name contains "
+      "  -n, --name <name>             - only run tests whose name contains "
       "<name>\n"
-      "  -t <group>.<name>             - only run tests whose group and name "
+      "  -t, --test <group>.<name>     - only run tests whose group and name "
       "contain <group> and <name>\n"
       "  --exact-group <group>         - only run tests whose group exactly "
       "matches <group>\n"
@@ -296,16 +312,17 @@ String CommandLineArguments::help()
       "the -v option on the command line)\n"
       "\n"
       "Options that control how the tests are run:\n"
-      "  -b                - run the tests backwards, reversing the normal "
-      "way\n"
-      "  -s [<seed>]       - shuffle tests randomly (randomization seed is "
-      "optional, must be greater than 0)\n"
-      "  -r[<#>]           - repeat the tests <#> times (or twice if <#> is "
-      "not specified)\n"
-      "  --run-skipped     - run skipped tests as if they are not skipped\n"
-      "  -f                - Cause the tests to crash on failure (to allow "
-      "the test to be debugged if necessary)\n"
-      "  -e                - do not rethrow unexpected exceptions on "
+      "  -b, --reverse               - run the tests backwards, reversing the "
+      "normal way\n"
+      "  -s, --shuffle [<seed>]      - shuffle tests randomly (randomization "
+      "seed is optional, must be greater than 0)\n"
+      "  -r, --repeat [<#>]          - repeat the tests <#> times (or twice "
+      "if <#> is not specified)\n"
+      "  --run-skipped               - run skipped tests as if they are not "
+      "skipped\n"
+      "  -f, --crash-on-fail         - Cause the tests to crash on failure "
+      "(to allow the test to be debugged if necessary)\n"
+      "  -e, --no-rethrow            - do not rethrow unexpected exceptions on "
       "failure\n";
 
   return help_str;
@@ -401,14 +418,23 @@ const Filter* CommandLineArguments::get_name_filters() const
   return name_filters_;
 }
 
-int CommandLineArguments::set_repeat_count(int argc, const char* const* argv)
+int CommandLineArguments::set_repeat_count(
+    int argc,
+    const char* const* argv,
+    const String& flag
+)
 {
   repeat_ = 0;
   int extra = 0;
 
+  size_t flag_length = flag.size();
   String repeat_parameter(argv[0]);
-  if (repeat_parameter.size() > 2) {
-    repeat_ = static_cast<unsigned int>(strtoul(argv[0] + 2));
+  if (repeat_parameter.size() > flag_length) {
+    size_t offset = flag_length;
+    if (argv[0][offset] == '=') {
+      offset++;
+    }
+    repeat_ = static_cast<unsigned int>(strtoul(argv[0] + offset));
   } else if (argc > 1) {
     repeat_ = static_cast<unsigned int>(strtoul(argv[1]));
     if (repeat_ != 0) {
@@ -422,7 +448,11 @@ int CommandLineArguments::set_repeat_count(int argc, const char* const* argv)
   return extra;
 }
 
-int CommandLineArguments::set_shuffle(int argc, const char* const* argv)
+int CommandLineArguments::set_shuffle(
+    int argc,
+    const char* const* argv,
+    const String& flag
+)
 {
   shuffling_ = true;
   shuffle_seed_ = static_cast<unsigned int>(get_time_in_millis());
@@ -431,10 +461,15 @@ int CommandLineArguments::set_shuffle(int argc, const char* const* argv)
   }
 
   int extra = 0;
+  size_t flag_length = flag.size();
   String shuffle_parameter = argv[0];
-  if (shuffle_parameter.size() > 2) {
+  if (shuffle_parameter.size() > flag_length) {
     shuffling_pre_seeded_ = true;
-    shuffle_seed_ = static_cast<unsigned>(strtoul(argv[0] + 2));
+    size_t offset = flag_length;
+    if (argv[0][offset] == '=') {
+      offset++;
+    }
+    shuffle_seed_ = static_cast<unsigned>(strtoul(argv[0] + offset));
   } else if (argc > 1) {
     auto parsed_parameter = static_cast<unsigned>(strtoul(argv[1]));
     if (parsed_parameter != 0) {
@@ -446,9 +481,13 @@ int CommandLineArguments::set_shuffle(int argc, const char* const* argv)
   return (shuffle_seed_ != 0) ? extra : -1;
 }
 
-int CommandLineArguments::add_group_filter(int argc, const char* const* argv)
+int CommandLineArguments::add_group_filter(
+    int argc,
+    const char* const* argv,
+    const String& flag
+)
 {
-  ParsedField field = get_parameter_field(argc, argv, "-g");
+  ParsedField field = get_parameter_field(argc, argv, flag);
   auto* group_filter = new Filter(field.value);
   group_filters_ = group_filter->add(group_filters_);
   return field.extra;
@@ -522,9 +561,13 @@ int CommandLineArguments::add_exclude_strict_group_filter(
   return field.extra;
 }
 
-int CommandLineArguments::add_name_filter(int argc, const char* const* argv)
+int CommandLineArguments::add_name_filter(
+    int argc,
+    const char* const* argv,
+    const String& flag
+)
 {
-  ParsedField field = get_parameter_field(argc, argv, "-n");
+  ParsedField field = get_parameter_field(argc, argv, flag);
   auto* name_filter = new Filter(field.value);
   name_filters_ = name_filter->add(name_filters_);
   return field.extra;
