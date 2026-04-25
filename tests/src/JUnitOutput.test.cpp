@@ -396,8 +396,8 @@ TEST_GROUP(JUnitOutput)
     delete output;
     delete plugin;
     plugin = new mu::tiny::test::JUnitOutputPlugin();
-    const char* argv[] = { "", junit_arg };
-    plugin->parse_arguments(2, argv, 1);
+    const char* argv[] = { junit_arg };
+    plugin->parse_arguments(1, argv);
     output = plugin->create_output();
     result = new mu::tiny::test::Result(*output);
     test_case_runner = new JUnitTestOutputTestRunner(*result);
@@ -1179,16 +1179,16 @@ TEST(JUnitOutput, TestCaseBlockForSkippedTestEscapesXmlInMessage)
   );
 }
 
-TEST(JUnitOutput, parseArguments_derivesBasenameFromPathInArgv0)
+TEST(JUnitOutput, parseArguments_pjunitWithoutName_succeeds)
 {
   mu::tiny::test::JUnitOutputPlugin p;
-  const char* argv[] = { "path/to/binary", "-pjunit" };
-  CHECK(p.parse_arguments(2, argv, 1));
+  const char* argv[] = { "-pjunit" };
+  CHECK(p.parse_arguments(1, argv));
 }
 
 TEST(JUnitOutput, parseArguments_pjunitWithInvalidSuffix_returnsFalse)
 {
   mu::tiny::test::JUnitOutputPlugin p;
-  const char* argv[] = { "", "-pjunitX" };
-  CHECK(!p.parse_arguments(2, argv, 1));
+  const char* argv[] = { "-pjunitX" };
+  CHECK(!p.parse_arguments(1, argv));
 }

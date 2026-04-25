@@ -21,11 +21,7 @@ public:
   {
   }
 
-  bool parse_arguments(
-      int /*argc*/,
-      const char* const* /*argv*/,
-      int /*index*/
-  ) override
+  bool parse_arguments(int /*argc*/, const char* const* /*argv*/) override
   {
     /* Remove ourselves from the count */
     amount_of_plugins = registry_->count_plugins() - 1;
@@ -460,7 +456,7 @@ TEST(CommandLineRunner, realJunitOutputShouldBeCreatedAndWorkProperly)
   fake_output.restore_originals();
 
   STRCMP_CONTAINS(
-      "<testcase classname=\"tests.exe.group1\" name=\"test1\"",
+      "<testcase classname=\"group1\" name=\"test1\"",
       fake_output.file.c_str()
   );
   STRCMP_CONTAINS("TEST(group1, test1)", fake_output.console.c_str());

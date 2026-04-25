@@ -14,11 +14,7 @@ public:
   {
   }
   ~OptionsPlugin() override = default;
-  bool parse_arguments(
-      int /*argc*/,
-      const char* const* /*argv*/,
-      int /*index*/
-  ) override
+  bool parse_arguments(int /*argc*/, const char* const* /*argv*/) override
   {
     return true;
   }

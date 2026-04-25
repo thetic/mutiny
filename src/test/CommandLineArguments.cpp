@@ -138,85 +138,82 @@ bool CommandLineArguments::parse_simple_flag(const String& argument)
 }
 
 int CommandLineArguments::parse_prefix_arg(
-    const String& argument,
-    Plugin* plugin,
-    int index
+    int argc,
+    const char* const* argv,
+    Plugin* plugin
 )
 {
-  int remaining = ac_ - index;
-  const char* const* args = av_ + index;
+  String argument(argv[0]);
   if (string_starts_with(argument, "-r")) {
-    return set_repeat_count(remaining, args);
+    return set_repeat_count(argc, argv);
   }
   if (string_starts_with(argument, "-g")) {
-    return add_group_filter(remaining, args);
+    return add_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-t")) {
-    return add_group_dot_name_filter(remaining, args, "-t", false, false);
+    return add_group_dot_name_filter(argc, argv, "-t", false, false);
   }
   if (string_starts_with(argument, "-st")) {
-    return add_group_dot_name_filter(remaining, args, "-st", true, false);
+    return add_group_dot_name_filter(argc, argv, "-st", true, false);
   }
   if (string_starts_with(argument, "-xt")) {
-    return add_group_dot_name_filter(remaining, args, "-xt", false, true);
+    return add_group_dot_name_filter(argc, argv, "-xt", false, true);
   }
   if (string_starts_with(argument, "-xst")) {
-    return add_group_dot_name_filter(remaining, args, "-xst", true, true);
+    return add_group_dot_name_filter(argc, argv, "-xst", true, true);
   }
   if (string_starts_with(argument, "-sg")) {
-    return add_strict_group_filter(remaining, args);
+    return add_strict_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xg")) {
-    return add_exclude_group_filter(remaining, args);
+    return add_exclude_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xsg")) {
-    return add_exclude_strict_group_filter(remaining, args);
+    return add_exclude_strict_group_filter(argc, argv);
   }
   if (string_starts_with(argument, "-n")) {
-    return add_name_filter(remaining, args);
+    return add_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-sn")) {
-    return add_strict_name_filter(remaining, args);
+    return add_strict_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xn")) {
-    return add_exclude_name_filter(remaining, args);
+    return add_exclude_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-xsn")) {
-    return add_exclude_strict_name_filter(remaining, args);
+    return add_exclude_strict_name_filter(argc, argv);
   }
   if (string_starts_with(argument, "-s")) {
-    return set_shuffle(remaining, args);
+    return set_shuffle(argc, argv);
   }
   if (string_starts_with(argument, "TEST(")) {
-    return add_test_to_run_based_on_verbose_output(remaining, args, "TEST(");
+    return add_test_to_run_based_on_verbose_output(argc, argv, "TEST(");
   }
   if (string_starts_with(argument, "SKIPPED_TEST(")) {
-    return add_test_to_run_based_on_verbose_output(
-        remaining, args, "SKIPPED_TEST("
-    );
+    return add_test_to_run_based_on_verbose_output(argc, argv, "SKIPPED_TEST(");
   }
   if (string_starts_with(argument, "-p")) {
-    return plugin->parse_all_arguments(ac_, av_, index) ? 0 : -1;
+    return plugin->parse_all_arguments(argc, argv) ? 0 : -1;
   }
   return -1;
 }
 
 int CommandLineArguments::parse_argument(
-    const String& argument,
-    Plugin* plugin,
-    int index
+    int argc,
+    const char* const* argv,
+    Plugin* plugin
 )
 {
-  if (parse_simple_flag(argument)) {
+  if (parse_simple_flag(String(argv[0]))) {
     return 0;
   }
-  return parse_prefix_arg(argument, plugin, index);
+  return parse_prefix_arg(argc, argv, plugin);
 }
 
 bool CommandLineArguments::parse(Plugin* plugin)
 {
   for (int i = 1; i < ac_; i++) {
-    int extra = parse_argument(av_[i], plugin, i);
+    int extra = parse_argument(ac_ - i, av_ + i, plugin);
     if (extra < 0) {
       return false;
     }

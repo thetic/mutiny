@@ -67,15 +67,15 @@ public:
   /**
    * @brief Handle a custom command-line argument.
    *
-   * Called for each argument position @p index. Return true to indicate the
-   * argument was consumed (the runner will skip to the next one).
+   * Called with a pre-sliced view where @p argv[0] is the argument to inspect
+   * and @p argc is the number of remaining arguments (including @p argv[0]).
+   * Return true to indicate the argument was consumed.
    *
-   * @param argc   Total argument count.
-   * @param argv   Argument vector.
-   * @param index  Current argument index to inspect.
-   * @return true if the argument at @p index was consumed.
+   * @param argc   Remaining argument count (@p argv[0] through end).
+   * @param argv   Pointer to the current argument.
+   * @return true if @p argv[0] was consumed.
    */
-  virtual bool parse_arguments(int argc, const char* const* argv, int index);
+  virtual bool parse_arguments(int argc, const char* const* argv);
 
   /**
    * @brief Return a help string for this plugin's command-line arguments.
@@ -110,24 +110,18 @@ public:
 
   /**
    * @brief Invoke parse_arguments() on each plugin in the chain.
-   * @param argc   Argument count.
-   * @param argv   Argument vector (const).
-   * @param index  Current argument index.
+   * @param argc   Remaining argument count (@p argv[0] through end).
+   * @param argv   Pointer to the current argument.
    * @return true if any plugin consumed the argument.
    */
-  virtual bool parse_all_arguments(
-      int argc,
-      const char* const* argv,
-      int index
-  );
+  virtual bool parse_all_arguments(int argc, const char* const* argv);
   /**
    * @brief Overload accepting a non-const argv.
-   * @param argc   Argument count.
-   * @param argv   Argument vector.
-   * @param index  Current argument index.
+   * @param argc   Remaining argument count (@p argv[0] through end).
+   * @param argv   Pointer to the current argument.
    * @return true if any plugin consumed the argument.
    */
-  virtual bool parse_all_arguments(int argc, char** argv, int index);
+  virtual bool parse_all_arguments(int argc, char** argv);
 
   /** @return Concatenated help strings from all plugins in the chain. */
   virtual String get_all_help() const;

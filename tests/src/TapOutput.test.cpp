@@ -210,8 +210,8 @@ TEST_GROUP(TapOutput)
     MUTINY_PTR_SET(mu::tiny::test::Output::fputs_, mock_tap_fputs);
 
     plugin = new mu::tiny::test::TapOutputPlugin();
-    const char* argv[] = { "", "-ptap" };
-    plugin->parse_arguments(2, argv, 1);
+    const char* argv[] = { "-ptap" };
+    plugin->parse_arguments(1, argv);
     output = plugin->create_output();
     result = new mu::tiny::test::Result(*output);
     test_case_runner = new TapTestOutputTestRunner(*result);
@@ -382,8 +382,8 @@ TEST(TapOutput, secondRunResetsResults)
 TEST(TapOutput, parseArguments_ptapIsRecognised)
 {
   mu::tiny::test::TapOutputPlugin p;
-  const char* argv[] = { "", "-ptap" };
-  CHECK(p.parse_arguments(2, argv, 1));
+  const char* argv[] = { "-ptap" };
+  CHECK(p.parse_arguments(1, argv));
   auto* created = p.create_output();
   CHECK(created != nullptr);
   delete created;
@@ -392,8 +392,8 @@ TEST(TapOutput, parseArguments_ptapIsRecognised)
 TEST(TapOutput, parseArguments_otherArgReturnsFalse)
 {
   mu::tiny::test::TapOutputPlugin p;
-  const char* argv[] = { "", "-pjunit" };
-  CHECK(!p.parse_arguments(2, argv, 1));
+  const char* argv[] = { "-pjunit" };
+  CHECK(!p.parse_arguments(1, argv));
   CHECK(p.create_output() == nullptr);
 }
 

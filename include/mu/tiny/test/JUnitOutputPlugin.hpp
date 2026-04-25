@@ -35,12 +35,11 @@ public:
   /**
    * @brief Handle the `-pjunit[=<name>]` command-line argument.
    *
-   * @param argc   Argument count.
-   * @param argv   Argument vector.
-   * @param index  Current argument index.
+   * @param argc   Remaining argument count (@p argv[0] through end).
+   * @param argv   Pointer to the current argument.
    * @return true if the argument was consumed.
    */
-  bool parse_arguments(int argc, const char* const* argv, int index) override;
+  bool parse_arguments(int argc, const char* const* argv) override;
 
   /**
    * @brief Return help text for the `-pjunit` option.

@@ -139,8 +139,8 @@ private:
       const char* parameter_name
   );
   bool parse_simple_flag(const String& argument);
-  int parse_prefix_arg(const String& argument, Plugin* plugin, int index);
-  int parse_argument(const String& argument, Plugin* plugin, int index);
+  int parse_prefix_arg(int argc, const char* const* argv, Plugin* plugin);
+  int parse_argument(int argc, const char* const* argv, Plugin* plugin);
 };
 
 } // namespace test

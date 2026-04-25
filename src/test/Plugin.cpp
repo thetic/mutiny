@@ -47,24 +47,23 @@ void Plugin::run_all_post_test_action(Shell& test, Result& result)
   }
 }
 
-bool Plugin::
-    parse_arguments(int /*argc*/, const char* const* /*argv*/, int /*index*/)
+bool Plugin::parse_arguments(int /*argc*/, const char* const* /*argv*/)
 {
   return false;
 }
 
-bool Plugin::parse_all_arguments(int argc, char** argv, int index)
+bool Plugin::parse_all_arguments(int argc, char** argv)
 {
-  return parse_all_arguments(argc, const_cast<const char* const*>(argv), index);
+  return parse_all_arguments(argc, const_cast<const char* const*>(argv));
 }
 
-bool Plugin::parse_all_arguments(int argc, const char* const* argv, int index)
+bool Plugin::parse_all_arguments(int argc, const char* const* argv)
 {
-  if (parse_arguments(argc, argv, index)) {
+  if (parse_arguments(argc, argv)) {
     return true;
   }
   if (next_ != nullptr) {
-    return next_->parse_all_arguments(argc, argv, index);
+    return next_->parse_all_arguments(argc, argv);
   }
   return false;
 }
